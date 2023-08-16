@@ -13,6 +13,7 @@ const scheme = {
       primaryBlue: "#3C8DBC",
       mainTextColor: "#2C3329",
       secondaryTextColor: "rgba(44, 51, 41, 0.47)",
+      lightGrey: "rgba(241, 245, 248, 1)",
     },
   },
 };

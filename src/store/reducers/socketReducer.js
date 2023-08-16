@@ -9,6 +9,7 @@ import {
   SET_MENTOR_CONSUMER_SCREEN_SHARE,
   SET_MENTOR_VIDEO_SHARE_CONSUMER,
   SET_AUDIO_CONSUMERS,
+  SET_CHAT_MESSAGE,
 } from "../constants";
 const initialState = {
   isPeerLoading: true,
@@ -19,6 +20,7 @@ const initialState = {
   mentorScreenShareConsumer: null,
   mentorVideoShareConsumer: null,
   audioConsumers: [],
+  chatMessages: [],
 };
 
 const socketReducer = (state = initialState, action) => {
@@ -72,6 +74,11 @@ const socketReducer = (state = initialState, action) => {
       return {
         ...state,
         audioConsumers: [...state.audioConsumers, action.payload],
+      };
+    case SET_CHAT_MESSAGE:
+      return {
+        ...state,
+        chatMessages: [...state.chatMessages, action.payload],
       };
     default:
       return state;

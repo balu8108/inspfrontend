@@ -4,6 +4,7 @@ import { store } from "../store";
 import {
   setAllPeers,
   setAudioConsumers,
+  setChatMessage,
   setConsumers,
   setMentorScreenShareConsumer,
   setMentorVideoShareConsumer,
@@ -273,6 +274,14 @@ const someProducerClosedResponseHandler = (res) => {
   }
 };
 
+const chatMsgResponseHandler = (res) => {
+  store.dispatch(setChatMessage(res));
+};
+
+const raiseHandResponseHandler = (res) => {
+  console.log("raise hand response", res);
+};
+
 // SOCKET EVENT LISTENERS AND EVENT EMITTERS:-
 export const initializeSocketConnections = (roomId) => {
   socket = io(BASE_URL);
@@ -283,6 +292,8 @@ export const initializeSocketConnections = (roomId) => {
   socket.on(SOCKET_EVENTS.ROOM_UPDATE, roomUpdateResponseHandler);
   socket.on(SOCKET_EVENTS.PEER_LEAVED, peerLeavedResponseHandler);
   socket.on(SOCKET_EVENTS.NEW_PRODUCER, newProducerResponseHandler);
+  socket.on(SOCKET_EVENTS.CHAT_MSG_FROM_SERVER, chatMsgResponseHandler);
+  socket.on(SOCKET_EVENTS.RAISE_HAND_FROM_SERVER, raiseHandResponseHandler);
   socket.on(
     SOCKET_EVENTS.SOME_PRODUCER_CLOSED,
     someProducerClosedResponseHandler
@@ -334,5 +345,17 @@ export const stopProducing = (producerId, producerAppData) => {
   socket.emit(SOCKET_EVENTS.STOP_PRODUCING, {
     producerId: producerId,
     producerAppData: producerAppData,
+  });
+};
+
+export const sendChatMessage = (msg) => {
+  // send chat message that will receive at server side
+  socket.emit(SOCKET_EVENTS.CHAT_MSG_TO_SERVER, { msg: msg });
+};
+
+export const raiseHandHandler = (isHandRaised) => {
+  // send raised hand to server
+  socket.emit(SOCKET_EVENTS.RAISE_HAND_TO_SERVER, {
+    isHandRaised: isHandRaised,
   });
 };

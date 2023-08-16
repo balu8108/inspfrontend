@@ -17,6 +17,10 @@ const SOCKET_EVENTS = {
   PEER_LEAVED: "peer_leave",
   STOP_PRODUCING: "stop_producing",
   SOME_PRODUCER_CLOSED: "some_producer_closed",
+  CHAT_MSG_TO_SERVER: "chat_msg_to_server",
+  CHAT_MSG_FROM_SERVER: "chat_msg_from_server",
+  RAISE_HAND_TO_SERVER: "raise_hand_to_server",
+  RAISE_HAND_FROM_SERVER: "raise_hand_from_server",
 };
 
 export default SOCKET_EVENTS;

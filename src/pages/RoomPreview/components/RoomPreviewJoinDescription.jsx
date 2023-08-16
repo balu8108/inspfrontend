@@ -77,7 +77,7 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
         navigate(`/room/${roomId}`);
       } else {
         // later on add notification
-        console.log("somthing went wrong in join room ", res);
+        console.log("something went wrong in join room ", res);
       }
     } catch (err) {
       // Later on add notification

@@ -9,6 +9,7 @@ import {
   SET_MENTOR_CONSUMER_SCREEN_SHARE,
   SET_MENTOR_VIDEO_SHARE_CONSUMER,
   SET_AUDIO_CONSUMERS,
+  SET_CHAT_MESSAGE,
 } from "../constants";
 
 export const setSocket = (socket) => {
@@ -55,4 +56,8 @@ export const setMentorVideoShareConsumer =
 
 export const setAudioConsumers = (newConsumer) => async (dispatch) => {
   dispatch({ type: SET_AUDIO_CONSUMERS, payload: newConsumer });
+};
+
+export const setChatMessage = (newChatMessage) => async (dispatch) => {
+  dispatch({ type: SET_CHAT_MESSAGE, payload: newChatMessage });
 };
