@@ -1,12 +1,13 @@
 import { Flex, Box, Text, useTheme, IconButton } from "@chakra-ui/react";
 import { FiDownload } from "react-icons/fi";
+import { downloadFile } from "../../utils";
 const FileBoxComponent = ({ data }) => {
   const { secondaryTextColor } = useTheme().colors.pallete;
   return (
     <>
-      {data.map((file) => (
+      {Object.keys(data).map((keyIndex) => (
         <Flex
-          key={file.id}
+          key={Math.random()}
           justifyContent={"space-between"}
           alignItems={"center"}
           bg="white"
@@ -17,14 +18,15 @@ const FileBoxComponent = ({ data }) => {
         >
           <Box>
             <Text color={secondaryTextColor} fontSize={"10px"}>
-              {file.name}
+              {data[keyIndex].name}
             </Text>
             <Text color={secondaryTextColor} fontSize={"10px"}>
-              {file.identity}
+              {/* {file.identity} */}
             </Text>
           </Box>
           <IconButton
             icon={<FiDownload />}
+            onClick={() => downloadFile(data[keyIndex])}
             bg={"none"}
             _hover={{ bg: "none" }}
           />

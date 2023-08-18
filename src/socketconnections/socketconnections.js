@@ -16,6 +16,7 @@ import {
 import SOCKET_EVENTS from "../constants/socketeventconstants";
 import { Device } from "mediasoup-client";
 import { staticVariables } from "../constants/staticvariables";
+import { SET_RAISE_HAND } from "../store/constants";
 
 // socket variables
 
@@ -279,7 +280,7 @@ const chatMsgResponseHandler = (res) => {
 };
 
 const raiseHandResponseHandler = (res) => {
-  console.log("raise hand response", res);
+  store.dispatch({ type: SET_RAISE_HAND, payload: res });
 };
 
 // SOCKET EVENT LISTENERS AND EVENT EMITTERS:-

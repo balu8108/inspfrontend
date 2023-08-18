@@ -11,6 +11,7 @@ import { scheduleClassData } from "../data/scheduleClassData";
 import ScheduleInfoBox from "../components/ScheduleInfoBox";
 import ScheduleCalendar from "../components/ScheduleCalendar";
 import ScheduleClassPopup from "../../../components/popups/ScheduleClassPopup";
+import { useState } from "react";
 
 const ScheduleClass = () => {
   const {
@@ -19,6 +20,9 @@ const ScheduleClass = () => {
     onClose: onScheduleClosePopupOpen,
   } = useDisclosure();
   const { primaryBlue, lightGrey } = useTheme().colors.pallete;
+  const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
+  const [classTiming, setClassTiming] = useState(["", ""]);
+
   const scheduleClassClickHandler = () => {
     onSchedulePopupOpen();
   };
@@ -28,6 +32,10 @@ const ScheduleClass = () => {
         <ScheduleClassPopup
           isOpen={isSchedulePopupOpen}
           onClose={onScheduleClosePopupOpen}
+          selectedDate={selectedDate}
+          classTiming={classTiming}
+          setSelectedDate={setSelectedDate}
+          setClassTiming={setClassTiming}
         />
       )}
       <Box px={20} pt={4} pb={4}>
@@ -46,7 +54,11 @@ const ScheduleClass = () => {
             </Flex>
           </GridItem>
           <GridItem bg={lightGrey} borderRadius={"md"}>
-            <ScheduleCalendar />
+            <ScheduleCalendar
+              onSchedulePopupOpen={onSchedulePopupOpen}
+              setSelectedDate={setSelectedDate}
+              setClassTiming={setClassTiming}
+            />
           </GridItem>
         </Grid>
       </Box>

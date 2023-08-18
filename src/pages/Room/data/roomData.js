@@ -6,10 +6,7 @@ export const roomData = {
     { id: 3, value: "Agenda 3" },
     { id: 4, value: "Agenda 4" },
   ],
-  fileData: [
-    { id: 1, name: "ABCD PDF", identity: "CD1245879" },
-    { id: 2, name: "ABCD PDF", identity: "CD1245879" },
-  ],
+  fileData: { 0: { name: "File 1" }, 1: { name: "File 2" } },
 
   peersData: [
     { id: 1, name: "M" },
@@ -80,4 +77,14 @@ export const roomData = {
   allowStudentToDownloadFile: "Allow students to download the file",
   allowStudentToShareFile: "Allow students to share the file",
   upload: "Upload",
+  chooseCorrectAnswer: "Choose correct answer",
+  QnATypes: {
+    typeMCQ: "MCQ",
+    typeTrueFalse: "TRUE/FALSE",
+    typePolls: "Polls",
+  },
+  submit: "Submit",
+  raisedHand: "has raised hand",
+  mcqQuestion:
+    "Lorem ipsum dolor sit amet consectetur. Id egestas egestas ut amet arcu. Ultrices sit odio at sapien mauris amet pretium arcu.",
 };

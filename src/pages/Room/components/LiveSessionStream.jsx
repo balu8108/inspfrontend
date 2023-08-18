@@ -4,6 +4,8 @@ import { roomData } from "../data/roomData";
 import { useSelector } from "react-redux";
 import ToolBox from "./ToolBox";
 import ChatToolBox from "./ChatToolBox";
+import StudentPollsMCQBox from "./StudentPollsMCQBox";
+import RaiseHand from "./RaiseHand";
 
 const LiveSessionStream = (props) => {
   const {
@@ -29,9 +31,12 @@ const LiveSessionStream = (props) => {
     setIsRecordOn,
   } = props;
   const [activeAudioConsumers, setActiveAudioConsumers] = useState([]);
+  const [isStudentReceivedQnA, setIsStudentReceivedQnA] = useState(false);
+  const [isRaiseHandVisible, setIsRaiseHandVisible] = useState(false);
 
   const { mentorScreenShareConsumer } = useSelector((state) => state.socket);
   const { audioConsumers } = useSelector((state) => state.socket);
+  const { raiseHands } = useSelector((state) => state.socket);
 
   const renderMentorScreenShare = () => {
     const getMentorScreenShare = mentorScreenShareConsumer;
@@ -77,6 +82,16 @@ const LiveSessionStream = (props) => {
       removeMentorScreenShare();
     }
   }, [mentorScreenShareConsumer]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setIsRaiseHandVisible(false);
+    }, 2000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
   return (
     <>
       <Box
@@ -86,6 +101,13 @@ const LiveSessionStream = (props) => {
         borderRadius={"10px"}
         position={"relative"}
       >
+        {isStudentReceivedQnA && (
+          <StudentPollsMCQBox type={roomData.QnATypes.typeMCQ} />
+        )}
+        {raiseHands.map((peer) => (
+          <RaiseHand key={peer.id} peer={peer} />
+        ))}
+
         <video
           ref={screenShareRef}
           autoPlay

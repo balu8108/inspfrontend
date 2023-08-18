@@ -1,6 +1,9 @@
 export const scheduleClassData = {
   scheduleClass: "SCHEDULE CLASS",
-
+  fileData: [
+    { id: 1, name: "ABCD PDF", identity: "CD1245879" },
+    { id: 2, name: "ABCD PDF", identity: "CD1245879" },
+  ],
   scheduleClassBoxInfo: [
     {
       scheduleClassTopic: "Newton's Law",
@@ -43,4 +46,9 @@ export const scheduleClassData = {
   ongoing: "ONGOING",
   muteAll: "Mute all the participants",
   blockCamera: "Block cameras of all the participants",
+  calendarTypes: {
+    dayGridMonth: "dayGridMonth",
+    timeGridWeek: "timeGridWeek",
+    timeGridDay: "timeGridDay",
+  },
 };

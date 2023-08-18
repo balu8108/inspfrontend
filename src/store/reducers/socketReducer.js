@@ -10,6 +10,7 @@ import {
   SET_MENTOR_VIDEO_SHARE_CONSUMER,
   SET_AUDIO_CONSUMERS,
   SET_CHAT_MESSAGE,
+  SET_RAISE_HAND,
 } from "../constants";
 const initialState = {
   isPeerLoading: true,
@@ -21,6 +22,7 @@ const initialState = {
   mentorVideoShareConsumer: null,
   audioConsumers: [],
   chatMessages: [],
+  raiseHands: [],
 };
 
 const socketReducer = (state = initialState, action) => {
@@ -80,6 +82,22 @@ const socketReducer = (state = initialState, action) => {
         ...state,
         chatMessages: [...state.chatMessages, action.payload],
       };
+    case SET_RAISE_HAND:
+      const { isHandRaised, peerDetails } = action.payload;
+      if (isHandRaised) {
+        return {
+          ...state,
+          raiseHands: [...state.raiseHands, peerDetails],
+        };
+      } else {
+        return {
+          ...state,
+          raiseHands: state.raiseHands.filter(
+            (peer) => peer.id !== peerDetails.id
+          ),
+        };
+      }
+
     default:
       return state;
   }

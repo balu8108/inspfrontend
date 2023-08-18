@@ -10,6 +10,7 @@ import {
   SET_MENTOR_VIDEO_SHARE_CONSUMER,
   SET_AUDIO_CONSUMERS,
   SET_CHAT_MESSAGE,
+  SET_RAISE_HAND,
 } from "../constants";
 
 export const setSocket = (socket) => {
@@ -60,4 +61,8 @@ export const setAudioConsumers = (newConsumer) => async (dispatch) => {
 
 export const setChatMessage = (newChatMessage) => async (dispatch) => {
   dispatch({ type: SET_CHAT_MESSAGE, payload: newChatMessage });
+};
+
+export const setRaiseHand = (raiseHandData) => async (dispatch) => {
+  dispatch({ type: SET_RAISE_HAND, payload: raiseHandData });
 };
