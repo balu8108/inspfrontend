@@ -11,8 +11,11 @@ import {
   Flex,
   IconButton,
 } from "@chakra-ui/react";
+
 import { FiDownload } from "react-icons/fi";
 import { roomData } from "../data/roomData";
+import FileBoxComponent from "../../../components/filebox/FileBoxComponent";
+import UploadFilePopup from "../../../components/popups/UploadFilePopup";
 
 const ActiveRoomContent = ({ mainTextColor, secondaryTextColor }) => {
   return (
@@ -44,36 +47,15 @@ const ActiveRoomContent = ({ mainTextColor, secondaryTextColor }) => {
         ))}
       </Box>
       <Box pt={6}>
-        <Text fontSize={"14px"} color={mainTextColor}>
-          {roomData.files}
-        </Text>
+        <Flex alignItems={"center"} justifyContent={"space-between"}>
+          <Text fontSize={"14px"} color={mainTextColor}>
+            {roomData.files}
+          </Text>
+          <UploadFilePopup />
+        </Flex>
+
         <Box>
-          {roomData.fileData.map((file) => (
-            <Flex
-              key={file.id}
-              justifyContent={"space-between"}
-              alignItems={"center"}
-              bg="white"
-              mb={2}
-              boxShadow={"md"}
-              borderRadius={"md"}
-              px={2}
-            >
-              <Box>
-                <Text color={secondaryTextColor} fontSize={"10px"}>
-                  {file.name}
-                </Text>
-                <Text color={secondaryTextColor} fontSize={"10px"}>
-                  {file.identity}
-                </Text>
-              </Box>
-              <IconButton
-                icon={<FiDownload />}
-                bg={"none"}
-                _hover={{ bg: "none" }}
-              />
-            </Flex>
-          ))}
+          <FileBoxComponent data={roomData.fileData} />
         </Box>
       </Box>
 

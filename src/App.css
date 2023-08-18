@@ -1,0 +1,95 @@
+:root {
+  --light-green: rgba(193, 227, 182, 1);
+  --light-blue: rgba(183, 224, 230, 1);
+  --text-color: rgba(107, 104, 112, 1);
+  --light-blue: rgba(60, 141, 188, 1);
+}
+.fc-button-group .fc-prev-button,
+.fc-button-group .fc-next-button,
+.fc-button-group .fc-prev-button:hover,
+.fc-button-group .fc-next-button:hover {
+  background: none;
+  border: none;
+  color: black;
+  outline: none;
+}
+
+.fc-button-group .fc-prev-button:active,
+.fc-button-group .fc-next-button:active {
+  background: yellow;
+  color: inherit;
+}
+.fc-button-group .fc-prev-button:focus,
+.fc-button-group .fc-next-button:focus {
+  background: none;
+  color: inherit;
+  border: none;
+  outline: none;
+}
+
+.fc .fc-header-toolbar .fc-toolbar-chunk:nth-child(2) {
+  margin-right: auto;
+}
+.fc .fc-header-toolbar .fc-toolbar-chunk .fc-toolbar-title {
+  color: var(--text-color);
+  font-size: 1.2rem;
+}
+
+.fc-header-toolbar.fc-toolbar.fc-toolbar-ltr {
+  padding: 0.5rem;
+}
+.fc .fc-button-group .fc-button {
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  padding: 0.3rem 1rem;
+}
+.fc .fc-button-group .fc-button-primary {
+  background-color: transparent;
+  border-color: rgba(60, 141, 188, 1);
+  color: rgba(60, 141, 188, 1);
+}
+.fc .fc-button-group .fc-button-primary.fc-button-active {
+  background-color: rgba(60, 141, 188, 1);
+  border-color: rgba(60, 141, 188, 1);
+}
+
+.fc .fc-daygrid-day-top {
+  flex-direction: row;
+}
+
+.fc .fc-daygrid-day-events .fc-event {
+  background-color: var(--light-green);
+  font-family: "inter";
+  text-transform: uppercase;
+  padding-left: 0.5rem;
+}
+
+.fc .fc-daygrid-day-events .fc-event .fc-event-title {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.fc .fc-daygrid-day-events .fc-event .fc-event-time,
+.fc .fc-daygrid-day-events .fc-event .fc-daygrid-event-dot {
+  display: none;
+}
+
+/*Timegrid styles week */
+
+.fc .fc-timeGridWeek-view .fc-timegrid-col-events .fc-event .fc-event-title,
+.fc .fc-timeGridDay-view .fc-timegrid-col-events .fc-event .fc-event-title {
+  color: var(--light-blue);
+  font-weight: 500;
+}
+.fc .fc-timeGridWeek-view .fc-timegrid-col-events .fc-event .fc-event-time,
+.fc .fc-timeGridDay-view .fc-timegrid-col-events .fc-event .fc-event-time {
+  color: var(--light-blue);
+}
+
+/*React time picker styling*/
+
+.react-timerange-picker__wrapper {
+  border: 1px solid #cbd5e0 !important;
+  border-radius: 2px;
+}

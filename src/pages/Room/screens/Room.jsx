@@ -66,7 +66,11 @@ const Room = () => {
   return (
     <>
       <Box pt={4} pb={4} px={20}>
-        <Grid templateColumns={isEnlarged ? "1fr" : "15% 80% 5%"} gap={4}>
+        <Grid
+          templateColumns={isEnlarged ? "1fr" : "15% 80% 5%"}
+          gap={4}
+          alignItems={"start"}
+        >
           {!isEnlarged && (
             <GridItem bg={backgroundLightBlue} borderRadius={"md"}>
               <LiveSessionDescription />

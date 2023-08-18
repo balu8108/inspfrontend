@@ -81,7 +81,7 @@ const LiveSessionStream = (props) => {
     <>
       <Box
         width={"100%"}
-        height={"100%"}
+        height={"85vh"}
         bg="black"
         borderRadius={"10px"}
         position={"relative"}

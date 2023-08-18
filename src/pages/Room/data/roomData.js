@@ -75,4 +75,9 @@ export const roomData = {
   theatreMode: "Theatre Mode",
   typeSomething: "Type something...",
   askSomething: "Ask question...",
+  uploadFileTitle: "Upload file",
+  selectFileToUpload: "Select file to upload",
+  allowStudentToDownloadFile: "Allow students to download the file",
+  allowStudentToShareFile: "Allow students to share the file",
+  upload: "Upload",
 };

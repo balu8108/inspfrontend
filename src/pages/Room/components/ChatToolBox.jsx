@@ -37,9 +37,7 @@ const EmojiContainer = ({ isChatExpanded }) => {
 
   const searchEmoticons = async (searchValue) => {
     init({ data });
-    const searchResults = await SearchIndex.search(
-      searchValue ? searchValue : "smile"
-    );
+    const searchResults = await SearchIndex.search(searchValue || "smile");
     if (searchResults) {
       const getEmojis = searchResults.flatMap(({ skins }) => skins);
 

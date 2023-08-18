@@ -12,8 +12,13 @@ const scheme = {
       lightGreen: "#C1E3B6",
       primaryBlue: "#3C8DBC",
       mainTextColor: "#2C3329",
+      btnTextColor: "rgba(107, 104, 112, 1)",
       secondaryTextColor: "rgba(44, 51, 41, 0.47)",
       lightGrey: "rgba(241, 245, 248, 1)",
+      eventLightGreen: "rgba(193, 227, 182, 1)",
+      eventLightBlue: "rgba(183, 224, 230, 1)",
+      extraTextLight: "rgba(58, 53, 65, 0.87)",
+      lightBorderColor: "rgba(58, 53, 65, 0.23)",
     },
   },
 };

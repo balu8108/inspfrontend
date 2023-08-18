@@ -1,3 +1,4 @@
 import MainBtn from "./MainBtn";
-
-export { MainBtn };
+import StartContinueBtn from "./StartContinueBtn";
+import InlineBtn from "./InlineBtn";
+export { MainBtn, StartContinueBtn, InlineBtn };
