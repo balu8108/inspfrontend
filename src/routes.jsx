@@ -1,6 +1,8 @@
 import RoomPreview from "./pages/RoomPreview/screens/RoomPreview";
 import Room from "./pages/Room/screens/Room";
 import ScheduleClass from "./pages/ScheduleClasses/screens/ScheduleClass";
+import StudentCourses from "./pages/StudentCourses/screens/StudentCourses";
+import StudentAssignment from "./pages/StudentAssignment/screens/StudentAssignment";
 const routes = [
   {
     name: "Room Preview",
@@ -17,6 +19,18 @@ const routes = [
     path: "/schedule-class",
     component: <ScheduleClass />,
   },
+
+  {
+    name: "Student courses",
+    path: "/student/courses",
+    component: <StudentCourses />,
+  },
+
+  {
+    name: "Student Assignment",
+    path: "/student/assignment",
+    component: <StudentAssignment /> 
+  }
 ];
 
 export default routes;
