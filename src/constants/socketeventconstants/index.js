@@ -21,6 +21,8 @@ const SOCKET_EVENTS = {
   CHAT_MSG_FROM_SERVER: "chat_msg_from_server",
   RAISE_HAND_TO_SERVER: "raise_hand_to_server",
   RAISE_HAND_FROM_SERVER: "raise_hand_from_server",
+  UPLOAD_FILE_TO_SERVER: "upload_file_to_server",
+  UPLOAD_FILE_FROM_SERVER: "upload_file_from_server",
 };
 
 export default SOCKET_EVENTS;

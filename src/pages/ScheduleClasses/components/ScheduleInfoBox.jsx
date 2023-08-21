@@ -5,11 +5,12 @@ import { StartContinueBtn } from "../../../components/button";
 
 import { useSelector } from "react-redux";
 import formatTime from "../../../utils/formatTime";
+import { generateUniqueKey } from "../../../utils";
 
 const ScheduleInfoBox = () => {
   const { lightGreen, btnTextColor, primaryBlue } = useTheme().colors.pallete;
   const { scheduledClassesData } = useSelector((state) => state.scheduleClass);
-  console.log("scheduled classes data ", scheduledClassesData);
+
   const startContinueClickHandler = () => {
     console.log("test");
   };
@@ -17,7 +18,13 @@ const ScheduleInfoBox = () => {
     <>
       {scheduledClassesData.map((info) => {
         return (
-          <Box bg="white" my={2} boxShadow={"md"} borderRadius={"md"}>
+          <Box
+            key={generateUniqueKey()}
+            bg="white"
+            my={2}
+            boxShadow={"md"}
+            borderRadius={"md"}
+          >
             <Box p={4}>
               <Text fontWeight={500} fontSize={"14px"} mb={1}>
                 {info.topic}

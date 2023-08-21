@@ -11,6 +11,7 @@ import {
   setNewPeerJoined,
   setPeerLeaved,
   setSocket,
+  setUploadFiles,
 } from "../store/actions/socketActions";
 
 import SOCKET_EVENTS from "../constants/socketeventconstants";
@@ -283,6 +284,16 @@ const raiseHandResponseHandler = (res) => {
   store.dispatch({ type: SET_RAISE_HAND, payload: res });
 };
 
+const uploadFileResponseHandler = (res) => {
+  console.log("upload file response", res);
+  let allNewFiles = [];
+  res.forEach((fileData) => {
+    const convFile = new File([fileData.file], fileData.fileName);
+    allNewFiles.push(convFile);
+  });
+  store.dispatch(setUploadFiles(allNewFiles));
+};
+
 // SOCKET EVENT LISTENERS AND EVENT EMITTERS:-
 export const initializeSocketConnections = (roomId) => {
   socket = io(BASE_URL);
@@ -295,6 +306,7 @@ export const initializeSocketConnections = (roomId) => {
   socket.on(SOCKET_EVENTS.NEW_PRODUCER, newProducerResponseHandler);
   socket.on(SOCKET_EVENTS.CHAT_MSG_FROM_SERVER, chatMsgResponseHandler);
   socket.on(SOCKET_EVENTS.RAISE_HAND_FROM_SERVER, raiseHandResponseHandler);
+  socket.on(SOCKET_EVENTS.UPLOAD_FILE_FROM_SERVER, uploadFileResponseHandler);
   socket.on(
     SOCKET_EVENTS.SOME_PRODUCER_CLOSED,
     someProducerClosedResponseHandler
@@ -359,4 +371,15 @@ export const raiseHandHandler = (isHandRaised) => {
   socket.emit(SOCKET_EVENTS.RAISE_HAND_TO_SERVER, {
     isHandRaised: isHandRaised,
   });
+};
+
+export const sendFileHandler = (files) => {
+  console.log("files array", files);
+  let fileArray = [];
+  for (let i = 0; i < files.length; i++) {
+    let obj = { fileName: files[i].name, file: files[i] };
+    fileArray.push(obj);
+  }
+  console.log("files array", fileArray);
+  socket.emit(SOCKET_EVENTS.UPLOAD_FILE_TO_SERVER, fileArray);
 };

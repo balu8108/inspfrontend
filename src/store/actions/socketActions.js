@@ -11,6 +11,7 @@ import {
   SET_AUDIO_CONSUMERS,
   SET_CHAT_MESSAGE,
   SET_RAISE_HAND,
+  SET_FILE_UPLOAD,
 } from "../constants";
 
 export const setSocket = (socket) => {
@@ -65,4 +66,9 @@ export const setChatMessage = (newChatMessage) => async (dispatch) => {
 
 export const setRaiseHand = (raiseHandData) => async (dispatch) => {
   dispatch({ type: SET_RAISE_HAND, payload: raiseHandData });
+};
+
+// for uploading files to the live class room
+export const setUploadFiles = (files) => async (dispatch) => {
+  dispatch({ type: SET_FILE_UPLOAD, payload: files });
 };

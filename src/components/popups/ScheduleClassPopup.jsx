@@ -18,6 +18,7 @@ import {
   HStack,
   Checkbox,
   FormControl,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
 import TimeRangePicker from "@wojtekmaj/react-timerange-picker";
@@ -36,6 +37,8 @@ const options = [
   { value: "Chemistry", label: "Chemistry" },
   { value: "Maths", label: "Maths" },
 ];
+
+const dataKey = ["date", "topic", "agenda", "description"];
 const ScheduleClassPopup = ({
   isOpen,
   onClose,
@@ -46,12 +49,15 @@ const ScheduleClassPopup = ({
 }) => {
   const { extraTextLight, primaryBlue } = useTheme().colors.pallete;
   const [scheduleClassFormData, setScheduleClassFormData] = useState({});
+  const [scheduleClassFormErrorData, setScheduleClassFormErrorData] = useState(
+    {}
+  ); // for error handling
   const [date, setDate] = useState(selectedDate);
   const [timeRange, setTimeRange] = useState(classTiming);
   const [selectedFiles, setSelectedFiles] = useState(null); // for file upload
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const dispatch = useDispatch();
-  console.log("scheduleClassFormData", scheduleClassFormData);
+
   const chakraStyles = {
     control: (provided, state) => ({
       ...provided,
@@ -62,6 +68,7 @@ const ScheduleClassPopup = ({
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setScheduleClassFormData((prev) => ({ ...prev, [name]: value }));
+    setScheduleClassFormErrorData((prev) => ({ ...prev, [name]: "" }));
   };
 
   const handleFileUpload = async () => {
@@ -77,6 +84,7 @@ const ScheduleClassPopup = ({
   const handleDateChange = (e) => {
     setDate(e.target.value);
     setScheduleClassFormData((prev) => ({ ...prev, date: e.target.value }));
+    setScheduleClassFormErrorData((prev) => ({ ...prev, date: "" }));
   };
   const handleTimeChange = (value) => {
     setTimeRange(value);
@@ -88,6 +96,23 @@ const ScheduleClassPopup = ({
   };
   const handleSubmit = () => {
     setIsSubmitLoading(true);
+    // check if all fields are filled
+    let errors = {};
+
+    dataKey.forEach((key) => {
+      if (
+        !(key in scheduleClassFormData) ||
+        scheduleClassFormData[key] === ""
+      ) {
+        errors[key] = `Please select a ${key}`;
+      }
+    });
+    if (Object.keys(errors).length > 0) {
+      setScheduleClassFormErrorData(errors);
+      setIsSubmitLoading(false);
+      return;
+    }
+
     // attach date and time range if not attached
     dispatch(setAddClassSchedule(scheduleClassFormData));
     setScheduleClassFormData({});
@@ -148,53 +173,84 @@ const ScheduleClassPopup = ({
                     templateColumns={"repeat(2,1fr)"}
                     gap={2}
                     justifyContent={"space-between"}
+                    alignItems={"start"}
                   >
-                    <Input
-                      type="date"
-                      value={date}
-                      py={6}
-                      onChange={handleDateChange}
-                    />
+                    <FormControl isInvalid={scheduleClassFormErrorData["date"]}>
+                      <Input
+                        type="date"
+                        value={date}
+                        py={6}
+                        onChange={handleDateChange}
+                      />
+                      {scheduleClassFormErrorData["date"] && (
+                        <FormErrorMessage>
+                          {scheduleClassFormErrorData["date"]}
+                        </FormErrorMessage>
+                      )}
+                    </FormControl>
+
                     <TimeRangePicker
+                      rangeDivider={"to"}
                       clearIcon={null}
                       value={timeRange}
                       disableClock={false}
                       onChange={(value) => handleTimeChange(value)}
-                      style={{ borderRadius: "50px" }}
                     />
                   </Grid>
                 </Box>
                 <Box my={3}>
-                  <Input
-                    type="text"
-                    name="topic"
-                    onChange={handleInputChange}
-                    py={6}
-                    placeholder={
-                      scheduleClassData.scheduleClassFormPlaceholder.topic
-                    }
-                  />
+                  <FormControl isInvalid={scheduleClassFormErrorData["topic"]}>
+                    <Input
+                      type="text"
+                      name="topic"
+                      onChange={handleInputChange}
+                      py={6}
+                      placeholder={
+                        scheduleClassData.scheduleClassFormPlaceholder.topic
+                      }
+                    />
+                    {scheduleClassFormErrorData["topic"] && (
+                      <FormErrorMessage>Please select a topic</FormErrorMessage>
+                    )}
+                  </FormControl>
                 </Box>
                 <Box my={3}>
-                  <Textarea
-                    name={"agenda"}
-                    onChange={handleInputChange}
-                    resize={"none"}
-                    placeholder={
-                      scheduleClassData.scheduleClassFormPlaceholder.agenda
-                    }
-                  />
+                  <FormControl isInvalid={scheduleClassFormErrorData["agenda"]}>
+                    <Textarea
+                      name={"agenda"}
+                      onChange={handleInputChange}
+                      resize={"none"}
+                      placeholder={
+                        scheduleClassData.scheduleClassFormPlaceholder.agenda
+                      }
+                    />
+                    {scheduleClassFormErrorData["agenda"] && (
+                      <FormErrorMessage>
+                        Please select an agenda
+                      </FormErrorMessage>
+                    )}
+                  </FormControl>
                 </Box>
 
                 <Box my={3}>
-                  <Textarea
-                    name="description"
-                    onChange={handleInputChange}
-                    resize={"none"}
-                    placeholder={
-                      scheduleClassData.scheduleClassFormPlaceholder.description
-                    }
-                  />
+                  <FormControl
+                    isInvalid={scheduleClassFormErrorData["description"]}
+                  >
+                    <Textarea
+                      name="description"
+                      onChange={handleInputChange}
+                      resize={"none"}
+                      placeholder={
+                        scheduleClassData.scheduleClassFormPlaceholder
+                          .description
+                      }
+                    />
+                    {scheduleClassFormErrorData["description"] && (
+                      <FormErrorMessage>
+                        Please select a description
+                      </FormErrorMessage>
+                    )}
+                  </FormControl>
                 </Box>
                 <Flex>
                   <Flex
@@ -205,7 +261,6 @@ const ScheduleClassPopup = ({
                     alignItems={"center"}
                     pl={4}
                     cursor={"pointer"}
-                    onClick={handleFileUpload}
                     overflowX="auto"
                     scrollBehavior="smooth"
                   >
@@ -229,6 +284,7 @@ const ScheduleClassPopup = ({
                     fontWeight={500}
                     py={6}
                     px={20}
+                    onClick={handleFileUpload}
                   >
                     {scheduleClassData.upload}
                   </Button>

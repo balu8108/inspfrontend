@@ -11,6 +11,7 @@ import {
   SET_AUDIO_CONSUMERS,
   SET_CHAT_MESSAGE,
   SET_RAISE_HAND,
+  SET_FILE_UPLOAD,
 } from "../constants";
 const initialState = {
   isPeerLoading: true,
@@ -23,6 +24,7 @@ const initialState = {
   audioConsumers: [],
   chatMessages: [],
   raiseHands: [],
+  uploadedFiles: [],
 };
 
 const socketReducer = (state = initialState, action) => {
@@ -97,7 +99,11 @@ const socketReducer = (state = initialState, action) => {
           ),
         };
       }
-
+    case SET_FILE_UPLOAD:
+      return {
+        ...state,
+        uploadedFiles: [...state.uploadedFiles, ...action.payload],
+      };
     default:
       return state;
   }

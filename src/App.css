@@ -92,4 +92,5 @@
 .react-timerange-picker__wrapper {
   border: 1px solid #cbd5e0 !important;
   border-radius: 2px;
+  padding: 0.6rem;
 }
