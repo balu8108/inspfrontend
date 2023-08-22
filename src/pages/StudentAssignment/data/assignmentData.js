@@ -1,38 +1,54 @@
-const coursesData = [
+const assignmentData = [
     {
       id: 1,
       name: 'ABCD',
       instructor: 'John Doe',
       description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut non massa vitae risus fermentum ullamcorper. Phasellus risus urna, ornare in aliquam id, porttitor sit amet sapien. Nulla facilisi",
-      viewdetails:'View Details',
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut non massa vitae risus fermentum ullamcorper.",
+      viewDetails:'View Details',
     },
     {
-      id: 1,
+      id: 2,
       name: 'ABCD',
       instructor: 'John Doe',
       description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut non massa vitae risus fermentum ullamcorper. Phasellus risus urna, ornare in aliquam id, porttitor sit amet sapien. Nulla facilisi",
-      viewdetails:'View Details',
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut non massa vitae risus fermentum ullamcorper.",
+      viewDetails:'View Details',
     },
     {
-      id: 1,
+      id: 3,
       name: 'ABCD',
       instructor: 'John Doe',
       description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut non massa vitae risus fermentum ullamcorper. Phasellus risus urna, ornare in aliquam id, porttitor sit amet sapien. Nulla facilisi",
-      viewdetails:'View Details',
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut non massa vitae risus fermentum ullamcorper.",
+      viewDetails:'View Details',
     },
     {
-      id: 1,
+      id: 4,
       name: 'ABCD',
       instructor: 'John Doe',
       description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut non massa vitae risus fermentum ullamcorper. Phasellus risus urna, ornare in aliquam id, porttitor sit amet sapien. Nulla facilisi",
-      viewdetails:'View Details',
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut non massa vitae risus fermentum ullamcorper.", 
+      viewDetails:'View Details',
+    },
+    {
+      id: 5,
+      name: 'ABCD',
+      instructor: 'John Doe',
+      description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut non massa vitae risus fermentum ullamcorper.", 
+      viewDetails:'View Details',
+    },
+    {
+      id: 6,
+      name: 'ABCD',
+      instructor: 'John Doe',
+      description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut non massa vitae risus fermentum ullamcorper.", 
+      viewDetails:'View Details',
     },
 
   ];
   
-  export default coursesData;
+  export default assignmentData;
   
