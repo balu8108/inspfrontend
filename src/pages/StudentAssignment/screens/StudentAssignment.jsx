@@ -21,10 +21,10 @@ const assignment = () => {
         mr={50}
         height="580px"
         overflow="auto"
-        width={6000}
+        width={6300}
         backgroundColor="#F1F5F8"
       >
-        <Heading as="h6" size="m" mb={4}>
+        <Heading as="h6" size="m" mb={4} ml={4}>
           Assignments
         </Heading>
         <Box display="flex" flexWrap="wrap">
@@ -47,7 +47,7 @@ const assignment = () => {
         borderRadius="md"
         mt={6}
         mr={30}
-        width="2000px"
+        width="2600px"
         height="538px"
         overflow="auto"
         ml="auto"
@@ -57,90 +57,220 @@ const assignment = () => {
           <Heading as="h6" size="m">
             Ongoing Courses
           </Heading>
-          <Button variant={"ghost"}>See All</Button>
+          <Button variant={"ghost"} fontWeight={"10px"}>
+            See All
+          </Button>
         </Flex>
 
-        <Box borderRadius={10} borderWidth={1}   height={200} ml={3}>
+        <Box borderRadius={10} borderWidth={1} height={180} ml={3}>
           <Flex>
-            <p style={{ color: "black", fontSize: "15px", fontWeight: "bold", marginLeft:"3px"}}>
+            <p
+              style={{
+                color: "black",
+                fontSize: "13px",
+                fontWeight: "bold",
+                marginLeft: "11px",
+                marginTop: "11px",
+              }}
+            >
               Newton's Law
             </p>
-            <p style={{ color: "gray", fontSize: "13px",marginLeft:"70px" }} display="flex">
-              6:00pm - 6:30{" "}
+            <p
+              style={{
+                color: "gray",
+                fontSize: "13px",
+                marginLeft: "78px",
+                marginTop: "11px",
+              }}
+              display="flex"
+            >
+              6:00pm - 6:30pm{" "}
             </p>
           </Flex>
           <Flex>
-            <p style={{ color: "gray", fontSize: "12px" }}>John Doe</p>
-            <p style={{ color: "gray", fontSize: "13px",marginLeft:"150px" }}>(30 min)</p>
+            <p style={{ color: "gray", fontSize: "13px", marginLeft: "11px" }}>
+              John Doe
+            </p>
+            <p style={{ color: "gray", fontSize: "13px", marginLeft: "129px" }}>
+              (30 min)
+            </p>
           </Flex>
 
-          <p style={{ color: "black", fontSize: "14px" }}>Description</p>
-          <p style={{ color: "gray", fontSize: "13px" }}>
+          <p
+            style={{
+              color: "black",
+              fontSize: "14px",
+              marginTop: "10px",
+              marginLeft: "11px",
+            }}
+          >
+            Description
+          </p>
+          <p style={{ color: "gray", fontSize: "13px", marginLeft: "11px" }}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.{" "}
           </p>
 
-          <Button  colorScheme="blue" fontWeight={10}  >Join Class</Button>
+          <Button colorScheme="blue" fontWeight={10} mt={3} ml={11} width={280}>
+            Join Class
+          </Button>
         </Box>
 
         <Flex alignItems="center" justifyContent="space-between" mb={4}>
-          <Heading as="h6" size="m">
+          <Heading as="h6" size="m" ml={11} p={13}>
             Schedule for Today
           </Heading>
         </Flex>
-        <Box borderRadius={10} borderWidth={1}  width={"317px"} height={"151px"}>
+        <Box
+          borderRadius={10}
+          borderWidth={1}
+          width={"317px"}
+          height={"151px"}
+          ml={4}
+        >
           <Flex>
-            <p>Newtons Law</p>
-            <p display="flex">6:00pm - 6:30 </p>
+            <p
+              style={{
+                color: "black",
+                fontSize: "13px",
+                fontWeight: "bold",
+                marginLeft: "11px",
+                marginTop: "11px",
+              }}
+            >
+              Newton's Law
+            </p>
+            <p
+              style={{
+                color: "gray",
+                fontSize: "13px",
+                marginLeft: "78px",
+                marginTop: "11px",
+              }}
+              display="flex"
+            >
+              6:00pm - 6:30pm{" "}
+            </p>
           </Flex>
           <Flex>
-            <p>John Doe</p>
-            <p>(30min)</p>
+            <p style={{ color: "gray", fontSize: "13px", marginLeft: "11px" }}>
+              John Doe
+            </p>
+            <p style={{ color: "gray", fontSize: "13px", marginLeft: "129px" }}>
+              (30 min)
+            </p>
           </Flex>
 
-          <p>
-            {" "}
-            Description <br />
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit,{" "}
+          <p
+            style={{
+              color: "black",
+              fontSize: "14px",
+              marginTop: "10px",
+              marginLeft: "11px",
+            }}
+          >
+            Description
+          </p>
+          <p style={{ color: "gray", fontSize: "13px", marginLeft: "11px" }}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.{" "}
+          </p>
+        </Box>
+    {/* displaying 2nd latest meeting */}
+
+        <Box borderRadius={10} borderWidth={1} mt={4} ml={4}>
+        <Flex>
+            <p
+              style={{
+                color: "black",
+                fontSize: "13px",
+                fontWeight: "bold",
+                marginLeft: "11px",
+                marginTop:"11px"
+              }}
+            >
+              Newton's Law
+            </p>
+            <p
+              style={{ color: "gray", fontSize: "13px", marginLeft: "78px" , marginTop:"11px" }}
+              display="flex"
+            >
+              6:00pm - 6:30pm{" "}
+            </p>
+          </Flex>
+          <Flex>
+            <p style={{ color: "gray", fontSize: "13px", marginLeft: "11px" }}>
+              John Doe
+            </p>
+            <p style={{ color: "gray", fontSize: "13px", marginLeft: "129px" }}>
+              (30 min)
+            </p>
+          </Flex>
+
+          <p
+            style={{
+              color: "black",
+              fontSize: "14px",
+              marginTop: "10px",
+              marginLeft: "11px",
+            }}
+          >
+            Description
+          </p>
+          <p style={{ color: "gray", fontSize: "13px", marginLeft: "11px" }}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.{" "}
           </p>
         </Box>
 
-        <Box borderRadius={10} borderWidth={1}>
-          <Flex>
-            <p>Newtons Law</p>
-            <p display="flex">6:00pm - 6:30 </p>
-          </Flex>
-          <Flex>
-            <p>John Doe</p>
-            <p>(30min)</p>
-          </Flex>
 
-          <p>
-            {" "}
-            Description <br />
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit,{" "}
-          </p>
-        </Box>
 
-        <Flex alignItems="center" justifyContent="space-between" mb={4}>
-          <Heading as="h6" size="m">
-            Schedule for Week
+
+
+        <Flex alignItems="center" justifyContent="space-between" mb={4} ml={30}>
+          <Heading as="h6" size="m"  mt={14}>
+            Schedule for  the Week
           </Heading>
         </Flex>
 
-        <Box borderRadius={10} borderWidth={1}>
-          <Flex>
-            <p>Newtons Law</p>
-            <p display="flex">6:00pm - 6:30 </p>
+        <Box borderRadius={10} borderWidth={1} ml={11}>
+        <Flex>
+            <p
+              style={{
+                color: "black",
+                fontSize: "13px",
+                fontWeight: "bold",
+                marginLeft: "11px",
+                marginTop:"11px"
+              }}
+            >
+              Newton's Law
+            </p>
+            <p
+              style={{ color: "gray", fontSize: "13px", marginLeft: "78px" , marginTop:"11px" }}
+              display="flex"
+            >
+              6:00pm - 6:30pm{" "}
+            </p>
           </Flex>
           <Flex>
-            <p>John Doe</p>
-            <p>(30min)</p>
+            <p style={{ color: "gray", fontSize: "13px", marginLeft: "11px" }}>
+              John Doe
+            </p>
+            <p style={{ color: "gray", fontSize: "13px", marginLeft: "129px" }}>
+              (30 min)
+            </p>
           </Flex>
 
-          <p>
-            {" "}
-            Description <br />
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit,{" "}
+          <p
+            style={{
+              color: "black",
+              fontSize: "14px",
+              marginTop: "10px",
+              marginLeft: "11px",
+            }}
+          >
+            Description
+          </p>
+          <p style={{ color: "gray", fontSize: "13px", marginLeft: "11px" }}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.{" "}
           </p>
         </Box>
       </Box>
