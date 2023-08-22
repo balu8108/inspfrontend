@@ -80,11 +80,14 @@ export const roomData = {
   chooseCorrectAnswer: "Choose correct answer",
   QnATypes: {
     typeMCQ: "MCQ",
-    typeTrueFalse: "TRUE/FALSE",
-    typePolls: "Polls",
+    typeTrueFalse: "TRUE_FALSE",
+    typePolls: "POLL",
   },
   submit: "Submit",
   raisedHand: "has raised hand",
+  poll: "Poll",
+  send: "Send",
   mcqQuestion:
     "Lorem ipsum dolor sit amet consectetur. Id egestas egestas ut amet arcu. Ultrices sit odio at sapien mauris amet pretium arcu.",
+  selectCorrectAnswer: "Select correct answer",
 };

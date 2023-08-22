@@ -6,6 +6,8 @@ import ToolBox from "./ToolBox";
 import ChatToolBox from "./ChatToolBox";
 import StudentPollsMCQBox from "./StudentPollsMCQBox";
 import RaiseHand from "./RaiseHand";
+import ReactPlayer from "react-player";
+import WebAudioPlayer from "../../../components/webaudioplayer/WebAudioPlayer";
 
 const LiveSessionStream = (props) => {
   const {
@@ -31,12 +33,15 @@ const LiveSessionStream = (props) => {
     setIsRecordOn,
   } = props;
   const [activeAudioConsumers, setActiveAudioConsumers] = useState([]);
-  const [isStudentReceivedQnA, setIsStudentReceivedQnA] = useState(false);
+
   const [isRaiseHandVisible, setIsRaiseHandVisible] = useState(false);
+  const { question } = useSelector((state) => state.socket);
 
   const { mentorScreenShareConsumer } = useSelector((state) => state.socket);
   const { audioConsumers } = useSelector((state) => state.socket);
   const { raiseHands } = useSelector((state) => state.socket);
+
+  console.log("audio", audioConsumers);
 
   const renderMentorScreenShare = () => {
     const getMentorScreenShare = mentorScreenShareConsumer;
@@ -45,19 +50,19 @@ const LiveSessionStream = (props) => {
     screenShareRef.current.srcObject = stream;
   };
 
-  const renderAudioStreams = () => {
-    audioConsumers.forEach((consumer) => {
-      const { track } = consumer;
+  // const renderAudioStreams = () => {
+  //   audioConsumers.forEach((consumer) => {
+  //     const { track } = consumer;
 
-      if (track) {
-        const audioElement = document.createElement("audio");
-        audioElement.srcObject = new MediaStream([track]);
-        audioElement.autoplay = true;
-        audioElement.playsInline = true;
-        document.getElementById("remote_audios").appendChild(audioElement);
-      }
-    });
-  };
+  //     if (track) {
+  //       const audioElement = document.createElement("audio");
+  //       audioElement.srcObject = new MediaStream([track]);
+  //       audioElement.autoplay = true;
+  //       audioElement.playsInline = true;
+  //       document.getElementById("remote_audios").appendChild(audioElement);
+  //     }
+  //   });
+  // };
 
   const removeMentorScreenShare = () => {
     if (screenShareRef.current) {
@@ -70,11 +75,11 @@ const LiveSessionStream = (props) => {
       }
     }
   };
-  useEffect(() => {
-    if (audioConsumers && audioConsumers.length > 0) {
-      renderAudioStreams();
-    }
-  }, [audioConsumers]);
+  // useEffect(() => {
+  //   if (audioConsumers && audioConsumers.length > 0) {
+  //     renderAudioStreams();
+  //   }
+  // }, [audioConsumers]);
   useEffect(() => {
     if (mentorScreenShareConsumer) {
       renderMentorScreenShare();
@@ -101,9 +106,7 @@ const LiveSessionStream = (props) => {
         borderRadius={"10px"}
         position={"relative"}
       >
-        {isStudentReceivedQnA && (
-          <StudentPollsMCQBox type={roomData.QnATypes.typeMCQ} />
-        )}
+        {question && <StudentPollsMCQBox question={question} />}
         {raiseHands.map((peer) => (
           <RaiseHand key={peer.id} peer={peer} />
         ))}
@@ -121,7 +124,23 @@ const LiveSessionStream = (props) => {
           }}
         />
         <audio ref={micRef} autoPlay playsInline hidden muted />
-        <Box id="remote_audios"></Box>
+        <Box id="remote_audios">
+          {audioConsumers.length > 0 &&
+            audioConsumers.map((consumer) => (
+              // <ReactPlayer
+              //   url={new MediaStream([consumer.track])}
+              //   key={consumer.id}
+              //   controls={false}
+              //   playsinline={true}
+              //   playing={true}
+              //   style={{ display: "none" }}
+              // />
+              <WebAudioPlayer
+                key={consumer.id}
+                mediaStreamTrack={consumer.track}
+              />
+            ))}
+        </Box>
 
         <ToolBox
           primaryBlue={primaryBlue}

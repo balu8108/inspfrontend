@@ -10,6 +10,7 @@ import {
   setMentorVideoShareConsumer,
   setNewPeerJoined,
   setPeerLeaved,
+  setQuestion,
   setSocket,
   setUploadFiles,
 } from "../store/actions/socketActions";
@@ -285,7 +286,6 @@ const raiseHandResponseHandler = (res) => {
 };
 
 const uploadFileResponseHandler = (res) => {
-  console.log("upload file response", res);
   let allNewFiles = [];
   res.forEach((fileData) => {
     const convFile = new File([fileData.file], fileData.fileName);
@@ -294,6 +294,10 @@ const uploadFileResponseHandler = (res) => {
   store.dispatch(setUploadFiles(allNewFiles));
 };
 
+const questionResponseHandler = (res) => {
+  const { data } = res;
+  store.dispatch(setQuestion(data));
+};
 // SOCKET EVENT LISTENERS AND EVENT EMITTERS:-
 export const initializeSocketConnections = (roomId) => {
   socket = io(BASE_URL);
@@ -307,6 +311,7 @@ export const initializeSocketConnections = (roomId) => {
   socket.on(SOCKET_EVENTS.CHAT_MSG_FROM_SERVER, chatMsgResponseHandler);
   socket.on(SOCKET_EVENTS.RAISE_HAND_FROM_SERVER, raiseHandResponseHandler);
   socket.on(SOCKET_EVENTS.UPLOAD_FILE_FROM_SERVER, uploadFileResponseHandler);
+  socket.on(SOCKET_EVENTS.QUESTION_SENT_FROM_SERVER, questionResponseHandler);
   socket.on(
     SOCKET_EVENTS.SOME_PRODUCER_CLOSED,
     someProducerClosedResponseHandler
@@ -374,7 +379,6 @@ export const raiseHandHandler = (isHandRaised) => {
 };
 
 export const sendFileHandler = (files) => {
-  console.log("files array", files);
   let fileArray = [];
   for (let i = 0; i < files.length; i++) {
     let obj = { fileName: files[i].name, file: files[i] };
@@ -382,4 +386,10 @@ export const sendFileHandler = (files) => {
   }
   console.log("files array", fileArray);
   socket.emit(SOCKET_EVENTS.UPLOAD_FILE_TO_SERVER, fileArray);
+};
+
+export const sendQuestionHandler = (data) => {
+  // data will contain type may be poll or true false
+  // for poll it doesn't have any question but has timer value, poll no
+  socket.emit(SOCKET_EVENTS.QUESTION_SENT_TO_SERVER, data);
 };

@@ -29,6 +29,7 @@ import {
 } from "../../../socketconnections/socketconnections";
 import { staticVariables } from "../../../constants/staticvariables";
 import { roomData } from "../data/roomData";
+import PostPoll from "../../../components/popups/PostPoll";
 let producerScreenShare = null;
 let producerMentorVideoShare = null;
 
@@ -55,6 +56,8 @@ const ToolBox = ({
   setIsRecordOn,
 }) => {
   const [isRaiseHand, setIsRaiseHand] = useState(false);
+  const [pollNo, setPollNo] = useState(0);
+
   const getScreenShareFeed = async () => {
     try {
       const stream = await navigator.mediaDevices.getDisplayMedia({
@@ -313,7 +316,7 @@ const ToolBox = ({
             {"\u{1F44B}"}
           </Button>
           <IconButton isRound={true} icon={<FiMenu size={20} />} />
-          <IconButton isRound={true} icon={<BiBarChart size={20} />} />
+          <PostPoll pollNo={pollNo} setPollNo={setPollNo} />
         </Stack>
         <Stack>
           <Tooltip label={roomData.settings} placement="right">

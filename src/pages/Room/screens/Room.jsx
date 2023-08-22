@@ -10,6 +10,7 @@ import {
   initializeDeviceHandler,
 } from "../../../socketconnections/socketconnections";
 import { useSelector } from "react-redux";
+import { liveSessionMemberViewType } from "../../../constants/staticvariables";
 
 const Room = () => {
   const [isScreenShare, setIsScreenShare] = useState(false);
@@ -20,6 +21,9 @@ const Room = () => {
   const [isMicOn, setIsMicOn] = useState(false);
   const [micStream, setMicStream] = useState(null);
   const [isRecordOn, setIsRecordOn] = useState(false);
+  const [peersViewType, setPeersViewType] = useState(
+    liveSessionMemberViewType.compact
+  );
   const { rtpCapabilities } = useSelector((state) => state.socket);
 
   const micRef = useRef();
@@ -32,6 +36,16 @@ const Room = () => {
   const stopScreenShare = () => {
     setIsScreenShare(false);
     setScreenShareStream(null);
+  };
+
+  const renderColumns = (peersViewType, isEnlarged) => {
+    if (isEnlarged) {
+      return "1fr";
+    } else if (peersViewType === liveSessionMemberViewType.compact) {
+      return "15% 80% 5%";
+    } else if (peersViewType === liveSessionMemberViewType.expanded) {
+      return "1.3fr 6fr 1fr";
+    }
   };
 
   useEffect(() => {
@@ -65,11 +79,12 @@ const Room = () => {
   }, [rtpCapabilities]);
   return (
     <>
-      <Box pt={4} pb={4} px={20}>
+      <Box pt={4} pb={4} px={10}>
         <Grid
-          templateColumns={isEnlarged ? "1fr" : "15% 80% 5%"}
+          templateColumns={renderColumns(peersViewType, isEnlarged)}
           gap={4}
           alignItems={"start"}
+          justifyContent={"space-between"}
         >
           {!isEnlarged && (
             <GridItem bg={backgroundLightBlue} borderRadius={"md"}>
@@ -107,8 +122,20 @@ const Room = () => {
           </GridItem>
 
           {!isEnlarged && (
-            <GridItem>
-              <LiveSessionMembers primaryBlue={primaryBlue} />
+            <GridItem
+              cursor={"pointer"}
+              onClick={() => {
+                if (peersViewType === liveSessionMemberViewType.compact) {
+                  setPeersViewType(liveSessionMemberViewType.expanded);
+                } else {
+                  setPeersViewType(liveSessionMemberViewType.compact);
+                }
+              }}
+            >
+              <LiveSessionMembers
+                primaryBlue={primaryBlue}
+                viewType={peersViewType}
+              />
             </GridItem>
           )}
         </Grid>

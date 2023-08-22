@@ -12,6 +12,7 @@ import {
   SET_CHAT_MESSAGE,
   SET_RAISE_HAND,
   SET_FILE_UPLOAD,
+  SET_QUESTION,
 } from "../constants";
 const initialState = {
   isPeerLoading: true,
@@ -25,6 +26,7 @@ const initialState = {
   chatMessages: [],
   raiseHands: [],
   uploadedFiles: [],
+  question: null,
 };
 
 const socketReducer = (state = initialState, action) => {
@@ -103,6 +105,11 @@ const socketReducer = (state = initialState, action) => {
       return {
         ...state,
         uploadedFiles: [...state.uploadedFiles, ...action.payload],
+      };
+    case SET_QUESTION:
+      return {
+        ...state,
+        question: action.payload,
       };
     default:
       return state;

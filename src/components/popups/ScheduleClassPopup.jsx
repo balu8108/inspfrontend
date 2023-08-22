@@ -26,9 +26,9 @@ import TimeRangePicker from "@wojtekmaj/react-timerange-picker";
 import "@wojtekmaj/react-timerange-picker/dist/TimeRangePicker.css";
 import "react-clock/dist/Clock.css";
 import { scheduleClassData } from "../../pages/ScheduleClasses/data/scheduleClassData";
-import { InlineBtn, MainBtn } from "../button";
+import { InlineBtn } from "../button";
 import { openFileDialog } from "../../utils";
-import SimpleBar from "simplebar-react";
+
 import { useDispatch } from "react-redux";
 import { setAddClassSchedule } from "../../store/actions/scheduleClassActions";
 

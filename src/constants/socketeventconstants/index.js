@@ -23,6 +23,8 @@ const SOCKET_EVENTS = {
   RAISE_HAND_FROM_SERVER: "raise_hand_from_server",
   UPLOAD_FILE_TO_SERVER: "upload_file_to_server",
   UPLOAD_FILE_FROM_SERVER: "upload_file_from_server",
+  QUESTION_SENT_TO_SERVER: "question_sent_to_server",
+  QUESTION_SENT_FROM_SERVER: "question_sent_from_server",
 };
 
 export default SOCKET_EVENTS;
