@@ -1,5 +1,14 @@
 import React from "react";
-import { Box, Button, Input, InputGroup, InputLeftElement,Text,Flex,Card } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Text,
+  Flex,
+  Card,
+} from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
 import completedLecturesData from "../data/recordedLecture";
 
@@ -27,26 +36,30 @@ const MeetingAndRecordedLect = () => {
         />
       </InputGroup>
       <Flex>
-      <Text mt={5} ml={8} fontSize={16}>Completed</Text>
-      <Button variant={"ghost"}  ml={14} fontWeight={9} fontSize={13} mt={3} >See All</Button>
+        <Text mt={5} ml={8} fontSize={16}>
+          Completed
+        </Text>
+        <Button variant={"ghost"} ml={14} fontWeight={9} fontSize={13} mt={3}>
+          See All
+        </Button>
       </Flex>
 
       {completedLecturesData.map((lecture) => (
         <Card key={lecture.id} p={4} mt={4} ml={6} width="88%">
           <Flex>
-          <Text fontSize="10" fontWeight="semibold">
-            {lecture.chapterName}
-          </Text>
-          <Text  fontSize={8} ml={4}  color="gray.500">
-            {lecture.startTime} - {lecture.endTime} 
-          </Text>
+            <Text fontSize="10" fontWeight="semibold">
+              {lecture.chapterName}
+            </Text>
+            <Text fontSize={8} ml={4} color="gray.500">
+              {lecture.startTime} - {lecture.endTime}
+            </Text>
           </Flex>
-          
+
           <Flex>
-          <Text color="gray.500">{lecture.instructorName}</Text>
-          ({lecture.duration})
+            <Text color="gray.500">{lecture.instructorName}</Text>(
+            {lecture.duration})
           </Flex>
-          
+
           <Text mt={2}>{lecture.description}</Text>
           <Button
             as="a"
@@ -59,9 +72,7 @@ const MeetingAndRecordedLect = () => {
             View Recording
           </Button>
         </Card>
-      
       ))}
-     
     </Box>
   );
 };
