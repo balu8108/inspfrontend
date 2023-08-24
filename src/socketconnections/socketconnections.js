@@ -393,3 +393,10 @@ export const sendQuestionHandler = (data) => {
   // for poll it doesn't have any question but has timer value, poll no
   socket.emit(SOCKET_EVENTS.QUESTION_SENT_TO_SERVER, data);
 };
+
+export const startRecordingHandler = (data) => {
+  if (data) {
+    console.log("start recording", data);
+    socket.emit(SOCKET_EVENTS.START_RECORDING, data);
+  }
+};
