@@ -10,6 +10,9 @@ import {
   SET_MENTOR_VIDEO_SHARE_CONSUMER,
   SET_AUDIO_CONSUMERS,
   SET_CHAT_MESSAGE,
+  SET_RAISE_HAND,
+  SET_FILE_UPLOAD,
+  SET_QUESTION,
 } from "../constants";
 
 export const setSocket = (socket) => {
@@ -60,4 +63,17 @@ export const setAudioConsumers = (newConsumer) => async (dispatch) => {
 
 export const setChatMessage = (newChatMessage) => async (dispatch) => {
   dispatch({ type: SET_CHAT_MESSAGE, payload: newChatMessage });
+};
+
+export const setRaiseHand = (raiseHandData) => async (dispatch) => {
+  dispatch({ type: SET_RAISE_HAND, payload: raiseHandData });
+};
+
+// for uploading files to the live class room
+export const setUploadFiles = (files) => async (dispatch) => {
+  dispatch({ type: SET_FILE_UPLOAD, payload: files });
+};
+
+export const setQuestion = (question) => async (dispatch) => {
+  dispatch({ type: SET_QUESTION, payload: question });
 };

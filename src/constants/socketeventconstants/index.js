@@ -21,6 +21,12 @@ const SOCKET_EVENTS = {
   CHAT_MSG_FROM_SERVER: "chat_msg_from_server",
   RAISE_HAND_TO_SERVER: "raise_hand_to_server",
   RAISE_HAND_FROM_SERVER: "raise_hand_from_server",
+  UPLOAD_FILE_TO_SERVER: "upload_file_to_server",
+  UPLOAD_FILE_FROM_SERVER: "upload_file_from_server",
+  QUESTION_SENT_TO_SERVER: "question_sent_to_server",
+  QUESTION_SENT_FROM_SERVER: "question_sent_from_server",
+  START_RECORDING: "start_recording",
+  STOP_RECORDING: "stop_recording",
 };
 
 export default SOCKET_EVENTS;

@@ -3,38 +3,56 @@ import { scheduleClassData } from "../data/scheduleClassData";
 import FileBoxComponent from "../../../components/filebox/FileBoxComponent";
 import { StartContinueBtn } from "../../../components/button";
 
-const ScheduleInfoBox = () => {
+import { useSelector } from "react-redux";
+import formatTime from "../../../utils/formatTime";
+import { generateUniqueKey } from "../../../utils";
 
+const ScheduleInfoBox = () => {
   const { lightGreen, btnTextColor, primaryBlue } = useTheme().colors.pallete;
+  const { scheduledClassesData } = useSelector((state) => state.scheduleClass);
+
   const startContinueClickHandler = () => {
     console.log("test");
   };
   return (
     <>
-      {scheduleClassData.scheduleClassBoxInfo.map((info) => {
+      {scheduledClassesData.map((info) => {
         return (
-          <Box bg="white" my={2} boxShadow={"md"} borderRadius={"md"}>
+          <Box
+            key={generateUniqueKey()}
+            bg="white"
+            my={2}
+            boxShadow={"md"}
+            borderRadius={"md"}
+          >
             <Box p={4}>
               <Text fontWeight={500} fontSize={"14px"} mb={1}>
-                {info.scheduleClassTopic}
+                {info.topic}
               </Text>
               <Text fontSize={"12px"} mb={1} fontWeight={400}>
-                {info.scheduleClassTiming}
+                {formatTime(info.startTime)} - {formatTime(info.endTime)}
+                {/* {info.scheduleClassTiming} */}
               </Text>
-              <FileBoxComponent data={info.fileData} />
+              {info.files ? (
+                <FileBoxComponent data={info.files} />
+              ) : (
+                <Text fontSize={"0.8rem"}>No Files</Text>
+              )}
             </Box>
             <StartContinueBtn
               isLoading={false}
-              backColor={
-                info.status === scheduleClassData.start
-                  ? primaryBlue
-                  : lightGreen
-              }
-              textColor={
-                info.status === scheduleClassData.start ? "white" : btnTextColor
-              }
+              // backColor={
+              //   info.status === scheduleClassData.start
+              //     ? primaryBlue
+              //     : lightGreen
+              // }
+              // textColor={
+              //   info.status === scheduleClassData.start ? "white" : btnTextColor
+              // }
+              backColor={primaryBlue}
+              textColor={"white"}
               onClickHandler={startContinueClickHandler}
-              text={info.status}
+              text={"START"}
             />
           </Box>
         );

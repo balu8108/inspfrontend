@@ -28,8 +28,8 @@ import data from "@emoji-mart/data";
 import { init, SearchIndex } from "emoji-mart";
 import { containsEmoji } from "../../../utils";
 import SimpleBar from "simplebar-react";
-
-const EmojiContainer = ({ isChatExpanded }) => {
+import "simplebar-react/dist/simplebar.min.css";
+const EmojiContainer = ({ isEmojiOpen }) => {
   const { lightGrey } = useTheme().colors.pallete;
   const [searchEmoticonValue, setSearchEmoticonValue] = useState("");
   const [emojis, setEmojis] = useState([]);
@@ -60,7 +60,7 @@ const EmojiContainer = ({ isChatExpanded }) => {
   }, [searchEmoticonValue]);
   return (
     <>
-      {isChatExpanded && (
+      {isEmojiOpen && (
         <Flex
           w="100%"
           height={"100px"}
@@ -142,10 +142,31 @@ const MentorVideoSection = ({ mentorVideoRef }) => {
     </Box>
   );
 };
-const ChatContainer = ({ isChatOpened, isScreenShare }) => {
+const ChatContainer = ({
+  isChatOpened,
+  isScreenShare,
+  setIsChatExpanded,
+  onChatToggle,
+}) => {
   const theme = useTheme();
   const { primaryBlue } = theme.colors.pallete;
   const { chatMessages } = useSelector((state) => state.socket);
+  let hideChatTimer;
+  const startHideTimer = () => {
+    hideChatTimer = setTimeout(() => {
+      setIsChatExpanded(false);
+      onChatToggle();
+    }, 5000);
+  };
+  const resetHideTimer = () => {
+    clearTimeout(hideChatTimer);
+    startHideTimer();
+  };
+
+  useEffect(() => {
+    startHideTimer();
+    return () => clearTimeout(hideChatTimer);
+  }, []);
 
   return (
     <>
@@ -232,6 +253,18 @@ const ChatToolBox = ({ mentorVideoRef, isScreenShare }) => {
       setIsSentBtnDisabled(true);
     }
   };
+
+  const handleChatToggling = () => {
+    if (isChatExpanded) {
+      // means clicked on emoji one
+      setIsEmojiOpen(!isEmojiOpen);
+    } else {
+      setIsChatExpanded(true);
+      onChatToggle();
+    }
+    // setIsChatExpanded(!isChatExpanded);
+    // onChatToggle();
+  };
   return (
     <Box position={"absolute"} height={"100%"} p={4} right={0}>
       <Flex
@@ -282,11 +315,15 @@ const ChatToolBox = ({ mentorVideoRef, isScreenShare }) => {
 
           <Stack>
             <Box position={"relative"}>
-              <ChatContainer
-                isChatOpened={isChatOpened}
-                isScreenShare={isScreenShare}
-              />
-              <EmojiContainer isChatExpanded={isChatExpanded} />
+              {isChatOpened && (
+                <ChatContainer
+                  isChatOpened={isChatOpened}
+                  isScreenShare={isScreenShare}
+                  setIsChatExpanded={setIsChatExpanded}
+                  onChatToggle={onChatToggle}
+                />
+              )}
+              <EmojiContainer isEmojiOpen={isEmojiOpen} />
             </Box>
 
             <InputGroup bg="white" borderRadius={"full"}>
@@ -294,8 +331,7 @@ const ChatToolBox = ({ mentorVideoRef, isScreenShare }) => {
                 bg="white"
                 borderRadius={"full"}
                 onClick={() => {
-                  setIsChatExpanded(!isChatExpanded);
-                  onChatToggle();
+                  handleChatToggling();
                 }}
                 icon={
                   isChatExpanded ? (

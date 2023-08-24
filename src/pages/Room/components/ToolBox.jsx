@@ -25,12 +25,15 @@ import { RiFullscreenFill } from "react-icons/ri";
 import {
   producerTransport,
   raiseHandHandler,
+  startRecordingHandler,
   stopProducing,
 } from "../../../socketconnections/socketconnections";
 import { staticVariables } from "../../../constants/staticvariables";
 import { roomData } from "../data/roomData";
+import PostPoll from "../../../components/popups/PostPoll";
 let producerScreenShare = null;
 let producerMentorVideoShare = null;
+let producerAudioShare = null;
 
 const ToolBox = ({
   primaryBlue,
@@ -55,6 +58,8 @@ const ToolBox = ({
   setIsRecordOn,
 }) => {
   const [isRaiseHand, setIsRaiseHand] = useState(false);
+  const [pollNo, setPollNo] = useState(0);
+
   const getScreenShareFeed = async () => {
     try {
       const stream = await navigator.mediaDevices.getDisplayMedia({
@@ -139,7 +144,6 @@ const ToolBox = ({
   const getAudioStreamFeed = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: false,
         audio: true,
       });
       if (micRef.current) {
@@ -151,7 +155,7 @@ const ToolBox = ({
           let appData = {
             streamType: staticVariables.audioShare,
           };
-          producerTransport.produce({
+          producerAudioShare = await producerTransport.produce({
             track: track,
             appData: appData,
           });
@@ -211,6 +215,20 @@ const ToolBox = ({
     } else {
       setIsRaiseHand(true);
       raiseHandHandler(true);
+    }
+  };
+  const startRecording = () => {
+    if (isRecordOn) {
+      // stop recording triggered
+      console.log("stop recording");
+      setIsRecordOn(false);
+    } else {
+      // start recording
+      // at the moment we will only record screenshare then will look into audio
+      console.log("start recording");
+      // startRecordingHandler(producerScreenShare);
+      startRecordingHandler(producerAudioShare);
+      setIsRecordOn(true);
     }
   };
   return (
@@ -276,6 +294,7 @@ const ToolBox = ({
             <IconButton
               isRound={true}
               bg={isRecordOn ? "gray.200" : "red"}
+              onClick={startRecording}
               _hover={{ bg: isRecordOn ? "gray.200" : "red" }}
               icon={
                 isRecordOn ? (
@@ -313,7 +332,7 @@ const ToolBox = ({
             {"\u{1F44B}"}
           </Button>
           <IconButton isRound={true} icon={<FiMenu size={20} />} />
-          <IconButton isRound={true} icon={<BiBarChart size={20} />} />
+          <PostPoll pollNo={pollNo} setPollNo={setPollNo} />
         </Stack>
         <Stack>
           <Tooltip label={roomData.settings} placement="right">

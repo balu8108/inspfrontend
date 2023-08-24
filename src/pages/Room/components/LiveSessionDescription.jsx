@@ -16,8 +16,11 @@ import { FiDownload } from "react-icons/fi";
 import { roomData } from "../data/roomData";
 import FileBoxComponent from "../../../components/filebox/FileBoxComponent";
 import UploadFilePopup from "../../../components/popups/UploadFilePopup";
+import { useSelector } from "react-redux";
 
 const ActiveRoomContent = ({ mainTextColor, secondaryTextColor }) => {
+  const { uploadedFiles } = useSelector((state) => state.socket);
+  console.log("uploaded files", uploadedFiles);
   return (
     <>
       <Box pt={6}>
@@ -55,7 +58,11 @@ const ActiveRoomContent = ({ mainTextColor, secondaryTextColor }) => {
         </Flex>
 
         <Box>
-          <FileBoxComponent data={roomData.fileData} />
+          {uploadedFiles.length > 0 ? (
+            <FileBoxComponent data={uploadedFiles} />
+          ) : (
+            <Text fontSize={"12px"}>No Files</Text>
+          )}
         </Box>
       </Box>
 
