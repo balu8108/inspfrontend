@@ -10,19 +10,18 @@ import {
   Card,
 } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
-import completedLecturesData from "../data/recordedLecture";
+import completedLecturesData from "../../data/recordedLecture";
 
 const MeetingAndRecordedLect = () => {
   return (
     <Box
-      width={280}
-      height={800}
-      borderRadius={10}
+      width={"365px"}
+      height={"999px"}
+      borderRadius={"26px"}
       backgroundColor={"#F1F5F8"}
-      ml={960}
-      mt={-870}
+      mt={"52px"}
     >
-      <InputGroup>
+      {/* <InputGroup>
         <InputLeftElement pointerEvents="none">
           <Search2Icon mt={16} ml={5} color="black" />
         </InputLeftElement>
@@ -72,7 +71,7 @@ const MeetingAndRecordedLect = () => {
             View Recording
           </Button>
         </Card>
-      ))}
+      ))} */}
     </Box>
   );
 };

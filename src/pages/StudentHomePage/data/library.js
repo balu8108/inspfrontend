@@ -1,26 +1,28 @@
 const libraryData = [
-    {
-        id:1,
-        subjectName:"Physics",
-        description:"Just demo just demo just demo just demo just demo"
-    },
+  {
+    id: 1,
+    subjectName: "Physics",
+    description:
+      "Lorem ipsum dolor sit amet conster Id egestas egestas ut amet arcu. Ultrices sit odio at sapien mauris amet pretium arcu. V",
+  },
 
-    {
-        id:2,
-        subjectName:"Chemistry",
-        description:"Just demo just demo just demo just demo just demo "
-    },
-    {
-        id:3,
-        subjectName:"Mathematics",
-        description:"Just demo just demo just demo just demo just demo"
-    },
-    {
-        id:4,
-        subjectName:"Topic_Based_Recordings",
-        description:"Just demo just demo just demo just demo just demo"
-    }
-
-
+  {
+    id: 2,
+    subjectName: "Mathematics",
+    description:
+      "Lorem ipsum dolor sit amet conster Id egestas egestas ut amet arcu. Ultrices sit odio at sapien mauris amet pretium arcu. V",
+  },
+  {
+    id: 3,
+    subjectName: "Chemistry",
+    description:
+      "Lorem ipsum dolor sit amet conster Id egestas egestas ut amet arcu. Ultrices sit odio at sapien mauris amet pretium arcu. V",
+  },
+  {
+    id: 4,
+    subjectName: "Topic based recordings",
+    description:
+      "Lorem ipsum dolor sit amet conster Id egestas egestas ut amet arcu. Ultrices sit odio at sapien mauris amet pretium arcu. V",
+  },
 ];
 export default libraryData;
