@@ -8,6 +8,7 @@ const config = {
 const scheme = {
   colors: {
     pallete: {
+      redBtnColor: "rgba(246, 63, 74, 1)",
       backgroundLightBlue: "#F1F5F8",
       lightGreen: "#C1E3B6",
       primaryBlue: "#3C8DBC",

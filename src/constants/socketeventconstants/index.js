@@ -27,6 +27,11 @@ const SOCKET_EVENTS = {
   QUESTION_SENT_FROM_SERVER: "question_sent_from_server",
   START_RECORDING: "start_recording",
   STOP_RECORDING: "stop_recording",
+  PRODUCER_PAUSE: "producer_pause",
+  PRODUCER_RESUME: "producer_resume",
+  PRODUCER_PAUSED: "producer_paused", // if producer pause is trigger then in frontend we need to pause the video
+  PRODUCER_RESUMED: "producer_resumed", // if producer resume is trigger then in frontend we need to resume the video
+  LEAVE_ROOM: "leave_room",
 };
 
 export default SOCKET_EVENTS;

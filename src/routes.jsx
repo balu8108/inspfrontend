@@ -30,15 +30,14 @@ const routes = [
   {
     name: "Student Assignment",
     path: "/student/assignment",
-    component: <StudentAssignment /> 
+    component: <StudentAssignment />,
   },
 
   {
-    name:"Student Homepage",
-    path:"/student/homepage",
-    component:<StudentHomePage />
-  }
-
+    name: "Student Homepage",
+    path: "/student/homepage",
+    component: <StudentHomePage />,
+  },
 ];
 
 export default routes;

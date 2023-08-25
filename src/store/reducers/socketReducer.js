@@ -1,3 +1,4 @@
+import { copyObject } from "../../utils";
 import {
   SET_SOCKET,
   SET_ALL_PEERS,
@@ -13,6 +14,7 @@ import {
   SET_RAISE_HAND,
   SET_FILE_UPLOAD,
   SET_QUESTION,
+  SET_MENTOR_VIDEO_SHARE_PAUSE,
 } from "../constants";
 const initialState = {
   isPeerLoading: true,
@@ -111,6 +113,22 @@ const socketReducer = (state = initialState, action) => {
         ...state,
         question: action.payload,
       };
+    case SET_MENTOR_VIDEO_SHARE_PAUSE:
+      if (state.mentorVideoShareConsumer) {
+        const originalConsumer = state.mentorVideoShareConsumer;
+        const copiedConsumer = copyObject(originalConsumer);
+        if (action.payload === true) {
+          copiedConsumer.pause();
+        } else {
+          copiedConsumer.resume();
+        }
+
+        return {
+          ...state,
+          mentorVideoShareConsumer: copiedConsumer,
+        };
+      }
+      return state;
     default:
       return state;
   }
