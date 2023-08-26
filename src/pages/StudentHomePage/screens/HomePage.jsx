@@ -7,19 +7,8 @@ import Library from "../components/Leftcomponent/Library";
 import MeetingAndRecordedLect from "../components/RightComponent/MeetingAndRecordedLect";
 const HomePage = () => {
   return (
-    // <Box>
-    //   <MyCourses />
-    //   <HStack>
-    //     <Improvement />
-    //     <Assignment />
-    //   </HStack>
-    //   <Library/>
-    // </Box>
-
-
     <Grid
-      templateColumns="3fr 1fr"
-      gap={6}
+      templateColumns={{ base: "1fr", md: "2fr 1fr" }}
       alignItems="start"
       justifyContent="space-between"
     >

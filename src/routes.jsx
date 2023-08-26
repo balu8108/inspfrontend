@@ -1,9 +1,8 @@
 import RoomPreview from "./pages/RoomPreview/screens/RoomPreview";
 import Room from "./pages/Room/screens/Room";
 import ScheduleClass from "./pages/ScheduleClasses/screens/ScheduleClass";
-import StudentCourses from "./pages/StudentCourses/screens/StudentCourses";
-import StudentAssignment from "./pages/StudentAssignment/screens/StudentAssignment";
 import StudentHomePage from "./pages/StudentHomePage/screens/HomePage";
+import StudentMathsCourse from "./pages/StudentCourses/Mathematics/screens/MathsCourse"
 const routes = [
   {
     name: "Room Preview",
@@ -22,21 +21,15 @@ const routes = [
   },
 
   {
-    name: "Student courses",
-    path: "/student/courses",
-    component: <StudentCourses />,
-  },
-
-  {
-    name: "Student Assignment",
-    path: "/student/assignment",
-    component: <StudentAssignment /> 
-  },
-
-  {
     name:"Student Homepage",
     path:"/student/homepage",
     component:<StudentHomePage />
+  },
+
+  {
+    name:"Student MathsCourse",
+    path:"/student/myCourses/maths",
+    component:<StudentMathsCourse />
   }
 
 ];

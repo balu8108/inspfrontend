@@ -53,7 +53,7 @@ const MyCourses = () => {
             key={course.id}
             width={317}
             height={204}
-            borderRadius={18}
+            
             blendMode={"multiply"}
             bg={"#F1F5F8"}
           >
