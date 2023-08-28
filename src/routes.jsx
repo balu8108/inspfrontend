@@ -2,7 +2,9 @@ import RoomPreview from "./pages/RoomPreview/screens/RoomPreview";
 import Room from "./pages/Room/screens/Room";
 import ScheduleClass from "./pages/ScheduleClasses/screens/ScheduleClass";
 import StudentHomePage from "./pages/StudentHomePage/screens/HomePage";
-import StudentMathsCourse from "./pages/StudentCourses/Mathematics/screens/MathsCourse"
+import StudentMathsCourse from "./pages/StudentCourses/Mathematics/screens/MathsCourse";
+import StudentChemCourse from "./pages/StudentCourses/Chemistry/screens/ChemCourse";
+import StudentPhyCourse from "./pages/StudentCourses/Physics/screens/PhysicsCourse";
 const routes = [
   {
     name: "Room Preview",
@@ -28,8 +30,18 @@ const routes = [
 
   {
     name:"Student MathsCourse",
-    path:"/student/myCourses/maths",
+    path:"/student/myCourses/mathematics",
     component:<StudentMathsCourse />
+  },
+  {
+    name:"Student ChemistryCourse",
+    path:"/student/myCourses/chemistry",
+    component:<StudentChemCourse />
+  },
+  {
+    name:"Student PhysicsCourse",
+    path:"/student/myCourses/physics",
+    component:<StudentPhyCourse />
   }
 
 ];

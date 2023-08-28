@@ -1,6 +1,6 @@
 
 
-const chemData = [
+const physData = [
     {
       id: 1,
       subject: "Physics",
@@ -21,5 +21,5 @@ const chemData = [
     },
   ];
   
-  export default chemData;
+  export default physData;
   

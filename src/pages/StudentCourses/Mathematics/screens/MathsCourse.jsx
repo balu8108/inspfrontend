@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../components/Header";
 import Details from "../components/Detailing";
 import Scheduling from "../components/Scheduling";
+import ScheduledMeetings from "../../../MeetingViewer/components/ScheduledMeetings";
 import { Flex, VStack, Box } from "@chakra-ui/react";
 const mathsScreen = () => {
   return (
@@ -11,7 +12,7 @@ const mathsScreen = () => {
         <Header />
         <Details />
       </VStack>
-      <Scheduling/>
+      <ScheduledMeetings/>
     </Flex>
     </Box>
     
