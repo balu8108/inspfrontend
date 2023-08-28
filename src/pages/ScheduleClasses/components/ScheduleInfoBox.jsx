@@ -1,8 +1,9 @@
+import { useState } from "react";
 import { Box, Text, useTheme, useDisclosure } from "@chakra-ui/react";
 import { scheduleClassData } from "../data/scheduleClassData";
 import FileBoxComponent from "../../../components/filebox/FileBoxComponent";
 import { StartContinueBtn } from "../../../components/button";
-
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import formatTime from "../../../utils/formatTime";
 import { generateUniqueKey } from "../../../utils";
@@ -10,9 +11,13 @@ import { generateUniqueKey } from "../../../utils";
 const ScheduleInfoBox = () => {
   const { lightGreen, btnTextColor, primaryBlue } = useTheme().colors.pallete;
   const { scheduledClassesData } = useSelector((state) => state.scheduleClass);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const startContinueClickHandler = () => {
-    console.log("test");
+  const startContinueClickHandler = (roomId) => {
+    setIsLoading(true);
+    navigate(`/room-preview/${roomId}`);
+    setIsLoading(false);
   };
   return (
     <>
@@ -27,11 +32,11 @@ const ScheduleInfoBox = () => {
           >
             <Box p={4}>
               <Text fontWeight={500} fontSize={"14px"} mb={1}>
-                {info.topic}
+                {info?.LiveClassRoomDetail?.topicName}
               </Text>
               <Text fontSize={"12px"} mb={1} fontWeight={400}>
-                {formatTime(info.startTime)} - {formatTime(info.endTime)}
-                {/* {info.scheduleClassTiming} */}
+                {formatTime(info.scheduledStartTime)} -{" "}
+                {formatTime(info.scheduledEndTime)}
               </Text>
               {info.files ? (
                 <FileBoxComponent data={info.files} />
@@ -40,7 +45,7 @@ const ScheduleInfoBox = () => {
               )}
             </Box>
             <StartContinueBtn
-              isLoading={false}
+              isLoading={isLoading}
               // backColor={
               //   info.status === scheduleClassData.start
               //     ? primaryBlue
@@ -51,7 +56,7 @@ const ScheduleInfoBox = () => {
               // }
               backColor={primaryBlue}
               textColor={"white"}
-              onClickHandler={startContinueClickHandler}
+              onClickHandler={() => startContinueClickHandler(info.roomId)}
               text={"START"}
             />
           </Box>

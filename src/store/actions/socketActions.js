@@ -1,3 +1,4 @@
+import { getLiveClassDetailsApi } from "../../api/scheduleliveclass";
 import {
   SET_SOCKET,
   SET_ALL_PEERS,
@@ -14,6 +15,7 @@ import {
   SET_FILE_UPLOAD,
   SET_QUESTION,
   SET_MENTOR_VIDEO_SHARE_PAUSE,
+  GET_LIVE_CLASS_DETAILS,
 } from "../constants";
 
 export const setSocket = (socket) => {
@@ -83,4 +85,17 @@ export const setMentorVideoSharePauseOrResume = (value) => async (dispatch) => {
   // if value is true then it is pause
   // if value is false then it is resume
   dispatch({ type: SET_MENTOR_VIDEO_SHARE_PAUSE, payload: value });
+};
+
+export const getLiveClassDetails = (roomId) => async (dispatch) => {
+  try {
+    const res = await getLiveClassDetailsApi(roomId);
+    if (res.status === 200) {
+      dispatch({ type: GET_LIVE_CLASS_DETAILS, payload: res.data });
+    } else {
+      console.log("error", res);
+    }
+  } catch (err) {
+    console.log("err in description", err);
+  }
 };

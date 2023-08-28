@@ -11,8 +11,9 @@ import { scheduleClassData } from "../data/scheduleClassData";
 import ScheduleInfoBox from "../components/ScheduleInfoBox";
 import ScheduleCalendar from "../components/ScheduleCalendar";
 import ScheduleClassPopup from "../../../components/popups/ScheduleClassPopup";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassActions";
 const ScheduleClass = () => {
   const {
     isOpen: isSchedulePopupOpen,
@@ -22,10 +23,15 @@ const ScheduleClass = () => {
   const { primaryBlue, lightGrey } = useTheme().colors.pallete;
   const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
   const [classTiming, setClassTiming] = useState(["", ""]);
+  const dispatch = useDispatch();
 
   const scheduleClassClickHandler = () => {
     onSchedulePopupOpen();
   };
+
+  useEffect(() => {
+    dispatch(getAllLiveClassesSchedule());
+  }, []);
   return (
     <>
       {isSchedulePopupOpen && (

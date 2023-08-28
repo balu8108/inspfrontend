@@ -35,3 +35,9 @@ export const SET_AUDIO_CONTROL = "SET_AUDIO_CONTROL";
 // Schedule classes related constants
 
 export const ADD_CLASS_SCHEDULE = "ADD_CLASS_SCHEDULE";
+export const GET_ALL_LIVE_CLASSES_SCHEDULE = "GET_ALL_LIVE_CLASSES_SCHEDULE";
+export const GET_LIVE_CLASS_DETAILS = "GET_LIVE_CLASS_DETAILS";
+
+// Generic constants
+
+export const GET_ALL_SUBJECTS = "GET_ALL_SUBJECTS";

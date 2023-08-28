@@ -180,6 +180,9 @@ const ToolBox = ({
             track: track,
             appData: appData,
           });
+          if (isRecordOn) {
+            startRecordingHandler({ producerAudioShare });
+          }
         }
       }
     } catch (err) {
@@ -254,7 +257,7 @@ const ToolBox = ({
       // at the moment we will only record screenshare then will look into audio
       console.log("start recording");
       // startRecordingHandler(producerScreenShare);
-      startRecordingHandler(producerAudioShare);
+      startRecordingHandler({ producerScreenShare, producerAudioShare });
       setIsRecordOn(true);
     }
   };

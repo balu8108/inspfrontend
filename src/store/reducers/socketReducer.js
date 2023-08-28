@@ -15,6 +15,7 @@ import {
   SET_FILE_UPLOAD,
   SET_QUESTION,
   SET_MENTOR_VIDEO_SHARE_PAUSE,
+  GET_LIVE_CLASS_DETAILS,
 } from "../constants";
 const initialState = {
   isPeerLoading: true,
@@ -29,6 +30,7 @@ const initialState = {
   raiseHands: [],
   uploadedFiles: [],
   question: null,
+  roomPreviewData: null,
 };
 
 const socketReducer = (state = initialState, action) => {
@@ -122,13 +124,17 @@ const socketReducer = (state = initialState, action) => {
         } else {
           copiedConsumer.resume();
         }
-
         return {
           ...state,
           mentorVideoShareConsumer: copiedConsumer,
         };
       }
       return state;
+    case GET_LIVE_CLASS_DETAILS:
+      return {
+        ...state,
+        roomPreviewData: action.payload.data,
+      };
     default:
       return state;
   }
