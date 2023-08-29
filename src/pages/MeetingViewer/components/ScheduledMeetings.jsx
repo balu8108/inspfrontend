@@ -41,7 +41,7 @@ const scheduledMeetings = () => {
         borderRadius={"2xl"}
         m={"23px"}
       >
-        <Flex gap={1}>
+        <Flex  gap={1}>
           <Box ml={"12px"} mt={"15px"}>
             <Text fontSize="15px" color={"rgba(44, 51, 41, 1)"}>
               {scheduledOngoing.chapter}
@@ -68,7 +68,11 @@ const scheduledMeetings = () => {
           </Box>
         </Flex>
 
-        <Text ml={"13px"} mt={"18px"} fontSize={"11px"} lineHeight={"13px"}>
+        <Text 
+        ml={"13px"}
+         mt={"18px"} 
+         fontSize={"11px"} 
+         lineHeight={"13px"}>
           Description
         </Text>
         <Text
@@ -85,7 +89,7 @@ const scheduledMeetings = () => {
           width={"89%"}
           ml={"12px"}
           mt={"12px"}
-         
+         mb={"13px"}
           bg={"rgba(60, 141, 188, 1)"}
           color={"white"}
         >
@@ -176,7 +180,7 @@ const scheduledMeetings = () => {
             ></Box>
             <Text 
               fontSize={"20px"} 
-              lineHeight={"26.6px"}
+              lineHeight={"26px"}
               >
               Schedule for the week
             </Text>
