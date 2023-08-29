@@ -28,4 +28,5 @@ export const liveSessionData = {
   noStudentsJoined: "No students joined...",
   mentor: "Mentor",
   student: "Student",
+  noData: "No Data",
 };

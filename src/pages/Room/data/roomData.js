@@ -87,7 +87,9 @@ export const roomData = {
   raisedHand: "has raised hand",
   poll: "Poll",
   send: "Send",
+  leave: "Leave",
   mcqQuestion:
     "Lorem ipsum dolor sit amet consectetur. Id egestas egestas ut amet arcu. Ultrices sit odio at sapien mauris amet pretium arcu.",
   selectCorrectAnswer: "Select correct answer",
+  noData: "No Data",
 };

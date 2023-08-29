@@ -28,7 +28,7 @@ const Improvement = () => {
       },
     ],
   };
-  const customColors = ["#E38D8D", "#95AAE0", "#EFDB6F"];
+  
   return (
     <Box
       mt={"24px"}
@@ -74,7 +74,7 @@ const Improvement = () => {
                 size="sm"
                 borderRadius={4}
                 width="100px"
-                bg={customColors[index]}
+                colorScheme={subject.color}
               />
               <Text fontSize={"13px"} lineHeight={"15px"}>
                 {subject.percentage}%

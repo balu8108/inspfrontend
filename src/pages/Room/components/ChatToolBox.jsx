@@ -102,17 +102,22 @@ const MentorVideoSection = ({ mentorVideoRef }) => {
   const removeMentorVideoStream = () => {
     if (mentorVideoRef.current) {
       mentorVideoRef.current.srcObject = null;
-      if (mentorVideoShareConsumer) {
-        const { track } = mentorVideoShareConsumer;
-        if (track) {
-          track.stop();
-        }
-      }
+      // if (mentorVideoShareConsumer) {
+      //   const { track } = mentorVideoShareConsumer;
+      //   if (track) {
+      //     track.stop();
+      //   }
+      // }
     }
   };
   useEffect(() => {
     if (mentorVideoShareConsumer) {
-      renderMentorVideoStream();
+      // renderMentorVideoStream();
+      if (mentorVideoShareConsumer.paused) {
+        removeMentorVideoStream(); // Pause triggered, remove stream
+      } else {
+        renderMentorVideoStream(); // Play triggered, render stream
+      }
     } else {
       removeMentorVideoStream();
     }

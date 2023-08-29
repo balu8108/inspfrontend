@@ -15,6 +15,7 @@ import { MainBtn } from "../../../components/button";
 import { useDispatch, useSelector } from "react-redux";
 import { joinRoomHandler } from "../../../socketconnections/socketconnections";
 import { setRtpCapabilities } from "../../../store/actions/socketActions";
+import formatTime from "../../../utils/formatTime";
 
 const PeerList = ({ peers, type }) => {
   const theme = useTheme();
@@ -62,10 +63,13 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
     secondaryTextColor,
   } = theme.colors.pallete;
 
-  const { isPeerLoading, peers } = useSelector((state) => state.socket);
+  const { isPeerLoading, peers, roomPreviewData } = useSelector(
+    (state) => state.socket
+  );
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
+
   const navigateToRoom = async () => {
     setIsRoomLoading(true);
 
@@ -104,15 +108,17 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
             <Flex justifyContent={"space-between"}>
               <Box>
                 <Text fontSize={"14px"} color={mainTextColor}>
-                  {liveSessionData.liveSessionTopic}
+                  {roomPreviewData?.LiveClassRoomDetail?.topicName ||
+                    liveSessionData.noData}
                 </Text>
                 <Text color={secondaryTextColor} fontSize={"12px"}>
-                  {liveSessionData.liveSessionMentor}
+                  {roomPreviewData?.mentorName || liveSessionData.noData}
                 </Text>
               </Box>
               <Box>
                 <Text pt={1} color={secondaryTextColor} fontSize={"12px"}>
-                  {liveSessionData.liveSessionTimings}
+                  {formatTime(roomPreviewData?.scheduledStartTime)} -
+                  {formatTime(roomPreviewData?.scheduledEndTime)}
                 </Text>
               </Box>
             </Flex>
@@ -123,26 +129,27 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
               {liveSessionData.description}
             </Text>
             <Text color={secondaryTextColor} fontSize={"12px"}>
-              {liveSessionData.liveSessionDescription}
+              {roomPreviewData?.LiveClassRoomDetail?.description ||
+                liveSessionData.noData}
             </Text>
           </Box>
           <Box pt={6}>
             <Text fontSize={"14px"} color={mainTextColor}>
               {liveSessionData.agenda}
             </Text>
-            {liveSessionData.liveSessionAgendas.map((agenda, index) => (
-              <HStack key={agenda.id} pt={1}>
-                <Box
-                  width={"15px"}
-                  height={"15px"}
-                  bg={"gray.200"}
-                  borderRadius={"100%"}
-                />
-                <Text color={secondaryTextColor} fontSize={"12px"}>
-                  {agenda.value}
-                </Text>
-              </HStack>
-            ))}
+
+            <HStack pt={1}>
+              <Box
+                width={"15px"}
+                height={"15px"}
+                bg={"gray.200"}
+                borderRadius={"100%"}
+              />
+              <Text color={secondaryTextColor} fontSize={"12px"}>
+                {roomPreviewData?.LiveClassRoomDetail?.agenda ||
+                  liveSessionData.noData}
+              </Text>
+            </HStack>
           </Box>
 
           <Box pt={6}>

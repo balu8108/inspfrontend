@@ -31,14 +31,33 @@ import { openFileDialog } from "../../utils";
 
 import { useDispatch } from "react-redux";
 import { setAddClassSchedule } from "../../store/actions/scheduleClassActions";
+import { getAllChaptersApi } from "../../api/inspexternalapis";
 
 const options = [
-  { value: "Physics", label: "Physics" },
-  { value: "Chemistry", label: "Chemistry" },
-  { value: "Maths", label: "Maths" },
+  { value: "1", label: "Physics" },
+  { value: "2", label: "Chemistry" },
+  { value: "3", label: "Maths" },
 ];
+// At the moment we will add some dummy data for chapter, topic
 
-const dataKey = ["date", "topic", "agenda", "description"];
+const scheduleClassFormInitData = {
+  chapter: {
+    value: "1",
+    label: "ELECTROMAGNETISM",
+  },
+  topic: {
+    value: "1",
+    label: "MURPHY LAW",
+  },
+};
+const dataKey = [
+  "scheduledDate",
+  "topic",
+  "agenda",
+  "description",
+  "scheduledStartTime",
+  "scheduledEndTime",
+];
 const ScheduleClassPopup = ({
   isOpen,
   onClose,
@@ -48,7 +67,9 @@ const ScheduleClassPopup = ({
   setClassTiming,
 }) => {
   const { extraTextLight, primaryBlue } = useTheme().colors.pallete;
-  const [scheduleClassFormData, setScheduleClassFormData] = useState({});
+  const [scheduleClassFormData, setScheduleClassFormData] = useState(
+    scheduleClassFormInitData
+  );
   const [scheduleClassFormErrorData, setScheduleClassFormErrorData] = useState(
     {}
   ); // for error handling
@@ -56,6 +77,7 @@ const ScheduleClassPopup = ({
   const [timeRange, setTimeRange] = useState(classTiming);
   const [selectedFiles, setSelectedFiles] = useState(null); // for file upload
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
+
   const dispatch = useDispatch();
 
   const chakraStyles = {
@@ -83,21 +105,59 @@ const ScheduleClassPopup = ({
 
   const handleDateChange = (e) => {
     setDate(e.target.value);
-    setScheduleClassFormData((prev) => ({ ...prev, date: e.target.value }));
-    setScheduleClassFormErrorData((prev) => ({ ...prev, date: "" }));
+    setScheduleClassFormData((prev) => ({
+      ...prev,
+      scheduledDate: e.target.value,
+    }));
+    setScheduleClassFormErrorData((prev) => ({ ...prev, scheduledDate: "" }));
   };
   const handleTimeChange = (value) => {
     setTimeRange(value);
     setScheduleClassFormData((prev) => ({
       ...prev,
-      startTime: value[0],
-      endTime: value[1],
+      scheduledStartTime: value[0],
+      scheduledEndTime: value[1],
+    }));
+  };
+
+  const handleCheckBoxChange = (e) => {
+    setScheduleClassFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.checked,
     }));
   };
   const handleSubmit = () => {
     setIsSubmitLoading(true);
     // check if all fields are filled
     let errors = {};
+    console.log(scheduleClassFormData);
+    let formData = new FormData();
+    for (const key in selectedFiles) {
+      if (
+        selectedFiles.hasOwnProperty(key) &&
+        selectedFiles[key] instanceof File
+      ) {
+        formData.append("files", selectedFiles[key]);
+      }
+    }
+    formData.append("chapter", JSON.stringify(scheduleClassFormData.chapter));
+    formData.append("topic", JSON.stringify(scheduleClassFormData.topic));
+    formData.append("scheduledDate", scheduleClassFormData.scheduledDate);
+    formData.append(
+      "scheduledStartTime",
+      scheduleClassFormData.scheduledStartTime
+    );
+    formData.append("scheduledEndTime", scheduleClassFormData.scheduledEndTime);
+    formData.append("agenda", scheduleClassFormData.agenda);
+    formData.append("description", scheduleClassFormData.description);
+    formData.append(
+      "muteAllStudents",
+      scheduleClassFormData?.muteAllStudents || false
+    );
+    formData.append(
+      "blockStudentsCamera",
+      scheduleClassFormData?.blockStudentsCamera || false
+    );
 
     dataKey.forEach((key) => {
       if (
@@ -113,8 +173,7 @@ const ScheduleClassPopup = ({
       return;
     }
 
-    // attach date and time range if not attached
-    dispatch(setAddClassSchedule(scheduleClassFormData));
+    dispatch(setAddClassSchedule(formData));
     setScheduleClassFormData({});
     onClose();
 
@@ -123,12 +182,12 @@ const ScheduleClassPopup = ({
 
   useEffect(() => {
     if (selectedDate) {
-      setScheduleClassFormData((prev) => ({ ...prev, date: date }));
+      setScheduleClassFormData((prev) => ({ ...prev, scheduledDate: date }));
     }
     if (classTiming && classTiming[0]) {
       setScheduleClassFormData((prev) => ({
         ...prev,
-        startTime: classTiming[0],
+        scheduledStartTime: classTiming[0],
       }));
     }
   }, [selectedDate, classTiming]);
@@ -140,6 +199,7 @@ const ScheduleClassPopup = ({
       setSelectedDate("");
     };
   }, []);
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose} size={"xl"}>
@@ -199,7 +259,7 @@ const ScheduleClassPopup = ({
                   </Grid>
                 </Box>
                 <Box my={3}>
-                  <FormControl isInvalid={scheduleClassFormErrorData["topic"]}>
+                  {/* <FormControl isInvalid={scheduleClassFormErrorData["topic"]}>
                     <Input
                       type="text"
                       name="topic"
@@ -212,7 +272,7 @@ const ScheduleClassPopup = ({
                     {scheduleClassFormErrorData["topic"] && (
                       <FormErrorMessage>Please select a topic</FormErrorMessage>
                     )}
-                  </FormControl>
+                  </FormControl> */}
                 </Box>
                 <Box my={3}>
                   <FormControl isInvalid={scheduleClassFormErrorData["agenda"]}>
@@ -292,13 +352,19 @@ const ScheduleClassPopup = ({
 
                 <Flex justifyContent={"center"} pt={6}>
                   <HStack mr={6}>
-                    <Checkbox />
+                    <Checkbox
+                      onChange={handleCheckBoxChange}
+                      name="muteAllStudents"
+                    />
                     <Text fontSize={"14px"} color={"#718096"}>
                       {scheduleClassData.muteAll}
                     </Text>
                   </HStack>
                   <HStack>
-                    <Checkbox />
+                    <Checkbox
+                      onChange={handleCheckBoxChange}
+                      name="blockStudentsCamera"
+                    />
                     <Text fontSize={"14px"} color={"#718096"}>
                       {scheduleClassData.blockCamera}
                     </Text>

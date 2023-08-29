@@ -6,7 +6,10 @@ import {
   Stack,
   Flex,
   Button,
+  HStack,
+  useTheme,
 } from "@chakra-ui/react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import {
   FiMic,
@@ -23,6 +26,9 @@ import { BiBarChart } from "react-icons/bi";
 
 import { RiFullscreenFill } from "react-icons/ri";
 import {
+  leaveRoomHandler,
+  producerPauseHandler,
+  producerResumeHandler,
   producerTransport,
   raiseHandHandler,
   startRecordingHandler,
@@ -31,6 +37,7 @@ import {
 import { staticVariables } from "../../../constants/staticvariables";
 import { roomData } from "../data/roomData";
 import PostPoll from "../../../components/popups/PostPoll";
+import { LeaveBtn } from "../../../components/button";
 let producerScreenShare = null;
 let producerMentorVideoShare = null;
 let producerAudioShare = null;
@@ -58,8 +65,12 @@ const ToolBox = ({
   setIsRecordOn,
 }) => {
   const [isRaiseHand, setIsRaiseHand] = useState(false);
+  const [isLeaveLoading, setIsLeaveLoading] = useState(false); // for leave button loading state
   const [pollNo, setPollNo] = useState(0);
+  const navigate = useNavigate();
+  const { roomId } = useParams();
 
+  const { redBtnColor } = useTheme().colors.pallete;
   const getScreenShareFeed = async () => {
     try {
       const stream = await navigator.mediaDevices.getDisplayMedia({
@@ -127,6 +138,16 @@ const ToolBox = ({
         if (producerTransport) {
           // if there is producerTransport
 
+          if (producerMentorVideoShare) {
+            // if already this user has shared their stream once then we don't need to create a new producer
+            // we can just replace the track and resume the existing producer
+            await producerMentorVideoShare.replaceTrack({ track: track });
+            await producerMentorVideoShare.resume();
+            producerResumeHandler(producerMentorVideoShare);
+
+            return;
+          }
+
           producerMentorVideoShare = await producerTransport.produce({
             track: track,
             appData: {
@@ -159,6 +180,9 @@ const ToolBox = ({
             track: track,
             appData: appData,
           });
+          if (isRecordOn) {
+            startRecordingHandler({ producerAudioShare });
+          }
         }
       }
     } catch (err) {
@@ -179,11 +203,17 @@ const ToolBox = ({
       }
       setIsMentorVideoOn(false);
       // close video share
+      // instead of stopping the producer we can check if video share producer already available and he clicks stop video share then we can just pause it and resume later on
+      if (producerMentorVideoShare) {
+        producerMentorVideoShare.pause();
+        // emit event to backend  for pause one so that backend producer can also pauses
+        producerPauseHandler(producerMentorVideoShare);
+      }
 
-      stopProducing(
-        producerMentorVideoShare.id,
-        producerMentorVideoShare.appData
-      );
+      // stopProducing(
+      //   producerMentorVideoShare.id,
+      //   producerMentorVideoShare.appData
+      // );
     } else {
       // on The video stream
       getVideoStreamFeed();
@@ -227,7 +257,7 @@ const ToolBox = ({
       // at the moment we will only record screenshare then will look into audio
       console.log("start recording");
       // startRecordingHandler(producerScreenShare);
-      startRecordingHandler(producerAudioShare);
+      startRecordingHandler({ producerScreenShare, producerAudioShare });
       setIsRecordOn(true);
     }
   };
@@ -334,11 +364,23 @@ const ToolBox = ({
           <IconButton isRound={true} icon={<FiMenu size={20} />} />
           <PostPoll pollNo={pollNo} setPollNo={setPollNo} />
         </Stack>
-        <Stack>
+        <HStack>
           <Tooltip label={roomData.settings} placement="right">
             <IconButton isRound={true} icon={<LuSettings size={20} />} />
           </Tooltip>
-        </Stack>
+          <LeaveBtn
+            isLoading={isLeaveLoading}
+            text={roomData.leave}
+            backColor={redBtnColor}
+            textColor="white"
+            onClickHandler={async () => {
+              setIsLeaveLoading(true);
+              await leaveRoomHandler();
+              navigate(`/room-preview/${roomId}`);
+              setIsLeaveLoading(false);
+            }}
+          />
+        </HStack>
         {/* <Stack>
               <VideoSection />
             </Stack> */}

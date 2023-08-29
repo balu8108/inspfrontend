@@ -8,10 +8,10 @@ import {
   setConsumers,
   setMentorScreenShareConsumer,
   setMentorVideoShareConsumer,
+  setMentorVideoSharePauseOrResume,
   setNewPeerJoined,
   setPeerLeaved,
   setQuestion,
-  setSocket,
   setUploadFiles,
 } from "../store/actions/socketActions";
 
@@ -19,6 +19,7 @@ import SOCKET_EVENTS from "../constants/socketeventconstants";
 import { Device } from "mediasoup-client";
 import { staticVariables } from "../constants/staticvariables";
 import { SET_RAISE_HAND } from "../store/constants";
+import { isObjectValid } from "../utils";
 
 // socket variables
 
@@ -121,6 +122,7 @@ const consumeMediaFromProducer = async (
       rtpCapabilities: device.rtpCapabilities,
       remoteProducerId,
       serverConsumerTransportId,
+      appData,
     },
     async ({ params }) => {
       if (params.err) {
@@ -147,9 +149,7 @@ const consumeMediaFromProducer = async (
         },
       ];
       // in redux we are storing all consumers
-      console.log("consumer", consumer);
-      console.log("consumer kind", consumer.kind);
-      console.log("consumer appData", consumer.appData);
+
       if (
         consumer.appData &&
         consumer.appData.streamType === staticVariables.audioShare
@@ -298,6 +298,29 @@ const questionResponseHandler = (res) => {
   const { data } = res;
   store.dispatch(setQuestion(data));
 };
+
+export const producerPausedResponseHandler = (res) => {
+  const { remoteProducerId, appData } = res;
+
+  if (
+    isObjectValid(appData) &&
+    appData.streamType === staticVariables.videoShare &&
+    appData.isTeacher
+  ) {
+    store.dispatch(setMentorVideoSharePauseOrResume(true));
+  }
+};
+
+const producerResumeResponseHandler = (res) => {
+  const { remoteProducerId, appData } = res;
+  if (
+    isObjectValid(appData) &&
+    appData.streamType === staticVariables.videoShare &&
+    appData.isTeacher
+  ) {
+    store.dispatch(setMentorVideoSharePauseOrResume(false));
+  }
+};
 // SOCKET EVENT LISTENERS AND EVENT EMITTERS:-
 export const initializeSocketConnections = (roomId) => {
   socket = io(BASE_URL);
@@ -312,6 +335,8 @@ export const initializeSocketConnections = (roomId) => {
   socket.on(SOCKET_EVENTS.RAISE_HAND_FROM_SERVER, raiseHandResponseHandler);
   socket.on(SOCKET_EVENTS.UPLOAD_FILE_FROM_SERVER, uploadFileResponseHandler);
   socket.on(SOCKET_EVENTS.QUESTION_SENT_FROM_SERVER, questionResponseHandler);
+  socket.on(SOCKET_EVENTS.PRODUCER_PAUSED, producerPausedResponseHandler);
+  socket.on(SOCKET_EVENTS.PRODUCER_RESUMED, producerResumeResponseHandler);
   socket.on(
     SOCKET_EVENTS.SOME_PRODUCER_CLOSED,
     someProducerClosedResponseHandler
@@ -399,4 +424,24 @@ export const startRecordingHandler = (data) => {
     console.log("start recording", data);
     socket.emit(SOCKET_EVENTS.START_RECORDING, data);
   }
+};
+
+export const producerPauseHandler = (producer) => {
+  const { appData, id } = producer;
+  socket.emit(SOCKET_EVENTS.PRODUCER_PAUSE, {
+    appData: appData,
+    producerId: id,
+  });
+};
+
+export const producerResumeHandler = (producer) => {
+  const { appData, id } = producer;
+  socket.emit(SOCKET_EVENTS.PRODUCER_RESUME, {
+    appData: appData,
+    producerId: id,
+  });
+};
+
+export const leaveRoomHandler = async () => {
+  await socket.emit(SOCKET_EVENTS.LEAVE_ROOM);
 };
