@@ -50,7 +50,7 @@ const studentMyCourse=()=>{
              color={"#2C3329"} 
              ml={"13px"} 
              mt={"13px"}>
-              {homepageScreen.subject}
+              {homepageScreen.title}
             </Text>
 
             <Text

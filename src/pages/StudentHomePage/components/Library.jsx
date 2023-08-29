@@ -44,13 +44,15 @@ const Library = () => {
         <Flex m={"24px"} gap={10}>
           {libraryData.map((library) => (
             <Card
+              w={"281px"}
+              h={"204px"}
               key={library.id}
               borderRadius={"18px"}
               blendMode={"multiply"}
               backgroundColor={"#F1F5F8"}
             >
               <Text
-                fontSize={"16px"}
+                fontSize={"15px"}
                 fontWeight={"400px"}
                 lineHeight={"19.36px"}
                 color={"#2C3329"}
