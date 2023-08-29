@@ -1,6 +1,10 @@
 import { Flex, Box, Text, useTheme, IconButton } from "@chakra-ui/react";
 import { FiDownload } from "react-icons/fi";
-import { downloadFile, generateUniqueKey } from "../../utils";
+import {
+  downloadFile,
+  extractFileNameFromS3URL,
+  generateUniqueKey,
+} from "../../utils";
 const FileBoxComponent = ({ data }) => {
   const { secondaryTextColor } = useTheme().colors.pallete;
   return (
@@ -18,7 +22,8 @@ const FileBoxComponent = ({ data }) => {
         >
           <Box>
             <Text color={secondaryTextColor} fontSize={"10px"}>
-              {item.name}
+              {/* {item.name} */}
+              {extractFileNameFromS3URL(item.url)}
             </Text>
             <Text color={secondaryTextColor} fontSize={"10px"}>
               {/* {file.identity} */}
@@ -26,7 +31,9 @@ const FileBoxComponent = ({ data }) => {
           </Box>
           <IconButton
             icon={<FiDownload />}
-            onClick={() => downloadFile(item)}
+            onClick={() => {
+              /*downloadFile(item)*/
+            }}
             bg={"none"}
             _hover={{ bg: "none" }}
           />

@@ -91,4 +91,5 @@ export const roomData = {
   mcqQuestion:
     "Lorem ipsum dolor sit amet consectetur. Id egestas egestas ut amet arcu. Ultrices sit odio at sapien mauris amet pretium arcu.",
   selectCorrectAnswer: "Select correct answer",
+  noData: "No Data",
 };

@@ -131,6 +131,34 @@ const ScheduleClassPopup = ({
     // check if all fields are filled
     let errors = {};
     console.log(scheduleClassFormData);
+    let formData = new FormData();
+    for (const key in selectedFiles) {
+      if (
+        selectedFiles.hasOwnProperty(key) &&
+        selectedFiles[key] instanceof File
+      ) {
+        formData.append("files", selectedFiles[key]);
+      }
+    }
+    formData.append("chapter", JSON.stringify(scheduleClassFormData.chapter));
+    formData.append("topic", JSON.stringify(scheduleClassFormData.topic));
+    formData.append("scheduledDate", scheduleClassFormData.scheduledDate);
+    formData.append(
+      "scheduledStartTime",
+      scheduleClassFormData.scheduledStartTime
+    );
+    formData.append("scheduledEndTime", scheduleClassFormData.scheduledEndTime);
+    formData.append("agenda", scheduleClassFormData.agenda);
+    formData.append("description", scheduleClassFormData.description);
+    formData.append(
+      "muteAllStudents",
+      scheduleClassFormData?.muteAllStudents || false
+    );
+    formData.append(
+      "blockStudentsCamera",
+      scheduleClassFormData?.blockStudentsCamera || false
+    );
+
     dataKey.forEach((key) => {
       if (
         !(key in scheduleClassFormData) ||
@@ -145,7 +173,7 @@ const ScheduleClassPopup = ({
       return;
     }
 
-    dispatch(setAddClassSchedule(scheduleClassFormData));
+    dispatch(setAddClassSchedule(formData));
     setScheduleClassFormData({});
     onClose();
 

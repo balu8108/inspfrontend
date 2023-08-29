@@ -38,8 +38,8 @@ const ScheduleInfoBox = () => {
                 {formatTime(info.scheduledStartTime)} -{" "}
                 {formatTime(info.scheduledEndTime)}
               </Text>
-              {info.files ? (
-                <FileBoxComponent data={info.files} />
+              {info?.LiveClassRoomFiles.length > 0 ? (
+                <FileBoxComponent data={info.LiveClassRoomFiles} />
               ) : (
                 <Text fontSize={"0.8rem"}>No Files</Text>
               )}

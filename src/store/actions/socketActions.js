@@ -1,4 +1,7 @@
-import { getLiveClassDetailsApi } from "../../api/scheduleliveclass";
+import {
+  getLiveClassDetailsApi,
+  getUpcomingClassApi,
+} from "../../api/scheduleliveclass";
 import {
   SET_SOCKET,
   SET_ALL_PEERS,
@@ -16,6 +19,7 @@ import {
   SET_QUESTION,
   SET_MENTOR_VIDEO_SHARE_PAUSE,
   GET_LIVE_CLASS_DETAILS,
+  GET_UPCOMING_CLASS_DETAILS,
 } from "../constants";
 
 export const setSocket = (socket) => {
@@ -92,6 +96,19 @@ export const getLiveClassDetails = (roomId) => async (dispatch) => {
     const res = await getLiveClassDetailsApi(roomId);
     if (res.status === 200) {
       dispatch({ type: GET_LIVE_CLASS_DETAILS, payload: res.data });
+    } else {
+      console.log("error", res);
+    }
+  } catch (err) {
+    console.log("err in description", err);
+  }
+};
+
+export const getUpcomingClassDetails = (roomId) => async (dispatch) => {
+  try {
+    const res = await getUpcomingClassApi(roomId);
+    if (res.status === 200) {
+      dispatch({ type: GET_UPCOMING_CLASS_DETAILS, payload: res.data });
     } else {
       console.log("error", res);
     }

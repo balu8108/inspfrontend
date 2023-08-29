@@ -16,6 +16,7 @@ import {
   SET_QUESTION,
   SET_MENTOR_VIDEO_SHARE_PAUSE,
   GET_LIVE_CLASS_DETAILS,
+  GET_UPCOMING_CLASS_DETAILS,
 } from "../constants";
 const initialState = {
   isPeerLoading: true,
@@ -31,6 +32,7 @@ const initialState = {
   uploadedFiles: [],
   question: null,
   roomPreviewData: null,
+  upcomingClassData: null,
 };
 
 const socketReducer = (state = initialState, action) => {
@@ -134,6 +136,11 @@ const socketReducer = (state = initialState, action) => {
       return {
         ...state,
         roomPreviewData: action.payload.data,
+      };
+    case GET_UPCOMING_CLASS_DETAILS:
+      return {
+        ...state,
+        upcomingClassData: action.payload.data,
       };
     default:
       return state;
