@@ -48,7 +48,6 @@ const FullRec = () => {
       <Box mt={4} mx={6}>
         {viewRecordedClass.map((item) => (
           <Box
-          
             width={"210px"}
             key={item.id}
             bg={"#F1F5F8"}

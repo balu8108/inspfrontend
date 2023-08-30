@@ -6,18 +6,8 @@ import physDetailsData from "../data/physicsDetails";
 
 const physDetails = () => {
   return (
-    <Box 
-      width={"100%"} 
-      h={"100%"}
-      bg={"#F1F5F8"} 
-      borderRadius={"26px"} 
-     >
-      <HStack 
-        spacing={"10px"} 
-        alignItems="center" 
-        ml={"33px"}
-        mt={"27px"}
-      >
+    <Box width={"100%"} h={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
+      <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
         <Box
           width={"12px"}
           height={"25px"}
@@ -29,28 +19,17 @@ const physDetails = () => {
         </Text>
       </HStack>
 
-      <Stack >
-        <Flex 
-          flexWrap="wrap" 
-            mt={"37px"} 
-            ml={"27px"} 
-            mr={"20px"}
-            gap={"23px"}
-          >
+      <Stack>
+        <Flex flexWrap="wrap" mt={"37px"} ml={"27px"} mr={"20px"} gap={"23px"}>
           {physDetailsData.map((physScreen) => (
             <Card
               key={physScreen.id}
               w="30%"
-             
               blendMode={"multiply"}
               bg={"#F1F5F8"}
               borderRadius={"18px"}
             >
-              <Text 
-              fontSize={"px"} 
-              fontWeight={400} 
-              ml={"13px"} 
-              mt={"16px"}>
+              <Text fontSize={"px"} fontWeight={400} ml={"13px"} mt={"16px"}>
                 {physScreen.chapterName}
               </Text>
               <Text
@@ -86,8 +65,7 @@ const physDetails = () => {
                 fontWeight={"600px"}
                 size={"14px"}
                 lineHeight={"16px"}
-               p={6}
-                
+                p={6}
               >
                 View Details
               </Button>
@@ -100,4 +78,3 @@ const physDetails = () => {
 };
 
 export default physDetails;
-

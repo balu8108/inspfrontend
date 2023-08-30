@@ -5,7 +5,6 @@ import {
   Flex,
   Text,
   Card,
-  Heading,
   useTheme,
   HStack,
 } from "@chakra-ui/react";
@@ -20,7 +19,6 @@ const Library = () => {
         backgroundColor={"#F1F5F8"}
         borderRadius={"26px"}
         mt={"24px"}
-        
       >
         <HStack spacing={"10px"}>
           <Box
@@ -86,7 +84,6 @@ const Library = () => {
                 fontSize={"14px"}
                 lineHeight={"16.94px"}
                 fontWeight={"600px"}
-                
               >
                 View Details
               </Button>

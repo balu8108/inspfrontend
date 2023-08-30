@@ -3,12 +3,7 @@ import { Box, HStack, Text, Card, Flex, Button } from "@chakra-ui/react";
 import physData from "../data/physicsHeader";
 const physHeader = () => {
   return (
-    <Box
-      width={"100%"}
-      bg={"#F1F5F8"}
-      borderRadius={"2xl"}
-    >
-      
+    <Box width={"100%"} bg={"#F1F5F8"} borderRadius={"2xl"}>
       <HStack spacing={"10px"}>
         <Box
           width={"12px"}
@@ -23,33 +18,29 @@ const physHeader = () => {
           lineHeight={"26.6px"}
           fontFamily={"Segoe UI"}
           mt={"26px"}
-          
         >
-          My Courses 
+          My Courses
         </Text>
       </HStack>
 
-    
-
-      <Flex mt={"34px"} >
+      <Flex mt={"34px"}>
         {physData.map((physScreen) => (
           <Card
             borderRadius={"18px"}
             bg={"#F1F5F8"}
-           
             ml={"26px"}
             mb={"20px"}
             mr={"20px"}
             blendMode={"multiply"}
             key={physScreen.id}
-            
           >
-            <Text 
-            fontSize={"16px"}
-             fontWeight={"400"}  
-             color={"#2C3329"} 
-             ml={"13px"} 
-             mt={"13px"}>
+            <Text
+              fontSize={"16px"}
+              fontWeight={"400"}
+              color={"#2C3329"}
+              ml={"13px"}
+              mt={"13px"}
+            >
               {physScreen.subject}
             </Text>
 
@@ -72,18 +63,17 @@ const physHeader = () => {
             >
               {physScreen.description}
             </Text>
-            
+
             <Button
               variant={"ghost"}
               color={"#3C8DBC"}
               fontWeight={"600px"}
               size={"12px"}
               lineHeight={"16px"}
-               p={6}
+              p={6}
             >
               View Details
             </Button>
-            
           </Card>
         ))}
       </Flex>

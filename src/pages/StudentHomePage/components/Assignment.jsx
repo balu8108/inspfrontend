@@ -1,5 +1,13 @@
 import React from "react";
-import { Box, Button, Text, HStack, useTheme, Flex, Card } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Text,
+  HStack,
+  useTheme,
+  Flex,
+  Card,
+} from "@chakra-ui/react";
 import newAddedAssignment from "../data/newAddedAssignment";
 
 const Assignment = () => {
@@ -38,21 +46,47 @@ const Assignment = () => {
             mr="20px"
             key={homepageAssignment.id}
           >
-            <Text fontSize="16px" fontWeight="400" color="#2C3329" ml="13px" mt="13px">
+            <Text
+              fontSize="16px"
+              fontWeight="400"
+              color="#2C3329"
+              ml="13px"
+              mt="13px"
+            >
               {homepageAssignment.title}
             </Text>
-            <Text fontSize="12px" fontWeight="400" color="gray" ml="13px" >
+            <Text fontSize="12px" fontWeight="400" color="gray" ml="13px">
               {homepageAssignment.instructorName}
             </Text>
 
-            <Text fontSize="12px" fontWeight="400" color="#2C3329" mt="14px" ml="14px">
+            <Text
+              fontSize="12px"
+              fontWeight="400"
+              color="#2C3329"
+              mt="14px"
+              ml="14px"
+            >
               Description
             </Text>
-            <Text fontSize="11px" lineHeight="21px" fontWeight="400" ml="13px" mt="6px" color="rgba(44, 51, 41, 0.47)">
+            <Text
+              fontSize="11px"
+              lineHeight="21px"
+              fontWeight="400"
+              ml="13px"
+              mt="6px"
+              color="rgba(44, 51, 41, 0.47)"
+            >
               {homepageAssignment.description}
             </Text>
 
-            <Button variant="ghost" color="#3C8DBC" fontWeight="600" size="sm" lineHeight="1.5" p={6}>
+            <Button
+              variant="ghost"
+              color="#3C8DBC"
+              fontWeight="600"
+              size="sm"
+              lineHeight="1.5"
+              p={6}
+            >
               View Details
             </Button>
           </Card>

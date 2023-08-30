@@ -3,12 +3,7 @@ import { Box, HStack, Text, Card, Flex, Button } from "@chakra-ui/react";
 import headerData from "../data/headerData";
 const mathsHeader = () => {
   return (
-    <Box
-      width={"100%"}
-      bg={"#F1F5F8"}
-      borderRadius={"2xl"}
-    >
-      
+    <Box width={"100%"} bg={"#F1F5F8"} borderRadius={"2xl"}>
       <HStack spacing={"10px"}>
         <Box
           width={"12px"}
@@ -28,24 +23,25 @@ const mathsHeader = () => {
         </Text>
       </HStack>
 
-    
-
-      <Flex mt={"34px"} >
+      <Flex mt={"34px"}>
         {headerData.map((mathsScreen) => (
           <Card
             width={"90%"}
-          
             borderRadius={"18px"}
             bg={"#F1F5F8"}
-           
             ml={"20px"}
             mb={"20px"}
             mr={"20px"}
             blendMode={"multiply"}
             key={mathsScreen.id}
-            
           >
-            <Text fontSize={"16px"} fontWeight={"400"}  color={"#2C3329"} ml={"13px"} mt={"13px"}>
+            <Text
+              fontSize={"16px"}
+              fontWeight={"400"}
+              color={"#2C3329"}
+              ml={"13px"}
+              mt={"13px"}
+            >
               {mathsScreen.subject}
             </Text>
 
@@ -68,19 +64,17 @@ const mathsHeader = () => {
             >
               {mathsScreen.description}
             </Text>
-            
+
             <Button
               variant={"ghost"}
               color={"#3C8DBC"}
               fontWeight={"600px"}
               size={"12px"}
               lineHeight={"16px"}
-              
-               p={5}
+              p={5}
             >
               View Details
             </Button>
-            
           </Card>
         ))}
       </Flex>

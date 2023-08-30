@@ -1,4 +1,4 @@
-import { Box, HStack, Text, Flex, VStack, Icon } from "@chakra-ui/react";
+import { Box, HStack, Text, Flex, Icon } from "@chakra-ui/react";
 import recordedClassData from "../data/recordedClassData";
 import { BsDownload } from "react-icons/bs";
 import { FaCircle } from "react-icons/fa";
@@ -99,7 +99,7 @@ const recordedClass = () => {
         <Icon ml={"290px"} as={BsDownload} />
       </Box>
       <Box>
-        <Box >
+        <Box>
           {recordedClassData.map((classAgenda) => (
             <Box
               key={classAgenda.id}
@@ -110,11 +110,15 @@ const recordedClass = () => {
             >
               <Text fontSize="16px">Agenda</Text>
               <Box>
-                <Box mt={"16px"} >
+                <Box mt={"16px"}>
                   {classAgenda.agenda.map((aim) => (
                     <Box key={aim.id} mt={"10px"}>
-                      
-                      <Icon  boxSize={3}  color={"gray"} as={FaCircle}  mr={"10px"}/>
+                      <Icon
+                        boxSize={3}
+                        color={"gray"}
+                        as={FaCircle}
+                        mr={"10px"}
+                      />
 
                       {aim.aim}
                     </Box>
@@ -124,22 +128,26 @@ const recordedClass = () => {
             </Box>
           ))}
         </Box>
-        <Text ml={"31px"} mt={4}>Recordings</Text>
-        <Text mt={120} ml={"31px"}>Notes</Text>
+        <Text ml={"31px"} mt={4}>
+          Recordings
+        </Text>
+        <Text mt={120} ml={"31px"}>
+          Notes
+        </Text>
         <Box
-        bg={"blackAlpha.200"}
-        w={"348px"}
-        h={"43px"}
-        mt={3}
-        ml={"30px"}
-        mr={"30px"}
-        p={"6px"}
-        justifyContent={"space-between"}
-        borderRadius={"6px"}
-        border={"1px"}
-      >
-        <Icon ml={"290px"} as={BsDownload} />
-      </Box>
+          bg={"blackAlpha.200"}
+          w={"348px"}
+          h={"43px"}
+          mt={3}
+          ml={"30px"}
+          mr={"30px"}
+          p={"6px"}
+          justifyContent={"space-between"}
+          borderRadius={"6px"}
+          border={"1px"}
+        >
+          <Icon ml={"290px"} as={BsDownload} />
+        </Box>
       </Box>
     </Box>
   );

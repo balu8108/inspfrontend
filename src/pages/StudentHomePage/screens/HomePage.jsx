@@ -8,26 +8,22 @@ import StudentHomePageRightSection from "../components/StudentHomeRight";
 const HomePage = () => {
   return (
     <Box m={"52px"}>
-      <Flex >
-    <Box >
-    <MyCourses/>
-    <Flex>
-    <VStack>
-      <HStack>
-        <Improvement />
-        <Assignment />
-      </HStack>
-      <Library/>
-    </VStack>
-    
-    </Flex>
-  
+      <Flex>
+        <Box>
+          <MyCourses />
+          <Flex>
+            <VStack>
+              <HStack>
+                <Improvement />
+                <Assignment />
+              </HStack>
+              <Library />
+            </VStack>
+          </Flex>
+        </Box>
+        <StudentHomePageRightSection />
+      </Flex>
     </Box>
- <StudentHomePageRightSection/>
-  
-   </Flex>
-    </Box>
-   
   );
 };
 export default HomePage;

@@ -5,16 +5,15 @@ import ScheduledMeetings from "../../../MeetingViewer/components/ScheduledMeetin
 import { Flex, VStack, Box } from "@chakra-ui/react";
 const mathsScreen = () => {
   return (
-    <Box  ml={"52px"} mr={"52px"} mt={"52px"} mb={10}>
-        <Flex >
-      <VStack spacing={6}>
-        <Header />
-        <Details />
-      </VStack>
-      <ScheduledMeetings/>
-    </Flex>
+    <Box ml={"52px"} mr={"52px"} mt={"52px"} mb={10}>
+      <Flex>
+        <VStack spacing={6}>
+          <Header />
+          <Details />
+        </VStack>
+        <ScheduledMeetings />
+      </Flex>
     </Box>
-    
   );
 };
 export default mathsScreen;

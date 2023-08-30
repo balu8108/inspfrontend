@@ -11,7 +11,7 @@ import {
   Flex,
   Icon,
 } from "@chakra-ui/react";
-import {BsThreeDotsVertical} from 'react-icons/bs'
+import { BsThreeDotsVertical } from "react-icons/bs";
 
 Chart.register(ArcElement);
 
@@ -28,7 +28,7 @@ const Improvement = () => {
       },
     ],
   };
-  
+
   return (
     <Box
       mt={"24px"}
@@ -52,12 +52,12 @@ const Improvement = () => {
         <Icon ml={340} mt={5} color={"gray"} as={BsThreeDotsVertical} />
       </HStack>
 
-      <Flex justify="space-between" p={8} >
+      <Flex justify="space-between" p={8}>
         <Box w={"44%"}>
-          <Doughnut data={chartData}  />
+          <Doughnut data={chartData} />
         </Box>
 
-        <Box  ml={5}  p={4}>
+        <Box ml={5} p={4}>
           {improvementMarks.map((subject, index) => (
             <HStack key={subject.id} p={3}>
               <Circle
@@ -87,9 +87,3 @@ const Improvement = () => {
 };
 
 export default Improvement;
-
-
-
-
-
-
