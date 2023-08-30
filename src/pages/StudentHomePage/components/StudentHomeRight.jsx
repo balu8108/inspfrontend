@@ -15,7 +15,7 @@ import { FaSearch } from "react-icons/fa";
 
 const FullRec = () => {
   return (
-    <Box width={"290px"} borderRadius={"26px"} bg={"#F1F5F8"} ml={"24px"}>
+    <Box  width={"290px"}  borderRadius={"26px"} bg={"#F1F5F8"} ml={"22px"}>
       <InputGroup m={4} width={"90%"}>
         <InputLeftElement pointerEvents="none">
           <FaSearch color="gray" />

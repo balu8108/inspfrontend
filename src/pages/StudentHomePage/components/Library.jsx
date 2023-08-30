@@ -37,6 +37,9 @@ const Library = () => {
           >
             Library
           </Text>
+          <Button variant={"ghost"} fontSize={"13px"} ml={"650px"} fontWeight={"400"}>
+            See All
+          </Button>
         </HStack>
 
         <Flex m={"24px"} gap={10}>
@@ -50,7 +53,7 @@ const Library = () => {
               backgroundColor={"#F1F5F8"}
             >
               <Text
-                fontSize={"15px"}
+                fontSize={"14px"}
                 fontWeight={"400px"}
                 lineHeight={"19.36px"}
                 color={"#2C3329"}
@@ -80,9 +83,9 @@ const Library = () => {
               <Button
                 variant={"ghost"}
                 color={"#3C8DBC"}
-                mt={"10px"}
+                mt={"10"}
                 fontSize={"14px"}
-                lineHeight={"16.94px"}
+                lineHeight={"16px"}
                 fontWeight={"600px"}
               >
                 View Details

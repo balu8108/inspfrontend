@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, HStack, Text, Card, Flex, Button } from "@chakra-ui/react";
-import myCourses from "../data/myCourses";
-const studentMyCourse = () => {
+import headerData from "../data/headerData";
+const header = () => {
   return (
     <Box width={"100%"} bg={"#F1F5F8"} borderRadius={"2xl"}>
       <HStack spacing={"10px"}>
@@ -11,7 +11,7 @@ const studentMyCourse = () => {
           borderRadius={"20px"}
           bg={"#3C8DBC"}
           mt={"27px"}
-          ml={"33px"}
+          ml={"27px"}
         ></Box>
         <Text
           fontSize={"20px"}
@@ -24,15 +24,16 @@ const studentMyCourse = () => {
       </HStack>
 
       <Flex mt={"34px"}>
-        {myCourses.map((homepageScreen) => (
+        {headerData.map((headerDetails) => (
           <Card
+            width={"90%"}
             borderRadius={"18px"}
             bg={"#F1F5F8"}
-            ml={"26px"}
+            ml={"20px"}
             mb={"20px"}
             mr={"20px"}
             blendMode={"multiply"}
-            key={homepageScreen.id}
+            key={headerDetails.id}
           >
             <Text
               fontSize={"16px"}
@@ -41,7 +42,7 @@ const studentMyCourse = () => {
               ml={"13px"}
               mt={"13px"}
             >
-              {homepageScreen.title}
+              {headerDetails.subject}
             </Text>
 
             <Text
@@ -61,7 +62,7 @@ const studentMyCourse = () => {
               mt={"6px"}
               color={"rgba(44, 51, 41, 0.47)"}
             >
-              {homepageScreen.description}
+              {headerDetails.description}
             </Text>
 
             <Button
@@ -70,7 +71,7 @@ const studentMyCourse = () => {
               fontWeight={"600px"}
               size={"12px"}
               lineHeight={"16px"}
-              p={6}
+              p={5}
             >
               View Details
             </Button>
@@ -80,4 +81,4 @@ const studentMyCourse = () => {
     </Box>
   );
 };
-export default studentMyCourse;
+export default header;
