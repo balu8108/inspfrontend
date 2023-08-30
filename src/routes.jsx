@@ -5,6 +5,7 @@ import StudentHomePage from "./pages/StudentHomePage/screens/HomePage";
 import StudentMathsCourse from "./pages/StudentCourses/Mathematics/screens/MathsCourse";
 import StudentChemCourse from "./pages/StudentCourses/Chemistry/screens/ChemCourse";
 import StudentPhyCourse from "./pages/StudentCourses/Physics/screens/PhysicsCourse";
+import Viewrecording from "./pages/ViewRecording/screen/Recordings";
 const routes = [
   {
     name: "Room Preview",
@@ -42,8 +43,14 @@ const routes = [
     name:"Student PhysicsCourse",
     path:"/student/myCourses/physics",
     component:<StudentPhyCourse />
-  }
+  },
+  {
+    name:"Student View Recording",
+    path:"/viewRecording",
+    component:<Viewrecording />
+  },
 
+ 
 ];
 
 export default routes;

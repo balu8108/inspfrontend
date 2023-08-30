@@ -4,7 +4,7 @@ import MyCourses from "../components/MyCourses";
 import Improvement from "../components/Improvement";
 import Assignment from "../components/Assignment";
 import Library from "../components/Library";
-import ScheduledMeetings from "../../MeetingViewer/components/ScheduledMeetings";
+import StudentHomePageRightSection from "../components/StudentHomeRight";
 const HomePage = () => {
   return (
     <Box m={"52px"}>
@@ -23,7 +23,7 @@ const HomePage = () => {
     </Flex>
   
     </Box>
-    <ScheduledMeetings></ScheduledMeetings>
+ <StudentHomePageRightSection/>
   
    </Flex>
     </Box>

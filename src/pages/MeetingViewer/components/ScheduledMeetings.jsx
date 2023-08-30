@@ -6,7 +6,7 @@ import scheduledWeek from "../data/scheduledWeek";
 const scheduledMeetings = () => {
   return (
     <Box 
-      width={"65%"} 
+      width={"365px"} 
       ml={"24px"} 
       borderRadius={"26px"}
       bg={"#F1F5F8"}>

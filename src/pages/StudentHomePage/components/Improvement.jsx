@@ -74,7 +74,6 @@ const Improvement = () => {
                 size="sm"
                 borderRadius={4}
                 width="100px"
-                colorScheme={subject.color}
               />
               <Text fontSize={"13px"} lineHeight={"15px"}>
                 {subject.percentage}%
