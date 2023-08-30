@@ -8,26 +8,22 @@ import ScheduledMeetings from "../../MeetingViewer/components/ScheduledMeetings"
 const HomePage = () => {
   return (
     <Box m={"52px"}>
-      <Flex >
-    <Box >
-    <MyCourses/>
-    <Flex>
-    <VStack>
-      <HStack>
-        <Improvement />
-        <Assignment />
-      </HStack>
-      <Library/>
-    </VStack>
-    
-    </Flex>
-  
+      <Flex>
+        <Box>
+          <MyCourses />
+          <Flex>
+            <VStack>
+              <HStack>
+                <Improvement />
+                <Assignment />
+              </HStack>
+              <Library />
+            </VStack>
+          </Flex>
+        </Box>
+        <ScheduledMeetings></ScheduledMeetings>
+      </Flex>
     </Box>
-    <ScheduledMeetings></ScheduledMeetings>
-  
-   </Flex>
-    </Box>
-   
   );
 };
 export default HomePage;

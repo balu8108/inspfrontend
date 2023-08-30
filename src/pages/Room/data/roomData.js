@@ -78,18 +78,26 @@ export const roomData = {
   allowStudentToShareFile: "Allow students to share the file",
   upload: "Upload",
   chooseCorrectAnswer: "Choose correct answer",
-  QnATypes: {
-    typeMCQ: "MCQ",
-    typeTrueFalse: "TRUE_FALSE",
-    typePolls: "POLL",
+  QnATitle: {
+    mcq: "MCQ",
+    tf: "True/False",
+    poll: "Poll",
+  },
+  QnAType: {
+    MCQ: "mcq",
+    TF: "tf",
+    POLL: "poll",
   },
   submit: "Submit",
   raisedHand: "has raised hand",
+  pollMcqTF: "Polls/MCQ/TF",
   poll: "Poll",
   send: "Send",
   leave: "Leave",
   mcqQuestion:
     "Lorem ipsum dolor sit amet consectetur. Id egestas egestas ut amet arcu. Ultrices sit odio at sapien mauris amet pretium arcu.",
+  selectQuestionType: "Select question type",
+  selectNumberOfOptions: "Select no. of options",
   selectCorrectAnswer: "Select correct answer",
   noData: "No Data",
 };

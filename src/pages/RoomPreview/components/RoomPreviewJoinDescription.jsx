@@ -15,7 +15,7 @@ import { MainBtn } from "../../../components/button";
 import { useDispatch, useSelector } from "react-redux";
 import { joinRoomHandler } from "../../../socketconnections/socketconnections";
 import { setRtpCapabilities } from "../../../store/actions/socketActions";
-import formatTime from "../../../utils/formatTime";
+import { formatTime } from "../../../utils";
 
 const PeerList = ({ peers, type }) => {
   const theme = useTheme();

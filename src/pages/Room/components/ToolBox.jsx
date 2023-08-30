@@ -66,7 +66,7 @@ const ToolBox = ({
 }) => {
   const [isRaiseHand, setIsRaiseHand] = useState(false);
   const [isLeaveLoading, setIsLeaveLoading] = useState(false); // for leave button loading state
-  const [pollNo, setPollNo] = useState(0);
+  const [QNo, setQNo] = useState(0);
   const navigate = useNavigate();
   const { roomId } = useParams();
 
@@ -362,7 +362,7 @@ const ToolBox = ({
             {"\u{1F44B}"}
           </Button>
           <IconButton isRound={true} icon={<FiMenu size={20} />} />
-          <PostPoll pollNo={pollNo} setPollNo={setPollNo} />
+          <PostPoll QNo={QNo} setQNo={setQNo} />
         </Stack>
         <HStack>
           <Tooltip label={roomData.settings} placement="right">

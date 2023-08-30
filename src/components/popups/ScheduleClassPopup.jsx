@@ -200,6 +200,12 @@ const ScheduleClassPopup = ({
     };
   }, []);
 
+  useEffect(() => {
+    getAllChaptersApi()
+      .then((res) => console.log("res", res))
+      .catch((err) => console.log("err"));
+  }, []);
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose} size={"xl"}>

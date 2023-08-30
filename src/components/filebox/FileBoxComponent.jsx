@@ -1,6 +1,7 @@
 import { Flex, Box, Text, useTheme, IconButton } from "@chakra-ui/react";
 import { FiDownload } from "react-icons/fi";
 import {
+  boxShadowStyles,
   downloadFile,
   extractFileNameFromS3URL,
   generateUniqueKey,
@@ -16,7 +17,7 @@ const FileBoxComponent = ({ data }) => {
           alignItems={"center"}
           bg="white"
           mb={2}
-          boxShadow={"md"}
+          boxShadow={boxShadowStyles.shadowFileBoxStyle.boxShadow}
           borderRadius={"md"}
           px={2}
         >

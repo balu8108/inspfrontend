@@ -5,8 +5,10 @@ import generateUniqueKey from "./generateUniqueKey";
 import isObjectValid from "./objectValidation";
 import copyObject from "./copyObjects";
 import { extractDateInYYYMMDD } from "./extractDate";
-import formatTime from "./formatTime";
+import { formatTime, timeDifference } from "./formatTime";
 import { extractFileNameFromS3URL } from "./extractFileName";
+import categoriseClass from "./categoriseClass";
+import boxShadowStyles from "./boxShadowStyles";
 export {
   containsEmoji,
   openFileDialog,
@@ -16,5 +18,8 @@ export {
   copyObject,
   extractDateInYYYMMDD,
   formatTime,
+  timeDifference,
   extractFileNameFromS3URL,
+  categoriseClass,
+  boxShadowStyles,
 };

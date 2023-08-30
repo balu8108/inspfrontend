@@ -80,6 +80,28 @@ const LiveSessionStream = (props) => {
   //     renderAudioStreams();
   //   }
   // }, [audioConsumers]);
+
+  const handleScreenShot = () => {
+    if (screenShareStream) {
+      const videoTrack = screenShareStream.getVideoTracks()[0];
+
+      let videoElement = document.createElement("video");
+      videoElement.srcObject = new MediaStream([videoTrack]);
+
+      videoElement.addEventListener("loadedmetadata", () => {
+        let canvas = document.createElement("canvas");
+        canvas.width = videoElement.videoWidth;
+        canvas.height = videoElement.videoHeight;
+        let ctx = canvas.getContext("2d");
+        ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+        let image = canvas.toDataURL("image/jpeg");
+        console.log("image", image);
+      });
+
+      videoElement.play();
+    }
+  };
   useEffect(() => {
     if (mentorScreenShareConsumer) {
       renderMentorScreenShare();
@@ -105,6 +127,7 @@ const LiveSessionStream = (props) => {
         bg="black"
         borderRadius={"10px"}
         position={"relative"}
+        onClick={() => handleScreenShot()}
       >
         {question && <StudentPollsMCQBox question={question} />}
         {raiseHands.map((peer) => (
