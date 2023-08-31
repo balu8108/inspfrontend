@@ -15,6 +15,7 @@ import { roomData } from "../data/roomData";
 import { MainBtn } from "../../../components/button";
 import { setQuestion } from "../../../store/actions/socketActions";
 import { useDispatch } from "react-redux";
+import { sendAnswerHandler } from "../../../socketconnections/socketconnections";
 const StudentPollsMCQBox = ({ question }) => {
   const [pollLimit, setPollLimit] = useState(0);
   const [answers, setAnswers] = useState([]);
@@ -58,10 +59,10 @@ const StudentPollsMCQBox = ({ question }) => {
       return (
         <RadioGroup value={selectedAnswer} onChange={handleRadioChange}>
           <Stack>
-            <Radio mb={1} value={true}>
+            <Radio mb={1} value={"true"}>
               <Text fontSize={"0.8rem"}>True</Text>
             </Radio>
-            <Radio mb={1} value={false}>
+            <Radio mb={1} value={"false"}>
               <Text fontSize={"0.8rem"}>False</Text>
             </Radio>
           </Stack>
@@ -88,16 +89,17 @@ const StudentPollsMCQBox = ({ question }) => {
   };
 
   const sendAnswer = () => {
-    if (!selectedAnswer) {
+    if (!answers.length) {
       return; // later on will add notification or error
     } else {
       // send answer along with question id
       const data = {
-        answers: selectedAnswer,
+        answers: answers,
         questionId: question?.questionId,
         responseTimeInSeconds: question.time - pollLimit,
       };
-      console.log("send data", data);
+      sendAnswerHandler(data);
+      dispatch(setQuestion(null)); // after sending response set question as null
     }
   };
   useEffect(() => {
@@ -105,10 +107,10 @@ const StudentPollsMCQBox = ({ question }) => {
       return;
     }
     setPollLimit(question.time);
-    setTimerRef.current = setInterval(() => {
+    const countdownTimer = setInterval(() => {
       setPollLimit((prev) => {
         if (prev === 0) {
-          clearInterval(setTimerRef.current);
+          clearInterval(countdownTimer);
           dispatch(setQuestion(null)); // time has elapsed now set question as null to remove it from view
           return 0;
         }
@@ -117,8 +119,8 @@ const StudentPollsMCQBox = ({ question }) => {
     }, 1000);
 
     return () => {
-      if (setTimerRef.current) {
-        clearInterval(setTimerRef.current);
+      if (countdownTimer) {
+        clearInterval(countdownTimer);
         dispatch(setQuestion(null));
       }
     };

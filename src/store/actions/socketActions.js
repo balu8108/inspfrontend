@@ -20,6 +20,7 @@ import {
   SET_MENTOR_VIDEO_SHARE_PAUSE,
   GET_LIVE_CLASS_DETAILS,
   GET_UPCOMING_CLASS_DETAILS,
+  SET_FILE_UPLOAD_IN_ROOM,
 } from "../constants";
 
 export const setSocket = (socket) => {
@@ -79,6 +80,11 @@ export const setRaiseHand = (raiseHandData) => async (dispatch) => {
 // for uploading files to the live class room
 export const setUploadFiles = (files) => async (dispatch) => {
   dispatch({ type: SET_FILE_UPLOAD, payload: files });
+};
+
+// The main function of uploading files to the live class room
+export const setUploadFilesInRoom = (data) => async (dispatch) => {
+  dispatch({ type: SET_FILE_UPLOAD_IN_ROOM, payload: data });
 };
 
 export const setQuestion = (question) => async (dispatch) => {

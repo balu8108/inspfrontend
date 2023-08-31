@@ -35,8 +35,8 @@ const defaultAnswerOptions = [
 ];
 
 const tfOptions = [
-  { value: true, label: "True" },
-  { value: false, label: "False" },
+  { value: "true", label: "True" },
+  { value: "false", label: "False" },
 ];
 
 const PostPoll = ({ QNo, setQNo }) => {
@@ -52,8 +52,6 @@ const PostPoll = ({ QNo, setQNo }) => {
   });
   const [timer, setTimer] = useState(60);
   const { onOpen, onClose, isOpen } = useDisclosure();
-  console.log("Qnadata", qnaData);
-  console.log("no of options", noOfOptions);
 
   const { primaryBlue } = useTheme().colors.pallete;
   const sendPoll = () => {

@@ -13,6 +13,7 @@ import {
   setPeerLeaved,
   setQuestion,
   setUploadFiles,
+  setUploadFilesInRoom,
 } from "../store/actions/socketActions";
 
 import SOCKET_EVENTS from "../constants/socketeventconstants";
@@ -321,6 +322,14 @@ const producerResumeResponseHandler = (res) => {
     store.dispatch(setMentorVideoSharePauseOrResume(false));
   }
 };
+
+const fileUploadResponseHandler = (res) => {
+  const { success, data } = res;
+  if (success) {
+    store.dispatch(setUploadFilesInRoom(data));
+  }
+};
+
 // SOCKET EVENT LISTENERS AND EVENT EMITTERS:-
 export const initializeSocketConnections = (roomId) => {
   socket = io(BASE_URL);
@@ -403,14 +412,12 @@ export const raiseHandHandler = (isHandRaised) => {
   });
 };
 
-export const sendFileHandler = (files) => {
-  let fileArray = [];
-  for (let i = 0; i < files.length; i++) {
-    let obj = { fileName: files[i].name, file: files[i] };
-    fileArray.push(obj);
-  }
-  console.log("files array", fileArray);
-  socket.emit(SOCKET_EVENTS.UPLOAD_FILE_TO_SERVER, fileArray);
+export const sendFileHandler = (filesData) => {
+  socket.emit(
+    SOCKET_EVENTS.UPLOAD_FILE_TO_SERVER,
+    filesData,
+    fileUploadResponseHandler
+  );
 };
 
 export const sendQuestionHandler = (data) => {
@@ -444,4 +451,8 @@ export const producerResumeHandler = (producer) => {
 
 export const leaveRoomHandler = async () => {
   await socket.emit(SOCKET_EVENTS.LEAVE_ROOM);
+};
+
+export const sendAnswerHandler = (data) => {
+  socket.emit(SOCKET_EVENTS.ANSWER_SENT_TO_SERVER, data);
 };

@@ -3,7 +3,6 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-  PopoverCloseButton,
   useDisclosure,
   Text,
   Flex,
@@ -22,7 +21,7 @@ import { useDispatch } from "react-redux";
 import { setUploadFiles } from "../../store/actions/socketActions";
 import { sendFileHandler } from "../../socketconnections/socketconnections";
 
-const UploadFilePopup = (e) => {
+const UploadFilePopup = ({ type, roomId }) => {
   const [files, setFiles] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { onOpen, onClose, isOpen } = useDisclosure();
@@ -43,13 +42,17 @@ const UploadFilePopup = (e) => {
   const uploadDocs = () => {
     setIsLoading(true);
     if (files) {
-      let fileArray = [];
-      for (let i = 0; i < files.length; i++) {
-        fileArray.push(files[i]);
+      let fileObj = { roomType: type, roomId: roomId, files: [] }; // need to send room type and files array that contains name and data buffer
+
+      for (const key in files) {
+        if (files.hasOwnProperty(key) && files[key] instanceof File) {
+          let obj = { name: files[key].name, data: files[key] };
+          fileObj = { ...fileObj, files: [...fileObj.files, obj] };
+        }
       }
 
       dispatch(setUploadFiles(files));
-      sendFileHandler(fileArray);
+      sendFileHandler(fileObj); // sending type of room description whether active one or upcoming one
     }
 
     setIsLoading(false);

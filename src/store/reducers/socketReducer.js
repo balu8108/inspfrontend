@@ -17,6 +17,7 @@ import {
   SET_MENTOR_VIDEO_SHARE_PAUSE,
   GET_LIVE_CLASS_DETAILS,
   GET_UPCOMING_CLASS_DETAILS,
+  SET_FILE_UPLOAD_IN_ROOM,
 } from "../constants";
 const initialState = {
   isPeerLoading: true,
@@ -112,6 +113,32 @@ const socketReducer = (state = initialState, action) => {
         ...state,
         uploadedFiles: [...state.uploadedFiles, ...action.payload],
       };
+    case SET_FILE_UPLOAD_IN_ROOM:
+      const { roomType, roomId, files } = action.payload;
+      if (roomType === "active" && state.roomPreviewData) {
+        return {
+          ...state,
+          roomPreviewData: {
+            ...state.roomPreviewData,
+            LiveClassRoomFiles: [
+              ...files,
+              ...state.roomPreviewData.LiveClassRoomFiles,
+            ],
+          },
+        };
+      } else if (roomType === "upcoming" && state.upcomingClassData) {
+        return {
+          ...state,
+          upcomingClassData: {
+            ...state.upcomingClassData,
+            LiveClassRoomFiles: [
+              ...files,
+              ...state.upcomingClassData.LiveClassRoomFiles,
+            ],
+          },
+        };
+      }
+      return state;
     case SET_QUESTION:
       return {
         ...state,

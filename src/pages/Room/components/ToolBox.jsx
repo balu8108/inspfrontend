@@ -22,7 +22,6 @@ import {
 } from "react-icons/fi";
 
 import { LuSettings, LuMonitorOff, LuCircleOff } from "react-icons/lu";
-import { BiBarChart } from "react-icons/bi";
 
 import { RiFullscreenFill } from "react-icons/ri";
 import {
