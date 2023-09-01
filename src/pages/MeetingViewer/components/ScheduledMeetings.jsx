@@ -81,7 +81,7 @@ const scheduledMeetings = () => {
           width={"89%"}
           ml={"12px"}
           mt={"12px"}
-          mb={"13px"}
+          mb={"15px"}
           bg={"rgba(60, 141, 188, 1)"}
           color={"white"}
         >

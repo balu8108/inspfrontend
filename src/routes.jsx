@@ -47,7 +47,7 @@ const routes = [
   },
   {
     name:"Student View Recording",
-    path:"/viewRecording",
+    path:"/view-recording",
     component:<Viewrecording />
   },
   {

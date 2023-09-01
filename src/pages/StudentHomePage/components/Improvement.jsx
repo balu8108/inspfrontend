@@ -1,25 +1,19 @@
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
 import improvementMarks from "../data/improvement";
-import { Chart, ArcElement } from "chart.js";
-import {
-  Box,
-  Text,
-  HStack,
-  Circle,
-  Progress,
-  Flex,
-  Icon,
-} from "@chakra-ui/react";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Box, Text, HStack,Badge,Circle,Flex, Icon } from "@chakra-ui/react";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import Assignment from "./Assignment";
-Chart.register(ArcElement);
+import "../Styling/progress.css"
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Improvement = () => {
   const data = improvementMarks.map((subject) => subject.percentage);
+  const averagePercentage =
+    data.reduce((total, percentage) => total + percentage, 0) / data.length;
 
   const chartData = {
-    labels: improvementMarks.map((subject) => subject.name),
+    labels: [],
     datasets: [
       {
         data,
@@ -27,6 +21,27 @@ const Improvement = () => {
         backgroundColor: ["#E38D8D", "#95AAE0", "#EFDB6F"],
       },
     ],
+  };
+
+  const averageCenter = {
+    beforeDraw(chart) {
+      const ctx = chart.ctx;
+      const canvas = chart.canvas;
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+
+      ctx.save();
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.font = "14px Arial";
+
+      ctx.fillText(
+        averagePercentage.toFixed(0) + "%",
+        centerX - 50,
+        centerY - 60
+      );
+      ctx.fillText("Average", centerX - 50, centerY - 40);
+    },
   };
 
   return (
@@ -54,36 +69,33 @@ const Improvement = () => {
 
       <Flex justify="space-between" p={8}>
         <Box w={"44%"}>
-          <Doughnut data={chartData} />
+          <Doughnut data={chartData} plugins={[averageCenter]} />
         </Box>
 
-        <Box ml={5} p={4}>
+        <div className="outer-div">
           {improvementMarks.map((subject, index) => (
-            <HStack key={subject.id} p={3}>
-              <Circle
-                size={4}
-                bg={
-                  index === 0 ? "#E38D8D" : index === 1 ? "#95AAE0" : "#EFDB6F"
-                }
-              />
-              <Text fontSize={"13px"} lineHeight={"15px"}>
-                {subject.subject}
-              </Text>
-              <Progress
-                value={subject.percentage}
-                size="sm"
-                borderRadius={4}
-                width="100px"
-              />
-              <Text fontSize={"13px"} lineHeight={"15px"}>
-                {subject.percentage}%
-              </Text>
-            </HStack>
+            <div key={index} className="mainDiv">
+              <div
+                className="circle-icon"
+                style={{ backgroundColor: subject.color }}
+              ></div>
+              <div className="subject-name">{subject.subjectName}</div>
+              <div className="progress-container">
+                <div
+                  className="progress-bar"
+                  style={{
+                    width: `${subject.percentage}%`,
+                    backgroundColor: subject.color,
+                  }}
+                ></div>
+              </div>
+              <div className="percentage">
+                <span>{subject.percentage}%</span>
+              </div>
+            </div>
           ))}
-        </Box>
-        
+        </div>
       </Flex>
-     
     </Box>
   );
 };

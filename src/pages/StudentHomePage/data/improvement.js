@@ -1,18 +1,21 @@
 const improvementMarks = [
   {
     id: 1,
-    subject: "Physics",
+    subjectName: "Physics",
     percentage: 68,
+    color:"#E38D8D",
   },
   {
     id: 2,
-    subject: "Chemistry",
+    subjectName: "Chemistry",
     percentage: 70,
+    color:"#95AAE0"
   },
   {
     id: 3,
-    subject: "Mathematics",
-    percentage: 68,
+    subjectName: "Mathematics",
+    percentage: 78,
+    color:"#EFDB6F"
   },
 ];
 

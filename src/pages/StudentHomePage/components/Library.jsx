@@ -51,6 +51,7 @@ const Library = () => {
               borderRadius={"18px"}
               blendMode={"multiply"}
               backgroundColor={"#F1F5F8"}
+            
             >
               <Text
                 fontSize={"14px"}

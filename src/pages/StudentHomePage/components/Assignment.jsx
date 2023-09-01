@@ -18,7 +18,6 @@ const Assignment = () => {
       w="300px"
       h="313px"
       mt="24px"
-    
       backgroundColor="#F1F5F8"
       borderRadius="26px"
     >
@@ -37,7 +36,7 @@ const Assignment = () => {
         <Button variant={"ghost"} fontSize={"13px"} mt={5} ml={12} fontWeight={400}>See All</Button>
       </HStack>
 
-      <Flex mt="34px">
+      <Flex mt={5}>
         {newAddedAssignment.map((homepageAssignment) => (
           <Card
             borderRadius="18px"
