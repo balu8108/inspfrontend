@@ -14,10 +14,11 @@ import {
   SET_RAISE_HAND,
   SET_FILE_UPLOAD,
   SET_QUESTION,
-  SET_MENTOR_VIDEO_SHARE_PAUSE,
+  SET_MENTOR_VIDEO_SHARE_PAUSE_OR_RESUME,
   GET_LIVE_CLASS_DETAILS,
   GET_UPCOMING_CLASS_DETAILS,
   SET_FILE_UPLOAD_IN_ROOM,
+  SET_MENTOR_SCREEN_SHARE_PAUSE_OR_RESUME,
 } from "../constants";
 const initialState = {
   isPeerLoading: true,
@@ -144,7 +145,7 @@ const socketReducer = (state = initialState, action) => {
         ...state,
         question: action.payload,
       };
-    case SET_MENTOR_VIDEO_SHARE_PAUSE:
+    case SET_MENTOR_VIDEO_SHARE_PAUSE_OR_RESUME:
       if (state.mentorVideoShareConsumer) {
         const originalConsumer = state.mentorVideoShareConsumer;
         const copiedConsumer = copyObject(originalConsumer);
@@ -156,6 +157,21 @@ const socketReducer = (state = initialState, action) => {
         return {
           ...state,
           mentorVideoShareConsumer: copiedConsumer,
+        };
+      }
+      return state;
+    case SET_MENTOR_SCREEN_SHARE_PAUSE_OR_RESUME:
+      if (state.mentorScreenShareConsumer) {
+        const originalConsumer = state.mentorScreenShareConsumer;
+        const copiedConsumer = copyObject(originalConsumer);
+        if (action.payload === true) {
+          copiedConsumer.pause();
+        } else {
+          copiedConsumer.resume();
+        }
+        return {
+          ...state,
+          mentorScreenShareConsumer: copiedConsumer,
         };
       }
       return state;

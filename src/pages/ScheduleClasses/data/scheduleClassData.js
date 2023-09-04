@@ -35,6 +35,8 @@ export const scheduleClassData = {
   ],
   scheduleClassFormPlaceholder: {
     selectSubject: "Select subject...",
+    selectChapter: "Select chapter...",
+    selectTopic: "Select topic...",
     topic: "Topic",
     agenda: "Agenda",
     description: "Description",

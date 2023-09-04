@@ -7,6 +7,7 @@ import {
   setChatMessage,
   setConsumers,
   setMentorScreenShareConsumer,
+  setMentorScreenSharePauseOrResume,
   setMentorVideoShareConsumer,
   setMentorVideoSharePauseOrResume,
   setNewPeerJoined,
@@ -309,17 +310,30 @@ export const producerPausedResponseHandler = (res) => {
     appData.isTeacher
   ) {
     store.dispatch(setMentorVideoSharePauseOrResume(true));
+  } else if (
+    isObjectValid(appData) &&
+    appData.streamType === staticVariables.screenShare &&
+    appData.isTeacher
+  ) {
+    store.dispatch(setMentorScreenSharePauseOrResume(true));
   }
 };
 
 const producerResumeResponseHandler = (res) => {
   const { remoteProducerId, appData } = res;
+
   if (
     isObjectValid(appData) &&
     appData.streamType === staticVariables.videoShare &&
     appData.isTeacher
   ) {
-    store.dispatch(setMentorVideoSharePauseOrResume(false));
+    store.dispatch(setMentorVideoSharePauseOrResume(false)); //pause = false which means resume set to true, refer reducer
+  } else if (
+    isObjectValid(appData) &&
+    appData.streamType === staticVariables.screenShare &&
+    appData.isTeacher
+  ) {
+    store.dispatch(setMentorScreenSharePauseOrResume(false));
   }
 };
 

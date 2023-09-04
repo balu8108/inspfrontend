@@ -10,14 +10,13 @@ import {
   useTheme,
   Box,
   Flex,
-  Tooltip,
 } from "@chakra-ui/react";
 import { BiBarChart } from "react-icons/bi";
 import { MdClose } from "react-icons/md";
 import { Select } from "chakra-react-select";
 import { roomData } from "../../pages/Room/data/roomData";
 import { MainBtn } from "../button";
-import { QnATypes } from "../../constants/staticvariables";
+
 import { sendQuestionHandler } from "../../socketconnections/socketconnections";
 import { useState, useEffect } from "react";
 

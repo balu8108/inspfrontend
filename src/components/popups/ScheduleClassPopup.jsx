@@ -31,8 +31,10 @@ import { openFileDialog } from "../../utils";
 
 import { useDispatch } from "react-redux";
 import { setAddClassSchedule } from "../../store/actions/scheduleClassActions";
-import { getAllChaptersApi } from "../../api/inspexternalapis";
-
+import {
+  fetchAllChaptersApi,
+  fetchAllTopicsApi,
+} from "../../api/inspexternalapis";
 const options = [
   { value: "1", label: "Physics" },
   { value: "2", label: "Chemistry" },
@@ -67,13 +69,15 @@ const ScheduleClassPopup = ({
   setClassTiming,
 }) => {
   const { extraTextLight, primaryBlue } = useTheme().colors.pallete;
-  const [scheduleClassFormData, setScheduleClassFormData] = useState(
-    scheduleClassFormInitData
-  );
+  const [scheduleClassFormData, setScheduleClassFormData] = useState({});
   const [scheduleClassFormErrorData, setScheduleClassFormErrorData] = useState(
     {}
   ); // for error handling
   const [date, setDate] = useState(selectedDate);
+  const [chaptersData, setChaptersData] = useState([]);
+  const [isTopicsLoading, setIsTopicsLoading] = useState(false);
+  const [isTopicsDisabled, setIsTopicsDisabled] = useState(true);
+  const [topicsData, setTopicsData] = useState([]);
   const [timeRange, setTimeRange] = useState(classTiming);
   const [selectedFiles, setSelectedFiles] = useState(null); // for file upload
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
@@ -99,8 +103,25 @@ const ScheduleClassPopup = ({
     setScheduleClassFormData((prev) => ({ ...prev, files: files }));
   };
 
-  const handleSelectChange = (object) => {
-    setScheduleClassFormData((prev) => ({ ...prev, subject: object.value }));
+  const fetchAllTopics = async (chapter_id) => {
+    try {
+      setIsTopicsDisabled(true);
+      setIsTopicsLoading(true);
+      const response = await fetchAllTopicsApi(chapter_id);
+      if (response.status) {
+        setTopicsData(response.result);
+        setIsTopicsLoading(false);
+        setIsTopicsDisabled(false);
+      }
+    } catch (err) {}
+  };
+  const handleSelectChange = (object, event) => {
+    if (event.name === "chapter") {
+      // means chapter changed
+
+      fetchAllTopics(object.value);
+    }
+    setScheduleClassFormData((prev) => ({ ...prev, [event.name]: object }));
   };
 
   const handleDateChange = (e) => {
@@ -200,10 +221,19 @@ const ScheduleClassPopup = ({
     };
   }, []);
 
+  const getChaptersByFetch = async () => {
+    try {
+      const response = await fetchAllChaptersApi();
+      if (response.status) {
+        setChaptersData(response.result);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
-    getAllChaptersApi()
-      .then((res) => console.log("res", res))
-      .catch((err) => console.log("err"));
+    getChaptersByFetch();
   }, []);
 
   return (
@@ -229,6 +259,7 @@ const ScheduleClassPopup = ({
                         scheduleClassData.scheduleClassFormPlaceholder
                           .selectSubject
                       }
+                      name={"subject"}
                       onChange={handleSelectChange}
                       chakraStyles={chakraStyles}
                       options={options}
@@ -265,20 +296,43 @@ const ScheduleClassPopup = ({
                   </Grid>
                 </Box>
                 <Box my={3}>
-                  {/* <FormControl isInvalid={scheduleClassFormErrorData["topic"]}>
-                    <Input
-                      type="text"
-                      name="topic"
-                      onChange={handleInputChange}
-                      py={6}
-                      placeholder={
-                        scheduleClassData.scheduleClassFormPlaceholder.topic
-                      }
-                    />
-                    {scheduleClassFormErrorData["topic"] && (
-                      <FormErrorMessage>Please select a topic</FormErrorMessage>
-                    )}
-                  </FormControl> */}
+                  <Select
+                    placeholder={
+                      scheduleClassData.scheduleClassFormPlaceholder
+                        .selectChapter
+                    }
+                    onChange={handleSelectChange}
+                    name="chapter"
+                    chakraStyles={chakraStyles}
+                    options={chaptersData.map((chapter) => {
+                      let obj = {
+                        value: chapter.id,
+                        label: chapter.name,
+                      };
+                      return obj;
+                    })}
+                    useBasicStyles
+                  />
+                </Box>
+                <Box my={3}>
+                  <Select
+                    placeholder={
+                      scheduleClassData.scheduleClassFormPlaceholder.selectTopic
+                    }
+                    onChange={handleSelectChange}
+                    isDisabled={isTopicsDisabled}
+                    isLoading={isTopicsLoading}
+                    name="topic"
+                    chakraStyles={chakraStyles}
+                    options={topicsData.map((topic) => {
+                      let obj = {
+                        value: topic.id,
+                        label: topic.name,
+                      };
+                      return obj;
+                    })}
+                    useBasicStyles
+                  />
                 </Box>
                 <Box my={3}>
                   <FormControl isInvalid={scheduleClassFormErrorData["agenda"]}>

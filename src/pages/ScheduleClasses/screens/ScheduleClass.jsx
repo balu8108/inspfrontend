@@ -38,7 +38,7 @@ const ScheduleClass = () => {
 
   useEffect(() => {
     dispatch(getAllLiveClassesSchedule());
-  }, []);
+  }, [dispatch]);
   return (
     <>
       {isSchedulePopupOpen && (

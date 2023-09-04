@@ -102,12 +102,6 @@ const MentorVideoSection = ({ mentorVideoRef }) => {
   const removeMentorVideoStream = () => {
     if (mentorVideoRef.current) {
       mentorVideoRef.current.srcObject = null;
-      // if (mentorVideoShareConsumer) {
-      //   const { track } = mentorVideoShareConsumer;
-      //   if (track) {
-      //     track.stop();
-      //   }
-      // }
     }
   };
   useEffect(() => {

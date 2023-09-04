@@ -86,6 +86,12 @@ const ToolBox = ({
 
         if (producerTransport) {
           // if there is producerTransport
+          if (producerScreenShare) {
+            await producerScreenShare.replaceTrack({ track: track });
+            await producerScreenShare.resume();
+            producerResumeHandler(producerScreenShare);
+            return;
+          }
 
           producerScreenShare = await producerTransport.produce({
             track: track,
@@ -113,7 +119,11 @@ const ToolBox = ({
       }
       setIsScreenShare(false);
       // stop producing the stream
-      stopProducing(producerScreenShare.id, producerScreenShare.appData);
+      // stopProducing(producerScreenShare.id, producerScreenShare.appData);
+      if (producerScreenShare) {
+        producerScreenShare.pause();
+        producerPauseHandler(producerScreenShare);
+      }
     } else {
       // on the screen share
       getScreenShareFeed();
