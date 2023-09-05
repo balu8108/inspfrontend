@@ -22,7 +22,7 @@ import {
 } from "react-icons/fi";
 
 import { LuSettings, LuMonitorOff, LuCircleOff } from "react-icons/lu";
-
+import { SiMiro } from "react-icons/si";
 import { RiFullscreenFill } from "react-icons/ri";
 import {
   leaveRoomHandler,
@@ -37,6 +37,7 @@ import { staticVariables } from "../../../constants/staticvariables";
 import { roomData } from "../data/roomData";
 import PostPoll from "../../../components/popups/PostPoll";
 import { LeaveBtn } from "../../../components/button";
+import VideoSection from "./VideoSection";
 let producerScreenShare = null;
 let producerMentorVideoShare = null;
 let producerAudioShare = null;
@@ -62,14 +63,26 @@ const ToolBox = ({
   micRef,
   isRecordOn,
   setIsRecordOn,
+  setMiroBoardId,
 }) => {
   const [isRaiseHand, setIsRaiseHand] = useState(false);
   const [isLeaveLoading, setIsLeaveLoading] = useState(false); // for leave button loading state
+
   const [QNo, setQNo] = useState(0);
   const navigate = useNavigate();
   const { roomId } = useParams();
 
   const { redBtnColor } = useTheme().colors.pallete;
+
+  const openMiroBoardAuth = () => {
+    window.miroBoardsPicker.open({
+      clientId: "3458764563018758552", // Replace it with your app ClientId
+      action: "select",
+      success: (data) => {
+        setMiroBoardId(data.id);
+      },
+    });
+  };
   const getScreenShareFeed = async () => {
     try {
       const stream = await navigator.mediaDevices.getDisplayMedia({
@@ -218,11 +231,6 @@ const ToolBox = ({
         // emit event to backend  for pause one so that backend producer can also pauses
         producerPauseHandler(producerMentorVideoShare);
       }
-
-      // stopProducing(
-      //   producerMentorVideoShare.id,
-      //   producerMentorVideoShare.appData
-      // );
     } else {
       // on The video stream
       getVideoStreamFeed();
@@ -370,13 +378,19 @@ const ToolBox = ({
           >
             {"\u{1F44B}"}
           </Button>
-          <IconButton isRound={true} icon={<FiMenu size={20} />} />
+          {/* <IconButton isRound={true} icon={<FiMenu size={20} />} /> */}
+          <IconButton
+            isRound={true}
+            icon={<SiMiro size={20} />}
+            onClick={openMiroBoardAuth}
+          />
           <PostPoll
             QNo={QNo}
             setQNo={setQNo}
             screenShareStream={screenShareStream}
           />
         </Stack>
+
         <HStack>
           <Tooltip label={roomData.settings} placement="right">
             <IconButton isRound={true} icon={<LuSettings size={20} />} />
@@ -395,8 +409,11 @@ const ToolBox = ({
           />
         </HStack>
         {/* <Stack>
-              <VideoSection />
-            </Stack> */}
+          <VideoSection mentorVideoRef={mentorVideoRef} />
+        </Stack> */}
+        {/* <Stack>
+          <VideoSection />
+        </Stack> */}
       </Flex>
     </Box>
   );

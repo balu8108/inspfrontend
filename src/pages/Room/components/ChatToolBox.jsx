@@ -29,6 +29,7 @@ import { init, SearchIndex } from "emoji-mart";
 import { containsEmoji } from "../../../utils";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
+import VideoSection from "./VideoSection";
 const EmojiContainer = ({ isEmojiOpen }) => {
   const { lightGrey } = useTheme().colors.pallete;
   const [searchEmoticonValue, setSearchEmoticonValue] = useState("");
@@ -89,58 +90,6 @@ const EmojiContainer = ({ isEmojiOpen }) => {
   );
 };
 
-const MentorVideoSection = ({ mentorVideoRef }) => {
-  const { mentorVideoShareConsumer } = useSelector((state) => state.socket);
-
-  const renderMentorVideoStream = () => {
-    const getMentorVideoStream = mentorVideoShareConsumer;
-    const { track } = getMentorVideoStream;
-    const stream = new MediaStream([track]);
-    mentorVideoRef.current.srcObject = stream;
-  };
-
-  const removeMentorVideoStream = () => {
-    if (mentorVideoRef.current) {
-      mentorVideoRef.current.srcObject = null;
-    }
-  };
-  useEffect(() => {
-    if (mentorVideoShareConsumer) {
-      // renderMentorVideoStream();
-      if (mentorVideoShareConsumer.paused) {
-        removeMentorVideoStream(); // Pause triggered, remove stream
-      } else {
-        renderMentorVideoStream(); // Play triggered, render stream
-      }
-    } else {
-      removeMentorVideoStream();
-    }
-  }, [mentorVideoShareConsumer]);
-
-  return (
-    <Box
-      position={"relative"}
-      width={"150px"}
-      height={"120px"}
-      borderRadius={"10px"}
-      bg="transparent"
-    >
-      <video
-        ref={mentorVideoRef}
-        autoPlay
-        playsInline
-        style={{
-          position: "absolute",
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          overflow: "hidden",
-          borderRadius: "10px",
-        }}
-      />
-    </Box>
-  );
-};
 const ChatContainer = ({
   isChatOpened,
   isScreenShare,
@@ -272,7 +221,9 @@ const ChatToolBox = ({ mentorVideoRef, isScreenShare }) => {
         justifyContent={"space-between"}
         alignItems={"flex-end"}
       >
-        <MentorVideoSection mentorVideoRef={mentorVideoRef} />
+        {/* <MentorVideoSection mentorVideoRef={mentorVideoRef} /> */}
+        {/* At the moment this video section belongs to mentor only */}
+        <VideoSection mentorVideoRef={mentorVideoRef} />
 
         <Flex alignItems={"flex-end"} gap={2}>
           <HStack borderRadius={"full"} bg="white">

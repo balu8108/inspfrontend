@@ -194,6 +194,8 @@ const createRecvTransport = async (remoteProducerId, appData) => {
       let consumerTransport = null;
       try {
         consumerTransport = device.createRecvTransport(params);
+        console.log("consumer transport triggered", consumerTransport);
+        console.log("consumer transport params id", params.id);
       } catch (err) {
         console.log("Error in initializing recv transport");
 
@@ -207,6 +209,8 @@ const createRecvTransport = async (remoteProducerId, appData) => {
               dtlsParameters,
               serverConsumerTransportId: params.id,
             });
+            console.log("Recv transport connected successfully!!!");
+            console.log("");
             callback();
           } catch (err) {
             console.log("Error in Transport recv connect", err);

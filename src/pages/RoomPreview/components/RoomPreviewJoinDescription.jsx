@@ -8,6 +8,7 @@ import {
   HStack,
   Avatar,
   Spinner,
+  Center,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { liveSessionData } from "../data/liveSessionData";
@@ -15,20 +16,22 @@ import { MainBtn } from "../../../components/button";
 import { useDispatch, useSelector } from "react-redux";
 import { joinRoomHandler } from "../../../socketconnections/socketconnections";
 import { setRtpCapabilities } from "../../../store/actions/socketActions";
-import { formatTime } from "../../../utils";
+import { formatTime, renderLeftMembersCount } from "../../../utils";
 
 const PeerList = ({ peers, type }) => {
   const theme = useTheme();
   const { primaryBlue } = theme.colors.pallete;
   // TODO - filter the list of peers based on type if mentor then show mentors list if students then students
+  const displayedPeers = peers.slice(0, 3);
   return (
     <>
-      {peers.map((peer, index) => (
+      {displayedPeers.map((peer) => (
         <Box key={peer.id} p={2} borderRadius={"md"} bg={"gray.200"}>
           <Avatar
+            color={"white"}
             name={peer.name}
             bg={primaryBlue}
-            size={"xs"}
+            size={"sm"}
             borderRadius={"md"}
           />
         </Box>
@@ -158,13 +161,16 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
                 {liveSessionData.mentorsJoined}
               </Text>
               <Flex gap={2}>
+                <Text fontSize={"12px"}>No Mentors joined</Text>
+              </Flex>
+              {/* <Flex gap={2}>
                 {renderPeerData(
                   isPeerLoading,
                   peers,
                   liveSessionData,
                   liveSessionData.mentor
                 )}
-              </Flex>
+              </Flex> */}
             </VStack>
             <VStack pt={2}>
               <Text fontSize={"14px"} color={mainTextColor}>
@@ -178,14 +184,20 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
                   liveSessionData.student
                 )}
                 {peers.length > 4 && (
-                  <Box p={2} borderRadius={"md"} bg={"gray.200"}>
-                    <Avatar
-                      name={"9 +"}
-                      bg={primaryBlue}
-                      size={"xs"}
+                  <Center p={2} borderRadius={"md"} bg={"gray.200"}>
+                    <Flex
                       borderRadius={"md"}
-                    />
-                  </Box>
+                      w={"30px"}
+                      height={"30px"}
+                      bg={primaryBlue}
+                      justifyContent={"center"}
+                      alignItems={"center"}
+                    >
+                      <Text color={"white"} fontWeight={600} fontSize={"10px"}>
+                        {renderLeftMembersCount(peers.length, 4)}+
+                      </Text>
+                    </Flex>
+                  </Center>
                 )}
               </Flex>
             </VStack>

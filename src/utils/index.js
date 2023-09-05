@@ -10,6 +10,7 @@ import { extractFileNameFromS3URL } from "./extractFileName";
 import categoriseClass from "./categoriseClass";
 import boxShadowStyles from "./boxShadowStyles";
 import screenshotHandler from "./screenshotHandler";
+import renderLeftMembersCount from "./renderLeftMembersCount";
 export {
   containsEmoji,
   openFileDialog,
@@ -24,4 +25,5 @@ export {
   categoriseClass,
   boxShadowStyles,
   screenshotHandler,
+  renderLeftMembersCount,
 };
