@@ -79,8 +79,9 @@ const recordedClass = () => {
         mr={"30px"}
         p={"6px"}
         justifyContent={"space-between"}
-        borderRadius={"6px"}
+        borderRadius={"6px" }
         border={"1px"}
+        borderColor={"#9597927D"}
       >
         <Icon ml={"290px"} as={BsDownload} />
       </Box>
@@ -95,6 +96,7 @@ const recordedClass = () => {
         justifyContent={"space-between"}
         borderRadius={"6px"}
         border={"1px"}
+        borderColor={"#9597927D"}
       >
         <Icon ml={"290px"} as={BsDownload} />
       </Box>
