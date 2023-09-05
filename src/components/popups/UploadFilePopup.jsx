@@ -3,7 +3,6 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-  PopoverCloseButton,
   useDisclosure,
   Text,
   Flex,
@@ -16,19 +15,21 @@ import { BiPlus } from "react-icons/bi";
 import { MdClose } from "react-icons/md";
 import { roomData } from "../../pages/Room/data/roomData";
 import { MainBtn } from "../button";
-import { openFileDialog } from "../../utils";
+import { generateUniqueKey, openFileDialog } from "../../utils";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setUploadFiles } from "../../store/actions/socketActions";
 import { sendFileHandler } from "../../socketconnections/socketconnections";
 
-const UploadFilePopup = () => {
+const UploadFilePopup = ({ type, roomId }) => {
   const [files, setFiles] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { onOpen, onClose, isOpen } = useDisclosure();
   const dispatch = useDispatch();
   const { lightBorderColor, primaryBlue } = useTheme().colors.pallete;
-  const handleUploadFileClick = async () => {
+  const handleUploadFileClick = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     try {
       const files = await openFileDialog();
 
@@ -41,13 +42,17 @@ const UploadFilePopup = () => {
   const uploadDocs = () => {
     setIsLoading(true);
     if (files) {
-      let fileArray = [];
-      for (let i = 0; i < files.length; i++) {
-        fileArray.push(files[i]);
+      let fileObj = { roomType: type, roomId: roomId, files: [] }; // need to send room type and files array that contains name and data buffer
+
+      for (const key in files) {
+        if (files.hasOwnProperty(key) && files[key] instanceof File) {
+          let obj = { name: files[key].name, data: files[key] };
+          fileObj = { ...fileObj, files: [...fileObj.files, obj] };
+        }
       }
 
       dispatch(setUploadFiles(files));
-      sendFileHandler(fileArray);
+      sendFileHandler(fileObj); // sending type of room description whether active one or upcoming one
     }
 
     setIsLoading(false);
@@ -85,12 +90,17 @@ const UploadFilePopup = () => {
             borderStyle={"solid"}
             borderColor={lightBorderColor}
             borderRadius={"md"}
+            w={"100%"}
             p={2}
             mb={2}
-            onClick={handleUploadFileClick}
+            onClick={(e) => handleUploadFileClick(e)}
+            cursor={"pointer"}
+            zIndex={1000}
           >
             {files ? (
-              Object.keys(files).map((file) => <Text>{files[file].name}</Text>)
+              Object.keys(files).map((file) => (
+                <Text key={generateUniqueKey()}>{files[file].name}</Text>
+              ))
             ) : (
               <Text
                 fontWeight={600}

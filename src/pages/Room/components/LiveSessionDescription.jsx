@@ -26,7 +26,6 @@ import {
 import { formatTime } from "../../../utils";
 
 const RoomContent = ({ mainTextColor, secondaryTextColor, type }) => {
-  const { uploadedFiles } = useSelector((state) => state.socket);
   const { roomPreviewData, upcomingClassData } = useSelector(
     (state) => state.socket
   );
@@ -84,7 +83,7 @@ const RoomContent = ({ mainTextColor, secondaryTextColor, type }) => {
           <Text fontSize={"14px"} color={mainTextColor}>
             {roomData.files}
           </Text>
-          <UploadFilePopup />
+          <UploadFilePopup type={type} roomId={renderContent()?.roomId} />
         </Flex>
 
         <Box>

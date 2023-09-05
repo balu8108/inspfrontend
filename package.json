@@ -29,6 +29,7 @@
     "framer-motion": "^10.16.1",
     "mediasoup-client": "^3.6.98",
     "moment": "^2.29.4",
+    "perfect-scrollbar": "^1.5.5",
     "react": "^18.2.0",
     "react-bootstrap": "^2.8.0",
     "react-chartjs-2": "^5.2.0",

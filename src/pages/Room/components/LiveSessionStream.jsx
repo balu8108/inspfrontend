@@ -6,8 +6,11 @@ import ToolBox from "./ToolBox";
 import ChatToolBox from "./ChatToolBox";
 import StudentPollsMCQBox from "./StudentPollsMCQBox";
 import RaiseHand from "./RaiseHand";
-import ReactPlayer from "react-player";
+
 import WebAudioPlayer from "../../../components/webaudioplayer/WebAudioPlayer";
+import { imageToDocApi } from "../../../api/genericapis";
+import { screenshotHandler } from "../../../utils";
+import MiroBoard from "./MiroBoard";
 
 const LiveSessionStream = (props) => {
   const {
@@ -34,14 +37,14 @@ const LiveSessionStream = (props) => {
   } = props;
   const [activeAudioConsumers, setActiveAudioConsumers] = useState([]);
 
+  const [miroBoardId, setMiroBoardId] = useState(null);
+
   const [isRaiseHandVisible, setIsRaiseHandVisible] = useState(false);
   const { question } = useSelector((state) => state.socket);
 
   const { mentorScreenShareConsumer } = useSelector((state) => state.socket);
   const { audioConsumers } = useSelector((state) => state.socket);
   const { raiseHands } = useSelector((state) => state.socket);
-
-  console.log("audio", audioConsumers);
 
   const renderMentorScreenShare = () => {
     const getMentorScreenShare = mentorScreenShareConsumer;
@@ -80,6 +83,7 @@ const LiveSessionStream = (props) => {
   //     renderAudioStreams();
   //   }
   // }, [audioConsumers]);
+
   useEffect(() => {
     if (mentorScreenShareConsumer) {
       renderMentorScreenShare();
@@ -110,6 +114,8 @@ const LiveSessionStream = (props) => {
         {raiseHands.map((peer) => (
           <RaiseHand key={peer.id} peer={peer} />
         ))}
+
+        <MiroBoard miroBoardId={miroBoardId} />
 
         <video
           ref={screenShareRef}
@@ -163,6 +169,7 @@ const LiveSessionStream = (props) => {
           micRef={micRef}
           isRecordOn={isRecordOn}
           setIsRecordOn={setIsRecordOn}
+          setMiroBoardId={setMiroBoardId}
         />
         <ChatToolBox
           isScreenShare={isScreenShare}

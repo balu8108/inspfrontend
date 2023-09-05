@@ -16,35 +16,165 @@ import { MdClose } from "react-icons/md";
 import { Select } from "chakra-react-select";
 import { roomData } from "../../pages/Room/data/roomData";
 import { MainBtn } from "../button";
-import { QnATypes } from "../../constants/staticvariables";
-import { sendQuestionHandler } from "../../socketconnections/socketconnections";
-import { useState } from "react";
 
-const options = [
+import { sendQuestionHandler } from "../../socketconnections/socketconnections";
+import { useState, useEffect } from "react";
+import { screenshotHandler } from "../../utils";
+import { imageToDocApi } from "../../api/genericapis";
+import { useParams } from "react-router-dom";
+
+const questionTypeOptions = [
+  { value: "poll", label: "Poll" },
+  { value: "mcq", label: "MCQ" },
+  { value: "tf", label: "True/False" },
+];
+
+const defaultAnswerOptions = [
   { value: "A", label: "A" },
   { value: "B", label: "B" },
   { value: "C", label: "C" },
   { value: "D", label: "D" },
 ];
 
-const PostPoll = ({ pollNo, setPollNo }) => {
-  const { onOpen, onClose, isOpen } = useDisclosure();
+const tfOptions = [
+  { value: "true", label: "True" },
+  { value: "false", label: "False" },
+];
+
+const PostPoll = ({ QNo, setQNo, screenShareStream }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [noOfOptions, setNoOfOptions] = useState(4);
+  const [answerOptions, setAnswerOptions] = useState(defaultAnswerOptions);
+
+  const [qnaData, setQnaData] = useState({
+    noOfOptions: 4,
+    time: 60,
+    questionNo: QNo,
+    correctAnswers: [],
+  });
+  const [timer, setTimer] = useState(60);
+  const { onOpen, onClose, isOpen } = useDisclosure();
+  const { roomId } = useParams();
+
   const { primaryBlue } = useTheme().colors.pallete;
-  const sendPoll = () => {
+
+  const handleScreenshot = async () => {
+    try {
+      const screenshot = await screenshotHandler(screenShareStream);
+      const formData = new FormData();
+      console.log("screenshot", qnaData);
+      formData.append("screenshot", screenshot);
+      formData.append("data", JSON.stringify(qnaData));
+      formData.append("roomId", roomId);
+
+      if (screenshot) {
+        await imageToDocApi(formData); // send screenshot to backend
+      }
+    } catch (err) {}
+  };
+
+  const sendPoll = async () => {
     setIsLoading(true);
-    const data = { type: QnATypes.poll, pollNo: pollNo, time: 60 };
-    sendQuestionHandler(data);
+    sendQuestionHandler(qnaData);
+    await handleScreenshot(screenShareStream);
     setIsLoading(false);
     onClose();
   };
+
+  const handleQuestionTypeChange = (object) => {
+    setQnaData((prev) => ({
+      ...prev,
+      type: object.value,
+    }));
+    if (object.value === "tf") {
+      setNoOfOptions(2);
+      setQnaData((prev) => ({
+        ...prev,
+        noOfOptions: 2,
+      }));
+    } else {
+      setNoOfOptions(4);
+      setQnaData((prev) => ({
+        ...prev,
+        noOfOptions: 4,
+      }));
+    }
+  };
+
+  const handleQnoChange = (e) => {
+    setQNo(parseInt(e.target.value));
+    setQnaData((prev) => ({
+      ...prev,
+      questionNo: parseInt(e.target.value),
+    }));
+  };
+
+  const handleTimerChange = (e) => {
+    setTimer(parseInt(e.target.value));
+    setQnaData((prev) => ({
+      ...prev,
+      time: parseInt(e.target.value),
+    }));
+  };
+  const handleNoOfOptionsChange = (e) => {
+    setNoOfOptions(parseInt(e.target.value));
+    setQnaData((prev) => ({
+      ...prev,
+      noOfOptions: parseInt(e.target.value),
+    }));
+  };
+
+  const generateAnswerOptions = (type, noOfOptions) => {
+    if (type === "tf") {
+      return tfOptions;
+    } else {
+      if (noOfOptions && noOfOptions >= 2 && noOfOptions <= 10) {
+        // generate A- no of Options
+        let options = [];
+        for (let i = 0; i < noOfOptions; i++) {
+          let code = String.fromCharCode(65 + i);
+          options.push({ value: code, label: code });
+        }
+        return options;
+      }
+    }
+  };
+
+  const handleAnswerChange = (object) => {
+    if (qnaData?.type === "poll") {
+      // then it may have multiple answers
+      setQnaData((prev) => ({
+        ...prev,
+        correctAnswers: object.map((item) => item.value),
+      }));
+    } else {
+      setQnaData((prev) => ({
+        ...prev,
+        correctAnswers: [object.value],
+      }));
+    }
+  };
+  useEffect(() => {
+    if (qnaData?.type) {
+      const options = generateAnswerOptions(qnaData?.type, noOfOptions);
+      setAnswerOptions(options);
+    }
+  }, [qnaData, noOfOptions]);
+
+  useEffect(() => {
+    setQnaData((prev) => ({
+      ...prev,
+      questionNo: QNo,
+    }));
+  }, [QNo]);
+
   return (
     <>
       <Popover
         placement="right"
         isOpen={isOpen}
         onOpen={() => {
-          setPollNo(pollNo + 1);
+          setQNo(QNo + 1);
           onOpen();
         }}
         onClose={onClose}
@@ -52,10 +182,11 @@ const PostPoll = ({ pollNo, setPollNo }) => {
         <PopoverTrigger>
           <IconButton isRound={true} icon={<BiBarChart size={20} />} />
         </PopoverTrigger>
-        <PopoverContent px={4} py={2} w="280px">
+
+        <PopoverContent px={4} py={2} w="300px">
           <Stack>
             <Flex w="full" justifyContent="space-between" alignItems="center">
-              <Text fontWeight={"bold"}>{roomData.poll}</Text>
+              <Text fontWeight={"bold"}>{roomData.pollMcqTF}</Text>
               <IconButton
                 onClick={() => onClose()}
                 icon={<MdClose size={20} />}
@@ -64,19 +195,47 @@ const PostPoll = ({ pollNo, setPollNo }) => {
               />
             </Flex>
             <Box py={2}>
-              <Input
-                value={pollNo}
-                type="number"
-                onChange={(e) => setPollNo(parseInt(e.target.value))}
+              <Select
+                placeholder={roomData.selectQuestionType}
+                onChange={handleQuestionTypeChange}
+                options={questionTypeOptions}
+                useBasicStyles
               />
             </Box>
             <Box py={2}>
-              <Input type="number" value={60} />
+              <Input
+                value={QNo}
+                type="number"
+                onChange={(e) => handleQnoChange(e)}
+              />
+            </Box>
+            <Box py={2}>
+              <Input
+                type="number"
+                value={timer}
+                onChange={(e) => handleTimerChange(e)}
+              />
+            </Box>
+            <Box py={2}>
+              <Input
+                type="number"
+                value={
+                  qnaData?.type && qnaData?.type === "tf" ? 2 : noOfOptions
+                }
+                onChange={(e) => handleNoOfOptionsChange(e)}
+                placeholder={roomData.selectNumberOfOptions}
+                isDisabled={!qnaData?.type}
+                min={2}
+                max={10}
+              />
             </Box>
             <Box py={2}>
               <Select
+                isMulti={qnaData?.type === "poll"}
                 placeholder={roomData.selectCorrectAnswer}
-                options={options}
+                options={answerOptions}
+                isDisabled={!qnaData?.type}
+                onChange={handleAnswerChange}
                 useBasicStyles
               />
             </Box>

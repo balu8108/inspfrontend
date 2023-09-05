@@ -5,13 +5,17 @@ import {
 import {
   ADD_CLASS_SCHEDULE,
   GET_ALL_LIVE_CLASSES_SCHEDULE,
+  IS_SCHEDULE_CLASS_LOADING,
 } from "../constants";
 
 export const getAllLiveClassesSchedule = () => async (dispatch) => {
   try {
-    const { data } = await getAllLiveClassesApi();
-
-    dispatch({ type: GET_ALL_LIVE_CLASSES_SCHEDULE, payload: data });
+    dispatch({ type: IS_SCHEDULE_CLASS_LOADING, payload: true });
+    const res = await getAllLiveClassesApi();
+    if (res.status === 200) {
+      dispatch({ type: GET_ALL_LIVE_CLASSES_SCHEDULE, payload: res.data });
+    }
+    dispatch({ type: IS_SCHEDULE_CLASS_LOADING, payload: false });
   } catch (err) {
     console.log(err);
   }

@@ -7,12 +7,14 @@ import {
   setChatMessage,
   setConsumers,
   setMentorScreenShareConsumer,
+  setMentorScreenSharePauseOrResume,
   setMentorVideoShareConsumer,
   setMentorVideoSharePauseOrResume,
   setNewPeerJoined,
   setPeerLeaved,
   setQuestion,
   setUploadFiles,
+  setUploadFilesInRoom,
 } from "../store/actions/socketActions";
 
 import SOCKET_EVENTS from "../constants/socketeventconstants";
@@ -192,6 +194,8 @@ const createRecvTransport = async (remoteProducerId, appData) => {
       let consumerTransport = null;
       try {
         consumerTransport = device.createRecvTransport(params);
+        console.log("consumer transport triggered", consumerTransport);
+        console.log("consumer transport params id", params.id);
       } catch (err) {
         console.log("Error in initializing recv transport");
 
@@ -205,6 +209,8 @@ const createRecvTransport = async (remoteProducerId, appData) => {
               dtlsParameters,
               serverConsumerTransportId: params.id,
             });
+            console.log("Recv transport connected successfully!!!");
+            console.log("");
             callback();
           } catch (err) {
             console.log("Error in Transport recv connect", err);
@@ -308,19 +314,40 @@ export const producerPausedResponseHandler = (res) => {
     appData.isTeacher
   ) {
     store.dispatch(setMentorVideoSharePauseOrResume(true));
+  } else if (
+    isObjectValid(appData) &&
+    appData.streamType === staticVariables.screenShare &&
+    appData.isTeacher
+  ) {
+    store.dispatch(setMentorScreenSharePauseOrResume(true));
   }
 };
 
 const producerResumeResponseHandler = (res) => {
   const { remoteProducerId, appData } = res;
+
   if (
     isObjectValid(appData) &&
     appData.streamType === staticVariables.videoShare &&
     appData.isTeacher
   ) {
-    store.dispatch(setMentorVideoSharePauseOrResume(false));
+    store.dispatch(setMentorVideoSharePauseOrResume(false)); //pause = false which means resume set to true, refer reducer
+  } else if (
+    isObjectValid(appData) &&
+    appData.streamType === staticVariables.screenShare &&
+    appData.isTeacher
+  ) {
+    store.dispatch(setMentorScreenSharePauseOrResume(false));
   }
 };
+
+const fileUploadResponseHandler = (res) => {
+  const { success, data } = res;
+  if (success) {
+    store.dispatch(setUploadFilesInRoom(data));
+  }
+};
+
 // SOCKET EVENT LISTENERS AND EVENT EMITTERS:-
 export const initializeSocketConnections = (roomId) => {
   socket = io(BASE_URL);
@@ -403,14 +430,12 @@ export const raiseHandHandler = (isHandRaised) => {
   });
 };
 
-export const sendFileHandler = (files) => {
-  let fileArray = [];
-  for (let i = 0; i < files.length; i++) {
-    let obj = { fileName: files[i].name, file: files[i] };
-    fileArray.push(obj);
-  }
-  console.log("files array", fileArray);
-  socket.emit(SOCKET_EVENTS.UPLOAD_FILE_TO_SERVER, fileArray);
+export const sendFileHandler = (filesData) => {
+  socket.emit(
+    SOCKET_EVENTS.UPLOAD_FILE_TO_SERVER,
+    filesData,
+    fileUploadResponseHandler
+  );
 };
 
 export const sendQuestionHandler = (data) => {
@@ -444,4 +469,8 @@ export const producerResumeHandler = (producer) => {
 
 export const leaveRoomHandler = async () => {
   await socket.emit(SOCKET_EVENTS.LEAVE_ROOM);
+};
+
+export const sendAnswerHandler = (data) => {
+  socket.emit(SOCKET_EVENTS.ANSWER_SENT_TO_SERVER, data);
 };

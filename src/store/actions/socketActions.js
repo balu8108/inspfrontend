@@ -17,9 +17,11 @@ import {
   SET_RAISE_HAND,
   SET_FILE_UPLOAD,
   SET_QUESTION,
-  SET_MENTOR_VIDEO_SHARE_PAUSE,
   GET_LIVE_CLASS_DETAILS,
   GET_UPCOMING_CLASS_DETAILS,
+  SET_FILE_UPLOAD_IN_ROOM,
+  SET_MENTOR_VIDEO_SHARE_PAUSE_OR_RESUME,
+  SET_MENTOR_SCREEN_SHARE_PAUSE_OR_RESUME,
 } from "../constants";
 
 export const setSocket = (socket) => {
@@ -81,6 +83,11 @@ export const setUploadFiles = (files) => async (dispatch) => {
   dispatch({ type: SET_FILE_UPLOAD, payload: files });
 };
 
+// The main function of uploading files to the live class room
+export const setUploadFilesInRoom = (data) => async (dispatch) => {
+  dispatch({ type: SET_FILE_UPLOAD_IN_ROOM, payload: data });
+};
+
 export const setQuestion = (question) => async (dispatch) => {
   dispatch({ type: SET_QUESTION, payload: question });
 };
@@ -88,9 +95,14 @@ export const setQuestion = (question) => async (dispatch) => {
 export const setMentorVideoSharePauseOrResume = (value) => async (dispatch) => {
   // if value is true then it is pause
   // if value is false then it is resume
-  dispatch({ type: SET_MENTOR_VIDEO_SHARE_PAUSE, payload: value });
+  dispatch({ type: SET_MENTOR_VIDEO_SHARE_PAUSE_OR_RESUME, payload: value });
 };
-
+export const setMentorScreenSharePauseOrResume =
+  (value) => async (dispatch) => {
+    // if value is true then it is pause
+    // if value is false then it is resume
+    dispatch({ type: SET_MENTOR_SCREEN_SHARE_PAUSE_OR_RESUME, payload: value });
+  };
 export const getLiveClassDetails = (roomId) => async (dispatch) => {
   try {
     const res = await getLiveClassDetailsApi(roomId);
