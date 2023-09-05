@@ -9,6 +9,7 @@ import RaiseHand from "./RaiseHand";
 
 import WebAudioPlayer from "../../../components/webaudioplayer/WebAudioPlayer";
 import { imageToDocApi } from "../../../api/genericapis";
+import { screenshotHandler } from "../../../utils";
 
 const LiveSessionStream = (props) => {
   const {
@@ -82,37 +83,6 @@ const LiveSessionStream = (props) => {
   //   }
   // }, [audioConsumers]);
 
-  const handleScreenShot = () => {
-    if (screenShareStream) {
-      const videoTrack = screenShareStream.getVideoTracks()[0];
-
-      let videoElement = document.createElement("video");
-      videoElement.srcObject = new MediaStream([videoTrack]);
-
-      videoElement.addEventListener("loadedmetadata", async () => {
-        let canvas = document.createElement("canvas");
-        canvas.width = videoElement.videoWidth;
-        canvas.height = videoElement.videoHeight;
-        let ctx = canvas.getContext("2d");
-        ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-        let base64Image = canvas.toDataURL("image/jpeg");
-        if (base64Image) {
-          fetch(base64Image)
-            .then((res) => res.blob())
-            .then((blob) => {
-              const screenShotFile = new File([blob], "Screenshot.jpeg", {
-                type: "image/jpeg",
-              });
-              const formData = new FormData();
-              formData.append("imageFile", screenShotFile);
-              imageToDocApi(formData);
-            });
-        }
-      });
-
-      videoElement.play();
-    }
-  };
   useEffect(() => {
     if (mentorScreenShareConsumer) {
       renderMentorScreenShare();
@@ -138,7 +108,6 @@ const LiveSessionStream = (props) => {
         bg="black"
         borderRadius={"10px"}
         position={"relative"}
-        onClick={() => handleScreenShot()}
       >
         {question && <StudentPollsMCQBox question={question} />}
         {raiseHands.map((peer) => (

@@ -9,6 +9,7 @@ import { formatTime, timeDifference } from "./formatTime";
 import { extractFileNameFromS3URL } from "./extractFileName";
 import categoriseClass from "./categoriseClass";
 import boxShadowStyles from "./boxShadowStyles";
+import screenshotHandler from "./screenshotHandler";
 export {
   containsEmoji,
   openFileDialog,
@@ -22,4 +23,5 @@ export {
   extractFileNameFromS3URL,
   categoriseClass,
   boxShadowStyles,
+  screenshotHandler,
 };

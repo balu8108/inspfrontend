@@ -371,7 +371,11 @@ const ToolBox = ({
             {"\u{1F44B}"}
           </Button>
           <IconButton isRound={true} icon={<FiMenu size={20} />} />
-          <PostPoll QNo={QNo} setQNo={setQNo} />
+          <PostPoll
+            QNo={QNo}
+            setQNo={setQNo}
+            screenShareStream={screenShareStream}
+          />
         </Stack>
         <HStack>
           <Tooltip label={roomData.settings} placement="right">

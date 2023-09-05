@@ -33,25 +33,12 @@ import { useDispatch } from "react-redux";
 import { setAddClassSchedule } from "../../store/actions/scheduleClassActions";
 import {
   fetchAllChaptersApi,
+  fetchAllSubjectsApi,
   fetchAllTopicsApi,
 } from "../../api/inspexternalapis";
-const options = [
-  { value: "1", label: "Physics" },
-  { value: "2", label: "Chemistry" },
-  { value: "3", label: "Maths" },
-];
+
 // At the moment we will add some dummy data for chapter, topic
 
-const scheduleClassFormInitData = {
-  chapter: {
-    value: "1",
-    label: "ELECTROMAGNETISM",
-  },
-  topic: {
-    value: "1",
-    label: "MURPHY LAW",
-  },
-};
 const dataKey = [
   "scheduledDate",
   "topic",
@@ -74,6 +61,9 @@ const ScheduleClassPopup = ({
     {}
   ); // for error handling
   const [date, setDate] = useState(selectedDate);
+  const [isSubjectLoading, setIsSubjectLoading] = useState(false);
+  const [isChaptersLoading, setIsChaptersLoading] = useState(false);
+  const [subjectsData, setSubjectsData] = useState([]);
   const [chaptersData, setChaptersData] = useState([]);
   const [isTopicsLoading, setIsTopicsLoading] = useState(false);
   const [isTopicsDisabled, setIsTopicsDisabled] = useState(true);
@@ -161,6 +151,7 @@ const ScheduleClassPopup = ({
         formData.append("files", selectedFiles[key]);
       }
     }
+    formData.append("subject", JSON.stringify(scheduleClassFormData.subject));
     formData.append("chapter", JSON.stringify(scheduleClassFormData.chapter));
     formData.append("topic", JSON.stringify(scheduleClassFormData.topic));
     formData.append("scheduledDate", scheduleClassFormData.scheduledDate);
@@ -221,7 +212,21 @@ const ScheduleClassPopup = ({
     };
   }, []);
 
+  const getSubjectsByFetch = async () => {
+    setIsSubjectLoading(true);
+    try {
+      const response = await fetchAllSubjectsApi();
+      if (response.status) {
+        setSubjectsData(response.result);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    setIsSubjectLoading(false);
+  };
+
   const getChaptersByFetch = async () => {
+    setIsChaptersLoading(true);
     try {
       const response = await fetchAllChaptersApi();
       if (response.status) {
@@ -230,9 +235,11 @@ const ScheduleClassPopup = ({
     } catch (err) {
       console.log(err);
     }
+    setIsChaptersLoading(false);
   };
 
   useEffect(() => {
+    getSubjectsByFetch();
     getChaptersByFetch();
   }, []);
 
@@ -259,10 +266,18 @@ const ScheduleClassPopup = ({
                         scheduleClassData.scheduleClassFormPlaceholder
                           .selectSubject
                       }
+                      isLoading={isSubjectLoading}
+                      isDisabled={isSubjectLoading}
                       name={"subject"}
                       onChange={handleSelectChange}
                       chakraStyles={chakraStyles}
-                      options={options}
+                      options={subjectsData.map((subject) => {
+                        let obj = {
+                          value: subject.id,
+                          label: subject.name,
+                        };
+                        return obj;
+                      })}
                       useBasicStyles
                     />
                   </Box>
@@ -301,6 +316,8 @@ const ScheduleClassPopup = ({
                       scheduleClassData.scheduleClassFormPlaceholder
                         .selectChapter
                     }
+                    isLoading={isChaptersLoading}
+                    isDisabled={isChaptersLoading}
                     onChange={handleSelectChange}
                     name="chapter"
                     chakraStyles={chakraStyles}

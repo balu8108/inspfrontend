@@ -19,6 +19,9 @@ import { MainBtn } from "../button";
 
 import { sendQuestionHandler } from "../../socketconnections/socketconnections";
 import { useState, useEffect } from "react";
+import { screenshotHandler } from "../../utils";
+import { imageToDocApi } from "../../api/genericapis";
+import { useParams } from "react-router-dom";
 
 const questionTypeOptions = [
   { value: "poll", label: "Poll" },
@@ -38,7 +41,7 @@ const tfOptions = [
   { value: "false", label: "False" },
 ];
 
-const PostPoll = ({ QNo, setQNo }) => {
+const PostPoll = ({ QNo, setQNo, screenShareStream }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [noOfOptions, setNoOfOptions] = useState(4);
   const [answerOptions, setAnswerOptions] = useState(defaultAnswerOptions);
@@ -51,11 +54,29 @@ const PostPoll = ({ QNo, setQNo }) => {
   });
   const [timer, setTimer] = useState(60);
   const { onOpen, onClose, isOpen } = useDisclosure();
+  const { roomId } = useParams();
 
   const { primaryBlue } = useTheme().colors.pallete;
-  const sendPoll = () => {
+
+  const handleScreenshot = async () => {
+    try {
+      const screenshot = await screenshotHandler(screenShareStream);
+      const formData = new FormData();
+      console.log("screenshot", qnaData);
+      formData.append("screenshot", screenshot);
+      formData.append("data", JSON.stringify(qnaData));
+      formData.append("roomId", roomId);
+
+      if (screenshot) {
+        await imageToDocApi(formData); // send screenshot to backend
+      }
+    } catch (err) {}
+  };
+
+  const sendPoll = async () => {
     setIsLoading(true);
     sendQuestionHandler(qnaData);
+    await handleScreenshot(screenShareStream);
     setIsLoading(false);
     onClose();
   };
