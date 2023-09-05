@@ -37,7 +37,12 @@ const Library = () => {
           >
             Library
           </Text>
-          <Button variant={"ghost"} fontSize={"13px"} ml={"650px"} fontWeight={"400"}>
+          <Button
+            variant={"ghost"}
+            fontSize={"13px"}
+            ml={"650px"}
+            fontWeight={"400"}
+          >
             See All
           </Button>
         </HStack>
@@ -51,7 +56,6 @@ const Library = () => {
               borderRadius={"18px"}
               blendMode={"multiply"}
               backgroundColor={"#F1F5F8"}
-            
             >
               <Text
                 fontSize={"14px"}

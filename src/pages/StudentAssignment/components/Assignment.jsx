@@ -27,14 +27,14 @@ const physDetails = () => {
         <Text fontSize={"19px"} lineHeight={"24px"}>
           Assignments (Physics)
         </Text>
-        <InputGroup m={4} w={"220px"} ml={"310px"}  borderRadius={"18px"}>
-        <InputLeftElement pointerEvents="none">
-          <FaSearch color="gray" />
-        </InputLeftElement>
-        <Input placeholder="Search..." />
-      </InputGroup>
+        <InputGroup m={4} w={"220px"} ml={"310px"} borderRadius={"18px"}>
+          <InputLeftElement pointerEvents="none">
+            <FaSearch color="gray" />
+          </InputLeftElement>
+          <Input placeholder="Search..." />
+        </InputGroup>
       </HStack>
-      
+
       <Stack>
         <Flex flexWrap="wrap" mt={"37px"} ml={"27px"} mr={"20px"} gap={"23px"}>
           {assignmentData.map((assignmentScreen) => (

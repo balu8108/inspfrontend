@@ -1,17 +1,15 @@
 ::-webkit-scrollbar {
-    width: 8px;
-  }
-  body {
-    scrollbar-width: thin; 
-  }
-  
-  body::-webkit-scrollbar {
-    width: 8px;
-    height: 5px;
-  
-  }
-  
-  body::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-  }
-  
+  width: 8px;
+}
+body {
+  scrollbar-width: thin;
+}
+
+body::-webkit-scrollbar {
+  width: 8px;
+  height: 5px;
+}
+
+body::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+}

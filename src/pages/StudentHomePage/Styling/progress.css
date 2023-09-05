@@ -1,50 +1,49 @@
-.outer-div{
-    margin-top: 35px;
+.outer-div {
+  margin-top: 35px;
 }
 
 .mainDiv {
-    display: flex;
-    margin-top: 23px;
-  }
-  
-  .subject-name {
-    margin-bottom: 5px;
-    font-size:12px;
-  }
-  
-  .progress-container {
-    width: 110px;
-    height: 10px;
-    background-color: #d8d6d6;
-    border-radius: 15px;
-    overflow: hidden;
-    align-items: center;
-    display: flex;
-    margin-top: 5px;
-    margin-left: 5px;
-  }
-  
-  .progress-bar {
-    height: 100%;
-    transition: width 0.3s ease-in-out;
-    align-items: center;
-    justify-content: flex-end;
-    padding-right: 10px;
-    border-radius: 18px;
-  }
-  
-  .percentage {
-   font-size: 10px;
-    color: black;
-    margin-left: 4px;
-    margin-top: 3px;
-  }
-  
-  .circle-icon {
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    margin-right: 10px;
-    font-size: 12px;
-  }
-  
+  display: flex;
+  margin-top: 23px;
+}
+
+.subject-name {
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+
+.progress-container {
+  width: 110px;
+  height: 10px;
+  background-color: #d8d6d6;
+  border-radius: 15px;
+  overflow: hidden;
+  align-items: center;
+  display: flex;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+.progress-bar {
+  height: 100%;
+  transition: width 0.3s ease-in-out;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 10px;
+  border-radius: 18px;
+}
+
+.percentage {
+  font-size: 10px;
+  color: black;
+  margin-left: 4px;
+  margin-top: 3px;
+}
+
+.circle-icon {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  margin-right: 10px;
+  font-size: 12px;
+}

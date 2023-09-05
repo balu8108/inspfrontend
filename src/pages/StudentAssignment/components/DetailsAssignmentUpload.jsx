@@ -1,8 +1,20 @@
-import React from "react";
-import { Box, Text, HStack, Card, Flex, Button, Stack } from "@chakra-ui/react";
-import physDetailsData from "../data/physicsDetails";
-
-const physDetails = () => {
+import {
+  Button,
+  Box,
+  Card,
+  Flex,
+  HStack,
+  Icon,
+  Input,
+  InputLeftElement,
+  InputGroup,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
+import { FaSearch } from "react-icons/fa";
+import { BsUpload } from "react-icons/bs";
+import uploadAssignmentData from "../data/uploadAssigData";
+const assignmentUpload = () => {
   return (
     <Box width={"100%"} h={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
@@ -13,22 +25,28 @@ const physDetails = () => {
           bg={"#3C8DBC"}
         ></Box>
         <Text fontSize={"19px"} lineHeight={"24px"}>
-          My Courses (Physics)
+          Assignment (Physics)
         </Text>
+        <InputGroup m={4} w={"220px"} ml={"310px"} borderRadius={"18px"}>
+          <InputLeftElement pointerEvents="none">
+            <FaSearch color="gray" />
+          </InputLeftElement>
+          <Input placeholder="Search..." />
+        </InputGroup>
       </HStack>
 
       <Stack>
         <Flex flexWrap="wrap" mt={"37px"} ml={"27px"} mr={"20px"} gap={"23px"}>
-          {physDetailsData.map((physScreen) => (
+          {uploadAssignmentData.map((assignmentData) => (
             <Card
-              key={physScreen.id}
+              key={assignmentData.id}
               w="30%"
               blendMode={"multiply"}
               bg={"#F1F5F8"}
               borderRadius={"18px"}
             >
               <Text fontSize={"px"} fontWeight={400} ml={"13px"} mt={"16px"}>
-                {physScreen.chapterName}
+                {assignmentData.chapterName}
               </Text>
               <Text
                 fontWeight={400}
@@ -36,7 +54,7 @@ const physDetails = () => {
                 ml={"13px"}
                 color={"rgba(44, 51, 41, 0.47)"}
               >
-                {physScreen.instructorName}
+                {assignmentData.instructorName}
               </Text>
               <Text
                 fontSize={"12px"}
@@ -55,7 +73,7 @@ const physDetails = () => {
                 ml={13}
                 color={"rgba(44, 51, 41, 0.47)"}
               >
-                {physScreen.description}
+                {assignmentData.description}
               </Text>
               <Button
                 variant={"ghost"}
@@ -71,8 +89,30 @@ const physDetails = () => {
           ))}
         </Flex>
       </Stack>
+      <Box mt={"30px"} ml={"52px"} key={uploadAssignmentData.id}>
+        {uploadAssignmentData.map((assignmentData) => (
+          <Text></Text>
+        ))}
+
+        <Box mt={"179px"}>
+          <Text>Files</Text>
+          <Box
+            bg={"blackAlpha.200"}
+            w={"280px"}
+            h={"43px"}
+            mt={6}
+            ml={"30px"}
+            mr={"30px"}
+            p={"6px"}
+            justifyContent={"space-between"}
+            borderRadius={"6px"}
+            border={"1px"}
+          >
+            <Icon ml={"240px"} as={BsUpload} />
+          </Box>
+        </Box>
+      </Box>
     </Box>
   );
 };
-
-export default physDetails;
+export default assignmentUpload;

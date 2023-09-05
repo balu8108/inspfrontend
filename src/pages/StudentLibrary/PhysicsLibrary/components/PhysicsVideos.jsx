@@ -1,8 +1,20 @@
 import React from "react";
-import { Box, Text, HStack, Card, Flex, Button, Stack } from "@chakra-ui/react";
-import physDetailsData from "../data/physicsDetails";
-
-const physDetails = () => {
+import {
+  Box,
+  Text,
+  HStack,
+  Card,
+  Flex,
+  Button,
+  Stack,
+  Input,
+  InputLeftElement,
+  InputGroup,
+} from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+import physVideosData from "../data/PhysVideosData";
+import { FaSearch } from "react-icons/fa";
+const physLibrary = () => {
   return (
     <Box width={"100%"} h={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
@@ -13,13 +25,20 @@ const physDetails = () => {
           bg={"#3C8DBC"}
         ></Box>
         <Text fontSize={"19px"} lineHeight={"24px"}>
-          My Courses (Physics)
+          Library (Physics)
         </Text>
+
+        <InputGroup m={4} w={"220px"} ml={"310px"} borderRadius={"18px"}>
+          <InputLeftElement pointerEvents="none">
+            <FaSearch color="gray" />
+          </InputLeftElement>
+          <Input placeholder="Search..." />
+        </InputGroup>
       </HStack>
 
       <Stack>
         <Flex flexWrap="wrap" mt={"37px"} ml={"27px"} mr={"20px"} gap={"23px"}>
-          {physDetailsData.map((physScreen) => (
+          {physVideosData.map((physScreen) => (
             <Card
               key={physScreen.id}
               w="30%"
@@ -57,16 +76,19 @@ const physDetails = () => {
               >
                 {physScreen.description}
               </Text>
-              <Button
-                variant={"ghost"}
-                color={"#3C8DBC"}
-                fontWeight={"600px"}
-                size={"14px"}
-                lineHeight={"16px"}
-                p={6}
-              >
-                View Details
-              </Button>
+              <Link to={`/student/physics-library/${physScreen.chapterName}`}>
+                <Button
+                  variant={"ghost"}
+                  color={"#3C8DBC"}
+                  fontWeight={"600px"}
+                  size={"14px"}
+                  lineHeight={"16px"}
+                  p={6}
+                  ml={8}
+                >
+                  View Details
+                </Button>
+              </Link>
             </Card>
           ))}
         </Flex>
@@ -75,4 +97,4 @@ const physDetails = () => {
   );
 };
 
-export default physDetails;
+export default physLibrary;

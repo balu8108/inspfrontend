@@ -7,6 +7,9 @@ import StudentChemCourse from "./pages/StudentCourses/Chemistry/screens/ChemCour
 import StudentPhyCourse from "./pages/StudentCourses/Physics/screens/PhysicsCourse";
 import Viewrecording from "./pages/ViewRecording/screen/Recordings";
 import StudentAssignment from "./pages/StudentAssignment/screen/StudentAssignment";
+import PhyLibrary from "./pages/StudentLibrary/PhysicsLibrary/screen/PhyLibrary";
+import PhyRecording from "./pages/StudentLibrary/PhysicsLibrary/screen/ViewLectures";
+import AssignmentUpload from "./pages/StudentAssignment/screen/ViewAssignmentUpload";
 const routes = [
   {
     name: "Room Preview",
@@ -55,6 +58,22 @@ const routes = [
     path:"/student/assignment",
     component:<StudentAssignment />
   },
+  {
+    name:"Student Library",
+    path:"/student/physics-library",
+    component:<PhyLibrary />
+  },
+
+  {
+    name:"Student Physics Videos",
+    path:"/student/physics-library/:chapterName",
+    component:<PhyRecording />
+  },
+  {
+    name:"Student View Upload Assignment",
+    path:"/student/assignment-upload",
+    component:<AssignmentUpload />
+  }
 
  
 ];

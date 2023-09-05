@@ -33,7 +33,15 @@ const Assignment = () => {
         <Text fontSize="20px" lineHeight="26.6px" mt="26px">
           Assignment
         </Text>
-        <Button variant={"ghost"} fontSize={"13px"} mt={5} ml={12} fontWeight={400}>See All</Button>
+        <Button
+          variant={"ghost"}
+          fontSize={"13px"}
+          mt={5}
+          ml={12}
+          fontWeight={400}
+        >
+          See All
+        </Button>
       </HStack>
 
       <Flex mt={5}>
@@ -41,7 +49,6 @@ const Assignment = () => {
           <Card
             borderRadius="18px"
             bg="#F1F5F8"
-           
             ml="26px"
             mr="20px"
             key={homepageAssignment.id}

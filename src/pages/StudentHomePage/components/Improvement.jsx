@@ -2,9 +2,9 @@ import React from "react";
 import { Doughnut } from "react-chartjs-2";
 import improvementMarks from "../data/improvement";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Box, Text, HStack,Badge,Circle,Flex, Icon } from "@chakra-ui/react";
+import { Box, Text, HStack, Badge, Circle, Flex, Icon } from "@chakra-ui/react";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import "../Styling/progress.css"
+import "../Styling/progress.css";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Improvement = () => {

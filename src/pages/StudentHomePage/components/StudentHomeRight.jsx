@@ -15,7 +15,7 @@ import { FaSearch } from "react-icons/fa";
 import scheduledOngoing from "../../MeetingViewer/data/scheduledOngoing";
 import scheduledToday from "../../MeetingViewer/data/scheduledToday";
 import scheduledWeek from "../../MeetingViewer/data/scheduledWeek";
-import "../Styling/scrollbar.css"
+import "../Styling/scrollbar.css";
 const FullRec = () => {
   return (
     <Box
@@ -27,8 +27,6 @@ const FullRec = () => {
       overflowX={"hidden"}
       overflowY={"auto"}
     >
-
-
       <InputGroup p={5}>
         <InputLeftElement pointerEvents="none">
           <FaSearch
@@ -332,8 +330,6 @@ const FullRec = () => {
           </Box>
         ))}
       </VStack>
-
-
     </Box>
   );
 };
