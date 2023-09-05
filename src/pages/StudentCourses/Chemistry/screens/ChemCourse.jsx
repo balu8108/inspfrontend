@@ -1,5 +1,5 @@
 import React from "react";
-import ChemHeader from "../components/ChemHeader";
+import Header from "../../../MyCourses/components/Header";
 import ChemDetails from "../components/ChemiDetails";
 import ScheduledMeetings from "../../../MeetingViewer/components/ScheduledMeetings";
 import { Flex, VStack, Box } from "@chakra-ui/react";
@@ -8,7 +8,7 @@ const chemScreen = () => {
     <Box ml={"52px"} mr={"52px"} mt={"52px"} mb={10}>
       <Flex>
         <VStack spacing={6}>
-          <ChemHeader />
+          <Header />
           <ChemDetails />
         </VStack>
         <ScheduledMeetings />

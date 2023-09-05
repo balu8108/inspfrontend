@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../components/Header";
+import Header from "../../../MyCourses/components/Header";
 import Details from "../components/Detailing";
 import ScheduledMeetings from "../../../MeetingViewer/components/ScheduledMeetings";
 import { Flex, VStack, Box } from "@chakra-ui/react";

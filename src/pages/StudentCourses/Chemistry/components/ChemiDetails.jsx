@@ -12,7 +12,7 @@ const chemDetails = () => {
           mt={"33px"}
           ml={"27px"}
         ></Box>
-        <Text fontSize={"19px"} lineHeight={"24px"} mt={"26px"}>
+        <Text fontSize={"19px"} lineHeight={"24px"} mt={"28px"}>
           My Courses (Chemistry)
         </Text>
       </HStack>
