@@ -36,9 +36,6 @@ const LiveSessionStream = (props) => {
     setIsRecordOn,
   } = props;
   const [activeAudioConsumers, setActiveAudioConsumers] = useState([]);
-
-  const [miroBoardId, setMiroBoardId] = useState(null);
-
   const [isRaiseHandVisible, setIsRaiseHandVisible] = useState(false);
   const { question } = useSelector((state) => state.socket);
 
@@ -115,7 +112,7 @@ const LiveSessionStream = (props) => {
           <RaiseHand key={peer.id} peer={peer} />
         ))}
 
-        <MiroBoard miroBoardId={miroBoardId} />
+        <MiroBoard />
 
         <video
           ref={screenShareRef}
@@ -169,7 +166,6 @@ const LiveSessionStream = (props) => {
           micRef={micRef}
           isRecordOn={isRecordOn}
           setIsRecordOn={setIsRecordOn}
-          setMiroBoardId={setMiroBoardId}
         />
         <ChatToolBox
           isScreenShare={isScreenShare}

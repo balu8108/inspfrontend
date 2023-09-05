@@ -10,6 +10,7 @@ import {
   setMentorScreenSharePauseOrResume,
   setMentorVideoShareConsumer,
   setMentorVideoSharePauseOrResume,
+  setMiroBoardData,
   setNewPeerJoined,
   setPeerLeaved,
   setQuestion,
@@ -27,11 +28,13 @@ import { isObjectValid } from "../utils";
 
 let socket = null;
 export let producerTransport = null;
-export let consumerTransports = []; // TODO later on we need to change as multiple tranport is not required to create
+export let consumerTransport = null;
 export const device = new Device();
 // require one transport per user for sending and receiving media streams and they can receive any data
 
 // SOCKET METHOD/CALLBACK/RESPONSE HANDLERS:-
+
+/** REPSONSE HANDLER STARTS HERE **/
 
 const socketConnectionHandler = (roomId) => {
   console.log("Socket connected successfully with id ", socket.id);
@@ -80,7 +83,6 @@ const createSendTransportResponseHandler = (res, resolve, reject) => {
           dtlsParameters,
         });
         callback();
-        console.log("Send transport connected successfully!!!");
       } catch (err) {
         console.log("Error in connect send transport", err);
       }
@@ -99,7 +101,6 @@ const createSendTransportResponseHandler = (res, resolve, reject) => {
             appData: parameters.appData,
           },
           ({ id, producerExist }) => {
-            console.log("Producer exists", producerExist);
             callback({ id });
           }
         );
@@ -138,18 +139,7 @@ const consumeMediaFromProducer = async (
         rtpParameters: params.rtpParameters,
         appData: appData,
       });
-      // TODO
-      // If we use single consumer transport later on then we don't need the below
 
-      consumerTransports = [
-        ...consumerTransports,
-        {
-          consumerTransport,
-          serverConsumerTransportId: params.id,
-          producerId: params.id,
-          consumer,
-        },
-      ];
       // in redux we are storing all consumers
 
       if (
@@ -181,79 +171,77 @@ const consumeMediaFromProducer = async (
   );
 };
 
-const createRecvTransport = async (remoteProducerId, appData) => {
-  socket.emit(
-    SOCKET_EVENTS.CREATE_WEB_RTC_TRANSPORT,
-    { consumer: true },
-    ({ params }) => {
-      if (params.err) {
-        console.log("Error in recv transport", params.err);
+// Previously function prototype
 
-        return;
-      }
-      let consumerTransport = null;
-      try {
-        consumerTransport = device.createRecvTransport(params);
-        console.log("consumer transport triggered", consumerTransport);
-        console.log("consumer transport params id", params.id);
-      } catch (err) {
-        console.log("Error in initializing recv transport");
-
-        return;
-      }
-      consumerTransport.on(
-        SOCKET_EVENTS.CONNECT,
-        async ({ dtlsParameters }, callback, errback) => {
-          try {
-            await socket.emit(SOCKET_EVENTS.TRANSPORT_RECV_CONNECT, {
-              dtlsParameters,
-              serverConsumerTransportId: params.id,
-            });
-            console.log("Recv transport connected successfully!!!");
-            console.log("");
-            callback();
-          } catch (err) {
-            console.log("Error in Transport recv connect", err);
-          }
+// const createRecvTransport = async (remoteProducerId, appData) => {};
+const createRecvTransport = async () => {
+  return new Promise((resolve, reject) => {
+    socket.emit(
+      SOCKET_EVENTS.CREATE_WEB_RTC_TRANSPORT,
+      { consumer: true },
+      ({ params }) => {
+        if (params.err) {
+          reject(params.err);
+          return;
         }
-      );
+        try {
+          consumerTransport = device.createRecvTransport(params);
+        } catch (err) {
+          return;
+        }
+        consumerTransport.on(
+          SOCKET_EVENTS.CONNECT,
+          async ({ dtlsParameters }, callback, errback) => {
+            try {
+              await socket.emit(SOCKET_EVENTS.TRANSPORT_RECV_CONNECT, {
+                dtlsParameters,
+                serverConsumerTransportId: params.id,
+              });
 
-      consumeMediaFromProducer(
-        consumerTransport,
-        remoteProducerId,
-        params.id,
-        appData
-      );
-    }
-  );
+              callback();
+            } catch (err) {
+              reject(err);
+            }
+          }
+        );
+        resolve();
+      }
+    );
+  });
 };
-
-// const consumeMediaFromProducer = async (remoteProducerId) => {
-//   // consume media from the producer
-// };
 
 const getProducersResponseHandler = async (producersIds) => {
   // expecting an array of producer ids
   if (producersIds.length) {
-    // if (consumerTransport === null) {
-
-    //   try {
-    //     await createRecvTransport();
-    //   } catch (err) {
-    //     console.log("error in creating consumer transport");
-    //     return;
-    //   }
-    // }
-    console.log("producers in get producers", producersIds);
-
-    producersIds.forEach((producer) => {
-      createRecvTransport(producer.producerId, producer.appData);
-    });
+    try {
+      if (!consumerTransport) {
+        // create Recv Transport before consuming media
+        await createRecvTransport();
+      }
+      producersIds.forEach(async (producer) => {
+        await consumeMediaFromProducer(
+          consumerTransport,
+          producer.producerId,
+          consumerTransport.id,
+          producer.appData
+        );
+      });
+    } catch (err) {}
   }
 };
 
 const newProducerResponseHandler = async ({ producerId, appData }) => {
-  await createRecvTransport(producerId, appData);
+  try {
+    if (!consumerTransport) {
+      await createRecvTransport();
+    }
+    await consumeMediaFromProducer(
+      consumerTransport,
+      producerId,
+      consumerTransport.id,
+      appData
+    );
+  } catch (err) {}
 };
 
 const peerLeavedResponseHandler = (res) => {
@@ -348,6 +336,12 @@ const fileUploadResponseHandler = (res) => {
   }
 };
 
+const miroBoardIdResponseHandler = (res) => {
+  store.dispatch(setMiroBoardData(res));
+};
+
+/** REPSONSE HANDLER ENDS HERE **/
+
 // SOCKET EVENT LISTENERS AND EVENT EMITTERS:-
 export const initializeSocketConnections = (roomId) => {
   socket = io(BASE_URL);
@@ -368,10 +362,16 @@ export const initializeSocketConnections = (roomId) => {
     SOCKET_EVENTS.SOME_PRODUCER_CLOSED,
     someProducerClosedResponseHandler
   );
+  socket.on(
+    SOCKET_EVENTS.MIRO_BOARD_DATA_FROM_SERVER,
+    miroBoardIdResponseHandler
+  );
   socket.on(SOCKET_EVENTS.DISCONNECT, () => {
     console.log("socket disconnected with id", socket.id);
   });
 };
+
+/* EVENT EMIT FUNCTIONS STARTS HERE */
 
 export const joinRoomHandler = (roomId) => {
   return new Promise((resolve, reject) => {
@@ -404,7 +404,6 @@ export const createSendTransportHandler = async () => {
 };
 
 export const getProducersHandler = () => {
-  console.log("i was triggered in get Producers");
   // This function will get all the producer from server and then create a consumer for the user so that the user can consume the media of the producers
   socket.emit(SOCKET_EVENTS.GET_PRODUCERS, getProducersResponseHandler);
 };
@@ -446,7 +445,6 @@ export const sendQuestionHandler = (data) => {
 
 export const startRecordingHandler = (data) => {
   if (data) {
-    console.log("start recording", data);
     socket.emit(SOCKET_EVENTS.START_RECORDING, data);
   }
 };
@@ -474,3 +472,9 @@ export const leaveRoomHandler = async () => {
 export const sendAnswerHandler = (data) => {
   socket.emit(SOCKET_EVENTS.ANSWER_SENT_TO_SERVER, data);
 };
+
+export const sendMiroBoardData = (data) => {
+  socket.emit(SOCKET_EVENTS.MIRO_BOARD_DATA_TO_SERVER, data);
+};
+
+/* EVENT EMIT FUNCTIONS ENDS HERE */

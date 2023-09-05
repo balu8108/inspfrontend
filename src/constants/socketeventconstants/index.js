@@ -33,6 +33,8 @@ const SOCKET_EVENTS = {
   PRODUCER_PAUSED: "producer_paused", // if producer pause is trigger then in frontend we need to pause the video
   PRODUCER_RESUMED: "producer_resumed", // if producer resume is trigger then in frontend we need to resume the video
   LEAVE_ROOM: "leave_room",
+  MIRO_BOARD_DATA_TO_SERVER: "miro_board_data_to_server",
+  MIRO_BOARD_DATA_FROM_SERVER: "miro_board_data_from_server",
 };
 
 export default SOCKET_EVENTS;
