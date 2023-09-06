@@ -10,7 +10,25 @@ import StudentAssignment from "./pages/StudentAssignment/screen/StudentAssignmen
 import PhyLibrary from "./pages/StudentLibrary/PhysicsLibrary/screen/PhyLibrary";
 import PhyRecording from "./pages/StudentLibrary/PhysicsLibrary/screen/ViewLectures";
 import AssignmentUpload from "./pages/StudentAssignment/screen/ViewAssignmentUpload";
+import Home from "./components/home/Home";
+import AuthLoading from "./components/loaders/AuthLoading";
 const routes = [
+  {
+    name: "Home",
+    path: "/",
+    component: <Home />,
+  },
+  {
+    name: "Auth Loading",
+    path: "/auth",
+    component: <AuthLoading message={"Trying to Logging you in..."} />,
+  },
+  {
+    name: "Auth Loading",
+    path: "/auth/:secret_token",
+    component: <AuthLoading message={"Logging you in..."} />,
+  },
+
   {
     name: "Room Preview",
     path: "/room-preview/:roomId",
@@ -28,54 +46,52 @@ const routes = [
   },
 
   {
-    name:"Student Homepage",
-    path:"/student/homepage",
-    component:<StudentHomePage />
+    name: "Student Homepage",
+    path: "/student/homepage",
+    component: <StudentHomePage />,
   },
 
   {
-    name:"Student MathsCourse",
-    path:"/student/myCourses/mathematics",
-    component:<StudentMathsCourse />
+    name: "Student MathsCourse",
+    path: "/student/myCourses/mathematics",
+    component: <StudentMathsCourse />,
   },
   {
-    name:"Student ChemistryCourse",
-    path:"/student/myCourses/chemistry",
-    component:<StudentChemCourse />
+    name: "Student ChemistryCourse",
+    path: "/student/myCourses/chemistry",
+    component: <StudentChemCourse />,
   },
   {
-    name:"Student PhysicsCourse",
-    path:"/student/myCourses/physics",
-    component:<StudentPhyCourse />
+    name: "Student PhysicsCourse",
+    path: "/student/myCourses/physics",
+    component: <StudentPhyCourse />,
   },
   {
-    name:"Student View Recording",
-    path:"/view-recording",
-    component:<Viewrecording />
+    name: "Student View Recording",
+    path: "/view-recording",
+    component: <Viewrecording />,
   },
   {
-    name:"Student Assignments",
-    path:"/student/assignment",
-    component:<StudentAssignment />
+    name: "Student Assignments",
+    path: "/student/assignment",
+    component: <StudentAssignment />,
   },
   {
-    name:"Student Library",
-    path:"/student/physics-library",
-    component:<PhyLibrary />
+    name: "Student Library",
+    path: "/student/physics-library",
+    component: <PhyLibrary />,
   },
 
   {
-    name:"Student Physics Videos",
-    path:"/student/physics-library/:chapterName",
-    component:<PhyRecording />
+    name: "Student Physics Videos",
+    path: "/student/physics-library/:chapterName",
+    component: <PhyRecording />,
   },
   {
-    name:"Student View Upload Assignment",
-    path:"/student/assignment-upload",
-    component:<AssignmentUpload />
-  }
-
- 
+    name: "Student View Upload Assignment",
+    path: "/student/assignment-upload",
+    component: <AssignmentUpload />,
+  },
 ];
 
 export default routes;

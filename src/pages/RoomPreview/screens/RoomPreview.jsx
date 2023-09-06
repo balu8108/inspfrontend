@@ -11,6 +11,7 @@ const RoomPreview = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log("initalization");
     initializeSocketConnections(roomId);
   }, [roomId]);
   useEffect(() => {

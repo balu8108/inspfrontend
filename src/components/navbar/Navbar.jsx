@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -15,9 +16,21 @@ import {
 } from "@chakra-ui/react";
 import insplogo from "../../assets/images/insplogo.png";
 import avatar from "../../assets/images/avatar.png";
+import { getLocalStorageData } from "../../utils";
 export default function Navbar() {
   const theme = useTheme();
   const { backgroundLightBlue } = theme.colors.pallete;
+  const [userData, setUserData] = useState(null);
+
+  const getUserDetails = async () => {
+    try {
+      const res = await getLocalStorageData("insp_user_profile");
+      setUserData(res.data);
+    } catch (err) {}
+  };
+  useEffect(() => {
+    getUserDetails();
+  }, []);
   return (
     <>
       <Box bg={backgroundLightBlue} py={1} px={20}>
@@ -40,23 +53,25 @@ export default function Navbar() {
                     size={"sm"}
                     width={42}
                     height={42}
-                    src={avatar}
+                    name={userData && userData?.name}
                     objectFit={"cover"}
                   />
                 </MenuButton>
-                <MenuList alignItems={"center"}>
+                <MenuList alignItems={"center"} zIndex={10}>
                   <br />
                   <Center>
-                    <Avatar size={"2xl"} src={avatar} objectFit={"cover"} />
+                    <Avatar
+                      size={"2xl"}
+                      name={userData && userData?.name}
+                      objectFit={"cover"}
+                    />
                   </Center>
                   <br />
                   <Center>
-                    <p>Username</p>
+                    <p>{userData && userData?.name}</p>
                   </Center>
                   <br />
                   <MenuDivider />
-                  <MenuItem>Your Servers</MenuItem>
-                  <MenuItem>Account Settings</MenuItem>
                   <MenuItem>Logout</MenuItem>
                 </MenuList>
               </Menu>
