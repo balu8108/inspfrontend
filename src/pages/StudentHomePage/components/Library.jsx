@@ -19,6 +19,7 @@ const Library = () => {
         backgroundColor={"#F1F5F8"}
         borderRadius={"26px"}
         mt={"24px"}
+        overflowX={"auto"}
       >
         <HStack spacing={"10px"}>
           <Box
@@ -37,12 +38,7 @@ const Library = () => {
           >
             Library
           </Text>
-          <Button
-            variant={"ghost"}
-            fontSize={"13px"}
-            ml={"650px"}
-            fontWeight={"400"}
-          >
+          <Button variant={"ghost"} fontSize={"13px"} ml={"650px"} fontWeight={"400"}>
             See All
           </Button>
         </HStack>
@@ -103,3 +99,23 @@ const Library = () => {
   );
 };
 export default Library;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
