@@ -10,6 +10,7 @@ import StudentAssignment from "./pages/StudentAssignment/screen/StudentAssignmen
 import PhyLibrary from "./pages/StudentLibrary/PhysicsLibrary/screen/PhyLibrary";
 import PhyRecording from "./pages/StudentLibrary/PhysicsLibrary/screen/ViewLectures";
 import AssignmentUpload from "./pages/StudentAssignment/screen/ViewAssignmentUpload";
+import StudentBoardScreen from "./pages/StudentBoard/screen/StudentBoardScreen";
 const routes = [
   {
     name: "Room Preview",
@@ -73,6 +74,11 @@ const routes = [
     name:"Student View Upload Assignment",
     path:"/student/assignment-upload",
     component:<AssignmentUpload />
+  },
+  {
+    name:"Student LeaderBoard",
+    path:"/student/leaderboard",
+    component:<StudentBoardScreen />
   }
 
  
