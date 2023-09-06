@@ -30,14 +30,20 @@ import {
   producerResumeHandler,
   producerTransport,
   raiseHandHandler,
+  sendMiroBoardData,
   startRecordingHandler,
   stopProducing,
 } from "../../../socketconnections/socketconnections";
-import { staticVariables } from "../../../constants/staticvariables";
+import {
+  miroViewMode,
+  staticVariables,
+} from "../../../constants/staticvariables";
 import { roomData } from "../data/roomData";
 import PostPoll from "../../../components/popups/PostPoll";
 import { LeaveBtn } from "../../../components/button";
 import VideoSection from "./VideoSection";
+import { useDispatch } from "react-redux";
+import { setMiroBoardData } from "../../../store/actions/socketActions";
 let producerScreenShare = null;
 let producerMentorVideoShare = null;
 let producerAudioShare = null;
@@ -63,14 +69,13 @@ const ToolBox = ({
   micRef,
   isRecordOn,
   setIsRecordOn,
-  setMiroBoardId,
 }) => {
   const [isRaiseHand, setIsRaiseHand] = useState(false);
   const [isLeaveLoading, setIsLeaveLoading] = useState(false); // for leave button loading state
-
   const [QNo, setQNo] = useState(0);
   const navigate = useNavigate();
   const { roomId } = useParams();
+  const dispatch = useDispatch();
 
   const { redBtnColor } = useTheme().colors.pallete;
 
@@ -79,7 +84,10 @@ const ToolBox = ({
       clientId: "3458764563018758552", // Replace it with your app ClientId
       action: "select",
       success: (data) => {
-        setMiroBoardId(data.id);
+        dispatch(
+          setMiroBoardData({ boardId: data.id, mode: miroViewMode.edit })
+        );
+        sendMiroBoardData({ boardId: data.id, mode: miroViewMode.view }); // Broadcast to all as view mode for miro board
       },
     });
   };
@@ -267,12 +275,12 @@ const ToolBox = ({
   const startRecording = () => {
     if (isRecordOn) {
       // stop recording triggered
-      console.log("stop recording");
+
       setIsRecordOn(false);
     } else {
       // start recording
       // at the moment we will only record screenshare then will look into audio
-      console.log("start recording");
+
       // startRecordingHandler(producerScreenShare);
       startRecordingHandler({ producerScreenShare, producerAudioShare });
       setIsRecordOn(true);

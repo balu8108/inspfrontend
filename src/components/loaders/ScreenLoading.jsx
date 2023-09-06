@@ -1,6 +1,6 @@
 import React from "react";
-import { Flex, Spinner } from "@chakra-ui/react";
-const ScreenLoading = () => {
+import { Flex, Spinner, Box, Text } from "@chakra-ui/react";
+const ScreenLoading = ({ message }) => {
   return (
     <>
       <Flex
@@ -13,8 +13,14 @@ const ScreenLoading = () => {
         zIndex={20}
         justifyContent={"center"}
         alignItems={"center"}
+        direction={"column"}
       >
         <Spinner size="xl" />
+        {message && (
+          <Box mt={6}>
+            <Text>{message}</Text>
+          </Box>
+        )}
       </Flex>
     </>
   );

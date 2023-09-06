@@ -14,3 +14,8 @@ export const QnATypes = {
   mcq: "MCQ",
   trueFalse: "TRUE_FALSE",
 };
+
+export const miroViewMode = {
+  view: "view",
+  edit: "edit",
+};

@@ -11,6 +11,7 @@ import categoriseClass from "./categoriseClass";
 import boxShadowStyles from "./boxShadowStyles";
 import screenshotHandler from "./screenshotHandler";
 import renderLeftMembersCount from "./renderLeftMembersCount";
+import getLocalStorageData from "./getLocalStorageData";
 export {
   containsEmoji,
   openFileDialog,
@@ -26,4 +27,5 @@ export {
   boxShadowStyles,
   screenshotHandler,
   renderLeftMembersCount,
+  getLocalStorageData,
 };

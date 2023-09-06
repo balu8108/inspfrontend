@@ -19,6 +19,7 @@ import {
   GET_UPCOMING_CLASS_DETAILS,
   SET_FILE_UPLOAD_IN_ROOM,
   SET_MENTOR_SCREEN_SHARE_PAUSE_OR_RESUME,
+  SET_MIRO_BOARD_DATA,
 } from "../constants";
 const initialState = {
   isPeerLoading: true,
@@ -32,6 +33,7 @@ const initialState = {
   chatMessages: [],
   raiseHands: [],
   uploadedFiles: [],
+  miroBoard: { boardId: null, mode: "view" },
   question: null,
   roomPreviewData: null,
   upcomingClassData: null,
@@ -184,6 +186,15 @@ const socketReducer = (state = initialState, action) => {
       return {
         ...state,
         upcomingClassData: action.payload.data,
+      };
+    case SET_MIRO_BOARD_DATA:
+      return {
+        ...state,
+        miroBoard: {
+          ...state.miroBoard,
+          boardId: action.payload.boardId,
+          mode: action.payload.mode,
+        },
       };
     default:
       return state;
