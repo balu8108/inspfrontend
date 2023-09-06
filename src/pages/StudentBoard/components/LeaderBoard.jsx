@@ -16,10 +16,10 @@ const leaderBoard = () => {
 
       <HStack spacing={"24px"} mt={"24px"}  ml={"20px"} >
         <Box p={"13px"}>
-          <Text >Description</Text>
+          <Text fontSize="15px" >Description</Text>
         </Box>
         <Box>
-          <Text>Covered</Text>
+          <Text >Covered</Text>
         </Box>
       </HStack>
     </Box>
