@@ -7,7 +7,7 @@ import Library from "../components/Library";
 import StudentHomePageRightSection from "../components/StudentHomeRight";
 const HomePage = () => {
   return (
-    <Flex m={"52px"}>
+    <Flex m={"52px"} justifyContent={"space-between"} bg={"red"}>
       <Box>
         <MyCourses />
         <HStack spacing={"24px"}>
