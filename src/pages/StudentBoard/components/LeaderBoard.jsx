@@ -1,7 +1,8 @@
 import { Box, HStack, Text } from "@chakra-ui/react";
 const leaderBoard = () => {
+  // w={"864px"}
   return (
-    <Box w={"864px"}  h={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
+    <Box w="full" h={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
         <Box
           width={"12px"}
@@ -14,12 +15,12 @@ const leaderBoard = () => {
         </Text>
       </HStack>
 
-      <HStack spacing={"24px"} mt={"24px"}  ml={"20px"} >
+      <HStack spacing={"24px"} mt={"24px"} ml={"20px"}>
         <Box p={"13px"}>
-          <Text fontSize="15px" >Description</Text>
+          <Text fontSize="15px">Description</Text>
         </Box>
         <Box>
-          <Text >Covered</Text>
+          <Text>Covered</Text>
         </Box>
       </HStack>
     </Box>
