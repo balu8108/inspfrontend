@@ -47,7 +47,7 @@ const Improvement = () => {
   return (
     <Box
       mt={"24px"}
-      w="full"
+      w={"130%"}
       h={"313px"}
       borderRadius={"26px"}
       bg={"#F1F5F8"}

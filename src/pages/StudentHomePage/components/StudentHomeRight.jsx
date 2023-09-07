@@ -30,11 +30,12 @@ const FullRec = () => {
       <InputGroup p={5}>
         <InputLeftElement pointerEvents="none">
           <FaSearch
-            color="gray"
-            style={{ marginTop: "40px", marginLeft: "24px" }}
+            color="#000000"
+           
+            style={{ marginTop: "40px", marginLeft: "24px"}}
           />
         </InputLeftElement>
-        <Input placeholder="Search..." />
+        <Input placeholder="Search" />
       </InputGroup>
 
       <HStack spacing={"10px"}>
@@ -97,11 +98,13 @@ const FullRec = () => {
               fontWeight={400}
               variant={"ghost"}
               bg={"#3C8DBC"}
+              color={"white"}
               h={37}
               w={"220px"}
-              px={"10px"}
-              py={"21px"}
-              m={21}
+              // ml={"13px"}
+              // mr={"13px"}
+              // mb={"13px"}
+              // mt={"18px"}
             >
               View Recording
             </Button>

@@ -23,8 +23,8 @@ const recordedClass = () => {
         ></Box>
         <Text
           fontSize={"20px"}
-          lineHeight={"26.6px"}
-          fontFamily={"Segoe UI"}
+          lineHeight={"26px"}
+          fontWeight={"400"}
           mt={"26px"}
         >
           Recorded Class
@@ -34,11 +34,22 @@ const recordedClass = () => {
         {recordedClassData.map((recDetails) => (
           <Flex>
             <Box key={recDetails.id} ml={"30px"}>
-              <Text fontSize={"15px"} color={"rgba(44, 51, 41, 1)"} mt={"28px"}>
+              <Text
+                fontSize={"15px"}
+                lineHeight={"18px"}
+                fontWeight={400}
+                color={"rgba(44, 51, 41, 1)"}
+                mt={"28px"}
+              >
                 {recDetails.chapterName}
               </Text>
 
-              <Text fontSize={"12px"} color={"rgba(44, 51, 41, 0.47)"}>
+              <Text
+                fontSize={"12px"}
+                fontWeight={400}
+                lineHeight={"14px"}
+                color={"rgba(44, 51, 41, 0.47)"}
+              >
                 {recDetails.instructorName}
               </Text>
             </Box>
@@ -47,7 +58,8 @@ const recordedClass = () => {
               <Text
                 fontSize={"12px"}
                 color={"rgba(44, 51, 41, 0.47)"}
-                mt={"29px"}
+                mt={"27px"}
+                lineHeight={"14px"}
               >
                 {recDetails.fromTime}-{recDetails.toTime}
               </Text>
@@ -60,9 +72,16 @@ const recordedClass = () => {
         ))}
       </Box>
       <Box ml={"30px"}>
-        <Text mt={"29px"}>Description</Text>
+        <Text mt={"29px"} fontSize={"15px"} lineHeight={"19px"}>
+          Description
+        </Text>
         {recordedClassData.map((recDetails) => (
-          <Text key={recDetails.id} color={"#2C332978"} fontSize={"12px"}>
+          <Text
+            key={recDetails.id}
+            color={"#2C332978"}
+            fontSize={"12px"}
+            lineHeight={"20px"}
+          >
             {recDetails.description}
           </Text>
         ))}
@@ -79,11 +98,11 @@ const recordedClass = () => {
         mr={"30px"}
         p={"6px"}
         justifyContent={"space-between"}
-        borderRadius={"6px" }
+        borderRadius={"6px"}
         border={"1px"}
         borderColor={"#9597927D"}
       >
-        <Icon ml={"290px"} as={BsDownload} />
+        <Icon ml={"290px"} w={"18px"} h={"18px"} as={BsDownload} />
       </Box>
       <Box
         bg={"blackAlpha.200"}
@@ -98,7 +117,7 @@ const recordedClass = () => {
         border={"1px"}
         borderColor={"#9597927D"}
       >
-        <Icon ml={"290px"} as={BsDownload} />
+        <Icon ml={"290px"} w={"18px"} h={"18px"} as={BsDownload} />
       </Box>
       <Box>
         <Box>
@@ -110,14 +129,16 @@ const recordedClass = () => {
               p="13px"
               fontSize={"12px"}
             >
-              <Text fontSize="16px">Agenda</Text>
+              <Text fontSize="16px" lineHeight={"19px"}>
+                Agenda
+              </Text>
               <Box>
                 <Box mt={"16px"}>
                   {classAgenda.agenda.map((aim) => (
                     <Box key={aim.id} mt={"10px"}>
                       <Icon
                         boxSize={3}
-                        color={"gray"}
+                        color={"#E0E0E0"}
                         as={FaCircle}
                         mr={"10px"}
                       />
@@ -130,10 +151,10 @@ const recordedClass = () => {
             </Box>
           ))}
         </Box>
-        <Text ml={"31px"} mt={4}>
+        <Text ml={"31px"} mt={4} lineHeight={"19px"}>
           Recordings
         </Text>
-        <Text mt={120} ml={"31px"}>
+        <Text mt={130} ml={"31px"} lineHeight={"19px"}>
           Notes
         </Text>
         <Box
@@ -147,8 +168,9 @@ const recordedClass = () => {
           justifyContent={"space-between"}
           borderRadius={"6px"}
           border={"1px"}
+          borderColor={"#9597927D"}
         >
-          <Icon ml={"290px"} as={BsDownload} />
+          <Icon ml={"290px"} w={"18px"} h={"18px"} as={BsDownload} />
         </Box>
       </Box>
     </Box>

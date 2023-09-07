@@ -3,7 +3,7 @@ import { Box, HStack, Text, Card, Flex, Button } from "@chakra-ui/react";
 import headerData from "../data/headerData";
 const header = () => {
   return (
-    <Box width={"100%"} bg={"#F1F5F8"} borderRadius={"2xl"}>
+    <Box  w={"full"} bg={"#F1F5F8"} borderRadius={"2xl"}>
       <HStack spacing={"10px"}>
         <Box
           width={"12px"}
@@ -15,8 +15,8 @@ const header = () => {
         ></Box>
         <Text
           fontSize={"20px"}
-          lineHeight={"26.6px"}
-          fontFamily={"Segoe UI"}
+          lineHeight={"24px"}
+          fontFamily={400}
           mt={"26px"}
         >
           My Courses
@@ -26,7 +26,6 @@ const header = () => {
       <Flex mt={"34px"}>
         {headerData.map((headerDetails) => (
           <Card
-            width={"90%"}
             borderRadius={"18px"}
             bg={"#F1F5F8"}
             ml={"20px"}
@@ -38,6 +37,7 @@ const header = () => {
             <Text
               fontSize={"16px"}
               fontWeight={"400"}
+              lineHeight={"18px"}
               color={"#2C3329"}
               ml={"13px"}
               mt={"13px"}
@@ -47,6 +47,7 @@ const header = () => {
 
             <Text
               fontSize={"12px"}
+              lineHeight={"14px"}
               fontWeight={"400px"}
               color={"#2C3329"}
               mt={"14px"}
@@ -68,8 +69,9 @@ const header = () => {
             <Button
               variant={"ghost"}
               color={"#3C8DBC"}
-              fontWeight={"600px"}
+              fontWeight={"600"}
               size={"12px"}
+              fontSize={"14px"}
               lineHeight={"16px"}
               p={5}
             >
