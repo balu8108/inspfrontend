@@ -3,7 +3,7 @@ import Header from "../../MyCourses/components/Header";
 import Assignment from "../components/Assignment";
 import ScheduledMeetings from "../../MeetingViewer/components/ScheduledMeetings";
 import { Flex, VStack, Box } from "@chakra-ui/react";
-const assignmentScreen = () => {
+const AssignmentScreen = () => {
   return (
     <Box ml={"52px"} mr={"52px"} mt={"52px"} mb={10}>
       <Flex>
@@ -16,4 +16,4 @@ const assignmentScreen = () => {
     </Box>
   );
 };
-export default assignmentScreen;
+export default AssignmentScreen;

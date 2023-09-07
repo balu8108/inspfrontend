@@ -47,7 +47,7 @@ const Improvement = () => {
   return (
     <Box
       mt={"24px"}
-      w={"130%"}
+      w={"110%"}
       h={"313px"}
       borderRadius={"26px"}
       bg={"#F1F5F8"}
@@ -68,7 +68,7 @@ const Improvement = () => {
       </HStack>
 
       <Flex justify="space-between" p={8}>
-        <Box w={"44%"}>
+        <Box w={"35%"}>
           <Doughnut data={chartData} plugins={[averageCenter]} />
         </Box>
 

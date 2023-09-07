@@ -23,20 +23,20 @@ const uploadAssignmentDetails = [
       },
     ],
   },
-  {
-    id: 2,
-    chapterName: "Newton's Law",
-    instructorName: "John Doe",
-    description:
-      "Lorem ipsum dolor sit amet consectetur. Id egestas egestas ut amet arcu. Ultrices sit odio at sapien",
-  },
-  {
-    id: 3,
-    chapterName: "Newton's Law",
-    instructorName: "John Doe",
-    description:
-      "Lorem ipsum dolor sit amet consectetur. Id egestas egestas ut amet arcu. Ultrices sit odio at sapien",
-  },
+  // {
+  //   id: 2,
+  //   chapterName: "Newton's Law",
+  //   instructorName: "John Doe",
+  //   description:
+  //     "Lorem ipsum dolor sit amet consectetur. Id egestas egestas ut amet arcu. Ultrices sit odio at sapien",
+  // },
+  // {
+  //   id: 3,
+  //   chapterName: "Newton's Law",
+  //   instructorName: "John Doe",
+  //   description:
+  //     "Lorem ipsum dolor sit amet consectetur. Id egestas egestas ut amet arcu. Ultrices sit odio at sapien",
+  // },
 ];
 
 export default uploadAssignmentDetails;

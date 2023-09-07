@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, HStack, Text, Card, Flex, Button } from "@chakra-ui/react";
 import headerData from "../data/headerData";
-const header = () => {
+const Header = () => {
   return (
     <Box  w={"full"} bg={"#F1F5F8"} borderRadius={"2xl"}>
       <HStack spacing={"10px"}>
@@ -83,4 +83,4 @@ const header = () => {
     </Box>
   );
 };
-export default header;
+export default Header;

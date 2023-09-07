@@ -11,10 +11,15 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { useParams } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { BsUpload } from "react-icons/bs";
 import uploadAssignmentData from "../data/uploadAssigData";
-const assignmentUpload = () => {
+const AssignmentUpload = () => {
+  const {assignmentId}=useParams();
+  const  selectedAssignment=uploadAssignmentData.find(
+    (assignmentData)=>assignmentData.id ===assignmentId
+  )
   return (
     <Box width={"100%"} h={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
@@ -78,7 +83,7 @@ const assignmentUpload = () => {
               <Button
                 variant={"ghost"}
                 color={"#3C8DBC"}
-                fontWeight={"600px"}
+                fontWeight={"600"}
                 size={"14px"}
                 lineHeight={"16px"}
                 p={6}
@@ -115,4 +120,4 @@ const assignmentUpload = () => {
     </Box>
   );
 };
-export default assignmentUpload;
+export default AssignmentUpload;

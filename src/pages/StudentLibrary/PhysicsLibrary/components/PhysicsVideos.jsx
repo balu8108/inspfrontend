@@ -14,7 +14,7 @@ import {
 import { Link } from "react-router-dom";
 import physVideosData from "../data/PhysVideosData";
 import { FaSearch } from "react-icons/fa";
-const physLibrary = () => {
+const PhysLibrary = () => {
   return (
     <Box width={"100%"} h={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
@@ -28,11 +28,11 @@ const physLibrary = () => {
           Library (Physics)
         </Text>
 
-        <InputGroup m={4} w={"220px"} ml={"310px"} borderRadius={"18px"}>
+        <InputGroup m={4} w={"220px"} ml={370}  >
           <InputLeftElement pointerEvents="none">
-            <FaSearch color="gray" />
+            <FaSearch color="#000000" />
           </InputLeftElement>
-          <Input placeholder="Search..." />
+          <Input placeholder="Search" w={"220px"} borderRadius={"14px"} />
         </InputGroup>
       </HStack>
 
@@ -46,12 +46,12 @@ const physLibrary = () => {
               bg={"#F1F5F8"}
               borderRadius={"18px"}
             >
-              <Text fontSize={"px"} fontWeight={400} ml={"13px"} mt={"16px"}>
+              <Text ml={"13px"} mt={"16px"} lineHeight={"18px"}>
                 {physScreen.chapterName}
               </Text>
               <Text
-                fontWeight={400}
                 fontSize={"12px"}
+                lineHeight={"15px"}
                 ml={"13px"}
                 color={"rgba(44, 51, 41, 0.47)"}
               >
@@ -68,10 +68,10 @@ const physLibrary = () => {
                 Description
               </Text>
               <Text
-                fontSize={"12px"}
+                fontSize={"11px"}
                 lineHeight={"21px"}
-                fontWeight={400}
                 ml={13}
+                mt={"6px"}
                 color={"rgba(44, 51, 41, 0.47)"}
               >
                 {physScreen.description}
@@ -80,11 +80,11 @@ const physLibrary = () => {
                 <Button
                   variant={"ghost"}
                   color={"#3C8DBC"}
-                  fontWeight={"600px"}
-                  size={"14px"}
+                  fontWeight={"600"}
+                  fontSize={"14px"}
                   lineHeight={"16px"}
-                  p={6}
-                  ml={8}
+                  p={7}
+                  ml={"40px"}
                 >
                   View Details
                 </Button>
@@ -97,4 +97,4 @@ const physLibrary = () => {
   );
 };
 
-export default physLibrary;
+export default PhysLibrary;

@@ -2,7 +2,7 @@ import { Flex, VStack } from "@chakra-ui/react";
 import Header from "../../MyCourses/components/Header";
 import ScheduledMeeting from "../../MeetingViewer/components/ScheduledMeetings";
 import UploadAssignment from "../components/DetailsAssignmentUpload";
-const viewAssignment = () => {
+const ViewAssignment = () => {
   return (
     <Flex m={"52px"}>
       <VStack spacing={"22px"}>
@@ -13,4 +13,4 @@ const viewAssignment = () => {
     </Flex>
   );
 };
-export default viewAssignment;
+export default ViewAssignment;

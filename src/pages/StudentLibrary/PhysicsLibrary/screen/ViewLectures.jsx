@@ -1,7 +1,7 @@
 import {Box ,Flex} from "@chakra-ui/react";
 import ViewVideo from "../components/ViewVideosPhysics/ViewVideo";
 import QuesAnsOfVideo from "../components/ViewVideosPhysics/QuesAns";
-const viewPhysRecording=()=>{
+const ViewPhysRecording=()=>{
     return (
         <Box m={"52px"}>
         <Flex>
@@ -12,4 +12,4 @@ const viewPhysRecording=()=>{
         </Box>
     )
 }
-export default viewPhysRecording;
+export default ViewPhysRecording;

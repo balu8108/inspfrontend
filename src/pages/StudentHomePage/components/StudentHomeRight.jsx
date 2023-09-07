@@ -101,10 +101,10 @@ const FullRec = () => {
               color={"white"}
               h={37}
               w={"220px"}
-              // ml={"13px"}
-              // mr={"13px"}
-              // mb={"13px"}
-              // mt={"18px"}
+              ml={"13px"}
+              mr={"13px"}
+              mb={"13px"}
+              mt={"18px"}
             >
               View Recording
             </Button>

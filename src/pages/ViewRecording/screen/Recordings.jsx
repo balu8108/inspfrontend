@@ -1,7 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 import ViewRecording from "../components/ViewRecording";
 import RecordedClass from "../components/RecordedClass";
-const recording = () => {
+const Recording = () => {
   return (
     <Flex m={"52px"}>
       <ViewRecording></ViewRecording>
@@ -9,4 +9,4 @@ const recording = () => {
     </Flex>
   );
 };
-export default recording;
+export default Recording;

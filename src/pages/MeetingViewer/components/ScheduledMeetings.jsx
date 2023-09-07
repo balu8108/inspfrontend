@@ -3,9 +3,16 @@ import { Box, HStack, Text, Button, Flex, VStack } from "@chakra-ui/react";
 import scheduledOngoing from "../data/scheduledOngoing";
 import scheduledToday from "../data/scheduledToday";
 import scheduledWeek from "../data/scheduledWeek";
-const scheduledMeetings = () => {
+const ScheduledMeetings = () => {
   return (
-    <Box width={"365px"} ml={"24px"} borderRadius={"26px"} bg={"#F1F5F8"}>
+   
+    <Box
+      width={"365px"}
+      h={"100%"}
+      ml={"24px"}
+      borderRadius={"26px"}
+      bg={"#F1F5F8"}
+    >
       <Box mt={"37px"} ml={"36px"}>
         <HStack spacing={"10px"}>
           <Box
@@ -39,7 +46,7 @@ const scheduledMeetings = () => {
       >
         <Flex gap={1}>
           <Box ml={"12px"} mt={"15px"}>
-            <Text fontSize="15px" color={"rgba(44, 51, 41, 1)"}>
+            <Text fontSize="15px" lineHeight={"19px"} color={"rgba(44, 51, 41, 1)"}>
               {scheduledOngoing.chapter}
             </Text>
             <Text
@@ -51,11 +58,11 @@ const scheduledMeetings = () => {
             </Text>
           </Box>
           <Box
-            fontSize={"10px"}
+            fontSize={"10.5px"}
             lineHeight={"12px"}
             color={"rgba(44, 51, 41, 0.47)"}
             mt={"20px"}
-            ml={5}
+            ml={4}
           >
             <Text>
               {scheduledOngoing.startTime} - {scheduledOngoing.endTime}
@@ -79,6 +86,7 @@ const scheduledMeetings = () => {
 
         <Button
           width={"89%"}
+          fontWeight={400}
           ml={"12px"}
           mt={"12px"}
           mb={"15px"}
@@ -230,4 +238,4 @@ const scheduledMeetings = () => {
     </Box>
   );
 };
-export default scheduledMeetings;
+export default ScheduledMeetings;

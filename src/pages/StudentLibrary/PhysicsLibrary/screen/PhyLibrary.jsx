@@ -2,7 +2,7 @@ import {Box,Flex,VStack} from "@chakra-ui/react"
 import ScheduledMeetings from "../../../MeetingViewer/components/ScheduledMeetings";
 import Header from "../../../MyCourses/components/Header";
 import PhysicsVideos from "../components/PhysicsVideos"
-const phyScreen=()=>{
+const PhyScreen=()=>{
     return (
         <Box ml={"52px"} mr={"52px"} mt={"52px"} mb={10}>
         <Flex>
@@ -15,4 +15,4 @@ const phyScreen=()=>{
       </Box>
     )
 }
-export default phyScreen;
+export default PhyScreen;

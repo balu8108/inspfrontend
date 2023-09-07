@@ -90,7 +90,7 @@ const routes = [
   },
   {
     name:"Student View Upload Assignment",
-    path:"/student/assignment-upload",
+    path:"/student/assignment-upload/:assignmentId",
     component:<AssignmentUpload />
   },
   {

@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Text, HStack } from "@chakra-ui/react";
-const mathsDetails = () => {
+const MathsDetails = () => {
   return (
     <Box width={"100%"} height={"999px"} bg={"#F1F5F8"} borderRadius={"26px"}>
       <HStack spacing={"10px"}>
@@ -22,4 +22,4 @@ const mathsDetails = () => {
     </Box>
   );
 };
-export default mathsDetails;
+export default MathsDetails;

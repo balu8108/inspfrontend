@@ -16,11 +16,11 @@ const QuesAnsOfVideo = () => {
       <HStack spacing={"10px"}>
         <Box
           width={"12px"}
-          height={"40px"}
+          height={"35px"}
           borderRadius={"20px"}
           bg={"#3C8DBC"}
           mt={"43px"}
-          ml={"35px"}
+          ml={"25px"}
         />
         <Box mt={"40px"}>
           {qaData.map((quesAndAns) => (
@@ -31,18 +31,33 @@ const QuesAnsOfVideo = () => {
       <Box>
         {qaData.map((quesAndAns) => (
           <Box key={quesAndAns.id}>
-            <Text m={"30px"}>Answer</Text>
+            <Text m={"35px"}>Answer</Text>
             <Text m={"30px"}> {quesAndAns.answer}</Text>
-            <Text ml={"30px"}> {quesAndAns.explanation}</Text>
+            <Text p={"10px"} ml={"25px"}>
+              {" "}
+              {quesAndAns.explanation}
+            </Text>
           </Box>
         ))}
       </Box>
-      <Box display="flex" justifyContent="space-between" p={5} mt={380}>
-        <Button bg={"#FFFFFF"} color={"#3C8DBC"} fontSize={"14px"}>
+      <Box display="flex" justifyContent="space-between" p={5} mt={380} gap={"30px"}>
+        <Button
+          bg={"#FFFFFF"}
+          color={"#3C8DBC"}
+          fontSize={"14px"}
+          fontWeight={600}
+          w={"180px"}
+        >
           {" "}
           Previous
         </Button>
-        <Button bg={"#3C8DBC"} color={"white"} fontSize={"14px"}>
+        <Button
+          bg={"#3C8DBC"}
+          color={"white"}
+          fontSize={"14px"}
+          fontWeight={"500"}
+          w={"180px"}
+        >
           Next
         </Button>
       </Box>

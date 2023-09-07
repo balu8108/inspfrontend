@@ -20,6 +20,7 @@ const HomePage = () => {
         <StudentHomePageRightSection />
       </Box>
     </Flex>
+    
   );
 };
 export default HomePage;

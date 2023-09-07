@@ -2,7 +2,7 @@ import { Box, HStack, Text, Flex, Icon } from "@chakra-ui/react";
 import recordedClassData from "../data/recordedClassData";
 import { BsDownload } from "react-icons/bs";
 import { FaCircle } from "react-icons/fa";
-const recordedClass = () => {
+const RecordedClass = () => {
   return (
     <Box
       width={"400px"}
@@ -176,4 +176,4 @@ const recordedClass = () => {
     </Box>
   );
 };
-export default recordedClass;
+export default RecordedClass;

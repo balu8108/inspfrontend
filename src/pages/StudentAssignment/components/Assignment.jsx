@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Box,
   Text,
@@ -13,8 +14,9 @@ import {
 } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
 import assignmentData from "../data/assignmentDetails";
+const PhysDetails = () => {
+  const [selectedAssignment, setSelectedAssignment] = useState(null);
 
-const physDetails = () => {
   return (
     <Box width={"100%"} h={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
@@ -27,11 +29,11 @@ const physDetails = () => {
         <Text fontSize={"19px"} lineHeight={"24px"}>
           Assignments (Physics)
         </Text>
-        <InputGroup m={4} w={"220px"} ml={"310px"} borderRadius={"18px"}>
+        <InputGroup m={4} w={"220px"} ml={"320px"}>
           <InputLeftElement pointerEvents="none">
-            <FaSearch color="gray" />
+            <FaSearch color="#000000" />
           </InputLeftElement>
-          <Input placeholder="Search..." />
+          <Input placeholder="Search" w={"240px"} />
         </InputGroup>
       </HStack>
 
@@ -45,14 +47,21 @@ const physDetails = () => {
               bg={"#F1F5F8"}
               borderRadius={"18px"}
             >
-              <Text fontSize={"px"} fontWeight={400} ml={"13px"} mt={"16px"}>
+              <Text
+                fontSize={"15px"}
+                lineHeight={"18px"}
+                ml={"13px"}
+                mt={"16px"}
+              >
                 {assignmentScreen.chapterName}
               </Text>
               <Text
                 fontWeight={400}
                 fontSize={"12px"}
+                lineHeight={"14px"}
                 ml={"13px"}
-                color={"rgba(44, 51, 41, 0.47)"}
+                mt={"3px"}
+                color={"#2C332978"}
               >
                 {assignmentScreen.instructorName}
               </Text>
@@ -71,20 +80,24 @@ const physDetails = () => {
                 lineHeight={"21px"}
                 fontWeight={400}
                 ml={13}
-                color={"rgba(44, 51, 41, 0.47)"}
+                mt={"5px"}
+                color={"#2C332978"}
               >
                 {assignmentScreen.description}
               </Text>
-              <Button
-                variant={"ghost"}
-                color={"#3C8DBC"}
-                fontWeight={"600px"}
-                size={"14px"}
-                lineHeight={"16px"}
-                p={6}
-              >
-                View Details
-              </Button>
+              <Link to={`/student/assignment-upload/${assignmentScreen.id}`}>
+                <Button
+                  variant={"ghost"}
+                  color={"#3C8DBC"}
+                  fontWeight={"600"}
+                  fontSize={"14px"}
+                  lineHeight={"16px"}
+                  ml={"40px"}
+                  p={6}
+                >
+                  View Details
+                </Button>
+              </Link>
             </Card>
           ))}
         </Flex>
@@ -93,4 +106,4 @@ const physDetails = () => {
   );
 };
 
-export default physDetails;
+export default PhysDetails;

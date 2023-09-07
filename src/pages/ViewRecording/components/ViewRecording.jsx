@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react";
-const viewRecording = () => {
+const ViewRecording = () => {
   return (
     <Box
       w={"100%"}
@@ -10,4 +10,4 @@ const viewRecording = () => {
     ></Box>
   );
 };
-export default viewRecording;
+export default ViewRecording;
