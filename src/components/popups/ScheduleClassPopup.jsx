@@ -40,6 +40,8 @@ import {
 // At the moment we will add some dummy data for chapter, topic
 
 const dataKey = [
+  "subject",
+  "chapter",
   "scheduledDate",
   "topic",
   "agenda",
@@ -112,6 +114,7 @@ const ScheduleClassPopup = ({
       fetchAllTopics(object.value);
     }
     setScheduleClassFormData((prev) => ({ ...prev, [event.name]: object }));
+    setScheduleClassFormErrorData((prev) => ({ ...prev, [event.name]: "" }));
   };
 
   const handleDateChange = (e) => {
@@ -141,7 +144,7 @@ const ScheduleClassPopup = ({
     setIsSubmitLoading(true);
     // check if all fields are filled
     let errors = {};
-    console.log(scheduleClassFormData);
+
     let formData = new FormData();
     for (const key in selectedFiles) {
       if (
@@ -192,26 +195,6 @@ const ScheduleClassPopup = ({
     setIsSubmitLoading(false);
   };
 
-  useEffect(() => {
-    if (selectedDate) {
-      setScheduleClassFormData((prev) => ({ ...prev, scheduledDate: date }));
-    }
-    if (classTiming && classTiming[0]) {
-      setScheduleClassFormData((prev) => ({
-        ...prev,
-        scheduledStartTime: classTiming[0],
-      }));
-    }
-  }, [selectedDate, classTiming]);
-
-  useEffect(() => {
-    return () => {
-      // Cleanup function: Clear scheduled date and class timing if there is already
-      setClassTiming(["", ""]);
-      setSelectedDate("");
-    };
-  }, []);
-
   const getSubjectsByFetch = async () => {
     setIsSubjectLoading(true);
     try {
@@ -239,6 +222,26 @@ const ScheduleClassPopup = ({
   };
 
   useEffect(() => {
+    if (selectedDate) {
+      setScheduleClassFormData((prev) => ({ ...prev, scheduledDate: date }));
+    }
+    if (classTiming && classTiming[0]) {
+      setScheduleClassFormData((prev) => ({
+        ...prev,
+        scheduledStartTime: classTiming[0],
+      }));
+    }
+  }, [selectedDate, classTiming]);
+
+  useEffect(() => {
+    return () => {
+      // Cleanup function: Clear scheduled date and class timing if there is already
+      setClassTiming(["", ""]);
+      setSelectedDate("");
+    };
+  }, []);
+
+  useEffect(() => {
     getSubjectsByFetch();
     getChaptersByFetch();
   }, []);
@@ -261,25 +264,34 @@ const ScheduleClassPopup = ({
               <Box>
                 <Box mb={6}>
                   <Box mb={3}>
-                    <Select
-                      placeholder={
-                        scheduleClassData.scheduleClassFormPlaceholder
-                          .selectSubject
-                      }
-                      isLoading={isSubjectLoading}
-                      isDisabled={isSubjectLoading}
-                      name={"subject"}
-                      onChange={handleSelectChange}
-                      chakraStyles={chakraStyles}
-                      options={subjectsData.map((subject) => {
-                        let obj = {
-                          value: subject.id,
-                          label: subject.name,
-                        };
-                        return obj;
-                      })}
-                      useBasicStyles
-                    />
+                    <FormControl
+                      isInvalid={scheduleClassFormErrorData["subject"]}
+                    >
+                      <Select
+                        placeholder={
+                          scheduleClassData.scheduleClassFormPlaceholder
+                            .selectSubject
+                        }
+                        isLoading={isSubjectLoading}
+                        isDisabled={isSubjectLoading}
+                        name={"subject"}
+                        onChange={handleSelectChange}
+                        chakraStyles={chakraStyles}
+                        options={subjectsData.map((subject) => {
+                          let obj = {
+                            value: subject.id,
+                            label: subject.name,
+                          };
+                          return obj;
+                        })}
+                        useBasicStyles
+                      />
+                      {scheduleClassFormErrorData["subject"] && (
+                        <FormErrorMessage>
+                          {scheduleClassFormErrorData["subject"]}
+                        </FormErrorMessage>
+                      )}
+                    </FormControl>
                   </Box>
                   <Grid
                     templateColumns={"repeat(2,1fr)"}
@@ -311,45 +323,62 @@ const ScheduleClassPopup = ({
                   </Grid>
                 </Box>
                 <Box my={3}>
-                  <Select
-                    placeholder={
-                      scheduleClassData.scheduleClassFormPlaceholder
-                        .selectChapter
-                    }
-                    isLoading={isChaptersLoading}
-                    isDisabled={isChaptersLoading}
-                    onChange={handleSelectChange}
-                    name="chapter"
-                    chakraStyles={chakraStyles}
-                    options={chaptersData.map((chapter) => {
-                      let obj = {
-                        value: chapter.id,
-                        label: chapter.name,
-                      };
-                      return obj;
-                    })}
-                    useBasicStyles
-                  />
+                  <FormControl
+                    isInvalid={scheduleClassFormErrorData["chapter"]}
+                  >
+                    <Select
+                      placeholder={
+                        scheduleClassData.scheduleClassFormPlaceholder
+                          .selectChapter
+                      }
+                      isLoading={isChaptersLoading}
+                      isDisabled={isChaptersLoading}
+                      onChange={handleSelectChange}
+                      name="chapter"
+                      chakraStyles={chakraStyles}
+                      options={chaptersData.map((chapter) => {
+                        let obj = {
+                          value: chapter.id,
+                          label: chapter.name,
+                        };
+                        return obj;
+                      })}
+                      useBasicStyles
+                    />
+                    {scheduleClassFormErrorData["chapter"] && (
+                      <FormErrorMessage>
+                        {scheduleClassFormErrorData["chapter"]}
+                      </FormErrorMessage>
+                    )}
+                  </FormControl>
                 </Box>
                 <Box my={3}>
-                  <Select
-                    placeholder={
-                      scheduleClassData.scheduleClassFormPlaceholder.selectTopic
-                    }
-                    onChange={handleSelectChange}
-                    isDisabled={isTopicsDisabled}
-                    isLoading={isTopicsLoading}
-                    name="topic"
-                    chakraStyles={chakraStyles}
-                    options={topicsData.map((topic) => {
-                      let obj = {
-                        value: topic.id,
-                        label: topic.name,
-                      };
-                      return obj;
-                    })}
-                    useBasicStyles
-                  />
+                  <FormControl isInvalid={scheduleClassFormErrorData["topic"]}>
+                    <Select
+                      placeholder={
+                        scheduleClassData.scheduleClassFormPlaceholder
+                          .selectTopic
+                      }
+                      onChange={handleSelectChange}
+                      isDisabled={isTopicsDisabled}
+                      isLoading={isTopicsLoading}
+                      name="topic"
+                      chakraStyles={chakraStyles}
+                      options={topicsData.map((topic) => {
+                        let obj = {
+                          value: topic.id,
+                          label: topic.name,
+                        };
+                        return obj;
+                      })}
+                      useBasicStyles
+                    />
+                    {scheduleClassFormErrorData["topic"] && (
+                      <FormErrorMessage>
+                        {scheduleClassFormErrorData["topic"]}
+                      </FormErrorMessage>
+                    )}
+                  </FormControl>
                 </Box>
                 <Box my={3}>
                   <FormControl isInvalid={scheduleClassFormErrorData["agenda"]}>

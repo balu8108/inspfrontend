@@ -2,7 +2,10 @@ import React, { useEffect } from "react";
 import { Flex, Spinner, Box, Text } from "@chakra-ui/react";
 import { useParams, useNavigate } from "react-router-dom";
 import { loginApi } from "../../api/authapis";
+import { getStorageType } from "../../utils";
+import { useToastContext } from "../toastNotificationProvider/ToastNotificationProvider";
 const AuthLoading = ({ message }) => {
+  const { addNotification } = useToastContext();
   const { secret_token } = useParams();
   const navigate = useNavigate();
 
@@ -11,17 +14,21 @@ const AuthLoading = ({ message }) => {
       const res = await loginApi(secret_token);
 
       if (res.status === 200) {
-        // set local storage
+        // set session storage if local env as it is required to test multiple peers in live class room with different logins
+        // else set local storage
 
-        localStorage.setItem(
+        const tokenStorage = getStorageType();
+        tokenStorage.setItem(
           "insp_user_profile",
           JSON.stringify(res?.data?.data?.authData)
         );
+        tokenStorage.setItem("secret_token", res?.data?.data?.secret_token);
+
         navigate("/schedule-class");
       }
     } catch (err) {
       // some error occurs then redirect to auth
-      console.log(err);
+      addNotification(err?.response?.data?.data, "error", 5000);
       navigate("/");
     }
   };

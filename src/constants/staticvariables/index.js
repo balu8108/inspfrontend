@@ -19,3 +19,13 @@ export const miroViewMode = {
   view: "view",
   edit: "edit",
 };
+
+export const authStorageKey = {
+  secret_token: "secret_token",
+  insp_user_profile: "insp_user_profile",
+};
+
+export const routeType = {
+  public: "public",
+  private: "protected",
+};

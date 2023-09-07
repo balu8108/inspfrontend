@@ -8,16 +8,18 @@ import { BrowserRouter } from "react-router-dom";
 import theme from "./constants/theme/theme";
 import { store } from "./store";
 import { Provider } from "react-redux";
+import { ToastNotificationProvider } from "./components/toastNotificationProvider/ToastNotificationProvider";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <ChakraProvider theme={theme}>
-      <Provider store={store}>
-        <App />
-      </Provider>
+      <ToastNotificationProvider>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </ToastNotificationProvider>
     </ChakraProvider>
   </BrowserRouter>
 );
-
 
 reportWebVitals();

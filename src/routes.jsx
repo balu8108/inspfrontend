@@ -13,7 +13,8 @@ import AssignmentUpload from "./pages/StudentAssignment/screen/ViewAssignmentUpl
 import StudentBoardScreen from "./pages/StudentBoard/screen/StudentBoardScreen";
 import Home from "./components/home/Home";
 import AuthLoading from "./components/loaders/AuthLoading";
-const routes = [
+
+const publicRoutes = [
   {
     name: "Home",
     path: "/",
@@ -29,7 +30,9 @@ const routes = [
     path: "/auth/:secret_token",
     component: <AuthLoading message={"Logging you in..."} />,
   },
+];
 
+const privateRoutes = [
   {
     name: "Room Preview",
     path: "/room-preview/:roomId",
@@ -89,17 +92,15 @@ const routes = [
     component: <PhyRecording />,
   },
   {
-    name:"Student View Upload Assignment",
-    path:"/student/assignment-upload",
-    component:<AssignmentUpload />
+    name: "Student View Upload Assignment",
+    path: "/student/assignment-upload",
+    component: <AssignmentUpload />,
   },
   {
-    name:"Student LeaderBoard",
-    path:"/student/leaderboard",
-    component:<StudentBoardScreen />
-  }
-
- 
+    name: "Student LeaderBoard",
+    path: "/student/leaderboard",
+    component: <StudentBoardScreen />,
+  },
 ];
 
-export default routes;
+export { publicRoutes, privateRoutes };
