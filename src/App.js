@@ -1,7 +1,16 @@
 import "./App.css";
 import Navbar from "./components/navbar/Navbar";
-import { Routes, Route, useLocation } from "react-router-dom";
-import routes from "./routes";
+import { Routes, Route, useLocation, Outlet, Navigate } from "react-router-dom";
+import { publicRoutes, privateRoutes } from "./routes";
+import { isAuthenticated } from "./utils";
+
+const ProtectedRoutes = () => {
+  const isAuth = isAuthenticated();
+  if (!isAuth) {
+    return <Navigate to="/" />;
+  }
+  return <Outlet />;
+};
 
 function App() {
   const location = useLocation();
@@ -14,7 +23,19 @@ function App() {
       {!isNavbarDisabled && <Navbar />}
 
       <Routes>
-        {routes.map((route) => {
+        <Route element={<ProtectedRoutes />}>
+          {privateRoutes.map((route) => {
+            return (
+              <Route
+                key={route.path}
+                path={route.path}
+                element={route.component}
+              />
+            );
+          })}
+        </Route>
+
+        {publicRoutes.map((route) => {
           return (
             <Route
               key={route.path}

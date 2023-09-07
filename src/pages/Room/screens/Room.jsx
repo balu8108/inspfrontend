@@ -72,11 +72,17 @@ const Room = () => {
         await deviceInitialize(rtpCapabilities);
         await createSendTransportHandler();
         getProducersHandler();
-        console.log("send transport created in useffect");
       }
     };
     initialization();
   }, [rtpCapabilities]);
+
+  useEffect(() => {
+    return () => {
+      // on Unmount disconnect the participant  from room
+      console.log("unmounting room");
+    };
+  }, []);
   return (
     <>
       <Box pt={4} pb={4} px={10}>

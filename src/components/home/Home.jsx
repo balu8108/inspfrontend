@@ -1,7 +1,26 @@
 import { Box, Center, Text, Image, Link } from "@chakra-ui/react";
 import { BiLinkExternal } from "react-icons/bi";
 import insplogo from "../../assets/images/insplogo.png";
+import { useToastContext } from "../toastNotificationProvider/ToastNotificationProvider";
+import { useEffect } from "react";
+import { isAuthenticated } from "../../utils";
+import { useNavigate } from "react-router-dom";
 const Home = () => {
+  const { addNotification } = useToastContext();
+  const navigate = useNavigate();
+
+  const tryAutoLogin = async () => {
+    const isAuth = isAuthenticated();
+    if (isAuth) {
+      navigate("/schedule-class");
+    } else {
+      addNotification("Please login to continue", "info", 5000);
+    }
+  };
+  useEffect(() => {
+    tryAutoLogin();
+  }, []);
+
   return (
     <>
       <Center height={"100vh"}>

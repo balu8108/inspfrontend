@@ -15,8 +15,7 @@ import {
   useTheme,
 } from "@chakra-ui/react";
 import insplogo from "../../assets/images/insplogo.png";
-import avatar from "../../assets/images/avatar.png";
-import { getLocalStorageData } from "../../utils";
+import { getStorageData } from "../../utils";
 export default function Navbar() {
   const theme = useTheme();
   const { backgroundLightBlue } = theme.colors.pallete;
@@ -24,7 +23,7 @@ export default function Navbar() {
 
   const getUserDetails = async () => {
     try {
-      const res = await getLocalStorageData("insp_user_profile");
+      const res = await getStorageData("insp_user_profile");
       setUserData(res.data);
     } catch (err) {}
   };

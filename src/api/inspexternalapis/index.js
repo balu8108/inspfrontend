@@ -1,4 +1,3 @@
-import axios from "axios";
 import { EXTERNAL_INSP_BASE_URL } from "../../constants/staticurls";
 
 // This is temporary secret key instead of this we will use clients secret key who is logged in

@@ -20,7 +20,6 @@ import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassA
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 import { boxShadowStyles } from "../../../utils";
-import Cookies from "js-cookie";
 
 const ScheduleClass = () => {
   const {
@@ -32,8 +31,6 @@ const ScheduleClass = () => {
   const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
   const [classTiming, setClassTiming] = useState(["", ""]);
   const dispatch = useDispatch();
-
-  console.log("cookies", Cookies.get("secret_token"));
 
   const scheduleClassClickHandler = () => {
     onSchedulePopupOpen();
