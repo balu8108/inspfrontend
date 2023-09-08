@@ -23,7 +23,7 @@ export default function Navbar() {
 
   const getUserDetails = async () => {
     try {
-      const res = await getStorageData("insp_user_profile");
+      const res = getStorageData("insp_user_profile");
       setUserData(res.data);
     } catch (err) {}
   };

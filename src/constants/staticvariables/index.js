@@ -29,3 +29,8 @@ export const routeType = {
   public: "public",
   private: "protected",
 };
+
+export const userType = {
+  teacher: "TEACHER",
+  student: "STUDENT",
+};

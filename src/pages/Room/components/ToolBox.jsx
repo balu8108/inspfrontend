@@ -37,6 +37,7 @@ import {
 import {
   miroViewMode,
   staticVariables,
+  userType,
 } from "../../../constants/staticvariables";
 import { roomData } from "../data/roomData";
 import PostPoll from "../../../components/popups/PostPoll";
@@ -44,6 +45,7 @@ import { LeaveBtn } from "../../../components/button";
 import VideoSection from "./VideoSection";
 import { useDispatch } from "react-redux";
 import { setMiroBoardData } from "../../../store/actions/socketActions";
+import { checkUserType } from "../../../utils";
 let producerScreenShare = null;
 let producerMentorVideoShare = null;
 let producerAudioShare = null;
@@ -392,11 +394,14 @@ const ToolBox = ({
             icon={<SiMiro size={20} />}
             onClick={openMiroBoardAuth}
           />
-          <PostPoll
-            QNo={QNo}
-            setQNo={setQNo}
-            screenShareStream={screenShareStream}
-          />
+
+          {checkUserType() === userType.teacher && (
+            <PostPoll
+              QNo={QNo}
+              setQNo={setQNo}
+              screenShareStream={screenShareStream}
+            />
+          )}
         </Stack>
 
         <HStack>

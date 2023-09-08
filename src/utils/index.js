@@ -14,6 +14,7 @@ import renderLeftMembersCount from "./renderLeftMembersCount";
 import getStorageData from "./getStorageData";
 import isAuthenticated from "./isAuthenticated";
 import getStorageType from "./getStorageType";
+import checkUserType from "./checkUserType";
 export {
   containsEmoji,
   openFileDialog,
@@ -32,4 +33,5 @@ export {
   getStorageData,
   isAuthenticated,
   getStorageType,
+  checkUserType,
 };
