@@ -47,7 +47,7 @@ const Improvement = () => {
   return (
     <Box
       mt={"24px"}
-      w={"110%"}
+      w={"130%"}
       h={"313px"}
       borderRadius={"26px"}
       bg={"#F1F5F8"}
@@ -64,11 +64,11 @@ const Improvement = () => {
         <Text fontSize={"20px"} lineHeight={"26.6px"} mt={"26px"}>
           Improvement
         </Text>
-        <Icon ml={340} mt={5} color={"gray"} as={BsThreeDotsVertical} />
+        {/* <Icon  mt={5} color={"gray"} as={BsThreeDotsVertical} /> */}
       </HStack>
 
       <Flex justify="space-between" p={8}>
-        <Box w={"35%"}>
+        <Box w={"45%"}>
           <Doughnut data={chartData} plugins={[averageCenter]} />
         </Box>
 

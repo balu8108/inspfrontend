@@ -9,7 +9,6 @@ import Viewrecording from "./pages/ViewRecording/screen/Recordings";
 import StudentAssignment from "./pages/StudentAssignment/screen/StudentAssignment";
 import PhyLibrary from "./pages/StudentLibrary/PhysicsLibrary/screen/PhyLibrary";
 import PhyRecording from "./pages/StudentLibrary/PhysicsLibrary/screen/ViewLectures";
-import AssignmentUpload from "./pages/StudentAssignment/screen/ViewAssignmentUpload";
 import StudentBoardScreen from "./pages/StudentBoard/screen/StudentBoardScreen";
 import Home from "./components/home/Home";
 import AuthLoading from "./components/loaders/AuthLoading";
@@ -90,11 +89,6 @@ const privateRoutes = [
     name: "Student Physics Videos",
     path: "/student/physics-library/:chapterName",
     component: <PhyRecording />,
-  },
-  {
-    name:"Student View Upload Assignment",
-    path:"/student/assignment-upload/:assignmentId",
-    component:<AssignmentUpload />
   },
   {
     name: "Student LeaderBoard",

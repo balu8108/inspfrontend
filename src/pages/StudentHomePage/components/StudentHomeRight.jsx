@@ -20,6 +20,7 @@ const FullRec = () => {
   return (
     <Box
       width={"290px"}
+      // w={"100%"}
       h={"999px"}
       borderRadius={"26px"}
       bg={"#F1F5F8"}
@@ -77,7 +78,7 @@ const FullRec = () => {
                   {item.instructorName}
                 </Text>
               </Box>
-              <Box p={1} ml={8} mt={"17px"}>
+              <Box p={1} ml={8} mt={"17px"} >
                 <Text fontSize={"10px"} color={"#2C332978"}>
                   {item.startTime}-{item.endTime}
                 </Text>
@@ -101,10 +102,6 @@ const FullRec = () => {
               color={"white"}
               h={37}
               w={"220px"}
-              ml={"13px"}
-              mr={"13px"}
-              mb={"13px"}
-              mt={"18px"}
             >
               View Recording
             </Button>

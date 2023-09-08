@@ -15,6 +15,7 @@ const Assignment = () => {
 
   return (
     <Box
+      w={"50%"}
       h="313px"
       mt="24px"
       backgroundColor="#F1F5F8"

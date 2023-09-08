@@ -20,6 +20,25 @@ const HomePage = () => {
         <StudentHomePageRightSection />
       </Box>
     </Flex>
+
+  //  <Box m={"52px"}>
+  //   <Flex  justifyContent={"space-between"}>
+  //     <Box>
+  //       <MyCourses />
+  //       <Flex gap={"24px"} justifyContent={"space-between"} >
+  //         <Improvement />
+  //         <Assignment />
+  //       </Flex>
+  //       <Library/>
+        
+  //     </Box>
+      
+  //     <Box>
+  //       <StudentHomePageRightSection />
+  //     </Box>
+  //   </Flex>
+  //   </Box>
+
     
   );
 };
