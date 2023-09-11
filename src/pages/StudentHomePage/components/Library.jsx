@@ -179,9 +179,10 @@ const Library = () => {
               variant={"ghost"}
               color={"#3C8DBC"}
               mt={"10"}
+              mb={"7px"}
               fontSize={"14px"}
               lineHeight={"16px"}
-              fontWeight={"600px"}
+              fontWeight={"600"}
             >
               View Details
             </Button>
