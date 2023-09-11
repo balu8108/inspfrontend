@@ -3,7 +3,7 @@ import getStorageData from "./getStorageData";
 const checkUserType = () => {
   try {
     const { data: userProfile } = getStorageData("insp_user_profile");
-    console.log(userProfile);
+
     if (userProfile) {
       if (userProfile.user_type === 1) {
         return userType.teacher;

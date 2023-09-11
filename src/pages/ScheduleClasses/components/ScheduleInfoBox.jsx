@@ -13,6 +13,7 @@ import {
 } from "../../../utils";
 
 import { userType } from "../../../constants/staticvariables";
+import { scheduleClassCategory } from "../data/scheduleClassCategory";
 
 const ScheduleClassInformation = ({
   scheduledClassesData,
@@ -100,22 +101,25 @@ const ScheduleClassInformation = ({
                 )}
               </Box>
             )}
-            <Box mt={2} mb={4}>
-              <Text fontSize={"12px"} fontWeight={500}>
-                {scheduleClassData.description}
-              </Text>
-              <Text fontSize={"12px"} color={secondaryTextColor}>
-                {renderSlicedString(info?.LiveClassRoomDetail?.description)}
-              </Text>
-            </Box>
-
-            <MainBtn
-              isLoading={isLoading}
-              text={"Start"}
-              backColor={primaryBlue}
-              textColor={"white"}
-              onClickHandler={() => startContinueClickHandler(info?.roomId)}
-            />
+            {checkUserType() === userType.student && (
+              <Box mt={2} mb={type === "Ongoing" && 4}>
+                <Text fontSize={"12px"} fontWeight={500}>
+                  {scheduleClassData.description}
+                </Text>
+                <Text fontSize={"12px"} color={secondaryTextColor}>
+                  {renderSlicedString(info?.LiveClassRoomDetail?.description)}
+                </Text>
+              </Box>
+            )}
+            {(type === "Ongoing" || checkUserType() === userType.teacher) && (
+              <MainBtn
+                isLoading={isLoading}
+                text={"Start"}
+                backColor={primaryBlue}
+                textColor={"white"}
+                onClickHandler={() => startContinueClickHandler(info?.roomId)}
+              />
+            )}
           </Box>
         );
       })}

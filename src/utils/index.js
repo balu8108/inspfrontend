@@ -15,6 +15,7 @@ import getStorageData from "./getStorageData";
 import isAuthenticated from "./isAuthenticated";
 import getStorageType from "./getStorageType";
 import checkUserType from "./checkUserType";
+import { decryptData } from "./crypticFunctions";
 export {
   containsEmoji,
   openFileDialog,
@@ -34,4 +35,5 @@ export {
   isAuthenticated,
   getStorageType,
   checkUserType,
+  decryptData,
 };

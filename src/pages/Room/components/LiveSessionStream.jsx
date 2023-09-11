@@ -8,8 +8,7 @@ import StudentPollsMCQBox from "./StudentPollsMCQBox";
 import RaiseHand from "./RaiseHand";
 
 import WebAudioPlayer from "../../../components/webaudioplayer/WebAudioPlayer";
-import { imageToDocApi } from "../../../api/genericapis";
-import { screenshotHandler } from "../../../utils";
+
 import MiroBoard from "./MiroBoard";
 
 const LiveSessionStream = (props) => {

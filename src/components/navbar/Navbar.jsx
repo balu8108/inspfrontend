@@ -24,6 +24,7 @@ export default function Navbar() {
   const getUserDetails = async () => {
     try {
       const res = getStorageData("insp_user_profile");
+      console.log(res);
       setUserData(res.data);
     } catch (err) {}
   };

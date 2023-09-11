@@ -9,7 +9,7 @@ import {
   TabPanel,
   useTheme,
   Flex,
-  IconButton,
+  Icon,
 } from "@chakra-ui/react";
 
 import { FiDownload } from "react-icons/fi";
@@ -23,13 +23,14 @@ import {
   getLiveClassDetails,
   getUpcomingClassDetails,
 } from "../../../store/actions/socketActions";
-import { formatTime } from "../../../utils";
+import { checkUserType, formatTime } from "../../../utils";
+import { userType } from "../../../constants/staticvariables";
 
 const RoomContent = ({ mainTextColor, secondaryTextColor, type }) => {
   const { roomPreviewData, upcomingClassData } = useSelector(
     (state) => state.socket
   );
-  console.log("upcoming class Data", upcomingClassData);
+  const userRoleType = checkUserType();
 
   const renderContent = () => {
     if (type === "active") {
@@ -53,19 +54,7 @@ const RoomContent = ({ mainTextColor, secondaryTextColor, type }) => {
         <Text fontSize={"14px"} color={mainTextColor}>
           {roomData.agenda}
         </Text>
-        {/* {roomData.liveSessionAgendas.map((agenda, index) => (
-          <HStack key={agenda.id} pt={1}>
-            <Box
-              width={"15px"}
-              height={"15px"}
-              bg={"gray.200"}
-              borderRadius={"100%"}
-            />
-            <Text color={secondaryTextColor} fontSize={"12px"}>
-              {agenda.value}
-            </Text>
-          </HStack>
-        ))} */}
+
         <HStack pt={1}>
           <Box
             width={"15px"}
@@ -79,11 +68,13 @@ const RoomContent = ({ mainTextColor, secondaryTextColor, type }) => {
         </HStack>
       </Box>
       <Box pt={6}>
-        <Flex alignItems={"center"} justifyContent={"space-between"}>
+        <Flex py={2} alignItems={"center"} justifyContent={"space-between"}>
           <Text fontSize={"14px"} color={mainTextColor}>
             {roomData.files}
           </Text>
-          <UploadFilePopup type={type} roomId={renderContent()?.roomId} />
+          {userRoleType === userType.teacher && (
+            <UploadFilePopup type={type} roomId={renderContent()?.roomId} />
+          )}
         </Flex>
 
         <Box>
@@ -96,11 +87,12 @@ const RoomContent = ({ mainTextColor, secondaryTextColor, type }) => {
       </Box>
 
       <Box pt={6}>
-        <Flex justifyContent={"space-between"} alignItems={"center"}>
-          <Text>{roomData.notes}</Text>
-          <IconButton
-            icon={<FiDownload />}
+        <Flex justifyContent={"space-between"} py={2} alignItems={"center"}>
+          <Text fontSize={"14px"}>{roomData.notes}</Text>
+          <Icon
+            as={FiDownload}
             bg={"none"}
+            boxSize={"1em"}
             _hover={{ bg: "none" }}
           />
         </Flex>

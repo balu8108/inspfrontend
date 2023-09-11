@@ -7,7 +7,7 @@ import {
   Text,
   IconButton,
 } from "@chakra-ui/react";
-import { roomData } from "../data/roomData";
+
 import { useSelector } from "react-redux";
 import { liveSessionMemberViewType } from "../../../constants/staticvariables";
 import { useState } from "react";
@@ -37,7 +37,7 @@ const LiveSessionMembers = ({ primaryBlue, viewType }) => {
               />
             </Flex>
           ) : (
-            <Flex justifyContent={"space-between"}>
+            <Flex justifyContent={"space-between"} key={peer.id}>
               <HStack mr={4}>
                 <Box
                   key={peer.id}

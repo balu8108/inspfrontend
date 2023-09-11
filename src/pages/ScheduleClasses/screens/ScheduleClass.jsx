@@ -21,7 +21,6 @@ import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 import { boxShadowStyles, checkUserType } from "../../../utils";
 import { userType } from "../../../constants/staticvariables";
-console.log("user", userType);
 
 const ScheduleClass = () => {
   const {
@@ -65,6 +64,7 @@ const ScheduleClass = () => {
           >
             <GridItem p={4}>
               <Flex direction={"column"}>
+                {console.log("user type", checkUserType())}
                 {checkUserType() === userType.teacher && (
                   <MainBtn
                     isLoading={false}

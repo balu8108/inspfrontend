@@ -94,6 +94,7 @@ export const roomData = {
   poll: "Poll",
   send: "Send",
   leave: "Leave",
+  end: "End",
   mcqQuestion:
     "Lorem ipsum dolor sit amet consectetur. Id egestas egestas ut amet arcu. Ultrices sit odio at sapien mauris amet pretium arcu.",
   selectQuestionType: "Select question type",
