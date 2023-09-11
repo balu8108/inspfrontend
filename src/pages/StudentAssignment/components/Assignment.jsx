@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import {
   Box,
   Text,
@@ -15,8 +14,6 @@ import {
 import { FaSearch } from "react-icons/fa";
 import assignmentData from "../data/assignmentDetails";
 const PhysDetails = () => {
-  const [selectedAssignment, setSelectedAssignment] = useState(null);
-
   return (
     <Box width={"100%"} h={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
@@ -46,6 +43,7 @@ const PhysDetails = () => {
               blendMode={"multiply"}
               bg={"#F1F5F8"}
               borderRadius={"18px"}
+             
             >
               <Text
                 fontSize={"15px"}
@@ -85,19 +83,19 @@ const PhysDetails = () => {
               >
                 {assignmentScreen.description}
               </Text>
-              <Link to={`/student/assignment-upload/${assignmentScreen.id}`}>
+              
                 <Button
                   variant={"ghost"}
                   color={"#3C8DBC"}
                   fontWeight={"600"}
                   fontSize={"14px"}
                   lineHeight={"16px"}
-                  ml={"40px"}
                   p={6}
+                  m={"5px"}
                 >
                   View Details
                 </Button>
-              </Link>
+             
             </Card>
           ))}
         </Flex>
@@ -107,3 +105,6 @@ const PhysDetails = () => {
 };
 
 export default PhysDetails;
+
+
+

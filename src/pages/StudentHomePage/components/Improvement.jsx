@@ -2,7 +2,7 @@ import React from "react";
 import { Doughnut } from "react-chartjs-2";
 import improvementMarks from "../data/improvement";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Box, Text, HStack, Badge, Circle, Flex, Icon } from "@chakra-ui/react";
+import { Box, Text, HStack, Spacer, Flex, Icon } from "@chakra-ui/react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import "../Styling/progress.css";
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -47,7 +47,7 @@ const Improvement = () => {
   return (
     <Box
       mt={"24px"}
-      w={"110%"}
+      w={"130%"}
       h={"313px"}
       borderRadius={"26px"}
       bg={"#F1F5F8"}
@@ -62,13 +62,14 @@ const Improvement = () => {
           ml={"33px"}
         ></Box>
         <Text fontSize={"20px"} lineHeight={"26.6px"} mt={"26px"}>
-          Improvement
+          Attendance
         </Text>
-        <Icon ml={340} mt={5} color={"gray"} as={BsThreeDotsVertical} />
+        <Spacer/>
+        <Icon  mt={5} mr={5} color={"gray"} as={BsThreeDotsVertical} />
       </HStack>
 
       <Flex justify="space-between" p={8}>
-        <Box w={"35%"}>
+        <Box w={"204px"} h={"204px"} >
           <Doughnut data={chartData} plugins={[averageCenter]} />
         </Box>
 
