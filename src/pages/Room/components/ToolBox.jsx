@@ -37,13 +37,15 @@ import {
 import {
   miroViewMode,
   staticVariables,
+  userType,
 } from "../../../constants/staticvariables";
 import { roomData } from "../data/roomData";
 import PostPoll from "../../../components/popups/PostPoll";
 import { LeaveBtn } from "../../../components/button";
-import VideoSection from "./VideoSection";
+
 import { useDispatch } from "react-redux";
 import { setMiroBoardData } from "../../../store/actions/socketActions";
+import { checkUserType } from "../../../utils";
 let producerScreenShare = null;
 let producerMentorVideoShare = null;
 let producerAudioShare = null;
@@ -78,6 +80,7 @@ const ToolBox = ({
   const dispatch = useDispatch();
 
   const { redBtnColor } = useTheme().colors.pallete;
+  const userRoleType = checkUserType();
 
   const openMiroBoardAuth = () => {
     window.miroBoardsPicker.open({
@@ -287,7 +290,7 @@ const ToolBox = ({
     }
   };
   return (
-    <Box position={"absolute"} height={"100%"} p={4}>
+    <Box position={"absolute"} height={"100%"} p={4} zIndex={4}>
       <Flex
         height={"100%"}
         direction={"column"}
@@ -392,11 +395,14 @@ const ToolBox = ({
             icon={<SiMiro size={20} />}
             onClick={openMiroBoardAuth}
           />
-          <PostPoll
-            QNo={QNo}
-            setQNo={setQNo}
-            screenShareStream={screenShareStream}
-          />
+
+          {checkUserType() === userType.teacher && (
+            <PostPoll
+              QNo={QNo}
+              setQNo={setQNo}
+              screenShareStream={screenShareStream}
+            />
+          )}
         </Stack>
 
         <HStack>
@@ -405,7 +411,9 @@ const ToolBox = ({
           </Tooltip>
           <LeaveBtn
             isLoading={isLeaveLoading}
-            text={roomData.leave}
+            text={
+              userRoleType === userType.teacher ? roomData.end : roomData.leave
+            }
             backColor={redBtnColor}
             textColor="white"
             onClickHandler={async () => {

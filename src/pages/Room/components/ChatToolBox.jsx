@@ -214,7 +214,7 @@ const ChatToolBox = ({ mentorVideoRef, isScreenShare }) => {
     // onChatToggle();
   };
   return (
-    <Box position={"absolute"} height={"100%"} p={4} right={0}>
+    <Box position={"absolute"} height={"100%"} p={4} right={0} zIndex={4}>
       <Flex
         height={"100%"}
         direction={"column"}

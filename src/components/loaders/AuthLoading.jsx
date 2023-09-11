@@ -18,10 +18,7 @@ const AuthLoading = ({ message }) => {
         // else set local storage
 
         const tokenStorage = getStorageType();
-        tokenStorage.setItem(
-          "insp_user_profile",
-          JSON.stringify(res?.data?.data?.authData)
-        );
+        tokenStorage.setItem("insp_user_profile", res?.data?.data?.authData);
         tokenStorage.setItem("secret_token", res?.data?.data?.secret_token);
 
         navigate("/schedule-class");

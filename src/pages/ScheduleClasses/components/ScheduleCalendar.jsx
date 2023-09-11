@@ -7,6 +7,8 @@ import { useTheme } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import { scheduleClassData } from "../data/scheduleClassData";
+import { checkUserType } from "../../../utils";
+import { userType } from "../../../constants/staticvariables";
 
 // Styling of full calendar is in app.css
 const ScheduleCalendar = ({
@@ -49,7 +51,9 @@ const ScheduleCalendar = ({
           minute: "2-digit",
           meridiem: true,
         }}
-        dateClick={handleDateClick}
+        dateClick={
+          checkUserType() === userType.teacher ? handleDateClick : () => {}
+        }
         events={scheduledClasses}
       />
     </>

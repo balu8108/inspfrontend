@@ -10,7 +10,7 @@ import { categoriseClass, extractDateInYYYMMDD } from "../../utils";
 const initialState = {
   scheduleClassLoading: false,
   scheduledClasses: [],
-  scheduledClassesData: { Ongoing: [], Today: [], Week: [] },
+  scheduledClassesData: { Ongoing: [], Today: [], Week: [], Completed: [] },
 };
 
 const scheduleClassReducer = (state = initialState, action) => {
@@ -50,7 +50,7 @@ const scheduleClassReducer = (state = initialState, action) => {
     case GET_ALL_LIVE_CLASSES_SCHEDULE:
       let classesData = {
         calendarEvents: [],
-        scheduledClasses: { Ongoing: [], Today: [], Week: [] },
+        scheduledClasses: { Ongoing: [], Today: [], Week: [], Completed: [] },
       };
 
       action.payload.data.forEach((obj) => {
@@ -86,6 +86,14 @@ const scheduleClassReducer = (state = initialState, action) => {
             scheduledClasses: {
               ...classesData.scheduledClasses,
               Week: [...classesData.scheduledClasses.Week, obj],
+            },
+          };
+        } else if (categorisedClass === "Completed") {
+          classesData = {
+            ...classesData,
+            scheduledClasses: {
+              ...classesData.scheduledClasses,
+              Completed: [...classesData.scheduledClasses.Completed, obj],
             },
           };
         }

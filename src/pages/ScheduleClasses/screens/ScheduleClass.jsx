@@ -19,7 +19,8 @@ import { useDispatch } from "react-redux";
 import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassActions";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
-import { boxShadowStyles } from "../../../utils";
+import { boxShadowStyles, checkUserType } from "../../../utils";
+import { userType } from "../../../constants/staticvariables";
 
 const ScheduleClass = () => {
   const {
@@ -63,13 +64,16 @@ const ScheduleClass = () => {
           >
             <GridItem p={4}>
               <Flex direction={"column"}>
-                <MainBtn
-                  isLoading={false}
-                  text={scheduleClassData.scheduleClass}
-                  backColor={primaryBlue}
-                  textColor={"white"}
-                  onClickHandler={scheduleClassClickHandler}
-                />
+                {console.log("user type", checkUserType())}
+                {checkUserType() === userType.teacher && (
+                  <MainBtn
+                    isLoading={false}
+                    text={scheduleClassData.scheduleClass}
+                    backColor={primaryBlue}
+                    textColor={"white"}
+                    onClickHandler={scheduleClassClickHandler}
+                  />
+                )}
 
                 {scheduleClassCategory.classCategories.map((category) => (
                   <Box key={category.id} my={4}>

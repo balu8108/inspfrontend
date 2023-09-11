@@ -1,15 +1,19 @@
+const { decryptData } = require("./crypticFunctions");
 const { default: getStorageType } = require("./getStorageType");
 
 const getStorageData = (key) => {
-  return new Promise((resolve, reject) => {
+  try {
     const storageType = getStorageType();
-    const storageItem = JSON.parse(storageType.getItem(key));
-    if (storageItem) {
-      resolve({ status: true, data: storageItem });
+    const storageItem = storageType.getItem(key);
+    const decryptedStorageData = decryptData(storageItem);
+    if (decryptedStorageData) {
+      return { status: true, data: decryptedStorageData };
     } else {
-      reject({ status: false, data: null });
+      return { status: false, data: null };
     }
-  });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 module.exports = getStorageData;

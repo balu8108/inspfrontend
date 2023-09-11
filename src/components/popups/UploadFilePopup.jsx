@@ -10,6 +10,7 @@ import {
   HStack,
   Checkbox,
   Box,
+  Icon,
 } from "@chakra-ui/react";
 import { BiPlus } from "react-icons/bi";
 import { MdClose } from "react-icons/md";
@@ -68,7 +69,12 @@ const UploadFilePopup = ({ type, roomId }) => {
         onClose={onClose}
       >
         <PopoverTrigger>
-          <IconButton icon={<BiPlus />} bg="none" _hover={{ bg: "none" }} />
+          <Icon
+            as={BiPlus}
+            bg="none"
+            boxSize={"1.2em"}
+            _hover={{ bg: "none", cursor: "pointer" }}
+          />
         </PopoverTrigger>
         <PopoverContent px={4} py={2}>
           <Flex justifyContent={"space-between"} alignItems={"center"} mb={4}>

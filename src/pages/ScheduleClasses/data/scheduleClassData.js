@@ -53,4 +53,5 @@ export const scheduleClassData = {
     timeGridWeek: "timeGridWeek",
     timeGridDay: "timeGridDay",
   },
+  description: "Description",
 };

@@ -1,21 +1,19 @@
 import { useState } from "react";
-import {
-  Box,
-  Text,
-  useTheme,
-  useDisclosure,
-  Flex,
-  Spinner,
-  HStack,
-  Center,
-} from "@chakra-ui/react";
+import { Box, Text, useTheme, Flex, Spinner, Center } from "@chakra-ui/react";
 import { scheduleClassData } from "../data/scheduleClassData";
 import FileBoxComponent from "../../../components/filebox/FileBoxComponent";
-import { MainBtn, StartContinueBtn } from "../../../components/button";
+import { MainBtn } from "../../../components/button";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { categoriseClass, formatTime, timeDifference } from "../../../utils";
-import { generateUniqueKey } from "../../../utils";
+import {
+  checkUserType,
+  formatTime,
+  timeDifference,
+  generateUniqueKey,
+} from "../../../utils";
+
+import { userType } from "../../../constants/staticvariables";
+import { scheduleClassCategory } from "../data/scheduleClassCategory";
 
 const ScheduleClassInformation = ({
   scheduledClassesData,
@@ -25,6 +23,17 @@ const ScheduleClassInformation = ({
 }) => {
   const { lightGrey, primaryBlue, secondaryTextColor } =
     useTheme().colors.pallete;
+
+  const renderSlicedString = (str) => {
+    if (str) {
+      if (str.length >= 100) {
+        return str.slice(0, 100) + "...";
+      }
+      return str;
+    } else {
+      return "";
+    }
+  };
   return (
     <>
       {scheduledClassesData[type].map((info) => {
@@ -83,20 +92,34 @@ const ScheduleClassInformation = ({
                 )}
               </Text>
             </Flex>
-            <Box my={4}>
-              {info?.LiveClassRoomFiles.length > 0 ? (
-                <FileBoxComponent data={info.LiveClassRoomFiles} />
-              ) : (
-                <Text fontSize={"0.8rem"}>No Files</Text>
-              )}
-            </Box>
-            <MainBtn
-              isLoading={isLoading}
-              text={"Start"}
-              backColor={primaryBlue}
-              textColor={"white"}
-              onClickHandler={() => startContinueClickHandler(info?.roomId)}
-            />
+            {checkUserType() === userType.teacher && (
+              <Box my={4}>
+                {info?.LiveClassRoomFiles.length > 0 ? (
+                  <FileBoxComponent data={info.LiveClassRoomFiles} />
+                ) : (
+                  <Text fontSize={"0.8rem"}>No Files</Text>
+                )}
+              </Box>
+            )}
+            {checkUserType() === userType.student && (
+              <Box mt={2} mb={type === "Ongoing" && 4}>
+                <Text fontSize={"12px"} fontWeight={500}>
+                  {scheduleClassData.description}
+                </Text>
+                <Text fontSize={"12px"} color={secondaryTextColor}>
+                  {renderSlicedString(info?.LiveClassRoomDetail?.description)}
+                </Text>
+              </Box>
+            )}
+            {(type === "Ongoing" || checkUserType() === userType.teacher) && (
+              <MainBtn
+                isLoading={isLoading}
+                text={"Start"}
+                backColor={primaryBlue}
+                textColor={"white"}
+                onClickHandler={() => startContinueClickHandler(info?.roomId)}
+              />
+            )}
           </Box>
         );
       })}
