@@ -10,6 +10,7 @@ import StudentAssignment from "./pages/StudentAssignment/screen/StudentAssignmen
 import PhyLibrary from "./pages/StudentLibrary/PhysicsLibrary/screen/PhyLibrary";
 import PhyRecording from "./pages/StudentLibrary/PhysicsLibrary/screen/ViewLectures";
 import StudentBoardScreen from "./pages/StudentBoard/screen/StudentBoardScreen";
+import ViewChapterRecording from "./pages/StudentCourses/Physics/screens/ViewChapRec";
 import Home from "./components/home/Home";
 import AuthLoading from "./components/loaders/AuthLoading";
 
@@ -94,6 +95,11 @@ const privateRoutes = [
     name: "Student LeaderBoard",
     path: "/student/leaderboard",
     component: <StudentBoardScreen />,
+  },
+  {
+    name: "Chapter Recording",
+    path: "/student/chapter",
+    component: <ViewChapterRecording />,
   },
 ];
 

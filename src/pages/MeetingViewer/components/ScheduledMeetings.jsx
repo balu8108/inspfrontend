@@ -5,7 +5,6 @@ import scheduledToday from "../data/scheduledToday";
 import scheduledWeek from "../data/scheduledWeek";
 const ScheduledMeetings = () => {
   return (
-   
     <Box
       width={"365px"}
       h={"100%"}
@@ -46,7 +45,11 @@ const ScheduledMeetings = () => {
       >
         <Flex gap={1}>
           <Box ml={"12px"} mt={"15px"}>
-            <Text fontSize="15px" lineHeight={"19px"} color={"rgba(44, 51, 41, 1)"}>
+            <Text
+              fontSize="15px"
+              lineHeight={"19px"}
+              color={"rgba(44, 51, 41, 1)"}
+            >
               {scheduledOngoing.chapter}
             </Text>
             <Text

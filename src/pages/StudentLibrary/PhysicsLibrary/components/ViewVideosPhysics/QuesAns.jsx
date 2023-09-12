@@ -40,7 +40,13 @@ const QuesAnsOfVideo = () => {
           </Box>
         ))}
       </Box>
-      <Box display="flex" justifyContent="space-between" p={5} mt={380} gap={"30px"}>
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        p={5}
+        mt={380}
+        gap={"30px"}
+      >
         <Button
           bg={"#FFFFFF"}
           color={"#3C8DBC"}

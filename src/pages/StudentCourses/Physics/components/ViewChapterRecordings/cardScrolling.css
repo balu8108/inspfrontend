@@ -1,0 +1,25 @@
+/* styles.css */
+.card-container {
+    display: flex;
+    overflow-x: auto;
+    width: 100%;
+    white-space: nowrap;
+  }
+  
+  .chapter {
+    margin-right: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+  
+  .card {
+    width: 200px;
+    height: 150px;
+    background-color: #f0f0f0;
+    margin: 10px;
+    padding: 10px;
+    display: inline-block;
+    border: 1px solid #ddd;
+  }
+  
+  

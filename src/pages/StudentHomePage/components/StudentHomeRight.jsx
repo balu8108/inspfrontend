@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Box,
+  Card,
   Text,
   Input,
   InputGroup,
@@ -32,8 +33,7 @@ const FullRec = () => {
         <InputLeftElement pointerEvents="none">
           <FaSearch
             color="#000000"
-           
-            style={{ marginTop: "40px", marginLeft: "24px"}}
+            style={{ marginTop: "40px", marginLeft: "24px" }}
           />
         </InputLeftElement>
         <Input placeholder="Search" />
@@ -78,7 +78,7 @@ const FullRec = () => {
                   {item.instructorName}
                 </Text>
               </Box>
-              <Box p={1} ml={8} mt={"17px"} >
+              <Box p={1} ml={8} mt={"17px"}>
                 <Text fontSize={"10px"} color={"#2C332978"}>
                   {item.startTime}-{item.endTime}
                 </Text>
@@ -102,6 +102,7 @@ const FullRec = () => {
               color={"white"}
               h={37}
               w={"220px"}
+              m={4}
             >
               View Recording
             </Button>
@@ -210,7 +211,7 @@ const FullRec = () => {
         </Box>
 
         {scheduledToday.map((meetingForToday) => (
-          <Box
+          <Card
             key={meetingForToday.id}
             width={"85%"}
             height={"149px"}
@@ -257,7 +258,7 @@ const FullRec = () => {
             >
               {meetingForToday.description}
             </Text>
-          </Box>
+          </Card>
         ))}
       </VStack>
 

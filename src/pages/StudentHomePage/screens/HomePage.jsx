@@ -7,11 +7,11 @@ import Library from "../components/Library";
 import StudentHomePageRightSection from "../components/StudentHomeRight";
 const HomePage = () => {
   return (
-    <Flex m={"52px"} justifyContent={"space-between"} >
+    <Flex m={"52px"} justifyContent={"space-between"}>
       <Box>
         <MyCourses />
         <HStack spacing={"24px"}>
-          <Improvement  />
+          <Improvement />
           <Assignment />
         </HStack>
         <Library />
@@ -20,26 +20,6 @@ const HomePage = () => {
         <StudentHomePageRightSection />
       </Box>
     </Flex>
-
-  //  <Box m={"52px"}>
-  //   <Flex  justifyContent={"space-between"}>
-  //     <Box>
-  //       <MyCourses />
-  //       <Flex gap={"24px"} justifyContent={"space-between"} >
-  //         <Improvement />
-  //         <Assignment />
-  //       </Flex>
-  //       <Library/>
-        
-  //     </Box>
-      
-  //     <Box>
-  //       <StudentHomePageRightSection />
-  //     </Box>
-  //   </Flex>
-  //   </Box>
-
-    
   );
 };
 export default HomePage;

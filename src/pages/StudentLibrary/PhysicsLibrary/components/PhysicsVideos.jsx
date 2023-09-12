@@ -28,7 +28,7 @@ const PhysLibrary = () => {
           Library (Physics)
         </Text>
 
-        <InputGroup m={4} w={"220px"} ml={370}  >
+        <InputGroup m={4} w={"220px"} ml={370}>
           <InputLeftElement pointerEvents="none">
             <FaSearch color="#000000" />
           </InputLeftElement>

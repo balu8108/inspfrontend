@@ -10,11 +10,11 @@ const libraryData = [
     subjectName: "Mathematics",
     description: "Lorem ipsum dolor sit amet conster Id egestas V",
   },
-  // {
-  //   id: 3,
-  //   subjectName: "Chemistry",
-  //   description: "Lorem ipsum dolor sit amet conster Id egestas",
-  // },
+  {
+    id: 3,
+    subjectName: "Chemistry",
+    description: "Lorem ipsum dolor sit amet conster Id egestas",
+  },
   {
     id: 4,
     subjectName: "Topic based recording",

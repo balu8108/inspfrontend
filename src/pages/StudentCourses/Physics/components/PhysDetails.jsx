@@ -27,7 +27,13 @@ const PhysDetails = () => {
               bg={"#F1F5F8"}
               borderRadius={"18px"}
             >
-              <Text fontSize={"16px"} fontWeight={400} ml={"13px"} mt={"16px"} lineHeight={"19px"}>
+              <Text
+                fontSize={"16px"}
+                fontWeight={400}
+                ml={"13px"}
+                mt={"16px"}
+                lineHeight={"19px"}
+              >
                 {physScreen.chapterName}
               </Text>
               <Text

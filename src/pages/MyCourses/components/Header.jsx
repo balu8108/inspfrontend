@@ -3,7 +3,7 @@ import { Box, HStack, Text, Card, Flex, Button } from "@chakra-ui/react";
 import headerData from "../data/headerData";
 const Header = () => {
   return (
-    <Box  w={"full"} bg={"#F1F5F8"} borderRadius={"2xl"}>
+    <Box w={"full"} bg={"#F1F5F8"} borderRadius={"2xl"}>
       <HStack spacing={"10px"}>
         <Box
           width={"12px"}
