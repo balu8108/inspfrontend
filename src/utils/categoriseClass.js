@@ -4,7 +4,6 @@ const categoriseClass = (data) => {
   const scheduledDate = moment(data.scheduledDate);
   const scheduledStartTime = moment(data.scheduledStartTime, "HH:mm:ss");
   const scheduledEndTime = moment(data.scheduledEndTime, "HH:mm:ss");
-  console.log("scheduleStartTime", scheduledStartTime);
 
   if (scheduledDate.isSame(currentDate, "day")) {
     // if it is today then check if it is live or upcoming
