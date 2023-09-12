@@ -22,7 +22,7 @@ import SOCKET_EVENTS from "../constants/socketeventconstants";
 import { Device } from "mediasoup-client";
 import { staticVariables } from "../constants/staticvariables";
 import { SET_RAISE_HAND } from "../store/constants";
-import { isObjectValid } from "../utils";
+import { getStorageData, isObjectValid } from "../utils";
 
 // socket variables
 
@@ -375,8 +375,11 @@ export const initializeSocketConnections = (roomId) => {
 
 export const joinRoomHandler = (roomId) => {
   return new Promise((resolve, reject) => {
-    socket.emit(SOCKET_EVENTS.JOIN_ROOM, { roomId: roomId }, (res) =>
-      joinRoomResponseHandler(res, resolve, reject)
+    const { data } = getStorageData("insp_user_profile");
+    socket.emit(
+      SOCKET_EVENTS.JOIN_ROOM,
+      { roomId: roomId, peerDetails: data },
+      (res) => joinRoomResponseHandler(res, resolve, reject)
     );
   });
 };
