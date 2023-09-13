@@ -173,7 +173,6 @@ const consumeMediaFromProducer = async (
 
 // Previously function prototype
 
-// const createRecvTransport = async (remoteProducerId, appData) => {};
 const createRecvTransport = async () => {
   return new Promise((resolve, reject) => {
     socket.emit(
@@ -344,31 +343,42 @@ const miroBoardIdResponseHandler = (res) => {
 
 // SOCKET EVENT LISTENERS AND EVENT EMITTERS:-
 export const initializeSocketConnections = (roomId) => {
-  socket = io(BASE_URL);
-  // store the socket in redux also as we may need it later
+  const { status, data: secret_token } = getStorageData("secret_token");
 
-  socket.on(SOCKET_EVENTS.CONNECT, () => socketConnectionHandler(roomId));
-  socket.on(SOCKET_EVENTS.NEW_PEER_JOINED, socketNewPeerJoinedHandler);
-  socket.on(SOCKET_EVENTS.ROOM_UPDATE, roomUpdateResponseHandler);
-  socket.on(SOCKET_EVENTS.PEER_LEAVED, peerLeavedResponseHandler);
-  socket.on(SOCKET_EVENTS.NEW_PRODUCER, newProducerResponseHandler);
-  socket.on(SOCKET_EVENTS.CHAT_MSG_FROM_SERVER, chatMsgResponseHandler);
-  socket.on(SOCKET_EVENTS.RAISE_HAND_FROM_SERVER, raiseHandResponseHandler);
-  socket.on(SOCKET_EVENTS.UPLOAD_FILE_FROM_SERVER, uploadFileResponseHandler);
-  socket.on(SOCKET_EVENTS.QUESTION_SENT_FROM_SERVER, questionResponseHandler);
-  socket.on(SOCKET_EVENTS.PRODUCER_PAUSED, producerPausedResponseHandler);
-  socket.on(SOCKET_EVENTS.PRODUCER_RESUMED, producerResumeResponseHandler);
-  socket.on(
-    SOCKET_EVENTS.SOME_PRODUCER_CLOSED,
-    someProducerClosedResponseHandler
-  );
-  socket.on(
-    SOCKET_EVENTS.MIRO_BOARD_DATA_FROM_SERVER,
-    miroBoardIdResponseHandler
-  );
-  socket.on(SOCKET_EVENTS.DISCONNECT, () => {
-    console.log("socket disconnected with id", socket.id);
-  });
+  if (status) {
+    socket = io(BASE_URL, {
+      auth: { secret_token: secret_token },
+    });
+    // store the socket in redux also as we may need it later
+
+    socket.on(SOCKET_EVENTS.CONNECT, () => socketConnectionHandler(roomId));
+    socket.on(SOCKET_EVENTS.NEW_PEER_JOINED, socketNewPeerJoinedHandler);
+    socket.on(SOCKET_EVENTS.ROOM_UPDATE, roomUpdateResponseHandler);
+    socket.on(SOCKET_EVENTS.PEER_LEAVED, peerLeavedResponseHandler);
+    socket.on(SOCKET_EVENTS.NEW_PRODUCER, newProducerResponseHandler);
+    socket.on(SOCKET_EVENTS.CHAT_MSG_FROM_SERVER, chatMsgResponseHandler);
+    socket.on(SOCKET_EVENTS.RAISE_HAND_FROM_SERVER, raiseHandResponseHandler);
+    socket.on(SOCKET_EVENTS.UPLOAD_FILE_FROM_SERVER, uploadFileResponseHandler);
+    socket.on(SOCKET_EVENTS.QUESTION_SENT_FROM_SERVER, questionResponseHandler);
+    socket.on(SOCKET_EVENTS.PRODUCER_PAUSED, producerPausedResponseHandler);
+    socket.on(SOCKET_EVENTS.PRODUCER_RESUMED, producerResumeResponseHandler);
+    socket.on(
+      SOCKET_EVENTS.SOME_PRODUCER_CLOSED,
+      someProducerClosedResponseHandler
+    );
+    socket.on(
+      SOCKET_EVENTS.MIRO_BOARD_DATA_FROM_SERVER,
+      miroBoardIdResponseHandler
+    );
+    socket.on(SOCKET_EVENTS.DISCONNECT, () => {
+      console.log("socket disconnected with id", socket.id);
+    });
+    socket.on(SOCKET_EVENTS.CONNECT_ERROR, (err) => {
+      console.log(err instanceof Error); // true
+      console.log(err.message); // not authorized
+      console.log(err.data); // { content: "Please retry later" }
+    });
+  }
 };
 
 /* EVENT EMIT FUNCTIONS STARTS HERE */

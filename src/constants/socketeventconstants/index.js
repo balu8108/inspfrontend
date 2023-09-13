@@ -35,6 +35,7 @@ const SOCKET_EVENTS = {
   LEAVE_ROOM: "leave_room",
   MIRO_BOARD_DATA_TO_SERVER: "miro_board_data_to_server",
   MIRO_BOARD_DATA_FROM_SERVER: "miro_board_data_from_server",
+  CONNECT_ERROR: "connect_error",
 };
 
 export default SOCKET_EVENTS;
