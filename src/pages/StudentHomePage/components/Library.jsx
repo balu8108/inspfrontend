@@ -8,6 +8,7 @@ import {
   useTheme,
   HStack,
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import libraryData from "../data/library";
 
 const Library = () => {
@@ -44,9 +45,11 @@ const Library = () => {
           >
             Library
           </Text>
-          <Button variant={"ghost"} fontSize={"13px"} fontWeight={"400"}>
-            See All
-          </Button>
+          <Link to="/student/physics-library">
+            <Button variant={"ghost"} fontSize={"13px"} fontWeight={"400"}>
+              See All
+            </Button>
+          </Link>
         </Flex>
       </HStack>
 
@@ -86,18 +89,22 @@ const Library = () => {
             >
               {library.description}
             </Text>
-            <Button
-              variant={"ghost"}
-              color={"#3C8DBC"}
-              mt={"26px"}
-              mb={"28px"}
-              p={["10px", "20px"]}
-              fontSize={"14px"}
-              lineHeight={"16px"}
-              fontWeight={"600"}
+            <Link
+              style={{ display: "flex", justifyContent: "center" }}
+              to={`/student/${library.subjectName}-library`}
             >
-              View Details
-            </Button>
+              <Button
+                color={"#3C8DBC"}
+                mt={"25px"}
+                mb={"5"}
+                p={["10px", "20px"]}
+                fontSize={"14px"}
+                lineHeight={"16px"}
+                fontWeight={"600"}
+              >
+                View Details
+              </Button>
+            </Link>
           </Card>
         ))}
       </Flex>

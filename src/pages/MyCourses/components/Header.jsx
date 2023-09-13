@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Box, HStack, Text, Card, Flex, Button } from "@chakra-ui/react";
 import headerData from "../data/headerData";
 const Header = () => {
@@ -65,18 +66,20 @@ const Header = () => {
             >
               {headerDetails.description}
             </Text>
-
-            <Button
-              variant={"ghost"}
-              color={"#3C8DBC"}
-              fontWeight={"600"}
-              size={"12px"}
-              fontSize={"14px"}
-              lineHeight={"16px"}
-              p={5}
-            >
-              View Details
-            </Button>
+            <Link to={`/student/myCourses/${headerDetails.subject}`}>
+              <Button
+                variant={"ghost"}
+                color={"#3C8DBC"}
+                fontWeight={"600"}
+                size={"12px"}
+                fontSize={"14px"}
+                lineHeight={"16px"}
+                p={5}
+                ml={"50px"}
+              >
+                View Details
+              </Button>
+            </Link>
           </Card>
         ))}
       </Flex>

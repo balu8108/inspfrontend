@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Box, HStack, Text, Button, Flex, VStack } from "@chakra-ui/react";
 import scheduledOngoing from "../data/scheduledOngoing";
 import scheduledToday from "../data/scheduledToday";
@@ -23,16 +24,17 @@ const ScheduledMeetings = () => {
           <Text fontSize={"20px"} lineHeight={"26.6px"} fontFamily={"Segoe UI"}>
             Ongoing
           </Text>
-
-          <Button
-            variant={"ghost"}
-            fontSize={"14px"}
-            lineHeight={"16px"}
-            ml={"60px"}
-            fontWeight={400}
-          >
-            See All
-          </Button>
+          <Link to="/schedule-class">
+            <Button
+              variant={"ghost"}
+              fontSize={"14px"}
+              lineHeight={"16px"}
+              ml={"60px"}
+              fontWeight={400}
+            >
+              See All
+            </Button>
+          </Link>
         </HStack>
       </Box>
 

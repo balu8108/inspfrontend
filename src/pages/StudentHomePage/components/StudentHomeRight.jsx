@@ -11,6 +11,7 @@ import {
   VStack,
   Flex,
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import viewRecordedClass from "../data/homePageRight";
 import { FaSearch } from "react-icons/fa";
 import scheduledOngoing from "../../MeetingViewer/data/scheduledOngoing";
@@ -94,18 +95,20 @@ const FullRec = () => {
             <Text fontSize={12} color={"#2C332978"} ml={3} mt={1}>
               {item.description}
             </Text>
-            <Button
-              fontSize={14}
-              fontWeight={400}
-              variant={"ghost"}
-              bg={"#3C8DBC"}
-              color={"white"}
-              h={37}
-              w={"220px"}
-              m={4}
-            >
-              View Recording
-            </Button>
+            <Link to="/view-recording">
+              <Button
+                fontSize={14}
+                fontWeight={400}
+                variant={"ghost"}
+                bg={"#3C8DBC"}
+                color={"white"}
+                h={37}
+                w={"220px"}
+                m={4}
+              >
+                View Recording
+              </Button>
+            </Link>
           </Box>
         ))}
       </Box>
@@ -121,16 +124,17 @@ const FullRec = () => {
           <Text fontSize={"20px"} lineHeight={"26.6px"} fontFamily={"Segoe UI"}>
             Ongoing
           </Text>
-
-          <Button
-            variant={"ghost"}
-            fontSize={"14px"}
-            lineHeight={"16px"}
-            ml={"60px"}
-            fontWeight={400}
-          >
-            See All
-          </Button>
+          <Link to="/schedule-class">
+            <Button
+              variant={"ghost"}
+              fontSize={"14px"}
+              lineHeight={"16px"}
+              ml={"60px"}
+              fontWeight={400}
+            >
+              See All
+            </Button>
+          </Link>
         </HStack>
       </Box>
 

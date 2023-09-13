@@ -8,6 +8,7 @@ import {
   Flex,
   Card,
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import newAddedAssignment from "../data/newAddedAssignment";
 
 const Assignment = () => {
@@ -33,15 +34,17 @@ const Assignment = () => {
         <Text fontSize="20px" lineHeight="26.6px" mt="26px">
           Assignment
         </Text>
-        <Button
-          variant={"ghost"}
-          fontSize={"13px"}
-          mt={5}
-          ml={12}
-          fontWeight={400}
-        >
-          See All
-        </Button>
+        <Link to="/student/assignments">
+          <Button
+            variant={"ghost"}
+            fontSize={"13px"}
+            mt={5}
+            ml={12}
+            fontWeight={400}
+          >
+            See All
+          </Button>
+        </Link>
       </HStack>
 
       <Flex mt={5}>
