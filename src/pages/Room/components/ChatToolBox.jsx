@@ -20,7 +20,7 @@ import { TfiMenuAlt } from "react-icons/tfi";
 import { PiPaperPlaneTiltBold } from "react-icons/pi";
 
 import { BsEmojiSmile } from "react-icons/bs";
-
+import { BiBarChart } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { setChatMessage } from "../../../store/actions/socketActions";
 import { roomData } from "../data/roomData";
@@ -30,6 +30,7 @@ import { containsEmoji } from "../../../utils";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 import VideoSection from "./VideoSection";
+import Leaderboard from "./Leaderboard";
 const EmojiContainer = ({ isEmojiOpen }) => {
   const { lightGrey } = useTheme().colors.pallete;
   const [searchEmoticonValue, setSearchEmoticonValue] = useState("");
@@ -168,6 +169,7 @@ const ChatToolBox = ({ mentorVideoRef, isScreenShare }) => {
   const [isSentBtnDisabled, setIsSentBtnDisabled] = useState(true);
   const [isChatSentLoading, setIsChatSentLoading] = useState(false);
   const [isEmojiOpen, setIsEmojiOpen] = useState(false);
+  const [isLeaderBoardOpen, setIsLeaderBoardOpen] = useState(false);
   const dispatch = useDispatch();
 
   const { isOpen: isChatOpened, onToggle: onChatToggle } = useDisclosure();
@@ -226,6 +228,19 @@ const ChatToolBox = ({ mentorVideoRef, isScreenShare }) => {
         <VideoSection mentorVideoRef={mentorVideoRef} />
 
         <Flex alignItems={"flex-end"} gap={2}>
+          <Box>
+            <Leaderboard isLeaderBoardOpen={isLeaderBoardOpen} />
+            <Flex justifyContent={"flex-end"}>
+              <IconButton
+                borderRadius={"full"}
+                bg="white"
+                onClick={() => {
+                  setIsLeaderBoardOpen(!isLeaderBoardOpen);
+                }}
+                icon={<BiBarChart size={20} />}
+              />
+            </Flex>
+          </Box>
           <HStack borderRadius={"full"} bg="white">
             <IconButton
               borderRadius={"full"}

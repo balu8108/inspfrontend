@@ -374,9 +374,8 @@ export const initializeSocketConnections = (roomId) => {
       console.log("socket disconnected with id", socket.id);
     });
     socket.on(SOCKET_EVENTS.CONNECT_ERROR, (err) => {
-      console.log(err instanceof Error); // true
-      console.log(err.message); // not authorized
-      console.log(err.data); // { content: "Please retry later" }
+      console.log(err instanceof Error);
+      console.log(err.message);
     });
   }
 };

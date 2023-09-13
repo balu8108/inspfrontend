@@ -101,4 +101,68 @@ export const roomData = {
   selectNumberOfOptions: "Select no. of options",
   selectCorrectAnswer: "Select correct answer",
   noData: "No Data",
+  leaderBoardText: "Leader Board",
+  refreshText: "Refresh",
+  leaderBoardData: [
+    {
+      id: 1,
+      name: "Lorem ipsum",
+      correctAnswer: "9/10",
+      responseTime: "35s",
+    },
+    {
+      id: 2,
+      name: "Lorem ipsum",
+      correctAnswer: "9/10",
+      responseTime: "35s",
+    },
+    {
+      id: 3,
+      name: "Lorem ipsum",
+      correctAnswer: "9/10",
+      responseTime: "35s",
+    },
+    {
+      id: 4,
+      name: "Lorem ipsum",
+      correctAnswer: "9/10",
+      responseTime: "35s",
+    },
+    {
+      id: 5,
+      name: "Lorem ipsum",
+      correctAnswer: "9/10",
+      responseTime: "35s",
+    },
+    {
+      id: 6,
+      name: "Lorem ipsum",
+      correctAnswer: "9/10",
+      responseTime: "35s",
+    },
+    {
+      id: 7,
+      name: "Lorem ipsum",
+      correctAnswer: "9/10",
+      responseTime: "35s",
+    },
+    {
+      id: 8,
+      name: "Lorem ipsum",
+      correctAnswer: "9/10",
+      responseTime: "35s",
+    },
+    {
+      id: 9,
+      name: "Lorem ipsum",
+      correctAnswer: "9/10",
+      responseTime: "35s",
+    },
+    {
+      id: 10,
+      name: "Lorem ipsum",
+      correctAnswer: "9/10",
+      responseTime: "35s",
+    },
+  ],
 };
