@@ -25,9 +25,6 @@ const StudentPollsMCQBox = ({ question }) => {
   const setTimerRef = useRef(null);
   const dispatch = useDispatch();
 
-  console.log("answers", answers);
-  console.log("selectedAnswer", selectedAnswer);
-
   const renderAnswerOptions = (question) => {
     const handleRadioChange = (value) => {
       setSelectedAnswer(value);

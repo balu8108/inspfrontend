@@ -8,7 +8,7 @@ const WebAudioPlayer = ({ mediaStreamTrack }) => {
     if (!mediaStreamTrack || !audioRef.current) return;
 
     const audioContext = new AudioContext();
-    console.log("audio context", audioContext.destination);
+
     const audioSource = audioContext.createMediaStreamSource(
       new MediaStream([mediaStreamTrack])
     );
