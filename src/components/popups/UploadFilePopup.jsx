@@ -69,8 +69,8 @@ const UploadFilePopup = ({ type, roomId }) => {
         onClose={onClose}
       >
         <PopoverTrigger>
-          <Icon
-            as={BiPlus}
+          <IconButton
+            icon={<BiPlus />}
             bg="none"
             boxSize={"1.2em"}
             _hover={{ bg: "none", cursor: "pointer" }}

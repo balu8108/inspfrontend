@@ -25,6 +25,7 @@ import { LuSettings, LuMonitorOff, LuCircleOff } from "react-icons/lu";
 import { SiMiro } from "react-icons/si";
 import { RiFullscreenFill } from "react-icons/ri";
 import {
+  endMeetHandler,
   leaveRoomHandler,
   producerPauseHandler,
   producerResumeHandler,
@@ -289,6 +290,18 @@ const ToolBox = ({
       setIsRecordOn(true);
     }
   };
+
+  const leaveRoomOrEndMeetHandler = async () => {
+    setIsLeaveLoading(true);
+    if (userRoleType === userType.teacher) {
+      await endMeetHandler();
+    } else {
+      await leaveRoomHandler();
+    }
+
+    navigate(`/room-preview/${roomId}`);
+    setIsLeaveLoading(false);
+  };
   return (
     <Box position={"absolute"} height={"100%"} p={4} zIndex={4}>
       <Flex
@@ -416,12 +429,7 @@ const ToolBox = ({
             }
             backColor={redBtnColor}
             textColor="white"
-            onClickHandler={async () => {
-              setIsLeaveLoading(true);
-              await leaveRoomHandler();
-              navigate(`/room-preview/${roomId}`);
-              setIsLeaveLoading(false);
-            }}
+            onClickHandler={leaveRoomOrEndMeetHandler}
           />
         </HStack>
         {/* <Stack>

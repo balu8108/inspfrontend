@@ -6,7 +6,7 @@ import { miroViewMode } from "../../../constants/staticvariables";
 
 const MiroBoard = () => {
   const { miroBoard } = useSelector((state) => state.socket);
-  console.log("miro baord use selctor", miroBoard);
+
   //   const [miroBoardId, setMiroBoardId] = useState(null);
 
   //   const openMiroBoardAuth = () => {

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Box, Text, useTheme, Flex, Spinner, Center } from "@chakra-ui/react";
 import { scheduleClassData } from "../data/scheduleClassData";
 import FileBoxComponent from "../../../components/filebox/FileBoxComponent";
-import { MainBtn } from "../../../components/button";
+import { MainBtn, ScheduleClassBtn } from "../../../components/button";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
@@ -102,7 +102,10 @@ const ScheduleClassInformation = ({
               </Box>
             )}
             {checkUserType() === userType.student && (
-              <Box mt={2} mb={type === "Ongoing" && 4}>
+              <Box
+                mt={2}
+                mb={(type === "Ongoing" || type === "Completed") && 4}
+              >
                 <Text fontSize={"12px"} fontWeight={500}>
                   {scheduleClassData.description}
                 </Text>
@@ -111,10 +114,12 @@ const ScheduleClassInformation = ({
                 </Text>
               </Box>
             )}
-            {(type === "Ongoing" || checkUserType() === userType.teacher) && (
-              <MainBtn
+            {(type === "Ongoing" ||
+              type === "Completed" ||
+              checkUserType() === userType.teacher) && (
+              <ScheduleClassBtn
                 isLoading={isLoading}
-                text={"Start"}
+                status={info.classStatus}
                 backColor={primaryBlue}
                 textColor={"white"}
                 onClickHandler={() => startContinueClickHandler(info?.roomId)}

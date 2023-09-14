@@ -6,6 +6,7 @@ import {
   setAudioConsumers,
   setChatMessage,
   setConsumers,
+  setLeaderBoard,
   setMentorScreenShareConsumer,
   setMentorScreenSharePauseOrResume,
   setMentorVideoShareConsumer,
@@ -22,11 +23,11 @@ import SOCKET_EVENTS from "../constants/socketeventconstants";
 import { Device } from "mediasoup-client";
 import { staticVariables } from "../constants/staticvariables";
 import { SET_RAISE_HAND } from "../store/constants";
-import { isObjectValid } from "../utils";
+import { getStorageData, isObjectValid } from "../utils";
 
 // socket variables
 
-let socket = null;
+export let socket = null;
 export let producerTransport = null;
 export let consumerTransport = null;
 export const device = new Device();
@@ -173,7 +174,6 @@ const consumeMediaFromProducer = async (
 
 // Previously function prototype
 
-// const createRecvTransport = async (remoteProducerId, appData) => {};
 const createRecvTransport = async () => {
   return new Promise((resolve, reject) => {
     socket.emit(
@@ -340,43 +340,64 @@ const miroBoardIdResponseHandler = (res) => {
   store.dispatch(setMiroBoardData(res));
 };
 
+const leaderBoardResponseHandler = (res) => {
+  store.dispatch(setLeaderBoard(res?.leaderBoard));
+};
+
 /** REPSONSE HANDLER ENDS HERE **/
 
 // SOCKET EVENT LISTENERS AND EVENT EMITTERS:-
 export const initializeSocketConnections = (roomId) => {
-  socket = io(BASE_URL);
-  // store the socket in redux also as we may need it later
+  const { status, data: secret_token } = getStorageData("secret_token");
 
-  socket.on(SOCKET_EVENTS.CONNECT, () => socketConnectionHandler(roomId));
-  socket.on(SOCKET_EVENTS.NEW_PEER_JOINED, socketNewPeerJoinedHandler);
-  socket.on(SOCKET_EVENTS.ROOM_UPDATE, roomUpdateResponseHandler);
-  socket.on(SOCKET_EVENTS.PEER_LEAVED, peerLeavedResponseHandler);
-  socket.on(SOCKET_EVENTS.NEW_PRODUCER, newProducerResponseHandler);
-  socket.on(SOCKET_EVENTS.CHAT_MSG_FROM_SERVER, chatMsgResponseHandler);
-  socket.on(SOCKET_EVENTS.RAISE_HAND_FROM_SERVER, raiseHandResponseHandler);
-  socket.on(SOCKET_EVENTS.UPLOAD_FILE_FROM_SERVER, uploadFileResponseHandler);
-  socket.on(SOCKET_EVENTS.QUESTION_SENT_FROM_SERVER, questionResponseHandler);
-  socket.on(SOCKET_EVENTS.PRODUCER_PAUSED, producerPausedResponseHandler);
-  socket.on(SOCKET_EVENTS.PRODUCER_RESUMED, producerResumeResponseHandler);
-  socket.on(
-    SOCKET_EVENTS.SOME_PRODUCER_CLOSED,
-    someProducerClosedResponseHandler
-  );
-  socket.on(
-    SOCKET_EVENTS.MIRO_BOARD_DATA_FROM_SERVER,
-    miroBoardIdResponseHandler
-  );
-  socket.on(SOCKET_EVENTS.DISCONNECT, () => {
-    console.log("socket disconnected with id", socket.id);
-  });
+  if (status) {
+    socket = io(BASE_URL, {
+      auth: { secret_token: secret_token },
+    });
+    // store the socket in redux also as we may need it later
+
+    socket.on(SOCKET_EVENTS.CONNECT, () => socketConnectionHandler(roomId));
+    socket.on(SOCKET_EVENTS.NEW_PEER_JOINED, socketNewPeerJoinedHandler);
+    socket.on(SOCKET_EVENTS.ROOM_UPDATE, roomUpdateResponseHandler);
+    socket.on(SOCKET_EVENTS.PEER_LEAVED, peerLeavedResponseHandler);
+    socket.on(SOCKET_EVENTS.NEW_PRODUCER, newProducerResponseHandler);
+    socket.on(SOCKET_EVENTS.CHAT_MSG_FROM_SERVER, chatMsgResponseHandler);
+    socket.on(SOCKET_EVENTS.RAISE_HAND_FROM_SERVER, raiseHandResponseHandler);
+    socket.on(SOCKET_EVENTS.UPLOAD_FILE_FROM_SERVER, uploadFileResponseHandler);
+    socket.on(SOCKET_EVENTS.QUESTION_SENT_FROM_SERVER, questionResponseHandler);
+    socket.on(SOCKET_EVENTS.PRODUCER_PAUSED, producerPausedResponseHandler);
+    socket.on(SOCKET_EVENTS.PRODUCER_RESUMED, producerResumeResponseHandler);
+    socket.on(
+      SOCKET_EVENTS.SOME_PRODUCER_CLOSED,
+      someProducerClosedResponseHandler
+    );
+    socket.on(
+      SOCKET_EVENTS.MIRO_BOARD_DATA_FROM_SERVER,
+      miroBoardIdResponseHandler
+    );
+    socket.on(
+      SOCKET_EVENTS.LEADERBOARD_FROM_SERVER,
+      leaderBoardResponseHandler
+    );
+    socket.on(SOCKET_EVENTS.DISCONNECT, () => {
+      console.log("socket disconnected with id", socket.id);
+    });
+    socket.on(SOCKET_EVENTS.CONNECT_ERROR, (err) => {
+      console.log(err instanceof Error);
+      console.log(err.message);
+    });
+  }
 };
 
 /* EVENT EMIT FUNCTIONS STARTS HERE */
 
 export const joinRoomHandler = (roomId) => {
   return new Promise((resolve, reject) => {
-    socket.emit(SOCKET_EVENTS.JOIN_ROOM, { roomId: roomId }, (res) =>
-      joinRoomResponseHandler(res, resolve, reject)
+    const { data } = getStorageData("insp_user_profile");
+    socket.emit(
+      SOCKET_EVENTS.JOIN_ROOM,
+      { roomId: roomId, peerDetails: data },
+      (res) => joinRoomResponseHandler(res, resolve, reject)
     );
   });
 };
@@ -467,6 +488,10 @@ export const producerResumeHandler = (producer) => {
 
 export const leaveRoomHandler = async () => {
   await socket.emit(SOCKET_EVENTS.LEAVE_ROOM);
+};
+
+export const endMeetHandler = async () => {
+  await socket.emit(SOCKET_EVENTS.END_MEET_TO_SERVER);
 };
 
 export const sendAnswerHandler = (data) => {

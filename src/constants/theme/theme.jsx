@@ -20,6 +20,11 @@ const scheme = {
       eventLightBlue: "rgba(183, 224, 230, 1)",
       extraTextLight: "rgba(58, 53, 65, 0.87)",
       lightBorderColor: "rgba(58, 53, 65, 0.23)",
+      notStartedBtnColor: "rgba(255, 89, 89, 1)",
+      ongoingBtnColor: "rgba(193, 227, 182, 1)",
+      scheduledBtnColor: "#3C8DBC",
+      finishedBtnColor: "rgba(232, 232, 232, 1)",
+      notConductedBtnColor: "rgba(196, 196, 196, 1)",
     },
   },
 };

@@ -34,3 +34,28 @@ export const userType = {
   teacher: "TEACHER",
   student: "STUDENT",
 };
+
+export const classStatus = {
+  SCHEDULED: "SCHEDULED",
+  ONGOING: "ONGOING",
+  NOT_STARTED: "NOT_STARTED",
+  FINISHED: "FINISHED",
+  NOT_CONDUCTED: "NOT_CONDUCTED",
+};
+
+export const classStatusText = {
+  teacher: {
+    SCHEDULED: "Start",
+    ONGOING: "Ongoing",
+    NOT_STARTED: "Start",
+    FINISHED: "View Recording",
+    NOT_CONDUCTED: "Not Conducted",
+  },
+  student: {
+    SCHEDULED: "Join Class",
+    ONGOING: "Ongoing",
+    NOT_STARTED: "Not Started",
+    FINISHED: "View Recording",
+    NOT_CONDUCTED: "Not Conducted",
+  },
+};

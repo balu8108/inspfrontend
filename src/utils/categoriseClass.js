@@ -17,18 +17,13 @@ const categoriseClass = (data) => {
     } else if (currentDate.isAfter(scheduledEndTime)) {
       return "Completed"; // New category for all past classes
     }
-  } else if (
-    scheduledDate.isSame(currentDate, "week") &&
-    currentDate.isBefore(scheduledStartTime)
-  ) {
-    // for the current week
-    return "Week";
-  } else if (
-    scheduledDate.isSame(currentDate, "week") &&
-    currentDate.isAfter(scheduledEndTime)
-  ) {
-    // later on we also need to check if the class is Finished or not and then return the category
-    return "Completed"; // New category for all past classes outside of the current day and week
+  } else if (scheduledDate.isSame(currentDate, "week")) {
+    if (scheduledDate.isBefore(currentDate, "day")) {
+      // Class is in the past but in the same week
+      return "Completed";
+    } else {
+      return "Week";
+    }
   }
   return "Upcoming";
 };

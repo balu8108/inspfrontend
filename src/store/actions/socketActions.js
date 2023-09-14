@@ -23,6 +23,7 @@ import {
   SET_MENTOR_VIDEO_SHARE_PAUSE_OR_RESUME,
   SET_MENTOR_SCREEN_SHARE_PAUSE_OR_RESUME,
   SET_MIRO_BOARD_DATA,
+  SET_LEADERBOARD,
 } from "../constants";
 
 export const setSocket = (socket) => {
@@ -132,4 +133,8 @@ export const getUpcomingClassDetails = (roomId) => async (dispatch) => {
   } catch (err) {
     console.log("err in description", err);
   }
+};
+
+export const setLeaderBoard = (leaderBoard) => async (dispatch) => {
+  dispatch({ type: SET_LEADERBOARD, payload: leaderBoard });
 };

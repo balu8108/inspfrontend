@@ -194,7 +194,7 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
                       alignItems={"center"}
                     >
                       <Text color={"white"} fontWeight={600} fontSize={"10px"}>
-                        {renderLeftMembersCount(peers.length, 4)}+
+                        +{renderLeftMembersCount(peers.length, 4)}
                       </Text>
                     </Flex>
                   </Center>

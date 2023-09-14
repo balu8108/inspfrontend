@@ -62,7 +62,7 @@ const PostPoll = ({ QNo, setQNo, screenShareStream }) => {
     try {
       const screenshot = await screenshotHandler(screenShareStream);
       const formData = new FormData();
-      console.log("screenshot", qnaData);
+
       formData.append("screenshot", screenshot);
       formData.append("data", JSON.stringify(qnaData));
       formData.append("roomId", roomId);
@@ -76,7 +76,7 @@ const PostPoll = ({ QNo, setQNo, screenShareStream }) => {
   const sendPoll = async () => {
     setIsLoading(true);
     sendQuestionHandler(qnaData);
-    await handleScreenshot(screenShareStream);
+    await handleScreenshot();
     setIsLoading(false);
     onClose();
   };
@@ -127,16 +127,14 @@ const PostPoll = ({ QNo, setQNo, screenShareStream }) => {
   const generateAnswerOptions = (type, noOfOptions) => {
     if (type === "tf") {
       return tfOptions;
-    } else {
-      if (noOfOptions && noOfOptions >= 2 && noOfOptions <= 10) {
-        // generate A- no of Options
-        let options = [];
-        for (let i = 0; i < noOfOptions; i++) {
-          let code = String.fromCharCode(65 + i);
-          options.push({ value: code, label: code });
-        }
-        return options;
+    } else if (noOfOptions && noOfOptions >= 2 && noOfOptions <= 10) {
+      // generate A- no of Options
+      let options = [];
+      for (let i = 0; i < noOfOptions; i++) {
+        let code = String.fromCharCode(65 + i);
+        options.push({ value: code, label: code });
       }
+      return options;
     }
   };
 
