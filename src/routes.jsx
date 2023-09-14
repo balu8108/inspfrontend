@@ -15,6 +15,7 @@ import AuthLoading from "./components/loaders/AuthLoading";
 
 //Mentor Routes
 import MentorHomePage from "./pages/Mentors/MentorsHomePage/screen/HomePage";
+import MentorMyCoursesPhysics from "./pages/Mentors/MyCourses/Physics/screen/Physics"
 
 const publicRoutes = [
   {
@@ -103,6 +104,11 @@ const privateRoutes = [
     path: "/mentor/homepage",
     component: <MentorHomePage />,
   },
+  {
+    name:"Mentor MyCourses Physics",
+    path:"/mentor/mycourses/physics",
+    component:<MentorMyCoursesPhysics/>,
+  }
 ];
 
 export { publicRoutes, privateRoutes };

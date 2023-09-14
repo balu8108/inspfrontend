@@ -9,7 +9,7 @@ const MentorSchedulingClass = () => {
       ml={"24px"}
       borderRadius={"26px"}
       maxH={"950px"}
-      w={"300px"}
+      w={"94%"}
       overflowY={"auto"}
       mt={"24px"}
     >
