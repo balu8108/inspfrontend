@@ -5,7 +5,7 @@ import generateUniqueKey from "./generateUniqueKey";
 import isObjectValid from "./objectValidation";
 import copyObject from "./copyObjects";
 import { extractDateInYYYMMDD } from "./extractDate";
-import { formatTime, timeDifference } from "./formatTime";
+import { formatTime, timeDifference, formatSeconds } from "./formatTime";
 import { extractFileNameFromS3URL } from "./extractFileName";
 import categoriseClass from "./categoriseClass";
 import boxShadowStyles from "./boxShadowStyles";
@@ -36,4 +36,5 @@ export {
   getStorageType,
   checkUserType,
   decryptData,
+  formatSeconds,
 };

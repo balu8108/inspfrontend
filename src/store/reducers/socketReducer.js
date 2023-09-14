@@ -20,6 +20,7 @@ import {
   SET_FILE_UPLOAD_IN_ROOM,
   SET_MENTOR_SCREEN_SHARE_PAUSE_OR_RESUME,
   SET_MIRO_BOARD_DATA,
+  SET_LEADERBOARD,
 } from "../constants";
 const initialState = {
   isPeerLoading: true,
@@ -33,6 +34,7 @@ const initialState = {
   chatMessages: [],
   raiseHands: [],
   uploadedFiles: [],
+  leaderBoard: [],
   miroBoard: { boardId: null, mode: "view" },
   question: null,
   roomPreviewData: null,
@@ -195,6 +197,11 @@ const socketReducer = (state = initialState, action) => {
           boardId: action.payload.boardId,
           mode: action.payload.mode,
         },
+      };
+    case SET_LEADERBOARD:
+      return {
+        ...state,
+        leaderBoard: action.payload,
       };
     default:
       return state;

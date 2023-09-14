@@ -25,3 +25,26 @@ export const timeDifference = (startTime, endTime) => {
     return `(${hours} hr ${minutes} min)`;
   }
 };
+
+export const formatSeconds = (timeInSeconds) => {
+  if (!timeInSeconds) {
+    return "0s";
+  }
+  let formattedTime = "";
+  const duration = moment.duration(timeInSeconds, "seconds");
+
+  const hours = duration.hours();
+  const minutes = duration.minutes();
+  const seconds = duration.seconds();
+
+  if (hours > 0) {
+    formattedTime = `${hours}h `;
+  }
+  if (minutes > 0) {
+    formattedTime += `${minutes}m `;
+  }
+  if (seconds > 0) {
+    formattedTime += `${seconds}s`;
+  }
+  return formattedTime;
+};

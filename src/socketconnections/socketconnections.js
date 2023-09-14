@@ -6,6 +6,7 @@ import {
   setAudioConsumers,
   setChatMessage,
   setConsumers,
+  setLeaderBoard,
   setMentorScreenShareConsumer,
   setMentorScreenSharePauseOrResume,
   setMentorVideoShareConsumer,
@@ -26,7 +27,7 @@ import { getStorageData, isObjectValid } from "../utils";
 
 // socket variables
 
-let socket = null;
+export let socket = null;
 export let producerTransport = null;
 export let consumerTransport = null;
 export const device = new Device();
@@ -339,6 +340,10 @@ const miroBoardIdResponseHandler = (res) => {
   store.dispatch(setMiroBoardData(res));
 };
 
+const leaderBoardResponseHandler = (res) => {
+  store.dispatch(setLeaderBoard(res?.leaderBoard));
+};
+
 /** REPSONSE HANDLER ENDS HERE **/
 
 // SOCKET EVENT LISTENERS AND EVENT EMITTERS:-
@@ -369,6 +374,10 @@ export const initializeSocketConnections = (roomId) => {
     socket.on(
       SOCKET_EVENTS.MIRO_BOARD_DATA_FROM_SERVER,
       miroBoardIdResponseHandler
+    );
+    socket.on(
+      SOCKET_EVENTS.LEADERBOARD_FROM_SERVER,
+      leaderBoardResponseHandler
     );
     socket.on(SOCKET_EVENTS.DISCONNECT, () => {
       console.log("socket disconnected with id", socket.id);
@@ -479,6 +488,10 @@ export const producerResumeHandler = (producer) => {
 
 export const leaveRoomHandler = async () => {
   await socket.emit(SOCKET_EVENTS.LEAVE_ROOM);
+};
+
+export const endMeetHandler = async () => {
+  await socket.emit(SOCKET_EVENTS.END_MEET_TO_SERVER);
 };
 
 export const sendAnswerHandler = (data) => {

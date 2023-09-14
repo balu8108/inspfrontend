@@ -11,13 +11,17 @@ import {
 import { roomData } from "../data/roomData";
 import { GrRefresh } from "react-icons/gr";
 import leaderboardRankingIcons from "../data/leaderboardRankingIcons";
+import { useSelector } from "react-redux";
+import { formatSeconds } from "../../../utils";
 const Leaderboard = ({ isLeaderBoardOpen }) => {
+  const { leaderBoard } = useSelector((state) => state.socket);
+  console.log("leader board from component", leaderBoard);
   const { primaryBlue, lightGrey } = useTheme().colors.pallete;
   return (
     <>
       {isLeaderBoardOpen && (
         <Box px={4} py={2} bg={lightGrey} borderRadius={"md"} mb={1}>
-          <Flex justifyContent={"space-between"}>
+          <Flex justifyContent={"space-between"} gap={6}>
             <HStack>
               <Box
                 bg={primaryBlue}
@@ -39,7 +43,42 @@ const Leaderboard = ({ isLeaderBoardOpen }) => {
             </Button>
           </Flex>
           <Box>
-            {roomData.leaderBoardData.map((data) => {
+            {leaderBoard.length === 0 ? (
+              <Flex
+                fontSize={"12px"}
+                justifyContent={"center"}
+                alignItems={"center"}
+                my={3}
+              >
+                <Text>No Data</Text>
+              </Flex>
+            ) : (
+              leaderBoard.map((data, index) => {
+                return (
+                  <Flex
+                    fontSize={"12px"}
+                    key={data?.peerDetails?.id}
+                    justifyContent={"space-between"}
+                    alignItems={"center"}
+                    gap={10}
+                    my={3}
+                  >
+                    <HStack>
+                      <Image
+                        h={"25px"}
+                        src={leaderboardRankingIcons[index + 1]}
+                        alt="rank_icon"
+                      />
+                      <Text>{data?.peerDetails?.name}</Text>
+                    </HStack>
+
+                    <Text>{data?.correctAnswers}</Text>
+                    <Text>{formatSeconds(data?.combinedResponseTime)}</Text>
+                  </Flex>
+                );
+              })
+            )}
+            {/* {roomData.leaderBoardData.map((data) => {
               return (
                 <Flex
                   fontSize={"12px"}
@@ -62,7 +101,7 @@ const Leaderboard = ({ isLeaderBoardOpen }) => {
                   <Text>{data.responseTime}</Text>
                 </Flex>
               );
-            })}
+            })} */}
           </Box>
         </Box>
       )}

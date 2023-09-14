@@ -8,9 +8,16 @@ import {
   createSendTransportHandler,
   getProducersHandler,
   initializeDeviceHandler,
+  socket,
 } from "../../../socketconnections/socketconnections";
 import { useSelector } from "react-redux";
-import { liveSessionMemberViewType } from "../../../constants/staticvariables";
+import {
+  liveSessionMemberViewType,
+  userType,
+} from "../../../constants/staticvariables";
+import { useToastContext } from "../../../components/toastNotificationProvider/ToastNotificationProvider";
+import { useNavigate, useParams } from "react-router-dom";
+import { checkUserType } from "../../../utils";
 
 const Room = () => {
   const [isScreenShare, setIsScreenShare] = useState(false);
@@ -25,7 +32,10 @@ const Room = () => {
     liveSessionMemberViewType.compact
   );
   const { rtpCapabilities } = useSelector((state) => state.socket);
-
+  const { addNotification } = useToastContext();
+  const userRoleType = checkUserType();
+  const navigate = useNavigate();
+  const { roomId } = useParams();
   const micRef = useRef();
   const screenShareRef = useRef();
   const mentorVideoRef = useRef();
@@ -78,11 +88,22 @@ const Room = () => {
   }, [rtpCapabilities]);
 
   useEffect(() => {
+    if (!socket) {
+      addNotification("Class leaved", "info", 3000);
+      navigate(`/room-preview/${roomId}`);
+    }
+  }, [roomId, addNotification, navigate]);
+
+  useEffect(() => {
     return () => {
       // on Unmount disconnect the participant  from room
-      console.log("unmounting room");
+
+      if (userRoleType === userType.student) {
+        addNotification("Class leaved", "info", 3000);
+        navigate(`/room-preview/${roomId}`);
+      }
     };
-  }, []);
+  }, [roomId, addNotification, navigate, userRoleType]);
   return (
     <>
       <Box pt={4} pb={4} px={10}>
