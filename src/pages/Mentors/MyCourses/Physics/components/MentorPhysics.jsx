@@ -1,9 +1,8 @@
-import { Box,Button,Card,Flex, Text, HStack ,Stack} from "@chakra-ui/react";
+import { Box, Button, Card, Flex, Text, HStack, Stack } from "@chakra-ui/react";
 import mentorChapterDetails from "../data/completedChapterDetails";
 const PhysicsCourse = () => {
   return (
-    
-    <Box bg={"#F1F5F8"}  w={"829px"}  h={"full"} borderRadius={"26px"}>
+    <Box bg={"#F1F5F8"} w={"full"} h={"full"} borderRadius={"26px"}>
       <HStack spacing={"10px"}>
         <Box
           width={"12px"}
@@ -18,13 +17,12 @@ const PhysicsCourse = () => {
         </Text>
       </HStack>
 
-
       <Stack>
         <Flex flexWrap="wrap" mt={"37px"} ml={"29px"} gap={"23px"}>
           {mentorChapterDetails.map((physScreen) => (
             <Card
-             w={"235px"}
-             h={"204px"}
+              w={"235px"}
+              h={"204px"}
               key={physScreen.id}
               blendMode={"multiply"}
               bg={"#F1F5F8"}
@@ -64,7 +62,7 @@ const PhysicsCourse = () => {
                 lineHeight={"21px"}
                 fontWeight={400}
                 ml={13}
-               noOfLines={"2"}
+                noOfLines={"2"}
                 color={"rgba(44, 51, 41, 0.47)"}
               >
                 {physScreen.description}
@@ -83,7 +81,6 @@ const PhysicsCourse = () => {
           ))}
         </Flex>
       </Stack>
-
     </Box>
   );
 };

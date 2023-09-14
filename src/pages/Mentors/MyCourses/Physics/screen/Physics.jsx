@@ -21,17 +21,17 @@
 // };
 // export default Physics;
 
-import { Box, Flex, VStack } from "@chakra-ui/react";
+import { Box, Flex, Stack } from "@chakra-ui/react";
 import Header from "../../../Header/components/HeaderInAllScreen";
 import SchedulingClass from "../../../SchedulingClass/components/MentorSchedule";
 import PhysicsCourse from "../components/MentorPhysics";
 const Physics = () => {
   return (
     <Flex m={"52px"}>
-      <VStack spacing={"24px"} w={"100%"}>
+      <Stack spacing={"24px"} w={"100%"}>
         <Header />
         <PhysicsCourse />
-      </VStack>
+      </Stack>
       <Box mt={-5}>
         <SchedulingClass />
       </Box>
