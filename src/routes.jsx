@@ -13,6 +13,9 @@ import ViewChapterRecording from "./pages/StudentCourses/Physics/screens/ViewCha
 import Home from "./components/home/Home";
 import AuthLoading from "./components/loaders/AuthLoading";
 
+//Mentor Routes
+import MentorHomePage from "./pages/Mentors/MentorsHomePage/screen/HomePage";
+
 const publicRoutes = [
   {
     name: "Home",
@@ -94,6 +97,11 @@ const privateRoutes = [
     name: "Chapter Recording",
     path: "/student/chapter",
     component: <ViewChapterRecording />,
+  },
+  {
+    name: "Mentor HomePage",
+    path: "/mentor/homepage",
+    component: <MentorHomePage />,
   },
 ];
 
