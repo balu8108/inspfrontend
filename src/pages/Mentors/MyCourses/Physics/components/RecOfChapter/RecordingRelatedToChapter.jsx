@@ -5,7 +5,14 @@ import defaultImageUrl from "../../../../../../assets/images/image1.png";
 
 const ViewAllRecordingsRelatedToOneChapter = () => {
   return (
-    <Box w={"100%"} maxW={"870px"} bg={"#F1F5F8"} borderRadius={"2xl"} mt={6} overflowX="auto">
+    <Box
+      w={"100%"}
+      maxW={"870px"}
+      bg={"#F1F5F8"}
+      borderRadius={"2xl"}
+      mt={6}
+      overflowX="auto"
+    >
       <HStack spacing={"10px"} ml="27px">
         <Box
           width={"12px"}
@@ -31,7 +38,7 @@ const ViewAllRecordingsRelatedToOneChapter = () => {
               p={3}
               bg={"#F1F5F8"}
               blendMode={"multiply"}
-              minW="200px" 
+              minW="200px"
               mx={4}
             >
               <Image src={defaultImageUrl} alt="Recording Image" />
