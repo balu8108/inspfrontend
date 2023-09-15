@@ -21,12 +21,19 @@ import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 import { boxShadowStyles, checkUserType } from "../../../utils";
 import { userType } from "../../../constants/staticvariables";
+import DocumentViewer from "../../../components/popups/DocumentViewer";
 
 const ScheduleClass = () => {
   const {
     isOpen: isSchedulePopupOpen,
     onOpen: onSchedulePopupOpen,
     onClose: onScheduleClosePopupOpen,
+  } = useDisclosure();
+
+  const {
+    isOpen: isDocOpen,
+    onOpen: onDocOpen,
+    onClose: onDocClose,
   } = useDisclosure();
   const { primaryBlue, lightGrey } = useTheme().colors.pallete;
   const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
@@ -53,6 +60,8 @@ const ScheduleClass = () => {
           setClassTiming={setClassTiming}
         />
       )}
+
+      {isDocOpen && <DocumentViewer isOpen={isDocOpen} onClose={onDocClose} />}
       <Box px={20} pt={4} pb={4}>
         <Grid templateColumns={"20% 80%"} gap={4} alignItems={"start"}>
           <SimpleBar
@@ -88,7 +97,10 @@ const ScheduleClass = () => {
                         {category.label}
                       </Text>
                     </HStack>
-                    <ScheduleInfoBox type={category.category} />
+                    <ScheduleInfoBox
+                      type={category.category}
+                      onDocOpen={onDocOpen}
+                    />
                   </Box>
                 ))}
               </Flex>

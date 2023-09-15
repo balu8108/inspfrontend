@@ -24,6 +24,7 @@ import {
   SET_MENTOR_SCREEN_SHARE_PAUSE_OR_RESUME,
   SET_MIRO_BOARD_DATA,
   SET_LEADERBOARD,
+  SET_IS_MEET_ENDED,
 } from "../constants";
 
 export const setSocket = (socket) => {
@@ -137,4 +138,8 @@ export const getUpcomingClassDetails = (roomId) => async (dispatch) => {
 
 export const setLeaderBoard = (leaderBoard) => async (dispatch) => {
   dispatch({ type: SET_LEADERBOARD, payload: leaderBoard });
+};
+
+export const setIsMeetEnd = (value) => async (dispatch) => {
+  dispatch({ type: SET_IS_MEET_ENDED, payload: value });
 };

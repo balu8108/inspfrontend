@@ -68,6 +68,7 @@ const PostPoll = ({ QNo, setQNo, screenShareStream }) => {
       formData.append("roomId", roomId);
 
       if (screenshot) {
+        console.log("screenshot triggered", screenshot);
         await imageToDocApi(formData); // send screenshot to backend
       }
     } catch (err) {}

@@ -7,7 +7,7 @@ import {
   generateUniqueKey,
 } from "../../utils";
 import { userType } from "../../constants/staticvariables";
-const FileBoxComponent = ({ data }) => {
+const FileBoxComponent = ({ data, onDocOpen }) => {
   const { secondaryTextColor } = useTheme().colors.pallete;
   const userRoleType = checkUserType();
 
@@ -15,6 +15,7 @@ const FileBoxComponent = ({ data }) => {
     <>
       {data.map((item) => (
         <Flex
+          onClick={() => onDocOpen()}
           key={generateUniqueKey()}
           justifyContent={"space-between"}
           alignItems={"center"}

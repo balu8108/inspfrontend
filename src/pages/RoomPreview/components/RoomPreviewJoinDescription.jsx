@@ -21,8 +21,18 @@ import { formatTime, renderLeftMembersCount } from "../../../utils";
 const PeerList = ({ peers, type }) => {
   const theme = useTheme();
   const { primaryBlue } = theme.colors.pallete;
-  // TODO - filter the list of peers based on type if mentor then show mentors list if students then students
-  const displayedPeers = peers.slice(0, 3);
+
+  let displayedPeers = [];
+  if (type === liveSessionData.mentor) {
+    // for displaying mentor if out of all peers there is no mentor present then return text as no mentor joined
+    displayedPeers = peers.filter((peer) => peer.isTeacher).slice(0, 3);
+    if (displayedPeers.length === 0) {
+      return <Text fontSize={"12px"}>{liveSessionData.noMentorsJoined}</Text>;
+    }
+  } else {
+    displayedPeers = peers.filter((peer) => !peer.isTeacher).slice(0, 3);
+  }
+
   return (
     <>
       {displayedPeers.map((peer) => (
@@ -44,6 +54,7 @@ const renderPeerData = (isPeerLoading, peers, liveSessionData, type) => {
   if (isPeerLoading) {
     return <Spinner />;
   }
+
   if (peers.length === 0) {
     return (
       <Text fontSize={"12px"}>
@@ -160,17 +171,17 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
               <Text fontSize={"14px"} color={mainTextColor}>
                 {liveSessionData.mentorsJoined}
               </Text>
-              <Flex gap={2}>
-                <Text fontSize={"12px"}>No Mentors joined</Text>
-              </Flex>
               {/* <Flex gap={2}>
+                <Text fontSize={"12px"}>No Mentors joined</Text>
+              </Flex> */}
+              <Flex gap={2}>
                 {renderPeerData(
                   isPeerLoading,
                   peers,
                   liveSessionData,
                   liveSessionData.mentor
                 )}
-              </Flex> */}
+              </Flex>
             </VStack>
             <VStack pt={2}>
               <Text fontSize={"14px"} color={mainTextColor}>
