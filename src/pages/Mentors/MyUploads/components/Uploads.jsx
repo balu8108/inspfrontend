@@ -50,11 +50,16 @@ const AllUploadedLecture = () => {
         />
       </Flex>
 
-      <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={"6"} p={4} mr={"20px"}>
+      <SimpleGrid
+        columns={{ base: 1, md: 2, lg: 3 }}
+        spacing={"6"}
+        p={4}
+        mr={"20px"}
+      >
         {uploadedChapterDetails.map((chapter) => (
           <Card
-           w={"100%"}
-           h={"200px"}
+            w={"100%"}
+            h={"200px"}
             key={chapter.id}
             bg={"#F1F5F8"}
             blendMode={"multiply"}
@@ -66,11 +71,13 @@ const AllUploadedLecture = () => {
             <Text fontSize="12px" color={"#2C332978"}>
               {chapter.instructorName}
             </Text>
-            <Text fontSize={"12px"} mt={"18px"}>Description</Text>
+            <Text fontSize={"12px"} mt={"18px"}>
+              Description
+            </Text>
             <Text fontSize="11px" color="#2C332978" noOfLines={2} mb={2}>
               {chapter.description}
             </Text>
-            <Button variant={"ghost"} color={"#3C8DBC"} mt={"4"} >
+            <Button variant={"ghost"} color={"#3C8DBC"} mt={"4"}>
               View Details
             </Button>
           </Card>
