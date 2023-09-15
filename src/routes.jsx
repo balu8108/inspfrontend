@@ -19,6 +19,7 @@ import MentorMyCoursesPhysics from "./pages/Mentors/MyCourses/Physics/screen/Phy
 import AllRecordingsForAChapter from "./pages/Mentors/MyCourses/Physics/screen/ChapterRecording";
 import MentorAllUploadedLectures from "./pages/Mentors/MyUploads/screen/UploadScreen";
 import RateNFeedback from "./pages/Mentors/RatingsAndFeedbacks/screen/RateNFeedback";
+import ViewRatingAndFeedback from "./pages/Mentors/RatingsAndFeedbacks/screen/RateNFeedback"
 
 const publicRoutes = [
   {
@@ -126,6 +127,11 @@ const privateRoutes = [
     name: "Mentor Rating And Feedback",
     path: "/mentor/rating&feedback",
     component: <RateNFeedback />,
+  },
+  {
+    name: "Viewing Mentors Rating And Feedback",
+    path: "/mentor/view/rating&feedback",
+    component: <ViewRatingAndFeedback />,
   },
 ];
 
