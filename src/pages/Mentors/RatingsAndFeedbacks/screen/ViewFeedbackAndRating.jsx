@@ -7,3 +7,4 @@ const ViewRatingAndFeedback=()=>{
         </Box>
     )
 }
+export default  ViewRatingAndFeedback;
