@@ -20,6 +20,7 @@ const ScheduleClassInformation = ({
   type,
   startContinueClickHandler,
   isLoading,
+  onDocOpen,
 }) => {
   const { lightGrey, primaryBlue, secondaryTextColor } =
     useTheme().colors.pallete;
@@ -95,7 +96,10 @@ const ScheduleClassInformation = ({
             {checkUserType() === userType.teacher && (
               <Box my={4}>
                 {info?.LiveClassRoomFiles.length > 0 ? (
-                  <FileBoxComponent data={info.LiveClassRoomFiles} />
+                  <FileBoxComponent
+                    data={info.LiveClassRoomFiles}
+                    onDocOpen={onDocOpen}
+                  />
                 ) : (
                   <Text fontSize={"0.8rem"}>No Files</Text>
                 )}
@@ -132,7 +136,7 @@ const ScheduleClassInformation = ({
   );
 };
 
-const ScheduleInfoBox = ({ type }) => {
+const ScheduleInfoBox = ({ type, onDocOpen }) => {
   const { secondaryTextColor } = useTheme().colors.pallete;
   const { scheduledClassesData, scheduleClassLoading } = useSelector(
     (state) => state.scheduleClass
@@ -171,6 +175,7 @@ const ScheduleInfoBox = ({ type }) => {
           type={type}
           startContinueClickHandler={startContinueClickHandler}
           isLoading={isLoading}
+          onDocOpen={onDocOpen}
         />
       );
     }

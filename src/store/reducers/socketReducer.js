@@ -21,9 +21,11 @@ import {
   SET_MENTOR_SCREEN_SHARE_PAUSE_OR_RESUME,
   SET_MIRO_BOARD_DATA,
   SET_LEADERBOARD,
+  SET_IS_MEET_ENDED,
 } from "../constants";
 const initialState = {
   isPeerLoading: true,
+  isMeetEnd: false,
   socket: null,
   peers: [],
   rtpCapabilities: null,
@@ -202,6 +204,11 @@ const socketReducer = (state = initialState, action) => {
       return {
         ...state,
         leaderBoard: action.payload,
+      };
+    case SET_IS_MEET_ENDED:
+      return {
+        ...state,
+        isMeetEnd: action.payload,
       };
     default:
       return state;

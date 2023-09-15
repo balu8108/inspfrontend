@@ -6,6 +6,7 @@ import {
   setAudioConsumers,
   setChatMessage,
   setConsumers,
+  setIsMeetEnd,
   setLeaderBoard,
   setMentorScreenShareConsumer,
   setMentorScreenSharePauseOrResume,
@@ -39,6 +40,8 @@ export const device = new Device();
 
 const socketConnectionHandler = (roomId) => {
   console.log("Socket connected successfully with id ", socket.id);
+
+  store.dispatch(setIsMeetEnd(false));
 
   socket.emit(SOCKET_EVENTS.JOIN_ROOM_PREVIEW, { roomId: roomId }, (res) => {
     if (res.success === true) {
@@ -344,6 +347,10 @@ const leaderBoardResponseHandler = (res) => {
   store.dispatch(setLeaderBoard(res?.leaderBoard));
 };
 
+const endMeetReponseHandler = () => {
+  store.dispatch(setIsMeetEnd(true));
+};
+
 /** REPSONSE HANDLER ENDS HERE **/
 
 // SOCKET EVENT LISTENERS AND EVENT EMITTERS:-
@@ -379,6 +386,7 @@ export const initializeSocketConnections = (roomId) => {
       SOCKET_EVENTS.LEADERBOARD_FROM_SERVER,
       leaderBoardResponseHandler
     );
+    socket.on(SOCKET_EVENTS.END_MEET_FROM_SERVER, endMeetReponseHandler);
     socket.on(SOCKET_EVENTS.DISCONNECT, () => {
       console.log("socket disconnected with id", socket.id);
     });

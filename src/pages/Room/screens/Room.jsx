@@ -31,7 +31,7 @@ const Room = () => {
   const [peersViewType, setPeersViewType] = useState(
     liveSessionMemberViewType.compact
   );
-  const { rtpCapabilities } = useSelector((state) => state.socket);
+  const { rtpCapabilities, isMeetEnd } = useSelector((state) => state.socket);
   const { addNotification } = useToastContext();
   const userRoleType = checkUserType();
   const navigate = useNavigate();
@@ -58,6 +58,16 @@ const Room = () => {
     }
   };
 
+  const deviceInitialize = async (rtpCapabilities) => {
+    try {
+      await initializeDeviceHandler(rtpCapabilities);
+    } catch (err) {
+      console.log("failed to initialize device");
+    }
+  };
+
+  /* use effect starts */
+
   useEffect(() => {
     if (screenShareStream) {
       const screenShareTrack = screenShareStream.getVideoTracks()[0];
@@ -68,13 +78,6 @@ const Room = () => {
     }
   }, [screenShareStream]);
 
-  const deviceInitialize = async (rtpCapabilities) => {
-    try {
-      await initializeDeviceHandler(rtpCapabilities);
-    } catch (err) {
-      console.log("failed to initialize device");
-    }
-  };
   useEffect(() => {
     const initialization = async () => {
       if (rtpCapabilities) {
@@ -94,6 +97,14 @@ const Room = () => {
     }
   }, [roomId, addNotification, navigate]);
 
+  // if meet ended by mentor then redirect to room preview in backend everything cleans up automatically
+  useEffect(() => {
+    if (isMeetEnd) {
+      addNotification("Class Ended", "success", 3000);
+      navigate(`/room-preview/${roomId}`);
+    }
+  }, [isMeetEnd, navigate, roomId, addNotification]);
+
   useEffect(() => {
     return () => {
       // on Unmount disconnect the participant  from room
@@ -104,6 +115,8 @@ const Room = () => {
       }
     };
   }, [roomId, addNotification, navigate, userRoleType]);
+
+  /* use effect starts */
   return (
     <>
       <Box pt={4} pb={4} px={10}>
