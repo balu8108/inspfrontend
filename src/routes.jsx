@@ -16,6 +16,9 @@ import AuthLoading from "./components/loaders/AuthLoading";
 //Mentor Routes
 import MentorHomePage from "./pages/Mentors/MentorsHomePage/screen/HomePage";
 import MentorMyCoursesPhysics from "./pages/Mentors/MyCourses/Physics/screen/Physics"
+import AllRecordingsForAChapter from "./pages/Mentors/MyCourses/Physics/screen/ChapterRecording";
+import MentorAllUploadedLectures from "./pages/Mentors/MyUploads/screen/UploadScreen"
+import RateNFeedback from "./pages/Mentors/RatingsAndFeedbacks/screen/RateNFeedback";
 
 const publicRoutes = [
   {
@@ -108,7 +111,23 @@ const privateRoutes = [
     name:"Mentor MyCourses Physics",
     path:"/mentor/mycourses/physics",
     component:<MentorMyCoursesPhysics/>,
+  },
+  {
+    name:"Mentor All Recording Related To A Particular Chapter",
+    path:"/mentor/chaptername",
+    component:<AllRecordingsForAChapter/>
+  },
+  {
+    name:"Mentor All Uploads",
+    path:"/mentor/alluploads",
+    component:<MentorAllUploadedLectures />
+  },
+  {
+    name:"Mentor Rating And Feedback",
+    path:"/mentor/rating&feedback",
+    component:<RateNFeedback />
   }
+
 ];
 
 export { publicRoutes, privateRoutes };

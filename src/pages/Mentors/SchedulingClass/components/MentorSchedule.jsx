@@ -1,4 +1,4 @@
-import { Box, Flex, Button, HStack, Text, VStack } from "@chakra-ui/react";
+import { Box, Flex, Button, HStack, Text, VStack, Spacer } from "@chakra-ui/react";
 import ongoingClasses from "../data/ongoing";
 import weeklyClasses from "../data/week";
 import schedulingForToday from "../data/today";

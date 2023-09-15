@@ -10,12 +10,10 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import { BsDownload } from "react-icons/bs";
-
-import chapterDetails from "../../data/viewChapterData";
-
-const Details = () => {
+import chapterDetailsData from "../../data/Details";
+const ChapterDetailsAndCoveredPart = () => {
   return (
-    <Box width={"100%"} height={"999px"} bg={"#F1F5F8"} borderRadius={"26px"}>
+    <Box w={"100%"} height={"999px"} bg={"#F1F5F8"} borderRadius={"26px"}>
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
         <Box
           width={"12px"}
@@ -29,7 +27,7 @@ const Details = () => {
       </HStack>
 
       <Stack ml={"20px"} mt={"50px"}>
-        {chapterDetails.map((chapter) => (
+        {chapterDetailsData.map((chapter) => (
           <Flex key={chapter.id} p={4}>
             <Box flex={1}>
               <Text style={{}}>Description</Text>
@@ -80,7 +78,7 @@ const Details = () => {
       </Box>
       <Box m={"20px"}>
         <Text>Assignments</Text>
-        {chapterDetails.map((chapter) => (
+        {chapterDetailsData.map((chapter) => (
           <div key={chapter.id}>
             <Flex>
               {chapter.assignment.map((assignment, index) => (
@@ -116,4 +114,4 @@ const Details = () => {
   );
 };
 
-export default Details;
+export default ChapterDetailsAndCoveredPart;

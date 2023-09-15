@@ -1,8 +1,7 @@
 import React from "react";
-import { Box, HStack, Text, Card, Flex, Button, Image } from "@chakra-ui/react";
+import { Box, HStack, Text, Card, Flex, Image } from "@chakra-ui/react";
 import viewChapterRecordingData from "../../data/viewChapterRelatedRecording";
 import defaultImageUrl from "../../../../../assets/images/image1.png";
-import "./cardScrolling.css";
 const ViewChapterRecording = () => {
   return (
     <Box w={"full"} bg={"#F1F5F8"} borderRadius={"2xl"}>
