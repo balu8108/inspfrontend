@@ -1,16 +1,19 @@
-import {
-  Avatar,
-  Box,
-  Flex,
-  HStack,
-  Spacer,
-  Stack,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Avatar, Box, HStack, Stack, Text } from "@chakra-ui/react";
+import {Doughnut} from "react-chartjs-2";
+import {Chart,ArcElement} from  'chart.js'
 import feedbackGivenByStudentList from "../../data/feedbackGivenByStudent";
-
+Chart.register(ArcElement)
 const RatingAndFeedBackChart = () => {
+  const data = {
+    labels: ['Housing', 'Transportation', 'Food', 'Utilities', 'Entertainment'],
+    datasets: [
+      {
+        data: [1200, 500, 400, 300, 200],
+        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+        hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+      },
+    ],
+  };
   return (
     <Box w={"100%"} h={"full"} bg={"#F1F5F8"} borderRadius={"26px"}>
       <HStack spacing={"10px"} mx="27px" mt={"25px"}>
@@ -24,6 +27,10 @@ const RatingAndFeedBackChart = () => {
           Newton's Third Law
         </Text>
       </HStack>
+
+      <Box>
+        <Doughnut data={data}/>
+      </Box>
 
       <Stack spacing={"20px"} p={"20px"}>
         {feedbackGivenByStudentList.map((feedback) => (
