@@ -7,20 +7,23 @@ import {
   generateUniqueKey,
 } from "../../utils";
 import { userType } from "../../constants/staticvariables";
-const FileBoxComponent = ({ data, onDocOpen }) => {
+import { useDispatch } from "react-redux";
+import { setIsDocModalOpen } from "../../store/actions/genericActions";
+const FileBoxComponent = ({ data }) => {
   const { secondaryTextColor } = useTheme().colors.pallete;
   const userRoleType = checkUserType();
+  const dispatch = useDispatch();
 
   return (
     <>
       {data.map((item) => (
         <Flex
-          onClick={() => onDocOpen()}
           key={generateUniqueKey()}
           justifyContent={"space-between"}
           alignItems={"center"}
           bg="white"
           mb={2}
+          onClick={() => dispatch(setIsDocModalOpen(item?.id, true))}
           boxShadow={boxShadowStyles.shadowFileBoxStyle.boxShadow}
           borderRadius={"md"}
           px={2}
@@ -29,7 +32,7 @@ const FileBoxComponent = ({ data, onDocOpen }) => {
           <Box>
             <Text color={secondaryTextColor} fontSize={"10px"}>
               {/* {item.name} */}
-              {extractFileNameFromS3URL(item.url)}
+              {extractFileNameFromS3URL(item?.key)}
             </Text>
             <Text color={secondaryTextColor} fontSize={"10px"}>
               {/* {file.identity} */}

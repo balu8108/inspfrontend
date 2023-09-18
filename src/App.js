@@ -1,8 +1,11 @@
 import "./App.css";
 import Navbar from "./components/navbar/Navbar";
+import { useDisclosure } from "@chakra-ui/react";
 import { Routes, Route, useLocation, Outlet, Navigate } from "react-router-dom";
 import { publicRoutes, privateRoutes } from "./routes";
 import { isAuthenticated } from "./utils";
+import { useSelector } from "react-redux";
+import DocumentViewer from "./components/popups/DocumentViewer";
 
 const ProtectedRoutes = () => {
   const isAuth = isAuthenticated();
@@ -14,6 +17,8 @@ const ProtectedRoutes = () => {
 
 function App() {
   const location = useLocation();
+  const { onClose: onDocModalClose } = useDisclosure();
+  const { isDocModalOpen } = useSelector((state) => state.generic);
 
   const isNavbarDisabled =
     location.pathname === "/" || location.pathname.startsWith("/auth");
@@ -21,6 +26,8 @@ function App() {
   return (
     <>
       {!isNavbarDisabled && <Navbar />}
+
+      <DocumentViewer isOpen={isDocModalOpen} onClose={onDocModalClose} />
 
       <Routes>
         <Route element={<ProtectedRoutes />}>

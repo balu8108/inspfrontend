@@ -16,6 +16,7 @@ import isAuthenticated from "./isAuthenticated";
 import getStorageType from "./getStorageType";
 import checkUserType from "./checkUserType";
 import { decryptData } from "./crypticFunctions";
+import fileConverter from "./fileConverter";
 export {
   containsEmoji,
   openFileDialog,
@@ -37,4 +38,5 @@ export {
   checkUserType,
   decryptData,
   formatSeconds,
+  fileConverter,
 };

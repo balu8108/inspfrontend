@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Box, Text, useTheme, Flex, Spinner, Center } from "@chakra-ui/react";
 import { scheduleClassData } from "../data/scheduleClassData";
 import FileBoxComponent from "../../../components/filebox/FileBoxComponent";
-import { MainBtn, ScheduleClassBtn } from "../../../components/button";
+import { ScheduleClassBtn } from "../../../components/button";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
@@ -13,14 +13,12 @@ import {
 } from "../../../utils";
 
 import { userType } from "../../../constants/staticvariables";
-import { scheduleClassCategory } from "../data/scheduleClassCategory";
 
 const ScheduleClassInformation = ({
   scheduledClassesData,
   type,
   startContinueClickHandler,
   isLoading,
-  onDocOpen,
 }) => {
   const { lightGrey, primaryBlue, secondaryTextColor } =
     useTheme().colors.pallete;
@@ -96,10 +94,7 @@ const ScheduleClassInformation = ({
             {checkUserType() === userType.teacher && (
               <Box my={4}>
                 {info?.LiveClassRoomFiles.length > 0 ? (
-                  <FileBoxComponent
-                    data={info.LiveClassRoomFiles}
-                    onDocOpen={onDocOpen}
-                  />
+                  <FileBoxComponent data={info.LiveClassRoomFiles} />
                 ) : (
                   <Text fontSize={"0.8rem"}>No Files</Text>
                 )}
@@ -136,7 +131,7 @@ const ScheduleClassInformation = ({
   );
 };
 
-const ScheduleInfoBox = ({ type, onDocOpen }) => {
+const ScheduleInfoBox = ({ type }) => {
   const { secondaryTextColor } = useTheme().colors.pallete;
   const { scheduledClassesData, scheduleClassLoading } = useSelector(
     (state) => state.scheduleClass
@@ -175,7 +170,6 @@ const ScheduleInfoBox = ({ type, onDocOpen }) => {
           type={type}
           startContinueClickHandler={startContinueClickHandler}
           isLoading={isLoading}
-          onDocOpen={onDocOpen}
         />
       );
     }

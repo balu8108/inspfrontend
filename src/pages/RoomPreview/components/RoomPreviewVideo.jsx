@@ -16,10 +16,11 @@ import {
   setAudioControl,
   setVideoControl,
 } from "../../../store/actions/streamControlActions";
+import { checkUserType } from "../../../utils";
 
 const RoomPreviewVideo = () => {
-  const [isVideoOn, setIsVideoOn] = useState(true);
-  const [isMicOn, setIsMicOn] = useState(true);
+  const [isVideoOn, setIsVideoOn] = useState(false);
+  const [isMicOn, setIsMicOn] = useState(false);
   const [videoStream, setVideoStream] = useState(null);
   const dispatch = useDispatch();
   const videoRef = useRef();
@@ -72,7 +73,9 @@ const RoomPreviewVideo = () => {
     }
   };
   useEffect(() => {
-    getWebCamFeed();
+    if (isVideoOn) {
+      getWebCamFeed();
+    }
 
     return () => {
       if (videoStream) {
@@ -80,7 +83,7 @@ const RoomPreviewVideo = () => {
         tracks.forEach((track) => track.stop());
       }
     };
-  }, []);
+  }, [isVideoOn]);
   return (
     <>
       <Box bg={backgroundLightBlue} width={"70%"} borderRadius={"2xl"} p={6}>
@@ -107,6 +110,7 @@ const RoomPreviewVideo = () => {
                 objectFit: "cover",
                 overflow: "hidden",
                 borderRadius: "20px",
+                background: "black",
               }}
               autoPlay
             />

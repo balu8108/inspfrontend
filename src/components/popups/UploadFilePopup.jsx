@@ -47,7 +47,12 @@ const UploadFilePopup = ({ type, roomId }) => {
 
       for (const key in files) {
         if (files.hasOwnProperty(key) && files[key] instanceof File) {
-          let obj = { name: files[key].name, data: files[key] };
+          console.log("file", files[key]);
+          let obj = {
+            name: files[key].name,
+            mimetype: files[key].type,
+            data: files[key],
+          };
           fileObj = { ...fileObj, files: [...fileObj.files, obj] };
         }
       }
