@@ -95,3 +95,8 @@
   border-radius: 2px;
   padding: 0.6rem;
 }
+
+/** Doc viewer style **/
+#my-doc-viewer #pdf-download {
+  display: none;
+}

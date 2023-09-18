@@ -49,3 +49,5 @@ export const IS_SCHEDULE_CLASS_LOADING = "IS_SCHEDULE_CLASS_LOADING";
 // Generic constants
 
 export const GET_ALL_SUBJECTS = "GET_ALL_SUBJECTS";
+export const SET_IS_DOC_MODAL_OPEN = "SET_IS_DOC_MODAL_OPEN";
+export const SET_DOC_ID = "SET_DOC_ID";

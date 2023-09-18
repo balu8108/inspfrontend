@@ -4,3 +4,5 @@ const API = axios.create({ baseURL: BASE_URL });
 
 export const getAllSubjectsApi = () => API.get("/generic/get-all-subjects");
 export const imageToDocApi = (body) => API.post("/generic/image-to-doc", body);
+export const getPresignedUrlDocApi = (docId) =>
+  API.get(`/generic/open-file/${docId}`);

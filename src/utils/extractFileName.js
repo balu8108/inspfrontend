@@ -1,6 +1,6 @@
-export const extractFileNameFromS3URL = (s3Url) => {
-  if (s3Url) {
-    return s3Url.split("/").pop();
+export const extractFileNameFromS3URL = (s3FileKey) => {
+  if (s3FileKey) {
+    return s3FileKey.split("/").pop();
   }
   return "";
 };

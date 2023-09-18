@@ -299,7 +299,7 @@ const ToolBox = ({
       await leaveRoomHandler();
     }
 
-    navigate(`/room-preview/${roomId}`);
+    // navigate(`/room-preview/${roomId}`);
     setIsLeaveLoading(false);
   };
   return (
@@ -346,9 +346,11 @@ const ToolBox = ({
               }
             />
           </Tooltip>
+
           <Tooltip label={roomData.video} placement="right">
             <IconButton
               isRound={true}
+              isDisabled={userRoleType === userType.student}
               bg={isMentorVideoOn ? "gray.200" : "red"}
               _hover={{ bg: isMentorVideoOn ? "gray.200" : "red" }}
               icon={
@@ -361,21 +363,24 @@ const ToolBox = ({
               onClick={(e) => handleVideoShare(e)}
             />
           </Tooltip>
-          <Tooltip label={roomData.recording} placement="right">
-            <IconButton
-              isRound={true}
-              bg={isRecordOn ? "gray.200" : "red"}
-              onClick={startRecording}
-              _hover={{ bg: isRecordOn ? "gray.200" : "red" }}
-              icon={
-                isRecordOn ? (
-                  <FiCircle size={20} />
-                ) : (
-                  <LuCircleOff size={20} color="white" />
-                )
-              }
-            />
-          </Tooltip>
+
+          {userRoleType === userType.teacher && (
+            <Tooltip label={roomData.recording} placement="right">
+              <IconButton
+                isRound={true}
+                bg={isRecordOn ? "gray.200" : "red"}
+                onClick={startRecording}
+                _hover={{ bg: isRecordOn ? "gray.200" : "red" }}
+                icon={
+                  isRecordOn ? (
+                    <FiCircle size={20} />
+                  ) : (
+                    <LuCircleOff size={20} color="white" />
+                  )
+                }
+              />
+            </Tooltip>
+          )}
         </Stack>
         <Stack>
           <Tooltip label={roomData.screenShare} placement="right">
@@ -409,7 +414,7 @@ const ToolBox = ({
             onClick={openMiroBoardAuth}
           />
 
-          {checkUserType() === userType.teacher && (
+          {userRoleType === userType.teacher && (
             <PostPoll
               QNo={QNo}
               setQNo={setQNo}
