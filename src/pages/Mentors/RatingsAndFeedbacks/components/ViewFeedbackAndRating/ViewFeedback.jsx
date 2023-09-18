@@ -1,3 +1,4 @@
+// Screen that contain particular chapter feedback in form of donughchart and progress bar.
 import React, { useState } from "react";
 import {
   Box,
@@ -10,10 +11,9 @@ import {
   Button,
   Card,
 } from "@chakra-ui/react";
-import { Link } from 'react-router-dom';
+import rateNFeedbackDetails from "../../data/feedbackData";
 
-import rateNFeedbackDetails from "../data/feedbackData";
-const AllUploadedLecture = () => {
+const ViewMentorsRatingAndFeedback = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearchChange = (event) => {
@@ -21,8 +21,11 @@ const AllUploadedLecture = () => {
     // You can perform search-related logic here
   };
 
+  // Limit the displayed cards to the first three items in the array
+  const displayedChapters = rateNFeedbackDetails.slice(0, 3);
+
   return (
-    <Box bg={"#F1F5F8"} width={"250%"} mt={"24px"} borderRadius={"26px"}>
+    <Box bg={"#F1F5F8"} mt={"24px"} borderRadius={"26px"}>
       <Flex>
         <HStack spacing={"10px"} ml="27px">
           <Box
@@ -58,7 +61,7 @@ const AllUploadedLecture = () => {
         p={4}
         mr={"20px"}
       >
-        {rateNFeedbackDetails.map((chapter) => (
+        {displayedChapters.map((chapter) => (
           <Card
             w={"100%"}
             h={"204px"}
@@ -79,11 +82,9 @@ const AllUploadedLecture = () => {
             <Text fontSize="11px" color="#2C332978" noOfLines={2} mb={2}>
               {chapter.description}
             </Text>
-            <Link  style={{ display: 'flex', justifyContent: 'center' }} to={"/mentor/view/rating&feedback"}>
             <Button variant={"ghost"} color={"#3C8DBC"} mt={"4"}>
               View Details
             </Button>
-            </Link>
           </Card>
         ))}
       </SimpleGrid>
@@ -91,9 +92,4 @@ const AllUploadedLecture = () => {
   );
 };
 
-export default AllUploadedLecture;
-
-
-
-
-
+export default ViewMentorsRatingAndFeedback;
