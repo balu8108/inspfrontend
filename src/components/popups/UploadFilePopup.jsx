@@ -10,7 +10,6 @@ import {
   HStack,
   Checkbox,
   Box,
-  Icon,
 } from "@chakra-ui/react";
 import { BiPlus } from "react-icons/bi";
 import { MdClose } from "react-icons/md";
@@ -47,7 +46,6 @@ const UploadFilePopup = ({ type, roomId }) => {
 
       for (const key in files) {
         if (files.hasOwnProperty(key) && files[key] instanceof File) {
-          console.log("file", files[key]);
           let obj = {
             name: files[key].name,
             mimetype: files[key].type,

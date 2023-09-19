@@ -85,13 +85,15 @@ const ToolBox = ({
 
   const openMiroBoardAuth = () => {
     window.miroBoardsPicker.open({
-      clientId: "3458764563018758552", // Replace it with your app ClientId
+      clientId: process.env.REACT_APP_MIRO_CLIENT_ID, // Replace it with your app ClientId
       action: "select",
       success: (data) => {
-        dispatch(
-          setMiroBoardData({ boardId: data.id, mode: miroViewMode.edit })
-        );
-        sendMiroBoardData({ boardId: data.id, mode: miroViewMode.view }); // Broadcast to all as view mode for miro board
+        console.log("Miro board data", data);
+        window.open(data?.viewLink, "_blank");
+        // dispatch(
+        //   setMiroBoardData({ boardId: data.id, mode: miroViewMode.edit })
+        // );
+        // sendMiroBoardData({ boardId: data.id, mode: miroViewMode.view }); // Broadcast to all as view mode for miro board
       },
     });
   };
@@ -143,8 +145,7 @@ const ToolBox = ({
         setScreenShareStream(null); // Clear the stored stream
       }
       setIsScreenShare(false);
-      // stop producing the stream
-      // stopProducing(producerScreenShare.id, producerScreenShare.appData);
+
       if (producerScreenShare) {
         producerScreenShare.pause();
         producerPauseHandler(producerScreenShare);
@@ -207,6 +208,12 @@ const ToolBox = ({
         setIsMicOn(true);
         const track = stream.getAudioTracks()[0];
         if (producerTransport) {
+          if (producerAudioShare) {
+            await producerAudioShare.replaceTrack({ track: track });
+            await producerAudioShare.resume();
+            producerResumeHandler(producerAudioShare);
+            return;
+          }
           let appData = {
             streamType: staticVariables.audioShare,
           };
@@ -261,6 +268,11 @@ const ToolBox = ({
         setMicStream(null); // Clear the stored stream
       }
       setIsMicOn(false);
+      // pause audio
+      if (producerAudioShare) {
+        producerAudioShare.pause();
+        producerPauseHandler(producerAudioShare);
+      }
     } else {
       // get audio stream
       getAudioStreamFeed();

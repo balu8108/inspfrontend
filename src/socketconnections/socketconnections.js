@@ -297,6 +297,7 @@ const questionResponseHandler = (res) => {
 };
 
 export const producerPausedResponseHandler = (res) => {
+  console.log("producer paused response handler", res);
   const { remoteProducerId, appData } = res;
 
   if (
