@@ -1,10 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Box, Text, HStack, Card, Flex, Button, Stack } from "@chakra-ui/react";
 import physDetailsData from "../data/physicsDetails";
 
 const PhysDetails = () => {
   return (
-    <Box width={"100%"} height={"999px"} bg={"#F1F5F8"} borderRadius={"26px"}>
+    <Box width={"100%"}  bg={"#F1F5F8"} borderRadius={"26px"}>
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
         <Box
           width={"12px"}
@@ -64,6 +65,7 @@ const PhysDetails = () => {
               >
                 {physScreen.description}
               </Text>
+              <Link to={`/student/chapter`} style={{display:"flex", justifyContent:"center"}} >
               <Button
                 variant={"ghost"}
                 color={"#3C8DBC"}
@@ -74,6 +76,7 @@ const PhysDetails = () => {
               >
                 View Details
               </Button>
+              </Link>
             </Card>
           ))}
         </Flex>
