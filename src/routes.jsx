@@ -1,7 +1,7 @@
 import RoomPreview from "./pages/RoomPreview/screens/RoomPreview";
 import Room from "./pages/Room/screens/Room";
 import ScheduleClass from "./pages/ScheduleClasses/screens/ScheduleClass";
-import StudentHomePage from "./pages/StudentHomePage/screens/HomePage";
+import StudentHomePage from "./pages/StudentHomePage/screens/StudentHomePage";
 import StudentMathsCourse from "./pages/StudentCourses/Mathematics/screens/MathsCourse";
 import StudentChemCourse from "./pages/StudentCourses/Chemistry/screens/ChemCourse";
 import StudentPhyCourse from "./pages/StudentCourses/Physics/screens/PhysicsCourse";
@@ -14,12 +14,13 @@ import Home from "./components/home/Home";
 import AuthLoading from "./components/loaders/AuthLoading";
 
 //Mentor Routes
-import MentorHomePage from "./pages/Mentors/MentorsHomePage/screen/HomePage";
+import MentorHomePage from "./pages/Mentors/MentorsHomePage/screen/MentorHomePage";
 import MentorMyCoursesPhysics from "./pages/Mentors/MyCourses/Physics/screen/Physics";
 import AllRecordingsForAChapter from "./pages/Mentors/MyCourses/Physics/screen/ChapterRecording";
 import MentorAllUploadedLectures from "./pages/Mentors/MyUploads/screen/UploadScreen";
 import RateNFeedback from "./pages/Mentors/RatingsAndFeedbacks/screen/RateNFeedback";
-import ViewRatingAndFeedback from "./pages/Mentors/RatingsAndFeedbacks/screen/ViewFeedbackAndRating"
+import ViewRatingAndFeedback from "./pages/Mentors/RatingsAndFeedbacks/screen/ViewFeedbackAndRating";
+import HomePage from "./pages/homepage/screens/HomePage";
 
 const publicRoutes = [
   {
@@ -41,6 +42,11 @@ const publicRoutes = [
 
 const privateRoutes = [
   {
+    name: "Homepage",
+    path: "/homepage",
+    component: <HomePage />,
+  },
+  {
     name: "Room Preview",
     path: "/room-preview/:roomId",
     component: <RoomPreview />,
@@ -56,11 +62,11 @@ const privateRoutes = [
     component: <ScheduleClass />,
   },
 
-  {
-    name: "Student Homepage",
-    path: "/student/homepage",
-    component: <StudentHomePage />,
-  },
+  // {
+  //   name: "Student Homepage",
+  //   path: "/student/homepage",
+  //   component: <StudentHomePage />,
+  // },
 
   {
     name: "Student MathsCourse",
@@ -103,11 +109,11 @@ const privateRoutes = [
     path: "/student/chapter",
     component: <ViewChapterRecording />,
   },
-  {
-    name: "Mentor HomePage",
-    path: "/mentor/homepage",
-    component: <MentorHomePage />,
-  },
+  // {
+  //   name: "Mentor HomePage",
+  //   path: "/mentor/homepage",
+  //   component: <MentorHomePage />,
+  // },
   {
     name: "Mentor MyCourses Physics",
     path: "/mentor/mycourses/physics",

@@ -21,7 +21,7 @@ const AuthLoading = ({ message }) => {
         tokenStorage.setItem("insp_user_profile", res?.data?.data?.authData);
         tokenStorage.setItem("secret_token", res?.data?.data?.secret_token);
 
-        navigate("/schedule-class");
+        navigate("/homepage");
       }
     } catch (err) {
       // some error occurs then redirect to auth

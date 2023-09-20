@@ -21,6 +21,7 @@ import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 import { boxShadowStyles, checkUserType } from "../../../utils";
 import { userType } from "../../../constants/staticvariables";
+import ScheduleClassList from "../components/ScheduleClassList";
 
 const ScheduleClass = () => {
   const {
@@ -65,6 +66,20 @@ const ScheduleClass = () => {
             }}
           >
             <GridItem p={4}>
+              <ScheduleClassList
+                onScheduleClosePopupOpen={onScheduleClosePopupOpen}
+              />
+            </GridItem>
+          </SimpleBar>
+
+          {/* <SimpleBar
+            style={{
+              maxHeight: "85vh",
+              borderRadius: "10px",
+              boxShadow: boxShadowStyles.shadowOneStyle.boxShadow,
+            }}
+          >
+            <GridItem p={4}>
               <Flex direction={"column"}>
                 {console.log("user type", checkUserType())}
                 {checkUserType() === userType.teacher && (
@@ -95,7 +110,7 @@ const ScheduleClass = () => {
                 ))}
               </Flex>
             </GridItem>
-          </SimpleBar>
+          </SimpleBar> */}
           <GridItem bg={lightGrey} borderRadius={"md"}>
             <ScheduleCalendar
               onSchedulePopupOpen={onSchedulePopupOpen}
