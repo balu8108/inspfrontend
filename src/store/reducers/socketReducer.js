@@ -22,6 +22,7 @@ import {
   SET_MIRO_BOARD_DATA,
   SET_LEADERBOARD,
   SET_IS_MEET_ENDED,
+  SET_AUDIO_CONSUMER_PAUSE_OR_RESUME,
 } from "../constants";
 const initialState = {
   isPeerLoading: true,
@@ -179,6 +180,34 @@ const socketReducer = (state = initialState, action) => {
           ...state,
           mentorScreenShareConsumer: copiedConsumer,
         };
+      }
+      return state;
+    case SET_AUDIO_CONSUMER_PAUSE_OR_RESUME:
+      if (state.audioConsumers?.length > 0) {
+        const { value, producerId } = action.payload;
+        const audioConsumerIdx = state.audioConsumers.findIndex(
+          (obj) => obj.producerId === producerId
+        );
+        if (audioConsumerIdx !== -1) {
+          const originalConsumer = state.audioConsumers[audioConsumerIdx];
+          const copiedConsumer = copyObject(originalConsumer);
+          if (value === true) {
+            copiedConsumer.pause();
+          } else {
+            copiedConsumer.resume();
+          }
+          const modifiedConsummers = [
+            ...state.audioConsumers.slice(0, audioConsumerIdx),
+            copiedConsumer,
+            ...state.audioConsumers.splice(audioConsumerIdx + 1),
+          ];
+          return {
+            ...state,
+            audioConsumers: modifiedConsummers,
+          };
+        }
+
+        return state;
       }
       return state;
     case GET_LIVE_CLASS_DETAILS:

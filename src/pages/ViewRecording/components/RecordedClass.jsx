@@ -32,8 +32,8 @@ const RecordedClass = () => {
       </HStack>
       <Box>
         {recordedClassData.map((recDetails) => (
-          <Flex>
-            <Box key={recDetails.id} ml={"30px"}>
+          <Flex key={recDetails.id}>
+            <Box ml={"30px"}>
               <Text
                 fontSize={"15px"}
                 lineHeight={"18px"}
