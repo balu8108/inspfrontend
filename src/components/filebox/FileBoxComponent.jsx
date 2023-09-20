@@ -23,7 +23,7 @@ const FileBoxComponent = ({ data }) => {
           alignItems={"center"}
           bg="white"
           mb={2}
-          onClick={() => dispatch(setIsDocModalOpen(item?.id, true))}
+          onClick={() => dispatch(setIsDocModalOpen(item?.id, item?.key, true))}
           boxShadow={boxShadowStyles.shadowFileBoxStyle.boxShadow}
           borderRadius={"md"}
           px={2}

@@ -13,24 +13,6 @@ const MiroBoard = () => {
     `https://miro.com/app/live-embed/${miroBoard?.boardId}/?autoplay=true&moveToViewport=-23165,-5837,13803,7546`
   );
 
-  const captureScreenshot = () => {
-    const iframe = iframeRef.current;
-    console.log("iframe", iframe);
-    console.log("iframe document", iframe.contentDocument);
-
-    if (iframe) {
-      // Use html2canvas to capture the iframe
-      html2canvas(iframe).then((canvas) => {
-        // Convert the canvas to an image URL
-        const screenshotUrl = canvas.toDataURL("image/png");
-
-        // You can now use the screenshotUrl as needed, e.g., display it in an image tag or save it.
-        console.log("screenshot", screenshotUrl);
-        setImg(screenshotUrl);
-      });
-    }
-  };
-
   //   const [miroBoardId, setMiroBoardId] = useState(null);
 
   //   const openMiroBoardAuth = () => {
@@ -65,8 +47,6 @@ const MiroBoard = () => {
     <>
       {miroBoard.boardId && (
         <>
-          <Button onClick={captureScreenshot}> click screenshot </Button>
-          {img && <Image src={img} alt="ss" />}
           <Box
             zIndex={20}
             position={"absolute"}

@@ -1,10 +1,9 @@
-const fileConverter = async (fileUrl, setDocs) => {
+import { extractFileNameFromS3URL } from "./extractFileName";
+
+const fileConverter = async (fileUrl, docKey, setDocs) => {
   // expecting AWS s3 presigned Url
   try {
-    // Fetch the original file
-    console.log("fileUrl", fileUrl);
     const response = await fetch(fileUrl);
-    console.log("response", response);
 
     // Retrieve its body as a ReadableStream
     console.log(response.headers.get("content-type").split(";"));
@@ -24,19 +23,18 @@ const fileConverter = async (fileUrl, setDocs) => {
     const fileData = new Uint8Array(
       chunks.reduce((acc, chunk) => [...acc, ...chunk], [])
     );
-    console.log("file data", fileData);
 
     // Create a Blob from the Uint8Array
     const blob = new Blob([fileData], { type: contentType });
 
     // Create a File from the Blob with a specified name
-    const fileName = "sample.docx";
+    const fileName = extractFileNameFromS3URL(docKey);
+
     const file = new File([blob], fileName, {
       type: contentType,
     });
 
     // Add the File to your state or handle it as needed
-    console.log("File:", file);
 
     setDocs((prev) => [...prev, file]);
   } catch (error) {

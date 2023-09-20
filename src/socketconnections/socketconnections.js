@@ -3,6 +3,7 @@ import io from "socket.io-client";
 import { store } from "../store";
 import {
   setAllPeers,
+  setAudioConsumerPauseOrResume,
   setAudioConsumers,
   setChatMessage,
   setConsumers,
@@ -297,6 +298,7 @@ const questionResponseHandler = (res) => {
 };
 
 export const producerPausedResponseHandler = (res) => {
+  console.log("producer paused response handler", res);
   const { remoteProducerId, appData } = res;
 
   if (
@@ -311,10 +313,17 @@ export const producerPausedResponseHandler = (res) => {
     appData.isTeacher
   ) {
     store.dispatch(setMentorScreenSharePauseOrResume(true));
+  } else if (
+    isObjectValid(appData) &&
+    appData.streamType === staticVariables.audioShare
+  ) {
+    // pause audio consumer
+    store.dispatch(setAudioConsumerPauseOrResume(true, remoteProducerId));
   }
 };
 
 const producerResumeResponseHandler = (res) => {
+  console.log("producer resume response handler", res);
   const { remoteProducerId, appData } = res;
 
   if (
@@ -329,6 +338,12 @@ const producerResumeResponseHandler = (res) => {
     appData.isTeacher
   ) {
     store.dispatch(setMentorScreenSharePauseOrResume(false));
+  } else if (
+    isObjectValid(appData) &&
+    appData.streamType === staticVariables.audioShare
+  ) {
+    // pause audio consumer
+    store.dispatch(setAudioConsumerPauseOrResume(false, remoteProducerId));
   }
 };
 
@@ -476,6 +491,9 @@ export const startRecordingHandler = (data) => {
   if (data) {
     socket.emit(SOCKET_EVENTS.START_RECORDING, data);
   }
+};
+export const stopRecordingHandler = () => {
+  socket.emit(SOCKET_EVENTS.STOP_RECORDING);
 };
 
 export const producerPauseHandler = (producer) => {

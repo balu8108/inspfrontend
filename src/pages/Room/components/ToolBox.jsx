@@ -18,7 +18,6 @@ import {
   FiVideoOff,
   FiCircle,
   FiMonitor,
-  FiMenu,
 } from "react-icons/fi";
 
 import { LuSettings, LuMonitorOff, LuCircleOff } from "react-icons/lu";
@@ -31,21 +30,14 @@ import {
   producerResumeHandler,
   producerTransport,
   raiseHandHandler,
-  sendMiroBoardData,
   startRecordingHandler,
-  stopProducing,
+  stopRecordingHandler,
 } from "../../../socketconnections/socketconnections";
-import {
-  miroViewMode,
-  staticVariables,
-  userType,
-} from "../../../constants/staticvariables";
+import { staticVariables, userType } from "../../../constants/staticvariables";
 import { roomData } from "../data/roomData";
 import PostPoll from "../../../components/popups/PostPoll";
 import { LeaveBtn } from "../../../components/button";
 
-import { useDispatch } from "react-redux";
-import { setMiroBoardData } from "../../../store/actions/socketActions";
 import { checkUserType } from "../../../utils";
 let producerScreenShare = null;
 let producerMentorVideoShare = null;
@@ -76,27 +68,35 @@ const ToolBox = ({
   const [isRaiseHand, setIsRaiseHand] = useState(false);
   const [isLeaveLoading, setIsLeaveLoading] = useState(false); // for leave button loading state
   const [QNo, setQNo] = useState(0);
-  const navigate = useNavigate();
-  const { roomId } = useParams();
-  const dispatch = useDispatch();
 
   const { redBtnColor } = useTheme().colors.pallete;
   const userRoleType = checkUserType();
 
   const openMiroBoardAuth = () => {
     window.miroBoardsPicker.open({
-      clientId: "3458764563018758552", // Replace it with your app ClientId
+      clientId: process.env.REACT_APP_MIRO_CLIENT_ID, // Replace it with your app ClientId
       action: "select",
       success: (data) => {
-        dispatch(
-          setMiroBoardData({ boardId: data.id, mode: miroViewMode.edit })
-        );
-        sendMiroBoardData({ boardId: data.id, mode: miroViewMode.view }); // Broadcast to all as view mode for miro board
+        console.log("Miro board data", data);
+        window.open(data?.viewLink, "_blank");
+        // dispatch(
+        //   setMiroBoardData({ boardId: data.id, mode: miroViewMode.edit })
+        // );
+        // sendMiroBoardData({ boardId: data.id, mode: miroViewMode.view }); // Broadcast to all as view mode for miro board
       },
     });
   };
   const getScreenShareFeed = async () => {
     try {
+      // if (screenShareStream) {
+      //   const tracks = screenShareStream.getTracks();
+      //   console.log("tracks restart before enabled", tracks);
+
+      //   tracks.forEach((track) => (track.enabled = true));
+      //   setIsScreenShare(true);
+      //   console.log("tracks restart after enabled", tracks);
+      //   return;
+      // }
       const stream = await navigator.mediaDevices.getDisplayMedia({
         video: true,
       });
@@ -113,8 +113,8 @@ const ToolBox = ({
           // if there is producerTransport
           if (producerScreenShare) {
             await producerScreenShare.replaceTrack({ track: track });
-            await producerScreenShare.resume();
-            producerResumeHandler(producerScreenShare);
+            // await producerScreenShare.resume();
+            // producerResumeHandler(producerScreenShare);
             return;
           }
 
@@ -138,17 +138,20 @@ const ToolBox = ({
       // off screen share
       if (screenShareStream) {
         const tracks = screenShareStream.getTracks();
-        tracks.forEach((track) => track.stop());
-        mentorVideoRef.current.srcObject = null;
-        setScreenShareStream(null); // Clear the stored stream
+
+        tracks.forEach((track) => (track.enabled = false));
+        console.log("tracks after enabled false", tracks);
+
+        // tracks.forEach((track) => track.stop());
+        // mentorVideoRef.current.srcObject = null;
+        // setScreenShareStream(null); // Clear the stored stream
       }
       setIsScreenShare(false);
-      // stop producing the stream
-      // stopProducing(producerScreenShare.id, producerScreenShare.appData);
-      if (producerScreenShare) {
-        producerScreenShare.pause();
-        producerPauseHandler(producerScreenShare);
-      }
+
+      // if (producerScreenShare) {
+      //   producerScreenShare.pause();
+      //   producerPauseHandler(producerScreenShare);
+      // }
     } else {
       // on the screen share
       getScreenShareFeed();
@@ -198,6 +201,15 @@ const ToolBox = ({
 
   const getAudioStreamFeed = async () => {
     try {
+      if (micStream) {
+        const tracks = micStream.getTracks();
+        console.log("tracks restart before enabled", tracks);
+
+        tracks.forEach((track) => (track.enabled = true));
+        setIsMicOn(true);
+        console.log("tracks restart after enabled", tracks);
+        return;
+      }
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: true,
       });
@@ -206,7 +218,15 @@ const ToolBox = ({
         setMicStream(stream);
         setIsMicOn(true);
         const track = stream.getAudioTracks()[0];
+        console.log("track get audio stream", track);
+
         if (producerTransport) {
+          // if (producerAudioShare) {
+          //   await producerAudioShare.replaceTrack({ track: track });
+          //   await producerAudioShare.resume();
+          //   producerResumeHandler(producerAudioShare);
+          //   return;
+          // }
           let appData = {
             streamType: staticVariables.audioShare,
           };
@@ -231,6 +251,7 @@ const ToolBox = ({
       // off the video stream
       if (mentorVideoStream) {
         const tracks = mentorVideoStream.getTracks();
+
         tracks.forEach((track) => track.stop());
         mentorVideoRef.current.srcObject = null;
         setMentorVideoStream(null); // Clear the stored stream
@@ -256,11 +277,19 @@ const ToolBox = ({
       // off the mic clear the audio track
       if (micStream) {
         const tracks = micStream.getTracks();
-        tracks.forEach((track) => track.stop());
-        micRef.current.srcObject = null;
-        setMicStream(null); // Clear the stored stream
+        console.log("tracks before enabled false", tracks);
+
+        tracks.forEach((track) => (track.enabled = false));
+        console.log("tracks after enabled false", tracks);
+        // micRef.current.srcObject = null;
+        // setMicStream(null); // Clear the stored stream
       }
       setIsMicOn(false);
+      // pause audio
+      // if (producerAudioShare) {
+      //   producerAudioShare.pause();
+      //   producerPauseHandler(producerAudioShare);
+      // }
     } else {
       // get audio stream
       getAudioStreamFeed();
@@ -280,6 +309,7 @@ const ToolBox = ({
     if (isRecordOn) {
       // stop recording triggered
 
+      stopRecordingHandler();
       setIsRecordOn(false);
     } else {
       // start recording
@@ -299,7 +329,6 @@ const ToolBox = ({
       await leaveRoomHandler();
     }
 
-    // navigate(`/room-preview/${roomId}`);
     setIsLeaveLoading(false);
   };
   return (

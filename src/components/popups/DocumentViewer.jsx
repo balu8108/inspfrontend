@@ -15,7 +15,7 @@ import { getPresignedUrlDocApi } from "../../api/genericapis";
 import { fileConverter } from "../../utils";
 const DocumentViewer = ({ isOpen, onClose }) => {
   const [docs, setDocs] = useState([]);
-  const { docId } = useSelector((state) => state.generic);
+  const { docId, docKey } = useSelector((state) => state.generic);
   const dispatch = useDispatch();
 
   const fetchAndSetDoc = async (docId) => {
@@ -23,7 +23,7 @@ const DocumentViewer = ({ isOpen, onClose }) => {
       const { status, data } = await getPresignedUrlDocApi(docId);
 
       if (status) {
-        await fileConverter(data?.data?.getUrl, setDocs);
+        await fileConverter(data?.data?.getUrl, docKey, setDocs);
       }
     } catch (err) {
       console.log("Error in opening doc");
@@ -64,7 +64,7 @@ const DocumentViewer = ({ isOpen, onClose }) => {
       <ModalContent>
         <ModalHeader>Insp document</ModalHeader>
         <ModalCloseButton
-          onClick={() => dispatch(setIsDocModalOpen(null, false))}
+          onClick={() => dispatch(setIsDocModalOpen(null, null, false))}
         />
         <ModalBody>
           <DocViewer
@@ -72,7 +72,7 @@ const DocumentViewer = ({ isOpen, onClose }) => {
               const url = window.URL.createObjectURL(file);
               const obj = {
                 uri: url,
-                fileType: "docx",
+                fileName: file.name,
               };
               return obj;
             })}

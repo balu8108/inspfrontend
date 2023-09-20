@@ -45,6 +45,7 @@ const PostPoll = ({ QNo, setQNo, screenShareStream }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [noOfOptions, setNoOfOptions] = useState(4);
   const [answerOptions, setAnswerOptions] = useState(defaultAnswerOptions);
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
 
   const [qnaData, setQnaData] = useState({
     noOfOptions: 4,
@@ -57,6 +58,7 @@ const PostPoll = ({ QNo, setQNo, screenShareStream }) => {
   const { roomId } = useParams();
 
   const { primaryBlue } = useTheme().colors.pallete;
+  console.log("qna data", qnaData);
 
   const handleScreenshot = async () => {
     try {
@@ -83,6 +85,12 @@ const PostPoll = ({ QNo, setQNo, screenShareStream }) => {
   };
 
   const handleQuestionTypeChange = (object) => {
+    console.log("question type change qna data", qnaData);
+    setSelectedAnswer(null);
+    setQnaData((prev) => ({
+      ...prev,
+      correctAnswers: [],
+    }));
     setQnaData((prev) => ({
       ...prev,
       type: object.value,
@@ -142,6 +150,7 @@ const PostPoll = ({ QNo, setQNo, screenShareStream }) => {
   const handleAnswerChange = (object) => {
     if (qnaData?.type === "poll") {
       // then it may have multiple answers
+
       setQnaData((prev) => ({
         ...prev,
         correctAnswers: object.map((item) => item.value),
@@ -152,6 +161,7 @@ const PostPoll = ({ QNo, setQNo, screenShareStream }) => {
         correctAnswers: [object.value],
       }));
     }
+    setSelectedAnswer(object);
   };
   useEffect(() => {
     if (qnaData?.type) {
@@ -230,6 +240,7 @@ const PostPoll = ({ QNo, setQNo, screenShareStream }) => {
             </Box>
             <Box py={2}>
               <Select
+                value={selectedAnswer}
                 isMulti={qnaData?.type === "poll"}
                 placeholder={roomData.selectCorrectAnswer}
                 options={answerOptions}

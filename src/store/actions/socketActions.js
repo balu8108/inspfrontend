@@ -25,6 +25,7 @@ import {
   SET_MIRO_BOARD_DATA,
   SET_LEADERBOARD,
   SET_IS_MEET_ENDED,
+  SET_AUDIO_CONSUMER_PAUSE_OR_RESUME,
 } from "../constants";
 
 export const setSocket = (socket) => {
@@ -109,6 +110,14 @@ export const setMentorScreenSharePauseOrResume =
     // if value is true then it is pause
     // if value is false then it is resume
     dispatch({ type: SET_MENTOR_SCREEN_SHARE_PAUSE_OR_RESUME, payload: value });
+  };
+
+export const setAudioConsumerPauseOrResume =
+  (value, producerId) => async (dispatch) => {
+    dispatch({
+      type: SET_AUDIO_CONSUMER_PAUSE_OR_RESUME,
+      payload: { value, producerId },
+    });
   };
 export const getLiveClassDetails = (roomId) => async (dispatch) => {
   try {
