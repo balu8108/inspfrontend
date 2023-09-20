@@ -12,7 +12,7 @@ const Home = () => {
   const tryAutoLogin = async () => {
     const isAuth = isAuthenticated();
     if (isAuth) {
-      navigate("/schedule-class");
+      navigate("/homepage");
     } else {
       addNotification("Please login to continue", "info", 5000);
     }
