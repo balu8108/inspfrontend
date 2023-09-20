@@ -7,15 +7,14 @@ import {
   Flex,
   Button,
   Stack,
+  SimpleGrid,
   Input,
   InputGroup,
   InputLeftElement,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
+  Icon,
 } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
+import { BsDownload } from "react-icons/bs";
 import assignmentData from "../data/assignmentDetails";
 
 const PhysDetails = () => {
@@ -48,121 +47,91 @@ const PhysDetails = () => {
           <Input placeholder="Search" w={"240px"} />
         </InputGroup>
       </HStack>
-      <Stack>
-        <Flex
-          flexWrap="wrap"
-          mt={"37px"}
-          ml={"27px"}
-          mr={"20px"}
-          gap={"23px"}
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(30%, 1fr))",
-            gap: "23px",
-          }}
-        >
-          {assignmentData.map((assignmentScreen) => (
-            <div key={assignmentScreen.id}>
-              <Card
-                w="100%"
-                blendMode={"multiply"}
-                bg={"#F1F5F8"}
-                borderRadius={"18px"}
-              >
-                <Text
-                  fontSize={"15px"}
-                  lineHeight={"18px"}
-                  ml={"13px"}
-                  mt={"16px"}
-                >
-                  {assignmentScreen.chapterName}
-                </Text>
-                <Text
-                  fontWeight={400}
-                  fontSize={"12px"}
-                  lineHeight={"14px"}
-                  ml={"13px"}
-                  mt={"3px"}
+      <SimpleGrid
+        columns={{ base: 1, md: 1, lg: 1 }}
+        spacing={"6"}
+        p={4}
+        mr={"20px"}
+      >
+        {assignmentData.map((assignmentScreen) => (
+          <Card
+            w="100%"
+            blendMode={"multiply"}
+            bg={"#F1F5F8"}
+            borderRadius={"18px"}
+            key={assignmentScreen.id}
+          >
+            <Text fontSize={"15px"} lineHeight={"18px"} ml={"13px"} mt={"16px"}>
+              {assignmentScreen.chapterName}
+            </Text>
+            <Text
+              fontWeight={400}
+              fontSize={"12px"}
+              lineHeight={"14px"}
+              ml={"13px"}
+              mt={"3px"}
+              color={"#2C332978"}
+            >
+              {assignmentScreen.instructorName}
+            </Text>
+            <Text
+              fontSize={"12px"}
+              lineHeight={"13px"}
+              ml={"13px"}
+              fontWeight={400}
+              color={"rgba(44, 51, 41, 1)"}
+              mt={"18px"}
+            >
+              Description
+            </Text>
+            <Text
+              fontSize={"12px"}
+              lineHeight={"21px"}
+              fontWeight={400}
+              ml={13}
+              mt={"5px"}
+              color={"#2C332978"}
+              noOfLines={2}
+            >
+              {assignmentScreen.description}
+            </Text>
+            <Box
+              flex={1}
+              display="flex"
+              justifyContent="flex-end"
+              gap={4}
+              my={"13px"}
+              mx={"25px"}
+            >
+              {assignmentScreen.files.map((files, index) => (
+                <Flex
+                  key={index}
+                  flex={1}
+                  bg={"blackAlpha.100"}
+                  mt={"12px"}
                   color={"#2C332978"}
+                  p={"9px"}
+                  borderRadius={"6px"}
+                  border={"1px"}
+                  borderColor={"#9597927D"}
+                  boxShadow={"md"}
+                  h={"49px"}
+                  fontSize={"11px"}
                 >
-                  {assignmentScreen.instructorName}
-                </Text>
-                <Text
-                  fontSize={"12px"}
-                  lineHeight={"13px"}
-                  ml={"13px"}
-                  fontWeight={400}
-                  color={"rgba(44, 51, 41, 1)"}
-                  mt={"18px"}
-                >
-                  Description
-                </Text>
-                <Text
-                  fontSize={"12px"}
-                  lineHeight={"21px"}
-                  fontWeight={400}
-                  ml={13}
-                  mt={"5px"}
-                  color={"#2C332978"}
-                >
-                  {assignmentScreen.description}
-                </Text>
-                <Button
-                  variant={"ghost"}
-                  color={"#3C8DBC"}
-                  fontWeight={"600"}
-                  fontSize={"14px"}
-                  lineHeight={"16px"}
-                  p={6}
-                  m={"5px"}
-                  onClick={() => handleViewDetails(assignmentScreen.id)}
-                >
-                  View Details
-                </Button>
-              </Card>
-            </div>
-          ))}
-        </Flex>
-      </Stack>
-      {/* Render modal on top of the screen */}
-      {selectedAssignment !== null && (
-        <Modal isOpen={selectedAssignment !== null} onClose={clearSelection}>
-          <ModalOverlay />
-          <ModalContent>
-            <Box p={4}>
-              <Text
-                fontSize={"12px"}
-                lineHeight={"13px"}
-                fontWeight={400}
-                color={"rgba(44, 51, 41, 1)"}
-                mt={"18px"}
-              >
-                Description
-              </Text>
-              <Text
-                fontSize={"12px"}
-                lineHeight={"21px"}
-                fontWeight={400}
-                color={"#2C332978"}
-                mt={"5px"}
-              >
-                {assignmentData[selectedAssignment - 1].description}
-              </Text>
-              <Button
-                variant={"ghost"}
-                color={"#3C8DBC"}
-                fontWeight={"600"}
-                fontSize={"14px"}
-                lineHeight={"16px"}
-                mt={"16px"}
-                onClick={clearSelection}
-              >
-                Close
-              </Button>
+                  {files}
+                  <Button
+                    rightIcon={<BsDownload />}
+                    variant={"ghost"}
+                    size="sm"
+                    color={"black"}
+                    ml={2}
+                  ></Button>
+                </Flex>
+              ))}
             </Box>
-          </ModalContent>
-        </Modal>
-      )}
+          </Card>
+        ))}
+      </SimpleGrid>
     </Box>
   );
 };

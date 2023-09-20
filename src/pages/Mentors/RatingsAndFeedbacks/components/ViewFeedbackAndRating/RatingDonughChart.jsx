@@ -165,5 +165,4 @@ const RatingAndFeedBackChart = () => {
     </Box>
   );
 };
-
 export default RatingAndFeedBackChart;
