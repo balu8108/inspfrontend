@@ -57,6 +57,7 @@ const Library = () => {
         {libraryData.map((library) => (
           <Card
             key={library.id}
+            w={"33%"}
             borderRadius={"18px"}
             blendMode={"multiply"}
             backgroundColor={"#F1F5F8"}
@@ -86,6 +87,7 @@ const Library = () => {
               fontSize={"12px"}
               lineHeight={"21px"}
               ml={"13px"}
+              noOfLines={2}
             >
               {library.description}
             </Text>

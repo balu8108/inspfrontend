@@ -21,7 +21,7 @@ const FeedBack = () => {
             mt={"10px"}
             ml={"27px"}
           ></Box>
-          <Text fontSize={"20px"} lineHeight={"24px"} mt={"10px"}>
+          <Text fontSize={"19px"} lineHeight={"24px"} mt={"10px"}>
             Rating & Feedback
           </Text>
         </HStack>
