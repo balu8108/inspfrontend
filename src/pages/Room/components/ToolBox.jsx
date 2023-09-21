@@ -415,6 +415,7 @@ const ToolBox = ({
           <Tooltip label={roomData.screenShare} placement="right">
             <IconButton
               isRound={true}
+              isDisabled={userRoleType === userType.student}
               icon={
                 isScreenShare ? (
                   <FiMonitor size={20} color="black" />
@@ -437,11 +438,13 @@ const ToolBox = ({
             {"\u{1F44B}"}
           </Button>
           {/* <IconButton isRound={true} icon={<FiMenu size={20} />} /> */}
-          <IconButton
-            isRound={true}
-            icon={<SiMiro size={20} />}
-            onClick={openMiroBoardAuth}
-          />
+          {userRoleType === userType.teacher && (
+            <IconButton
+              isRound={true}
+              icon={<SiMiro size={20} />}
+              onClick={openMiroBoardAuth}
+            />
+          )}
 
           {userRoleType === userType.teacher && (
             <PostPoll
