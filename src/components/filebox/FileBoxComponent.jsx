@@ -1,4 +1,4 @@
-import { Flex, Box, Text, useTheme, IconButton, Icon } from "@chakra-ui/react";
+import { Flex, Box, Text, useTheme, Icon } from "@chakra-ui/react";
 import { FiDownload } from "react-icons/fi";
 import {
   boxShadowStyles,
