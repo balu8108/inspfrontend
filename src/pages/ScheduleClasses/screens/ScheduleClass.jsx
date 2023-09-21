@@ -66,9 +66,7 @@ const ScheduleClass = () => {
             }}
           >
             <GridItem p={4}>
-              <ScheduleClassList
-                onScheduleClosePopupOpen={onScheduleClosePopupOpen}
-              />
+              <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
             </GridItem>
           </SimpleBar>
 
