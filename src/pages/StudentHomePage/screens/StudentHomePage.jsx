@@ -24,7 +24,7 @@ const StudentHomePage = () => {
   return (
     <>
       <Flex m={"52px"} justifyContent={"space-between"} gap={6}>
-        <Box w="80%">
+        <Box w="75%">
           <MyCourses />
           <HStack spacing={"24px"}>
             <Improvement />
