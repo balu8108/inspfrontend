@@ -7,10 +7,12 @@ import {
   Flex,
   Button,
   Stack,
-  Icon,
+  Spacer,
 } from "@chakra-ui/react";
 import { BsDownload } from "react-icons/bs";
 import chapterDetailsData from "../../data/Details";
+import quizType from "../../data/quizType";
+
 const ChapterDetailsAndCoveredPart = () => {
   return (
     <Box w={"100%"} height={"999px"} bg={"#F1F5F8"} borderRadius={"26px"}>
@@ -30,7 +32,7 @@ const ChapterDetailsAndCoveredPart = () => {
         {chapterDetailsData.map((chapter) => (
           <Flex key={chapter.id} p={4}>
             <Box flex={1}>
-              <Text style={{}}>Description</Text>
+              <Text>Description</Text>
 
               <Text fontSize={"12px"} color={"#2C332978"} mt={"15px"}>
                 {chapter.description}
@@ -58,56 +60,123 @@ const ChapterDetailsAndCoveredPart = () => {
       </Stack>
       <Box ml={"21px"}>
         <Text p={"12px"}>Files/Notes</Text>
+        <Box
+          flex={1}
+          display="flex"
+          justifyContent="flex-end"
+          gap={4}
+          my={"13px"}
+          mx={"25px"}
+        >
+          {chapterDetailsData.map((chapter) =>
+            chapter.filesOrNotes.map((filesOrNotes, index) => (
+              <Flex
+                key={index}
+                flex={1}
+                mt={"15px"}
+                color={"#2C332978"}
+                p={"9px"}
+                borderRadius={"6px"}
+                border={"1px"}
+                borderColor={"#9597927D"}
+                boxShadow={"md"}
+                h={"49px"}
+                fontSize={"13px"}
+              >
+                {filesOrNotes}
+                <Spacer />
+                <Button
+                  rightIcon={<BsDownload />}
+                  variant={"ghost"}
+                  size="sm"
+                  color={"black"}
+                  ml={2}
+                ></Button>
+              </Flex>
+            ))
+          )}
+        </Box>
       </Box>
-      <Box flex={1} display="flex" justifyContent="flex-end">
-        {[1, 2, 3].map((fileNumber) => (
-          <Box
-            key={fileNumber}
-            flex={1}
-            bg={"blackAlpha.200"}
-            m={2}
-            p={"6px"}
-            borderRadius={"6px"}
-            border={"1px"}
-            borderColor={"#9597927D"}
-            boxShadow={"md"}
-          >
-            <Icon as={BsDownload} w={"18px"} h={"18px"} />
-          </Box>
-        ))}
-      </Box>
+
       <Box m={"20px"}>
+        <Flex>
+          {quizType.map((type) => (
+            <Card
+              key={type.id}
+              h={"178px"}
+              p={3}
+              m={2}
+              flex={1}
+              borderRadius={"18px"}
+              bg={"#F1F5F8"}
+              blendMode={"multiply"}
+            >
+              <Text>{type.name}</Text>
+
+              <Text fontSize={"xs"} mt={"15px"}>
+                Description
+              </Text>
+              <Text
+                fontSize={"xs"}
+                mt={"5px"}
+                color={"#2C332978"}
+                noOfLines={2}
+              >
+                {type.description}
+              </Text>
+              <Button
+                variant={"ghost"}
+                fontWeight={"600"}
+                color={"#3C8DBC"}
+                mt={"20px"}
+              >
+                View Details
+              </Button>
+            </Card>
+          ))}
+        </Flex>
+      </Box>
+
+      <Box m={"20px"} >
         <Text>Assignments</Text>
         {chapterDetailsData.map((chapter) => (
-          <div key={chapter.id}>
-            <Flex>
-              {chapter.assignment.map((assignment, index) => (
-                <Card key={index} p={3} m={2} flex={1} borderRadius={"18px"}>
-                  <Text> {assignment.assignmentName}</Text>
-                  <Text fontSize={"12px"} color={"#2C332978"}>
-                    {" "}
-                    {assignment.instructorName}
-                  </Text>
-                  <Text fontSize={"xs"} mt={"15px"}>
-                    Description
-                  </Text>
-                  <Text fontSize={"xs"} mt={"5px"} color={"#2C332978"}>
-                    {assignment.description}
-                  </Text>
-                  <Button
-                    variant={"ghost"}
-                    fontWeight={"600"}
-                    color={"#3C8DBC"}
-                    p={[10, 21]}
-                    mt={"28px"}
-                    mb={"10px"}
-                  >
-                    View Details
-                  </Button>
-                </Card>
-              ))}
-            </Flex>
-          </div>
+          <Flex key={chapter.id} gap={"18px"} mt={"16px"}>
+            {chapter.assignment.map((assignment, index) => (
+              <Card
+                key={index}
+                h={"200px"}
+                flex={1}
+                borderRadius={"18px"}
+                bg={"#F1F5F8"}
+                blendMode={"multiply"}
+                p={4}
+              >
+                <Text>{assignment.assignmentName}</Text>
+                <Text fontSize={"12px"} color={"#2C332978"}>
+                  {assignment.instructorName}
+                </Text>
+                <Text fontSize={"xs"} mt={"15px"}>
+                  Description
+                </Text>
+                <Text
+                  fontSize={"xs"}
+                  mt={"5px"}
+                  color={"#2C332978"}
+                  noOfLines={2}
+                >
+                  {assignment.description}
+                </Text>
+                <Button
+                  variant={"ghost"}
+                  fontWeight={"600"}
+                  color={"#3C8DBC"}
+                  mt={"20px"}
+                >
+                  View Details
+                </Button>
+              </Card>
+            ))}
+          </Flex>
         ))}
       </Box>
     </Box>

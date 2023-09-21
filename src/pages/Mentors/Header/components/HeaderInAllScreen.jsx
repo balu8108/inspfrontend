@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Box, Card, Flex, HStack, Text } from "@chakra-ui/react";
 import headerDataInAllScreen from "../data/headerData";
+import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <Box bg={"#F1F5F8"} borderRadius={"25px"} w={"100%"}>
@@ -17,11 +18,11 @@ const Header = () => {
           My Courses
         </Text>
       </HStack>
-      <Flex mt={"34px"}>
+      <Flex mt={"24px"}>
         {headerDataInAllScreen.map((headerDetails) => (
           <Card
             w={"full"}
-            h={"full"}
+            h={"200px"}
             borderRadius={"18px"}
             bg={"#F1F5F8"}
             ml={"20px"}
@@ -42,7 +43,9 @@ const Header = () => {
             </Text>
             <Text
               fontSize={"10px"}
-              color={"#2C332978"}
+              color={
+                headerDetails.status == "Completed" ? "#3DE302" : "#2C332978"
+              }
               lineHeight={"18px"}
               ml={"13px"}
             >
@@ -66,21 +69,26 @@ const Header = () => {
               ml={"13px"}
               mt={"6px"}
               color={"rgba(44, 51, 41, 0.47)"}
+              noOfLines={3}
             >
               {headerDetails.description}
             </Text>
-
-            <Button
-              variant={"ghost"}
-              color={"#3C8DBC"}
-              fontWeight={"600"}
-              size={"12px"}
-              fontSize={"14px"}
-              lineHeight={"16px"}
-              p={5}
+            <Link
+              to={`/mentor/myCourses/${headerDetails.subjectName}`}
+              style={{ display: "flex", justifyContent: "center" }}
             >
-              View Details
-            </Button>
+              <Button
+                variant={"ghost"}
+                color={"#3C8DBC"}
+                fontWeight={"600"}
+                size={"12px"}
+                fontSize={"14px"}
+                lineHeight={"16px"}
+                p={["10px", "21px"]}
+              >
+                View Details
+              </Button>
+            </Link>
           </Card>
         ))}
       </Flex>

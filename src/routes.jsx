@@ -121,7 +121,7 @@ const privateRoutes = [
   },
   {
     name: "Mentor All Recording Related To A Particular Chapter",
-    path: "/mentor/chaptername",
+    path: "/mentor/:chaptername",
     component: <AllRecordingsForAChapter />,
   },
   {

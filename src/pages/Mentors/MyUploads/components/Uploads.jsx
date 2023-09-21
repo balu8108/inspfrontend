@@ -20,7 +20,7 @@ const AllUploadedLecture = () => {
   };
 
   return (
-    <Box bg={"#F1F5F8"} width={"250%"} mt={"24px"} borderRadius={"26px"}>
+    <Box bg={"#F1F5F8"} width={"250%"} mt={"24px"} borderRadius={"26px"} h={"full"}>
       <Flex>
         <HStack spacing={"10px"} ml="27px">
           <Box
@@ -39,7 +39,7 @@ const AllUploadedLecture = () => {
           type="text"
           value={searchQuery}
           onChange={handleSearchChange}
-          placeholder="Search..."
+          placeholder="Search"
           w="30%"
           border="1px solid #ccc"
           borderRadius="md"

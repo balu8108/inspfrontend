@@ -8,10 +8,11 @@ import {
   Text,
 } from "@chakra-ui/react";
 import upload from "../data/uploads";
+import { Link } from "react-router-dom";
 
 const MentorsUploads = () => {
   return (
-    <Box bg={"#F1F5F8"} mt={"24px"} w={"60%"} borderRadius={"26px"}>
+    <Box bg={"#F1F5F8"} mt={"24px"} w={"60%"} h={"full"} borderRadius={"26px"}>
       <Flex>
         <HStack spacing={"10px"}>
           <Box
@@ -27,15 +28,17 @@ const MentorsUploads = () => {
           </Text>
         </HStack>
         <Spacer />
-        <Button
-          variant={"ghost"}
-          fontSize={"sm"}
-          fontWeight={400}
-          mt={"15px"}
-          mr={"10px"}
-        >
-          See All
-        </Button>
+        <Link to={`/mentor/alluploads`}>
+          <Button
+            variant={"ghost"}
+            fontSize={"sm"}
+            fontWeight={400}
+            mt={"15px"}
+            mr={"10px"}
+          >
+            See All
+          </Button>
+        </Link>
       </Flex>
       <Flex mt={"34px"} flexWrap="wrap">
         {upload.map((mentorUploadDetails) => (
@@ -44,6 +47,7 @@ const MentorsUploads = () => {
             key={mentorUploadDetails.id}
           >
             <Card
+              h={"170px"}
               borderRadius={"18px"}
               bg={"#F1F5F8"}
               ml={"20px"}
@@ -78,7 +82,8 @@ const MentorsUploads = () => {
                 fontWeight={"400px"}
                 ml={"13px"}
                 mt={"6px"}
-                color={"rgba(44, 51, 41, 0.47)"}
+                color={"#2C332978"}
+                noOfLines={2}
               >
                 {mentorUploadDetails.description}
               </Text>
@@ -90,7 +95,7 @@ const MentorsUploads = () => {
                 size={"12px"}
                 fontSize={"14px"}
                 lineHeight={"16px"}
-                p={5}
+                mt={"24px"}
               >
                 View Details
               </Button>

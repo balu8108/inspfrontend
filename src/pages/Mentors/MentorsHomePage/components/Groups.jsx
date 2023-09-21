@@ -9,7 +9,6 @@ import {
   Spacer,
 } from "@chakra-ui/react";
 import group from "../data/group";
-
 const MentorGroups = () => {
   return (
     <Box

@@ -8,9 +8,10 @@ import {
   Text,
 } from "@chakra-ui/react";
 import rateNfeedeback from "../data/feedback";
+import { Link } from "react-router-dom";
 const FeedBack = () => {
   return (
-    <Box bg={"#F1F5F8"} mt={"23px"} borderRadius={"25px"} w={"38%"}>
+    <Box bg={"#F1F5F8"} mt={"23px"} borderRadius={"25px"} w={"38%"} h={"full"}>
       <Flex>
         <HStack spacing={"10px"}>
           <Box
@@ -18,23 +19,25 @@ const FeedBack = () => {
             height={"25px"}
             borderRadius={"20px"}
             bg={"#3C8DBC"}
-            mt={"10px"}
+            mt={"16px"}
             ml={"27px"}
           ></Box>
-          <Text fontSize={"19px"} lineHeight={"24px"} mt={"10px"}>
+          <Text fontSize={"19px"} lineHeight={"24px"} mt={"16px"}>
             Rating & Feedback
           </Text>
         </HStack>
         <Spacer />
-        <Button
-          variant={"ghost"}
-          fontSize={"sm"}
-          fontWeight={400}
-          mt={"7px"}
-          p={6}
-        >
-          See All
-        </Button>
+        <Link to={`/mentor/rating&feedback`}>
+          <Button
+            variant={"ghost"}
+            fontSize={"sm"}
+            fontWeight={400}
+            mt={"15px"}
+            p={6}
+          >
+            See All
+          </Button>
+        </Link>
       </Flex>
       <Flex mt={"34px"} flexWrap="wrap">
         {rateNfeedeback.map((rateNfeedebackOfAChapter) => (
@@ -43,6 +46,7 @@ const FeedBack = () => {
             key={rateNfeedebackOfAChapter.id}
           >
             <Card
+              h={"175px"}
               borderRadius={"18px"}
               bg={"#F1F5F8"}
               ml={"20px"}
@@ -78,6 +82,7 @@ const FeedBack = () => {
                 ml={"13px"}
                 mt={"6px"}
                 color={"rgba(44, 51, 41, 0.47)"}
+                noOfLines={2}
               >
                 {rateNfeedebackOfAChapter.description}
               </Text>
@@ -86,10 +91,9 @@ const FeedBack = () => {
                 variant={"ghost"}
                 color={"#3C8DBC"}
                 fontWeight={"600"}
-                size={"12px"}
                 fontSize={"14px"}
                 lineHeight={"16px"}
-                p={5}
+                mt={"20px"}
               >
                 View Details
               </Button>

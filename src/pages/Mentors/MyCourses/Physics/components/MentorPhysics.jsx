@@ -1,4 +1,5 @@
 import { Box, Button, Card, Flex, Text, HStack, Stack } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import mentorChapterDetails from "../data/completedChapterDetails";
 const PhysicsCourse = () => {
   return (
@@ -67,16 +68,21 @@ const PhysicsCourse = () => {
               >
                 {physScreen.description}
               </Text>
-              <Button
-                variant={"ghost"}
-                color={"#3C8DBC"}
-                fontWeight={"600"}
-                size={"14px"}
-                lineHeight={"16px"}
-                mt={"40px"}
+              <Link
+                to={`/mentor/${physScreen.chapterName}`}
+                style={{ display: "flex", justifyContent: "center" }}
               >
-                View Details
-              </Button>
+                <Button
+                  variant={"ghost"}
+                  color={"#3C8DBC"}
+                  fontWeight={"600"}
+                  size={"14px"}
+                  lineHeight={"16px"}
+                  mt={"40px"}
+                >
+                  View Details
+                </Button>
+              </Link>
             </Card>
           ))}
         </Flex>
