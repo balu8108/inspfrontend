@@ -17,6 +17,7 @@ import getStorageType from "./getStorageType";
 import checkUserType from "./checkUserType";
 import { decryptData } from "./crypticFunctions";
 import fileConverter from "./fileConverter";
+import clearStorageData from "./clearStorageData";
 export {
   containsEmoji,
   openFileDialog,
@@ -39,4 +40,5 @@ export {
   decryptData,
   formatSeconds,
   fileConverter,
+  clearStorageData,
 };

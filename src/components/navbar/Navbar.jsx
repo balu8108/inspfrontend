@@ -15,17 +15,26 @@ import {
   useTheme,
 } from "@chakra-ui/react";
 import insplogo from "../../assets/images/insplogo.png";
-import { getStorageData } from "../../utils";
+import { clearStorageData, getStorageData } from "../../utils";
+import { useNavigate } from "react-router-dom";
 export default function Navbar() {
   const theme = useTheme();
   const { backgroundLightBlue } = theme.colors.pallete;
   const [userData, setUserData] = useState(null);
+  const navigate = useNavigate();
 
   const getUserDetails = async () => {
     try {
       const res = getStorageData("insp_user_profile");
       console.log(res);
       setUserData(res.data);
+    } catch (err) {}
+  };
+
+  const handleLogout = async () => {
+    try {
+      await clearStorageData();
+      navigate("/");
     } catch (err) {}
   };
   useEffect(() => {
@@ -72,7 +81,7 @@ export default function Navbar() {
                   </Center>
                   <br />
                   <MenuDivider />
-                  <MenuItem>Logout</MenuItem>
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </MenuList>
               </Menu>
             </Stack>
