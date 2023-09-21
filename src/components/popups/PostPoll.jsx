@@ -58,7 +58,6 @@ const PostPoll = ({ QNo, setQNo, screenShareStream }) => {
   const { roomId } = useParams();
 
   const { primaryBlue } = useTheme().colors.pallete;
-  console.log("qna data", qnaData);
 
   const handleScreenshot = async () => {
     try {
@@ -70,7 +69,6 @@ const PostPoll = ({ QNo, setQNo, screenShareStream }) => {
       formData.append("roomId", roomId);
 
       if (screenshot) {
-        console.log("screenshot triggered", screenshot);
         await imageToDocApi(formData); // send screenshot to backend
       }
     } catch (err) {}
@@ -85,7 +83,6 @@ const PostPoll = ({ QNo, setQNo, screenShareStream }) => {
   };
 
   const handleQuestionTypeChange = (object) => {
-    console.log("question type change qna data", qnaData);
     setSelectedAnswer(null);
     setQnaData((prev) => ({
       ...prev,
