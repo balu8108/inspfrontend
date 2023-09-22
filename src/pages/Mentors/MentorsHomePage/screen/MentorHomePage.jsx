@@ -29,7 +29,7 @@
 
 // export default MentorHomePage;
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Flex, VStack, useDisclosure } from "@chakra-ui/react";
 import Header from "../../Header/components/HeaderInAllScreen";
 import MentorsUploads from "../components/Uploads";
@@ -41,49 +41,68 @@ import SimpleBar from "simplebar-react";
 import { boxShadowStyles } from "../../../../utils";
 import { useDispatch } from "react-redux";
 import { getAllLiveClassesSchedule } from "../../../../store/actions/scheduleClassActions";
-
+import ScheduleClassPopup from "../../../../components/popups/ScheduleClassPopup";
 const MentorHomePage = () => {
   const dispatch = useDispatch();
+  const {
+    isOpen: isSchedulePopupOpen,
+    onOpen: onSchedulePopupOpen,
+    onClose: onScheduleClosePopupOpen,
+  } = useDisclosure();
 
-  const { onOpen: onSchedulePopupOpen } = useDisclosure();
+  const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
+  const [classTiming, setClassTiming] = useState(["", ""]);
   useEffect(() => {
     dispatch(getAllLiveClassesSchedule());
   }, [dispatch]);
   return (
-    <Box m={"50px"}>
-      <Flex>
-        <Box>
-          <Header />
-          <Flex gap={"24px"}>
-            <MentorsUploads />
-            <FeedBack />
-          </Flex>
-        </Box>
-        <Box>
-          <VStack gap={"24px"}>
-            <MentorGroups />
-            <Box w="90%" ml={5}>
-              <SimpleBar
-                style={{
-                  maxHeight: "85vh",
-                  borderRadius: "26px",
-                  bg: "#F1F5F8",
-                  backgroundBlendMode: "multiply",
-                  boxShadow: boxShadowStyles.shadowOneStyle.boxShadow,
-                }}
-              >
-                <Box p={4}>
-                  <ScheduleClassList
-                    onSchedulePopupOpen={onSchedulePopupOpen}
-                  />
-                </Box>
-              </SimpleBar>
-              {/* <StudentHomePageRightSection /> */}
-            </Box>
-          </VStack>
-        </Box>
-      </Flex>
-    </Box>
+    <>
+      {isSchedulePopupOpen && (
+        <ScheduleClassPopup
+          isOpen={isSchedulePopupOpen}
+          onClose={onScheduleClosePopupOpen}
+          selectedDate={selectedDate}
+          classTiming={classTiming}
+          setSelectedDate={setSelectedDate}
+          setClassTiming={setClassTiming}
+        />
+      )}
+
+      <Box m={"50px"}>
+        <Flex>
+          <Box>
+            <Header />
+            <Flex gap={"24px"}>
+              <MentorsUploads />
+              <FeedBack />
+            </Flex>
+          </Box>
+          <Box>
+            <VStack gap={"24px"}>
+              <MentorGroups />
+              <Box w="90%" ml={5}>
+                <SimpleBar
+                  style={{
+                    maxHeight: "85vh",
+                    borderRadius: "26px",
+                    bg: "#F1F5F8",
+                    backgroundBlendMode: "multiply",
+                    boxShadow: boxShadowStyles.shadowOneStyle.boxShadow,
+                  }}
+                >
+                  <Box p={4}>
+                    <ScheduleClassList
+                      onSchedulePopupOpen={onSchedulePopupOpen}
+                    />
+                  </Box>
+                </SimpleBar>
+                {/* <StudentHomePageRightSection /> */}
+              </Box>
+            </VStack>
+          </Box>
+        </Flex>
+      </Box>
+    </>
   );
 };
 

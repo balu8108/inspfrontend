@@ -1,15 +1,16 @@
 import React, { useEffect } from "react";
-import { Box, Flex, HStack, useDisclosure, Grid } from "@chakra-ui/react";
+import { Box, Flex, HStack, useDisclosure } from "@chakra-ui/react";
 import MyCourses from "../../MyCourses/components/Header";
 import Improvement from "../components/Improvement";
 import Assignment from "../components/Assignment";
 import Library from "../components/Library";
-import StudentHomePageRightSection from "../components/StudentHomeRight";
+
 import ScheduleClassList from "../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
 import { boxShadowStyles } from "../../../utils";
 import { useDispatch } from "react-redux";
 import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassActions";
+
 const StudentHomePage = () => {
   const dispatch = useDispatch();
 
