@@ -10,6 +10,7 @@ import {
   Spacer,
 } from "@chakra-ui/react";
 import { BsDownload } from "react-icons/bs";
+import {PiUploadSimpleLight} from "react-icons/pi"
 import chapterDetailsData from "../../data/Details";
 import quizType from "../../data/quizType";
 
@@ -86,9 +87,8 @@ const ChapterDetailsAndCoveredPart = () => {
                 {filesOrNotes}
                 <Spacer />
                 <Button
-                  rightIcon={<BsDownload />}
+                  rightIcon={<PiUploadSimpleLight/>}
                   variant={"ghost"}
-                  size="sm"
                   color={"black"}
                   ml={2}
                 ></Button>

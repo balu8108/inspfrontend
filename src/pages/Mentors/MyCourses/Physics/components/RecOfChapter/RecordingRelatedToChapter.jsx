@@ -2,8 +2,9 @@ import React from "react";
 import { Box, HStack, Text, Card, Image, Flex, Spacer } from "@chakra-ui/react";
 import viewChapterRecordings from "../../data/recording";
 import defaultImageUrl from "../../../../../../assets/images/image1.png";
-
+import { useParams } from "react-router-dom";
 const ViewAllRecordingsRelatedToOneChapter = () => {
+  const { chaptername } = useParams();
   return (
     <Box
       w={"100%"}
@@ -27,7 +28,8 @@ const ViewAllRecordingsRelatedToOneChapter = () => {
           fontFamily={400}
           mt={"26px"}
         >
-          Newton's First Law Of Recordings
+          {/* Newton's First Law Of Recordings */}
+         {chaptername}  of Recording
         </Text>
       </HStack>
       <Flex m="27px">

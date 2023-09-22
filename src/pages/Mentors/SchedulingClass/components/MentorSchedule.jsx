@@ -14,6 +14,9 @@ const MentorSchedulingClass = () => {
       overflowY={"auto"}
       mt={"24px"}
     >
+    <Link to={`/schedule-class`} >
+
+    
       <Button
         bg={"#3C8DBC"}
         color={"#FFFFFF"}
@@ -24,6 +27,8 @@ const MentorSchedulingClass = () => {
       >
         Schedule Class
       </Button>
+      </Link>
+
 
       <Box
         width={"86%"}
