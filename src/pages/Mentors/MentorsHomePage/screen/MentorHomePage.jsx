@@ -45,11 +45,7 @@ import { getAllLiveClassesSchedule } from "../../../../store/actions/scheduleCla
 const MentorHomePage = () => {
   const dispatch = useDispatch();
 
-  const {
-    isOpen: isSchedulePopupOpen,
-    onOpen: onSchedulePopupOpen,
-    onClose: onScheduleClosePopupOpen,
-  } = useDisclosure();
+  const { onOpen: onSchedulePopupOpen } = useDisclosure();
   useEffect(() => {
     dispatch(getAllLiveClassesSchedule());
   }, [dispatch]);
@@ -78,7 +74,7 @@ const MentorHomePage = () => {
               >
                 <Box p={4}>
                   <ScheduleClassList
-                    onScheduleClosePopupOpen={onScheduleClosePopupOpen}
+                    onSchedulePopupOpen={onSchedulePopupOpen}
                   />
                 </Box>
               </SimpleBar>
