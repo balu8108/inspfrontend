@@ -6,6 +6,7 @@ import { publicRoutes, privateRoutes } from "./routes";
 import { isAuthenticated } from "./utils";
 import { useSelector } from "react-redux";
 import DocumentViewer from "./components/popups/DocumentViewer";
+import FeedBackAndRating from "./components/popups/FeedBackAndRating";
 
 const ProtectedRoutes = () => {
   const isAuth = isAuthenticated();
@@ -18,6 +19,7 @@ const ProtectedRoutes = () => {
 function App() {
   const location = useLocation();
   const { onClose: onDocModalClose } = useDisclosure();
+  const { onClose: onFeedBackClose } = useDisclosure();
   const { isDocModalOpen } = useSelector((state) => state.generic);
 
   const isNavbarDisabled =
@@ -28,6 +30,7 @@ function App() {
       {!isNavbarDisabled && <Navbar />}
 
       <DocumentViewer isOpen={isDocModalOpen} onClose={onDocModalClose} />
+      {/* <FeedBackAndRating onClose={onFeedBackClose} /> */}
 
       <Routes>
         <Route element={<ProtectedRoutes />}>
