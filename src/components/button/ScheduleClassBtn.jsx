@@ -15,7 +15,7 @@ const ScheduleClassBtn = ({ isLoading, status, onClickHandler }) => {
   let backColor = scheduledBtnColor;
   let textColor = "white";
   let text = "Start";
-
+  let btnDisabled = false;
   if (inspUserProfile) {
     // Means teacher then render teacher button text
     text =
@@ -34,9 +34,11 @@ const ScheduleClassBtn = ({ isLoading, status, onClickHandler }) => {
   } else if (status === classStatus.FINISHED) {
     backColor = finishedBtnColor;
     textColor = btnTextColor;
+    btnDisabled = true;
   } else if (status === classStatus.NOT_CONDUCTED) {
     backColor = notConductedBtnColor;
     textColor = btnTextColor;
+    btnDisabled = true;
   }
 
   return (
@@ -45,6 +47,7 @@ const ScheduleClassBtn = ({ isLoading, status, onClickHandler }) => {
         w={"full"}
         isLoading={isLoading}
         bg={backColor}
+        isDisabled={btnDisabled}
         color={textColor}
         fontWeight={"500"}
         fontSize={"14px"}

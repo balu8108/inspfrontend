@@ -9,7 +9,6 @@ import {
   HStack,
   useTheme,
 } from "@chakra-ui/react";
-import { useNavigate, useParams } from "react-router-dom";
 
 import {
   FiMic,
