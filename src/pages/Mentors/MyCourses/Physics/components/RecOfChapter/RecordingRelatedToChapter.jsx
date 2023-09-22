@@ -29,7 +29,7 @@ const ViewAllRecordingsRelatedToOneChapter = () => {
           mt={"26px"}
         >
           {/* Newton's First Law Of Recordings */}
-         {chaptername}  of Recording
+         {chaptername} 
         </Text>
       </HStack>
       <Flex m="27px">

@@ -11,7 +11,7 @@ import rateNfeedeback from "../data/feedback";
 import { Link } from "react-router-dom";
 const FeedBack = () => {
   return (
-    <Box bg={"#F1F5F8"} mt={"23px"} borderRadius={"25px"} w={"38%"} h={"full"}>
+    <Box bg={"#F1F5F8"} mt={"23px"} borderRadius={"25px"} w={"38%"} h={"640px"} overflowY={"auto"}>
       <Flex>
         <HStack spacing={"10px"}>
           <Box

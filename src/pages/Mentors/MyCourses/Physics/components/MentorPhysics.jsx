@@ -1,7 +1,47 @@
-import { Box, Button, Card, Flex, Text, HStack, Stack } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Button,
+  Card,
+  Flex,
+  Text,
+  HStack,
+  Stack,
+  SimpleGrid,
+} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import mentorChapterDetails from "../data/completedChapterDetails";
+import { fetchAllChaptersApi } from "../../../../../api/inspexternalapis/index";
 const PhysicsCourse = () => {
+  const [chapters, setChapters] = useState([]);
+  const [loading, setLoading] = useState(true);
+  console.log("Chapter", chapters);
+  const dummyDescriptions = [
+    "This chapter covers the basics of electromagnetism, including its principles and applications.",
+    "Learn about geometrical and wave optics in this chapter.",
+    "Explore the fundamental principles of heat transfer and thermodynamics.",
+    "Get a deep understanding of mechanics in this chapter.",
+    "Discover modern physics in this comprehensive chapter.",
+  ];
+  useEffect(() => {
+    async function fetchChapters() {
+      try {
+        const response = await fetchAllChaptersApi();
+        console.log("Chapters Api", response);
+        if (response.status) {
+          console.log("Chapters Data:", chapters);
+          setChapters(response.result);
+        }
+      } catch (error) {
+        console.error("Error fetching chapters:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchChapters();
+  }, []);
+
   return (
     <Box bg={"#F1F5F8"} w={"full"} h={"full"} borderRadius={"26px"}>
       <HStack spacing={"10px"}>
@@ -17,76 +57,71 @@ const PhysicsCourse = () => {
           My Courses (Physics)
         </Text>
       </HStack>
-
-      <Stack>
-        <Flex flexWrap="wrap" mt={"37px"} ml={"29px"} gap={"23px"}>
-          {mentorChapterDetails.map((physScreen) => (
-            <Card
-              w={"235px"}
-              h={"204px"}
-              key={physScreen.id}
-              blendMode={"multiply"}
-              bg={"#F1F5F8"}
-              borderRadius={"18px"}
-              mb={"20px"}
+      <SimpleGrid
+        columns={{ base: 1, md: 2, lg: 3 }}
+        spacing={"24px"}
+        m={"20px"}
+      >
+        {chapters.map((chapter, index) => (
+          <Card
+            key={chapter.id}
+            w={"100%"}
+            h={"204px"}
+            blendMode={"multiply"}
+            bg={"#F1F5F8"}
+            borderRadius={"18px"}
+            mb={"18px"}
+          >
+            <Text fontSize={"15px"} ml={"13px"} mt={"16px"} lineHeight={"19px"}>
+              {chapter.name}
+            </Text>
+            <Text
+              fontWeight={400}
+              fontSize={"11px"}
+              lineHeight={"15px"}
+              ml={"13px"}
+              color={"rgba(44, 51, 41, 0.47)"}
             >
-              <Text
-                fontSize={"16px"}
-                fontWeight={400}
-                ml={"13px"}
-                mt={"16px"}
-                lineHeight={"19px"}
+              Nitin Sachan
+            </Text>
+            <Text
+              fontSize={"12px"}
+              lineHeight={"13px"}
+              ml={"13px"}
+              fontWeight={400}
+              color={"rgba(44, 51, 41, 1)"}
+              mt={"18px"}
+            >
+              Description
+            </Text>
+            <Text
+              fontSize={"11px"}
+              lineHeight={"21px"}
+              fontWeight={400}
+              ml={13}
+              noOfLines={"2"}
+              color={"rgba(44, 51, 41, 0.47)"}
+            >
+              {dummyDescriptions[index]}
+            </Text>
+            <Link
+              to={`/mentor/${chapter.name}`}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              <Button
+                variant={"ghost"}
+                color={"#3C8DBC"}
+                fontWeight={"600"}
+                size={"14px"}
+                lineHeight={"16px"}
+                mt={"40px"}
               >
-                {physScreen.chapterName}
-              </Text>
-              <Text
-                fontWeight={400}
-                fontSize={"12px"}
-                lineHeight={"15px"}
-                ml={"13px"}
-                color={"rgba(44, 51, 41, 0.47)"}
-              >
-                {physScreen.instructorName}
-              </Text>
-              <Text
-                fontSize={"12px"}
-                lineHeight={"13px"}
-                ml={"13px"}
-                fontWeight={400}
-                color={"rgba(44, 51, 41, 1)"}
-                mt={"18px"}
-              >
-                Description
-              </Text>
-              <Text
-                fontSize={"11px"}
-                lineHeight={"21px"}
-                fontWeight={400}
-                ml={13}
-                noOfLines={"2"}
-                color={"rgba(44, 51, 41, 0.47)"}
-              >
-                {physScreen.description}
-              </Text>
-              <Link
-                to={`/mentor/${physScreen.chapterName}`}
-                style={{ display: "flex", justifyContent: "center" }}
-              >
-                <Button
-                  variant={"ghost"}
-                  color={"#3C8DBC"}
-                  fontWeight={"600"}
-                  size={"14px"}
-                  lineHeight={"16px"}
-                  mt={"40px"}
-                >
-                  View Details
-                </Button>
-              </Link>
-            </Card>
-          ))}
-        </Flex>
-      </Stack>
+                View Details
+              </Button>
+            </Link>
+          </Card>
+        ))}
+      </SimpleGrid>
     </Box>
   );
 };
