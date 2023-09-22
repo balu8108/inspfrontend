@@ -13,11 +13,8 @@ import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassA
 const StudentHomePage = () => {
   const dispatch = useDispatch();
 
-  const {
-    isOpen: isSchedulePopupOpen,
-    onOpen: onSchedulePopupOpen,
-    onClose: onScheduleClosePopupOpen,
-  } = useDisclosure();
+  const { onOpen: onSchedulePopupOpen } = useDisclosure();
+
   useEffect(() => {
     dispatch(getAllLiveClassesSchedule());
   }, [dispatch]);
@@ -41,9 +38,7 @@ const StudentHomePage = () => {
             }}
           >
             <Box p={4}>
-              <ScheduleClassList
-                onScheduleClosePopupOpen={onScheduleClosePopupOpen}
-              />
+              <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
             </Box>
           </SimpleBar>
           {/* <StudentHomePageRightSection /> */}
