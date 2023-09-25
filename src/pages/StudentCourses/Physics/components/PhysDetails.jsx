@@ -19,11 +19,12 @@ const PhysDetails = () => {
       </HStack>
 
       <Stack>
-        <Flex flexWrap="wrap" mt={"37px"} ml={"29px"} mr={"20px"} gap={"23px"}>
+        <Flex flexWrap="wrap" p={6} gap={"24px"}>
           {physDetailsData.map((physScreen) => (
             <Card
               key={physScreen.id}
               w="30%"
+              h={"204px"}
               blendMode={"multiply"}
               bg={"#F1F5F8"}
               borderRadius={"18px"}

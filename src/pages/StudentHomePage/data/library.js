@@ -2,23 +2,27 @@ const libraryData = [
   {
     id: 1,
     subjectName: "Physics",
-    description: "Lorem ipsum dolor sit amet consectetur. Id egestas egestas ut amet arcu. Ultrices sit odio at sapien mauris amet pretium arcu. Volutpat in tellus dolor quis magna dis sed. Dictum elementum eget sapien pretium ut diam tempor. Felis nibh vitae porttitor lacinia in duis justo. Rutrum eleifend quis facilisis odio pharetra quam cras. Velit viverra duis facilisi vitae aliquam. ",
+    description:
+      "Explore the fascinating world of Physics with a collection of resources covering classical mechanics, electromagnetism, thermodynamics, and quantum mechanics. Dive into the fundamental principles that govern the physical universe.",
   },
 
   {
     id: 2,
     subjectName: "Mathematics",
-    description: "Lorem ipsum dolor sit amet consectetur. Id egestas egestas ut amet arcu. Ultrices sit odio at sapien mauris amet pretium arcu. Volutpat in tellus dolor quis magna dis sed. Dictum elementum eget sapien pretium ut diam tempor. Felis nibh vitae porttitor lacinia in duis justo. Rutrum eleifend quis facilisis odio pharetra quam cras. Velit viverra duis facilisi vitae aliquam.",
+    description:
+      "Discover the power of Mathematics with a variety of topics that range from algebra to calculus. Explore the world of numbers, equations, and mathematical concepts that underlie a wide range of scientific and practical applications.",
   },
   {
     id: 3,
     subjectName: "Chemistry",
-    description: "Lorem ipsum dolor sit amet consectetur. Id egestas egestas ut amet arcu. Ultrices sit odio at sapien mauris amet pretium arcu. Volutpat in tellus dolor quis magna dis sed. Dictum elementum eget sapien pretium ut diam tempor. Felis nibh vitae porttitor lacinia in duis justo. Rutrum eleifend quis facilisis odio pharetra quam cras. Velit viverra duis facilisi vitae aliquam.",
+    description:
+      "Delve into the realm of Chemistry, where you can learn about chemical reactions, the periodic table, bonding, and the intriguing properties of matter. Discover the secrets of the elements and compounds that make up our world",
   },
   {
     id: 4,
     subjectName: "Topic based recording",
-    description: "Lorem ipsum dolor sit amet consectetur. Id egestas egestas ut amet arcu. Ultrices sit odio at sapien mauris amet pretium arcu. Volutpat in tellus dolor quis magna dis sed. Dictum elementum eget sapien pretium ut diam tempor. Felis nibh vitae porttitor lacinia in duis justo. Rutrum eleifend quis facilisis odio pharetra quam cras. Velit viverra duis facilisi vitae aliquam.",
+    description:
+      "Access a comprehensive collection of recordings organized by topics. Dive into specific subjects, explore key concepts, and enhance your understanding with topic-focused recordings tailored to your learning needs",
   },
 ];
 export default libraryData;

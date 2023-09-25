@@ -4,7 +4,6 @@ import MyCourses from "../../MyCourses/components/Header";
 import Improvement from "../components/Improvement";
 import Assignment from "../components/Assignment";
 import Library from "../components/Library";
-
 import ScheduleClassList from "../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
 import { boxShadowStyles } from "../../../utils";
@@ -13,9 +12,7 @@ import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassA
 
 const StudentHomePage = () => {
   const dispatch = useDispatch();
-
   const { onOpen: onSchedulePopupOpen } = useDisclosure();
-
   useEffect(() => {
     dispatch(getAllLiveClassesSchedule());
   }, [dispatch]);
@@ -30,7 +27,7 @@ const StudentHomePage = () => {
           </HStack>
           <Library />
         </Box>
-        <Box w="20%">
+        <Box w={"25%"}>
           <SimpleBar
             style={{
               maxHeight: "85vh",
@@ -42,7 +39,6 @@ const StudentHomePage = () => {
               <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
             </Box>
           </SimpleBar>
-          {/* <StudentHomePageRightSection /> */}
         </Box>
       </Flex>
     </>

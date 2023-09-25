@@ -16,7 +16,7 @@ import physVideosData from "../data/PhysVideosData";
 import { FaSearch } from "react-icons/fa";
 const PhysLibrary = () => {
   return (
-    <Box width={"100%"} h={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
+    <Box width={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
         <Box
           width={"12px"}
@@ -37,11 +37,12 @@ const PhysLibrary = () => {
       </HStack>
 
       <Stack>
-        <Flex flexWrap="wrap" mt={"37px"} ml={"27px"} mr={"20px"} gap={"23px"}>
+        <Flex flexWrap="wrap" p={5} gap={"24px"} ml={5}>
           {physVideosData.map((physScreen) => (
             <Card
               key={physScreen.id}
               w="30%"
+              h={"204px"}
               blendMode={"multiply"}
               bg={"#F1F5F8"}
               borderRadius={"18px"}
@@ -73,6 +74,7 @@ const PhysLibrary = () => {
                 ml={13}
                 mt={"6px"}
                 color={"rgba(44, 51, 41, 0.47)"}
+                noOfLines={3}
               >
                 {physScreen.description}
               </Text>

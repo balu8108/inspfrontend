@@ -5,7 +5,12 @@ import headerData from "../data/headerData";
 import { fetchAllSubjectsApi } from "../../../api/inspexternalapis";
 const Header = () => {
   const [subjects, setSubjects] = useState([]);
-  console.log("Subjects", subjects);
+  // const dummydescription=[
+  //   "  Physics is the study of the fundamental principles that govern the behavior of the physical universe. It encompasses a wide range of topics, including classical mechanics, electromagnetism, thermodynamics, and quantum mechanics.",
+  //   "Explore the world of chemical reactions, elements, and compounds in this foundational science subject. Learn about the periodic table, bonding, and the fascinating properties of matter.",
+  //   " Delve into the world of numbers, equations, and mathematical concepts. From algebra to calculus, discover the fundamental principles that underlie a wide range of scientific and practical applications.",
+  // ]
+
   useEffect(() => {
     // Fetch subjects when the component mounts
     async function fetchSubjects() {
@@ -13,7 +18,12 @@ const Header = () => {
         const response = await fetchAllSubjectsApi(); // Call your API function
         console.log("Subjects Api", response);
         if (response.status) {
-          setSubjects(response.result); // Update the state with fetched data
+
+          const filteredSubjects = response.result.filter(
+            (subject) => subject.name !== "Chemistry" && subject.name !== "Mathematics"
+          );
+          setSubjects(filteredSubjects); 
+          // setSubjects(response.result); // Update the state with fetched data
         }
       } catch (error) {
         console.error("Error fetching subjects:", error);
@@ -45,18 +55,14 @@ const Header = () => {
       </HStack>
 
       <Flex p={5} gap={"24px"} mt={"10px"}>
-        {headerData.map((headerDetails) => (
+        {subjects.map((headerDetails) => (
           <Card
-           key={headerDetails.id}
-           w={"30%"}
+            key={headerDetails.id}
+            w={"30%"}
             borderRadius={"18px"}
             bg={"#F1F5F8"}
-             ml={"15px"}
-            mb={"20px"}
-           
-           
+            ml={"10px"}
             blendMode={"multiply"}
-           
           >
             <Text
               fontSize={"16px"}
@@ -66,7 +72,7 @@ const Header = () => {
               ml={"13px"}
               mt={"13px"}
             >
-              {headerDetails.subject}
+              {headerDetails.name}
             </Text>
 
             <Text
@@ -88,9 +94,12 @@ const Header = () => {
               noOfLines={3}
               color={"rgba(44, 51, 41, 0.47)"}
             >
-              {headerDetails.description}
+              Physics is the study of the fundamental principles that govern the
+              behavior of the physical universe. It encompasses a wide range of
+              topics, including classical mechanics, electromagnetism,
+              thermodynamics, and quantum mechanics.
             </Text>
-            <Link to={`/student/myCourses/${headerDetails.subject}`}>
+            <Link to={`/student/myCourses/${headerDetails.name}`}>
               <Button
                 variant={"ghost"}
                 color={"#3C8DBC"}

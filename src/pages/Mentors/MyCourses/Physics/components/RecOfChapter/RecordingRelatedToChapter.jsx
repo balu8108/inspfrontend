@@ -8,7 +8,7 @@ const ViewAllRecordingsRelatedToOneChapter = () => {
   return (
     <Box
       w={"100%"}
-      maxW={"870px"}
+      // maxW={"870px"}
       bg={"#F1F5F8"}
       borderRadius={"2xl"}
       mt={6}

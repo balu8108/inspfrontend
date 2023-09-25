@@ -245,61 +245,61 @@ const Header = () => {
               key={subject.id}
             >
               <Text
-              fontSize={"16px"}
-              fontWeight={"400"}
-              lineHeight={"18px"}
-              color={"#2C3329"}
-              ml={"13px"}
-              mt={"13px"}
-            >
-              {subject.name}
-            </Text>
-            <Text
-              fontSize={"10px"}
-              color={subject.status == "Completed" ? "#3DE302" : "#2C332978"}
-              lineHeight={"18px"}
-              ml={"13px"}
-            >
-              {subject.status || "In Progress"}
-            </Text>
-            <Text
-              fontSize={"12px"}
-              lineHeight={"14px"}
-              fontWeight={"400px"}
-              color={"#2C3329"}
-              mt={"14px"}
-              ml={"14px"}
-            >
-              Description
-            </Text>
-            <Text
-              fontSize={"11px"}
-              lineHeight={"21px"}
-              fontWeight={"400px"}
-              ml={"13px"}
-              mt={"6px"}
-              color={"rgba(44, 51, 41, 0.47)"}
-              noOfLines={3}
-            >
-              {subject.description ||
-                "Physics is the study of the fundamental principles that govern the behavior of the physical universe. It encompasses a wide range of topics, including classical mechanics, electromagnetism, thermodynamics, and quantum mechanics."}
-            </Text>
-            <Link
-              to={`/mentor/myCourses/${subject.name}`}
-              style={{ display: "flex", justifyContent: "center" }}
-            >
-              <Button
-                variant={"ghost"}
-                color={"#3C8DBC"}
-                fontWeight={"600"}
-                size={"12px"}
-                fontSize={"14px"}
-                lineHeight={"16px"}
-                p={["10px", "21px"]}
+                fontSize={"16px"}
+                fontWeight={"400"}
+                lineHeight={"18px"}
+                color={"#2C3329"}
+                ml={"13px"}
+                mt={"13px"}
               >
-                View Details
-              </Button>
-            </Link>
+                {subject.name}
+              </Text>
+              <Text
+                fontSize={"10px"}
+                color={subject.status == "Completed" ? "#3DE302" : "#2C332978"}
+                lineHeight={"18px"}
+                ml={"13px"}
+              >
+                {subject.status || "In Progress"}
+              </Text>
+              <Text
+                fontSize={"12px"}
+                lineHeight={"14px"}
+                fontWeight={"400px"}
+                color={"#2C3329"}
+                mt={"14px"}
+                ml={"14px"}
+              >
+                Description
+              </Text>
+              <Text
+                fontSize={"11px"}
+                lineHeight={"21px"}
+                fontWeight={"400px"}
+                ml={"13px"}
+                mt={"6px"}
+                color={"rgba(44, 51, 41, 0.47)"}
+                noOfLines={3}
+              >
+                {subject.description ||
+                  "Physics is the study of the fundamental principles that govern the behavior of the physical universe. It encompasses a wide range of topics, including classical mechanics, electromagnetism, thermodynamics, and quantum mechanics."}
+              </Text>
+              <Link
+                to={`/mentor/myCourses/${subject.name}`}
+                style={{ display: "flex", justifyContent: "center" }}
+              >
+                <Button
+                  variant={"ghost"}
+                  color={"#3C8DBC"}
+                  fontWeight={"600"}
+                  size={"12px"}
+                  fontSize={"14px"}
+                  lineHeight={"16px"}
+                  p={["10px", "21px"]}
+                >
+                  View Details
+                </Button>
+              </Link>
             </Card>
           ))}
         </Flex>

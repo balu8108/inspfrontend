@@ -1,16 +1,62 @@
-import { Box, Flex, Stack, VStack } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import { Box, Flex, Stack, VStack, useDisclosure } from "@chakra-ui/react";
 import ViewAllRecordingsRelatedToOneChapter from "../components/RecOfChapter/RecordingRelatedToChapter";
 import ChapterDetailsAndCoveredPart from "../components/RecOfChapter/DetailsAndCovered";
-import ScheduledMeetings from "../../../SchedulingClass/components/MentorSchedule";
+import MentorSchedulingClass from "../../../SchedulingClass/components/MentorSchedule";
+import ScheduleClassList from "../../../../ScheduleClasses/components/ScheduleClassList";
+import SimpleBar from "simplebar-react";
+import { boxShadowStyles } from "../../../../../utils";
+import { useDispatch } from "react-redux";
+import { getAllLiveClassesSchedule } from "../../../../../store/actions/scheduleClassActions";
+import ScheduleClassPopup from "../../../../../components/popups/ScheduleClassPopup";
 const ChapterRecordings = () => {
+  const dispatch = useDispatch();
+  const {
+    isOpen: isSchedulePopupOpen,
+    onOpen: onSchedulePopupOpen,
+    onClose: onScheduleClosePopupOpen,
+  } = useDisclosure();
+
+  const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
+  const [classTiming, setClassTiming] = useState(["", ""]);
+  useEffect(() => {
+    dispatch(getAllLiveClassesSchedule());
+  }, [dispatch]);
   return (
-    <Flex m={"45px"}>
-      <Stack spacing={"24px"} w={"full"}>
-        <ViewAllRecordingsRelatedToOneChapter />
-        <ChapterDetailsAndCoveredPart />
-      </Stack>
-      <ScheduledMeetings />
-    </Flex>
+    <>
+      {isSchedulePopupOpen && (
+        <ScheduleClassPopup
+          isOpen={isSchedulePopupOpen}
+          onClose={onScheduleClosePopupOpen}
+          selectedDate={selectedDate}
+          classTiming={classTiming}
+          setSelectedDate={setSelectedDate}
+          setClassTiming={setClassTiming}
+        />
+      )}
+      <Flex m={"45px"}>
+        <Stack spacing={"24px"} w={"73%"}>
+          <ViewAllRecordingsRelatedToOneChapter />
+          <ChapterDetailsAndCoveredPart />
+        </Stack>
+        <Box ml={"24px"} mt={"20px"} w={"75%"}>
+          <SimpleBar
+            style={{
+              maxHeight: "85vh",
+              borderRadius: "26px",
+              bg: "#F1F5F8",
+              backgroundBlendMode: "multiply",
+              boxShadow: boxShadowStyles.shadowOneStyle.boxShadow,
+            }}
+          >
+          <Box p={4}>
+          <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
+          </Box>
+           
+          </SimpleBar>
+        </Box>
+      </Flex>
+    </>
   );
 };
 export default ChapterRecordings;
