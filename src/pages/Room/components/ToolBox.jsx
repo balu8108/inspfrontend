@@ -36,6 +36,7 @@ import { staticVariables, userType } from "../../../constants/staticvariables";
 import { roomData } from "../data/roomData";
 import PostPoll from "../../../components/popups/PostPoll";
 import { LeaveBtn } from "../../../components/button";
+import { useParams, useNavigate } from "react-router-dom";
 
 import { checkUserType } from "../../../utils";
 let producerScreenShare = null;
@@ -70,6 +71,8 @@ const ToolBox = ({
 
   const { redBtnColor } = useTheme().colors.pallete;
   const userRoleType = checkUserType();
+  const navigate = useNavigate();
+  const { roomId } = useParams();
 
   const openMiroBoardAuth = () => {
     window.miroBoardsPicker.open({
@@ -326,6 +329,7 @@ const ToolBox = ({
       await endMeetHandler();
     } else {
       await leaveRoomHandler();
+      navigate(`/room-preview/${roomId}`);
     }
 
     setIsLeaveLoading(false);

@@ -2,7 +2,9 @@ import {
   GET_ALL_SUBJECTS,
   SET_DOC_ID,
   SET_DOC_KEY,
+  SET_FEEDBACK_TOPIC_ID,
   SET_IS_DOC_MODAL_OPEN,
+  SET_IS_FEEDBACK_MODAL_OPEN,
 } from "../constants";
 
 const initialState = {
@@ -10,6 +12,8 @@ const initialState = {
   isDocModalOpen: false,
   docId: null,
   docKey: null,
+  isFeedbackModalOpen: false,
+  feedbackTopicId: null,
 };
 
 const genericReducer = (state = initialState, action) => {
@@ -33,6 +37,16 @@ const genericReducer = (state = initialState, action) => {
       return {
         ...state,
         docKey: action.payload,
+      };
+    case SET_FEEDBACK_TOPIC_ID:
+      return {
+        ...state,
+        feedbackTopicId: action.payload,
+      };
+    case SET_IS_FEEDBACK_MODAL_OPEN:
+      return {
+        ...state,
+        isFeedbackModalOpen: action.payload,
       };
     default:
       return state;
