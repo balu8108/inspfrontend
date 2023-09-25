@@ -16,6 +16,13 @@ export const roomData = {
     { id: 5, name: "M" },
     { id: 6, name: "M" },
     { id: 7, name: "M" },
+    { id: 8, name: "M" },
+    { id: 9, name: "M" },
+    { id: 10, name: "M" },
+    { id: 11, name: "M" },
+    { id: 12, name: "M" },
+    { id: 13, name: "M" },
+    { id: 14, name: "M" },
   ],
   chats: [
     {
