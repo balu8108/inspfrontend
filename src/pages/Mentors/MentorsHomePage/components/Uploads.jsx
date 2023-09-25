@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 
 const MentorsUploads = () => {
   return (
-    <Box bg={"#F1F5F8"} mt={"24px"} w={"60%"} h={"full"} borderRadius={"26px"}>
+    <Box bg={"#F1F5F8"} w={"95%"} borderRadius={"26px"}>
       <Flex>
         <HStack spacing={"10px"}>
           <Box

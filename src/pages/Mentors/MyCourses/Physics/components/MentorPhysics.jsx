@@ -3,18 +3,15 @@ import {
   Box,
   Button,
   Card,
-  Flex,
   Text,
   HStack,
-  Stack,
   SimpleGrid,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import mentorChapterDetails from "../data/completedChapterDetails";
 import { fetchAllChaptersApi } from "../../../../../api/inspexternalapis/index";
 const PhysicsCourse = () => {
   const [chapters, setChapters] = useState([]);
-  const [loading, setLoading] = useState(true);
+
   console.log("Chapter", chapters);
   const dummyDescriptions = [
     "This chapter covers the basics of electromagnetism, including its principles and applications.",
@@ -34,9 +31,8 @@ const PhysicsCourse = () => {
         }
       } catch (error) {
         console.error("Error fetching chapters:", error);
-      } finally {
-        setLoading(false);
-      }
+      } 
+      
     }
 
     fetchChapters();
@@ -105,7 +101,7 @@ const PhysicsCourse = () => {
               {dummyDescriptions[index]}
             </Text>
             <Link
-              to={`/mentor/${chapter.name}`}
+              to={`/mentor/${chapter.id}/topics/${encodeURIComponent(chapter.name)}`}
               style={{ display: "flex", justifyContent: "center" }}
             >
               <Button

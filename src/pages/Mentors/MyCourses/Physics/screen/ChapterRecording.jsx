@@ -39,7 +39,7 @@ const ChapterRecordings = () => {
           <ViewAllRecordingsRelatedToOneChapter />
           <ChapterDetailsAndCoveredPart />
         </Stack>
-        <Box ml={"24px"} mt={"20px"} w={"75%"}>
+        <Box ml={"24px"} mt={"20px"}  w={"25%"}>
           <SimpleBar
             style={{
               maxHeight: "85vh",

@@ -11,7 +11,7 @@ import rateNfeedeback from "../data/feedback";
 import { Link } from "react-router-dom";
 const FeedBack = () => {
   return (
-    <Box bg={"#F1F5F8"} mt={"23px"} borderRadius={"25px"} w={"38%"} h={"640px"} overflowY={"auto"}>
+    <Box bg={"#F1F5F8"} mt={"23px"} borderRadius={"25px"} w={"750%"}  h={"30%"} >
       <Flex>
         <HStack spacing={"10px"}>
           <Box
@@ -42,7 +42,7 @@ const FeedBack = () => {
       <Flex mt={"34px"} flexWrap="wrap">
         {rateNfeedeback.map((rateNfeedebackOfAChapter) => (
           <Box
-            flexBasis="100%" // Two cards per line
+            flexBasis="100%"
             key={rateNfeedebackOfAChapter.id}
           >
             <Card
@@ -86,7 +86,7 @@ const FeedBack = () => {
               >
                 {rateNfeedebackOfAChapter.description}
               </Text>
-
+              <Link to={`/mentor/view/rating&feedback`}  style={{ display: "flex", justifyContent: "center" }}>
               <Button
                 variant={"ghost"}
                 color={"#3C8DBC"}
@@ -97,10 +97,12 @@ const FeedBack = () => {
               >
                 View Details
               </Button>
+              </Link>
             </Card>
           </Box>
         ))}
       </Flex>
+      
     </Box>
   );
 };
