@@ -20,7 +20,9 @@ function App() {
   const location = useLocation();
   const { onClose: onDocModalClose } = useDisclosure();
   const { onClose: onFeedBackClose } = useDisclosure();
-  const { isDocModalOpen } = useSelector((state) => state.generic);
+  const { isDocModalOpen, isFeedbackModalOpen } = useSelector(
+    (state) => state.generic
+  );
 
   const isNavbarDisabled =
     location.pathname === "/" || location.pathname.startsWith("/auth");
@@ -30,7 +32,10 @@ function App() {
       {!isNavbarDisabled && <Navbar />}
 
       <DocumentViewer isOpen={isDocModalOpen} onClose={onDocModalClose} />
-      {/* <FeedBackAndRating onClose={onFeedBackClose} /> */}
+      <FeedBackAndRating
+        isOpen={isFeedbackModalOpen}
+        onClose={onFeedBackClose}
+      />
 
       <Routes>
         <Route element={<ProtectedRoutes />}>

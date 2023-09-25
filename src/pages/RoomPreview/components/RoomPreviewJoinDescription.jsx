@@ -31,6 +31,9 @@ const PeerList = ({ peers, type }) => {
     }
   } else {
     displayedPeers = peers.filter((peer) => !peer.isTeacher).slice(0, 3);
+    if (displayedPeers.length === 0) {
+      return <Text fontSize={"12px"}>{liveSessionData.noStudentsJoined}</Text>;
+    }
   }
 
   return (

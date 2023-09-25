@@ -23,9 +23,10 @@ import {
 
 import SOCKET_EVENTS from "../constants/socketeventconstants";
 import { Device } from "mediasoup-client";
-import { staticVariables } from "../constants/staticvariables";
+import { staticVariables, userType } from "../constants/staticvariables";
 import { SET_RAISE_HAND } from "../store/constants";
-import { getStorageData, isObjectValid } from "../utils";
+import { checkUserType, getStorageData, isObjectValid } from "../utils";
+import { setFeedbackModalOpen } from "../store/actions/genericActions";
 
 // socket variables
 
@@ -362,8 +363,22 @@ const leaderBoardResponseHandler = (res) => {
   store.dispatch(setLeaderBoard(res?.leaderBoard));
 };
 
-const endMeetReponseHandler = () => {
+const endMeetReponseHandler = async () => {
+  await leaveRoomHandler();
   store.dispatch(setIsMeetEnd(true));
+};
+
+const leaveRoomResponseHandler = (res) => {
+  const { feedBackStatus } = res;
+  const userRoleType = checkUserType(); // Need to open feedback form only for students
+  if (userRoleType === userType.student && feedBackStatus) {
+    if (feedBackStatus?.success && !feedBackStatus.isFeedBack) {
+      // Open feedback form
+      store.dispatch(
+        setFeedbackModalOpen(true, feedBackStatus?.feedBackTopicId)
+      );
+    }
+  }
 };
 
 /** REPSONSE HANDLER ENDS HERE **/
@@ -513,7 +528,7 @@ export const producerResumeHandler = (producer) => {
 };
 
 export const leaveRoomHandler = async () => {
-  await socket.emit(SOCKET_EVENTS.LEAVE_ROOM);
+  await socket.emit(SOCKET_EVENTS.LEAVE_ROOM, leaveRoomResponseHandler);
 };
 
 export const endMeetHandler = async () => {

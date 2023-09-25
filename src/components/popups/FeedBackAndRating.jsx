@@ -5,10 +5,7 @@ import {
   AlertDialog,
   AlertDialogContent,
   AlertDialogOverlay,
-  AlertDialogCloseButton,
   AlertDialogBody,
-  AlertDialogHeader,
-  AlertDialogFooter,
   Text,
   Textarea,
   useTheme,
@@ -16,16 +13,38 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import StarRatings from "react-star-ratings";
-
-const FeedBackAndRating = ({ onClose }) => {
+import { useToastContext } from "../toastNotificationProvider/ToastNotificationProvider";
+import { createFeedbackApi } from "../../api/genericapis";
+import { useSelector, useDispatch } from "react-redux";
+import { setFeedbackModalOpen } from "../../store/actions/genericActions";
+const FeedBackAndRating = ({ isOpen, onClose }) => {
   const [rating, setRating] = useState(0);
+  const [feedback, setFeedback] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { primaryBlue } = useTheme().colors.pallete;
+  const { addNotification } = useToastContext();
+  const { feedbackTopicId } = useSelector((state) => state.generic);
+  const dispatch = useDispatch();
+  const handleFeedbackSubmit = async () => {
+    setIsLoading(true);
+    const data = { topicId: feedbackTopicId, rating, feedback };
+    try {
+      const res = await createFeedbackApi(data);
+      if (res.status === 200) {
+        addNotification("Feedback recorded successfully", "success", 3000);
+      }
+    } catch (err) {
+      addNotification("Something went wrong", "error", 3000);
+    }
+    setIsLoading(false);
+    dispatch(setFeedbackModalOpen(false, null));
+  };
   return (
     <>
       <AlertDialog
         motionPreset="slideInBottom"
         onClose={onClose}
-        isOpen={true}
+        isOpen={isOpen}
         size="xs"
         isCentered
       >
@@ -55,6 +74,8 @@ const FeedBackAndRating = ({ onClose }) => {
                 </Text>
                 <Textarea
                   mt={4}
+                  value={feedback}
+                  onChange={(e) => setFeedback(e.target.value)}
                   placeholder="Feedback"
                   size="sm"
                   resize="none"
@@ -63,13 +84,14 @@ const FeedBackAndRating = ({ onClose }) => {
               </Box>
               <Button
                 w={"full"}
+                isLoading={isLoading}
                 bg={primaryBlue}
                 color={"white"}
                 fontWeight={"500"}
                 py={6}
                 fontSize={"1rem"}
                 _hover={{ bg: primaryBlue }}
-                onClick={() => {}}
+                onClick={handleFeedbackSubmit}
               >
                 Submit
               </Button>
