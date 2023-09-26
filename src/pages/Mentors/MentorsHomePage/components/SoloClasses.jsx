@@ -27,7 +27,7 @@ import {
             </Text>
           </HStack>
           <Spacer />
-          <Link to={`/mentor/rating&feedback`}>
+          <Link to={`/mentor/solo-recordings/topic`}>
             <Button
               variant={"ghost"}
               fontSize={"sm"}
@@ -86,7 +86,7 @@ import {
                 >
                   {rateNfeedebackOfAChapter.description}
                 </Text>
-                <Link to={`/mentor/view/rating&feedback`}  style={{ display: "flex", justifyContent: "center" }}>
+             
                 <Button
                   variant={"ghost"}
                   color={"#3C8DBC"}
@@ -97,7 +97,7 @@ import {
                 >
                   View Details
                 </Button>
-                </Link>
+                
               </Card>
             </Box>
           ))}

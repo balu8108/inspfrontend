@@ -20,6 +20,7 @@ import AllRecordingsForAChapter from "./pages/Mentors/MyCourses/Physics/screen/C
 import MentorAllUploadedLectures from "./pages/Mentors/MyUploads/screen/UploadScreen";
 import RateNFeedback from "./pages/Mentors/RatingsAndFeedbacks/screen/RateNFeedback";
 import ViewRatingAndFeedback from "./pages/Mentors/RatingsAndFeedbacks/screen/ViewFeedbackAndRating";
+import SoloRecordedTopicsDetails from "./pages/Mentors/SoloClasses/TopicCollection/screen/SoloRecordedTopicsDetail";
 import HomePage from "./pages/homepage/screens/HomePage";
 
 const publicRoutes = [
@@ -138,6 +139,11 @@ const privateRoutes = [
     name: "Viewing Mentors Rating And Feedback",
     path: "/mentor/view/rating&feedback",
     component: <ViewRatingAndFeedback />,
+  },
+  {
+    name: "Solo Recording Detailed And Covered ",
+    path: "/mentor/solo-recordings/topic",
+    component: <SoloRecordedTopicsDetails />,
   },
 ];
 
