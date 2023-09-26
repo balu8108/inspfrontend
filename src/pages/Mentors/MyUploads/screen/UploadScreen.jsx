@@ -1,5 +1,5 @@
-import React , {useEffect,useState} from "react";
-import { Box,Flex,useDisclosure } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import { Box, Flex, useDisclosure } from "@chakra-ui/react";
 import AllUploadedLecture from "../components/Uploads";
 import SchedulingClass from "../../SchedulingClass/components/MentorSchedule";
 import ScheduleClassList from "../../../ScheduleClasses/components/ScheduleClassList";
@@ -23,19 +23,19 @@ const MentorAllUploadedLectures = () => {
   }, [dispatch]);
   return (
     <>
-    {isSchedulePopupOpen && (
-      <ScheduleClassPopup
-        isOpen={isSchedulePopupOpen}
-        onClose={onScheduleClosePopupOpen}
-        selectedDate={selectedDate}
-        classTiming={classTiming}
-        setSelectedDate={setSelectedDate}
-        setClassTiming={setClassTiming}
-      />
-    )}
-    <Flex my={"30px"} mx={"45px"}>
-      <AllUploadedLecture />
-      <Box  w={"80%"} ml={5} mt={"5"}>
+      {isSchedulePopupOpen && (
+        <ScheduleClassPopup
+          isOpen={isSchedulePopupOpen}
+          onClose={onScheduleClosePopupOpen}
+          selectedDate={selectedDate}
+          classTiming={classTiming}
+          setSelectedDate={setSelectedDate}
+          setClassTiming={setClassTiming}
+        />
+      )}
+      <Flex m={"52px"} gap={"24px"}>
+        <AllUploadedLecture />
+        <Box w={"23%"}>
           <SimpleBar
             style={{
               maxHeight: "85vh",
@@ -50,7 +50,7 @@ const MentorAllUploadedLectures = () => {
             </Box>
           </SimpleBar>
         </Box>
-    </Flex>
+      </Flex>
     </>
   );
 };

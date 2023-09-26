@@ -1,70 +1,3 @@
-// import React from "react";
-// import {
-//   Box,
-//   Flex,
-//   Modal,
-//   ModalOverlay,
-//   ModalContent,
-//   ModalHeader,
-//   ModalBody,
-//   Input,
-//   Select,
-//   Button,
-//   Center,
-//   Stack, // Import the Stack component for spacing
-// } from "@chakra-ui/react";
-
-// const SoloRecordModal = ({ isOpen, onClose }) => {
-//   return (
-//     <Modal isOpen={isOpen} onClose={onClose}>
-//       <ModalOverlay />
-//       <ModalContent>
-//         <ModalHeader>Solo Record</ModalHeader>
-//         <ModalBody>
-//           <Stack>
-//             <Box>
-//               <Select placeholder="Select Subjects"></Select>
-//             </Box>
-//             <Box mt={8}>
-//               <label placeholder="Topic" />
-//             </Box>
-//             <Box mt={4}>
-//               <Input placeholder="Agenda" />
-//             </Box>
-//             <Box>
-//               <Input placeholder="Enter your description" />
-//             </Box>
-//             <Flex gap={"26px"}>
-//               <Input placeholder="Files To Upload" />
-//               <Button
-//                 w={"35%"}
-//                 bg={"#3C8DBC"}
-//                 color={"#FFFFFF"}
-//                 fontWeight={500}
-//               >
-//                 Upload
-//               </Button>
-//             </Flex>
-//             <Center>
-//               <Button
-//                 w={"35%"}
-//                 bg={"#3C8DBC"}
-//                 color={"#FFFFFF"}
-//                 fontWeight={500}
-//               >
-//                 Start
-//               </Button>
-//             </Center>
-//           </Stack>
-//         </ModalBody>
-//       </ModalContent>
-//     </Modal>
-//   );
-// };
-
-// export default SoloRecordModal;
-
-
 import React from "react";
 import {
   Box,
@@ -74,23 +7,21 @@ import {
   ModalContent,
   ModalHeader,
   ModalBody,
-  FormControl,
-  FormLabel,
   Input,
   Select,
   Button,
   Center,
   Stack,
+  FormControl,
+  FormLabel,
+  FormErrorMessage, // Import FormErrorMessage
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 const SoloRecordModal = ({ isOpen, onClose }) => {
-  // Define an array of topics and their related information
-  const topics = [
-    { label: "Select Subjects", placeholder: "Select Subjects" },
-    { label: "Topic", placeholder: " Topic" },
-    { label: "Agenda", placeholder: "Agenda" },
-    { label: "Description", placeholder: "Description" },
-  ];
+  const handleSubmit = () => {
+    // Handle form submission here
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -98,35 +29,56 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
       <ModalContent>
         <ModalHeader>Solo Record</ModalHeader>
         <ModalBody>
-          <Stack spacing={4}>
-            {topics.map((topic, index) => (
-              <FormControl isRequired key={index}>
-                <FormLabel>{topic.label}</FormLabel>
-                <Input placeholder={topic.placeholder} />
+          <form onSubmit={handleSubmit}>
+            <Stack spacing={4}>
+              <FormControl isRequired>
+                <Select placeholder="Select Subjects"></Select>
+                <FormErrorMessage>This field is required</FormErrorMessage>
               </FormControl>
-            ))}
-            <Flex gap={"26px"}>
-              <Input placeholder="Files To Upload" />
-              <Button
-                w={"35%"}
-                bg={"#3C8DBC"}
-                color={"#FFFFFF"}
-                fontWeight={500}
+              <FormControl isRequired>
+                <Input placeholder="Topic" />
+                <FormErrorMessage>This field is required</FormErrorMessage>
+              </FormControl>
+              <FormControl isRequired>
+                <Input
+                  placeholder="Agenda"
+                  h="60px" // Increase height here
+                />
+                <FormErrorMessage>This field is required</FormErrorMessage>
+              </FormControl>
+              <FormControl isRequired>
+                <Input placeholder="Description" h="60px" />
+                <FormErrorMessage>This field is required</FormErrorMessage>
+              </FormControl>
+              <Flex gap={"16px"}>
+                <Input placeholder="Files To Upload" />
+
+                <Button
+                  w={"40%"}
+                  bg={"#3C8DBC"}
+                  color={"#FFFFFF"}
+                  fontWeight={500}
+                >
+                  Upload
+                </Button>
+              </Flex>
+
+              <Link
+                style={{ display: "flex", justifyContent: "center" }}
+                to={"/mentor/solo-lectures"}
               >
-                Upload
-              </Button>
-            </Flex>
-            <Center>
-              <Button
-                w={"35%"}
-                bg={"#3C8DBC"}
-                color={"#FFFFFF"}
-                fontWeight={500}
-              >
-                Start
-              </Button>
-            </Center>
-          </Stack>
+                <Button
+                  type="submit"
+                  w={"50%"}
+                  bg={"#3C8DBC"}
+                  color={"#FFFFFF"}
+                  fontWeight={500}
+                >
+                  Start
+                </Button>
+              </Link>
+            </Stack>
+          </form>
         </ModalBody>
       </ModalContent>
     </Modal>
