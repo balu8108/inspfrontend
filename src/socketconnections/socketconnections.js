@@ -63,7 +63,7 @@ const joinRoomResponseHandler = (res, resolve, reject) => {
   if (res.success) {
     resolve(res);
   } else {
-    reject(new Error(res));
+    reject(res);
   }
 };
 

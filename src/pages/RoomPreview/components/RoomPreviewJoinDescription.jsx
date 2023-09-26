@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { joinRoomHandler } from "../../../socketconnections/socketconnections";
 import { setRtpCapabilities } from "../../../store/actions/socketActions";
 import { formatTime, renderLeftMembersCount } from "../../../utils";
+import { useToastContext } from "../../../components/toastNotificationProvider/ToastNotificationProvider";
 
 const PeerList = ({ peers, type }) => {
   const theme = useTheme();
@@ -83,6 +84,8 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
   const { isPeerLoading, peers, roomPreviewData } = useSelector(
     (state) => state.socket
   );
+
+  const { addNotification } = useToastContext();
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -98,11 +101,11 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
         navigate(`/room/${roomId}`);
       } else {
         // later on add notification
-        console.log("something went wrong in join room ", res);
+        addNotification("Something went wrong in join room", "error", 3000);
       }
     } catch (err) {
       // Later on add notification
-      console.log("join room error", err);
+      addNotification(err?.errMsg, "error", 3000);
     }
 
     setIsRoomLoading(false);

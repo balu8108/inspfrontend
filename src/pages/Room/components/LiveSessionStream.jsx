@@ -171,7 +171,7 @@ const LiveSessionStream = (props) => {
           mentorVideoRef={mentorVideoRef}
         />
 
-        {(!isScreenShare || !screenShareStream) && (
+        {/* {(!isScreenShare || !screenShareStream) && (
           <Text
             position={"absolute"}
             top={"50%"}
@@ -182,7 +182,7 @@ const LiveSessionStream = (props) => {
           >
             {roomData.mentorScreenShareOff}
           </Text>
-        )}
+        )} */}
       </Box>
     </>
   );
