@@ -54,7 +54,7 @@ const Room = () => {
     } else if (peersViewType === liveSessionMemberViewType.compact) {
       return "15% 80% 5%";
     } else if (peersViewType === liveSessionMemberViewType.expanded) {
-      return "1.3fr 6fr 1fr";
+      return "1.2fr 6fr 1fr";
     }
   };
 
