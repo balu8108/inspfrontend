@@ -26,6 +26,7 @@ import {
   SET_LEADERBOARD,
   SET_IS_MEET_ENDED,
   SET_AUDIO_CONSUMER_PAUSE_OR_RESUME,
+  SET_AUDIO_STREAM_ENABLED_OR_DISABLED,
 } from "../constants";
 
 export const setSocket = (socket) => {
@@ -152,3 +153,11 @@ export const setLeaderBoard = (leaderBoard) => async (dispatch) => {
 export const setIsMeetEnd = (value) => async (dispatch) => {
   dispatch({ type: SET_IS_MEET_ENDED, payload: value });
 };
+
+export const setAudioStreamEnabledOrDisabled =
+  (value, peerId) => async (dispatch) => {
+    dispatch({
+      type: SET_AUDIO_STREAM_ENABLED_OR_DISABLED,
+      payload: { value, peerId },
+    });
+  };

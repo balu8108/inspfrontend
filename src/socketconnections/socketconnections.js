@@ -5,6 +5,7 @@ import {
   setAllPeers,
   setAudioConsumerPauseOrResume,
   setAudioConsumers,
+  setAudioStreamEnabledOrDisabled,
   setChatMessage,
   setConsumers,
   setIsMeetEnd,
@@ -299,7 +300,6 @@ const questionResponseHandler = (res) => {
 };
 
 export const producerPausedResponseHandler = (res) => {
-  console.log("producer paused response handler", res);
   const { remoteProducerId, appData } = res;
 
   if (
@@ -324,7 +324,6 @@ export const producerPausedResponseHandler = (res) => {
 };
 
 const producerResumeResponseHandler = (res) => {
-  console.log("producer resume response handler", res);
   const { remoteProducerId, appData } = res;
 
   if (
@@ -381,6 +380,12 @@ const leaveRoomResponseHandler = (res) => {
   }
 };
 
+const isAudioStreamEnabledResponse = (res) => {
+  // getting value,producerId,peerId
+  const { value, peerId } = res;
+  store.dispatch(setAudioStreamEnabledOrDisabled(value, peerId));
+};
+
 /** REPSONSE HANDLER ENDS HERE **/
 
 // SOCKET EVENT LISTENERS AND EVENT EMITTERS:-
@@ -416,6 +421,10 @@ export const initializeSocketConnections = (roomId) => {
       SOCKET_EVENTS.LEADERBOARD_FROM_SERVER,
       leaderBoardResponseHandler
     );
+    socket.on(
+      SOCKET_EVENTS.IS_AUDIO_STREAM_ENABLED_FROM_SERVER,
+      isAudioStreamEnabledResponse
+    );
     socket.on(SOCKET_EVENTS.END_MEET_FROM_SERVER, endMeetReponseHandler);
     socket.on(SOCKET_EVENTS.DISCONNECT, () => {
       console.log("socket disconnected with id", socket.id);
@@ -443,7 +452,6 @@ export const joinRoomHandler = (roomId) => {
 export const initializeDeviceHandler = async (rtpCapabilities) => {
   try {
     await device.load({ routerRtpCapabilities: rtpCapabilities });
-    console.log("from initialize device", device);
   } catch (err) {
     console.log("error in creating device", err);
   }
@@ -543,4 +551,10 @@ export const sendMiroBoardData = (data) => {
   socket.emit(SOCKET_EVENTS.MIRO_BOARD_DATA_TO_SERVER, data);
 };
 
+export const setIsAudioStreamEnabled = (value, producerId) => {
+  socket.emit(SOCKET_EVENTS.IS_AUDIO_STREAM_ENABLED_TO_SERVER, {
+    value,
+    producerId,
+  });
+};
 /* EVENT EMIT FUNCTIONS ENDS HERE */

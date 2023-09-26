@@ -29,6 +29,7 @@ import {
   producerResumeHandler,
   producerTransport,
   raiseHandHandler,
+  setIsAudioStreamEnabled,
   startRecordingHandler,
   stopRecordingHandler,
 } from "../../../socketconnections/socketconnections";
@@ -205,11 +206,9 @@ const ToolBox = ({
     try {
       if (micStream) {
         const tracks = micStream.getTracks();
-        console.log("tracks restart before enabled", tracks);
-
         tracks.forEach((track) => (track.enabled = true));
+        setIsAudioStreamEnabled(true, producerAudioShare?.id); // send socket even to all peers tha this audio is enabled
         setIsMicOn(true);
-        console.log("tracks restart after enabled", tracks);
         return;
       }
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -220,7 +219,6 @@ const ToolBox = ({
         setMicStream(stream);
         setIsMicOn(true);
         const track = stream.getAudioTracks()[0];
-        console.log("track get audio stream", track);
 
         if (producerTransport) {
           // if (producerAudioShare) {
@@ -236,6 +234,7 @@ const ToolBox = ({
             track: track,
             appData: appData,
           });
+          setIsAudioStreamEnabled(true, producerAudioShare?.id); // send socket even to all peers tha this audio is enabled
           if (isRecordOn) {
             startRecordingHandler({ producerAudioShare });
           }
@@ -279,10 +278,10 @@ const ToolBox = ({
       // off the mic clear the audio track
       if (micStream) {
         const tracks = micStream.getTracks();
-        console.log("tracks before enabled false", tracks);
 
         tracks.forEach((track) => (track.enabled = false));
-        console.log("tracks after enabled false", tracks);
+        setIsAudioStreamEnabled(false, producerAudioShare?.id);
+
         // micRef.current.srcObject = null;
         // setMicStream(null); // Clear the stored stream
       }

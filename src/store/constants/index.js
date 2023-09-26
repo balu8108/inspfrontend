@@ -39,6 +39,8 @@ export const SET_IS_MEET_ENDED = "SET_IS_MEET_ENDED";
 export const IS_VIDEO_LOADING = "IS_VIDEO_LOADING";
 export const SET_VIDEO_CONTROL = "SET_VIDEO_CONTROL";
 export const SET_AUDIO_CONTROL = "SET_AUDIO_CONTROL";
+export const SET_AUDIO_STREAM_ENABLED_OR_DISABLED =
+  "SET_AUDIO_STREAM_ENABLED_OR_DISABLED";
 
 // Schedule classes related constants
 

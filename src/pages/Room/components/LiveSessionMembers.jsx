@@ -69,10 +69,10 @@ const LiveSessionMembers = ({ primaryBlue, viewType }) => {
               <IconButton
                 isRound={true}
                 size={"sm"}
-                bg={isMicOn ? "gray.200" : "red"}
-                _hover={{ bg: isMicOn ? "gray.200" : "red" }}
+                bg={peer?.isAudioEnabled ? "gray.200" : "red"}
+                _hover={{ bg: peer?.isAudioEnabled ? "gray.200" : "red" }}
                 icon={
-                  isMicOn ? (
+                  peer?.isAudioEnabled ? (
                     <FiMic size={15} />
                   ) : (
                     <FiMicOff size={15} color="white" />

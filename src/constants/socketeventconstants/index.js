@@ -28,6 +28,8 @@ const SOCKET_EVENTS = {
   ANSWER_SENT_TO_SERVER: "answer_sent_to_server",
   START_RECORDING: "start_recording",
   STOP_RECORDING: "stop_recording",
+  IS_AUDIO_STREAM_ENABLED_TO_SERVER: "is_audio_stream_enabled_to_server",
+  IS_AUDIO_STREAM_ENABLED_FROM_SERVER: "is_audio_stream_enabled_from_server",
   PRODUCER_PAUSE: "producer_pause",
   PRODUCER_RESUME: "producer_resume",
   PRODUCER_PAUSED: "producer_paused", // if producer pause is trigger then in frontend we need to pause the video

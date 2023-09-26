@@ -23,6 +23,7 @@ import {
   SET_LEADERBOARD,
   SET_IS_MEET_ENDED,
   SET_AUDIO_CONSUMER_PAUSE_OR_RESUME,
+  SET_AUDIO_STREAM_ENABLED_OR_DISABLED,
 } from "../constants";
 const initialState = {
   isPeerLoading: true,
@@ -238,6 +239,15 @@ const socketReducer = (state = initialState, action) => {
       return {
         ...state,
         isMeetEnd: action.payload,
+      };
+    case SET_AUDIO_STREAM_ENABLED_OR_DISABLED:
+      const { value, peerId } = action.payload;
+
+      return {
+        ...state,
+        peers: state.peers.map((peer) =>
+          peer.id === peerId ? { ...peer, isAudioEnabled: value } : peer
+        ),
       };
     default:
       return state;
