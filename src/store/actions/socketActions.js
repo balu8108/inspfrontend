@@ -62,7 +62,6 @@ export const setConsumers = (newConsumer) => async (dispatch) => {
 
 export const setMentorScreenShareConsumer =
   (newConsumer) => async (dispatch) => {
-    console.log("mentor screen share", newConsumer);
     dispatch({ type: SET_MENTOR_CONSUMER_SCREEN_SHARE, payload: newConsumer });
   };
 

@@ -3,7 +3,7 @@ import { Box, Text } from "@chakra-ui/react";
 import { generateUniqueKey } from "../../../utils";
 const WatermarkLayer = () => {
   const [boxCount, setBoxCount] = useState(500);
-  console.log(boxCount);
+
   //   useEffect(() => {
   //     const watermarkLayer = document.getElementById("watermark-layer");
 
