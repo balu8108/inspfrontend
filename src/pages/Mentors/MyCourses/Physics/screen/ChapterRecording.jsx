@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Flex, Stack, VStack, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, Stack,useDisclosure } from "@chakra-ui/react";
 import ViewAllRecordingsRelatedToOneChapter from "../components/RecOfChapter/RecordingRelatedToChapter";
 import ChapterDetailsAndCoveredPart from "../components/RecOfChapter/DetailsAndCovered";
 import MentorSchedulingClass from "../../../SchedulingClass/components/MentorSchedule";
