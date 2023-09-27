@@ -1,5 +1,5 @@
 import React from "react";
-import {Box, Flex} from "@chakra-ui/react";
+import { Flex} from "@chakra-ui/react";
 import DataForClass from "../components/DataForClass";
 import RecordingLectures from "../components/RecordingLectures";
 const RecordedScreen=()=>{
