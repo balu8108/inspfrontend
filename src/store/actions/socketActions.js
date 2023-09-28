@@ -27,6 +27,7 @@ import {
   SET_IS_MEET_ENDED,
   SET_AUDIO_CONSUMER_PAUSE_OR_RESUME,
   SET_AUDIO_STREAM_ENABLED_OR_DISABLED,
+  SET_IS_KICKED_OUT,
 } from "../constants";
 
 export const setSocket = (socket) => {
@@ -62,7 +63,6 @@ export const setConsumers = (newConsumer) => async (dispatch) => {
 
 export const setMentorScreenShareConsumer =
   (newConsumer) => async (dispatch) => {
-    console.log("mentor screen share", newConsumer);
     dispatch({ type: SET_MENTOR_CONSUMER_SCREEN_SHARE, payload: newConsumer });
   };
 
@@ -161,3 +161,7 @@ export const setAudioStreamEnabledOrDisabled =
       payload: { value, peerId },
     });
   };
+
+export const setKickedOutFromClass = (value) => async (dispatch) => {
+  dispatch({ type: SET_IS_KICKED_OUT, payload: value });
+};

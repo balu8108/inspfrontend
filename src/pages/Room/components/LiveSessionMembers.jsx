@@ -7,19 +7,62 @@ import {
   Text,
   IconButton,
   Center,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from "@chakra-ui/react";
 
 import { useSelector } from "react-redux";
-import { liveSessionMemberViewType } from "../../../constants/staticvariables";
+import {
+  liveSessionMemberViewType,
+  userType,
+} from "../../../constants/staticvariables";
 import { useState, useEffect } from "react";
 import { FiMic, FiMicOff, FiVideoOff } from "react-icons/fi";
-import { renderLeftMembersCount } from "../../../utils";
+import { checkUserType, renderLeftMembersCount } from "../../../utils";
 import SimpleBar from "simplebar-react";
+import { IoIosRemoveCircleOutline } from "react-icons/io";
+import { BiDotsVerticalRounded } from "react-icons/bi";
+import { BsMicMute } from "react-icons/bs";
+import { kickOutFromClass } from "../../../socketconnections/socketconnections";
+const Actions = ({ peer }) => {
+  return (
+    <>
+      <Menu>
+        <MenuButton
+          onClick={(e) => e.stopPropagation()}
+          as={IconButton}
+          aria-label="Options"
+          icon={<BiDotsVerticalRounded />}
+          isRound={true}
+        />
+        <MenuList>
+          <MenuItem
+            icon={<IoIosRemoveCircleOutline size={20} />}
+            fontSize={"1rem"}
+            onClick={() => kickOutFromClass(peer?.socketId, peer?.id)}
+          >
+            Kick from class
+          </MenuItem>
+          <MenuItem
+            isDisabled={true}
+            icon={<BsMicMute size={20} />}
+            fontSize={"1rem"}
+          >
+            Mute
+          </MenuItem>
+        </MenuList>
+      </Menu>
+    </>
+  );
+};
 
 const LiveSessionMembers = ({ primaryBlue, viewType }) => {
   const { peers } = useSelector((state) => state.socket);
   const [isMicOn, setIsMicOn] = useState(false);
   const [maxBoxesPerRow, setMaxBoxesPerRow] = useState(3);
+  const userRoleType = checkUserType();
 
   useEffect(() => {
     const calculateMaxBoxesPerRow = () => {
@@ -86,6 +129,7 @@ const LiveSessionMembers = ({ primaryBlue, viewType }) => {
                 _hover={{ bg: "red" }}
                 icon={<FiVideoOff size={15} color="white" />}
               />
+              {userRoleType === userType.teacher && <Actions peer={peer} />}
             </HStack>
           </Flex>
         ))}

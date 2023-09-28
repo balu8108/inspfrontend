@@ -59,3 +59,9 @@ export const classStatusText = {
     NOT_CONDUCTED: "Not Conducted",
   },
 };
+
+export const toolTipMsgs = {
+  videoNotAvailable: "Video feature not available to students",
+  screenShareNotAvailable: "Screen share feature not available to students",
+  audioNotAvailable: "Mentor has disabled the audio for students",
+};

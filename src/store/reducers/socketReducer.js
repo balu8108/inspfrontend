@@ -24,10 +24,12 @@ import {
   SET_IS_MEET_ENDED,
   SET_AUDIO_CONSUMER_PAUSE_OR_RESUME,
   SET_AUDIO_STREAM_ENABLED_OR_DISABLED,
+  SET_IS_KICKED_OUT,
 } from "../constants";
 const initialState = {
   isPeerLoading: true,
   isMeetEnd: false,
+  isKickedOut: false,
   socket: null,
   peers: [],
   rtpCapabilities: null,
@@ -248,6 +250,11 @@ const socketReducer = (state = initialState, action) => {
         peers: state.peers.map((peer) =>
           peer.id === peerId ? { ...peer, isAudioEnabled: value } : peer
         ),
+      };
+    case SET_IS_KICKED_OUT:
+      return {
+        ...state,
+        isKickedOut: action.payload,
       };
     default:
       return state;

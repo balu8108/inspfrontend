@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   IconButton,
@@ -23,6 +23,7 @@ import { LuSettings, LuMonitorOff, LuCircleOff } from "react-icons/lu";
 import { SiMiro } from "react-icons/si";
 import { RiFullscreenFill } from "react-icons/ri";
 import {
+  socket,
   endMeetHandler,
   leaveRoomHandler,
   producerPauseHandler,
@@ -33,12 +34,16 @@ import {
   startRecordingHandler,
   stopRecordingHandler,
 } from "../../../socketconnections/socketconnections";
-import { staticVariables, userType } from "../../../constants/staticvariables";
+import {
+  staticVariables,
+  toolTipMsgs,
+  userType,
+} from "../../../constants/staticvariables";
 import { roomData } from "../data/roomData";
 import PostPoll from "../../../components/popups/PostPoll";
 import { LeaveBtn } from "../../../components/button";
 import { useParams, useNavigate } from "react-router-dom";
-
+import { useSelector } from "react-redux";
 import { checkUserType } from "../../../utils";
 let producerScreenShare = null;
 let producerMentorVideoShare = null;
@@ -69,18 +74,22 @@ const ToolBox = ({
   const [isRaiseHand, setIsRaiseHand] = useState(false);
   const [isLeaveLoading, setIsLeaveLoading] = useState(false); // for leave button loading state
   const [QNo, setQNo] = useState(0);
-
+  const [isRecordingLoading, setIsRecordingLoading] = useState(false);
   const { redBtnColor } = useTheme().colors.pallete;
   const userRoleType = checkUserType();
   const navigate = useNavigate();
   const { roomId } = useParams();
+  const { roomPreviewData } = useSelector((state) => state.socket);
+
+  console.log("Is mic on", isMicOn);
+  console.log("Is screen share on", isScreenShare);
+  console.log("is record on", isRecordOn);
 
   const openMiroBoardAuth = () => {
     window.miroBoardsPicker.open({
       clientId: process.env.REACT_APP_MIRO_CLIENT_ID, // Replace it with your app ClientId
       action: "select",
       success: (data) => {
-        console.log("Miro board data", data);
         window.open(data?.viewLink, "_blank");
         // dispatch(
         //   setMiroBoardData({ boardId: data.id, mode: miroViewMode.edit })
@@ -91,22 +100,11 @@ const ToolBox = ({
   };
   const getScreenShareFeed = async () => {
     try {
-      // if (screenShareStream) {
-      //   const tracks = screenShareStream.getTracks();
-      //   console.log("tracks restart before enabled", tracks);
-
-      //   tracks.forEach((track) => (track.enabled = true));
-      //   setIsScreenShare(true);
-      //   console.log("tracks restart after enabled", tracks);
-      //   return;
-      // }
       const stream = await navigator.mediaDevices.getDisplayMedia({
         video: true,
       });
       if (screenShareRef.current) {
         screenShareRef.current.srcObject = stream;
-        setScreenShareStream(stream);
-        setIsScreenShare(true);
 
         // call produce method using produceTransport to send this media to everybody else in real time
 
@@ -116,8 +114,9 @@ const ToolBox = ({
           // if there is producerTransport
           if (producerScreenShare) {
             await producerScreenShare.replaceTrack({ track: track });
-            // await producerScreenShare.resume();
-            // producerResumeHandler(producerScreenShare);
+            setScreenShareStream(stream);
+            setIsScreenShare(true);
+
             return;
           }
 
@@ -128,37 +127,31 @@ const ToolBox = ({
               isTeacher: true,
             },
           });
+          setScreenShareStream(stream);
+          setIsScreenShare(true);
         }
       }
     } catch (err) {
       console.log("Screen share feed error = ", err);
     }
   };
-  const handleScreenShare = (e) => {
+  const handleScreenShare = async (e) => {
     e.preventDefault();
     e.stopPropagation();
     if (isScreenShare) {
       // off screen share
       if (screenShareStream) {
         const tracks = screenShareStream.getTracks();
-
         tracks.forEach((track) => (track.enabled = false));
-        console.log("tracks after enabled false", tracks);
-
-        // tracks.forEach((track) => track.stop());
-        // mentorVideoRef.current.srcObject = null;
-        // setScreenShareStream(null); // Clear the stored stream
       }
+      setScreenShareStream(null);
       setIsScreenShare(false);
-
-      // if (producerScreenShare) {
-      //   producerScreenShare.pause();
-      //   producerPauseHandler(producerScreenShare);
-      // }
     } else {
       // on the screen share
-      getScreenShareFeed();
+      await getScreenShareFeed();
     }
+
+    // recording handler trigger
   };
 
   const getVideoStreamFeed = async () => {
@@ -216,17 +209,10 @@ const ToolBox = ({
       });
       if (micRef.current) {
         micRef.current.srcObject = stream;
-        setMicStream(stream);
-        setIsMicOn(true);
+
         const track = stream.getAudioTracks()[0];
 
         if (producerTransport) {
-          // if (producerAudioShare) {
-          //   await producerAudioShare.replaceTrack({ track: track });
-          //   await producerAudioShare.resume();
-          //   producerResumeHandler(producerAudioShare);
-          //   return;
-          // }
           let appData = {
             streamType: staticVariables.audioShare,
           };
@@ -234,10 +220,10 @@ const ToolBox = ({
             track: track,
             appData: appData,
           });
+
           setIsAudioStreamEnabled(true, producerAudioShare?.id); // send socket even to all peers tha this audio is enabled
-          if (isRecordOn) {
-            startRecordingHandler({ producerAudioShare });
-          }
+          setMicStream(stream);
+          setIsMicOn(true);
         }
       }
     } catch (err) {
@@ -271,7 +257,7 @@ const ToolBox = ({
     }
   };
 
-  const handleMicrophone = (e) => {
+  const handleMicrophone = async (e) => {
     e.preventDefault();
     e.stopPropagation();
     if (isMicOn) {
@@ -281,19 +267,11 @@ const ToolBox = ({
 
         tracks.forEach((track) => (track.enabled = false));
         setIsAudioStreamEnabled(false, producerAudioShare?.id);
-
-        // micRef.current.srcObject = null;
-        // setMicStream(null); // Clear the stored stream
       }
       setIsMicOn(false);
-      // pause audio
-      // if (producerAudioShare) {
-      //   producerAudioShare.pause();
-      //   producerPauseHandler(producerAudioShare);
-      // }
     } else {
       // get audio stream
-      getAudioStreamFeed();
+      await getAudioStreamFeed();
     }
   };
 
@@ -306,20 +284,31 @@ const ToolBox = ({
       raiseHandHandler(true);
     }
   };
-  const startRecording = () => {
-    if (isRecordOn) {
-      // stop recording triggered
 
-      stopRecordingHandler();
-      setIsRecordOn(false);
-    } else {
-      // start recording
-      // at the moment we will only record screenshare then will look into audio
-
-      // startRecordingHandler(producerScreenShare);
+  const triggerStartRecording = () => {
+    if (socket) {
       startRecordingHandler({ producerScreenShare, producerAudioShare });
       setIsRecordOn(true);
     }
+  };
+  const triggerStopRecording = () => {
+    if (socket) {
+      stopRecordingHandler();
+      setIsRecordOn(false);
+    }
+  };
+  const recordingHandler = () => {
+    setIsRecordingLoading(true);
+
+    if (isRecordOn) {
+      // stop recording triggered
+      triggerStopRecording();
+    } else {
+      // start recording
+      // at the moment we will only record screenshare then will look into audio
+      triggerStartRecording();
+    }
+    setIsRecordingLoading(false);
   };
 
   const leaveRoomOrEndMeetHandler = async () => {
@@ -333,6 +322,14 @@ const ToolBox = ({
 
     setIsLeaveLoading(false);
   };
+
+  useEffect(() => {
+    if (isMicOn && isScreenShare) {
+      triggerStartRecording();
+    } else if (!isMicOn && !isScreenShare) {
+      triggerStopRecording();
+    }
+  }, [isMicOn, isScreenShare]);
   return (
     <Box position={"absolute"} height={"100%"} p={4} zIndex={4}>
       <Flex
@@ -362,9 +359,21 @@ const ToolBox = ({
           </Tooltip>
         </Stack>
         <Stack>
-          <Tooltip label={roomData.mic} placement="right">
+          <Tooltip
+            label={
+              userRoleType !== userType.teacher &&
+              roomPreviewData?.muteAllStudents
+                ? toolTipMsgs.audioNotAvailable
+                : roomData.mic
+            }
+            placement="right"
+          >
             <IconButton
               isRound={true}
+              isDisabled={
+                userRoleType !== userType.teacher &&
+                roomPreviewData?.muteAllStudents
+              }
               bg={isMicOn ? "gray.200" : "red"}
               onClick={(e) => handleMicrophone(e)}
               _hover={{ bg: isMicOn ? "gray.200" : "red" }}
@@ -378,7 +387,14 @@ const ToolBox = ({
             />
           </Tooltip>
 
-          <Tooltip label={roomData.video} placement="right">
+          <Tooltip
+            label={
+              userRoleType !== userType.teacher
+                ? toolTipMsgs.videoNotAvailable
+                : roomData.video
+            }
+            placement="right"
+          >
             <IconButton
               isRound={true}
               isDisabled={userRoleType === userType.student}
@@ -399,8 +415,9 @@ const ToolBox = ({
             <Tooltip label={roomData.recording} placement="right">
               <IconButton
                 isRound={true}
+                isLoading={isRecordingLoading}
                 bg={isRecordOn ? "gray.200" : "red"}
-                onClick={startRecording}
+                onClick={recordingHandler}
                 _hover={{ bg: isRecordOn ? "gray.200" : "red" }}
                 icon={
                   isRecordOn ? (
@@ -414,7 +431,14 @@ const ToolBox = ({
           )}
         </Stack>
         <Stack>
-          <Tooltip label={roomData.screenShare} placement="right">
+          <Tooltip
+            label={
+              userRoleType !== userType.teacher
+                ? toolTipMsgs.screenShareNotAvailable
+                : roomData.screenShare
+            }
+            placement="right"
+          >
             <IconButton
               isRound={true}
               isDisabled={userRoleType === userType.student}

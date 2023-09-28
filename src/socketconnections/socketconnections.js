@@ -9,6 +9,7 @@ import {
   setChatMessage,
   setConsumers,
   setIsMeetEnd,
+  setKickedOutFromClass,
   setLeaderBoard,
   setMentorScreenShareConsumer,
   setMentorScreenSharePauseOrResume,
@@ -386,6 +387,10 @@ const isAudioStreamEnabledResponse = (res) => {
   store.dispatch(setAudioStreamEnabledOrDisabled(value, peerId));
 };
 
+const kickOutResponseHandler = () => {
+  store.dispatch(setKickedOutFromClass(true));
+};
+
 /** REPSONSE HANDLER ENDS HERE **/
 
 // SOCKET EVENT LISTENERS AND EVENT EMITTERS:-
@@ -424,6 +429,10 @@ export const initializeSocketConnections = (roomId) => {
     socket.on(
       SOCKET_EVENTS.IS_AUDIO_STREAM_ENABLED_FROM_SERVER,
       isAudioStreamEnabledResponse
+    );
+    socket.on(
+      SOCKET_EVENTS.KICK_OUT_FROM_CLASS_FROM_SERVER,
+      kickOutResponseHandler
     );
     socket.on(SOCKET_EVENTS.END_MEET_FROM_SERVER, endMeetReponseHandler);
     socket.on(SOCKET_EVENTS.DISCONNECT, () => {
@@ -555,6 +564,13 @@ export const setIsAudioStreamEnabled = (value, producerId) => {
   socket.emit(SOCKET_EVENTS.IS_AUDIO_STREAM_ENABLED_TO_SERVER, {
     value,
     producerId,
+  });
+};
+
+export const kickOutFromClass = (peerSocketId, peerId) => {
+  socket.emit(SOCKET_EVENTS.KICK_OUT_FROM_CLASS_TO_SERVER, {
+    peerSocketId,
+    peerId,
   });
 };
 /* EVENT EMIT FUNCTIONS ENDS HERE */
