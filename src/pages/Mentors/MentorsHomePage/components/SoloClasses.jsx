@@ -40,8 +40,8 @@ const SoloClasses = () => {
         </Link>
       </Flex>
       <Flex mt={"34px"} flexWrap="wrap">
-        {soloclasses.map((rateNfeedebackOfAChapter) => (
-          <Box flexBasis="50%" key={rateNfeedebackOfAChapter.id}>
+        {soloclasses.map((soloclassInfo) => (
+          <Box flexBasis="50%" key={soloclassInfo.id}>
             <Card
               h={"175px"}
               borderRadius={"18px"}
@@ -59,15 +59,15 @@ const SoloClasses = () => {
                 ml={"13px"}
                 mt={"13px"}
               >
-                {rateNfeedebackOfAChapter.chapterName}
+                {soloclassInfo.chapterName}
               </Text>
               <Text
                 fontSize={"11px"}
                 lineHeight={"18px"}
                 color={"#2C332978"}
-                ml={2}
+                ml={"13px"}
               >
-                {rateNfeedebackOfAChapter.instructorName}
+                {soloclassInfo.subjectName}
               </Text>
 
               <Text
@@ -89,7 +89,7 @@ const SoloClasses = () => {
                 color={"rgba(44, 51, 41, 0.47)"}
                 noOfLines={2}
               >
-                {rateNfeedebackOfAChapter.description}
+                {soloclassInfo.description}
               </Text>
 
               <Button

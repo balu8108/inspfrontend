@@ -35,7 +35,7 @@ const MentorAllUploadedLectures = () => {
       )}
       <Flex m={"52px"} gap={"24px"}>
         <AllUploadedLecture />
-        <Box w={"23%"}>
+        <Box w={"32%"}>
           <SimpleBar
             style={{
               maxHeight: "85vh",

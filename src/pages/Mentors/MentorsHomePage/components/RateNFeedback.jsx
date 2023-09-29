@@ -11,7 +11,7 @@ import rateNfeedeback from "../data/feedback";
 import { Link } from "react-router-dom";
 const FeedBack = () => {
   return (
-    <Box bg={"#F1F5F8"} mt={"23px"} borderRadius={"25px"} w={"750%"}  h={"30%"} >
+    <Box bg={"#F1F5F8"} mt={"23px"} borderRadius={"25px"} w={"650%"}  h={"30%"} >
       <Flex>
         <HStack spacing={"10px"}>
           <Box
@@ -22,7 +22,7 @@ const FeedBack = () => {
             mt={"16px"}
             ml={"27px"}
           ></Box>
-          <Text fontSize={"17px"}  mt={"16px"}>
+          <Text fontSize={"18px"}  mt={"16px"}>
             Rating & Feedback
           </Text>
         </HStack>
