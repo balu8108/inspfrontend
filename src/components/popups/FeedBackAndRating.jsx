@@ -24,6 +24,7 @@ const FeedBackAndRating = ({ isOpen, onClose }) => {
   const { primaryBlue } = useTheme().colors.pallete;
   const { addNotification } = useToastContext();
   const { feedbackTopicId } = useSelector((state) => state.generic);
+
   const dispatch = useDispatch();
   const handleFeedbackSubmit = async () => {
     setIsLoading(true);

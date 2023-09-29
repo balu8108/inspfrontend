@@ -6,25 +6,30 @@ import {
   HStack,
   IconButton,
   Text,
+  Tooltip,
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { FiMic, FiMicOff, FiVideo, FiVideoOff } from "react-icons/fi";
 import { LuSettings } from "react-icons/lu";
 import { liveSessionData } from "../data/liveSessionData";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setAudioControl,
   setVideoControl,
 } from "../../../store/actions/streamControlActions";
 import { checkUserType } from "../../../utils";
+import { toolTipMsgs, userType } from "../../../constants/staticvariables";
 
 const RoomPreviewVideo = () => {
   const [isVideoOn, setIsVideoOn] = useState(false);
   const [isMicOn, setIsMicOn] = useState(false);
   const [videoStream, setVideoStream] = useState(null);
+  const { roomPreviewData } = useSelector((state) => state.socket);
+  console.log("roomPreviewData from preview video = ", roomPreviewData);
   const dispatch = useDispatch();
   const videoRef = useRef();
   const theme = useTheme();
+  const userRoleType = checkUserType();
   const { backgroundLightBlue } = theme.colors.pallete;
 
   const getWebCamFeed = async () => {
@@ -120,24 +125,50 @@ const RoomPreviewVideo = () => {
           <Flex px={10} justifyContent={"space-between"}>
             <HStack>
               <Box pr={4}>
-                <IconButton
-                  icon={isMicOn ? <FiMic size={20} /> : <FiMicOff size={20} />}
-                  isRound={true}
-                  bg={isMicOn ? "gray.200" : "red"}
-                  _hover={{ bg: isMicOn ? "gray.200" : "red" }}
-                  onClick={(e) => toggleAudio(e)}
-                />
+                <Tooltip
+                  label={
+                    userRoleType !== userType.teacher &&
+                    roomPreviewData?.muteAllStudents &&
+                    toolTipMsgs.audioNotAvailable
+                  }
+                >
+                  <IconButton
+                    isDisabled={
+                      userRoleType !== userType.teacher &&
+                      roomPreviewData?.muteAllStudents
+                    }
+                    icon={
+                      isMicOn ? <FiMic size={20} /> : <FiMicOff size={20} />
+                    }
+                    isRound={true}
+                    bg={isMicOn ? "gray.200" : "red"}
+                    _hover={{ bg: isMicOn ? "gray.200" : "red" }}
+                    onClick={(e) => toggleAudio(e)}
+                  />
+                </Tooltip>
               </Box>
               <Box>
-                <IconButton
-                  icon={
-                    isVideoOn ? <FiVideo size={20} /> : <FiVideoOff size={20} />
+                <Tooltip
+                  label={
+                    userRoleType !== userType.teacher &&
+                    toolTipMsgs.videoNotAvailable
                   }
-                  isRound={true}
-                  bg={isVideoOn ? "gray.200" : "red"}
-                  _hover={{ bg: isVideoOn ? "gray.200" : "red" }}
-                  onClick={(e) => toggleVideo(e)}
-                />
+                >
+                  <IconButton
+                    isDisabled={userRoleType !== userType.teacher}
+                    icon={
+                      isVideoOn ? (
+                        <FiVideo size={20} />
+                      ) : (
+                        <FiVideoOff size={20} />
+                      )
+                    }
+                    isRound={true}
+                    bg={isVideoOn ? "gray.200" : "red"}
+                    _hover={{ bg: isVideoOn ? "gray.200" : "red" }}
+                    onClick={(e) => toggleVideo(e)}
+                  />
+                </Tooltip>
               </Box>
             </HStack>
             <Box>

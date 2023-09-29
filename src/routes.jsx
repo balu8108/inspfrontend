@@ -21,8 +21,8 @@ import MentorAllUploadedLectures from "./pages/Mentors/MyUploads/screen/UploadSc
 import RateNFeedback from "./pages/Mentors/RatingsAndFeedbacks/screen/RateNFeedback";
 import ViewRatingAndFeedback from "./pages/Mentors/RatingsAndFeedbacks/screen/ViewFeedbackAndRating";
 import SoloRecordedTopicsDetails from "./pages/Mentors/SoloClasses/TopicCollection/screen/SoloRecordedTopicsDetail";
+import RecordedScreen from "./pages/Mentors/SoloClasses/RecordingSoloLectures/screen/RecordedScreen";
 import HomePage from "./pages/homepage/screens/HomePage";
-
 const publicRoutes = [
   {
     name: "Home",
@@ -145,6 +145,12 @@ const privateRoutes = [
     path: "/mentor/solo-recordings/topic",
     component: <SoloRecordedTopicsDetails />,
   },
+  {
+    name: "Solo Recording Screen ",
+    path: "/mentor/solo-lectures",
+    component: <RecordedScreen />,
+  },
+
 ];
 
 export { publicRoutes, privateRoutes };

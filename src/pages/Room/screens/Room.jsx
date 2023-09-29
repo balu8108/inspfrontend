@@ -8,6 +8,7 @@ import {
   createSendTransportHandler,
   getProducersHandler,
   initializeDeviceHandler,
+  leaveRoomHandler,
   socket,
 } from "../../../socketconnections/socketconnections";
 import { useSelector } from "react-redux";
@@ -31,7 +32,9 @@ const Room = () => {
   const [peersViewType, setPeersViewType] = useState(
     liveSessionMemberViewType.compact
   );
-  const { rtpCapabilities, isMeetEnd } = useSelector((state) => state.socket);
+  const { rtpCapabilities, isMeetEnd, isKickedOut } = useSelector(
+    (state) => state.socket
+  );
   const { addNotification } = useToastContext();
   const userRoleType = checkUserType();
   const navigate = useNavigate();
@@ -92,7 +95,7 @@ const Room = () => {
 
   useEffect(() => {
     if (!socket) {
-      addNotification("Class leaved", "info", 3000);
+      addNotification("Class leaved", "info", 10000);
       navigate(`/room-preview/${roomId}`);
     }
   }, [roomId, addNotification, navigate]);
@@ -115,6 +118,18 @@ const Room = () => {
       }
     };
   }, [roomId, addNotification, navigate, userRoleType]);
+
+  useEffect(() => {
+    const leavingRoom = async () => {
+      if (isKickedOut) {
+        // if kicked out then emit leave the room;
+        await leaveRoomHandler();
+
+        navigate(`/room-preview/${roomId}`);
+      }
+    };
+    leavingRoom();
+  }, [isKickedOut]);
 
   /* use effect starts */
   return (
