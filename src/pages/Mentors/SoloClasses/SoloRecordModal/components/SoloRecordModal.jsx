@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import {
-  Box,
   Flex,
   Modal,
   ModalOverlay,
@@ -14,17 +14,20 @@ import {
   FormControl,
   FormErrorMessage,
   Spinner,
+  Textarea,
+  Center,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
 import { fetchAllSubjectsApi } from "../../../../../api/inspexternalapis/index";
 
-const SoloRecordModal = ({ isOpen, onClose ,updateLiveData }) => {
- 
-
+const SoloRecordModal = ({ isOpen, onClose }) => {
+  const navigate = useNavigate();
   const [subjects, setSubjects] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [topicInputValue, setTopicInputValue] = useState("");
+  const [agendaInputValue, setAgendaInputValue] = useState([]);
+  const [descriptionInputValue, setDescriptionInputValue] = useState("");
   const fileInputRef = useRef(null);
 
   useEffect(() => {
@@ -34,7 +37,6 @@ const SoloRecordModal = ({ isOpen, onClose ,updateLiveData }) => {
         const response = await fetchAllSubjectsApi();
         console.log("Subject Api", response);
         if (response.status) {
-          console.log("Subject Data:", subjects);
           setSubjects(response.result);
         }
       } catch (error) {
@@ -46,19 +48,32 @@ const SoloRecordModal = ({ isOpen, onClose ,updateLiveData }) => {
 
     fetchSubjects();
   }, []);
+ 
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = {
+      selectedSubject,
+      Topic: topicInputValue,
+      Agenda: agendaInputValue,
+      Description: descriptionInputValue,
+      Files: selectedFiles,
+    };
+   
+    navigate("/mentor/solo-lectures", { state: formData });
+  };
 
   const handleFileSelect = (e) => {
     const files = Array.from(e.target.files);
     setSelectedFiles(files.map((file) => file.name));
+   
   };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Solo Record</ModalHeader>
+        <ModalHeader fontWeight={500}>Solo Record</ModalHeader>
         <ModalBody>
           {isLoading ? (
             <Spinner size="lg" color="blue.500" />
@@ -80,15 +95,32 @@ const SoloRecordModal = ({ isOpen, onClose ,updateLiveData }) => {
                   <FormErrorMessage>This field is required</FormErrorMessage>
                 </FormControl>
                 <FormControl isRequired>
-                  <Input placeholder="Topic" />
+                  <Input
+                    placeholder="Topic"
+                    value={topicInputValue}
+                    onChange={(e) => setTopicInputValue(e.target.value)}
+                  />
                   <FormErrorMessage>This field is required</FormErrorMessage>
                 </FormControl>
+
+                <Textarea
+                  placeholder="Agenda"
+                  value={agendaInputValue.join("\n")}
+                  onChange={(e) =>
+                    setAgendaInputValue(e.target.value.split("\n"))
+                  }
+                  style={{ whiteSpace: "pre-wrap" }}
+                  h="60px"
+                  resize={"none"}
+                />
+
                 <FormControl isRequired>
-                  <Input placeholder="Agenda" h="60px" />
-                  <FormErrorMessage>This field is required</FormErrorMessage>
-                </FormControl>
-                <FormControl isRequired>
-                  <Input placeholder="Description" h="60px" />
+                  <Input
+                    placeholder="Description"
+                    h="60px"
+                    value={descriptionInputValue}
+                    onChange={(e) => setDescriptionInputValue(e.target.value)}
+                  />
                   <FormErrorMessage>This field is required</FormErrorMessage>
                 </FormControl>
 
@@ -103,8 +135,8 @@ const SoloRecordModal = ({ isOpen, onClose ,updateLiveData }) => {
                 <Flex gap={"16px"}>
                   <Input
                     placeholder="Files To Upload"
-                    value={selectedFiles.join(", ")} // Render selected file names
-                    readOnly // Make the input read-only
+                    value={selectedFiles.join(", ")}
+                    readOnly
                   />
 
                   <Button
@@ -117,11 +149,7 @@ const SoloRecordModal = ({ isOpen, onClose ,updateLiveData }) => {
                     Upload
                   </Button>
                 </Flex>
-
-                <Link
-                  style={{ display: "flex", justifyContent: "center" }}
-                  to={"/mentor/solo-lectures"}
-                >
+                <Center>
                   <Button
                     type="submit"
                     w={"50%"}
@@ -131,7 +159,7 @@ const SoloRecordModal = ({ isOpen, onClose ,updateLiveData }) => {
                   >
                     Start
                   </Button>
-                </Link>
+                </Center>
               </Stack>
             </form>
           )}
