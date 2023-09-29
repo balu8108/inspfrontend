@@ -74,7 +74,7 @@ export const roomData = {
   video: "Video",
   screenShare: "Screen Share",
   chat: "Chat",
-  recording: "Record stream",
+  recording: "Recording will automatically start or stop",
   settings: "Settings",
   theatreMode: "Theatre Mode",
   typeSomething: "Type something...",

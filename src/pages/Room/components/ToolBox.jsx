@@ -144,7 +144,6 @@ const ToolBox = ({
         const tracks = screenShareStream.getTracks();
         tracks.forEach((track) => (track.enabled = false));
       }
-      setScreenShareStream(null);
       setIsScreenShare(false);
     } else {
       // on the screen share
@@ -324,12 +323,12 @@ const ToolBox = ({
   };
 
   useEffect(() => {
-    if (isMicOn && isScreenShare) {
+    if (isMicOn && isScreenShare && !isRecordOn) {
       triggerStartRecording();
     } else if (!isMicOn && !isScreenShare) {
       triggerStopRecording();
     }
-  }, [isMicOn, isScreenShare]);
+  }, [isMicOn, isScreenShare, isRecordOn]);
   return (
     <Box position={"absolute"} height={"100%"} p={4} zIndex={4}>
       <Flex
@@ -415,6 +414,7 @@ const ToolBox = ({
             <Tooltip label={roomData.recording} placement="right">
               <IconButton
                 isRound={true}
+                isDisabled={true}
                 isLoading={isRecordingLoading}
                 bg={isRecordOn ? "gray.200" : "red"}
                 onClick={recordingHandler}

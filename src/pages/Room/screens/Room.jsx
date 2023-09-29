@@ -95,7 +95,7 @@ const Room = () => {
 
   useEffect(() => {
     if (!socket) {
-      addNotification("Class leaved", "info", 10000);
+      addNotification("Class leaved", "info", 3000);
       navigate(`/room-preview/${roomId}`);
     }
   }, [roomId, addNotification, navigate]);
