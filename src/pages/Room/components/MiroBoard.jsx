@@ -9,9 +9,6 @@ const MiroBoard = () => {
   const { miroBoard } = useSelector((state) => state.socket);
   const [img, setImg] = useState(null);
   const iframeRef = useRef(null);
-  console.log(
-    `https://miro.com/app/live-embed/${miroBoard?.boardId}/?autoplay=true&moveToViewport=-23165,-5837,13803,7546`
-  );
 
   //   const [miroBoardId, setMiroBoardId] = useState(null);
 
