@@ -372,7 +372,7 @@ const leaveRoomResponseHandler = (res) => {
   const { feedBackStatus } = res;
   const userRoleType = checkUserType(); // Need to open feedback form only for students
   if (userRoleType === userType.student && feedBackStatus) {
-    if (feedBackStatus?.success && !feedBackStatus.isFeedBack) {
+    if (feedBackStatus?.success && !feedBackStatus.isFeedback) {
       // Open feedback form
       store.dispatch(
         setFeedbackModalOpen(true, feedBackStatus?.feedBackTopicId)
