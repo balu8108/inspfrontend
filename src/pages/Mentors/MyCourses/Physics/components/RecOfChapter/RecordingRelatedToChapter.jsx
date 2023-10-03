@@ -72,7 +72,7 @@ const ViewAllRecordingsRelatedToOneChapter = () => {
             mx={4}
             borderRadius={"26px"}
           >
-            <Text fontSize={"15px"} ml={"13px"} mt={"16px"} lineHeight={"19px"}>
+            <Text fontSize={"15px"} ml={"13px"} mt={"16px"} lineHeight={"19px"} noOfLines={1}>
               {topic.name}
             </Text>
             <Text
@@ -102,7 +102,7 @@ const ViewAllRecordingsRelatedToOneChapter = () => {
               noOfLines={"2"}
               color={"rgba(44, 51, 41, 0.47)"}
             >
-              dfghjk
+            No Data
             </Text>
 
             <Button

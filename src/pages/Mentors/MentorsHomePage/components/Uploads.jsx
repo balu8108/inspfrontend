@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -9,8 +10,16 @@ import {
 } from "@chakra-ui/react";
 import upload from "../data/uploads";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const MentorsUploads = () => {
+  const apiUrl = "http://localhost:5000";
+  const [latestAssignment, setLatestAssignment] = useState([]);
+  useEffect(() => {
+    axios.get(`${apiUrl}/topic/latest-assignment`).then((response) => {
+      setLatestAssignment(response.data.data);
+    });
+  }, []);
   return (
     <Box bg={"#F1F5F8"} w={"95%"} borderRadius={"26px"}>
       <Flex>
@@ -41,7 +50,7 @@ const MentorsUploads = () => {
         </Link>
       </Flex>
       <Flex mt={"34px"} flexWrap="wrap">
-        {upload.map((mentorUploadDetails) => (
+        {latestAssignment.map((mentorUploadDetails) => (
           <Box
             flexBasis="50%" // Two cards per line
             key={mentorUploadDetails.id}
@@ -63,7 +72,15 @@ const MentorsUploads = () => {
                 ml={"13px"}
                 mt={"13px"}
               >
-                {mentorUploadDetails.chapterName}
+                {mentorUploadDetails.topicName}
+              </Text>
+              <Text
+                fontSize={"11px"}
+                lineHeight={"18px"}
+                color={"#2C332978"}
+                ml={3}
+              >
+                {mentorUploadDetails.instructorName}
               </Text>
 
               <Text
