@@ -506,6 +506,7 @@ export const raiseHandHandler = (isHandRaised) => {
 };
 
 export const sendFileHandler = (filesData) => {
+  console.log("file Upload data", filesData);
   socket.emit(
     SOCKET_EVENTS.UPLOAD_FILE_TO_SERVER,
     filesData,

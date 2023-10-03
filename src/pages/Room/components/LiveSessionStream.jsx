@@ -6,9 +6,7 @@ import ToolBox from "./ToolBox";
 import ChatToolBox from "./ChatToolBox";
 import StudentPollsMCQBox from "./StudentPollsMCQBox";
 import RaiseHand from "./RaiseHand";
-
 import WebAudioPlayer from "../../../components/webaudioplayer/WebAudioPlayer";
-
 import MiroBoard from "./MiroBoard";
 
 const LiveSessionStream = (props) => {
@@ -38,9 +36,9 @@ const LiveSessionStream = (props) => {
   const [isRaiseHandVisible, setIsRaiseHandVisible] = useState(false);
   const { question } = useSelector((state) => state.socket);
 
-  const { mentorScreenShareConsumer } = useSelector((state) => state.socket);
-  const { audioConsumers } = useSelector((state) => state.socket);
-  const { raiseHands } = useSelector((state) => state.socket);
+  const { mentorScreenShareConsumer, audioConsumers, raiseHands } = useSelector(
+    (state) => state.socket
+  );
 
   const renderMentorScreenShare = () => {
     const getMentorScreenShare = mentorScreenShareConsumer;

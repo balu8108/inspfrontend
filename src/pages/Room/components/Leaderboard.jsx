@@ -11,10 +11,10 @@ import {
 import { roomData } from "../data/roomData";
 import { GrRefresh } from "react-icons/gr";
 import leaderboardRankingIcons from "../data/leaderboardRankingIcons";
-import { useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 import { formatSeconds } from "../../../utils";
 const Leaderboard = ({ isLeaderBoardOpen }) => {
-  const { leaderBoard } = useSelector((state) => state.socket);
+  const { leaderBoard } = useSelector((state) => state.socket, shallowEqual);
   console.log("leader board from component", leaderBoard);
   const { primaryBlue, lightGrey } = useTheme().colors.pallete;
   return (
@@ -78,30 +78,6 @@ const Leaderboard = ({ isLeaderBoardOpen }) => {
                 );
               })
             )}
-            {/* {roomData.leaderBoardData.map((data) => {
-              return (
-                <Flex
-                  fontSize={"12px"}
-                  key={data.id}
-                  justifyContent={"space-between"}
-                  alignItems={"center"}
-                  gap={10}
-                  my={3}
-                >
-                  <HStack>
-                    <Image
-                      h={"25px"}
-                      src={leaderboardRankingIcons[data.id]}
-                      alt="rank_icon"
-                    />
-                    <Text>{data.name}</Text>
-                  </HStack>
-
-                  <Text>{data.correctAnswer}</Text>
-                  <Text>{data.responseTime}</Text>
-                </Flex>
-              );
-            })} */}
           </Box>
         </Box>
       )}

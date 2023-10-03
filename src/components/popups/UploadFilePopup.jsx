@@ -18,10 +18,11 @@ import { MainBtn } from "../button";
 import { generateUniqueKey, openFileDialog } from "../../utils";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { setUploadFiles } from "../../store/actions/socketActions";
+
 import { sendFileHandler } from "../../socketconnections/socketconnections";
 
 const UploadFilePopup = ({ type, roomId }) => {
+  console.log("type and room id in upload file popup", type, roomId);
   const [files, setFiles] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { onOpen, onClose, isOpen } = useDisclosure();
@@ -55,8 +56,9 @@ const UploadFilePopup = ({ type, roomId }) => {
         }
       }
 
-      dispatch(setUploadFiles(files));
       sendFileHandler(fileObj); // sending type of room description whether active one or upcoming one
+      // dispatch(setUploadFilesInRoom(files));
+      // dispatch(setUploadFiles(files));
     }
 
     setIsLoading(false);
@@ -146,7 +148,7 @@ const UploadFilePopup = ({ type, roomId }) => {
               text={roomData.upload}
               backColor={primaryBlue}
               textColor={"white"}
-              onClickHandler={() => uploadDocs()}
+              onClickHandler={uploadDocs}
             />
           </Box>
         </PopoverContent>

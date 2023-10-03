@@ -43,7 +43,7 @@ import { roomData } from "../data/roomData";
 import PostPoll from "../../../components/popups/PostPoll";
 import { LeaveBtn } from "../../../components/button";
 import { useParams, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 import { checkUserType } from "../../../utils";
 let producerScreenShare = null;
 let producerMentorVideoShare = null;
@@ -79,11 +79,10 @@ const ToolBox = ({
   const userRoleType = checkUserType();
   const navigate = useNavigate();
   const { roomId } = useParams();
-  const { roomPreviewData } = useSelector((state) => state.socket);
-
-  console.log("Is mic on", isMicOn);
-  console.log("Is screen share on", isScreenShare);
-  console.log("is record on", isRecordOn);
+  const { roomPreviewData } = useSelector(
+    (state) => state.socket,
+    shallowEqual
+  );
 
   const openMiroBoardAuth = () => {
     window.miroBoardsPicker.open({

@@ -94,6 +94,7 @@ const Room = () => {
   }, [rtpCapabilities]);
 
   useEffect(() => {
+    console.log("use effect room socket", socket);
     if (!socket) {
       addNotification("Class leaved", "info", 3000);
       navigate(`/room-preview/${roomId}`);
@@ -102,13 +103,15 @@ const Room = () => {
 
   // if meet ended by mentor then redirect to room preview in backend everything cleans up automatically
   useEffect(() => {
+    console.log("is meet end useeffect room", isMeetEnd);
     if (isMeetEnd) {
       addNotification("Class Ended", "success", 3000);
       navigate(`/room-preview/${roomId}`);
     }
-  }, [isMeetEnd, navigate, roomId, addNotification]);
+  }, [isMeetEnd, roomId, addNotification, navigate]);
 
   useEffect(() => {
+    console.log("unmount useeefect room");
     return () => {
       // on Unmount disconnect the participant  from room
 
@@ -117,9 +120,10 @@ const Room = () => {
         navigate(`/room-preview/${roomId}`);
       }
     };
-  }, [roomId, addNotification, navigate, userRoleType]);
+  }, [roomId, userRoleType, addNotification, navigate]);
 
   useEffect(() => {
+    console.log("is kicked out useeffect room", isKickedOut);
     const leavingRoom = async () => {
       if (isKickedOut) {
         // if kicked out then emit leave the room;
