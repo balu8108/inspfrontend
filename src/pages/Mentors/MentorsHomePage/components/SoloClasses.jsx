@@ -1,3 +1,4 @@
+import React, {useState,useEffect} from "react"
 import {
   Box,
   Button,
@@ -9,9 +10,17 @@ import {
 } from "@chakra-ui/react";
 import soloclasses from "../data/soloclass";
 import { Link } from "react-router-dom";
+import axios from "axios";
 const SoloClasses = () => {
+  const apiUrl = "http://localhost:5000";
+  const [latestSoloClassroom, setLatestSoloClassroom] = useState([]);
+  useEffect(() => {
+    axios.get(`${apiUrl}/solo-lecture/latest-room`).then((response) => {
+      setLatestSoloClassroom(response.data.data);
+    });
+  }, []);
   return (
-    <Box bg={"#F1F5F8"} mt={"23px"} borderRadius={"25px"} w={"95%"} h={"60%"}>
+    <Box bg={"#F1F5F8"} mt={"23px"} borderRadius={"25px"} w={"95%"} >
       <Flex>
         <HStack spacing={"10px"}>
           <Box
@@ -40,7 +49,7 @@ const SoloClasses = () => {
         </Link>
       </Flex>
       <Flex mt={"34px"} flexWrap="wrap">
-        {soloclasses.map((soloclassInfo) => (
+        {latestSoloClassroom.map((soloclassInfo) => (
           <Box flexBasis="50%" key={soloclassInfo.id}>
             <Card
               h={"175px"}
@@ -59,7 +68,7 @@ const SoloClasses = () => {
                 ml={"13px"}
                 mt={"13px"}
               >
-                {soloclassInfo.chapterName}
+                {soloclassInfo.topic}
               </Text>
               <Text
                 fontSize={"11px"}
@@ -67,7 +76,7 @@ const SoloClasses = () => {
                 color={"#2C332978"}
                 ml={"13px"}
               >
-                {soloclassInfo.subjectName}
+                {soloclassInfo.mentorName}
               </Text>
 
               <Text

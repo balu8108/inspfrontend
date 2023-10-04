@@ -13,10 +13,12 @@ import {
   InputLeftElement,
 } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
-import { BsDownload } from "react-icons/bs";
+import { GrUpload } from "react-icons/gr";
 import uploadedChapterDetails from "../data/uploadingDetails";
+import axios from "axios";
 const AllUploadedLecture = () => {
   const [selectedAssignment, setSelectedAssignment] = useState(null);
+  const [assignments, setAssignments] = useState([]);
 
   const handleViewDetails = (assignmentId) => {
     setSelectedAssignment(assignmentId);
@@ -118,7 +120,7 @@ const AllUploadedLecture = () => {
                 >
                   {files}
                   <Button
-                    rightIcon={<BsDownload />}
+                    rightIcon={<GrUpload />}
                     variant={"ghost"}
                     size="sm"
                     color={"black"}
@@ -135,3 +137,144 @@ const AllUploadedLecture = () => {
 };
 
 export default AllUploadedLecture;
+
+// import React, { useState, useEffect } from "react";
+// import {
+//   Box,
+//   Text,
+//   HStack,
+//   Card,
+//   Flex,
+//   Button,
+//   Stack,
+//   SimpleGrid,
+//   Input,
+//   InputGroup,
+//   InputLeftElement,
+//   Link,
+// } from "@chakra-ui/react";
+// import { FaSearch } from "react-icons/fa";
+// import { GrUpload } from "react-icons/gr";
+// import axios from "axios";
+
+// const AllUploadedLecture = () => {
+//   const [assignments, setAssignments] = useState([]);
+//   const apiUrl = "http://localhost:5000";
+
+//   useEffect(() => {
+//     // Make an API request to fetch all assignments
+//     axios.get(`${apiUrl}/topic/get-all-assignments`).then((response) => {
+//       setAssignments(response.data); // Update the state with assignments
+//     });
+//   }, []);
+
+//   return (
+//     <Box width={"100%"} h={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
+//       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
+//         {/* ... */}
+//       </HStack>
+//       <SimpleGrid
+//         columns={{ base: 1, md: 1, lg: 1 }}
+//         spacing={"6"}
+//         p={4}
+//         mr={"20px"}
+//       >
+//         {assignments.map((assignment) => (
+//           <Card
+//             w="100%"
+//             blendMode={"multiply"}
+//             bg={"#F1F5F8"}
+//             borderRadius={"18px"}
+//             key={assignment.id}
+//           >
+//             <Text fontSize={"15px"} lineHeight={"18px"} ml={"13px"} mt={"16px"}>
+//               {assignment.topicName}
+//             </Text>
+//             <Text
+//               fontWeight={400}
+//               fontSize={"12px"}
+//               lineHeight={"14px"}
+//               ml={"13px"}
+//               mt={"3px"}
+//               color={"#2C332978"}
+//             >
+//               {assignment.instructorName}
+//             </Text>
+//             <Text
+//               fontSize={"12px"}
+//               lineHeight={"13px"}
+//               ml={"13px"}
+//               fontWeight={400}
+//               color={"rgba(44, 51, 41, 1)"}
+//               mt={"18px"}
+//             >
+//               Description
+//             </Text>
+//             <Text
+//               fontSize={"12px"}
+//               lineHeight={"21px"}
+//               fontWeight={400}
+//               ml={13}
+//               mt={"5px"}
+//               color={"#2C332978"}
+//               noOfLines={2}
+//             >
+//               {assignment.description}
+//             </Text>
+//             <Flex
+//               flex={1}
+//               display="flex"
+//               justifyContent="flex-end"
+//               gap={4}
+//               my={"13px"}
+//               mx={"25px"}
+//             >
+//               <Box
+//                 flex={1}
+//                 display="flex"
+//                 justifyContent="flex-end"
+//                 gap={4}
+//                 my="13px"
+//                 mx="25px"
+//               >
+//                 <Flex
+//                   flex={1}
+//                   bg="blackAlpha.100"
+//                   mt="12px"
+//                   color="#2C332978"
+//                   p="9px"
+//                   borderRadius="6px"
+//                   border="1px"
+//                   borderColor="#9597927D"
+//                   boxShadow="md"
+//                   h="49px"
+//                   fontSize="11px"
+//                 >
+//                   {assignment.key}
+//                   <a
+//                     href={assignment.url}
+//                     target="_blank"
+//                     rel="noopener noreferrer"
+//                     download
+//                   >
+//                     <Button
+//                       rightIcon={<GrUpload />}
+//                       variant="ghost"
+//                       size="sm"
+//                       color="black"
+//                       ml={2}
+//                     >
+//                       Download
+//                     </Button>
+//                   </a>
+//                 </Flex>
+//               </Box>
+//             </Flex>
+//           </Card>
+//         ))}
+//       </SimpleGrid>
+//     </Box>
+//   );
+// };
+
+// export default AllUploadedLecture;
