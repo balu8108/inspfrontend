@@ -15,7 +15,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import { formatSeconds } from "../../../utils";
 const Leaderboard = ({ isLeaderBoardOpen }) => {
   const { leaderBoard } = useSelector((state) => state.socket, shallowEqual);
-  console.log("leader board from component", leaderBoard);
+
   const { primaryBlue, lightGrey } = useTheme().colors.pallete;
   return (
     <>

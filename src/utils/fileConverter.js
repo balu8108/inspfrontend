@@ -6,7 +6,7 @@ const fileConverter = async (fileUrl, docKey, setDocs) => {
     const response = await fetch(fileUrl);
 
     // Retrieve its body as a ReadableStream
-    console.log(response.headers.get("content-type").split(";"));
+
     const reader = response.body.getReader();
     const chunks = [];
     const contentType = response.headers.get("content-type");
