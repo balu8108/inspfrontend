@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -7,14 +7,79 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
-import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 
 import { useDispatch, useSelector } from "react-redux";
 import { setIsDocModalOpen } from "../../store/actions/genericActions";
 import { getPresignedUrlDocApi } from "../../api/genericapis";
-import { fileConverter } from "../../utils";
+
+const PSDDocumentViewer = ({ doc }) => {
+  const docRef = useRef(null);
+
+  const PSDFdocument = (instance) => {
+    if (instance) {
+      const iframeDoc = instance.contentWindow.document;
+      const printButton = iframeDoc.querySelector(
+        ".PSPDFKit-Toolbar-Button-Print"
+      );
+      const exportButton = iframeDoc.querySelector(
+        ".PSPDFKit-Toolbar-Button-Export-PDF"
+      );
+      const annotationButton = iframeDoc.querySelector(
+        ".PSPDFKit-Toolbar-Button-Annotate"
+      );
+      const docEditorButton = iframeDoc.querySelector(
+        ".PSPDFKit-Toolbar-Button-Document-Editor"
+      );
+      const searchButton = iframeDoc.querySelector(
+        ".PSPDFKit-Toolbar-Button-Search"
+      );
+      if (printButton) {
+        printButton.style.display = "none";
+      }
+      if (exportButton) {
+        exportButton.style.display = "none";
+      }
+      if (annotationButton) {
+        annotationButton.style.display = "none";
+      }
+      if (docEditorButton) {
+        docEditorButton.style.display = "none";
+      }
+      if (searchButton) {
+        searchButton.style.display = "none";
+      }
+    }
+  };
+  useEffect(() => {
+    if (doc) {
+      const container = docRef.current; // This `useRef` instance will render the PDF.
+
+      let PSPDFKit, instance;
+
+      (async function () {
+        PSPDFKit = await import("pspdfkit");
+
+        PSPDFKit.unload(container); // Ensure that there's only one PSPDFKit instance.
+
+        instance = await PSPDFKit.load({
+          container,
+
+          document: doc,
+
+          // Use the public directory URL as a base URL. PSPDFKit will download its library assets from here.
+          baseUrl: `${window.location.protocol}//${window.location.host}/${process.env.PUBLIC_URL}`,
+        });
+        PSDFdocument(instance);
+      })();
+
+      return () => PSPDFKit && PSPDFKit.unload(container);
+    }
+  }, [doc]);
+  return <div ref={docRef} style={{ width: "100%", height: "70vh" }} />;
+};
+
 const DocumentViewer = ({ isOpen, onClose }) => {
-  const [docs, setDocs] = useState([]);
+  const [doc, setDoc] = useState(null);
   const { docId, docKey } = useSelector((state) => state.generic);
   const dispatch = useDispatch();
 
@@ -23,8 +88,12 @@ const DocumentViewer = ({ isOpen, onClose }) => {
       const { status, data } = await getPresignedUrlDocApi(docId);
 
       if (status) {
-        await fileConverter(data?.data?.getUrl, docKey, setDocs);
+        setDoc(data?.data?.getUrl);
       }
+
+      // if (status) {
+      //   await fileConverter(data?.data?.getUrl, docKey, setDocs);
+      // }
     } catch (err) {
       console.log("Error in opening doc");
     }
@@ -34,30 +103,28 @@ const DocumentViewer = ({ isOpen, onClose }) => {
     if (docId) {
       fetchAndSetDoc(docId);
     }
-    return () => {
-      setDocs([]);
-    };
   }, [docId]);
 
-  useEffect(() => {
-    // Ensure the component has rendered before selecting and removing the element
-    if (docs) {
-      // Wait for the element to become available in the DOM
-      const waitForElement = () => {
-        const downloadBtn = document.querySelector("#pdf-download");
-        if (downloadBtn) {
-          // If the element is found, remove it
+  // useEffect(() => {
+  //   // Ensure the component has rendered before selecting and removing the element
+  //   if (docs) {
+  //     // Wait for the element to become available in the DOM
+  //     const waitForElement = () => {
+  //       const downloadBtn = document.querySelector("#pdf-download");
+  //       if (downloadBtn) {
+  //         // If the element is found, remove it
 
-          downloadBtn.remove();
-        } else {
-          // If the element is not found, try again after a short delay
-          setTimeout(waitForElement, 5000);
-        }
-      };
+  //         downloadBtn.remove();
+  //       } else {
+  //         // If the element is not found, try again after a short delay
+  //         setTimeout(waitForElement, 5000);
+  //       }
+  //     };
 
-      waitForElement();
-    }
-  }, [docs]);
+  //     waitForElement();
+  //   }
+  // }, [docs]);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"5xl"}>
       <ModalOverlay />
@@ -66,30 +133,9 @@ const DocumentViewer = ({ isOpen, onClose }) => {
         <ModalCloseButton
           onClick={() => dispatch(setIsDocModalOpen(null, null, false))}
         />
+
         <ModalBody>
-          <DocViewer
-            documents={docs.map((file) => {
-              const url = window.URL.createObjectURL(file);
-              const obj = {
-                uri: url,
-                fileName: file.name,
-              };
-              return obj;
-            })}
-            theme={{
-              primary: "#5296d8",
-              secondary: "#ffffff",
-              tertiary: "#5296d899",
-              textPrimary: "#ffffff",
-              textSecondary: "#5296d8",
-              textTertiary: "#00000099",
-              disableThemeScrollbar: false,
-            }}
-            id="my-doc-viewer"
-            prefetchMethod="GET"
-            pluginRenderers={DocViewerRenderers}
-            style={{ width: "100%" }}
-          />
+          <PSDDocumentViewer doc={doc} />
         </ModalBody>
       </ModalContent>
     </Modal>
