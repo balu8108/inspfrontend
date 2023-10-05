@@ -1,4 +1,4 @@
-// this component functionality is that latest three  finished lecture will come here.
+// this component functionality is that latest three  finished lecture will come here
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -13,11 +13,12 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 const FeedBack = () => {
-  const apiUrl = "http://localhost:5000"; 
+  const apiUrl = "http://localhost:5000";
   const [feedbackData, setFeedbackData] = useState([]);
 
   useEffect(() => {
-    axios.get(`${apiUrl}/generic/latest-completed-live-classroom`)
+    axios
+      .get(`${apiUrl}/generic/latest-completed-live-classroom`)
       .then((response) => {
         setFeedbackData(response.data);
       })
@@ -108,7 +109,7 @@ const FeedBack = () => {
                 {rateNfeedebackOfAChapter.LiveClassRoomDetail.description}
               </Text>
               <Link
-                to={`/mentor/view/rating&feedback`}
+                to={`/mentor/view/rating&feedback/${rateNfeedebackOfAChapter.LiveClassRoomDetail.topicId}/${rateNfeedebackOfAChapter.LiveClassRoomDetail.topicName}`}
                 style={{ display: "flex", justifyContent: "center" }}
               >
                 <Button

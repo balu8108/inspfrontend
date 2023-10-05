@@ -7,8 +7,10 @@ import {
   HStack,
   Spacer,
   Text,
+  Icon,
 } from "@chakra-ui/react";
 import upload from "../data/uploads";
+import { IoIosAdd } from "react-icons/io";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -44,8 +46,9 @@ const MentorsUploads = () => {
             fontWeight={400}
             mt={"15px"}
             mr={"10px"}
+            color={"#3C8DBC"}
           >
-            See All
+            <Icon as={IoIosAdd} mr={2} boxSize={7} /> Add Assignment
           </Button>
         </Link>
       </Flex>

@@ -21,6 +21,7 @@ const ViewAllRecordingsRelatedToOneChapter = () => {
     async function fetchTopics() {
       try {
         const response = await fetchAllTopicsApi(chapter_id); // Fetch topics for the specified chapter_id
+        console.log("Topics Api", response);
         if (response.status) {
           setTopics(response.result);
         }

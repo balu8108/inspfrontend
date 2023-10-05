@@ -1,3 +1,4 @@
+// this is the screen where all the topics will come  of the chapters.
 import React, { useState } from "react";
 import {
   Box,
@@ -11,16 +12,16 @@ import {
   Card,
 } from "@chakra-ui/react";
 import { Link } from 'react-router-dom';
-
+import {fetchAllTopicsApi} from "../../../../api/inspexternalapis/index"
 import rateNFeedbackDetails from "../data/feedbackData";
 const AllUploadedLecture = () => {
   const [searchQuery, setSearchQuery] = useState("");
-
+  const [topics, setTopics] = useState([]);
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
     // You can perform search-related logic here
   };
-
+  
   return (
     <Box bg={"#F1F5F8"} width={"250%"} h={"full"} mt={"24px"} borderRadius={"26px"}>
       <Flex>
@@ -92,8 +93,6 @@ const AllUploadedLecture = () => {
 };
 
 export default AllUploadedLecture;
-
-
 
 
 

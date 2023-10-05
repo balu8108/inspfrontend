@@ -137,7 +137,7 @@ const privateRoutes = [
   },
   {
     name: "Viewing Mentors Rating And Feedback",
-    path: "/mentor/view/rating&feedback",
+    path: "/mentor/view/rating&feedback/:topic_id/:topic_name",
     component: <ViewRatingAndFeedback />,
   },
   {
