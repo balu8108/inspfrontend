@@ -5,79 +5,14 @@ import {
   ModalContent,
   ModalHeader,
   ModalBody,
+  Box,
   ModalCloseButton,
 } from "@chakra-ui/react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { setIsDocModalOpen } from "../../store/actions/genericActions";
 import { getPresignedUrlDocApi } from "../../api/genericapis";
-
-const PSDDocumentViewer = ({ doc }) => {
-  const docRef = useRef(null);
-
-  const PSDFdocument = (instance) => {
-    if (instance) {
-      const iframeDoc = instance.contentWindow.document;
-      const printButton = iframeDoc.querySelector(
-        ".PSPDFKit-Toolbar-Button-Print"
-      );
-      const exportButton = iframeDoc.querySelector(
-        ".PSPDFKit-Toolbar-Button-Export-PDF"
-      );
-      const annotationButton = iframeDoc.querySelector(
-        ".PSPDFKit-Toolbar-Button-Annotate"
-      );
-      const docEditorButton = iframeDoc.querySelector(
-        ".PSPDFKit-Toolbar-Button-Document-Editor"
-      );
-      const searchButton = iframeDoc.querySelector(
-        ".PSPDFKit-Toolbar-Button-Search"
-      );
-      if (printButton) {
-        printButton.style.display = "none";
-      }
-      if (exportButton) {
-        exportButton.style.display = "none";
-      }
-      if (annotationButton) {
-        annotationButton.style.display = "none";
-      }
-      if (docEditorButton) {
-        docEditorButton.style.display = "none";
-      }
-      if (searchButton) {
-        searchButton.style.display = "none";
-      }
-    }
-  };
-  useEffect(() => {
-    if (doc) {
-      const container = docRef.current; // This `useRef` instance will render the PDF.
-
-      let PSPDFKit, instance;
-
-      (async function () {
-        PSPDFKit = await import("pspdfkit");
-
-        PSPDFKit.unload(container); // Ensure that there's only one PSPDFKit instance.
-
-        instance = await PSPDFKit.load({
-          disableWebAssemblyStreaming: true,
-          container,
-
-          document: doc,
-
-          // Use the public directory URL as a base URL. PSPDFKit will download its library assets from here.
-          baseUrl: `${window.location.protocol}//${window.location.host}/${process.env.PUBLIC_URL}`,
-        });
-        PSDFdocument(instance);
-      })();
-
-      return () => PSPDFKit && PSPDFKit.unload(container);
-    }
-  }, [doc]);
-  return <div ref={docRef} style={{ width: "100%", height: "70vh" }} />;
-};
+import GoogleDocsViewer from "react-google-docs-viewer";
 
 const DocumentViewer = ({ isOpen, onClose }) => {
   const [doc, setDoc] = useState(null);
@@ -89,12 +24,9 @@ const DocumentViewer = ({ isOpen, onClose }) => {
       const { status, data } = await getPresignedUrlDocApi(docId);
 
       if (status) {
-        setDoc(data?.data?.getUrl);
+        const encodedUrl = encodeURIComponent(data?.data?.getUrl);
+        setDoc(encodedUrl);
       }
-
-      // if (status) {
-      //   await fileConverter(data?.data?.getUrl, docKey, setDocs);
-      // }
     } catch (err) {
       console.log("Error in opening doc");
     }
@@ -106,26 +38,6 @@ const DocumentViewer = ({ isOpen, onClose }) => {
     }
   }, [docId]);
 
-  // useEffect(() => {
-  //   // Ensure the component has rendered before selecting and removing the element
-  //   if (docs) {
-  //     // Wait for the element to become available in the DOM
-  //     const waitForElement = () => {
-  //       const downloadBtn = document.querySelector("#pdf-download");
-  //       if (downloadBtn) {
-  //         // If the element is found, remove it
-
-  //         downloadBtn.remove();
-  //       } else {
-  //         // If the element is not found, try again after a short delay
-  //         setTimeout(waitForElement, 5000);
-  //       }
-  //     };
-
-  //     waitForElement();
-  //   }
-  // }, [docs]);
-
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"5xl"}>
       <ModalOverlay />
@@ -136,7 +48,9 @@ const DocumentViewer = ({ isOpen, onClose }) => {
         />
 
         <ModalBody>
-          <PSDDocumentViewer doc={doc} />
+          <Box>
+            <GoogleDocsViewer width="100%" height="85vh" fileUrl={doc} />
+          </Box>
         </ModalBody>
       </ModalContent>
     </Modal>
