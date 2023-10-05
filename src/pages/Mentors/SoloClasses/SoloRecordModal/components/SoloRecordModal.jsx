@@ -70,7 +70,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} size={"xl"}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader fontWeight={500}>Solo Record</ModalHeader>
@@ -124,7 +124,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
                   <FormErrorMessage>This field is required</FormErrorMessage>
                 </FormControl>
 
-                <input
+                <Input
                   type="file"
                   accept=".pdf,.doc,.docx"
                   style={{ display: "none" }}

@@ -13,10 +13,22 @@ import upload from "../data/uploads";
 import { IoIosAdd } from "react-icons/io";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import UploadAssignmentPopup from "../../../../components/popups/UploadAssignmentPopup";
 
 const MentorsUploads = () => {
   const apiUrl = "http://localhost:5000";
   const [latestAssignment, setLatestAssignment] = useState([]);
+  const [isUploadAssignmentModalOpen, setUploadAssignmentModalOpen] =
+    useState(false);
+  const openUploadAssignmentModal = () => {
+    // Function to open the UploadAssignmentModal
+    setUploadAssignmentModalOpen(true);
+  };
+
+  const closeUploadAssignmentModal = () => {
+    // Function to close the UploadAssignmentModal
+    setUploadAssignmentModalOpen(false);
+  };
   useEffect(() => {
     axios.get(`${apiUrl}/topic/latest-assignment`).then((response) => {
       setLatestAssignment(response.data.data);
@@ -34,23 +46,25 @@ const MentorsUploads = () => {
             mt={"27px"}
             ml={"27px"}
           ></Box>
-          <Text fontSize={"20px"} lineHeight={"24px"} mt={"26px"}>
-            My Uploads
-          </Text>
+          <Link to={`/mentor/alluploads`}>
+            <Text fontSize={"20px"} lineHeight={"24px"} mt={"26px"}>
+              My Uploads
+            </Text>
+          </Link>
         </HStack>
         <Spacer />
-        <Link to={`/mentor/alluploads`}>
-          <Button
-            variant={"ghost"}
-            fontSize={"sm"}
-            fontWeight={400}
-            mt={"15px"}
-            mr={"10px"}
-            color={"#3C8DBC"}
-          >
-            <Icon as={IoIosAdd} mr={2} boxSize={7} /> Add Assignment
-          </Button>
-        </Link>
+
+        <Button
+          variant={"ghost"}
+          fontSize={"sm"}
+          fontWeight={400}
+          mt={"15px"}
+          mr={"10px"}
+          color={"#3C8DBC"}
+          onClick={openUploadAssignmentModal}
+        >
+          <Icon as={IoIosAdd} mr={2} boxSize={7} /> Add Assignment
+        </Button>
       </Flex>
       <Flex mt={"34px"} flexWrap="wrap">
         {latestAssignment.map((mentorUploadDetails) => (
@@ -123,6 +137,10 @@ const MentorsUploads = () => {
           </Box>
         ))}
       </Flex>
+      <UploadAssignmentPopup
+        isOpen={isUploadAssignmentModalOpen}
+        onClose={closeUploadAssignmentModal}
+      />
     </Box>
   );
 };
