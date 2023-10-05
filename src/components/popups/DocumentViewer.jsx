@@ -62,6 +62,7 @@ const PSDDocumentViewer = ({ doc }) => {
         PSPDFKit.unload(container); // Ensure that there's only one PSPDFKit instance.
 
         instance = await PSPDFKit.load({
+          disableWebAssemblyStreaming: true,
           container,
 
           document: doc,
