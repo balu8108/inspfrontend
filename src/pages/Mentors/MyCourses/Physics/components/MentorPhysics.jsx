@@ -1,18 +1,10 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  Card,
-  Text,
-  HStack,
-  SimpleGrid,
-} from "@chakra-ui/react";
+import { Box, Button, Card, Text, HStack, SimpleGrid } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { fetchAllChaptersApi } from "../../../../../api/inspexternalapis/index";
 const PhysicsCourse = () => {
   const [chapters, setChapters] = useState([]);
 
-  console.log("Chapter", chapters);
   const dummyDescriptions = [
     "This chapter covers the basics of electromagnetism, including its principles and applications.",
     "Learn about geometrical and wave optics in this chapter.",
@@ -24,15 +16,13 @@ const PhysicsCourse = () => {
     async function fetchChapters() {
       try {
         const response = await fetchAllChaptersApi();
-        console.log("Chapters Api", response);
+
         if (response.status) {
-          console.log("Chapters Data:", chapters);
           setChapters(response.result);
         }
       } catch (error) {
         console.error("Error fetching chapters:", error);
-      } 
-      
+      }
     }
 
     fetchChapters();
@@ -101,7 +91,9 @@ const PhysicsCourse = () => {
               {dummyDescriptions[index]}
             </Text>
             <Link
-              to={`/mentor/${chapter.id}/topics/${encodeURIComponent(chapter.name)}`}
+              to={`/mentor/${chapter.id}/topics/${encodeURIComponent(
+                chapter.name
+              )}`}
               style={{ display: "flex", justifyContent: "center" }}
             >
               <Button
