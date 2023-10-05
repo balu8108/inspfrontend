@@ -195,15 +195,6 @@
 // };
 // export default RatingAndFeedBackChart;
 
-
-
-
-
-
-
-
-
-
 import React, { useEffect, useState } from "react";
 import { Avatar, Box, Flex, HStack, Stack, Text } from "@chakra-ui/react";
 import { Doughnut } from "react-chartjs-2";
@@ -232,7 +223,7 @@ const RatingAndFeedBackChart = () => {
       });
   }, [topic_id]);
 
-  if(!feedbackData){
+  if (!feedbackData) {
     return null;
   }
   const starCounts = {

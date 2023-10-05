@@ -1,5 +1,5 @@
 // Screen that contain particular chapter feedback in form of donughchart and progress bar.
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Flex,
@@ -12,9 +12,30 @@ import {
   Card,
 } from "@chakra-ui/react";
 import rateNFeedbackDetails from "../../data/feedbackData";
-
+import { fetchAllTopicsWithoutChapterIdApi } from "../../../../../api/inspexternalapis/index";
+import {Link} from "react-router-dom"
 const ViewMentorsRatingAndFeedback = () => {
+  const [allTopicList, setAllTopicList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  // const [topics, setTopics] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    async function fetchAllTopicsWithoutChapterId() {
+      try {
+        const response = await fetchAllTopicsWithoutChapterIdApi();
+        console.log("Topics Api Without the Chapter Id", response);
+        if (response.status) {
+          setAllTopicList(response.result);
+        }
+      } catch (error) {
+        console.error("Error fetching topics data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchAllTopicsWithoutChapterId();
+  }, []);
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
@@ -22,7 +43,7 @@ const ViewMentorsRatingAndFeedback = () => {
   };
 
   // Limit the displayed cards to the first three items in the array
-  const displayedChapters = rateNFeedbackDetails.slice(0, 3);
+  const displayedChapters = allTopicList.slice(0, 3);
 
   return (
     <Box bg={"#F1F5F8"} mt={"24px"} borderRadius={"26px"}>
@@ -72,19 +93,27 @@ const ViewMentorsRatingAndFeedback = () => {
             p={4}
             ml={"2"}
           >
-            <Text fontSize="16px">{chapter.chapterName}</Text>
+            <Text fontSize="16px" noOfLines={1}>
+              {chapter.name}
+            </Text>
             <Text fontSize="12px" color={"#2C332978"}>
-              {chapter.instructorName}
+              {chapter.instructorName} No Data
             </Text>
             <Text fontSize={"12px"} mt={"18px"}>
               Description
             </Text>
             <Text fontSize="11px" color="#2C332978" noOfLines={2} mb={2}>
-              {chapter.description}
+              {chapter.description} No Data
             </Text>
-            <Button variant={"ghost"} color={"#3C8DBC"} mt={"4"}>
-              View Details
-            </Button>
+            <Link
+              // to={`/mentor/view/rating&feedback/${chapter.id}/${chapter.name}`}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+             
+              <Button variant={"ghost"} color={"#3C8DBC"} mt={"4"}>
+                View Details
+              </Button>
+            </Link>
           </Card>
         ))}
       </SimpleGrid>
@@ -93,6 +122,3 @@ const ViewMentorsRatingAndFeedback = () => {
 };
 
 export default ViewMentorsRatingAndFeedback;
-
-
-

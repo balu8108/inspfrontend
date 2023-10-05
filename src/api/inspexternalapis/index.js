@@ -66,3 +66,25 @@ export const fetchAllTopicsApi = async (chapter_id) => {
     console.log("err in fetching topics", err);
   }
 };
+
+// this is the external api where we will get all the topics without providing chapter_id.
+export const fetchAllTopicsWithoutChapterIdApi = async () => {
+  const body = secret_key;
+  const requestOptions = {
+    method: "POST",
+    body: JSON.stringify(body),
+  };
+
+  try {
+    const response = await fetch(
+      EXTERNAL_INSP_BASE_URL + "/webservices/apis/all_topics",
+      requestOptions
+    );
+    const data = await response.json();
+    if (data.status) {
+      return data;
+    }
+  } catch (err) {
+    console.log("err in fetching topics data", err);
+  }
+};
