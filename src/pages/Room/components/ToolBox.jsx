@@ -73,7 +73,7 @@ const ToolBox = ({
 }) => {
   const [isRaiseHand, setIsRaiseHand] = useState(false);
   const [isLeaveLoading, setIsLeaveLoading] = useState(false); // for leave button loading state
-  const [QNo, setQNo] = useState(0);
+  // const [QNo, setQNo] = useState(0);
   const [isRecordingLoading, setIsRecordingLoading] = useState(false);
   const { redBtnColor } = useTheme().colors.pallete;
   const userRoleType = checkUserType();
@@ -473,8 +473,8 @@ const ToolBox = ({
 
           {userRoleType === userType.teacher && (
             <PostPoll
-              QNo={QNo}
-              setQNo={setQNo}
+              // QNo={QNo}
+              // setQNo={setQNo}
               screenShareStream={screenShareStream}
             />
           )}

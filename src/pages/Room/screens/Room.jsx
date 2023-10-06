@@ -12,10 +12,7 @@ import {
   socket,
 } from "../../../socketconnections/socketconnections";
 import { useSelector } from "react-redux";
-import {
-  liveSessionMemberViewType,
-  userType,
-} from "../../../constants/staticvariables";
+import { liveSessionMemberViewType } from "../../../constants/staticvariables";
 import { useToastContext } from "../../../components/toastNotificationProvider/ToastNotificationProvider";
 import { useNavigate, useParams } from "react-router-dom";
 import { checkUserType } from "../../../utils";
@@ -94,7 +91,6 @@ const Room = () => {
   }, [rtpCapabilities]);
 
   useEffect(() => {
-    console.log("use effect room socket", socket);
     if (!socket) {
       addNotification("Class leaved", "info", 3000);
       navigate(`/room-preview/${roomId}`);
@@ -103,7 +99,6 @@ const Room = () => {
 
   // if meet ended by mentor then redirect to room preview in backend everything cleans up automatically
   useEffect(() => {
-    console.log("is meet end useeffect room", isMeetEnd);
     if (isMeetEnd) {
       addNotification("Class Ended", "success", 3000);
       navigate(`/room-preview/${roomId}`);
@@ -111,19 +106,17 @@ const Room = () => {
   }, [isMeetEnd, roomId, addNotification, navigate]);
 
   useEffect(() => {
-    console.log("unmount useeefect room");
-    return () => {
+    return async () => {
       // on Unmount disconnect the participant  from room
-
-      if (userRoleType === userType.student) {
+      if (socket) {
         addNotification("Class leaved", "info", 3000);
+        await leaveRoomHandler();
         navigate(`/room-preview/${roomId}`);
       }
     };
   }, [roomId, userRoleType, addNotification, navigate]);
 
   useEffect(() => {
-    console.log("is kicked out useeffect room", isKickedOut);
     const leavingRoom = async () => {
       if (isKickedOut) {
         // if kicked out then emit leave the room;

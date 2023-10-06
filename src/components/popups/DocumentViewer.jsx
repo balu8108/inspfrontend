@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setIsDocModalOpen } from "../../store/actions/genericActions";
 import { getPresignedUrlDocApi } from "../../api/genericapis";
 import GoogleDocsViewer from "react-google-docs-viewer";
+import { fileConverter } from "../../utils";
 
 const DocumentViewer = ({ isOpen, onClose }) => {
   const [doc, setDoc] = useState(null);
@@ -24,8 +25,11 @@ const DocumentViewer = ({ isOpen, onClose }) => {
       const { status, data } = await getPresignedUrlDocApi(docId);
 
       if (status) {
-        const encodedUrl = encodeURIComponent(data?.data?.getUrl);
-        setDoc(encodedUrl);
+        // const encodedUrl = encodeURIComponent(data?.data?.getUrl);
+        // setDoc(encodedUrl);
+        const localUrl = await fileConverter(data?.data?.getUrl, docKey);
+        console.log("local url", localUrl);
+        setDoc(localUrl);
       }
     } catch (err) {
       console.log("Error in opening doc");
