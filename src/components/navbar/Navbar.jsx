@@ -62,7 +62,7 @@ export default function Navbar() {
                     size={"sm"}
                     width={42}
                     height={42}
-                    name={userData && userData?.name}
+                    name={userData?.name}
                     objectFit={"cover"}
                   />
                 </MenuButton>
@@ -71,13 +71,13 @@ export default function Navbar() {
                   <Center>
                     <Avatar
                       size={"2xl"}
-                      name={userData && userData?.name}
+                      name={userData?.name}
                       objectFit={"cover"}
                     />
                   </Center>
                   <br />
                   <Center>
-                    <p>{userData && userData?.name}</p>
+                    <p>{userData?.name}</p>
                   </Center>
                   <br />
                   <MenuDivider />
