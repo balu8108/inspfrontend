@@ -18,11 +18,9 @@ import { MainBtn } from "../button";
 import { generateUniqueKey, openFileDialog } from "../../utils";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-
 import { sendFileHandler } from "../../socketconnections/socketconnections";
 
 const UploadFilePopup = ({ type, roomId }) => {
-  console.log("type and room id in upload file popup", type, roomId);
   const [files, setFiles] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { onOpen, onClose, isOpen } = useDisclosure();

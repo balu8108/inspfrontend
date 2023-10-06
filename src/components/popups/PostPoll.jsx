@@ -89,7 +89,7 @@ const PostPoll = ({ screenShareStream }) => {
   };
   const sendPoll = async () => {
     setIsLoading(true);
-    console.log("poll form data", qnaData);
+
     // set form error data
     const formErrorData = {};
 
