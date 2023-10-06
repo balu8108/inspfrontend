@@ -26,6 +26,7 @@ import {
   fetchAllSubjectsApi,
   fetchAllTopicsApi,
 } from "../../api/inspexternalapis";
+import axios from "axios";
 
 const UploadAssignmentPopup = ({ isOpen, onClose }) => {
   const [isLoadingSubjects, setIsLoadingSubjects] = useState(true);
@@ -40,6 +41,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
   const [selectedTopic, setSelectedTopic] = useState("");
   const [description, setDescription] = useState("");
   const [files, setFiles] = useState([]);
+  const apiUrl = "http://localhost:5000";
 
   // Create a ref for the file input
   const fileInputRef = useRef(null);
@@ -54,16 +56,55 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
 
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
-    setFiles((prevFiles) => [...prevFiles, ...selectedFiles]); // Append to the existing files
+    setFiles((prevFiles) => [...prevFiles, ...selectedFiles]);
+    console.log("Selected Files:", selectedFiles);
   };
 
-  const handleSubmit = () => {
-    console.log("Selected Subject:", selectedSubject);
-    console.log("Selected Chapter:", selectedChapters);
-    console.log("Selected Topic:", selectedTopic);
-    console.log("Description:", description);
-    console.log("Selected File:", files);
-    onClose();
+  const handleSubmit = async () => {
+    try {
+      // Create a FormData object to send files along with other data
+      const formData = new FormData();
+      formData.append("subject", selectedSubject);
+      formData.append("chapter", selectedChapters);
+
+      // Get the selected topic name based on the topic ID
+      const selectedTopicName =
+        topics.find((topic) => topic.id === selectedTopic)?.name || "";
+
+      formData.append("topicName", selectedTopicName); // Use the topic name
+
+      formData.append("description", description);
+
+      // Append files to the FormData object
+      files.forEach((file) => {
+        formData.append("files", file); // Make sure 'file' contains the actual file data
+      });
+
+      // Make a POST request to your backend API
+      const response = await axios.post(
+        `${apiUrl}/topic/submit-assignment`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", // Set the content type to multipart/form-data for file uploads
+            Authorization: `Token ${"U5Ga0Z1aaNlYHp0MjdEdXJ1aKVVVB1TP"}`,
+          },
+        }
+      );
+
+      if (response.status === 201) {
+        console.log("Assignment submitted successfully");
+        // Handle any success actions (e.g., showing a success message)
+      } else {
+        console.error("Error submitting assignment:", response.data.error);
+        // Handle the error response from the backend
+      }
+
+      onClose(); // Close the modal
+    } catch (error) {
+      console.error("Error submitting assignment:", error);
+      // Handle any network or other errors that may occur during the request
+    }
   };
 
   useEffect(() => {

@@ -12,6 +12,7 @@ const uploadedChapterDetails = [
       " Assignment3 PDF",
       " Assignment4 PDF",
       " Assignment4 PDF",
+      
     ],
   },
   {
@@ -25,7 +26,7 @@ const uploadedChapterDetails = [
       "Assignment2 PDF",
       " Assignment3 PDF",
       " Assignment4 PDF",
-      " Assignment4 PDF",
+      " Assignment5 PDF",
     ],
   },
   {
@@ -39,7 +40,7 @@ const uploadedChapterDetails = [
       "Assignment2 PDF",
       " Assignment3 PDF",
       " Assignment4 PDF",
-      " Assignment4 PDF",
+      " Assignment5 PDF",
     ],
   },
   {
@@ -53,7 +54,7 @@ const uploadedChapterDetails = [
       "Assignment2 PDF",
       " Assignment3 PDF",
       " Assignment4 PDF",
-      " Assignment4 PDF",
+      " Assignment5 PDF",
     ],
   },
   {
@@ -67,7 +68,7 @@ const uploadedChapterDetails = [
       "Assignment2 PDF",
       " Assignment3 PDF",
       " Assignment4 PDF",
-      " Assignment4 PDF",
+      " Assignment5 PDF",
     ],
   },
   {
@@ -81,7 +82,7 @@ const uploadedChapterDetails = [
       "Assignment2 PDF",
       " Assignment3 PDF",
       " Assignment4 PDF",
-      " Assignment4 PDF",
+      " Assignment5 PDF",
     ],
   },
 ];
