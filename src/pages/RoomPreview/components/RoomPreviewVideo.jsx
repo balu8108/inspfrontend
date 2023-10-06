@@ -25,7 +25,7 @@ const RoomPreviewVideo = () => {
   const [isMicOn, setIsMicOn] = useState(false);
   const [videoStream, setVideoStream] = useState(null);
   const { roomPreviewData } = useSelector((state) => state.socket);
-  console.log("roomPreviewData from preview video = ", roomPreviewData);
+
   const dispatch = useDispatch();
   const videoRef = useRef();
   const theme = useTheme();
