@@ -16,10 +16,9 @@ import { AddIcon } from "@chakra-ui/icons";
 import { FaCircle } from "react-icons/fa";
 import { BsUpload } from "react-icons/bs";
 import { IoOpenOutline } from "react-icons/io5";
-const DataForClass = () => {
+const DataForClass = ({topic}) => {
   const location = useLocation();
   const formData = location.state;
-
   return (
     <Box w="25%" borderRadius={"12px"} bg={"#F1F5F8"}>
       <HStack spacing={"10px"}>
@@ -40,7 +39,7 @@ const DataForClass = () => {
           Solo Recording
         </Text>
       </HStack>
-      <Stack spacing={"25px"}>
+      {/* <Stack spacing={"25px"}>
         {topicData.map((dataforsoloclass) => (
           <Box key={dataforsoloclass.id} p={6}>
             <Text>{formData.Topic}</Text>
@@ -112,9 +111,25 @@ const DataForClass = () => {
             )}
           </Box>
         ))}
-      </Stack>
+      </Stack> */}
+     
     </Box>
   );
 };
 
 export default DataForClass;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

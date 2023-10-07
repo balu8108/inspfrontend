@@ -1,38 +1,106 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Flex,
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
+  ModalFooter,
   ModalBody,
-  Input,
-  Select,
+  ModalCloseButton,
   Button,
-  Stack,
   FormControl,
-  FormErrorMessage,
+  FormLabel,
+  Select,
+  Input,
+  Box,
+  InputGroup,
+  InputRightAddon,
+  Center,
+  Flex,
+  Text,
   Spinner,
   Textarea,
-  Center,
 } from "@chakra-ui/react";
-import { fetchAllSubjectsApi } from "../../../../../api/inspexternalapis/index";
+import { fetchAllSubjectsApi } from "../../../../../api/inspexternalapis";
+import axios from "axios";
 
 const SoloRecordModal = ({ isOpen, onClose }) => {
-  const navigate = useNavigate();
+  const [isLoadingSubjects, setIsLoadingSubjects] = useState(true);
+
   const [subjects, setSubjects] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [selectedFiles, setSelectedFiles] = useState([]);
-  const [topicInputValue, setTopicInputValue] = useState("");
-  const [agendaInputValue, setAgendaInputValue] = useState([]);
-  const [descriptionInputValue, setDescriptionInputValue] = useState("");
+  const [topics, setTopics] = useState([]);
+
+  const [description, setDescription] = useState("");
+
+  const [agenda, setAgenda] = useState("");
+
+  const [files, setFiles] = useState([]);
+  const navigate = useNavigate();
+
+  const apiUrl = "http://localhost:5000";
+
+  // Create a ref for the file input
   const fileInputRef = useRef(null);
+
+  // const resetFormFields = () => {
+  //   setSelectedSubject("");
+  //   setSelectedChapters("");
+  //   setSelectedTopic("");
+  //   setDescription("");
+  //   setFiles([]);
+  // };
+
+  const handleFileChange = (e) => {
+    const selectedFiles = Array.from(e.target.files);
+    setFiles((prevFiles) => [...prevFiles, ...selectedFiles]);
+    console.log("Selected Files:", selectedFiles);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      // Create a FormData object to send files along with other data
+      const formData = new FormData();
+      formData.append("subjectId", selectedSubject);
+      formData.append("topic", topics);
+      formData.append("agenda", agenda);
+      formData.append("description", description);
+
+      files.forEach((file) => {
+        formData.append("files", file);
+      });
+      const response = await axios.post(
+        `${apiUrl}/solo-lecture/create-room`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", // Set the content type to multipart/form-data for file uploads
+            Authorization: `Token ${"U5Ga0Z1aaNlYHp0MjdEdXJ1aKVVVB1TP"}`,
+          },
+        }
+      );
+
+      if (response.status === 201) {
+        console.log("SoloClass   created  successfully");
+        // Handle any success actions (e.g., showing a success message)
+
+        navigate("/mentor/solo-lectures");
+      } else {
+        console.error("Error creating soloclassroom:", response.data.error);
+        // Handle the error response from the backend
+      }
+
+      onClose(); // Close the modal
+    } catch (error) {
+      console.error("Error  creating soloclassroom", error);
+      // Handle any network or other errors that may occur during the request
+    }
+  };
 
   useEffect(() => {
     async function fetchSubjects() {
-      setIsLoading(true);
+      setIsLoadingSubjects(true);
       try {
         const response = await fetchAllSubjectsApi();
         console.log("Subject Api", response);
@@ -42,130 +110,122 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
       } catch (error) {
         console.error("Error fetching subjects:", error);
       } finally {
-        setIsLoading(false);
+        setIsLoadingSubjects(false);
       }
     }
 
     fetchSubjects();
   }, []);
- 
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = {
-      selectedSubject,
-      Topic: topicInputValue,
-      Agenda: agendaInputValue,
-      Description: descriptionInputValue,
-      Files: selectedFiles,
-    };
-   
-    navigate("/mentor/solo-lectures", { state: formData });
-  };
-
-  const handleFileSelect = (e) => {
-    const files = Array.from(e.target.files);
-    setSelectedFiles(files.map((file) => file.name));
-   
-  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"xl"}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader fontWeight={500}>Solo Record</ModalHeader>
+        <ModalHeader
+          fontSize={"24px"}
+          fontWeight={500}
+          letterSpacing={"0.15px"}
+        >
+          Assignment
+        </ModalHeader>
+        <ModalCloseButton />
         <ModalBody>
-          {isLoading ? (
-            <Spinner size="lg" color="blue.500" />
-          ) : (
-            <form onSubmit={handleSubmit}>
-              <Stack spacing={4}>
-                <FormControl isRequired>
-                  <Select
-                    placeholder="Select Subjects"
-                    value={selectedSubject}
-                    onChange={(e) => setSelectedSubject(e.target.value)}
-                  >
-                    {subjects.map((subject) => (
-                      <option key={subject.id} value={subject.id}>
-                        {subject.name}
-                      </option>
-                    ))}
-                  </Select>
-                  <FormErrorMessage>This field is required</FormErrorMessage>
-                </FormControl>
-                <FormControl isRequired>
-                  <Input
-                    placeholder="Topic"
-                    value={topicInputValue}
-                    onChange={(e) => setTopicInputValue(e.target.value)}
-                  />
-                  <FormErrorMessage>This field is required</FormErrorMessage>
-                </FormControl>
+          <FormControl>
+            <Select
+              placeholder={
+                isLoadingSubjects ? <Spinner size="sm" /> : "Select Subject"
+              }
+              value={selectedSubject}
+              onChange={(e) => setSelectedSubject(e.target.value)}
+              isDisabled={isLoadingSubjects}
+            >
+              {isLoadingSubjects
+                ? null
+                : subjects.map((subject) => (
+                    <option key={subject.id} value={subject.id}>
+                      {subject.name}
+                    </option>
+                  ))}
+            </Select>
+          </FormControl>
 
-                <Textarea
-                  placeholder="Agenda"
-                  value={agendaInputValue.join("\n")}
-                  onChange={(e) =>
-                    setAgendaInputValue(e.target.value.split("\n"))
-                  }
-                  style={{ whiteSpace: "pre-wrap" }}
-                  h="60px"
-                  resize={"none"}
-                />
+          <FormControl mt={4}>
+            <Input
+              placeholder="Topic"
+              value={topics}
+              onChange={(e) => setTopics(e.target.value)}
+            ></Input>
+          </FormControl>
 
-                <FormControl isRequired>
-                  <Input
-                    placeholder="Description"
-                    h="60px"
-                    value={descriptionInputValue}
-                    onChange={(e) => setDescriptionInputValue(e.target.value)}
-                  />
-                  <FormErrorMessage>This field is required</FormErrorMessage>
-                </FormControl>
+          <FormControl mt={4}>
+            <Textarea
+              placeholder="Agenda"
+              value={agenda}
+              onChange={(e) => setAgenda(e.target.value)}
+            ></Textarea>
+          </FormControl>
 
-                <Input
-                  type="file"
-                  accept=".pdf,.doc,.docx"
-                  style={{ display: "none" }}
-                  ref={fileInputRef}
-                  onChange={handleFileSelect}
-                  multiple
-                />
-                <Flex gap={"16px"}>
-                  <Input
-                    placeholder="Files To Upload"
-                    value={selectedFiles.join(", ")}
-                    readOnly
-                  />
-
-                  <Button
-                    w={"40%"}
-                    bg={"#3C8DBC"}
-                    color={"#FFFFFF"}
-                    fontWeight={500}
-                    onClick={() => fileInputRef.current.click()}
-                  >
-                    Upload
-                  </Button>
-                </Flex>
-                <Center>
-                  <Button
-                    type="submit"
-                    w={"50%"}
-                    bg={"#3C8DBC"}
-                    color={"#FFFFFF"}
-                    fontWeight={500}
-                  >
-                    Start
-                  </Button>
-                </Center>
-              </Stack>
-            </form>
-          )}
+          <FormControl mt={4}>
+            <Textarea
+              placeholder=" Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              resize={"none"}
+            />
+          </FormControl>
+          <FormControl mt={4}>
+            <Input
+              type="file"
+              accept=".pdf,.doc,.docx"
+              style={{ display: "none" }}
+              ref={fileInputRef} // Attach the ref to the input element
+              onChange={handleFileChange}
+              multiple
+            />
+            <Flex gap={"16px"}>
+              <Input
+                placeholder="Files To Upload"
+                readOnly
+                value={
+                  files.length > 0
+                    ? files.map((file) => file.name).join(", ")
+                    : ""
+                }
+              />
+              <Button
+                w={"40%"}
+                bg={"#3C8DBC"}
+                color={"#FFFFFF"}
+                fontWeight={500}
+                onClick={() => {
+                  // Trigger the file input click event using the ref
+                  fileInputRef.current.click();
+                }}
+              >
+                Upload
+              </Button>
+            </Flex>
+          </FormControl>
         </ModalBody>
+        <ModalFooter>
+          <Flex w={"full"} justifyContent={"center"}>
+            <Button
+              type="submit"
+              w={"30%"}
+              bg={"#3C8DBC"}
+              color={"#FFFFFF"}
+              fontWeight={500}
+              onClick={handleSubmit}
+            >
+              Send
+            </Button>
+          </Flex>
+        </ModalFooter>
+        
       </ModalContent>
+      
     </Modal>
+    
   );
 };
 

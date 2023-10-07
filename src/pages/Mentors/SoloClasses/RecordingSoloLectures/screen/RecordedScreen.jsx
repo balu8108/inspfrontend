@@ -6,7 +6,7 @@ const RecordedScreen=()=>{
     return (
         <Flex m={"52px"} gap={"16px"} >
         <DataForClass/>
-        <RecordingLectures />
+        <RecordingLectures  />
         </Flex>
     )
 }
