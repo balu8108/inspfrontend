@@ -69,20 +69,17 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
 
       // Get the selected topic name based on the topic ID
       const selectedTopicName =
-        topics.find((topic) => topic.id === selectedTopic)?.name || "";
-
+    topics.find((topic) => topic.id === selectedTopic)?.name || "";
       formData.append("topicName", selectedTopicName); // Use the topic name
-
+      formData.append("topicId", selectedTopic);
       formData.append("description", description);
 
-      // Append files to the FormData object
+      
       files.forEach((file) => {
-        formData.append("files", file); // Make sure 'file' contains the actual file data
+        formData.append("files", file); 
       });
-
-      // Make a POST request to your backend API
       const response = await axios.post(
-        `${apiUrl}/topic/submit-assignment`,
+        `${apiUrl}/topic/upload-assignments`,
         formData,
         {
           headers: {
