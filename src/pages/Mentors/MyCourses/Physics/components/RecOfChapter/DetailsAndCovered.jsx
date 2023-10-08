@@ -10,9 +10,7 @@ import {
   Spacer,
 } from "@chakra-ui/react";
 import { BsDownload } from "react-icons/bs";
-import {PiUploadSimpleLight} from "react-icons/pi"
 import chapterDetailsData from "../../data/Details";
-import quizType from "../../data/quizType";
 
 const ChapterDetailsAndCoveredPart = () => {
   return (
@@ -87,7 +85,7 @@ const ChapterDetailsAndCoveredPart = () => {
                 {filesOrNotes}
                 <Spacer />
                 <Button
-                  rightIcon={<PiUploadSimpleLight/>}
+                  rightIcon={<BsDownload/>}
                   variant={"ghost"}
                   color={"black"}
                   ml={2}
@@ -98,45 +96,7 @@ const ChapterDetailsAndCoveredPart = () => {
         </Box>
       </Box>
 
-      <Box m={"20px"}>
-        <Flex>
-          {quizType.map((type) => (
-            <Card
-              key={type.id}
-              h={"178px"}
-              p={3}
-              m={2}
-              flex={1}
-              borderRadius={"18px"}
-              bg={"#F1F5F8"}
-              blendMode={"multiply"}
-            >
-              <Text>{type.name}</Text>
-
-              <Text fontSize={"xs"} mt={"15px"}>
-                Description
-              </Text>
-              <Text
-                fontSize={"xs"}
-                mt={"5px"}
-                color={"#2C332978"}
-                noOfLines={2}
-              >
-                {type.description}
-              </Text>
-              <Button
-                variant={"ghost"}
-                fontWeight={"600"}
-                color={"#3C8DBC"}
-                mt={"20px"}
-              >
-                View Details
-              </Button>
-            </Card>
-          ))}
-        </Flex>
-      </Box>
-
+     
       <Box m={"20px"} >
         <Text>Assignments</Text>
         {chapterDetailsData.map((chapter) => (

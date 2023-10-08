@@ -10,47 +10,36 @@ import {
   ModalCloseButton,
   Button,
   FormControl,
-  FormLabel,
   Select,
   Input,
-  Box,
-  InputGroup,
-  InputRightAddon,
-  Center,
   Flex,
-  Text,
   Spinner,
   Textarea,
 } from "@chakra-ui/react";
-import { fetchAllSubjectsApi } from "../../../../../api/inspexternalapis";
+import {
+  fetchAllSubjectsApi,
+  fetchAllTopicsWithoutChapterIdApi,
+} from "../../../../../api/inspexternalapis";
 import axios from "axios";
 
 const SoloRecordModal = ({ isOpen, onClose }) => {
   const [isLoadingSubjects, setIsLoadingSubjects] = useState(true);
+  const [isLoadingTopics, setIsLoadingTopics] = useState(true);
 
   const [subjects, setSubjects] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState("");
+  const [allTopicList, setAllTopicList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [topics, setTopics] = useState([]);
-
+  const [selectedTopic, setSelectedTopic] = useState("");
   const [description, setDescription] = useState("");
-
   const [agenda, setAgenda] = useState("");
-
   const [files, setFiles] = useState([]);
+  const [selectedTopicId, setSelectedTopicId] = useState("");
   const navigate = useNavigate();
 
   const apiUrl = "http://localhost:5000";
-
-  // Create a ref for the file input
   const fileInputRef = useRef(null);
-
-  // const resetFormFields = () => {
-  //   setSelectedSubject("");
-  //   setSelectedChapters("");
-  //   setSelectedTopic("");
-  //   setDescription("");
-  //   setFiles([]);
-  // };
 
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
@@ -60,41 +49,37 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
 
   const handleSubmit = async () => {
     try {
-      // Create a FormData object to send files along with other data
       const formData = new FormData();
       formData.append("subjectId", selectedSubject);
-      formData.append("topic", topics);
+      formData.append("topic", selectedTopic);
       formData.append("agenda", agenda);
       formData.append("description", description);
 
       files.forEach((file) => {
         formData.append("files", file);
       });
+
       const response = await axios.post(
         `${apiUrl}/solo-lecture/create-room`,
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data", // Set the content type to multipart/form-data for file uploads
+            "Content-Type": "multipart/form-data",
             Authorization: `Token ${"U5Ga0Z1aaNlYHp0MjdEdXJ1aKVVVB1TP"}`,
           },
         }
       );
 
       if (response.status === 201) {
-        console.log("SoloClass   created  successfully");
-        // Handle any success actions (e.g., showing a success message)
-
+        console.log("SoloClass created successfully");
         navigate("/mentor/solo-lectures");
       } else {
         console.error("Error creating soloclassroom:", response.data.error);
-        // Handle the error response from the backend
       }
 
-      onClose(); // Close the modal
+      onClose();
     } catch (error) {
-      console.error("Error  creating soloclassroom", error);
-      // Handle any network or other errors that may occur during the request
+      console.error("Error creating soloclassroom", error);
     }
   };
 
@@ -117,16 +102,31 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
     fetchSubjects();
   }, []);
 
+  useEffect(() => {
+    async function fetchAllTopicsWithoutChapterId() {
+      setIsLoadingTopics(true);
+      try {
+        const response = await fetchAllTopicsWithoutChapterIdApi();
+        console.log("Topics Api Without the Chapter Id", response);
+        if (response.status) {
+          setAllTopicList(response.result);
+        }
+      } catch (error) {
+        console.error("Error fetching topics data:", error);
+      } finally {
+        setIsLoadingTopics(false);
+      }
+    }
+
+    fetchAllTopicsWithoutChapterId();
+  }, []);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"xl"}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader
-          fontSize={"24px"}
-          fontWeight={500}
-          letterSpacing={"0.15px"}
-        >
-          Assignment
+        <ModalHeader fontSize={"24px"} fontWeight={500} letterSpacing={"0.15px"}>
+          Solo record
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
@@ -150,11 +150,22 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
           </FormControl>
 
           <FormControl mt={4}>
-            <Input
-              placeholder="Topic"
-              value={topics}
-              onChange={(e) => setTopics(e.target.value)}
-            ></Input>
+            <Select
+              placeholder={
+                isLoadingTopics ? <Spinner size="sm" /> : "Select Topic"
+              }
+              value={selectedTopic}
+              onChange={(e) => setSelectedTopic(e.target.value)}
+              isDisabled={isLoadingTopics}
+            >
+              {isLoadingTopics
+                ? null
+                : allTopicList.map((topic) => (
+                    <option key={topic.id} value={topic.name}>
+                      {topic.name}
+                    </option>
+                  ))}
+            </Select>
           </FormControl>
 
           <FormControl mt={4}>
@@ -178,7 +189,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
               type="file"
               accept=".pdf,.doc,.docx"
               style={{ display: "none" }}
-              ref={fileInputRef} // Attach the ref to the input element
+              ref={fileInputRef}
               onChange={handleFileChange}
               multiple
             />
@@ -198,7 +209,6 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
                 color={"#FFFFFF"}
                 fontWeight={500}
                 onClick={() => {
-                  // Trigger the file input click event using the ref
                   fileInputRef.current.click();
                 }}
               >
@@ -221,11 +231,8 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
             </Button>
           </Flex>
         </ModalFooter>
-        
       </ModalContent>
-      
     </Modal>
-    
   );
 };
 

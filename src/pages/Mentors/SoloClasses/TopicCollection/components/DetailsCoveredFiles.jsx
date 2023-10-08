@@ -38,7 +38,7 @@ const DetailsCoveredFiles = () => {
             </Box>
 
             <Box flex={1} ml={"24px"}>
-              <Text fontSize="md">Covered</Text>
+              <Text fontSize="md">Agenda</Text>
               <ul
                 style={{
                   listStyle: "circle",

@@ -8,7 +8,7 @@ const chapterDetails = [
       "Volutpat in tellus dolor quis magna dis sed. Dictum elementum eget sapien pretium ut diam tempor.",
       "Felis nibh vitae porttitor lacinia in duis justo. Rutrum eleifend quis facilisis odio pharetra quam cras. Velit viverra duis facilisi",
     ],
-    filesOrNotes: ["File 1", "File 2", "File 3","File 4"],
+    filesOrNotes: ["File 1", "File 2", "File 3","File 4","Q&A"],
     assignment: [
       {
         assignmentName: "Assignment 1",

@@ -34,7 +34,7 @@ const SoloRecordedTopicsDetails = () => {
         />
       )}
       <Flex gap={"24px"}>
-      <Stack w={"75%"} spacing={"24px"}>
+      <Stack w={"73%"} spacing={"24px"}>
         <TopicsBased />
         <DetailsCoveredFiles/>
       </Stack>
