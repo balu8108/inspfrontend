@@ -14,6 +14,36 @@ const recordedClassData = [
       { id: "3", aim: "Introduction" },
       { id: "4", aim: "Introduction" },
     ],
+
+    recordings: [
+      {
+        id: 1,
+        title: "Recording 1",
+      },
+      {
+        id: 2,
+        title: "Recording 2",
+      },
+      {
+        id: 3,
+        title: "Recording 2",
+      },
+      {
+        id: 4,
+        title: "Recording 2",
+      },{
+        id: 5,
+        title: "Recording 2",
+      },{
+        id: 6,
+        title: "Recording 2",
+      },
+      {
+        id: 7,
+        title: "Recording 2",
+      },
+    ],
+    
   },
 ];
 export default recordedClassData;

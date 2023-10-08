@@ -11,7 +11,7 @@ import {
 import detailsCoveredData from "../data/detailsCoveredData";
 import { PiUploadSimpleLight } from "react-icons/pi";
 import defaultImageUrl from "../../../../../assets/images/image1.png";
-
+import { Link } from "react-router-dom";
 const DetailsCoveredFiles = () => {
   return (
     <Box bg={"#F1F5F8"} borderRadius={"26px"} w={"100%"}>
@@ -56,7 +56,7 @@ const DetailsCoveredFiles = () => {
           </Flex>
         ))}
 
-        <Box p={"13px"} >
+        <Box p={"13px"}>
           <Text>Recordings</Text>
           {detailsCoveredData.map((topicInfo) => (
             <Flex
@@ -65,11 +65,12 @@ const DetailsCoveredFiles = () => {
               color={"#2C332978"}
               fontSize={"13px"}
               gap={"24px"}
-             
             >
               {topicInfo.recordings.map((id) => (
-                <Flex key={id} w={"15%"} h={"15%"} >
-                  <Image src={defaultImageUrl} alt="Default Image" />
+                <Flex key={id} w={"15%"} h={"15%"}>
+                  <Link to="/view-recording">
+                    <Image src={defaultImageUrl} alt="Default Image" />
+                  </Link>
                 </Flex>
               ))}
             </Flex>

@@ -8,10 +8,12 @@ import {
   Button,
   Stack,
   Spacer,
+  Image
 } from "@chakra-ui/react";
 import { BsDownload } from "react-icons/bs";
 import chapterDetailsData from "../../data/Details";
-
+import  defaultImageUrl from "../../../.././../../assets/images/image1.png";
+import viewChapterRecordings from "../../data/recording";
 const ChapterDetailsAndCoveredPart = () => {
   return (
     <Box w={"100%"} height={"999px"} bg={"#F1F5F8"} borderRadius={"26px"}>
@@ -57,22 +59,44 @@ const ChapterDetailsAndCoveredPart = () => {
           </Flex>
         ))}
       </Stack>
-      <Box ml={"21px"}>
+
+      <Box p={"13px"}   ml={"21px"} overflowX={"auto"} >
+        <Text>Recordings</Text>
+        <Flex>
+          {viewChapterRecordings.map((chapter) => (
+            <Flex key={chapter.chapterId} gap={"24px"}>
+              {chapter.recordings.map((recording) => (
+                <Card
+                  key={recording.recordingId}
+                  mt={"15px"}
+                  color={"#2C332978"}
+                  fontSize={"13px"}
+                  w={"120px"}
+                >
+                  <Image src={defaultImageUrl} alt="Recording Image" />
+                </Card>
+              ))}
+            </Flex>
+          ))}
+        </Flex>
+      </Box>
+
+
+      <Box ml={"21px"} mt={"30px"}>
         <Text p={"12px"}>Files/Notes</Text>
         <Box
           flex={1}
           display="flex"
           justifyContent="flex-end"
           gap={4}
-          my={"13px"}
-          mx={"25px"}
+          
         >
           {chapterDetailsData.map((chapter) =>
             chapter.filesOrNotes.map((filesOrNotes, index) => (
               <Flex
                 key={index}
                 flex={1}
-                mt={"15px"}
+                mt={"10px"}
                 color={"#2C332978"}
                 p={"9px"}
                 borderRadius={"6px"}
@@ -98,7 +122,7 @@ const ChapterDetailsAndCoveredPart = () => {
 
      
       <Box m={"20px"} >
-        <Text>Assignments</Text>
+        <Text p={"13px"}>Assignments</Text>
         {chapterDetailsData.map((chapter) => (
           <Flex key={chapter.id} gap={"18px"} mt={"16px"}>
             {chapter.assignment.map((assignment, index) => (

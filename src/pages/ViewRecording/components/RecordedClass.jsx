@@ -1,7 +1,9 @@
-import { Box, HStack, Text, Flex, Icon } from "@chakra-ui/react";
+import { Box, HStack, Text, Flex, Icon, Image,Card,SimpleGrid } from "@chakra-ui/react";
 import recordedClassData from "../data/recordedClassData";
 import { BsDownload } from "react-icons/bs";
 import { FaCircle } from "react-icons/fa";
+import defaultImageUrl from "../../../assets/images/image1.png";
+import { Link } from "react-router-dom";
 const RecordedClass = () => {
   return (
     <Box
@@ -151,27 +153,28 @@ const RecordedClass = () => {
             </Box>
           ))}
         </Box>
-        <Text ml={"31px"} mt={4} lineHeight={"19px"}>
-          Recordings
-        </Text>
-        <Text mt={130} ml={"31px"} lineHeight={"19px"}>
-          Notes
-        </Text>
-        <Box
-          bg={"blackAlpha.200"}
-          w={"348px"}
-          h={"43px"}
-          mt={3}
-          ml={"30px"}
-          mr={"30px"}
-          p={"6px"}
-          justifyContent={"space-between"}
-          borderRadius={"6px"}
-          border={"1px"}
-          borderColor={"#9597927D"}
-        >
-          <Icon ml={"290px"} w={"18px"} h={"18px"} as={BsDownload} />
-        </Box>
+        <Box p={"13px"}  overflowX={"auto"} >
+        <Text>Recordings</Text>
+        <Flex >
+          {recordedClassData.map((topicInfo) => (
+            <Flex key={topicInfo.id} gap={"24px"} >
+              {topicInfo.recordings.map((recording) => (
+                <Card
+                  key={recording.id}
+                  mt={"15px"}
+                  color={"#2C332978"}
+                  fontSize={"13px"}
+                  w={"150px"} 
+                >
+                  <Link to="/view-recording">
+                    <Image src={defaultImageUrl} alt="Default Image" />
+                  </Link>
+                </Card>
+              ))}
+            </Flex>
+          ))}
+        </Flex>
+      </Box>
       </Box>
     </Box>
   );
