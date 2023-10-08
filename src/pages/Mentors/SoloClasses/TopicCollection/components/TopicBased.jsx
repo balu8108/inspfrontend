@@ -100,7 +100,7 @@ const TopicsBased = () => {
                 ml={"13px"}
                 color={"rgba(44, 51, 41, 0.47)"}
               >
-                {topic.instructorName} No Data 
+                {topic.instructorName} No Data
               </Text>
               <Text
                 fontSize={"12px"}

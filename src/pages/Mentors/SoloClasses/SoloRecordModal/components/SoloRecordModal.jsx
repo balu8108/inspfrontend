@@ -25,17 +25,15 @@ import axios from "axios";
 const SoloRecordModal = ({ isOpen, onClose }) => {
   const [isLoadingSubjects, setIsLoadingSubjects] = useState(true);
   const [isLoadingTopics, setIsLoadingTopics] = useState(true);
-
   const [subjects, setSubjects] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState("");
   const [allTopicList, setAllTopicList] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [topics, setTopics] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState("");
   const [description, setDescription] = useState("");
   const [agenda, setAgenda] = useState("");
   const [files, setFiles] = useState([]);
   const [selectedTopicId, setSelectedTopicId] = useState("");
+
   const navigate = useNavigate();
 
   const apiUrl = "http://localhost:5000";
@@ -52,6 +50,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
       const formData = new FormData();
       formData.append("subjectId", selectedSubject);
       formData.append("topic", selectedTopic);
+      formData.append("topicId", selectedTopicId);
       formData.append("agenda", agenda);
       formData.append("description", description);
 
@@ -125,7 +124,11 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
     <Modal isOpen={isOpen} onClose={onClose} size={"xl"}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader fontSize={"24px"} fontWeight={500} letterSpacing={"0.15px"}>
+        <ModalHeader
+          fontSize={"24px"}
+          fontWeight={500}
+          letterSpacing={"0.15px"}
+        >
           Solo record
         </ModalHeader>
         <ModalCloseButton />
@@ -150,12 +153,42 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
           </FormControl>
 
           <FormControl mt={4}>
-            <Select
+            {/* <Select
               placeholder={
                 isLoadingTopics ? <Spinner size="sm" /> : "Select Topic"
               }
               value={selectedTopic}
               onChange={(e) => setSelectedTopic(e.target.value)}
+              isDisabled={isLoadingTopics}
+            >
+              {isLoadingTopics
+                ? null
+                : allTopicList.map((topic) => (
+                    <option key={topic.id} value={topic.name}>
+                      {topic.name}
+                    </option>
+                  ))}
+            </Select> */}
+            <Select
+              placeholder={
+                isLoadingTopics ? <Spinner size="sm" /> : "Select Topic"
+              }
+              value={selectedTopic}
+              onChange={(e) => {
+                const selectedTopicValue = e.target.value;
+                setSelectedTopic(selectedTopicValue);
+
+                // Find the topic object based on the selectedTopicValue
+                const selectedTopicObject = allTopicList.find(
+                  (topic) => topic.name === selectedTopicValue
+                );
+
+                // Extract the topicId from the selected topic object and store it in state
+                if (selectedTopicObject) {
+                  const selectedTopicId = selectedTopicObject.id;
+                  setSelectedTopicId(selectedTopicId);
+                }
+              }}
               isDisabled={isLoadingTopics}
             >
               {isLoadingTopics
