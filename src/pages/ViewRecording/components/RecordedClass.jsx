@@ -1,4 +1,13 @@
-import { Box, HStack, Text, Flex, Icon, Image,Card,SimpleGrid } from "@chakra-ui/react";
+import {
+  Box,
+  HStack,
+  Text,
+  Flex,
+  Icon,
+  Image,
+  Card,
+  SimpleGrid,
+} from "@chakra-ui/react";
 import recordedClassData from "../data/recordedClassData";
 import { BsDownload } from "react-icons/bs";
 import { FaCircle } from "react-icons/fa";
@@ -153,28 +162,28 @@ const RecordedClass = () => {
             </Box>
           ))}
         </Box>
-        <Box p={"13px"}  overflowX={"auto"} >
-        <Text>Recordings</Text>
-        <Flex >
-          {recordedClassData.map((topicInfo) => (
-            <Flex key={topicInfo.id} gap={"24px"} >
-              {topicInfo.recordings.map((recording) => (
-                <Card
-                  key={recording.id}
-                  mt={"15px"}
-                  color={"#2C332978"}
-                  fontSize={"13px"}
-                  w={"150px"} 
-                >
-                  <Link to="/view-recording">
-                    <Image src={defaultImageUrl} alt="Default Image" />
-                  </Link>
-                </Card>
-              ))}
-            </Flex>
-          ))}
-        </Flex>
-      </Box>
+        <Box p={"13px"} overflowX={"auto"}>
+          <Text>Recordings</Text>
+          <Flex>
+            {recordedClassData.map((topicInfo) => (
+              <Flex key={topicInfo.id} gap={"24px"}>
+                {topicInfo.recordings.map((recording) => (
+                  <Card
+                    key={recording.id}
+                    mt={"15px"}
+                    color={"#2C332978"}
+                    fontSize={"13px"}
+                    w={"150px"}
+                  >
+                    <Link to="/view-recording">
+                      <Image src={defaultImageUrl} alt="Default Image" />
+                    </Link>
+                  </Card>
+                ))}
+              </Flex>
+            ))}
+          </Flex>
+        </Box>
       </Box>
     </Box>
   );

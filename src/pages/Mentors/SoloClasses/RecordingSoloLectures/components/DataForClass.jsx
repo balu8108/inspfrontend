@@ -16,7 +16,7 @@ import { AddIcon } from "@chakra-ui/icons";
 import { FaCircle } from "react-icons/fa";
 import { BsUpload } from "react-icons/bs";
 import { IoOpenOutline } from "react-icons/io5";
-const DataForClass = ({topic}) => {
+const DataForClass = ({ topic }) => {
   const location = useLocation();
   const formData = location.state;
   return (
@@ -112,17 +112,8 @@ const DataForClass = ({topic}) => {
           </Box>
         ))}
       </Stack> */}
-     
     </Box>
   );
 };
 
 export default DataForClass;
-
-
-
-
-
-
-
-

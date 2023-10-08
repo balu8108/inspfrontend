@@ -8,11 +8,11 @@ import {
   Button,
   Stack,
   Spacer,
-  Image
+  Image,
 } from "@chakra-ui/react";
 import { BsDownload } from "react-icons/bs";
 import chapterDetailsData from "../../data/Details";
-import  defaultImageUrl from "../../../.././../../assets/images/image1.png";
+import defaultImageUrl from "../../../.././../../assets/images/image1.png";
 import viewChapterRecordings from "../../data/recording";
 const ChapterDetailsAndCoveredPart = () => {
   return (
@@ -60,7 +60,7 @@ const ChapterDetailsAndCoveredPart = () => {
         ))}
       </Stack>
 
-      <Box p={"13px"}   ml={"21px"} overflowX={"auto"} >
+      <Box p={"13px"} ml={"21px"} overflowX={"auto"}>
         <Text>Recordings</Text>
         <Flex>
           {viewChapterRecordings.map((chapter) => (
@@ -81,16 +81,9 @@ const ChapterDetailsAndCoveredPart = () => {
         </Flex>
       </Box>
 
-
       <Box ml={"21px"} mt={"30px"}>
         <Text p={"12px"}>Files/Notes</Text>
-        <Box
-          flex={1}
-          display="flex"
-          justifyContent="flex-end"
-          gap={4}
-          
-        >
+        <Box flex={1} display="flex" justifyContent="flex-end" gap={4}>
           {chapterDetailsData.map((chapter) =>
             chapter.filesOrNotes.map((filesOrNotes, index) => (
               <Flex
@@ -109,7 +102,7 @@ const ChapterDetailsAndCoveredPart = () => {
                 {filesOrNotes}
                 <Spacer />
                 <Button
-                  rightIcon={<BsDownload/>}
+                  rightIcon={<BsDownload />}
                   variant={"ghost"}
                   color={"black"}
                   ml={2}
@@ -120,8 +113,7 @@ const ChapterDetailsAndCoveredPart = () => {
         </Box>
       </Box>
 
-     
-      <Box m={"20px"} >
+      <Box m={"20px"}>
         <Text p={"13px"}>Assignments</Text>
         {chapterDetailsData.map((chapter) => (
           <Flex key={chapter.id} gap={"18px"} mt={"16px"}>
