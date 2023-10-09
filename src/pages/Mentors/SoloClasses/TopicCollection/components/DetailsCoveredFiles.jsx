@@ -1,4 +1,4 @@
-import React , {useState, useEffect} from "react"
+import React, { useState, useEffect } from "react";
 import {
   Box,
   HStack,
@@ -25,7 +25,8 @@ const DetailsCoveredFiles = () => {
   const topicId = new URLSearchParams(location.search).get("topicId");
   useEffect(() => {
     // Make a GET request to your /get-topic-details API
-    axios.get(`${apiUrl}/get-topic-details`)
+    axios
+      .get(`${apiUrl}/get-topic-details`)
       .then((response) => {
         setTopicDetails(response.data);
       })
@@ -136,5 +137,3 @@ const DetailsCoveredFiles = () => {
   );
 };
 export default DetailsCoveredFiles;
-
-

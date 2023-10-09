@@ -42,7 +42,6 @@ const TopicsBased = () => {
     fetchAllTopicsWithoutChapterId();
   }, []);
 
-
   const handleViewDetailsClick = (topicId) => {
     // Change the URL to include the topicId without navigating to another page
     const newUrl = `/mentor/solo-recordings/topic/${topicId}`;
@@ -158,11 +157,3 @@ const TopicsBased = () => {
 };
 
 export default TopicsBased;
-
-
-
-
-
-
-
-
