@@ -12,34 +12,11 @@ import {
 import detailsCoveredData from "../data/detailsCoveredData";
 import defaultImageUrl from "../../../../../assets/images/image1.png";
 import { Link } from "react-router-dom";
-import { useLocation } from "react-router-dom";
-import axios from "axios";
 import { BsDownload } from "react-icons/bs";
 const DetailsCoveredFiles = () => {
   const apiUrl = "http://localhost:5000";
-  const [topicDetails, setTopicDetails] = useState([]);
-  const location = useLocation(); // Get the current location
 
-  // Extract the topicId from the URL query parameter
-
-
-
-  useEffect(() => {
-    // Extract the topicId from the current location
-    const topicIdFromURL = new URLSearchParams(location.search).get("topicId");
   
-    // Make a GET request to your /get-topic-details API with the extracted topicId
-    axios
-      .get(`${apiUrl}/get-topic-details?topicId=${topicIdFromURL}`)
-      .then((response) => {
-        setTopicDetails(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching topic details: ", error);
-      });
-  }, [location]);
-  
-
   return (
     <Box bg={"#F1F5F8"} borderRadius={"26px"} w={"100%"}>
       <HStack spacing={"10px"} p={6}>
@@ -147,3 +124,12 @@ const DetailsCoveredFiles = () => {
   );
 };
 export default DetailsCoveredFiles;
+
+
+
+
+
+
+
+
+

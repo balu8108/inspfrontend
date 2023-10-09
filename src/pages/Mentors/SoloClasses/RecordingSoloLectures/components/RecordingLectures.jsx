@@ -146,7 +146,8 @@ const RecordingLectures = () => {
   return (
     <Box
       h="80vh"
-      w="80%"
+      // w="80%"
+      width={isExpanded ? "120%" : "80%"}
       borderRadius="12px"
       boxShadow="md"
       position="relative"
@@ -154,6 +155,7 @@ const RecordingLectures = () => {
       flexDirection="column"
       bg={"black"}
     >
+    
       <Stack
         position="absolute"
         top="20px"

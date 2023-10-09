@@ -11,11 +11,15 @@ import {
 } from "@chakra-ui/react";
 import SoloRecordModal from "../../SoloRecordModal/components/SoloRecordModal";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../../api/inspexternalapis";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import TopicList from "./DetailsCoveredFiles";
 const TopicsBased = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoadingTopics, setIsLoadingTopics] = useState(true);
   const [topics, setTopics] = useState([]);
+  const apiUrl = "http://localhost:5000";
+  const [topic, selectedTopic] = useState([]);
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -42,10 +46,26 @@ const TopicsBased = () => {
     fetchAllTopicsWithoutChapterId();
   }, []);
 
-  const handleViewDetailsClick = (topicId) => {
-    // Change the URL to include the topicId without navigating to another page
-    const newUrl = `/mentor/solo-recordings/topic/${topicId}`;
-    window.history.pushState({}, "", newUrl);
+  const handleViewDetailsClick = async (topicId, topicName) => {
+    try {
+      const response = await axios.get(
+        `${apiUrl}/solo-lecture/get-topic-details/${topicId}`
+      );
+      const newUrl = `/mentor/solo-recordings/topic/${topicId}/${topicName}`;
+      window.history.pushState({}, "", newUrl);
+
+      // Assuming the response contains the topic details you need
+      const topicDetails = response.data;
+      selectedTopic([topicDetails]);
+
+      // Do something with the topicDetails, such as displaying them in a modal
+      console.log("Topic Details:", topicDetails);
+
+      // You can update your component state or open a modal here
+    } catch (error) {
+      console.error("Error fetching topic details:", error);
+      // Handle errors as needed
+    }
   };
 
   return (
@@ -141,7 +161,7 @@ const TopicsBased = () => {
                 size={"14px"}
                 lineHeight={"16px"}
                 mt={"60px"}
-                onClick={() => handleViewDetailsClick(topic.id)}
+                onClick={() => handleViewDetailsClick(topic.id, topic.name)}
               >
                 View Details
               </Button>
@@ -149,6 +169,7 @@ const TopicsBased = () => {
           ))}
         </Flex>
       )}
+
       {isModalOpen && (
         <SoloRecordModal isOpen={isModalOpen} onClose={closeModal} />
       )}
