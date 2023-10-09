@@ -28,6 +28,7 @@ import {
   SET_AUDIO_CONSUMER_PAUSE_OR_RESUME,
   SET_AUDIO_STREAM_ENABLED_OR_DISABLED,
   SET_IS_KICKED_OUT,
+  SET_SELF_DETAILS,
 } from "../constants";
 
 export const setSocket = (socket) => {
@@ -47,6 +48,10 @@ export const setNewPeerJoined = (newPeer) => async (dispatch) => {
   dispatch({ type: IS_PEER_LOADING, payload: true });
   dispatch({ type: SET_NEW_PEER_JOINED, payload: newPeer });
   dispatch({ type: IS_PEER_LOADING, payload: false });
+};
+
+export const setSelfDetails = (details) => async (dispatch) => {
+  dispatch({ type: SET_SELF_DETAILS, payload: details });
 };
 
 export const setRtpCapabilities = (rtpCapabilities) => async (dispatch) => {

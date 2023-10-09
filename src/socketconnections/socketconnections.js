@@ -19,6 +19,7 @@ import {
   setNewPeerJoined,
   setPeerLeaved,
   setQuestion,
+  setSelfDetails,
   setUploadFiles,
   setUploadFilesInRoom,
 } from "../store/actions/socketActions";
@@ -63,6 +64,7 @@ const socketNewPeerJoinedHandler = (res) => {
 
 const joinRoomResponseHandler = (res, resolve, reject) => {
   if (res.success) {
+    console.log("join room response", res);
     resolve(res);
   } else {
     reject(res);
@@ -393,6 +395,13 @@ const kickOutResponseHandler = () => {
   store.dispatch(setKickedOutFromClass(true));
 };
 
+const blockOrUnblockMicResponseHandler = (res) => {
+  // expecting here self details again from server
+  store.dispatch(setSelfDetails(res));
+};
+const muteMicCommandByMentorResponseHandler = (res) => {
+  store.dispatch(setSelfDetails(res));
+};
 /** REPSONSE HANDLER ENDS HERE **/
 
 // SOCKET EVENT LISTENERS AND EVENT EMITTERS:-
@@ -416,6 +425,14 @@ export const initializeSocketConnections = (roomId) => {
     socket.on(SOCKET_EVENTS.QUESTION_SENT_FROM_SERVER, questionResponseHandler);
     socket.on(SOCKET_EVENTS.PRODUCER_PAUSED, producerPausedResponseHandler);
     socket.on(SOCKET_EVENTS.PRODUCER_RESUMED, producerResumeResponseHandler);
+    socket.on(
+      SOCKET_EVENTS.BLOCK_OR_UNBLOCK_MIC_FROM_SERVER,
+      blockOrUnblockMicResponseHandler
+    );
+    socket.on(
+      SOCKET_EVENTS.MUTE_MIC_COMMAND_BY_MENTOR_FROM_SERVER,
+      muteMicCommandByMentorResponseHandler
+    );
     socket.on(
       SOCKET_EVENTS.SOME_PRODUCER_CLOSED,
       someProducerClosedResponseHandler
@@ -571,6 +588,21 @@ export const setIsAudioStreamEnabled = (value, producerId) => {
 
 export const kickOutFromClass = (peerSocketId, peerId) => {
   socket.emit(SOCKET_EVENTS.KICK_OUT_FROM_CLASS_TO_SERVER, {
+    peerSocketId,
+    peerId,
+  });
+};
+export const blockOrUnblockMic = (value, peerSocketId, peerId) => {
+  socket.emit(SOCKET_EVENTS.BLOCK_OR_UNBLOCK_MIC_TO_SERVER, {
+    value,
+    peerSocketId,
+    peerId,
+  });
+};
+
+export const muteMicCommandByMentor = (value, peerSocketId, peerId) => {
+  socket.emit(SOCKET_EVENTS.MUTE_MIC_COMMAND_BY_MENTOR_TO_SERVER, {
+    value,
     peerSocketId,
     peerId,
   });

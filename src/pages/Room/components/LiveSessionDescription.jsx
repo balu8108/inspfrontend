@@ -50,7 +50,7 @@ const RoomContent = ({ mainTextColor, secondaryTextColor, type }) => {
           {formatTime(renderContent()?.scheduledEndTime)}
         </Text>
       </Box>
-      <Box pt={6}>
+      {/* <Box pt={6}>
         <Text fontSize={"14px"} color={mainTextColor}>
           {roomData.agenda}
         </Text>
@@ -66,7 +66,7 @@ const RoomContent = ({ mainTextColor, secondaryTextColor, type }) => {
             {renderContent()?.LiveClassRoomDetail?.agenda || roomData.noData}
           </Text>
         </HStack>
-      </Box>
+      </Box> */}
       <Box pt={6}>
         <Flex py={2} alignItems={"center"} justifyContent={"space-between"}>
           <Text fontSize={"14px"} color={mainTextColor}>
@@ -86,7 +86,7 @@ const RoomContent = ({ mainTextColor, secondaryTextColor, type }) => {
         </Box>
       </Box>
 
-      <Box pt={6}>
+      {/* <Box pt={6}>
         <Flex justifyContent={"space-between"} py={2} alignItems={"center"}>
           <Text fontSize={"14px"}>{roomData.notes}</Text>
           <Icon
@@ -102,7 +102,7 @@ const RoomContent = ({ mainTextColor, secondaryTextColor, type }) => {
           bg="gray.200"
           borderRadius={"md"}
         ></Box>
-      </Box>
+      </Box> */}
     </>
   );
 };
@@ -133,8 +133,15 @@ const LiveSessionDescription = () => {
           ></Box>
           <Text fontWeight={"400"}>{roomData.liveSessionText}</Text>
         </HStack>
+        <Box>
+          <RoomContent
+            mainTextColor={mainTextColor}
+            secondaryTextColor={secondaryTextColor}
+            type={"active"}
+          />
+        </Box>
 
-        <Tabs pt={6} colorScheme="black">
+        {/* <Tabs pt={6} colorScheme="black">
           <TabList>
             <Tab fontSize={"12px"}>{roomData.active}</Tab>
             <Tab fontSize={"12px"}>{roomData.upcoming}</Tab>
@@ -156,7 +163,7 @@ const LiveSessionDescription = () => {
               />
             </TabPanel>
           </TabPanels>
-        </Tabs>
+        </Tabs> */}
       </Box>
     </>
   );

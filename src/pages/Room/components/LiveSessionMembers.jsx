@@ -25,8 +25,24 @@ import SimpleBar from "simplebar-react";
 import { IoIosRemoveCircleOutline } from "react-icons/io";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { BsMicMute } from "react-icons/bs";
-import { kickOutFromClass } from "../../../socketconnections/socketconnections";
+import {
+  blockOrUnblockMic,
+  kickOutFromClass,
+  muteMicCommandByMentor,
+} from "../../../socketconnections/socketconnections";
 const Actions = ({ peer }) => {
+  const [isMicBlocked, setIsMicBlocked] = useState(peer?.isAudioBlocked);
+
+  const changeMicAccess = (e) => {
+    e.stopPropagation();
+    if (isMicBlocked) {
+      setIsMicBlocked(false);
+      blockOrUnblockMic(false, peer?.socketId, peer?.id);
+    } else {
+      setIsMicBlocked(true);
+      blockOrUnblockMic(true, peer?.socketId, peer?.id);
+    }
+  };
   return (
     <>
       <Menu>
@@ -41,16 +57,19 @@ const Actions = ({ peer }) => {
           <MenuItem
             icon={<IoIosRemoveCircleOutline size={20} />}
             fontSize={"1rem"}
-            onClick={() => kickOutFromClass(peer?.socketId, peer?.id)}
+            onClick={(e) => {
+              e.stopPropagation();
+              kickOutFromClass(peer?.socketId, peer?.id);
+            }}
           >
             Kick from class
           </MenuItem>
           <MenuItem
-            isDisabled={true}
             icon={<BsMicMute size={20} />}
             fontSize={"1rem"}
+            onClick={changeMicAccess}
           >
-            Mute
+            {isMicBlocked ? "Unblock Mic" : "Block Mic"}
           </MenuItem>
         </MenuList>
       </Menu>
@@ -59,7 +78,7 @@ const Actions = ({ peer }) => {
 };
 
 const LiveSessionMembers = ({ primaryBlue, viewType }) => {
-  const { peers } = useSelector((state) => state.socket);
+  const { peers, selfDetails } = useSelector((state) => state.socket);
   const [isMicOn, setIsMicOn] = useState(false);
   const [maxBoxesPerRow, setMaxBoxesPerRow] = useState(3);
   const userRoleType = checkUserType();
@@ -86,6 +105,12 @@ const LiveSessionMembers = ({ primaryBlue, viewType }) => {
   }, [viewType]);
 
   const renderExpandedPeers = () => {
+    const audioEnabledHandler = (e, peer) => {
+      e.stopPropagation();
+      if (peer?.isAudioEnabled) {
+        muteMicCommandByMentor(false, peer?.socketId, peer?.id);
+      }
+    };
     return (
       <>
         {peers.map((peer) => (
@@ -106,12 +131,16 @@ const LiveSessionMembers = ({ primaryBlue, viewType }) => {
                   borderRadius={"md"}
                 />
               </Box>
-              <Text fontSize={"0.9rem"}>{peer.name}</Text>
+              <Text fontSize={"0.9rem"}>
+                {peer?.id === selfDetails?.id ? "You" : peer.name}
+              </Text>
             </HStack>
             <HStack>
               <IconButton
                 isRound={true}
                 size={"sm"}
+                onClick={(e) => audioEnabledHandler(e, peer)}
+                isDisabled={userRoleType === userType.student}
                 bg={peer?.isAudioEnabled ? "gray.200" : "red"}
                 _hover={{ bg: peer?.isAudioEnabled ? "gray.200" : "red" }}
                 icon={
@@ -124,6 +153,7 @@ const LiveSessionMembers = ({ primaryBlue, viewType }) => {
               />
               <IconButton
                 isRound={true}
+                isDisabled={userRoleType === userType.student}
                 size={"sm"}
                 bg={"red"}
                 _hover={{ bg: "red" }}
