@@ -17,7 +17,7 @@ import SimpleBar from "simplebar-react";
 const Leaderboard = ({ isLeaderBoardOpen }) => {
   const { leaderBoard } = useSelector((state) => state.socket, shallowEqual);
 
-  const { primaryBlue, lightGrey } = useTheme().colors.pallete;
+  const { primaryBlue } = useTheme().colors.pallete;
   return (
     <>
       {isLeaderBoardOpen && (
