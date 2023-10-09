@@ -64,7 +64,6 @@ const socketNewPeerJoinedHandler = (res) => {
 
 const joinRoomResponseHandler = (res, resolve, reject) => {
   if (res.success) {
-    console.log("join room response", res);
     resolve(res);
   } else {
     reject(res);
