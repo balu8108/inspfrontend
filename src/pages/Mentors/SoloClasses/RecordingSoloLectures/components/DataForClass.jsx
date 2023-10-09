@@ -16,9 +16,8 @@ import { AddIcon } from "@chakra-ui/icons";
 import { FaCircle } from "react-icons/fa";
 import { BsUpload } from "react-icons/bs";
 import { IoOpenOutline } from "react-icons/io5";
-const DataForClass = ({ topic }) => {
+const DataForClass = () => {
   const location = useLocation();
-  const formData = location.state;
   return (
     <Box w="25%" borderRadius={"12px"} bg={"#F1F5F8"}>
       <HStack spacing={"10px"}>
@@ -40,8 +39,8 @@ const DataForClass = ({ topic }) => {
         </Text>
       </HStack>
       <Stack spacing={"25px"}>
-      {/* <Text>{formData.topic}</Text> */}
-        {/* {topicData.map((dataforsoloclass) => (
+{/*       
+         {topicData.map((dataforsoloclass) => (
           <Box key={dataforsoloclass.id} p={6}>
             <Text>{formData.Topic}</Text>
             <Box mt={"30px"}>
@@ -111,13 +110,24 @@ const DataForClass = ({ topic }) => {
               </Box>
             )}
           </Box>
-        ))} */}
+        ))}  */}
       </Stack> 
     </Box>
   );
 };
 
 export default DataForClass;
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -20,6 +20,7 @@ import {
   fetchAllSubjectsApi,
   fetchAllTopicsWithoutChapterIdApi,
 } from "../../../../../api/inspexternalapis";
+import DataForClass from "../../RecordingSoloLectures/components/DataForClass";
 import axios from "axios";
 const SoloRecordModal = ({ isOpen, onClose }) => {
   const [isLoadingSubjects, setIsLoadingSubjects] = useState(true);
@@ -68,11 +69,8 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
       if (response.status === 201) {
         console.log("SoloClass created successfully");
 
-        navigate("/mentor/solo-lectures", {
-          selectedTopic,
-          description,
-          agenda,
-        });
+        navigate(`/mentor/solo-lectures/${response?.data?.soloClassRoomId}`);
+        console.log("Data for solo class", response);
       } else {
         console.error("Error creating soloclassroom:", response.data.error);
       }

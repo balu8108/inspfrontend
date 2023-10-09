@@ -7,16 +7,15 @@ import {
   Spacer,
   Button,
   Flex,
-  Spinner, // Import Spinner component
+  Spinner,
 } from "@chakra-ui/react";
 import SoloRecordModal from "../../SoloRecordModal/components/SoloRecordModal";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../../api/inspexternalapis";
-
+import { Link } from "react-router-dom";
 const TopicsBased = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoadingTopics, setIsLoadingTopics] = useState(true);
   const [topics, setTopics] = useState([]);
-
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -42,6 +41,13 @@ const TopicsBased = () => {
 
     fetchAllTopicsWithoutChapterId();
   }, []);
+
+
+  const handleViewDetailsClick = (topicId) => {
+    // Change the URL to include the topicId without navigating to another page
+    const newUrl = `/mentor/solo-recordings/topic/${topicId}`;
+    window.history.pushState({}, "", newUrl);
+  };
 
   return (
     <Box bg={"#F1F5F8"} borderRadius={"26px"} w={"100%"} h={"300px"}>
@@ -90,7 +96,13 @@ const TopicsBased = () => {
               mx={6}
               borderRadius={"26px"}
             >
-              <Text fontSize={"15px"} ml={"13px"} mt={"16px"} lineHeight={"19px"} noOfLines={1}>
+              <Text
+                fontSize={"15px"}
+                ml={"13px"}
+                mt={"16px"}
+                lineHeight={"19px"}
+                noOfLines={1}
+              >
                 {topic.name}
               </Text>
               <Text
@@ -120,7 +132,7 @@ const TopicsBased = () => {
                 noOfLines={"2"}
                 color={"rgba(44, 51, 41, 0.47)"}
               >
-                {topic.description  ||  dummyDescription}
+                {topic.description || dummyDescription}
               </Text>
 
               <Button
@@ -130,6 +142,7 @@ const TopicsBased = () => {
                 size={"14px"}
                 lineHeight={"16px"}
                 mt={"60px"}
+                onClick={() => handleViewDetailsClick(topic.id)}
               >
                 View Details
               </Button>
@@ -145,3 +158,11 @@ const TopicsBased = () => {
 };
 
 export default TopicsBased;
+
+
+
+
+
+
+
+

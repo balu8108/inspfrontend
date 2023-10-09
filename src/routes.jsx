@@ -147,7 +147,7 @@ const privateRoutes = [
   },
   {
     name: "Solo Recording Screen ",
-    path: "/mentor/solo-lectures",
+    path: "/mentor/solo-lectures/:soloClassRoomId",
     component: <RecordedScreen />,
   },
 

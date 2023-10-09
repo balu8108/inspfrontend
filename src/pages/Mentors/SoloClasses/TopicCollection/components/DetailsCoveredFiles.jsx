@@ -1,3 +1,4 @@
+import React , {useState, useEffect} from "react"
 import {
   Box,
   HStack,
@@ -12,7 +13,26 @@ import detailsCoveredData from "../data/detailsCoveredData";
 import { PiUploadSimpleLight } from "react-icons/pi";
 import defaultImageUrl from "../../../../../assets/images/image1.png";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
+import { BsDownload } from "react-icons/bs";
 const DetailsCoveredFiles = () => {
+  const apiUrl = "http://localhost:5000";
+  const [topicDetails, setTopicDetails] = useState([]);
+  const location = useLocation(); // Get the current location
+
+  // Extract the topicId from the URL query parameter
+  const topicId = new URLSearchParams(location.search).get("topicId");
+  useEffect(() => {
+    // Make a GET request to your /get-topic-details API
+    axios.get(`${apiUrl}/get-topic-details`)
+      .then((response) => {
+        setTopicDetails(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching topic details: ", error);
+      });
+  }, [topicId]);
   return (
     <Box bg={"#F1F5F8"} borderRadius={"26px"} w={"100%"}>
       <HStack spacing={"10px"} p={6}>
@@ -101,7 +121,7 @@ const DetailsCoveredFiles = () => {
                   {fileOrNote}
                   <Spacer />
                   <Button
-                    rightIcon={<PiUploadSimpleLight />}
+                    rightIcon={<BsDownload />}
                     variant={"ghost"}
                     color={"black"}
                     ml={2}
@@ -116,3 +136,5 @@ const DetailsCoveredFiles = () => {
   );
 };
 export default DetailsCoveredFiles;
+
+

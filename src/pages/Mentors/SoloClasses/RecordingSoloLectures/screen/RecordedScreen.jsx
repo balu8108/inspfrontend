@@ -5,7 +5,7 @@ import RecordingLectures from "../components/RecordingLectures";
 const RecordedScreen=()=>{
     return (
         <Flex m={"52px"} gap={"16px"} >
-        <DataForClass/>
+        {/* <DataForClass/> */}
         <RecordingLectures  />
         </Flex>
     )
