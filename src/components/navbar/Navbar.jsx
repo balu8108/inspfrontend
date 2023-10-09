@@ -42,7 +42,6 @@ const NavLinks = ({ userData }) => {
           link.availableTo.includes(userData?.user_type) && (
             <Box key={link.path} position="relative">
               <Box mx={2}>
-                {console.log("user data from componenet", userData)}
                 {link.path === "/insp-website" ? (
                   <a
                     href="https://www.inspedu.in/"

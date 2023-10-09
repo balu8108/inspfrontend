@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 
 const WebAudioPlayer = ({ mediaStreamTrack }) => {
-  console.log("mediaStreamTrack remote side", mediaStreamTrack);
   const audioRef = useRef(null);
   const audioContextRef = useRef(null);
 
