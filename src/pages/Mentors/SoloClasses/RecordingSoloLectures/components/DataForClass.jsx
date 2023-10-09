@@ -39,8 +39,9 @@ const DataForClass = ({ topic }) => {
           Solo Recording
         </Text>
       </HStack>
-      {/* <Stack spacing={"25px"}>
-        {topicData.map((dataforsoloclass) => (
+      <Stack spacing={"25px"}>
+      {/* <Text>{formData.topic}</Text> */}
+        {/* {topicData.map((dataforsoloclass) => (
           <Box key={dataforsoloclass.id} p={6}>
             <Text>{formData.Topic}</Text>
             <Box mt={"30px"}>
@@ -110,10 +111,13 @@ const DataForClass = ({ topic }) => {
               </Box>
             )}
           </Box>
-        ))}
-      </Stack> */}
+        ))} */}
+      </Stack> 
     </Box>
   );
 };
 
 export default DataForClass;
+
+
+

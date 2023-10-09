@@ -21,7 +21,6 @@ import {
   fetchAllTopicsWithoutChapterIdApi,
 } from "../../../../../api/inspexternalapis";
 import axios from "axios";
-
 const SoloRecordModal = ({ isOpen, onClose }) => {
   const [isLoadingSubjects, setIsLoadingSubjects] = useState(true);
   const [isLoadingTopics, setIsLoadingTopics] = useState(true);
@@ -33,9 +32,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
   const [agenda, setAgenda] = useState("");
   const [files, setFiles] = useState([]);
   const [selectedTopicId, setSelectedTopicId] = useState("");
-
   const navigate = useNavigate();
-
   const apiUrl = "http://localhost:5000";
   const fileInputRef = useRef(null);
 
@@ -57,7 +54,6 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
       files.forEach((file) => {
         formData.append("files", file);
       });
-
       const response = await axios.post(
         `${apiUrl}/solo-lecture/create-room`,
         formData,
@@ -71,7 +67,12 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
 
       if (response.status === 201) {
         console.log("SoloClass created successfully");
-        navigate("/mentor/solo-lectures");
+
+        navigate("/mentor/solo-lectures", {
+          selectedTopic,
+          description,
+          agenda,
+        });
       } else {
         console.error("Error creating soloclassroom:", response.data.error);
       }
@@ -153,22 +154,6 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
           </FormControl>
 
           <FormControl mt={4}>
-            {/* <Select
-              placeholder={
-                isLoadingTopics ? <Spinner size="sm" /> : "Select Topic"
-              }
-              value={selectedTopic}
-              onChange={(e) => setSelectedTopic(e.target.value)}
-              isDisabled={isLoadingTopics}
-            >
-              {isLoadingTopics
-                ? null
-                : allTopicList.map((topic) => (
-                    <option key={topic.id} value={topic.name}>
-                      {topic.name}
-                    </option>
-                  ))}
-            </Select> */}
             <Select
               placeholder={
                 isLoadingTopics ? <Spinner size="sm" /> : "Select Topic"
