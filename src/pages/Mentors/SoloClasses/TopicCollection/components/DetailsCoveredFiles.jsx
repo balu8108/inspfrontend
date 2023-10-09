@@ -10,7 +10,6 @@ import {
   Image,
 } from "@chakra-ui/react";
 import detailsCoveredData from "../data/detailsCoveredData";
-import { PiUploadSimpleLight } from "react-icons/pi";
 import defaultImageUrl from "../../../../../assets/images/image1.png";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -22,18 +21,25 @@ const DetailsCoveredFiles = () => {
   const location = useLocation(); // Get the current location
 
   // Extract the topicId from the URL query parameter
-  const topicId = new URLSearchParams(location.search).get("topicId");
+
+
+
   useEffect(() => {
-    // Make a GET request to your /get-topic-details API
+    // Extract the topicId from the current location
+    const topicIdFromURL = new URLSearchParams(location.search).get("topicId");
+  
+    // Make a GET request to your /get-topic-details API with the extracted topicId
     axios
-      .get(`${apiUrl}/get-topic-details`)
+      .get(`${apiUrl}/get-topic-details?topicId=${topicIdFromURL}`)
       .then((response) => {
         setTopicDetails(response.data);
       })
       .catch((error) => {
         console.error("Error fetching topic details: ", error);
       });
-  }, [topicId]);
+  }, [location]);
+  
+
   return (
     <Box bg={"#F1F5F8"} borderRadius={"26px"} w={"100%"}>
       <HStack spacing={"10px"} p={6}>
@@ -89,7 +95,11 @@ const DetailsCoveredFiles = () => {
             >
               {topicInfo.recordings.map((id) => (
                 <Flex key={id} w={"15%"} h={"15%"}>
-                  <Link to="/view-recording">
+                  {/* <Link to="/view-recording">
+                    <Image src={defaultImageUrl} alt="Default Image" />
+                  </Link> */}
+
+                  <Link to={`/view-recording?topicId=${topicInfo.id}`}>
                     <Image src={defaultImageUrl} alt="Default Image" />
                   </Link>
                 </Flex>
