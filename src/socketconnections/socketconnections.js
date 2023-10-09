@@ -289,7 +289,7 @@ const raiseHandResponseHandler = (res) => {
 
 const uploadFileResponseHandler = (res) => {
   let allNewFiles = [];
-  console.log("res from upload file from server", res);
+
   res.forEach((fileData) => {
     const convFile = new File([fileData.file], fileData.fileName);
     allNewFiles.push(convFile);
@@ -352,7 +352,6 @@ const producerResumeResponseHandler = (res) => {
 
 const fileUploadResponseHandler = (res) => {
   const { success, data } = res;
-  console.log("res from file uplaod response handler", res);
   if (success) {
     store.dispatch(setUploadFilesInRoom(data));
   }
