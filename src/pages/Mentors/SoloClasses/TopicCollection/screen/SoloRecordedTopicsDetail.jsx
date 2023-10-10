@@ -18,6 +18,7 @@ const SoloRecordedTopicsDetails = () => {
 
   const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
   const [classTiming, setClassTiming] = useState(["", ""]);
+  const [viewTopic,setViewTopic] = useState(null);
   useEffect(() => {
     dispatch(getAllLiveClassesSchedule());
   }, [dispatch]);
@@ -35,8 +36,8 @@ const SoloRecordedTopicsDetails = () => {
       )}
       <Flex gap={"24px"}>
         <Stack w={"73%"} spacing={"24px"}>
-          <TopicsBased />
-          <DetailsCoveredFiles />
+          <TopicsBased  setViewTopic={setViewTopic} />
+          <DetailsCoveredFiles  viewTopic={viewTopic} />
         </Stack>
 
         <Box w={"25%"}>

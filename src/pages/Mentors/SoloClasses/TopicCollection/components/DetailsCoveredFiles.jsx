@@ -13,9 +13,9 @@ import detailsCoveredData from "../data/detailsCoveredData";
 import defaultImageUrl from "../../../../../assets/images/image1.png";
 import { Link } from "react-router-dom";
 import { BsDownload } from "react-icons/bs";
-const DetailsCoveredFiles = () => {
+const DetailsCoveredFiles = ( {viewTopic}) => {
   const apiUrl = "http://localhost:5000";
-
+console.log("topic details", viewTopic)
   
   return (
     <Box bg={"#F1F5F8"} borderRadius={"26px"} w={"100%"}>
@@ -131,5 +131,42 @@ export default DetailsCoveredFiles;
 
 
 
+// // TopicDetails.js
 
+// import React from "react";
+// import { Box, Text, Button, Link } from "@chakra-ui/react";
 
+// const TopicDetails = ({ topic }) => {
+//   return (
+//     <Box
+//       key={topic.id}
+//       h={"204px"}
+//       minW={"28%"}
+//       bg={"#F1F5F8"}
+//       blendMode={"multiply"}
+//       mx={6}
+//       borderRadius={"26px"}
+//     >
+//       <Text fontSize={"15px"} ml={"13px"} mt={"16px"} lineHeight={"19px"} noOfLines={1}>
+//         {topic.description}
+//       </Text>
+//       <Text fontWeight={400} fontSize={"11px"} lineHeight={"15px"} ml={"13px"} color={"rgba(44, 51, 41, 0.47)"}>
+//         {topic.agenda}
+//       </Text>
+//       <Text fontSize={"12px"} lineHeight={"13px"} ml={"13px"} fontWeight={400} color={"rgba(44, 51, 41, 1)"} mt={"18px"}>
+//         Description
+//       </Text>
+//       <Text fontSize={"11px"} lineHeight={"21px"} fontWeight={400} ml={13} noOfLines={"2"} color={"rgba(44, 51, 41, 0.47)"}>
+//         {topic.description}
+//       </Text>
+
+//       <Link href={topic.soloClassRoomFiles[0]?.url} target="_blank" rel="noopener noreferrer">
+//         <Button variant={"ghost"} color={"#3C8DBC"} fontWeight={"600"} size={"14px"} lineHeight={"16px"} mt={"60px"}>
+//           View Details
+//         </Button>
+//       </Link>
+//     </Box>
+//   );
+// };
+
+// export default TopicDetails;
