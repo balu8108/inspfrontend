@@ -17,7 +17,7 @@ const RateNFeedback = () => {
   } = useDisclosure();
 
   const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
-  const [classTiming, setClassTiming] = useState(["", ""]);
+  const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
   useEffect(() => {
     dispatch(getAllLiveClassesSchedule());
   }, [dispatch]);
@@ -35,7 +35,7 @@ const RateNFeedback = () => {
       )}
       <Flex mx={"51px"} my={"29px"}>
         <Feedback />
-        <Box  w={"80%"} ml={5} mt={"5"}>
+        <Box w={"80%"} ml={5} mt={"5"}>
           <SimpleBar
             style={{
               maxHeight: "85vh",
