@@ -35,7 +35,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
       setIsLoading(true);
       try {
         const response = await fetchAllSubjectsApi();
-    
+
         if (response.status) {
           setSubjects(response.result);
         }
@@ -48,7 +48,6 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
 
     fetchSubjects();
   }, []);
- 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -59,14 +58,13 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
       Description: descriptionInputValue,
       Files: selectedFiles,
     };
-   
+
     navigate("/mentor/solo-lectures", { state: formData });
   };
 
   const handleFileSelect = (e) => {
     const files = Array.from(e.target.files);
     setSelectedFiles(files.map((file) => file.name));
-   
   };
 
   return (
