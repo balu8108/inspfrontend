@@ -25,11 +25,13 @@ import {
   SET_AUDIO_CONSUMER_PAUSE_OR_RESUME,
   SET_AUDIO_STREAM_ENABLED_OR_DISABLED,
   SET_IS_KICKED_OUT,
+  SET_SELF_DETAILS,
 } from "../constants";
 const initialState = {
   isPeerLoading: true,
   isMeetEnd: false,
   isKickedOut: false,
+  selfDetails: null,
   socket: null,
   peers: [],
   rtpCapabilities: null,
@@ -68,6 +70,11 @@ const socketReducer = (state = initialState, action) => {
       return {
         ...state,
         peers: [...state.peers, action.payload],
+      };
+    case SET_SELF_DETAILS:
+      return {
+        ...state,
+        selfDetails: action.payload,
       };
     case SET_RTP_CAPABILITIES:
       return {

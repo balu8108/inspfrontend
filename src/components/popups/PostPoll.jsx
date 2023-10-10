@@ -10,6 +10,8 @@ import {
   useTheme,
   Box,
   Flex,
+  FormControl,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { BiBarChart } from "react-icons/bi";
 import { MdClose } from "react-icons/md";
@@ -21,7 +23,7 @@ import { sendQuestionHandler } from "../../socketconnections/socketconnections";
 import { useState, useEffect } from "react";
 import { screenshotHandler } from "../../utils";
 import { imageToDocApi } from "../../api/genericapis";
-import { useParams } from "react-router-dom";
+import { Form, useParams } from "react-router-dom";
 
 const questionTypeOptions = [
   { value: "poll", label: "Poll" },
@@ -40,20 +42,23 @@ const tfOptions = [
   { value: "true", label: "True" },
   { value: "false", label: "False" },
 ];
+const initialQnaData = {
+  noOfOptions: "",
+  time: "",
+  questionNo: "",
+  correctAnswers: [],
+};
 
-const PostPoll = ({ QNo, setQNo, screenShareStream }) => {
+const PostPoll = ({ screenShareStream }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [noOfOptions, setNoOfOptions] = useState(4);
+  const [questionType, setQuestionType] = useState(null);
+  const [QNo, setQNo] = useState("");
+  const [noOfOptions, setNoOfOptions] = useState("");
   const [answerOptions, setAnswerOptions] = useState(defaultAnswerOptions);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
-
-  const [qnaData, setQnaData] = useState({
-    noOfOptions: 4,
-    time: 60,
-    questionNo: QNo,
-    correctAnswers: [],
-  });
-  const [timer, setTimer] = useState(60);
+  const [qnaData, setQnaData] = useState(initialQnaData);
+  const [errorData, setErrorData] = useState({});
+  const [timer, setTimer] = useState("");
   const { onOpen, onClose, isOpen } = useDisclosure();
   const { roomId } = useParams();
 
@@ -74,15 +79,51 @@ const PostPoll = ({ QNo, setQNo, screenShareStream }) => {
     } catch (err) {}
   };
 
+  const resetForm = () => {
+    setQuestionType(null);
+    setQNo("");
+    setTimer("");
+    setNoOfOptions("");
+    setSelectedAnswer(null);
+    setQnaData(initialQnaData);
+  };
   const sendPoll = async () => {
     setIsLoading(true);
+
+    // set form error data
+    const formErrorData = {};
+
+    if (!questionType) {
+      formErrorData.questionType = "Question type required";
+    }
+    if (!QNo) {
+      formErrorData.questionNo = "Question no required";
+    }
+    if (!timer) {
+      formErrorData.timer = "Timer is required";
+    }
+    if (!noOfOptions) {
+      formErrorData.noOfOptions = "No of options is required";
+    }
+    if (!selectedAnswer) {
+      formErrorData.correctAnswers = "Correct answer is required";
+    }
+
+    if (Object.keys(formErrorData).length > 0) {
+      setErrorData(formErrorData);
+      setIsLoading(false);
+      return;
+    }
+
     sendQuestionHandler(qnaData);
     await handleScreenshot();
+    resetForm();
     setIsLoading(false);
     onClose();
   };
 
   const handleQuestionTypeChange = (object) => {
+    setQuestionType(object);
     setSelectedAnswer(null);
     setQnaData((prev) => ({
       ...prev,
@@ -92,17 +133,29 @@ const PostPoll = ({ QNo, setQNo, screenShareStream }) => {
       ...prev,
       type: object.value,
     }));
+    setErrorData((prev) => ({
+      ...prev,
+      questionType: "",
+    }));
     if (object.value === "tf") {
       setNoOfOptions(2);
       setQnaData((prev) => ({
         ...prev,
         noOfOptions: 2,
       }));
+      setErrorData((prev) => ({
+        ...prev,
+        noOfOptions: "",
+      }));
     } else {
       setNoOfOptions(4);
       setQnaData((prev) => ({
         ...prev,
         noOfOptions: 4,
+      }));
+      setErrorData((prev) => ({
+        ...prev,
+        noOfOptions: "",
       }));
     }
   };
@@ -113,6 +166,10 @@ const PostPoll = ({ QNo, setQNo, screenShareStream }) => {
       ...prev,
       questionNo: parseInt(e.target.value),
     }));
+    setErrorData((prev) => ({
+      ...prev,
+      questionNo: "",
+    }));
   };
 
   const handleTimerChange = (e) => {
@@ -121,12 +178,20 @@ const PostPoll = ({ QNo, setQNo, screenShareStream }) => {
       ...prev,
       time: parseInt(e.target.value),
     }));
+    setErrorData((prev) => ({
+      ...prev,
+      timer: "",
+    }));
   };
   const handleNoOfOptionsChange = (e) => {
     setNoOfOptions(parseInt(e.target.value));
     setQnaData((prev) => ({
       ...prev,
       noOfOptions: parseInt(e.target.value),
+    }));
+    setErrorData((prev) => ({
+      ...prev,
+      noOfOptions: "",
     }));
   };
 
@@ -159,6 +224,10 @@ const PostPoll = ({ QNo, setQNo, screenShareStream }) => {
       }));
     }
     setSelectedAnswer(object);
+    setErrorData((prev) => ({
+      ...prev,
+      correctAnswers: null,
+    }));
   };
   useEffect(() => {
     if (qnaData?.type) {
@@ -180,7 +249,7 @@ const PostPoll = ({ QNo, setQNo, screenShareStream }) => {
         placement="right"
         isOpen={isOpen}
         onOpen={() => {
-          setQNo(QNo + 1);
+          // setQNo(QNo + 1);
           onOpen();
         }}
         onClose={onClose}
@@ -201,50 +270,68 @@ const PostPoll = ({ QNo, setQNo, screenShareStream }) => {
               />
             </Flex>
             <Box py={2}>
-              <Select
-                placeholder={roomData.selectQuestionType}
-                onChange={handleQuestionTypeChange}
-                options={questionTypeOptions}
-                useBasicStyles
-              />
+              <FormControl isInvalid={!!errorData.questionType}>
+                <Select
+                  placeholder={roomData.selectQuestionType}
+                  value={questionType}
+                  onChange={handleQuestionTypeChange}
+                  options={questionTypeOptions}
+                  useBasicStyles
+                />
+                <FormErrorMessage>{errorData.questionType}</FormErrorMessage>
+              </FormControl>
             </Box>
             <Box py={2}>
-              <Input
-                value={QNo}
-                type="number"
-                onChange={(e) => handleQnoChange(e)}
-              />
+              <FormControl isInvalid={!!errorData.questionNo}>
+                <Input
+                  value={QNo}
+                  placeholder={roomData.questionNo}
+                  type="number"
+                  onChange={(e) => handleQnoChange(e)}
+                />
+                <FormErrorMessage>{errorData.questionNo}</FormErrorMessage>
+              </FormControl>
             </Box>
             <Box py={2}>
-              <Input
-                type="number"
-                value={timer}
-                onChange={(e) => handleTimerChange(e)}
-              />
+              <FormControl isInvalid={!!errorData.timer}>
+                <Input
+                  type="number"
+                  value={timer}
+                  placeholder={roomData.timerPlaceholder}
+                  onChange={(e) => handleTimerChange(e)}
+                />
+                <FormErrorMessage>{errorData.timer}</FormErrorMessage>
+              </FormControl>
             </Box>
             <Box py={2}>
-              <Input
-                type="number"
-                value={
-                  qnaData?.type && qnaData?.type === "tf" ? 2 : noOfOptions
-                }
-                onChange={(e) => handleNoOfOptionsChange(e)}
-                placeholder={roomData.selectNumberOfOptions}
-                isDisabled={!qnaData?.type}
-                min={2}
-                max={10}
-              />
+              <FormControl isInvalid={!!errorData.noOfOptions}>
+                <Input
+                  type="number"
+                  value={
+                    qnaData?.type && qnaData?.type === "tf" ? 2 : noOfOptions
+                  }
+                  onChange={(e) => handleNoOfOptionsChange(e)}
+                  placeholder={roomData.selectNumberOfOptions}
+                  isDisabled={!qnaData?.type}
+                  min={2}
+                  max={10}
+                />
+                <FormErrorMessage>{errorData.noOfOptions}</FormErrorMessage>
+              </FormControl>
             </Box>
             <Box py={2}>
-              <Select
-                value={selectedAnswer}
-                isMulti={qnaData?.type === "poll"}
-                placeholder={roomData.selectCorrectAnswer}
-                options={answerOptions}
-                isDisabled={!qnaData?.type}
-                onChange={handleAnswerChange}
-                useBasicStyles
-              />
+              <FormControl isInvalid={!!errorData.correctAnswers}>
+                <Select
+                  value={selectedAnswer}
+                  isMulti={qnaData?.type === "poll"}
+                  placeholder={roomData.selectCorrectAnswer}
+                  options={answerOptions}
+                  isDisabled={!qnaData?.type}
+                  onChange={handleAnswerChange}
+                  useBasicStyles
+                />
+                <FormErrorMessage>{errorData.correctAnswers}</FormErrorMessage>
+              </FormControl>
             </Box>
           </Stack>
           <Box width={"100%"} mb={2} mt={6} px={6}>

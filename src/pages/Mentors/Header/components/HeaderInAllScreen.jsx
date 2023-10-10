@@ -173,7 +173,7 @@ const Header = () => {
     async function fetchSubjects() {
       try {
         const response = await fetchAllSubjectsApi(); // Call your API function
-        console.log("Subjects Api", response);
+
         if (response.status) {
           // Add missing subjects (Chemistry and Mathematics) if not present in the API response
           const subjectsFromAPI = response.result;

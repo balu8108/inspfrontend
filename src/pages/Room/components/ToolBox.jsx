@@ -43,7 +43,7 @@ import { roomData } from "../data/roomData";
 import PostPoll from "../../../components/popups/PostPoll";
 import { LeaveBtn } from "../../../components/button";
 import { useParams, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 import { checkUserType } from "../../../utils";
 let producerScreenShare = null;
 let producerMentorVideoShare = null;
@@ -73,17 +73,16 @@ const ToolBox = ({
 }) => {
   const [isRaiseHand, setIsRaiseHand] = useState(false);
   const [isLeaveLoading, setIsLeaveLoading] = useState(false); // for leave button loading state
-  const [QNo, setQNo] = useState(0);
+  // const [QNo, setQNo] = useState(0);
   const [isRecordingLoading, setIsRecordingLoading] = useState(false);
   const { redBtnColor } = useTheme().colors.pallete;
   const userRoleType = checkUserType();
   const navigate = useNavigate();
   const { roomId } = useParams();
-  const { roomPreviewData } = useSelector((state) => state.socket);
-
-  console.log("Is mic on", isMicOn);
-  console.log("Is screen share on", isScreenShare);
-  console.log("is record on", isRecordOn);
+  const { roomPreviewData, selfDetails } = useSelector(
+    (state) => state.socket,
+    shallowEqual
+  );
 
   const openMiroBoardAuth = () => {
     window.miroBoardsPicker.open({
@@ -199,7 +198,7 @@ const ToolBox = ({
       if (micStream) {
         const tracks = micStream.getTracks();
         tracks.forEach((track) => (track.enabled = true));
-        setIsAudioStreamEnabled(true, producerAudioShare?.id); // send socket even to all peers tha this audio is enabled
+        setIsAudioStreamEnabled(true, producerAudioShare?.id); // send socket even to all peers that this audio is enabled
         setIsMicOn(true);
         return;
       }
@@ -322,6 +321,26 @@ const ToolBox = ({
     setIsLeaveLoading(false);
   };
 
+  const stopMicStream = () => {
+    if (micStream) {
+      const tracks = micStream.getTracks();
+
+      tracks.forEach((track) => (track.enabled = false));
+      setIsAudioStreamEnabled(false, producerAudioShare?.id);
+    }
+  };
+
+  useEffect(() => {
+    // for mic off is blcoked by mentor
+    if (
+      selfDetails &&
+      (selfDetails?.isAudioBlocked || !selfDetails?.isAudioEnabled)
+    ) {
+      stopMicStream(); //required for enabled mic as off
+      setIsMicOn(false);
+    }
+  }, [selfDetails, setIsMicOn]);
+
   useEffect(() => {
     if (isMicOn && isScreenShare && !isRecordOn) {
       triggerStartRecording();
@@ -371,7 +390,8 @@ const ToolBox = ({
               isRound={true}
               isDisabled={
                 userRoleType !== userType.teacher &&
-                roomPreviewData?.muteAllStudents
+                (roomPreviewData?.muteAllStudents ||
+                  selfDetails?.isAudioBlocked)
               }
               bg={isMicOn ? "gray.200" : "red"}
               onClick={(e) => handleMicrophone(e)}
@@ -454,7 +474,7 @@ const ToolBox = ({
               onClick={(e) => handleScreenShare(e)}
             />
           </Tooltip>
-          <Button
+          {/* <Button
             bg={isRaiseHand ? primaryBlue : "gray.200"}
             _hover={{ bg: isRaiseHand ? primaryBlue : "gray.200" }}
             borderRadius={"100%"}
@@ -462,7 +482,7 @@ const ToolBox = ({
             onClick={handRaisedHandler}
           >
             {"\u{1F44B}"}
-          </Button>
+          </Button> */}
           {/* <IconButton isRound={true} icon={<FiMenu size={20} />} /> */}
           {userRoleType === userType.teacher && (
             <IconButton
@@ -474,8 +494,8 @@ const ToolBox = ({
 
           {userRoleType === userType.teacher && (
             <PostPoll
-              QNo={QNo}
-              setQNo={setQNo}
+              // QNo={QNo}
+              // setQNo={setQNo}
               screenShareStream={screenShareStream}
             />
           )}

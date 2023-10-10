@@ -100,3 +100,12 @@
 #my-doc-viewer #pdf-download {
   display: none;
 }
+
+/** PDF doc viewer style **/
+
+.PSPDFKit-root {
+  background-color: red;
+}
+/* .PSPDFKit-Container .PSPDFKit-Toolbar-Button-Print {
+  display: none;
+} */

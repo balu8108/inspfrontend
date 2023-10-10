@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -22,7 +22,7 @@ const StudentPollsMCQBox = ({ question }) => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [selectedCheckBox, setSelectedCheckbox] = useState([]);
   const { primaryBlue, lightGrey } = useTheme().colors.pallete;
-  const setTimerRef = useRef(null);
+
   const dispatch = useDispatch();
 
   const renderAnswerOptions = (question) => {

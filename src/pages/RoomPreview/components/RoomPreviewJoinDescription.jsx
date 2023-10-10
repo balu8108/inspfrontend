@@ -15,7 +15,10 @@ import { liveSessionData } from "../data/liveSessionData";
 import { MainBtn } from "../../../components/button";
 import { useDispatch, useSelector } from "react-redux";
 import { joinRoomHandler } from "../../../socketconnections/socketconnections";
-import { setRtpCapabilities } from "../../../store/actions/socketActions";
+import {
+  setRtpCapabilities,
+  setSelfDetails,
+} from "../../../store/actions/socketActions";
 import { formatTime, renderLeftMembersCount } from "../../../utils";
 import { useToastContext } from "../../../components/toastNotificationProvider/ToastNotificationProvider";
 
@@ -97,6 +100,7 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
     try {
       const res = await joinRoomHandler(roomId);
       if (res.success) {
+        dispatch(setSelfDetails(res.selfDetails));
         dispatch(setRtpCapabilities(res.rtpCapabilities));
         navigate(`/room/${roomId}`);
       } else {

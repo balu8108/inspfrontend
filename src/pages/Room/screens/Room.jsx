@@ -12,13 +12,11 @@ import {
   socket,
 } from "../../../socketconnections/socketconnections";
 import { useSelector } from "react-redux";
-import {
-  liveSessionMemberViewType,
-  userType,
-} from "../../../constants/staticvariables";
+import { liveSessionMemberViewType } from "../../../constants/staticvariables";
 import { useToastContext } from "../../../components/toastNotificationProvider/ToastNotificationProvider";
 import { useNavigate, useParams } from "react-router-dom";
 import { checkUserType } from "../../../utils";
+import LiveSessionInteraction from "../components/LiveSessionInteraction";
 
 const Room = () => {
   const [isScreenShare, setIsScreenShare] = useState(false);
@@ -106,18 +104,18 @@ const Room = () => {
       addNotification("Class Ended", "success", 3000);
       navigate(`/room-preview/${roomId}`);
     }
-  }, [isMeetEnd, navigate, roomId, addNotification]);
+  }, [isMeetEnd, roomId, addNotification, navigate]);
 
   useEffect(() => {
-    return () => {
+    return async () => {
       // on Unmount disconnect the participant  from room
-
-      if (userRoleType === userType.student) {
+      if (socket) {
         addNotification("Class leaved", "info", 3000);
+        await leaveRoomHandler();
         navigate(`/room-preview/${roomId}`);
       }
     };
-  }, [roomId, addNotification, navigate, userRoleType]);
+  }, [roomId, userRoleType, addNotification, navigate]);
 
   useEffect(() => {
     const leavingRoom = async () => {
@@ -137,8 +135,9 @@ const Room = () => {
       <Box pt={4} pb={4} px={10}>
         <Grid
           templateColumns={renderColumns(peersViewType, isEnlarged)}
-          gap={4}
-          alignItems={"start"}
+          templateRows="repeat(2, 1fr)"
+          columnGap={4}
+          rowGap={2}
           justifyContent={"space-between"}
         >
           {!isEnlarged && (
@@ -148,7 +147,8 @@ const Room = () => {
           )}
 
           <GridItem
-            height={isEnlarged && "90vh"}
+            rowSpan={2}
+            height={isEnlarged && "85vh"}
             bg={backgroundLightBlue}
             p={4}
           >
@@ -178,6 +178,7 @@ const Room = () => {
 
           {!isEnlarged && (
             <GridItem
+              rowSpan={2}
               cursor={"pointer"}
               onClick={() => {
                 if (peersViewType === liveSessionMemberViewType.compact) {
@@ -191,6 +192,12 @@ const Room = () => {
                 primaryBlue={primaryBlue}
                 viewType={peersViewType}
               />
+            </GridItem>
+          )}
+
+          {!isEnlarged && (
+            <GridItem bg={backgroundLightBlue} borderRadius={"md"}>
+              <LiveSessionInteraction />
             </GridItem>
           )}
         </Grid>

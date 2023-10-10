@@ -227,7 +227,7 @@ const ChatToolBox = ({ mentorVideoRef, isScreenShare }) => {
         {/* At the moment this video section belongs to mentor only */}
         <VideoSection mentorVideoRef={mentorVideoRef} />
 
-        <Flex alignItems={"flex-end"} gap={2}>
+        {/* <Flex alignItems={"flex-end"} gap={2}>
           <Box>
             <Leaderboard isLeaderBoardOpen={isLeaderBoardOpen} />
             <Flex justifyContent={"flex-end"}>
@@ -344,7 +344,7 @@ const ChatToolBox = ({ mentorVideoRef, isScreenShare }) => {
               )}
             </InputGroup>
           </Stack>
-        </Flex>
+        </Flex> */}
       </Flex>
     </Box>
   );

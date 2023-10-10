@@ -80,6 +80,7 @@ export const roomData = {
   typeSomething: "Type something...",
   askSomething: "Ask question...",
   uploadFileTitle: "Upload file",
+  questionNo: "Enter question no.",
   selectFileToUpload: "Select file to upload",
   allowStudentToDownloadFile: "Allow students to download the file",
   allowStudentToShareFile: "Allow students to share the file",
@@ -105,6 +106,7 @@ export const roomData = {
   mcqQuestion:
     "Lorem ipsum dolor sit amet consectetur. Id egestas egestas ut amet arcu. Ultrices sit odio at sapien mauris amet pretium arcu.",
   selectQuestionType: "Select question type",
+  timerPlaceholder: "Enter timer in seconds",
   selectNumberOfOptions: "Select no. of options",
   selectCorrectAnswer: "Select correct answer",
   noData: "No Data",

@@ -1,14 +1,12 @@
-import { useEffect, useState } from "react";
-import { Box, Text } from "@chakra-ui/react";
-import { roomData } from "../data/roomData";
+import { useEffect } from "react";
+import { Box } from "@chakra-ui/react";
+
 import { useSelector } from "react-redux";
 import ToolBox from "./ToolBox";
 import ChatToolBox from "./ChatToolBox";
 import StudentPollsMCQBox from "./StudentPollsMCQBox";
 import RaiseHand from "./RaiseHand";
-
 import WebAudioPlayer from "../../../components/webaudioplayer/WebAudioPlayer";
-
 import MiroBoard from "./MiroBoard";
 
 const LiveSessionStream = (props) => {
@@ -34,13 +32,12 @@ const LiveSessionStream = (props) => {
     isRecordOn,
     setIsRecordOn,
   } = props;
-  const [activeAudioConsumers, setActiveAudioConsumers] = useState([]);
-  const [isRaiseHandVisible, setIsRaiseHandVisible] = useState(false);
+
   const { question } = useSelector((state) => state.socket);
 
-  const { mentorScreenShareConsumer } = useSelector((state) => state.socket);
-  const { audioConsumers } = useSelector((state) => state.socket);
-  const { raiseHands } = useSelector((state) => state.socket);
+  const { mentorScreenShareConsumer, audioConsumers, raiseHands } = useSelector(
+    (state) => state.socket
+  );
 
   const renderMentorScreenShare = () => {
     const getMentorScreenShare = mentorScreenShareConsumer;
@@ -88,20 +85,11 @@ const LiveSessionStream = (props) => {
     }
   }, [mentorScreenShareConsumer]);
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setIsRaiseHandVisible(false);
-    }, 2000);
-
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, []);
   return (
     <>
       <Box
         width={"100%"}
-        height={"85vh"}
+        height={"100%"}
         bg="black"
         borderRadius={"10px"}
         position={"relative"}
@@ -129,14 +117,6 @@ const LiveSessionStream = (props) => {
         <Box id="remote_audios">
           {audioConsumers.length > 0 &&
             audioConsumers.map((consumer) => (
-              // <ReactPlayer
-              //   url={new MediaStream([consumer.track])}
-              //   key={consumer.id}
-              //   controls={false}
-              //   playsinline={true}
-              //   playing={true}
-              //   style={{ display: "none" }}
-              // />
               <WebAudioPlayer
                 key={consumer.id}
                 mediaStreamTrack={consumer.track}
@@ -170,19 +150,6 @@ const LiveSessionStream = (props) => {
           isScreenShare={isScreenShare}
           mentorVideoRef={mentorVideoRef}
         />
-
-        {/* {(!isScreenShare || !screenShareStream) && (
-          <Text
-            position={"absolute"}
-            top={"50%"}
-            left={"50%"}
-            fontSize={"2rem"}
-            color={"white"}
-            transform={"translate(-50%,-50%)"}
-          >
-            {roomData.mentorScreenShareOff}
-          </Text>
-        )} */}
       </Box>
     </>
   );

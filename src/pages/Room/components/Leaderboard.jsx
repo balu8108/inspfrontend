@@ -11,16 +11,23 @@ import {
 import { roomData } from "../data/roomData";
 import { GrRefresh } from "react-icons/gr";
 import leaderboardRankingIcons from "../data/leaderboardRankingIcons";
-import { useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 import { formatSeconds } from "../../../utils";
+import SimpleBar from "simplebar-react";
 const Leaderboard = ({ isLeaderBoardOpen }) => {
-  const { leaderBoard } = useSelector((state) => state.socket);
-  console.log("leader board from component", leaderBoard);
-  const { primaryBlue, lightGrey } = useTheme().colors.pallete;
+  const { leaderBoard } = useSelector((state) => state.socket, shallowEqual);
+
+  const { primaryBlue } = useTheme().colors.pallete;
   return (
     <>
       {isLeaderBoardOpen && (
-        <Box px={4} py={2} bg={lightGrey} borderRadius={"md"} mb={1}>
+        // <Box
+        //   borderRadius={"md"}
+        //   mb={1}
+        //   bg="red"
+
+        // >
+        <SimpleBar style={{ maxHeight: "250px" }}>
           <Flex justifyContent={"space-between"} gap={6}>
             <HStack>
               <Box
@@ -29,13 +36,14 @@ const Leaderboard = ({ isLeaderBoardOpen }) => {
                 height="23px"
                 borderRadius={"20px"}
               ></Box>
-              <Text fontWeight={"400"} fontSize={"14px"}>
+              <Text fontWeight={"400"} fontSize={"12px"}>
                 {roomData.leaderBoardText}
               </Text>
             </HStack>
             <Button
               fontWeight={400}
               fontSize={"10px"}
+              bg="none"
               leftIcon={<GrRefresh />}
               p={0}
             >
@@ -60,7 +68,7 @@ const Leaderboard = ({ isLeaderBoardOpen }) => {
                     key={data?.peerDetails?.id}
                     justifyContent={"space-between"}
                     alignItems={"center"}
-                    gap={10}
+                    gap={8}
                     my={3}
                   >
                     <HStack>
@@ -78,32 +86,9 @@ const Leaderboard = ({ isLeaderBoardOpen }) => {
                 );
               })
             )}
-            {/* {roomData.leaderBoardData.map((data) => {
-              return (
-                <Flex
-                  fontSize={"12px"}
-                  key={data.id}
-                  justifyContent={"space-between"}
-                  alignItems={"center"}
-                  gap={10}
-                  my={3}
-                >
-                  <HStack>
-                    <Image
-                      h={"25px"}
-                      src={leaderboardRankingIcons[data.id]}
-                      alt="rank_icon"
-                    />
-                    <Text>{data.name}</Text>
-                  </HStack>
-
-                  <Text>{data.correctAnswer}</Text>
-                  <Text>{data.responseTime}</Text>
-                </Flex>
-              );
-            })} */}
           </Box>
-        </Box>
+        </SimpleBar>
+        // </Box>
       )}
     </>
   );

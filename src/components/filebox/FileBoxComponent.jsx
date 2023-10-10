@@ -41,12 +41,9 @@ const FileBoxComponent = ({ data }) => {
           >
             <Box>
               <Text color={secondaryTextColor} fontSize={"10px"}>
-                {/* {item.name} */}
                 {extractFileNameFromS3URL(item?.key)}
               </Text>
-              <Text color={secondaryTextColor} fontSize={"10px"}>
-                {/* {file.identity} */}
-              </Text>
+              <Text color={secondaryTextColor} fontSize={"10px"}></Text>
             </Box>
 
             {item.isDownloadable ||

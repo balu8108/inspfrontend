@@ -16,13 +16,13 @@ const Header = () => {
     async function fetchSubjects() {
       try {
         const response = await fetchAllSubjectsApi(); // Call your API function
-        console.log("Subjects Api", response);
-        if (response.status) {
 
+        if (response.status) {
           const filteredSubjects = response.result.filter(
-            (subject) => subject.name !== "Chemistry" && subject.name !== "Mathematics"
+            (subject) =>
+              subject.name !== "Chemistry" && subject.name !== "Mathematics"
           );
-          setSubjects(filteredSubjects); 
+          setSubjects(filteredSubjects);
           // setSubjects(response.result); // Update the state with fetched data
         }
       } catch (error) {

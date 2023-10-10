@@ -1,12 +1,12 @@
 import { extractFileNameFromS3URL } from "./extractFileName";
 
-const fileConverter = async (fileUrl, docKey, setDocs) => {
+const fileConverter = async (fileUrl, docKey) => {
   // expecting AWS s3 presigned Url
   try {
     const response = await fetch(fileUrl);
 
     // Retrieve its body as a ReadableStream
-    console.log(response.headers.get("content-type").split(";"));
+
     const reader = response.body.getReader();
     const chunks = [];
     const contentType = response.headers.get("content-type");
@@ -34,9 +34,12 @@ const fileConverter = async (fileUrl, docKey, setDocs) => {
       type: contentType,
     });
 
+    const localUrl = URL.createObjectURL(file);
+    return localUrl;
+
     // Add the File to your state or handle it as needed
 
-    setDocs((prev) => [...prev, file]);
+    // setDocs((prev) => [...prev, file]);
   } catch (error) {
     console.error("Error fetching and reading document:", error);
   }

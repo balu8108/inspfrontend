@@ -31,7 +31,9 @@ function App() {
     <>
       {!isNavbarDisabled && <Navbar />}
 
-      <DocumentViewer isOpen={isDocModalOpen} onClose={onDocModalClose} />
+      {isDocModalOpen && (
+        <DocumentViewer isOpen={isDocModalOpen} onClose={onDocModalClose} />
+      )}
       <FeedBackAndRating
         isOpen={isFeedbackModalOpen}
         onClose={onFeedBackClose}
