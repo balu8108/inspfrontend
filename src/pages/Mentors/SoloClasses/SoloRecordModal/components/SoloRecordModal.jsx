@@ -35,7 +35,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
       setIsLoading(true);
       try {
         const response = await fetchAllSubjectsApi();
-        console.log("Subject Api", response);
+    
         if (response.status) {
           setSubjects(response.result);
         }
