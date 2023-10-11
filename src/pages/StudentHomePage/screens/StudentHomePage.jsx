@@ -46,7 +46,7 @@ const StudentHomePage = () => {
             </Box>
           
           </SimpleBar>
-          <Box bg={"gray"} position="relative">
+          {/* <Box bg={"gray"} position="relative">
             <Button
               w={"100%"}
               variant="solid"
@@ -59,7 +59,7 @@ const StudentHomePage = () => {
             >
               View Calendar
             </Button>
-          </Box>
+          </Box> */}
         </Box>
       </Flex>
     </>
