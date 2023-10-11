@@ -21,7 +21,6 @@ import {
   FormErrorMessage,
 } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
-import TimeRangePicker from "@wojtekmaj/react-timerange-picker";
 import TimePicker from "react-time-picker-input";
 import "@wojtekmaj/react-timerange-picker/dist/TimeRangePicker.css";
 import "react-clock/dist/Clock.css";
