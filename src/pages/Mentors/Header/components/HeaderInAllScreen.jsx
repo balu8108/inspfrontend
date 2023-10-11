@@ -200,7 +200,7 @@ const Header = () => {
           setSubjects(mergedSubjects); // Update the state with fetched and missing data
         }
       } catch (error) {
-        console.error("Error fetching subjects:", error);
+        console.error("Error fetching subjectss:", error);
       } finally {
         // Set loading to false after fetching, whether it was successful or not
         setLoading(false);
