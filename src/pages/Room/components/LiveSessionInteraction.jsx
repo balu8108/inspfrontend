@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Flex,
   IconButton,
@@ -24,6 +24,7 @@ import {
   sendQuestionMsg,
 } from "../../../socketconnections/socketconnections";
 import SimpleBar from "simplebar-react";
+import { Scrollbars } from "rc-scrollbars";
 import { checkUserType, containsEmoji } from "../../../utils";
 import Leaderboard from "./Leaderboard";
 import { userType } from "../../../constants/staticvariables";
@@ -40,6 +41,7 @@ const activeContentOptions = {
 };
 
 const QuestionContainer = () => {
+  const [autoScroll, setAutoScroll] = useState(true);
   const theme = useTheme();
   const { primaryBlue } = theme.colors.pallete;
   const { questionMessages } = useSelector(
@@ -47,9 +49,40 @@ const QuestionContainer = () => {
     shallowEqual
   );
 
+  // Function to scroll to the latest message
+  const scrollToLatestMessage = () => {
+    const chatScroll = questionContainerRef.current;
+
+    chatScroll.scrollToBottom();
+  };
+  const questionContainerRef = useRef(null);
+
+  const handleScroll = () => {
+    const scrollElement = questionContainerRef.current;
+    const scrollTop = Math.ceil(scrollElement.getScrollTop());
+    const clientHeight = scrollElement.getClientHeight();
+    const scrollHeight = scrollElement.getScrollHeight();
+
+    if (scrollTop + clientHeight < scrollHeight) {
+      setAutoScroll(false);
+    } else {
+      setAutoScroll(true);
+    }
+  };
+  useEffect(() => {
+    if (autoScroll) {
+      scrollToLatestMessage();
+    }
+  }, [questionMessages, autoScroll]);
+
   return (
     <>
-      <SimpleBar style={{ maxHeight: "250px" }} autoHide={false} color="white">
+      <Scrollbars
+        ref={questionContainerRef}
+        style={{ height: "100%" }}
+        onScroll={handleScroll}
+      >
+        {/* <SimpleBar style={{ maxHeight: "250px" }} autoHide={false} color="white"> */}
         {questionMessages.length === 0 ? (
           <Text textAlign={"center"} fontSize={"14px"}>
             No Questions
@@ -75,7 +108,8 @@ const QuestionContainer = () => {
             );
           })
         )}
-      </SimpleBar>
+        {/* </SimpleBar> */}
+      </Scrollbars>
     </>
   );
 };
@@ -140,13 +174,45 @@ const EmojiContainer = ({ isEmojiOpen, setIsEmojiOpen }) => {
 };
 
 const ChatContainer = () => {
+  const [autoScroll, setAutoScroll] = useState(true);
+
   const theme = useTheme();
   const { primaryBlue } = theme.colors.pallete;
   const { chatMessages } = useSelector((state) => state.socket);
+  const chatContainerRef = useRef(null);
+
+  // Function to scroll to the latest message
+  const scrollToLatestMessage = () => {
+    const chatScroll = chatContainerRef.current;
+
+    chatScroll.scrollToBottom();
+  };
+
+  const handleScroll = () => {
+    const scrollElement = chatContainerRef.current;
+    const scrollTop = Math.ceil(scrollElement.getScrollTop());
+    const clientHeight = scrollElement.getClientHeight();
+    const scrollHeight = scrollElement.getScrollHeight();
+
+    if (scrollTop + clientHeight < scrollHeight) {
+      setAutoScroll(false);
+    } else {
+      setAutoScroll(true);
+    }
+  };
+  useEffect(() => {
+    if (autoScroll) {
+      scrollToLatestMessage();
+    }
+  }, [chatMessages, autoScroll]);
 
   return (
     <>
-      <SimpleBar style={{ maxHeight: "200px" }} autoHide={false} color="white">
+      <Scrollbars
+        ref={chatContainerRef}
+        style={{ height: "100%" }}
+        onScroll={handleScroll}
+      >
         {chatMessages.length === 0 ? (
           <Text textAlign={"center"} fontSize={"14px"}>
             No Chats
@@ -176,7 +242,7 @@ const ChatContainer = () => {
             );
           })
         )}
-      </SimpleBar>
+      </Scrollbars>
     </>
   );
 };
@@ -223,7 +289,7 @@ const ChatBox = ({ chatMsg, setChatMsg }) => {
         height={"100%"}
         justifyContent={"space-between"}
       >
-        <Box position={"relative"} height="100%">
+        <Box height={"100%"} position={"relative"}>
           <ChatContainer />
           <EmojiContainer
             isEmojiOpen={isEmojiOpen}
