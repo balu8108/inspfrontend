@@ -79,10 +79,6 @@ const ScheduleClassPopup = ({
   const [endTime, setEndTime] = useState(classTiming[1]);
   const dispatch = useDispatch();
 
-  console.log("start time", startTime);
-  console.log("end time", endTime);
-  console.log("calendar time", classTiming);
-  console.log("schedule class form data", scheduleClassFormData);
   const chakraStyles = {
     control: (provided, state) => ({
       ...provided,
