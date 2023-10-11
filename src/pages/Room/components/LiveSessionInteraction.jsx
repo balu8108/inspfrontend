@@ -80,6 +80,7 @@ const QuestionContainer = () => {
       <Scrollbars
         ref={questionContainerRef}
         style={{ height: "100%" }}
+        autoHide={true}
         onScroll={handleScroll}
       >
         {/* <SimpleBar style={{ maxHeight: "250px" }} autoHide={false} color="white"> */}
@@ -212,6 +213,7 @@ const ChatContainer = () => {
         ref={chatContainerRef}
         style={{ height: "100%" }}
         onScroll={handleScroll}
+        autoHide={true}
       >
         {chatMessages.length === 0 ? (
           <Text textAlign={"center"} fontSize={"14px"}>

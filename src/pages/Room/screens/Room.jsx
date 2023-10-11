@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Box, Grid, GridItem, useTheme } from "@chakra-ui/react";
+import { Box, Grid, GridItem, Text, useTheme } from "@chakra-ui/react";
 
 import LiveSessionDescription from "../components/LiveSessionDescription";
 import LiveSessionStream from "../components/LiveSessionStream";
@@ -17,6 +17,8 @@ import { useToastContext } from "../../../components/toastNotificationProvider/T
 import { useNavigate, useParams } from "react-router-dom";
 import { checkUserType } from "../../../utils";
 import LiveSessionInteraction from "../components/LiveSessionInteraction";
+import SimpleBar from "simplebar-react";
+import Scrollbars from "rc-scrollbars";
 
 const Room = () => {
   const [isScreenShare, setIsScreenShare] = useState(false);
@@ -53,7 +55,8 @@ const Room = () => {
     if (isEnlarged) {
       return "1fr";
     } else if (peersViewType === liveSessionMemberViewType.compact) {
-      return "15% 80% 5%";
+      // return "15% 80% 5%";
+      return "0.9fr 4fr 0.25fr";
     } else if (peersViewType === liveSessionMemberViewType.expanded) {
       return "1.2fr 6fr 1fr";
     }
@@ -135,23 +138,26 @@ const Room = () => {
       <Box pt={4} pb={4} px={10}>
         <Grid
           templateColumns={renderColumns(peersViewType, isEnlarged)}
-          templateRows="repeat(2, 1fr)"
+          // templateColumns="1fr 4fr 0.25fr"
+          templateRows="repeat(6, 1fr)"
+          h="85vh"
           columnGap={4}
           rowGap={2}
-          justifyContent={"space-between"}
+          className="scrollbar-parent"
         >
           {!isEnlarged && (
-            <GridItem bg={backgroundLightBlue} borderRadius={"md"}>
+            <GridItem
+              rowSpan={2}
+              bg={backgroundLightBlue}
+              borderRadius={"md"}
+              className="scrollbar-primary"
+              overflowY={"scroll"}
+            >
               <LiveSessionDescription />
             </GridItem>
           )}
 
-          <GridItem
-            rowSpan={2}
-            height={isEnlarged && "85vh"}
-            bg={backgroundLightBlue}
-            p={4}
-          >
+          <GridItem rowSpan={6} bg={backgroundLightBlue} p={4}>
             <LiveSessionStream
               primaryBlue={primaryBlue}
               isScreenShare={isScreenShare}
@@ -178,7 +184,7 @@ const Room = () => {
 
           {!isEnlarged && (
             <GridItem
-              rowSpan={2}
+              rowSpan={6}
               cursor={"pointer"}
               onClick={() => {
                 if (peersViewType === liveSessionMemberViewType.compact) {
@@ -196,7 +202,7 @@ const Room = () => {
           )}
 
           {!isEnlarged && (
-            <GridItem bg={backgroundLightBlue} borderRadius={"md"}>
+            <GridItem rowSpan={4} bg={backgroundLightBlue} borderRadius={"md"}>
               <LiveSessionInteraction />
             </GridItem>
           )}
