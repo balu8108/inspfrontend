@@ -35,7 +35,7 @@ const MentorsUploads = () => {
     });
   }, []);
   return (
-    <Box bg={"#F1F5F8"} w={"95%"} borderRadius={"26px"}>
+    <Box bg={"#F1F5F8"} w={"95%"} borderRadius={"26px"} h={"100%"}>
       <Flex>
         <HStack spacing={"10px"}>
           <Box
@@ -130,6 +130,7 @@ const MentorsUploads = () => {
                 fontSize={"14px"}
                 lineHeight={"16px"}
                 mt={"24px"}
+                mb={"10px"}
               >
                 View Details
               </Button>

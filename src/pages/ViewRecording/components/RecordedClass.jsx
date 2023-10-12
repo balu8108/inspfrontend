@@ -43,7 +43,7 @@ const RecordedClass = () => {
       </HStack>
       <Box>
         {recordedClassData.map((recDetails) => (
-          <Flex key={recDetails.id}>
+         
             <Box ml={"30px"}>
               <Text
                 fontSize={"15px"}
@@ -64,22 +64,6 @@ const RecordedClass = () => {
                 {recDetails.instructorName}
               </Text>
             </Box>
-
-            <Box ml={"130px"}>
-              <Text
-                fontSize={"12px"}
-                color={"rgba(44, 51, 41, 0.47)"}
-                mt={"27px"}
-                lineHeight={"14px"}
-              >
-                {recDetails.fromTime}-{recDetails.toTime}
-              </Text>
-
-              <Text fontSize={"12px"} color={"rgba(44, 51, 41, 0.47)"}>
-                {recDetails.totalTime}
-              </Text>
-            </Box>
-          </Flex>
         ))}
       </Box>
       <Box ml={"30px"}>

@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from "react"
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -20,7 +20,7 @@ const SoloClasses = () => {
     });
   }, []);
   return (
-    <Box bg={"#F1F5F8"} mt={"23px"} borderRadius={"25px"} w={"95%"} >
+    <Box bg={"#F1F5F8"} mt={"23px"} borderRadius={"25px"} w={"95%"}>
       <Flex>
         <HStack spacing={"10px"}>
           <Box
@@ -67,6 +67,7 @@ const SoloClasses = () => {
                 color={"#2C3329"}
                 ml={"13px"}
                 mt={"13px"}
+                noOfLines={1}
               >
                 {soloclassInfo.topic}
               </Text>

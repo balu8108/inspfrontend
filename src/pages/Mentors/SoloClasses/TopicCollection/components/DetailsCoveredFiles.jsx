@@ -8,16 +8,23 @@ import {
   Button,
   Spacer,
   Image,
+  Icon,
+  Card,
 } from "@chakra-ui/react";
 import defaultImageUrl from "../../../../../assets/images/image1.png";
 import { BsDownload } from "react-icons/bs";
 import axios from "axios";
-
+import { BsPlayFill } from "react-icons/bs";
+import { useNavigate } from "react-router";
+import { FaCircle } from "react-icons/fa";
 const DetailsCoveredFiles = ({ viewTopic }) => {
   const [topicDetails, setTopicDetails] = useState(null);
+  const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
+  const [showVideo, setShowVideo] = useState(false);
+  const [videoUrl, setVideoUrl] = useState(null);
 
   const apiUrl = "http://localhost:5000";
-
+  const navigate = useNavigate();
   // Function to fetch topic details
   const fetchTopicDetails = async (topicId) => {
     try {
@@ -42,6 +49,9 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
     }
   }, [viewTopic]);
 
+  const handleCardClick = (videoUrl) => {
+    navigate(`/view-recording?videoUrl=${videoUrl}`);
+  };
   return (
     <Box bg={"#F1F5F8"} borderRadius={"26px"} w={"100%"}>
       <HStack spacing={"10px"} p={6}>
@@ -57,7 +67,6 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
       </HStack>
 
       {topicDetails && topicDetails.length > 0 ? (
-        // Render the sections if topicDetails is not undefined and contains data
         topicDetails.map((topicInfo, index) => (
           <Box ml={"20px"} key={topicInfo.id}>
             <HStack>
@@ -65,13 +74,12 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
                 {index === 0 && <Text p={"13px"}>Description</Text>}
                 {topicInfo.description.split("\n").map((item, i) => (
                   <HStack key={i} spacing={"5px"}>
-                    <Box
-                      width={"5px"}
-                      height={"5px"}
-                      borderRadius={"50%"}
-                      bg={"#2C332978"}
-                      ml={"10px"}
-                    ></Box>
+                    <Icon
+                      as={FaCircle}
+                      boxSize={2}
+                      color="#C3C3C3"
+                      blendMode={"multiply"}
+                    />
                     <Text fontSize={"12px"} color={"#2C332978"}>
                       {item}
                     </Text>
@@ -83,13 +91,12 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
                 {index === 0 && <Text p={"13px"}>Agenda</Text>}
                 {topicInfo.agenda.split("\n").map((item, i) => (
                   <HStack key={i} spacing={"5px"}>
-                    <Box
-                      width={"5px"}
-                      height={"5px"}
-                      borderRadius={"50%"}
-                      bg={"#2C332978"}
-                      ml={"10px"}
-                    ></Box>
+                    <Icon
+                      as={FaCircle}
+                      boxSize={2}
+                      color="#C3C3C3"
+                      blendMode={"multiply"}
+                    />
                     <Text
                       fontSize={"12px"}
                       color={"#2C332978"}
@@ -104,16 +111,66 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
           </Box>
         ))
       ) : (
-        // Render a message or placeholder content when topicDetails is undefined or empty
         <Box p={4}>
           <Text>No details available for this topic.</Text>
         </Box>
       )}
+
       <Box mt={"31px"}>
+        <Box ml={"20px"} mt="20px">
+          <Text p={"13px"}>Recordings</Text>
+          <HStack>
+            {topicDetails && topicDetails.length > 0 ? (
+              topicDetails.map((topicInfo, index) => (
+                <HStack key={index}>
+                  {topicInfo.SoloClassRoomRecordings.map(
+                    (recording, recordingIndex) => (
+                      <Card
+                        key={recordingIndex}
+                        borderRadius={6}
+                        bg={"#F1F5F8"}
+                        blendMode={"multiply"}
+                        w={"20%"}
+                        h={"20%"}
+                        m={"10px"} // Adjust the margin to control spacing between recordings
+                        boxShadow="md"
+                        position="relative"
+                        onMouseEnter={() => setHoveredCardIndex(index)}
+                        onMouseLeave={() => setHoveredCardIndex(null)}
+                        onClick={() => handleCardClick(recording.url)}
+                      >
+                        <Flex alignItems="center">
+                          <Image src={defaultImageUrl} alt="Video Thumbnail" />
+                          <Icon
+                            as={BsPlayFill}
+                            color="#2C332978"
+                            fontSize="24px"
+                            position="absolute"
+                            top="50%"
+                            left="50%"
+                            transform="translate(-50%, -50%)"
+                            opacity={hoveredCardIndex === index ? 1 : 0}
+                          />
+                        </Flex>
+                      </Card>
+                    )
+                  )}
+                </HStack>
+              ))
+            ) : (
+              <Box p={4}>
+                <Text>No video recordings are available for this topic.</Text>
+              </Box>
+            )}
+          </HStack>
+        </Box>
+      </Box>
+
+      <Box mt={"31px"} overflowX="auto">
         <Text ml={"20px"} p={"13px"}>
           Files/Notes
         </Text>
-        <HStack ml={"20px"} overflowX={"auto"}>
+        <HStack ml={"20px"}>
           {topicDetails && topicDetails.length > 0 ? (
             topicDetails.map((topicInfo, index) => (
               <Box key={topicInfo.id} p={"10px"}>
@@ -124,10 +181,15 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
                     borderRadius={6}
                     bg={"#F1F5F8"}
                     blendMode={"multiply"}
-                    p={3}
+                    p={1}
+                    border={1}
+                    boxShadow={"md"}
+                    mb={"25px"}
                   >
                     <Flex>
-                      <Text fontSize={"12px"}>{file.key}</Text>
+                      <Text fontSize={"12px"} mt={3} color={"#2C332978"}>
+                        {file.key}
+                      </Text>
                       <a
                         href={file.url}
                         target="_blank"
@@ -138,9 +200,7 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
                           variant={"ghost"}
                           color={"black"}
                           ml={2}
-                        >
-                          Download
-                        </Button>
+                        />
                       </a>
                     </Flex>
                   </Box>
@@ -148,7 +208,6 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
               </Box>
             ))
           ) : (
-            // Render a message or placeholder content when topicDetails is undefined or empty
             <Box p={4}>
               <Text>No files/notes are available for this topic.</Text>
             </Box>
