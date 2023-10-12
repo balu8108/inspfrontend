@@ -49,9 +49,33 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
     }
   }, [viewTopic]);
 
-  const handleCardClick = (videoUrl) => {
-    navigate(`/view-recording?videoUrl=${videoUrl}`);
+  // const handleCardClick = (videoUrl) => {
+  //   navigate(`/view-recording?videoUrl=${videoUrl}`);
+  // };
+
+
+
+
+
+
+
+  const handleCardClick = async (videoUrl) => {
+    try {
+      const response = await axios.get(`${apiUrl}/solo-lecture/generate-url`, {
+        s3_key: videoUrl, // Assuming 'videoUrl' is the S3 key of the video file
+      });
+  
+      const presignedUrl = response.data.data.getUrl;
+  
+      // Open the video in a new tab or window using the generated URL
+      window.open(presignedUrl, '_blank');
+    } catch (error) {
+      console.error("Error generating pre-signed URL:", error);
+      // Handle errors as needed
+    }
   };
+  
+
   return (
     <Box bg={"#F1F5F8"} borderRadius={"26px"} w={"100%"}>
       <HStack spacing={"10px"} p={6}>
@@ -137,7 +161,7 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
                         position="relative"
                         onMouseEnter={() => setHoveredCardIndex(index)}
                         onMouseLeave={() => setHoveredCardIndex(null)}
-                        onClick={() => handleCardClick(recording.url)}
+                        onClick={() => handleCardClick(recording.key)}
                       >
                         <Flex alignItems="center">
                           <Image src={defaultImageUrl} alt="Video Thumbnail" />

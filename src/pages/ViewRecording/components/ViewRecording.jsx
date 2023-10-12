@@ -49,35 +49,18 @@
 
 // export default ViewRecording;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import React, { useState, useEffect, useRef } from "react";
 import ReactPlayer from "react-player";
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, HStack } from "@chakra-ui/react";
 
 const ViewRecording = () => {
   const [videoUrl, setVideoUrl] = useState("");
 
   useEffect(() => {
     // Retrieve the video URL from the query parameter
-    const videoUrlFromParams = new URLSearchParams(window.location.search).get("videoUrl");
+    const videoUrlFromParams = new URLSearchParams(window.location.search).get(
+      "videoUrl"
+    );
     setVideoUrl(videoUrlFromParams);
   }, [window.location.search]);
 
@@ -90,7 +73,7 @@ const ViewRecording = () => {
     // Play the video.
     const internalPlayer = playerRef.current.getInternalPlayer();
     if (internalPlayer) {
-      internalPlayer.play().catch(error => {
+      internalPlayer.play().catch((error) => {
         console.error("Error playing video:", error);
       });
     }
@@ -115,16 +98,14 @@ const ViewRecording = () => {
   return (
     <Box>
       {videoUrl ? (
-        <ReactPlayer
-          url={videoUrl}
-          controls
-          ref={playerRef}
-        />
+        <ReactPlayer url={videoUrl} controls ref={playerRef} />
       ) : (
         <p>No video URL provided.</p>
       )}
-      <Button onClick={handlePlay} gap={5}>Play</Button>
-      <Button onClick={handlePause}>Pause</Button>
+      <HStack>
+        <Button onClick={handlePlay}>Play</Button>
+        <Button onClick={handlePause}>Pause</Button>
+      </HStack>
     </Box>
   );
 };
