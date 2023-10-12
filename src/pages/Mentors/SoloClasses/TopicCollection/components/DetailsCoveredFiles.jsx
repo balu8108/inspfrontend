@@ -17,6 +17,7 @@ import axios from "axios";
 import { BsPlayFill } from "react-icons/bs";
 import { useNavigate } from "react-router";
 import { FaCircle } from "react-icons/fa";
+import {getPresignedUrlApi} from "../../../../../api/genericapis"
 const DetailsCoveredFiles = ({ viewTopic }) => {
   const [topicDetails, setTopicDetails] = useState(null);
   const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
@@ -61,9 +62,8 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
 
   const handleCardClick = async (videoUrl) => {
     try {
-      const response = await axios.get(`${apiUrl}/solo-lecture/generate-url`, {
-        s3_key: videoUrl, // Assuming 'videoUrl' is the S3 key of the video file
-      });
+      console.log("VIDEO url ", videoUrl)
+      const response= await getPresignedUrlApi({s3_key:videoUrl})
   
       const presignedUrl = response.data.data.getUrl;
   
