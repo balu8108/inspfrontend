@@ -9,7 +9,7 @@ export const getPresignedUrlDocApi = (docId) =>
   API.get(`/generic/open-file/${docId}`);
 
 export const getPresignedUrlApi = (body) =>
-  API.get("/generic/generate-get-presigned-url", body);
+  API.post("/generic/generate-get-presigned-url", body);
 export const createFeedbackApi = (body) => {
   const tokenStorage = getStorageType();
   let secretToken = null;

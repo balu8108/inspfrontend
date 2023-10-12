@@ -14,10 +14,20 @@ import axios from "axios";
 const SoloClasses = () => {
   const apiUrl = "http://localhost:5000";
   const [latestSoloClassroom, setLatestSoloClassroom] = useState([]);
+
+  const getSoloLatestClassroom = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/solo-lecture/latest-room`);
+      console.log("repsonse from lastest ", response);
+      if (response.status === 200) {
+        setLatestSoloClassroom(response.data.data);
+      }
+    } catch (err) {
+      console.log("Error in solo latest classroom", err);
+    }
+  };
   useEffect(() => {
-    axios.get(`${apiUrl}/solo-lecture/latest-room`).then((response) => {
-      setLatestSoloClassroom(response.data.data);
-    });
+    getSoloLatestClassroom();
   }, []);
   return (
     <Box bg={"#F1F5F8"} mt={"23px"} borderRadius={"25px"} w={"95%"}>

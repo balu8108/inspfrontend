@@ -74,17 +74,14 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
           topic: selectedTopic,
           topicId: selectedTopicId,
           agenda: agenda,
-          description: description, 
+          description: description,
           files: files.map((file) => file.name).join(", "), // Add this line
-          
         };
-        
+
         const formDataToSave = JSON.stringify(formValues);
         localStorage.setItem("formData", formDataToSave);
-        
-        navigate(`/mentor/solo-lectures/${response?.data?.soloClassRoomId}`);
 
-        
+        navigate(`/mentor/solo-lectures/${response?.data?.soloClassRoomId}`);
 
         console.log("Data for solo class", response);
       } else {
@@ -134,12 +131,6 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
 
     fetchAllTopicsWithoutChapterId();
   }, []);
- 
-
-  const handleFileSelect = (e) => {
-    const files = Array.from(e.target.files);
-    setSelectedFiles(files.map((file) => file.name));
-  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"xl"}>

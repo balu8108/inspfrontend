@@ -17,7 +17,7 @@ import axios from "axios";
 import { BsPlayFill } from "react-icons/bs";
 import { useNavigate } from "react-router";
 import { FaCircle } from "react-icons/fa";
-import {getPresignedUrlApi} from "../../../../../api/genericapis"
+import { getPresignedUrlApi } from "../../../../../api/genericapis";
 const DetailsCoveredFiles = ({ viewTopic }) => {
   const [topicDetails, setTopicDetails] = useState(null);
   const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
@@ -32,6 +32,7 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
       const response = await axios.get(
         `${apiUrl}/solo-lecture/get-topic-details/${topicId}`
       );
+      console.log("respone ", response);
       const topicDetailsData = response.data;
 
       // Update the state with the received topic details
@@ -54,27 +55,20 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
   //   navigate(`/view-recording?videoUrl=${videoUrl}`);
   // };
 
-
-
-
-
-
-
   const handleCardClick = async (videoUrl) => {
     try {
-      console.log("VIDEO url ", videoUrl)
-      const response= await getPresignedUrlApi({s3_key:videoUrl})
-  
+      console.log("VIDEO url ", videoUrl);
+      const response = await getPresignedUrlApi({ s3_key: videoUrl });
+
       const presignedUrl = response.data.data.getUrl;
-  
+
       // Open the video in a new tab or window using the generated URL
-      window.open(presignedUrl, '_blank');
+      window.open(presignedUrl, "_blank");
     } catch (error) {
       console.error("Error generating pre-signed URL:", error);
       // Handle errors as needed
     }
   };
-  
 
   return (
     <Box bg={"#F1F5F8"} borderRadius={"26px"} w={"100%"}>
@@ -147,6 +141,7 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
             {topicDetails && topicDetails.length > 0 ? (
               topicDetails.map((topicInfo, index) => (
                 <HStack key={index}>
+                  {console.log("topic info", topicInfo)}
                   {topicInfo.SoloClassRoomRecordings.map(
                     (recording, recordingIndex) => (
                       <Card
