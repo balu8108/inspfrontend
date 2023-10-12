@@ -18,6 +18,7 @@ import checkUserType from "./checkUserType";
 import { decryptData } from "./crypticFunctions";
 import fileConverter from "./fileConverter";
 import clearStorageData from "./clearStorageData";
+import isValidTimeFormat from "./isValidTimeFormat";
 export {
   containsEmoji,
   openFileDialog,
@@ -41,4 +42,5 @@ export {
   formatSeconds,
   fileConverter,
   clearStorageData,
+  isValidTimeFormat,
 };

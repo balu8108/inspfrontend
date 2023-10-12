@@ -25,6 +25,7 @@ import {
 } from "../../../store/actions/socketActions";
 import { checkUserType, formatTime } from "../../../utils";
 import { userType } from "../../../constants/staticvariables";
+import Scrollbars from "rc-scrollbars";
 
 const RoomContent = ({ mainTextColor, secondaryTextColor, type }) => {
   const { roomPreviewData, upcomingClassData } = useSelector(
@@ -140,30 +141,6 @@ const LiveSessionDescription = () => {
             type={"active"}
           />
         </Box>
-
-        {/* <Tabs pt={6} colorScheme="black">
-          <TabList>
-            <Tab fontSize={"12px"}>{roomData.active}</Tab>
-            <Tab fontSize={"12px"}>{roomData.upcoming}</Tab>
-          </TabList>
-
-          <TabPanels>
-            <TabPanel p={0}>
-              <RoomContent
-                mainTextColor={mainTextColor}
-                secondaryTextColor={secondaryTextColor}
-                type={"active"}
-              />
-            </TabPanel>
-            <TabPanel p={0}>
-              <RoomContent
-                mainTextColor={mainTextColor}
-                secondaryTextColor={secondaryTextColor}
-                type={"upcoming"}
-              />
-            </TabPanel>
-          </TabPanels>
-        </Tabs> */}
       </Box>
     </>
   );

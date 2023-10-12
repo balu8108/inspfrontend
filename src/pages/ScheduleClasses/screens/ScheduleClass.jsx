@@ -19,7 +19,7 @@ const ScheduleClass = () => {
 
   const { lightGrey } = useTheme().colors.pallete;
   const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
-  const [classTiming, setClassTiming] = useState(["", ""]);
+  const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
   const dispatch = useDispatch();
 
   useEffect(() => {

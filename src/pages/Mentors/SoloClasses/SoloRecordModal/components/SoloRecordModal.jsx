@@ -102,7 +102,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
       setIsLoadingSubjects(true);
       try {
         const response = await fetchAllSubjectsApi();
-        console.log("Subject Api", response);
+
         if (response.status) {
           setSubjects(response.result);
         }
@@ -134,6 +134,12 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
 
     fetchAllTopicsWithoutChapterId();
   }, []);
+ 
+
+  const handleFileSelect = (e) => {
+    const files = Array.from(e.target.files);
+    setSelectedFiles(files.map((file) => file.name));
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"xl"}>

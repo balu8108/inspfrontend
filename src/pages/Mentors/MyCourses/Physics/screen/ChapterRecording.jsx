@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Flex, Stack,useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, Stack, useDisclosure } from "@chakra-ui/react";
 import ViewAllRecordingsRelatedToOneChapter from "../components/RecOfChapter/RecordingRelatedToChapter";
 import ChapterDetailsAndCoveredPart from "../components/RecOfChapter/DetailsAndCovered";
 import MentorSchedulingClass from "../../../SchedulingClass/components/MentorSchedule";
@@ -18,7 +18,7 @@ const ChapterRecordings = () => {
   } = useDisclosure();
 
   const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
-  const [classTiming, setClassTiming] = useState(["", ""]);
+  const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
   useEffect(() => {
     dispatch(getAllLiveClassesSchedule());
   }, [dispatch]);
@@ -39,7 +39,7 @@ const ChapterRecordings = () => {
           <ViewAllRecordingsRelatedToOneChapter />
           <ChapterDetailsAndCoveredPart />
         </Stack>
-        <Box ml={"24px"} mt={"20px"}  w={"25%"}>
+        <Box ml={"24px"} mt={"20px"} w={"25%"}>
           <SimpleBar
             style={{
               maxHeight: "85vh",
@@ -49,10 +49,9 @@ const ChapterRecordings = () => {
               boxShadow: boxShadowStyles.shadowOneStyle.boxShadow,
             }}
           >
-          <Box p={4}>
-          <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
-          </Box>
-           
+            <Box p={4}>
+              <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
+            </Box>
           </SimpleBar>
         </Box>
       </Flex>

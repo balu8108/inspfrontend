@@ -26,11 +26,11 @@ import { useNavigate, NavLink, useLocation } from "react-router-dom";
 const links = [
   { path: "/homepage", label: "Home", availableTo: [0, 1] },
   { path: "/schedule-class", label: "Calendar", availableTo: [0, 1] },
-  { path: "mentor/myCourses/PHYSICS", label: "Courses", availableTo: [1] },
-  { path: "/mentor/alluploads", label: "Uploads", availableTo: [1] },
-  { path: "/student/assignments", label: "Assignments", availableTo: [0] },
-  { path: "/student/physics-library", label: "Library", availableTo: [0] },
-  { path: "/insp-website", label: "INSP Website", availableTo: [0, 1] },
+  { path: "/courses", label: "Courses", availableTo: [1] },
+  { path: "/uploads", label: "Uploads", availableTo: [1] },
+  { path: "/assignments", label: "Assignments", availableTo: [0] },
+  { path: "/library", label: "Library", availableTo: [0] },
+  { path: "/insp-website", label: "INSP Portal", availableTo: [0, 1] },
 ];
 const NavLinks = ({ userData }) => {
   const location = useLocation();
@@ -44,7 +44,7 @@ const NavLinks = ({ userData }) => {
               <Box mx={2}>
                 {link.path === "/insp-website" ? (
                   <a
-                    href="https://www.inspedu.in/"
+                    href="https://www.inspedu.in/student/profile"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -106,7 +106,13 @@ export default function Navbar() {
       <Box bg={backgroundLightBlue} py={1} px={20}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <Box>
-            <Image src={insplogo} objectFit={"cover"} width={120} />
+            <a
+              href="https://www.inspedu.in"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image src={insplogo} objectFit={"cover"} width={120} />
+            </a>
           </Box>
 
           <Flex alignItems={"center"}>

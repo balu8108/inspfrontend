@@ -21,7 +21,6 @@ import {
 import { useState, useEffect } from "react";
 import { FiMic, FiMicOff, FiVideoOff } from "react-icons/fi";
 import { checkUserType, renderLeftMembersCount } from "../../../utils";
-import SimpleBar from "simplebar-react";
 import { IoIosRemoveCircleOutline } from "react-icons/io";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { BsMicMute } from "react-icons/bs";
@@ -30,6 +29,7 @@ import {
   kickOutFromClass,
   muteMicCommandByMentor,
 } from "../../../socketconnections/socketconnections";
+import Scrollbars from "rc-scrollbars";
 const Actions = ({ peer }) => {
   const [isMicBlocked, setIsMicBlocked] = useState(peer?.isAudioBlocked);
 
@@ -79,7 +79,6 @@ const Actions = ({ peer }) => {
 
 const LiveSessionMembers = ({ primaryBlue, viewType }) => {
   const { peers, selfDetails } = useSelector((state) => state.socket);
-  const [isMicOn, setIsMicOn] = useState(false);
   const [maxBoxesPerRow, setMaxBoxesPerRow] = useState(3);
   const userRoleType = checkUserType();
 
@@ -219,9 +218,11 @@ const LiveSessionMembers = ({ primaryBlue, viewType }) => {
         <Stack gap={4}>{renderCompactPeers()}</Stack>
       ) : (
         <>
-          <Stack gap={4} maxHeight={"85vh"} overflowY={"auto"}>
-            {renderExpandedPeers()}
-          </Stack>
+          <Scrollbars autoHeight={true} autoHeightMin={"85vh"}>
+            <Stack gap={4} maxHeight={"85vh"}>
+              {renderExpandedPeers()}
+            </Stack>
+          </Scrollbars>
         </>
       )}
     </>

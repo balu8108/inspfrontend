@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Flex,
   IconButton,
@@ -14,15 +14,19 @@ import { BiBarChart } from "react-icons/bi";
 import { BsEmojiSmile } from "react-icons/bs";
 import { TfiMenuAlt } from "react-icons/tfi";
 import { PiPaperPlaneTiltBold } from "react-icons/pi";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import data from "@emoji-mart/data";
 import { init, SearchIndex } from "emoji-mart";
 
 import { setChatMessage } from "../../../store/actions/socketActions";
-import { sendChatMessage } from "../../../socketconnections/socketconnections";
-import SimpleBar from "simplebar-react";
-import { containsEmoji } from "../../../utils";
+import {
+  sendChatMessage,
+  sendQuestionMsg,
+} from "../../../socketconnections/socketconnections";
+import { Scrollbars } from "rc-scrollbars";
+import { checkUserType, containsEmoji } from "../../../utils";
 import Leaderboard from "./Leaderboard";
+import { userType } from "../../../constants/staticvariables";
 
 // Active btns will be
 // 1 - Leaderboard
@@ -33,6 +37,81 @@ const activeContentOptions = {
   Leaderboard: "Leaderboard",
   QnA: "Qna",
   Chat: "Chat",
+};
+
+const QuestionContainer = () => {
+  const [autoScroll, setAutoScroll] = useState(true);
+  const theme = useTheme();
+  const { primaryBlue } = theme.colors.pallete;
+  const { questionMessages } = useSelector(
+    (state) => state.socket,
+    shallowEqual
+  );
+
+  // Function to scroll to the latest message
+  const scrollToLatestMessage = () => {
+    const chatScroll = questionContainerRef.current;
+
+    chatScroll.scrollToBottom();
+  };
+  const questionContainerRef = useRef(null);
+
+  const handleScroll = () => {
+    const scrollElement = questionContainerRef.current;
+    const scrollTop = Math.ceil(scrollElement.getScrollTop());
+    const clientHeight = scrollElement.getClientHeight();
+    const scrollHeight = scrollElement.getScrollHeight();
+
+    if (scrollTop + clientHeight < scrollHeight) {
+      setAutoScroll(false);
+    } else {
+      setAutoScroll(true);
+    }
+  };
+  useEffect(() => {
+    if (autoScroll) {
+      scrollToLatestMessage();
+    }
+  }, [questionMessages, autoScroll]);
+
+  return (
+    <>
+      <Scrollbars
+        ref={questionContainerRef}
+        style={{ height: "100%" }}
+        autoHide={true}
+        onScroll={handleScroll}
+      >
+        {/* <SimpleBar style={{ maxHeight: "250px" }} autoHide={false} color="white"> */}
+        {questionMessages.length === 0 ? (
+          <Text textAlign={"center"} fontSize={"14px"}>
+            No Questions
+          </Text>
+        ) : (
+          questionMessages?.map((question) => {
+            return (
+              <Box key={question?.peerDetails?.id} mb={4}>
+                <HStack>
+                  <Avatar
+                    bg={primaryBlue}
+                    color="white"
+                    size={"xs"}
+                    name={question?.peerDetails?.name}
+                  />
+
+                  <Text fontSize={"14px"}>{question?.peerDetails?.name}</Text>
+                </HStack>
+                <Box>
+                  <Text fontSize={"12px"}>{question?.questionMsg}</Text>
+                </Box>
+              </Box>
+            );
+          })
+        )}
+        {/* </SimpleBar> */}
+      </Scrollbars>
+    </>
+  );
 };
 
 const EmojiContainer = ({ isEmojiOpen, setIsEmojiOpen }) => {
@@ -95,13 +174,46 @@ const EmojiContainer = ({ isEmojiOpen, setIsEmojiOpen }) => {
 };
 
 const ChatContainer = () => {
+  const [autoScroll, setAutoScroll] = useState(true);
+
   const theme = useTheme();
   const { primaryBlue } = theme.colors.pallete;
   const { chatMessages } = useSelector((state) => state.socket);
+  const chatContainerRef = useRef(null);
+
+  // Function to scroll to the latest message
+  const scrollToLatestMessage = () => {
+    const chatScroll = chatContainerRef.current;
+
+    chatScroll.scrollToBottom();
+  };
+
+  const handleScroll = () => {
+    const scrollElement = chatContainerRef.current;
+    const scrollTop = Math.ceil(scrollElement.getScrollTop());
+    const clientHeight = scrollElement.getClientHeight();
+    const scrollHeight = scrollElement.getScrollHeight();
+
+    if (scrollTop + clientHeight < scrollHeight) {
+      setAutoScroll(false);
+    } else {
+      setAutoScroll(true);
+    }
+  };
+  useEffect(() => {
+    if (autoScroll) {
+      scrollToLatestMessage();
+    }
+  }, [chatMessages, autoScroll]);
 
   return (
     <>
-      <SimpleBar style={{ maxHeight: "200px" }} autoHide={false} color="white">
+      <Scrollbars
+        ref={chatContainerRef}
+        style={{ height: "100%" }}
+        onScroll={handleScroll}
+        autoHide={true}
+      >
         {chatMessages.length === 0 ? (
           <Text textAlign={"center"} fontSize={"14px"}>
             No Chats
@@ -114,7 +226,7 @@ const ChatContainer = () => {
                   <Avatar
                     bg={primaryBlue}
                     color="white"
-                    size={"sm"}
+                    size={"xs"}
                     name={chat?.peerDetails?.name}
                   />
 
@@ -131,7 +243,7 @@ const ChatContainer = () => {
             );
           })
         )}
-      </SimpleBar>
+      </Scrollbars>
     </>
   );
 };
@@ -178,7 +290,7 @@ const ChatBox = ({ chatMsg, setChatMsg }) => {
         height={"100%"}
         justifyContent={"space-between"}
       >
-        <Box position={"relative"} height="100%">
+        <Box height={"100%"} position={"relative"}>
           <ChatContainer />
           <EmojiContainer
             isEmojiOpen={isEmojiOpen}
@@ -231,7 +343,37 @@ const ChatBox = ({ chatMsg, setChatMsg }) => {
   );
 };
 
-const QuestioBox = () => {
+const QuestionBox = () => {
+  const [questionMsg, setQuestionMsg] = useState("");
+  const [isSentBtnDisabled, setIsSentBtnDisabled] = useState(true);
+  const [isQuestionSentLoading, setIsQuestionSentLoading] = useState(false);
+
+  const userRoleType = checkUserType();
+
+  const handleQuestionInputChange = (e) => {
+    const value = e.target.value;
+    if (value.trim().length > 0) {
+      setQuestionMsg(value);
+      setIsSentBtnDisabled(false);
+    } else {
+      setQuestionMsg("");
+      setIsSentBtnDisabled(true);
+    }
+  };
+  const sendQuestionMsgHandler = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (questionMsg) {
+      setIsQuestionSentLoading(true);
+
+      // send the chat msg to the server
+      sendQuestionMsg(questionMsg); // this will emit the message to backend and from backend it sends a callback to thhis user and the question is also sent to mentor as well
+      setIsSentBtnDisabled(true);
+      setQuestionMsg("");
+      setIsQuestionSentLoading(false);
+    }
+  };
   return (
     <>
       <Flex
@@ -239,39 +381,51 @@ const QuestioBox = () => {
         height={"100%"}
         justifyContent={"space-between"}
       >
-        <Box height={"100%"} textAlign={"center"}>
-          <Text fontSize={"14px"}>No Questions</Text>
+        <Box height={"100%"} position={"relative"}>
+          <QuestionContainer />
         </Box>
-        <InputGroup bg="white" borderRadius={"full"} mt={2}>
-          <IconButton
-            borderRadius={"full"}
-            bg="white"
-            icon={<TfiMenuAlt size={16} />}
-          />
+        {userRoleType === userType.student && (
+          <InputGroup bg="white" borderRadius={"full"} mt={2}>
+            <IconButton
+              borderRadius={"full"}
+              bg="white"
+              icon={<TfiMenuAlt size={16} />}
+            />
 
-          <Input
-            type="text"
-            placeholder={"Ask something..."}
-            borderRadius="full"
-            border={"none"}
-            fontSize={"12px"}
-            px={1}
-            transition={"all 0.3 ease"}
-            overflow={"hidden"}
-            _focus={{
-              outline: "none",
-              boxShadow: "none",
-              border: "none",
-            }}
-          />
+            <Input
+              type="text"
+              placeholder={"Ask something..."}
+              borderRadius="full"
+              border={"none"}
+              fontSize={"12px"}
+              value={questionMsg}
+              onChange={(e) => handleQuestionInputChange(e)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  sendQuestionMsgHandler(e);
+                }
+              }}
+              px={1}
+              transition={"all 0.3 ease"}
+              overflow={"hidden"}
+              _focus={{
+                outline: "none",
+                boxShadow: "none",
+                border: "none",
+              }}
+            />
 
-          <IconButton
-            bg="white"
-            transition={"all 0.3 ease"}
-            borderRadius={"full"}
-            icon={<PiPaperPlaneTiltBold size={16} />}
-          />
-        </InputGroup>
+            <IconButton
+              bg="white"
+              isLoading={isQuestionSentLoading}
+              isDisabled={isSentBtnDisabled}
+              onClick={(e) => sendQuestionMsgHandler(e)}
+              transition={"all 0.3 ease"}
+              borderRadius={"full"}
+              icon={<PiPaperPlaneTiltBold size={16} />}
+            />
+          </InputGroup>
+        )}
       </Flex>
     </>
   );
@@ -286,7 +440,7 @@ const ActiveContent = ({ activeContent }) => {
         {activeContent === activeContentOptions.Chat ? (
           <ChatBox chatMsg={chatMsg} setChatMsg={setChatMsg} />
         ) : activeContent === activeContentOptions.QnA ? (
-          <QuestioBox />
+          <QuestionBox />
         ) : (
           <Leaderboard isLeaderBoardOpen={true} />
         )}

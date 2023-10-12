@@ -19,6 +19,7 @@ import {
   setNewPeerJoined,
   setPeerLeaved,
   setQuestion,
+  setQuestionMessage,
   setSelfDetails,
   setUploadFiles,
   setUploadFilesInRoom,
@@ -400,6 +401,10 @@ const blockOrUnblockMicResponseHandler = (res) => {
 const muteMicCommandByMentorResponseHandler = (res) => {
   store.dispatch(setSelfDetails(res));
 };
+const questionMsgResponseHandler = (res) => {
+  store.dispatch(setQuestionMessage(res));
+};
+
 /** REPSONSE HANDLER ENDS HERE **/
 
 // SOCKET EVENT LISTENERS AND EVENT EMITTERS:-
@@ -423,6 +428,10 @@ export const initializeSocketConnections = (roomId) => {
     socket.on(SOCKET_EVENTS.QUESTION_SENT_FROM_SERVER, questionResponseHandler);
     socket.on(SOCKET_EVENTS.PRODUCER_PAUSED, producerPausedResponseHandler);
     socket.on(SOCKET_EVENTS.PRODUCER_RESUMED, producerResumeResponseHandler);
+    socket.on(
+      SOCKET_EVENTS.QUESTION_MSG_SENT_FROM_SERVER,
+      questionMsgResponseHandler
+    );
     socket.on(
       SOCKET_EVENTS.BLOCK_OR_UNBLOCK_MIC_FROM_SERVER,
       blockOrUnblockMicResponseHandler
@@ -604,5 +613,18 @@ export const muteMicCommandByMentor = (value, peerSocketId, peerId) => {
     peerSocketId,
     peerId,
   });
+};
+
+export const sendQuestionMsg = (questionMsg) => {
+  socket.emit(
+    SOCKET_EVENTS.QUESTION_MSG_SENT_TO_SERVER,
+    { questionMsg },
+    (res) => {
+      console.log("question msg sent to server response", res);
+      if (res?.success) {
+        store.dispatch(setQuestionMessage(res?.data));
+      }
+    }
+  );
 };
 /* EVENT EMIT FUNCTIONS ENDS HERE */

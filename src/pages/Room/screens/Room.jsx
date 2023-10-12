@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Box, Grid, GridItem, useTheme } from "@chakra-ui/react";
+import { Box, Grid, GridItem, Text, useTheme } from "@chakra-ui/react";
 
 import LiveSessionDescription from "../components/LiveSessionDescription";
 import LiveSessionStream from "../components/LiveSessionStream";
@@ -14,7 +14,7 @@ import {
 import { useSelector } from "react-redux";
 import { liveSessionMemberViewType } from "../../../constants/staticvariables";
 import { useToastContext } from "../../../components/toastNotificationProvider/ToastNotificationProvider";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { checkUserType } from "../../../utils";
 import LiveSessionInteraction from "../components/LiveSessionInteraction";
 
@@ -40,6 +40,7 @@ const Room = () => {
   const micRef = useRef();
   const screenShareRef = useRef();
   const mentorVideoRef = useRef();
+  const location = useLocation();
 
   const theme = useTheme();
   const { primaryBlue, backgroundLightBlue } = theme.colors.pallete;
@@ -53,7 +54,8 @@ const Room = () => {
     if (isEnlarged) {
       return "1fr";
     } else if (peersViewType === liveSessionMemberViewType.compact) {
-      return "15% 80% 5%";
+      // return "15% 80% 5%";
+      return "0.9fr 4fr 0.25fr";
     } else if (peersViewType === liveSessionMemberViewType.expanded) {
       return "1.2fr 6fr 1fr";
     }
@@ -109,10 +111,11 @@ const Room = () => {
   useEffect(() => {
     return async () => {
       // on Unmount disconnect the participant  from room
+
       if (socket) {
         addNotification("Class leaved", "info", 3000);
         await leaveRoomHandler();
-        navigate(`/room-preview/${roomId}`);
+        // navigate(`/room-preview/${roomId}`);
       }
     };
   }, [roomId, userRoleType, addNotification, navigate]);
@@ -135,23 +138,26 @@ const Room = () => {
       <Box pt={4} pb={4} px={10}>
         <Grid
           templateColumns={renderColumns(peersViewType, isEnlarged)}
-          templateRows="repeat(2, 1fr)"
+          // templateColumns="1fr 4fr 0.25fr"
+          templateRows="repeat(6, 1fr)"
+          h="85vh"
           columnGap={4}
           rowGap={2}
-          justifyContent={"space-between"}
+          className="scrollbar-parent"
         >
           {!isEnlarged && (
-            <GridItem bg={backgroundLightBlue} borderRadius={"md"}>
+            <GridItem
+              rowSpan={2}
+              bg={backgroundLightBlue}
+              borderRadius={"md"}
+              className="scrollbar-primary"
+              overflowY={"scroll"}
+            >
               <LiveSessionDescription />
             </GridItem>
           )}
 
-          <GridItem
-            rowSpan={2}
-            height={isEnlarged && "85vh"}
-            bg={backgroundLightBlue}
-            p={4}
-          >
+          <GridItem rowSpan={6} bg={backgroundLightBlue} p={4}>
             <LiveSessionStream
               primaryBlue={primaryBlue}
               isScreenShare={isScreenShare}
@@ -178,7 +184,7 @@ const Room = () => {
 
           {!isEnlarged && (
             <GridItem
-              rowSpan={2}
+              rowSpan={6}
               cursor={"pointer"}
               onClick={() => {
                 if (peersViewType === liveSessionMemberViewType.compact) {
@@ -196,7 +202,7 @@ const Room = () => {
           )}
 
           {!isEnlarged && (
-            <GridItem bg={backgroundLightBlue} borderRadius={"md"}>
+            <GridItem rowSpan={4} bg={backgroundLightBlue} borderRadius={"md"}>
               <LiveSessionInteraction />
             </GridItem>
           )}

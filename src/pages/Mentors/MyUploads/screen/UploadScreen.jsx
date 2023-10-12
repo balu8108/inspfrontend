@@ -17,7 +17,7 @@ const MentorAllUploadedLectures = () => {
   } = useDisclosure();
 
   const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
-  const [classTiming, setClassTiming] = useState(["", ""]);
+  const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
   useEffect(() => {
     dispatch(getAllLiveClassesSchedule());
   }, [dispatch]);

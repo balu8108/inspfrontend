@@ -4,7 +4,7 @@
 // import RatingAndFeedBackChart from "../components/ViewFeedbackAndRating/RatingDonughChart";
 // import MentorSchedulingClass from "../../SchedulingClass/components/MentorSchedule";
 // const ViewRatingAndFeedback = () => {
-  
+
 //   return (
 //     <Flex m={"52px"}>
 //       <Stack spacing={"24px"} w={"100%"}>
@@ -19,11 +19,8 @@
 // };
 // export default ViewRatingAndFeedback;
 
-
-
-
 import React, { useEffect, useState } from "react";
-import { Box, Flex, Stack ,useDisclosure} from "@chakra-ui/react";
+import { Box, Flex, Stack, useDisclosure } from "@chakra-ui/react";
 import ViewMentorsRatingAndFeedback from "../components/ViewFeedbackAndRating/ViewFeedback";
 import RatingAndFeedBackChart from "../components/ViewFeedbackAndRating/RatingDonughChart";
 import MentorSchedulingClass from "../../SchedulingClass/components/MentorSchedule";
@@ -43,28 +40,28 @@ const ViewRatingAndFeedback = () => {
   } = useDisclosure();
 
   const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
-  const [classTiming, setClassTiming] = useState(["", ""]);
+  const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
   useEffect(() => {
     dispatch(getAllLiveClassesSchedule());
   }, [dispatch]);
   return (
     <>
-    {isSchedulePopupOpen && (
-      <ScheduleClassPopup
-        isOpen={isSchedulePopupOpen}
-        onClose={onScheduleClosePopupOpen}
-        selectedDate={selectedDate}
-        classTiming={classTiming}
-        setSelectedDate={setSelectedDate}
-        setClassTiming={setClassTiming}
-      />
-    )}
-    <Flex m={"52px"}>
-      <Stack spacing={"24px"} w={"100%"}>
-        <ViewMentorsRatingAndFeedback />
-        <RatingAndFeedBackChart />
-      </Stack>
-      <Box  w={"35%"} ml={5} mt={"5"}>
+      {isSchedulePopupOpen && (
+        <ScheduleClassPopup
+          isOpen={isSchedulePopupOpen}
+          onClose={onScheduleClosePopupOpen}
+          selectedDate={selectedDate}
+          classTiming={classTiming}
+          setSelectedDate={setSelectedDate}
+          setClassTiming={setClassTiming}
+        />
+      )}
+      <Flex m={"52px"}>
+        <Stack spacing={"24px"} w={"100%"}>
+          <ViewMentorsRatingAndFeedback />
+          <RatingAndFeedBackChart />
+        </Stack>
+        <Box w={"35%"} ml={5} mt={"5"}>
           <SimpleBar
             style={{
               maxHeight: "85vh",
@@ -79,14 +76,8 @@ const ViewRatingAndFeedback = () => {
             </Box>
           </SimpleBar>
         </Box>
-    </Flex>
+      </Flex>
     </>
   );
 };
 export default ViewRatingAndFeedback;
-
-
-
-
-
-

@@ -48,6 +48,8 @@ const SOCKET_EVENTS = {
   MUTE_MIC_COMMAND_BY_MENTOR_TO_SERVER: "mute_mic_command_by_mentor_to_server",
   MUTE_MIC_COMMAND_BY_MENTOR_FROM_SERVER:
     "mute_mic_command_by_mentor_from_server",
+  QUESTION_MSG_SENT_TO_SERVER: "question_msg_sent_to_server",
+  QUESTION_MSG_SENT_FROM_SERVER: "question_msg_sent_from_server",
 };
 
 export default SOCKET_EVENTS;

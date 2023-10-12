@@ -21,13 +21,12 @@ import {
   FormErrorMessage,
 } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
-import TimeRangePicker from "@wojtekmaj/react-timerange-picker";
-
+import TimePicker from "react-time-picker-input";
 import "@wojtekmaj/react-timerange-picker/dist/TimeRangePicker.css";
 import "react-clock/dist/Clock.css";
 import { scheduleClassData } from "../../pages/ScheduleClasses/data/scheduleClassData";
 import { InlineBtn } from "../button";
-import { openFileDialog } from "../../utils";
+import { isValidTimeFormat, openFileDialog } from "../../utils";
 
 import { useDispatch } from "react-redux";
 import { setAddClassSchedule } from "../../store/actions/scheduleClassActions";
@@ -36,6 +35,8 @@ import {
   fetchAllSubjectsApi,
   fetchAllTopicsApi,
 } from "../../api/inspexternalapis";
+
+import "./timepickerdefaultstyles.css";
 
 // At the moment we will add some dummy data for chapter, topic
 
@@ -70,10 +71,11 @@ const ScheduleClassPopup = ({
   const [isTopicsLoading, setIsTopicsLoading] = useState(false);
   const [isTopicsDisabled, setIsTopicsDisabled] = useState(true);
   const [topicsData, setTopicsData] = useState([]);
-  const [timeRange, setTimeRange] = useState(classTiming);
+
   const [selectedFiles, setSelectedFiles] = useState(null); // for file upload
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
-
+  const [startTime, setStartTime] = useState(classTiming[0]);
+  const [endTime, setEndTime] = useState(classTiming[1]);
   const dispatch = useDispatch();
 
   const chakraStyles = {
@@ -125,15 +127,21 @@ const ScheduleClassPopup = ({
     }));
     setScheduleClassFormErrorData((prev) => ({ ...prev, scheduledDate: "" }));
   };
-  const handleTimeChange = (value) => {
-    setTimeRange(value);
+
+  const handleStartTimeChange = (value) => {
+    setStartTime(value);
     setScheduleClassFormData((prev) => ({
       ...prev,
-      scheduledStartTime: value[0],
-      scheduledEndTime: value[1],
+      scheduledStartTime: value,
     }));
   };
-
+  const handleEndTimeChange = (value) => {
+    setEndTime(value);
+    setScheduleClassFormData((prev) => ({
+      ...prev,
+      scheduledEndTime: value,
+    }));
+  };
   const handleCheckBoxChange = (e) => {
     setScheduleClassFormData((prev) => ({
       ...prev,
@@ -175,13 +183,17 @@ const ScheduleClassPopup = ({
     );
 
     dataKey.forEach((key) => {
-      if (
-        !(key in scheduleClassFormData) ||
-        scheduleClassFormData[key] === ""
-      ) {
+      const isMissingKey = !(key in scheduleClassFormData);
+      const isEmptyValue = scheduleClassFormData[key] === "";
+      const isInvalidTimeFormat =
+        (key === "scheduledStartTime" || key === "scheduledEndTime") &&
+        !isValidTimeFormat(scheduleClassFormData[key]);
+
+      if (isMissingKey || isEmptyValue || isInvalidTimeFormat) {
         errors[key] = `Please select a ${key}`;
       }
     });
+
     if (Object.keys(errors).length > 0) {
       setScheduleClassFormErrorData(errors);
       setIsSubmitLoading(false);
@@ -236,7 +248,7 @@ const ScheduleClassPopup = ({
   useEffect(() => {
     return () => {
       // Cleanup function: Clear scheduled date and class timing if there is already
-      setClassTiming(["", ""]);
+      setClassTiming(["--:--", "--:--"]);
       setSelectedDate("");
     };
   }, []);
@@ -313,13 +325,30 @@ const ScheduleClassPopup = ({
                       )}
                     </FormControl>
 
-                    <TimeRangePicker
+                    {/* <TimeRangePicker
                       rangeDivider={"to"}
                       clearIcon={null}
                       value={timeRange}
                       disableClock={false}
                       onChange={(value) => handleTimeChange(value)}
-                    />
+                    /> */}
+                    <Flex alignItems={"center"} gap={1}>
+                      <TimePicker
+                        onChange={handleStartTimeChange}
+                        value={startTime}
+                        eachInputDropdown={true}
+                        manuallyDisplayDropdown
+                        hour12Format={true}
+                      />
+                      <Text>to</Text>
+                      <TimePicker
+                        onChange={handleEndTimeChange}
+                        value={endTime}
+                        eachInputDropdown={true}
+                        manuallyDisplayDropdown
+                        hour12Format={true}
+                      />
+                    </Flex>
                   </Grid>
                 </Box>
                 <Box my={3}>

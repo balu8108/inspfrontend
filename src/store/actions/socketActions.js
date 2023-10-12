@@ -29,6 +29,7 @@ import {
   SET_AUDIO_STREAM_ENABLED_OR_DISABLED,
   SET_IS_KICKED_OUT,
   SET_SELF_DETAILS,
+  SET_QUESTION_MSG,
 } from "../constants";
 
 export const setSocket = (socket) => {
@@ -82,6 +83,10 @@ export const setAudioConsumers = (newConsumer) => async (dispatch) => {
 
 export const setChatMessage = (newChatMessage) => async (dispatch) => {
   dispatch({ type: SET_CHAT_MESSAGE, payload: newChatMessage });
+};
+
+export const setQuestionMessage = (data) => async (dispatch) => {
+  dispatch({ type: SET_QUESTION_MSG, payload: data });
 };
 
 export const setRaiseHand = (raiseHandData) => async (dispatch) => {

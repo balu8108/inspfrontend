@@ -26,6 +26,7 @@ import {
   SET_AUDIO_STREAM_ENABLED_OR_DISABLED,
   SET_IS_KICKED_OUT,
   SET_SELF_DETAILS,
+  SET_QUESTION_MSG,
 } from "../constants";
 const initialState = {
   isPeerLoading: true,
@@ -43,6 +44,7 @@ const initialState = {
   raiseHands: [],
   uploadedFiles: [],
   leaderBoard: [],
+  questionMessages: [],
   miroBoard: { boardId: null, mode: "view" },
   question: null,
   roomPreviewData: null,
@@ -110,6 +112,11 @@ const socketReducer = (state = initialState, action) => {
       return {
         ...state,
         chatMessages: [...state.chatMessages, action.payload],
+      };
+    case SET_QUESTION_MSG:
+      return {
+        ...state,
+        questionMessages: [...state.questionMessages, action.payload],
       };
     case SET_RAISE_HAND:
       const { isHandRaised, peerDetails } = action.payload;

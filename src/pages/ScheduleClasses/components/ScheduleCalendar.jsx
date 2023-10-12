@@ -26,7 +26,7 @@ const ScheduleCalendar = ({
     const formattedTime = moment(originalDate).format("HH:mm");
     setSelectedDate(formattedDate);
     if (view.type !== scheduleClassData.calendarTypes.dayGridMonth) {
-      setClassTiming([formattedTime, ""]); // as we will get only start time
+      setClassTiming([formattedTime, "--:--"]); // as we will get only start time
     }
 
     // open schedule pop up box

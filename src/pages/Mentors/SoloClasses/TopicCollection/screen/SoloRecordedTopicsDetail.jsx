@@ -17,8 +17,12 @@ const SoloRecordedTopicsDetails = () => {
   } = useDisclosure();
 
   const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
-  const [classTiming, setClassTiming] = useState(["", ""]);
+
+  
   const [viewTopic,setViewTopic] = useState(null);
+
+  const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
+
   useEffect(() => {
     dispatch(getAllLiveClassesSchedule());
   }, [dispatch]);

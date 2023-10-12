@@ -18,9 +18,9 @@ const FileBoxComponent = ({ data }) => {
   return (
     <>
       <SimpleBar
+        color="red"
         style={{
           maxHeight: "140px",
-          bg: "red",
           borderRadius: "10px",
         }}
       >
