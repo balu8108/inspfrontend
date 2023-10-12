@@ -93,6 +93,14 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
 
   const navigate = useNavigate();
 
+  const studentPeerCount = peers?.reduce((acc, curr) => {
+    if (!curr.isTeacher) {
+      return acc + 1;
+    }
+    return acc;
+  }, 0);
+  console.log("student peer count", studentPeerCount);
+
   const navigateToRoom = async () => {
     setIsRoomLoading(true);
 
@@ -215,7 +223,7 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
                       alignItems={"center"}
                     >
                       <Text color={"white"} fontWeight={600} fontSize={"10px"}>
-                        +{renderLeftMembersCount(peers.length, 7)}
+                        +{renderLeftMembersCount(studentPeerCount, 3)}
                       </Text>
                     </Flex>
                   </Center>

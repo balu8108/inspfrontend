@@ -14,11 +14,9 @@ import {
 import { useSelector } from "react-redux";
 import { liveSessionMemberViewType } from "../../../constants/staticvariables";
 import { useToastContext } from "../../../components/toastNotificationProvider/ToastNotificationProvider";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { checkUserType } from "../../../utils";
 import LiveSessionInteraction from "../components/LiveSessionInteraction";
-import SimpleBar from "simplebar-react";
-import Scrollbars from "rc-scrollbars";
 
 const Room = () => {
   const [isScreenShare, setIsScreenShare] = useState(false);
@@ -42,6 +40,7 @@ const Room = () => {
   const micRef = useRef();
   const screenShareRef = useRef();
   const mentorVideoRef = useRef();
+  const location = useLocation();
 
   const theme = useTheme();
   const { primaryBlue, backgroundLightBlue } = theme.colors.pallete;
@@ -112,10 +111,11 @@ const Room = () => {
   useEffect(() => {
     return async () => {
       // on Unmount disconnect the participant  from room
+
       if (socket) {
         addNotification("Class leaved", "info", 3000);
         await leaveRoomHandler();
-        navigate(`/room-preview/${roomId}`);
+        // navigate(`/room-preview/${roomId}`);
       }
     };
   }, [roomId, userRoleType, addNotification, navigate]);

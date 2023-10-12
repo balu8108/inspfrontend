@@ -23,7 +23,6 @@ import {
   sendChatMessage,
   sendQuestionMsg,
 } from "../../../socketconnections/socketconnections";
-import SimpleBar from "simplebar-react";
 import { Scrollbars } from "rc-scrollbars";
 import { checkUserType, containsEmoji } from "../../../utils";
 import Leaderboard from "./Leaderboard";
