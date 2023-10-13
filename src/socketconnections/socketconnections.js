@@ -378,7 +378,6 @@ const miroBoardIdResponseHandler = (res) => {
 };
 
 const leaderBoardResponseHandler = (res) => {
-  console.log("leader board front", res);
   store.dispatch(setLeaderBoard(res?.leaderBoard));
 };
 
