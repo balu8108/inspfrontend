@@ -14,7 +14,7 @@ import { IoIosAdd } from "react-icons/io";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import UploadAssignmentPopup from "../../../../components/popups/UploadAssignmentPopup";
-
+import { BASE_URL } from "../../../../constants/staticurls";
 const MentorsUploads = () => {
   const apiUrl = "http://localhost:5000";
   const [latestAssignment, setLatestAssignment] = useState([]);
@@ -30,7 +30,7 @@ const MentorsUploads = () => {
     setUploadAssignmentModalOpen(false);
   };
   useEffect(() => {
-    axios.get(`${apiUrl}/topic/latest-assignment`).then((response) => {
+    axios.get(`${BASE_URL}/topic/latest-assignment`).then((response) => {
       setLatestAssignment(response.data.data);
     });
   }, []);

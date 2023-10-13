@@ -21,6 +21,7 @@ import {
   fetchAllTopicsWithoutChapterIdApi,
 } from "../../../../../api/inspexternalapis";
 import DataForClass from "../../RecordingSoloLectures/components/DataForClass";
+import { BASE_URL } from "../../../../../constants/staticurls";
 import axios from "axios";
 const SoloRecordModal = ({ isOpen, onClose }) => {
   const [isLoadingSubjects, setIsLoadingSubjects] = useState(true);
@@ -34,6 +35,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
   const [files, setFiles] = useState([]);
   const [selectedTopicId, setSelectedTopicId] = useState("");
   const navigate = useNavigate();
+
   const apiUrl = "http://localhost:5000";
   const fileInputRef = useRef(null);
 
@@ -56,7 +58,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
         formData.append("files", file);
       });
       const response = await axios.post(
-        `${apiUrl}/solo-lecture/create-room`,
+        `${BASE_URL}/solo-lecture/create-room`,
         formData,
         {
           headers: {

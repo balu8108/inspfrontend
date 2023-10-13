@@ -18,6 +18,7 @@ import { BsPlayFill } from "react-icons/bs";
 import { useNavigate } from "react-router";
 import { FaCircle } from "react-icons/fa";
 import { getPresignedUrlApi } from "../../../../../api/genericapis";
+import { BASE_URL } from "../../../../../constants/staticurls";
 const DetailsCoveredFiles = ({ viewTopic }) => {
   const [topicDetails, setTopicDetails] = useState(null);
   const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
@@ -30,7 +31,7 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
   const fetchTopicDetails = async (topicId) => {
     try {
       const response = await axios.get(
-        `${apiUrl}/solo-lecture/get-topic-details/${topicId}`
+        `${BASE_URL}/solo-lecture/get-topic-details/${topicId}`
       );
       console.log("respone ", response);
       const topicDetailsData = response.data;
@@ -63,7 +64,8 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
       const presignedUrl = response.data.data.getUrl;
 
       // Open the video in a new tab or window using the generated URL
-      window.open(presignedUrl, "_blank");
+      // window.open(presignedUrl, "_blank");
+      navigate(`/view-recording?videoUrl=${encodeURIComponent(presignedUrl)}`);
     } catch (error) {
       console.error("Error generating pre-signed URL:", error);
       // Handle errors as needed

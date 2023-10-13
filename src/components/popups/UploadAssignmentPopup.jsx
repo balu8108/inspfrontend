@@ -27,7 +27,7 @@ import {
   fetchAllTopicsApi,
 } from "../../api/inspexternalapis";
 import axios from "axios";
-
+import { BASE_URL } from "../../constants/staticurls";
 const UploadAssignmentPopup = ({ isOpen, onClose }) => {
   const [isLoadingSubjects, setIsLoadingSubjects] = useState(true);
   const [isLoadingChapters, setIsLoadingChapters] = useState(false);
@@ -41,6 +41,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
   const [selectedTopic, setSelectedTopic] = useState("");
   const [description, setDescription] = useState("");
   const [files, setFiles] = useState([]);
+
   const apiUrl = "http://localhost:5000";
 
   // Create a ref for the file input
@@ -79,7 +80,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
         formData.append("files", file); 
       });
       const response = await axios.post(
-        `${apiUrl}/topic/upload-assignments`,
+        `${BASE_URL}/topic/upload-assignments`,
         formData,
         {
           headers: {

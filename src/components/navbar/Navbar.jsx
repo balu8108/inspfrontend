@@ -26,10 +26,14 @@ import { useNavigate, NavLink, useLocation } from "react-router-dom";
 const links = [
   { path: "/homepage", label: "Home", availableTo: [0, 1] },
   { path: "/schedule-class", label: "Calendar", availableTo: [0, 1] },
-  { path: "/courses", label: "Courses", availableTo: [1] },
-  { path: "/uploads", label: "Uploads", availableTo: [1] },
-  { path: "/assignments", label: "Assignments", availableTo: [0] },
-  { path: "/library", label: "Library", availableTo: [0] },
+  { path: "/mentor/myCourses/PHYSICS", label: "Courses", availableTo: [1] },
+  { path: "/mentor/alluploads", label: "Uploads", availableTo: [1] },
+  { path: "/student/assignments", label: "Assignments", availableTo: [0] },
+  {
+    path: "/student/physics-library/:chapterName",
+    label: "Library",
+    availableTo: [0],
+  },
   { path: "/insp-website", label: "INSP Portal", availableTo: [0, 1] },
 ];
 const NavLinks = ({ userData }) => {

@@ -202,6 +202,7 @@ import { Chart, ArcElement } from "chart.js";
 import { FaCircle } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { BASE_URL } from "../../../../../constants/staticurls";
 Chart.register(ArcElement);
 
 const RatingAndFeedBackChart = () => {
@@ -213,7 +214,7 @@ const RatingAndFeedBackChart = () => {
   useEffect(() => {
     // Fetch feedback data from your API
     axios
-      .get(`${apiUrl}/generic/topic-feedback-rating-details/${topic_id}`)
+      .get(`${BASE_URL}/generic/topic-feedback-rating-details/${topic_id}`)
       .then((response) => {
         console.log("API Response:", response.data);
         setFeedbackData(response.data.topicDetails);
