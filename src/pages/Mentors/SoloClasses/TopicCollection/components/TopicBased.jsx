@@ -12,12 +12,10 @@ import {
 import SoloRecordModal from "../../SoloRecordModal/components/SoloRecordModal";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../../api/inspexternalapis";
 import axios from "axios";
-const TopicsBased = ( {setViewTopic}) => {
+const TopicsBased = ({ setViewTopic }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoadingTopics, setIsLoadingTopics] = useState(true);
   const [topics, setTopics] = useState([]);
-  const apiUrl = "http://localhost:5000";
-  const [topic, selectedTopic] = useState([]);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -31,7 +29,7 @@ const TopicsBased = ( {setViewTopic}) => {
     async function fetchAllTopicsWithoutChapterId() {
       try {
         const response = await fetchAllTopicsWithoutChapterIdApi();
-        console.log("Topics Api Without the Chapter Id", response);
+
         if (response.status) {
           setTopics(response.result);
         }
@@ -105,7 +103,6 @@ const TopicsBased = ( {setViewTopic}) => {
         // Render topics when loading is complete
         <Flex overflowX={"auto"}>
           {topics.map((topic) => (
-            
             <Card
               key={topic.id}
               h={"204px"}
@@ -162,12 +159,11 @@ const TopicsBased = ( {setViewTopic}) => {
                 lineHeight={"16px"}
                 mt={"60px"}
                 // onClick={() => handleViewDetailsClick(topic.id, topic.name)}
-                onClick={()=>setViewTopic(topic.id)}
+                onClick={() => setViewTopic(topic.id)}
               >
                 View Details
               </Button>
             </Card>
-          
           ))}
         </Flex>
       )}
@@ -175,24 +171,8 @@ const TopicsBased = ( {setViewTopic}) => {
       {isModalOpen && (
         <SoloRecordModal isOpen={isModalOpen} onClose={closeModal} />
       )}
-
-      
     </Box>
   );
 };
 
 export default TopicsBased;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
