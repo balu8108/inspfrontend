@@ -16,6 +16,7 @@ import { FaSearch } from "react-icons/fa";
 import { GrUpload } from "react-icons/gr";
 import { BsDownload } from "react-icons/bs";
 import uploadedChapterDetails from "../data/uploadingDetails";
+import {BASE_URL}  from "../../../../constants/staticurls"
 import axios from "axios";
 const AllUploadedLecture = () => {
   const [selectedAssignment, setSelectedAssignment] = useState(null);
@@ -32,7 +33,7 @@ const AllUploadedLecture = () => {
   useEffect(() => {
     // Make an API request to fetch assignments with files
     axios
-      .get(`${apiUrl}/topic/all-assignment-with-files`)
+      .get(`${BASE_URL}/topic/all-assignment-with-files`)
       .then((response) => {
         setAssignments(response.data);
       })
