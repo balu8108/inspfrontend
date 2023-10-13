@@ -99,7 +99,6 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
     }
     return acc;
   }, 0);
-  console.log("student peer count", studentPeerCount);
 
   const navigateToRoom = async () => {
     setIsRoomLoading(true);
