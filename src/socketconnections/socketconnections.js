@@ -65,6 +65,7 @@ const socketNewPeerJoinedHandler = (res) => {
 
 const joinRoomResponseHandler = (res, resolve, reject) => {
   if (res.success) {
+    store.dispatch(setLeaderBoard(res?.leaderBoardData));
     resolve(res);
   } else {
     reject(res);
@@ -289,13 +290,27 @@ const raiseHandResponseHandler = (res) => {
 };
 
 const uploadFileResponseHandler = (res) => {
-  let allNewFiles = [];
+  const { success, data } = res;
+  if (success) {
+    store.dispatch(setUploadFilesInRoom(data));
+  }
+  // let allNewFiles = [];
 
-  res.forEach((fileData) => {
-    const convFile = new File([fileData.file], fileData.fileName);
-    allNewFiles.push(convFile);
-  });
-  store.dispatch(setUploadFiles(allNewFiles));
+  // console.log("file response by server", res);
+  // if (res.success) {
+  //   res?.data?.files.forEach((fileData) => {
+  //     const convFile = new File([fileData.file], fileData.fileName);
+  //     allNewFiles.push(convFile);
+  //   });
+  // }
+
+  // store.dispatch(setUploadFiles(allNewFiles));
+
+  // res.forEach((fileData) => {
+  //   const convFile = new File([fileData.file], fileData.fileName);
+  //   allNewFiles.push(convFile);
+  // });
+  // store.dispatch(setUploadFiles(allNewFiles));
 };
 
 const questionResponseHandler = (res) => {
@@ -363,6 +378,7 @@ const miroBoardIdResponseHandler = (res) => {
 };
 
 const leaderBoardResponseHandler = (res) => {
+  console.log("leader board front", res);
   store.dispatch(setLeaderBoard(res?.leaderBoard));
 };
 

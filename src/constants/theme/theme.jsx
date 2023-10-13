@@ -12,6 +12,7 @@ const scheme = {
       backgroundLightBlue: "#F1F5F8",
       lightGreen: "#C1E3B6",
       primaryBlue: "#3C8DBC",
+      primaryBlueLight: "rgba(60, 141, 188, 0.8)",
       mainTextColor: "#2C3329",
       btnTextColor: "rgba(107, 104, 112, 1)",
       secondaryTextColor: "rgba(44, 51, 41, 0.47)",
