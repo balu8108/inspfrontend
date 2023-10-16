@@ -1,41 +1,62 @@
-// import { Box, Flex, VStack } from "@chakra-ui/react";
-// import Header from "../../../Header/components/HeaderInAllScreen";
-// import SchedulingClass from "../../../SchedulingClass/components/MentorSchedule";
-// import PhysicsCourse from "../components/MentorPhysics";
-// const Physics = () => {
-//   return (
-//     <Box m={"52px"}>
-//       <Flex>
-//         <Box>
-//           <VStack spacing={"24px"}>
-//             <Header />
-//             <PhysicsCourse />
-//           </VStack>
-//         </Box>
-//         <Box>
-//           <SchedulingClass />
-//         </Box>
-//       </Flex>
-//     </Box>
-//   );
-// };
-// export default Physics;
-
-import { Box, Flex, Stack } from "@chakra-ui/react";
+import React, { useState, useEffect } from "react";
+import { Box, Flex, Stack, useDisclosure } from "@chakra-ui/react";
 import Header from "../../../Header/components/HeaderInAllScreen";
-import SchedulingClass from "../../../SchedulingClass/components/MentorSchedule";
 import PhysicsCourse from "../components/MentorPhysics";
+import ScheduleClassList from "../../../../ScheduleClasses/components/ScheduleClassList";
+import SimpleBar from "simplebar-react";
+import { boxShadowStyles } from "../../../../../utils";
+import { useDispatch } from "react-redux";
+import { getAllLiveClassesSchedule } from "../../../../../store/actions/scheduleClassActions";
+import ScheduleClassPopup from "../../../../../components/popups/ScheduleClassPopup";
 const Physics = () => {
+  const dispatch = useDispatch();
+  const {
+    isOpen: isSchedulePopupOpen,
+    onOpen: onSchedulePopupOpen,
+    onClose: onScheduleClosePopupOpen,
+  } = useDisclosure();
+
+  const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
+  const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
+  useEffect(() => {
+    dispatch(getAllLiveClassesSchedule());
+  }, [dispatch]);
   return (
-    <Flex m={"52px"}>
-      <Stack spacing={"24px"} w={"100%"}>
-        <Header />
-        <PhysicsCourse />
-      </Stack>
-      <Box mt={-5}>
-        <SchedulingClass />
-      </Box>
-    </Flex>
+    <>
+      {isSchedulePopupOpen && (
+        <ScheduleClassPopup
+          isOpen={isSchedulePopupOpen}
+          onClose={onScheduleClosePopupOpen}
+          selectedDate={selectedDate}
+          classTiming={classTiming}
+          setSelectedDate={setSelectedDate}
+          setClassTiming={setClassTiming}
+        />
+      )}
+
+      <Flex m={"52px"}>
+        <Stack spacing={"24px"} w={"100%"}>
+          <Header />
+          <PhysicsCourse />
+        </Stack>
+        <Box w="25%" ml={5}>
+          <SimpleBar
+            style={{
+              maxHeight: "85vh",
+              borderRadius: "26px",
+              bg: "#F1F5F8",
+              backgroundBlendMode: "multiply",
+              boxShadow: boxShadowStyles.shadowOneStyle.boxShadow,
+            }}
+          >
+            <Box p={4}>
+              <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
+            </Box>
+          </SimpleBar>
+          {/* <StudentHomePageRightSection /> */}
+        </Box>
+      </Flex>
+    </>
   );
 };
 export default Physics;

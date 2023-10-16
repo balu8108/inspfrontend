@@ -17,6 +17,7 @@ import { GrUpload } from "react-icons/gr";
 import { BsDownload } from "react-icons/bs";
 import uploadedChapterDetails from "../data/uploadingDetails";
 import {BASE_URL}  from "../../../../constants/staticurls"
+import { extractFileNameFromS3URL } from "../../../../utils";
 import axios from "axios";
 const AllUploadedLecture = () => {
   const [selectedAssignment, setSelectedAssignment] = useState(null);
@@ -133,7 +134,7 @@ const AllUploadedLecture = () => {
                   fontSize={"11px"}
                 >
                   {/* Display file information here */}
-                  <Text>{file.key}</Text>
+                  <Text>{extractFileNameFromS3URL(file.key)}</Text>
                   <Button
                     rightIcon={<BsDownload />}
                     variant={"ghost"}

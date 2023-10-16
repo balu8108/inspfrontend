@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import {
   Box,
   Button,
@@ -10,9 +10,22 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import newAddedAssignment from "../data/newAddedAssignment";
-
+import {BASE_URL}  from "../../../constants/staticurls";
+import axios from "axios";
 const Assignment = () => {
   const theme = useTheme();
+  const [recentAssignments, setRecentAssignments] = useState([]);
+  useEffect(() => {
+    // Inside a useEffect to make the API call when the component mounts
+    axios.get(BASE_URL + "/topic/recent-assignment")
+      .then((response) => {
+        setRecentAssignments(response.data.data);
+      })
+      .catch((error) => {
+        // Handle any errors here
+        console.error("Error fetching recent assignments:", error);
+      });
+  }, []);
 
   return (
     <Box
@@ -48,9 +61,11 @@ const Assignment = () => {
       </HStack>
 
       <Flex mt={5}>
-        {newAddedAssignment.map((homepageAssignment) => (
+        {recentAssignments.map((homepageAssignment) => (
           <Card
             borderRadius="18px"
+            w={"100%"}
+            h={"200px"}
             bg="#F1F5F8"
             ml="26px"
             mr="20px"
@@ -63,7 +78,7 @@ const Assignment = () => {
               ml="13px"
               mt="13px"
             >
-              {homepageAssignment.title}
+              {homepageAssignment.topicName}
             </Text>
             <Text fontSize="12px" fontWeight="400" color="gray" ml="13px">
               {homepageAssignment.instructorName}
@@ -96,6 +111,7 @@ const Assignment = () => {
               size="sm"
               lineHeight="1.5"
               p={6}
+              mt={8}
             >
               View Details
             </Button>

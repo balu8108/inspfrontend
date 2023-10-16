@@ -49,7 +49,7 @@ const MentorHomePage = () => {
         <Flex>
           <Box>
             <Header />
-            <Flex >
+            <Flex w={"full"}>
               <Stack spacing={"20px"} w={"full"}>
                 <SoloClasses />
                 <MentorsUploads />
@@ -77,7 +77,6 @@ const MentorHomePage = () => {
                     />
                   </Box>
                 </SimpleBar>
-                {/* <StudentHomePageRightSection /> */}
               </Box>
             </VStack>
           </Box>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   Box,
   Text,
@@ -15,9 +15,11 @@ import {
 } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
 import { BsDownload } from "react-icons/bs";
-import assignmentData from "../data/assignmentDetails";
-
+import axios from "axios";
+import {BASE_URL} from "../../../constants/staticurls"
+import { extractFileNameFromS3URL } from "../../../utils";
 const PhysDetails = () => {
+  const [assignmentData, setAssignmentData] = useState([]);
   const [selectedAssignment, setSelectedAssignment] = useState(null);
 
   const handleViewDetails = (assignmentId) => {
@@ -28,6 +30,16 @@ const PhysDetails = () => {
     setSelectedAssignment(null);
   };
 
+  useEffect(() => {
+    axios
+      .get(BASE_URL + "/topic/all-assignment-with-files")
+      .then((response) => {
+        setAssignmentData(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching assignments:", error);
+      });
+  }, []);
   return (
     <Box width={"100%"} h={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
@@ -53,16 +65,16 @@ const PhysDetails = () => {
         p={4}
         mr={"20px"}
       >
-        {assignmentData.map((assignmentScreen) => (
+        {assignmentData.map((assignment) => (
           <Card
             w="100%"
             blendMode={"multiply"}
             bg={"#F1F5F8"}
             borderRadius={"18px"}
-            key={assignmentScreen.id}
+            key={assignment.id}
           >
             <Text fontSize={"15px"} lineHeight={"18px"} ml={"13px"} mt={"16px"}>
-              {assignmentScreen.chapterName}
+              {assignment.topicName}
             </Text>
             <Text
               fontWeight={400}
@@ -72,7 +84,7 @@ const PhysDetails = () => {
               mt={"3px"}
               color={"#2C332978"}
             >
-              {assignmentScreen.instructorName}
+              {assignment.instructorName}
             </Text>
             <Text
               fontSize={"12px"}
@@ -93,7 +105,7 @@ const PhysDetails = () => {
               color={"#2C332978"}
               noOfLines={2}
             >
-              {assignmentScreen.description}
+              {assignment.description}
             </Text>
             <Box
               flex={1}
@@ -103,7 +115,7 @@ const PhysDetails = () => {
               my={"13px"}
               mx={"25px"}
             >
-              {assignmentScreen.files.map((files, index) => (
+              {assignment.AssignmentFiles.map((files, index) => (
                 <Flex
                   key={index}
                   flex={1}
@@ -118,7 +130,7 @@ const PhysDetails = () => {
                   h={"49px"}
                   fontSize={"11px"}
                 >
-                  {files}
+                  {extractFileNameFromS3URL(files.key)}
                   <Button
                     rightIcon={<BsDownload />}
                     variant={"ghost"}

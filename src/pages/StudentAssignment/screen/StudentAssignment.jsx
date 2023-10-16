@@ -21,7 +21,7 @@ const AssignmentScreen = () => {
           <Header />
           <Assignment />
         </VStack>
-        <Box w={"60%"}>
+        <Box w={"25%"}>
           <SimpleBar
             style={{
               maxHeight: "85vh",
