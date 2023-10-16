@@ -136,7 +136,7 @@ const ScheduleInfoBox = ({ type }) => {
   const { scheduledClassesData, scheduleClassLoading } = useSelector(
     (state) => state.scheduleClass
   );
-
+  console.log("schedulee classese data", scheduledClassesData);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 

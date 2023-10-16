@@ -8,7 +8,7 @@ import { checkUserType } from "../../../utils";
 import { userType } from "../../../constants/staticvariables";
 
 const ScheduleClassList = ({ onSchedulePopupOpen }) => {
-  const { primaryBlue } = useTheme().colors.pallete;
+  const { primaryBlue, primaryBlueLight } = useTheme().colors.pallete;
 
   const scheduleClassClickHandler = () => {
     onSchedulePopupOpen();
@@ -23,6 +23,7 @@ const ScheduleClassList = ({ onSchedulePopupOpen }) => {
             backColor={primaryBlue}
             textColor={"white"}
             onClickHandler={scheduleClassClickHandler}
+            hoverColor={primaryBlueLight}
           />
         )}
 

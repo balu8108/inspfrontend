@@ -1,18 +1,4 @@
-import {
-  Box,
-  HStack,
-  Text,
-  Tabs,
-  TabList,
-  Tab,
-  TabPanels,
-  TabPanel,
-  useTheme,
-  Flex,
-  Icon,
-} from "@chakra-ui/react";
-
-import { FiDownload } from "react-icons/fi";
+import { Box, HStack, Text, useTheme, Flex } from "@chakra-ui/react";
 import { roomData } from "../data/roomData";
 import FileBoxComponent from "../../../components/filebox/FileBoxComponent";
 import UploadFilePopup from "../../../components/popups/UploadFilePopup";
@@ -25,7 +11,6 @@ import {
 } from "../../../store/actions/socketActions";
 import { checkUserType, formatTime } from "../../../utils";
 import { userType } from "../../../constants/staticvariables";
-import Scrollbars from "rc-scrollbars";
 
 const RoomContent = ({ mainTextColor, secondaryTextColor, type }) => {
   const { roomPreviewData, upcomingClassData } = useSelector(
@@ -51,23 +36,6 @@ const RoomContent = ({ mainTextColor, secondaryTextColor, type }) => {
           {formatTime(renderContent()?.scheduledEndTime)}
         </Text>
       </Box>
-      {/* <Box pt={6}>
-        <Text fontSize={"14px"} color={mainTextColor}>
-          {roomData.agenda}
-        </Text>
-
-        <HStack pt={1}>
-          <Box
-            width={"15px"}
-            height={"15px"}
-            bg={"gray.200"}
-            borderRadius={"100%"}
-          />
-          <Text color={secondaryTextColor} fontSize={"12px"}>
-            {renderContent()?.LiveClassRoomDetail?.agenda || roomData.noData}
-          </Text>
-        </HStack>
-      </Box> */}
       <Box pt={6}>
         <Flex py={2} alignItems={"center"} justifyContent={"space-between"}>
           <Text fontSize={"14px"} color={mainTextColor}>
@@ -86,24 +54,6 @@ const RoomContent = ({ mainTextColor, secondaryTextColor, type }) => {
           )}
         </Box>
       </Box>
-
-      {/* <Box pt={6}>
-        <Flex justifyContent={"space-between"} py={2} alignItems={"center"}>
-          <Text fontSize={"14px"}>{roomData.notes}</Text>
-          <Icon
-            as={FiDownload}
-            bg={"none"}
-            boxSize={"1em"}
-            _hover={{ bg: "none" }}
-          />
-        </Flex>
-        <Box
-          width="100%"
-          height={"100px"}
-          bg="gray.200"
-          borderRadius={"md"}
-        ></Box>
-      </Box> */}
     </>
   );
 };

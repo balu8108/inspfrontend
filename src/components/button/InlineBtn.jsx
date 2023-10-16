@@ -6,6 +6,7 @@ const InlineBtn = ({
   backColor,
   textColor,
   onClickHandler,
+  hoverColor,
 }) => {
   return (
     <>
@@ -16,6 +17,7 @@ const InlineBtn = ({
         py={6}
         color={textColor}
         onClick={onClickHandler}
+        _hover={{ bg: hoverColor }}
       >
         {text}
       </Button>

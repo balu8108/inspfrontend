@@ -58,7 +58,8 @@ const ScheduleClassPopup = ({
   setSelectedDate,
   setClassTiming,
 }) => {
-  const { extraTextLight, primaryBlue } = useTheme().colors.pallete;
+  const { extraTextLight, primaryBlue, primaryBlueLight } =
+    useTheme().colors.pallete;
   const [scheduleClassFormData, setScheduleClassFormData] = useState({});
   const [scheduleClassFormErrorData, setScheduleClassFormErrorData] = useState(
     {}
@@ -324,14 +325,6 @@ const ScheduleClassPopup = ({
                         </FormErrorMessage>
                       )}
                     </FormControl>
-
-                    {/* <TimeRangePicker
-                      rangeDivider={"to"}
-                      clearIcon={null}
-                      value={timeRange}
-                      disableClock={false}
-                      onChange={(value) => handleTimeChange(value)}
-                    /> */}
                     <Flex alignItems={"center"} gap={1}>
                       <TimePicker
                         onChange={handleStartTimeChange}
@@ -474,6 +467,7 @@ const ScheduleClassPopup = ({
                   <Button
                     w={"20%"}
                     bg={primaryBlue}
+                    _hover={{ bg: primaryBlueLight }}
                     color="white"
                     fontSize={"14px"}
                     fontWeight={500}
@@ -517,6 +511,7 @@ const ScheduleClassPopup = ({
                 backColor={primaryBlue}
                 textColor="white"
                 onClickHandler={handleSubmit}
+                hoverColor={primaryBlueLight}
               />
             </Flex>
           </ModalFooter>

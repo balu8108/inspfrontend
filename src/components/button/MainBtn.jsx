@@ -1,6 +1,13 @@
 import React from "react";
 import { Button } from "@chakra-ui/react";
-const MainBtn = ({ isLoading, text, backColor, textColor, onClickHandler }) => {
+const MainBtn = ({
+  isLoading,
+  text,
+  backColor,
+  textColor,
+  onClickHandler,
+  hoverColor,
+}) => {
   return (
     <Button
       w={"full"}
@@ -9,7 +16,7 @@ const MainBtn = ({ isLoading, text, backColor, textColor, onClickHandler }) => {
       color={textColor}
       fontWeight={"500"}
       fontSize={"14px"}
-      _hover={{ bg: backColor }}
+      _hover={{ bg: hoverColor }}
       onClick={() => onClickHandler()}
     >
       {text}
