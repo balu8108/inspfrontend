@@ -45,8 +45,6 @@ export const device = new Device();
 /** REPSONSE HANDLER STARTS HERE **/
 
 const socketConnectionHandler = (roomId) => {
-  console.log("Socket connected successfully with id ", socket.id);
-
   store.dispatch(setIsMeetEnd(false));
 
   socket.emit(SOCKET_EVENTS.JOIN_ROOM_PREVIEW, { roomId: roomId }, (res) => {
@@ -635,7 +633,6 @@ export const sendQuestionMsg = (questionMsg) => {
     SOCKET_EVENTS.QUESTION_MSG_SENT_TO_SERVER,
     { questionMsg },
     (res) => {
-      console.log("question msg sent to server response", res);
       if (res?.success) {
         store.dispatch(setQuestionMessage(res?.data));
       }

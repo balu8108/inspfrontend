@@ -57,7 +57,6 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
 
   const handleCardClick = async (videoUrl) => {
     try {
-      console.log("VIDEO url ", videoUrl);
       const response = await getPresignedUrlApi({ s3_key: videoUrl });
 
       const presignedUrl = response.data.data.getUrl;
@@ -141,7 +140,6 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
             {topicDetails && topicDetails.length > 0 ? (
               topicDetails.map((topicInfo, index) => (
                 <HStack key={index}>
-                  {console.log("topic info", topicInfo)}
                   {topicInfo.SoloClassRoomRecordings.map(
                     (recording, recordingIndex) => (
                       <Card
