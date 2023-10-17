@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Card, Text, HStack, SimpleGrid } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Card,
+  Text,
+  HStack,
+  SimpleGrid,
+  Spinner,
+  Center,
+} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { fetchAllChaptersApi } from "../../../../../api/inspexternalapis/index";
 const PhysicsCourse = () => {
   const [chapters, setChapters] = useState([]);
-
+  const [loading,setLoading]=useState(true);
   const dummyDescriptions = [
     "This chapter covers the basics of electromagnetism, including its principles and applications.",
     "Learn about geometrical and wave optics in this chapter.",
@@ -20,8 +29,10 @@ const PhysicsCourse = () => {
         if (response.status) {
           setChapters(response.result);
         }
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching chapters:", error);
+        setLoading(false);
       }
     }
 
@@ -43,7 +54,13 @@ const PhysicsCourse = () => {
           My Courses (Physics)
         </Text>
       </HStack>
-      <SimpleGrid
+      {loading ?(
+        <Center>
+        <Spinner size="xl" mt="20%" color="blue.500"/> 
+        </Center>
+       
+      ) : (
+        <SimpleGrid
         columns={{ base: 1, md: 2, lg: 3 }}
         spacing={"24px"}
         m={"20px"}
@@ -110,6 +127,8 @@ const PhysicsCourse = () => {
           </Card>
         ))}
       </SimpleGrid>
+      )}
+     
     </Box>
   );
 };

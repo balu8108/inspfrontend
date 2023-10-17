@@ -35,7 +35,7 @@ const RateNFeedback = () => {
       )}
       <Flex mx={"51px"} my={"29px"}>
         <Feedback />
-        <Box w={"80%"} ml={5} mt={"5"}>
+        <Box w={"30%"} ml={5} mt={"5"}>
           <SimpleBar
             style={{
               maxHeight: "85vh",

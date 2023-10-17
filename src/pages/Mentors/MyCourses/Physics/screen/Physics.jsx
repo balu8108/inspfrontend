@@ -35,11 +35,11 @@ const Physics = () => {
       )}
 
       <Flex m={"52px"}>
-        <Stack spacing={"24px"} w={"100%"}>
+        <Stack spacing={"24px"} w={"full"}>
           <Header />
           <PhysicsCourse />
         </Stack>
-        <Box w="25%" ml={5}>
+        <Box w="30%" ml={5}>
           <SimpleBar
             style={{
               maxHeight: "85vh",

@@ -88,6 +88,7 @@ const MentorsUploads = () => {
                 color={"#2C3329"}
                 ml={"13px"}
                 mt={"13px"}
+                noOfLines={1}
               >
                 {mentorUploadDetails.topicName}
               </Text>

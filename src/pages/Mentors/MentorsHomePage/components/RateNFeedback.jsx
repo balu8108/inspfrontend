@@ -75,6 +75,7 @@ const FeedBack = () => {
                 color={"#2C3329"}
                 ml={"13px"}
                 mt={"13px"}
+                noOfLines={1}
               >
                 {rateNfeedebackOfAChapter.LiveClassRoomDetail.topicName}
               </Text>

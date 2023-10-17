@@ -54,7 +54,7 @@ const AllUploadedLecture = () => {
   return (
     <Box
       bg={"#F1F5F8"}
-      width={"250%"}
+      w={"full"} 
       h={"full"}
       mt={"24px"}
       borderRadius={"26px"}

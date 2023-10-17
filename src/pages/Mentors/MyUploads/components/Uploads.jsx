@@ -1,3 +1,4 @@
+// this is the screen where all the assignmemts will apppear for the topics..
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -6,23 +7,25 @@ import {
   Card,
   Flex,
   Button,
-  Stack,
   SimpleGrid,
   Input,
-  InputGroup,
-  InputLeftElement,
+  Spacer,
 } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
-import { GrUpload } from "react-icons/gr";
 import { BsDownload } from "react-icons/bs";
 import uploadedChapterDetails from "../data/uploadingDetails";
-import {BASE_URL}  from "../../../../constants/staticurls"
+import DocumentViewer from "../../../../components/popups/DocumentViewer";
+import { BASE_URL } from "../../../../constants/staticurls";
 import { extractFileNameFromS3URL } from "../../../../utils";
+import { getPresignedUrlDocApi } from "../../../../api/genericapis";
 import axios from "axios";
 const AllUploadedLecture = () => {
   const [selectedAssignment, setSelectedAssignment] = useState(null);
   const [assignments, setAssignments] = useState([]);
-  const apiUrl = "http://localhost:5000";
+  const [searchTerm, setSearchTerm] = useState("");
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedFileUrl, setSelectedFileUrl] = useState("");
+
   const handleViewDetails = (assignmentId) => {
     setSelectedAssignment(assignmentId);
   };
@@ -30,6 +33,30 @@ const AllUploadedLecture = () => {
   const clearSelection = () => {
     setSelectedAssignment(null);
   };
+
+  const handleOpenDocumentViewer = (docId) => {
+    getPresignedUrlDocApi(docId)
+      .then((response) => {
+        const preSignedUrl = response.data?.getUrl;
+
+        setSelectedFileUrl(preSignedUrl);
+        setModalIsOpen(true);
+
+        return preSignedUrl;
+      })
+      .catch((error) => {
+        console.error("Error getting pre-signed URL:", error);
+      });
+  };
+
+  const handleCloseDocumentViewer = () => {
+    setModalIsOpen(false);
+    setSelectedFileUrl("");
+  };
+
+  const filteredAssignments = assignments.filter((assignment) =>
+    assignment.topicName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   useEffect(() => {
     // Make an API request to fetch assignments with files
@@ -55,12 +82,21 @@ const AllUploadedLecture = () => {
         <Text fontSize={"19px"} lineHeight={"24px"}>
           My Uploads
         </Text>
-        <InputGroup m={4} w={"220px"} ml={"320px"}>
-          <InputLeftElement pointerEvents="none">
-            <FaSearch color="#000000" />
-          </InputLeftElement>
-          <Input placeholder="Search" w={"240px"} />
-        </InputGroup>
+
+        <Spacer />
+        <Input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search..."
+          w="30%"
+          border="1px solid #ccc"
+          borderRadius="md"
+          px="3"
+          py="2"
+          mx={12}
+          my={"17"}
+        />
       </HStack>
       <SimpleGrid
         columns={{ base: 1, md: 1, lg: 1 }}
@@ -68,7 +104,7 @@ const AllUploadedLecture = () => {
         p={4}
         mr={"20px"}
       >
-        {assignments.map((assignmentScreen) => (
+        {filteredAssignments.map((assignmentScreen) => (
           <Card
             w="100%"
             blendMode={"multiply"}
@@ -134,13 +170,17 @@ const AllUploadedLecture = () => {
                   fontSize={"11px"}
                 >
                   {/* Display file information here */}
-                  <Text>{extractFileNameFromS3URL(file.key)}</Text>
+                  <Text mt={2}>{extractFileNameFromS3URL(file.key)}</Text>
+                  <Spacer/>
                   <Button
                     rightIcon={<BsDownload />}
                     variant={"ghost"}
                     size="sm"
                     color={"black"}
                     ml={2}
+                    onClick={() =>
+                      handleOpenDocumentViewer(assignmentScreen.id)
+                    }
                   ></Button>
                 </Flex>
               ))}
@@ -148,6 +188,13 @@ const AllUploadedLecture = () => {
           </Card>
         ))}
       </SimpleGrid>
+      {modalIsOpen && (
+        <DocumentViewer
+          isOpen={modalIsOpen}
+          onClose={handleCloseDocumentViewer}
+          docUrl={selectedFileUrl}
+        />
+      )}
     </Box>
   );
 };

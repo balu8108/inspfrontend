@@ -60,7 +60,7 @@ const Header = () => {
   }, []);
 
   return (
-    <Box bg={"#F1F5F8"} borderRadius={"25px"} w={"100%"} h={"32%"} >
+    <Box bg={"#F1F5F8"} borderRadius={"25px"} w={"100%"} h={"33%"} >
       <HStack spacing={"10px"}>
         <Box
           width={"12px"}
