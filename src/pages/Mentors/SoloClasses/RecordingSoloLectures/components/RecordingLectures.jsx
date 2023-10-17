@@ -18,6 +18,8 @@ import {
 import { BsRecord } from "react-icons/bs";
 import { MdOutlineScreenshotMonitor } from "react-icons/md";
 import { useParams } from "react-router-dom";
+import { BASE_URL } from "../../../../../constants/staticurls";
+
 const RecordingLectures = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [isCameraOn, setIsCameraOn] = useState(true);
@@ -134,44 +136,17 @@ const RecordingLectures = () => {
     setVideoFile(videoBlob);
   };
 
-  // const uploadVideoToAWS = async () => {
-  //   const formData = new FormData();
-  //   formData.append("files", videoFile);
-  //   formData.append("soloClassRoomId", soloClassRoomId);
-  //   const response = await fetch(
-  //     `http://localhost:5000/solo-lecture/solo-classroom-recording/${soloClassRoomId}`,
-  //     {
-  //       method: "POST",
-  //       body: formData,
-  //     }
-  //   );
-  //   if(response.status === 200) {
-  //     window.location.href='/mentor/solo-recordings/topic'
-  //   } else {
-  //     console.error("Video upload failed ")
-  //   }
-  // };
   const uploadVideoToAWS = async () => {
     const formData = new FormData();
     formData.append("files", videoFile);
     formData.append("soloClassRoomId", soloClassRoomId);
-
-    try {
-      const response = await fetch(
-        `http://localhost:5000/solo-lecture/solo-classroom-recording/${soloClassRoomId}`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-      if (response.status === 200) {
-        console.log("Video uploaded successfully.");
-      } else {
-        console.error("Video upload failed with status: " + response.status);
+    const response = await fetch(
+      `${BASE_URL}/solo-lecture/solo-classroom-recording/${soloClassRoomId}`,
+      {
+        method: "POST",
+        body: formData,
       }
-    } catch (error) {
-      console.error("Error uploading video to AWS:", error);
-    }
+    );
 
     // End the class immediately regardless of video upload status
     window.location.href = "/mentor/solo-recordings/topic";
@@ -180,7 +155,6 @@ const RecordingLectures = () => {
   return (
     <Box
       h="80vh"
-      // w="80%"
       width={isExpanded ? "120%" : "80%"}
       borderRadius="12px"
       boxShadow="md"

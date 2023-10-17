@@ -25,7 +25,7 @@ const FeedBack = () => {
       .catch((error) => {
         console.error("Error fetching feedback data:", error);
       });
-  }, [apiUrl]);
+  }, [BASE_URL]);
 
   return (
     <Box bg={"#F1F5F8"} mt={"23px"} borderRadius={"25px"} w={"58%"} h={"30%"}>

@@ -18,19 +18,20 @@ import { BsPlayFill } from "react-icons/bs";
 import { useNavigate } from "react-router";
 import { FaCircle } from "react-icons/fa";
 import { getPresignedUrlApi } from "../../../../../api/genericapis";
+import { BASE_URL } from "../../../../../constants/staticurls";
 const DetailsCoveredFiles = ({ viewTopic }) => {
   const [topicDetails, setTopicDetails] = useState(null);
   const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
   const [showVideo, setShowVideo] = useState(false);
   const [videoUrl, setVideoUrl] = useState(null);
 
-  const apiUrl = "http://localhost:5000";
+ 
 
   // Function to fetch topic details
   const fetchTopicDetails = async (topicId) => {
     try {
       const response = await axios.get(
-        `${apiUrl}/solo-lecture/get-topic-details/${topicId}`
+        `${BASE_URL}/solo-lecture/get-topic-details/${topicId}`
       );
 
       const topicDetailsData = response.data;
