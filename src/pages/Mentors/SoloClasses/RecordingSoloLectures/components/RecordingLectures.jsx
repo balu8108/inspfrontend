@@ -24,6 +24,9 @@ const RecordingLectures = () => {
   const [isMicrophoneOn, setIsMicrophoneOn] = useState(true);
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [videoStream, setVideoStream] = useState(null);
+  const [audioStream, setAudioStream] = useState(null);
+  const videoChunksRef = useRef([]);
 
   const videoRef = useRef(null);
   const mediaRecorderRef = useRef(null);
@@ -78,36 +81,36 @@ const RecordingLectures = () => {
 
   const startRecording = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
+      const videoStream = await navigator.mediaDevices.getUserMedia({
         video: true,
+      });
+      const audioStream = await navigator.mediaDevices.getUserMedia({
         audio: true,
       });
+
+      const stream = new MediaStream([
+        ...videoStream.getTracks(),
+        ...audioStream.getTracks(),
+      ]);
       videoRef.current.srcObject = stream;
 
       const mediaRecorder = new MediaRecorder(stream);
       mediaRecorder.ondataavailable = (event) => {
         if (event.data.size > 0) {
-          chunksRef.current.push(event.data);
+          videoChunksRef.current.push(event.data);
         }
       };
 
       mediaRecorder.onstop = () => {
-        const blob = new Blob(chunksRef.current, { type: "video/webm" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        document.body.appendChild(a);
-        a.style.display = "none";
-        a.href = url;
-        a.download = "recorded-video.webm";
-        a.click();
-        window.URL.revokeObjectURL(url);
-        chunksRef.current = [];
+        const blob = new Blob(videoChunksRef.current, { type: "video/webm" });
+        setVideoFile(blob);
+        videoChunksRef.current = [];
       };
 
       mediaRecorderRef.current = mediaRecorder;
       mediaRecorder.start();
     } catch (error) {
-      console.error("Error accessing camera:", error);
+      console.error("Error accessing camera or microphone:", error);
     }
   };
 
@@ -119,28 +122,59 @@ const RecordingLectures = () => {
       mediaRecorderRef.current.stop();
     }
 
-    const stream = videoRef.current.srcObject;
-    if (stream) {
-      const tracks = stream.getTracks();
-      tracks.forEach((track) => track.stop());
-      videoRef.current.srcObject = null;
+    if (videoStream) {
+      videoStream.getTracks().forEach((track) => track.stop());
     }
 
-    const videoBlob = new Blob(chunksRef.current, { type: "video/webm" });
+    if (audioStream) {
+      audioStream.getTracks().forEach((track) => track.stop());
+    }
+
+    const videoBlob = new Blob(videoChunksRef.current, { type: "video/webm" });
     setVideoFile(videoBlob);
   };
 
+  // const uploadVideoToAWS = async () => {
+  //   const formData = new FormData();
+  //   formData.append("files", videoFile);
+  //   formData.append("soloClassRoomId", soloClassRoomId);
+  //   const response = await fetch(
+  //     `http://localhost:5000/solo-lecture/solo-classroom-recording/${soloClassRoomId}`,
+  //     {
+  //       method: "POST",
+  //       body: formData,
+  //     }
+  //   );
+  //   if(response.status === 200) {
+  //     window.location.href='/mentor/solo-recordings/topic'
+  //   } else {
+  //     console.error("Video upload failed ")
+  //   }
+  // };
   const uploadVideoToAWS = async () => {
     const formData = new FormData();
     formData.append("files", videoFile);
     formData.append("soloClassRoomId", soloClassRoomId);
-    const response = await fetch(
-      `http://localhost:5000/solo-lecture/solo-classroom-recording/${soloClassRoomId}`,
-      {
-        method: "POST",
-        body: formData,
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/solo-lecture/solo-classroom-recording/${soloClassRoomId}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      if (response.status === 200) {
+        console.log("Video uploaded successfully.");
+      } else {
+        console.error("Video upload failed with status: " + response.status);
       }
-    );
+    } catch (error) {
+      console.error("Error uploading video to AWS:", error);
+    }
+
+    // End the class immediately regardless of video upload status
+    window.location.href = "/mentor/solo-recordings/topic";
   };
 
   return (
@@ -155,7 +189,6 @@ const RecordingLectures = () => {
       flexDirection="column"
       bg={"black"}
     >
-    
       <Stack
         position="absolute"
         top="20px"
