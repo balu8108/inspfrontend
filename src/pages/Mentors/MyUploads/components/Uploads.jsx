@@ -19,12 +19,15 @@ import { BASE_URL } from "../../../../constants/staticurls";
 import { extractFileNameFromS3URL } from "../../../../utils";
 import { getPresignedUrlDocApi } from "../../../../api/genericapis";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setIsDocModalOpen } from "../../../../store/actions/genericActions";
 const AllUploadedLecture = () => {
   const [selectedAssignment, setSelectedAssignment] = useState(null);
   const [assignments, setAssignments] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedFileUrl, setSelectedFileUrl] = useState("");
+  const dispatch = useDispatch();
 
   const handleViewDetails = (assignmentId) => {
     setSelectedAssignment(assignmentId);
@@ -33,22 +36,6 @@ const AllUploadedLecture = () => {
   const clearSelection = () => {
     setSelectedAssignment(null);
   };
-
-  const handleOpenDocumentViewer = (docId, docType) => {
-    getPresignedUrlDocApi(docId, docType)
-      .then((response) => {
-        console.log(response); // Add this line to check the response
-        const preSignedUrl = response.data?.getUrl;
-        setSelectedFileUrl(preSignedUrl);
-        setModalIsOpen(true);
-        return preSignedUrl;
-      })
-      .catch((error) => {
-        console.error("Error getting pre-signed URL:", error);
-      });
-  };
-  
-  
 
   const handleCloseDocumentViewer = () => {
     setModalIsOpen(false);
@@ -171,8 +158,8 @@ const AllUploadedLecture = () => {
                   fontSize={"11px"}
                 >
                   {/* Display file information here */}
-                  <Text mt={2} >{extractFileNameFromS3URL(file.key)}</Text>
-                  <Spacer/>
+                  <Text mt={2}>{extractFileNameFromS3URL(file.key)}</Text>
+                  <Spacer />
                   <Button
                     rightIcon={<BsDownload />}
                     variant={"ghost"}
@@ -180,7 +167,14 @@ const AllUploadedLecture = () => {
                     color={"black"}
                     ml={2}
                     onClick={() =>
-                      handleOpenDocumentViewer(assignmentScreen.id, "assignment")
+                      dispatch(
+                        setIsDocModalOpen(
+                          file?.id,
+                          file?.key,
+                          "assignment",
+                          true
+                        )
+                      )
                     }
                   ></Button>
                 </Flex>
