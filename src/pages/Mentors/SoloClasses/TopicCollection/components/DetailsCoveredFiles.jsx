@@ -24,9 +24,7 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
   const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
   const [showVideo, setShowVideo] = useState(false);
   const [videoUrl, setVideoUrl] = useState(null);
-
- 
-
+  const navigate = useNavigate();
   // Function to fetch topic details
   const fetchTopicDetails = async (topicId) => {
     try {
@@ -40,21 +38,19 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
       setTopicDetails(topicDetailsData);
     } catch (error) {
       console.error("Error fetching topic details:", error);
-      // Handle errors as needed
+    
     }
   };
 
-  // Use the useEffect hook to fetch topic details when the viewTopic prop changes
+  
   useEffect(() => {
     if (viewTopic !== null) {
-      // Call the fetchTopicDetails function when viewTopic changes
+     
       fetchTopicDetails(viewTopic);
     }
   }, [viewTopic]);
 
-  // const handleCardClick = (videoUrl) => {
-  //   navigate(`/view-recording?videoUrl=${videoUrl}`);
-  // };
+ 
 
   const handleCardClick = async (videoUrl) => {
     try {
@@ -63,7 +59,8 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
       const presignedUrl = response.data.data.getUrl;
 
       // Open the video in a new tab or window using the generated URL
-      window.open(presignedUrl, "_blank");
+
+      navigate(`/view-recording?videoUrl=${presignedUrl}`);
     } catch (error) {
       console.error("Error generating pre-signed URL:", error);
       // Handle errors as needed
@@ -129,7 +126,7 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
           </Box>
         ))
       ) : (
-        <Box p={4}>
+        <Box p={4} mx={5}>
           <Text>No details available for this topic.</Text>
         </Box>
       )}

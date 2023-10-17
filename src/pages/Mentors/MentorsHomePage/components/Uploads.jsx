@@ -122,7 +122,7 @@ const MentorsUploads = () => {
               >
                 {mentorUploadDetails.description}
               </Text>
-
+              <Link to={`/mentor/alluploads`} style={{display:"flex",justifyContent:"center"}}>
               <Button
                 variant={"ghost"}
                 color={"#3C8DBC"}
@@ -135,6 +135,7 @@ const MentorsUploads = () => {
               >
                 View Details
               </Button>
+              </Link>
             </Card>
           </Box>
         ))}
