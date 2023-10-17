@@ -16,6 +16,7 @@ const ScheduleClassBtn = ({ isLoading, status, onClickHandler }) => {
   let textColor = "white";
   let text = "Start";
   let btnDisabled = false;
+
   if (inspUserProfile) {
     // Means teacher then render teacher button text
     text =
@@ -51,7 +52,15 @@ const ScheduleClassBtn = ({ isLoading, status, onClickHandler }) => {
         color={textColor}
         fontWeight={"500"}
         fontSize={"14px"}
-        _hover={{ bg: backColor }}
+        _hover={{
+          opacity:
+            status === classStatus.SCHEDULED ||
+            status === classStatus.ONGOING ||
+            status === classStatus.NOT_STARTED
+              ? 0.8
+              : "none",
+          bg: backColor,
+        }}
         onClick={() => onClickHandler()}
       >
         {text}

@@ -21,7 +21,7 @@ const ViewAllRecordingsRelatedToOneChapter = () => {
     async function fetchTopics() {
       try {
         const response = await fetchAllTopicsApi(chapter_id); // Fetch topics for the specified chapter_id
-        console.log("Topics Api", response);
+
         if (response.status) {
           setTopics(response.result);
         }
@@ -69,11 +69,16 @@ const ViewAllRecordingsRelatedToOneChapter = () => {
             p={3}
             bg={"#F1F5F8"}
             blendMode={"multiply"}
-           
             mx={4}
             borderRadius={"26px"}
           >
-            <Text fontSize={"15px"} ml={"13px"} mt={"16px"} lineHeight={"19px"} noOfLines={1}>
+            <Text
+              fontSize={"15px"}
+              ml={"13px"}
+              mt={"16px"}
+              lineHeight={"19px"}
+              noOfLines={1}
+            >
               {topic.name}
             </Text>
             <Text
@@ -103,7 +108,7 @@ const ViewAllRecordingsRelatedToOneChapter = () => {
               noOfLines={"2"}
               color={"rgba(44, 51, 41, 0.47)"}
             >
-            No Data
+              No Data
             </Text>
 
             <Button

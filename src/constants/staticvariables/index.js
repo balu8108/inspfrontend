@@ -59,7 +59,11 @@ export const classStatusText = {
     NOT_CONDUCTED: "Not Conducted",
   },
 };
-
+export const fileTypes = {
+  live: "live",
+  solo: "solo",
+  assignment: "assignment",
+};
 export const toolTipMsgs = {
   videoNotAvailable: "Video feature not available to students",
   screenShareNotAvailable: "Screen share feature not available to students",

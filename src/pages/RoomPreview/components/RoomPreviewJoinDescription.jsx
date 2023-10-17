@@ -80,6 +80,7 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
   const {
     backgroundLightBlue,
     primaryBlue,
+    primaryBlueLight,
     mainTextColor,
     secondaryTextColor,
   } = theme.colors.pallete;
@@ -99,7 +100,6 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
     }
     return acc;
   }, 0);
-  console.log("student peer count", studentPeerCount);
 
   const navigateToRoom = async () => {
     setIsRoomLoading(true);
@@ -119,7 +119,6 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
       // Later on add notification
       addNotification(err?.errMsg, "error", 3000);
     }
-
     setIsRoomLoading(false);
   };
 
@@ -239,6 +238,7 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
               backColor={primaryBlue}
               textColor="white"
               onClickHandler={navigateToRoom}
+              hoverColor={primaryBlueLight}
             />
           </Box>
         </Box>

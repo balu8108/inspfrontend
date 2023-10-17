@@ -1,5 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { Box, Grid, GridItem, Text, useTheme } from "@chakra-ui/react";
+import {
+  Box,
+  Grid,
+  GridItem,
+  Text,
+  useDisclosure,
+  useTheme,
+} from "@chakra-ui/react";
 
 import LiveSessionDescription from "../components/LiveSessionDescription";
 import LiveSessionStream from "../components/LiveSessionStream";
@@ -17,6 +24,8 @@ import { useToastContext } from "../../../components/toastNotificationProvider/T
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { checkUserType } from "../../../utils";
 import LiveSessionInteraction from "../components/LiveSessionInteraction";
+import LeaveOrEndClassPopup from "../../../components/popups/LeaveOrEndClassPopup";
+import KickFromClassPopup from "../../../components/popups/KickFromClassPopup";
 
 const Room = () => {
   const [isScreenShare, setIsScreenShare] = useState(false);
@@ -30,6 +39,7 @@ const Room = () => {
   const [peersViewType, setPeersViewType] = useState(
     liveSessionMemberViewType.compact
   );
+  const [kickedPersonDetails, setKickedPersonDetails] = useState(null);
   const { rtpCapabilities, isMeetEnd, isKickedOut } = useSelector(
     (state) => state.socket
   );
@@ -40,7 +50,16 @@ const Room = () => {
   const micRef = useRef();
   const screenShareRef = useRef();
   const mentorVideoRef = useRef();
-  const location = useLocation();
+  const {
+    isOpen: isOpenLeaveOrEndClass,
+    onOpen: onOpenLeaveOrEndClass,
+    onClose: onCloseLeaveOrEndClass,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenKickFromClass,
+    onOpen: onOpenKickFromClass,
+    onClose: onCloseKickFromClass,
+  } = useDisclosure();
 
   const theme = useTheme();
   const { primaryBlue, backgroundLightBlue } = theme.colors.pallete;
@@ -135,6 +154,20 @@ const Room = () => {
   /* use effect starts */
   return (
     <>
+      {isOpenLeaveOrEndClass && (
+        <LeaveOrEndClassPopup
+          isOpen={isOpenLeaveOrEndClass}
+          onClose={onCloseLeaveOrEndClass}
+        />
+      )}
+      {isOpenKickFromClass && (
+        <KickFromClassPopup
+          isOpen={isOpenKickFromClass}
+          onClose={onCloseKickFromClass}
+          kickedPersonDetails={kickedPersonDetails}
+        />
+      )}
+
       <Box pt={4} pb={4} px={10}>
         <Grid
           templateColumns={renderColumns(peersViewType, isEnlarged)}
@@ -179,6 +212,7 @@ const Room = () => {
               micRef={micRef}
               isRecordOn={isRecordOn}
               setIsRecordOn={setIsRecordOn}
+              onOpenLeaveOrEndClass={onOpenLeaveOrEndClass}
             />
           </GridItem>
 
@@ -197,6 +231,8 @@ const Room = () => {
               <LiveSessionMembers
                 primaryBlue={primaryBlue}
                 viewType={peersViewType}
+                onOpenKickFromClass={onOpenKickFromClass}
+                setKickedPersonDetails={setKickedPersonDetails}
               />
             </GridItem>
           )}

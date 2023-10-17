@@ -45,8 +45,6 @@ export const device = new Device();
 /** REPSONSE HANDLER STARTS HERE **/
 
 const socketConnectionHandler = (roomId) => {
-  console.log("Socket connected successfully with id ", socket.id);
-
   store.dispatch(setIsMeetEnd(false));
 
   socket.emit(SOCKET_EVENTS.JOIN_ROOM_PREVIEW, { roomId: roomId }, (res) => {
@@ -65,6 +63,7 @@ const socketNewPeerJoinedHandler = (res) => {
 
 const joinRoomResponseHandler = (res, resolve, reject) => {
   if (res.success) {
+    store.dispatch(setLeaderBoard(res?.leaderBoardData));
     resolve(res);
   } else {
     reject(res);
@@ -289,13 +288,27 @@ const raiseHandResponseHandler = (res) => {
 };
 
 const uploadFileResponseHandler = (res) => {
-  let allNewFiles = [];
+  const { success, data } = res;
+  if (success) {
+    store.dispatch(setUploadFilesInRoom(data));
+  }
+  // let allNewFiles = [];
 
-  res.forEach((fileData) => {
-    const convFile = new File([fileData.file], fileData.fileName);
-    allNewFiles.push(convFile);
-  });
-  store.dispatch(setUploadFiles(allNewFiles));
+  // console.log("file response by server", res);
+  // if (res.success) {
+  //   res?.data?.files.forEach((fileData) => {
+  //     const convFile = new File([fileData.file], fileData.fileName);
+  //     allNewFiles.push(convFile);
+  //   });
+  // }
+
+  // store.dispatch(setUploadFiles(allNewFiles));
+
+  // res.forEach((fileData) => {
+  //   const convFile = new File([fileData.file], fileData.fileName);
+  //   allNewFiles.push(convFile);
+  // });
+  // store.dispatch(setUploadFiles(allNewFiles));
 };
 
 const questionResponseHandler = (res) => {
@@ -620,7 +633,6 @@ export const sendQuestionMsg = (questionMsg) => {
     SOCKET_EVENTS.QUESTION_MSG_SENT_TO_SERVER,
     { questionMsg },
     (res) => {
-      console.log("question msg sent to server response", res);
       if (res?.success) {
         store.dispatch(setQuestionMessage(res?.data));
       }

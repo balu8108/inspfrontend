@@ -70,6 +70,7 @@ const ToolBox = ({
   micRef,
   isRecordOn,
   setIsRecordOn,
+  onOpenLeaveOrEndClass,
 }) => {
   const [isRaiseHand, setIsRaiseHand] = useState(false);
   const [isLeaveLoading, setIsLeaveLoading] = useState(false); // for leave button loading state
@@ -311,12 +312,13 @@ const ToolBox = ({
 
   const leaveRoomOrEndMeetHandler = async () => {
     setIsLeaveLoading(true);
-    if (userRoleType === userType.teacher) {
-      await endMeetHandler();
-    } else {
-      await leaveRoomHandler();
-      navigate(`/room-preview/${roomId}`);
-    }
+    onOpenLeaveOrEndClass();
+    // if (userRoleType === userType.teacher) {
+    //   await endMeetHandler();
+    // } else {
+    //   await leaveRoomHandler();
+    //   navigate(`/room-preview/${roomId}`);
+    // }
 
     setIsLeaveLoading(false);
   };

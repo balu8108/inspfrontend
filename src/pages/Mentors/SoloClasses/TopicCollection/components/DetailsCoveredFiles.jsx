@@ -18,7 +18,6 @@ import { BsPlayFill } from "react-icons/bs";
 import { useNavigate } from "react-router";
 import { FaCircle } from "react-icons/fa";
 import { getPresignedUrlApi } from "../../../../../api/genericapis";
-import { BASE_URL } from "../../../../../constants/staticurls";
 const DetailsCoveredFiles = ({ viewTopic }) => {
   const [topicDetails, setTopicDetails] = useState(null);
   const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
@@ -26,14 +25,14 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
   const [videoUrl, setVideoUrl] = useState(null);
 
   const apiUrl = "http://localhost:5000";
-  const navigate = useNavigate();
+
   // Function to fetch topic details
   const fetchTopicDetails = async (topicId) => {
     try {
       const response = await axios.get(
-        `${BASE_URL}/solo-lecture/get-topic-details/${topicId}`
+        `${apiUrl}/solo-lecture/get-topic-details/${topicId}`
       );
-      console.log("respone ", response);
+
       const topicDetailsData = response.data;
 
       // Update the state with the received topic details
@@ -58,14 +57,12 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
 
   const handleCardClick = async (videoUrl) => {
     try {
-      console.log("VIDEO url ", videoUrl);
       const response = await getPresignedUrlApi({ s3_key: videoUrl });
 
       const presignedUrl = response.data.data.getUrl;
 
       // Open the video in a new tab or window using the generated URL
-      // window.open(presignedUrl, "_blank");
-      navigate(`/view-recording?videoUrl=${encodeURIComponent(presignedUrl)}`);
+      window.open(presignedUrl, "_blank");
     } catch (error) {
       console.error("Error generating pre-signed URL:", error);
       // Handle errors as needed
@@ -143,7 +140,6 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
             {topicDetails && topicDetails.length > 0 ? (
               topicDetails.map((topicInfo, index) => (
                 <HStack key={index}>
-                  {console.log("topic info", topicInfo)}
                   {topicInfo.SoloClassRoomRecordings.map(
                     (recording, recordingIndex) => (
                       <Card

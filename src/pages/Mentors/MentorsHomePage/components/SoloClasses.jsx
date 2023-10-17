@@ -19,7 +19,7 @@ const SoloClasses = () => {
   const getSoloLatestClassroom = async () => {
     try {
       const response = await axios.get(`${BASE_URL}/solo-lecture/latest-room`);
-      console.log("repsonse from lastest ", response);
+
       if (response.status === 200) {
         setLatestSoloClassroom(response.data.data);
       }

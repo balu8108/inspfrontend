@@ -76,12 +76,12 @@ const PSDDocumentViewer = ({ doc }) => {
 
 const DocumentViewer = ({ isOpen, onClose }) => {
   const [doc, setDoc] = useState(null);
-  const { docId, docKey } = useSelector((state) => state.generic);
+  const { docId, docType } = useSelector((state) => state.generic);
   const dispatch = useDispatch();
 
   const fetchAndSetDoc = async (docId) => {
     try {
-      const { status, data } = await getPresignedUrlDocApi(docId);
+      const { status, data } = await getPresignedUrlDocApi(docId, docType);
 
       if (status) {
         setDoc(data?.data?.getUrl);
@@ -95,7 +95,10 @@ const DocumentViewer = ({ isOpen, onClose }) => {
     if (docId) {
       fetchAndSetDoc(docId);
     }
-  }, [docId]);
+    return () => {
+      dispatch(setIsDocModalOpen(null, null, null, false));
+    };
+  }, [docId, dispatch]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"5xl"}>
@@ -103,7 +106,7 @@ const DocumentViewer = ({ isOpen, onClose }) => {
       <ModalContent>
         <ModalHeader>Insp document</ModalHeader>
         <ModalCloseButton
-          onClick={() => dispatch(setIsDocModalOpen(null, null, false))}
+          onClick={() => dispatch(setIsDocModalOpen(null, null, null, false))}
         />
 
         <ModalBody>

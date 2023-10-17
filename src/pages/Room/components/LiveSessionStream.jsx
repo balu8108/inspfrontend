@@ -31,6 +31,7 @@ const LiveSessionStream = (props) => {
     micRef,
     isRecordOn,
     setIsRecordOn,
+    onOpenLeaveOrEndClass,
   } = props;
 
   const { question } = useSelector((state) => state.socket);
@@ -145,6 +146,7 @@ const LiveSessionStream = (props) => {
           micRef={micRef}
           isRecordOn={isRecordOn}
           setIsRecordOn={setIsRecordOn}
+          onOpenLeaveOrEndClass={onOpenLeaveOrEndClass}
         />
         <ChatToolBox
           isScreenShare={isScreenShare}

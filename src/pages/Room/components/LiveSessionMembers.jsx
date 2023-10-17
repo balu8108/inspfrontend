@@ -26,11 +26,10 @@ import { BiDotsVerticalRounded } from "react-icons/bi";
 import { BsMicMute } from "react-icons/bs";
 import {
   blockOrUnblockMic,
-  kickOutFromClass,
   muteMicCommandByMentor,
 } from "../../../socketconnections/socketconnections";
 import Scrollbars from "rc-scrollbars";
-const Actions = ({ peer }) => {
+const Actions = ({ peer, onOpenKickFromClass, setKickedPersonDetails }) => {
   const [isMicBlocked, setIsMicBlocked] = useState(peer?.isAudioBlocked);
 
   const changeMicAccess = (e) => {
@@ -59,7 +58,8 @@ const Actions = ({ peer }) => {
             fontSize={"1rem"}
             onClick={(e) => {
               e.stopPropagation();
-              kickOutFromClass(peer?.socketId, peer?.id);
+              setKickedPersonDetails(peer);
+              onOpenKickFromClass();
             }}
           >
             Kick from class
@@ -77,7 +77,12 @@ const Actions = ({ peer }) => {
   );
 };
 
-const LiveSessionMembers = ({ primaryBlue, viewType }) => {
+const LiveSessionMembers = ({
+  primaryBlue,
+  viewType,
+  onOpenKickFromClass,
+  setKickedPersonDetails,
+}) => {
   const { peers, selfDetails } = useSelector((state) => state.socket);
   const [maxBoxesPerRow, setMaxBoxesPerRow] = useState(3);
   const userRoleType = checkUserType();
@@ -158,7 +163,13 @@ const LiveSessionMembers = ({ primaryBlue, viewType }) => {
                 _hover={{ bg: "red" }}
                 icon={<FiVideoOff size={15} color="white" />}
               />
-              {userRoleType === userType.teacher && <Actions peer={peer} />}
+              {userRoleType === userType.teacher && (
+                <Actions
+                  peer={peer}
+                  onOpenKickFromClass={onOpenKickFromClass}
+                  setKickedPersonDetails={setKickedPersonDetails}
+                />
+              )}
             </HStack>
           </Flex>
         ))}

@@ -1,5 +1,6 @@
 import {
   GET_ALL_SUBJECTS,
+  SET_DOC,
   SET_DOC_ID,
   SET_DOC_KEY,
   SET_FEEDBACK_TOPIC_ID,
@@ -11,6 +12,7 @@ const initialState = {
   subjects: [],
   isDocModalOpen: false,
   docId: null,
+  docType: null,
   docKey: null,
   isFeedbackModalOpen: false,
   feedbackTopicId: null,
@@ -28,6 +30,13 @@ const genericReducer = (state = initialState, action) => {
         ...state,
         isDocModalOpen: action.payload,
       };
+    case SET_DOC: {
+      return {
+        ...state,
+        docId: action.payload.docId,
+        docType: action.payload.docType,
+      };
+    }
     case SET_DOC_ID:
       return {
         ...state,
