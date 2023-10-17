@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Box, HStack, Text, Card, Flex, Button } from "@chakra-ui/react";
+import { Box, HStack, Text, Card, Flex, Button,Spinner,Center } from "@chakra-ui/react";
 import headerData from "../data/headerData";
 import { fetchAllSubjectsApi } from "../../../api/inspexternalapis";
 const Header = () => {
@@ -96,8 +96,12 @@ const Header = () => {
           My Courses
         </Text>
       </HStack>
-
-      <Flex p={5} gap={"24px"} mt={"10px"}>
+      {loading ?(
+        <Center>
+        <Spinner size="lg" />
+        </Center>
+      ) : (
+        <Flex p={5} gap={"24px"} mt={"10px"}>
         {subjects.map((headerDetails) => (
           <Card
             key={headerDetails.id}
@@ -157,6 +161,9 @@ const Header = () => {
           </Card>
         ))}
       </Flex>
+      )}
+
+      
     </Box>
   );
 };

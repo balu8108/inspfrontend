@@ -47,7 +47,7 @@ const MentorHomePage = () => {
 
       <Box m={"50px"}>
         <Flex>
-          <Box>
+          <Box w={"full"}>
             <Header />
             <Flex w={"full"}>
               <Stack spacing={"20px"} w={"full"}>

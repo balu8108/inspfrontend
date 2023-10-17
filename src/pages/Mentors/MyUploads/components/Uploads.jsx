@@ -34,20 +34,21 @@ const AllUploadedLecture = () => {
     setSelectedAssignment(null);
   };
 
-  const handleOpenDocumentViewer = (docId) => {
-    getPresignedUrlDocApi(docId)
+  const handleOpenDocumentViewer = (docId, docType) => {
+    getPresignedUrlDocApi(docId, docType)
       .then((response) => {
+        console.log(response); // Add this line to check the response
         const preSignedUrl = response.data?.getUrl;
-
         setSelectedFileUrl(preSignedUrl);
         setModalIsOpen(true);
-
         return preSignedUrl;
       })
       .catch((error) => {
         console.error("Error getting pre-signed URL:", error);
       });
   };
+  
+  
 
   const handleCloseDocumentViewer = () => {
     setModalIsOpen(false);
@@ -170,7 +171,7 @@ const AllUploadedLecture = () => {
                   fontSize={"11px"}
                 >
                   {/* Display file information here */}
-                  <Text mt={2}>{extractFileNameFromS3URL(file.key)}</Text>
+                  <Text mt={2} >{extractFileNameFromS3URL(file.key)}</Text>
                   <Spacer/>
                   <Button
                     rightIcon={<BsDownload />}
@@ -179,7 +180,7 @@ const AllUploadedLecture = () => {
                     color={"black"}
                     ml={2}
                     onClick={() =>
-                      handleOpenDocumentViewer(assignmentScreen.id)
+                      handleOpenDocumentViewer(assignmentScreen.id, "assignment")
                     }
                   ></Button>
                 </Flex>
