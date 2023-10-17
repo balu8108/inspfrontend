@@ -12,7 +12,7 @@ import {
   generateUniqueKey,
 } from "../../../utils";
 
-import { userType } from "../../../constants/staticvariables";
+import { userType, fileTypes } from "../../../constants/staticvariables";
 
 const ScheduleClassInformation = ({
   scheduledClassesData,
@@ -94,7 +94,10 @@ const ScheduleClassInformation = ({
             {checkUserType() === userType.teacher && (
               <Box my={4}>
                 {info?.LiveClassRoomFiles.length > 0 ? (
-                  <FileBoxComponent data={info.LiveClassRoomFiles} />
+                  <FileBoxComponent
+                    data={info.LiveClassRoomFiles}
+                    type={fileTypes.live}
+                  />
                 ) : (
                   <Text fontSize={"0.8rem"}>No Files</Text>
                 )}

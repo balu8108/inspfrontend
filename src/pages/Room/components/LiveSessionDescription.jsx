@@ -10,7 +10,7 @@ import {
   getUpcomingClassDetails,
 } from "../../../store/actions/socketActions";
 import { checkUserType, formatTime } from "../../../utils";
-import { userType } from "../../../constants/staticvariables";
+import { userType, fileTypes } from "../../../constants/staticvariables";
 
 const RoomContent = ({ mainTextColor, secondaryTextColor, type }) => {
   const { roomPreviewData, upcomingClassData } = useSelector(
@@ -48,7 +48,10 @@ const RoomContent = ({ mainTextColor, secondaryTextColor, type }) => {
 
         <Box>
           {renderContent()?.LiveClassRoomFiles.length > 0 ? (
-            <FileBoxComponent data={renderContent()?.LiveClassRoomFiles} />
+            <FileBoxComponent
+              data={renderContent()?.LiveClassRoomFiles}
+              type={fileTypes.live}
+            />
           ) : (
             <Text fontSize={"12px"}>No Files</Text>
           )}
