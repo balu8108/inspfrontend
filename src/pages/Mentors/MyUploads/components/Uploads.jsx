@@ -19,7 +19,6 @@ import uploadedChapterDetails from "../data/uploadingDetails";
 import DocumentViewer from "../../../../components/popups/DocumentViewer";
 import { BASE_URL } from "../../../../constants/staticurls";
 import { extractFileNameFromS3URL } from "../../../../utils";
-import { getPresignedUrlDocApi } from "../../../../api/genericapis";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setIsDocModalOpen } from "../../../../store/actions/genericActions";
@@ -29,6 +28,7 @@ const AllUploadedLecture = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedFileUrl, setSelectedFileUrl] = useState("");
+  const [loading,setLoading]=useState(false);
   const dispatch = useDispatch();
 
   const handleViewDetails = (assignmentId) => {

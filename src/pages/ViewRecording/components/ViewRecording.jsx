@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import ReactPlayer from "react-player";
-import { Box, Button, HStack } from "@chakra-ui/react";
+import { Box} from "@chakra-ui/react";
 
 const ViewRecording = () => {
   const [videoUrl, setVideoUrl] = useState("");
