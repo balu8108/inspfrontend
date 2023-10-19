@@ -7,13 +7,7 @@ import {
   Circle,
   Stack,
   Tooltip,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
+  HStack,
 } from "@chakra-ui/react";
 import {
   FaMicrophone,
@@ -23,6 +17,7 @@ import {
   FaExpand,
 } from "react-icons/fa";
 import { BsRecord } from "react-icons/bs";
+import { CiPause1 } from "react-icons/ci";
 import { MdOutlineScreenshotMonitor } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import { BASE_URL } from "../../../../../constants/staticurls";
@@ -43,7 +38,12 @@ const RecordingLectures = () => {
 
   const [cameraState, setCameraState] = useState("disabled");
   const [microphoneState, setMicrophoneState] = useState("disabled");
-
+  const [startTime, setStartTime] = useState(null);
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const [timerActive, setTimerActive] = useState(false);
+  const [isTimerPaused, setIsTimerPaused] = useState(false);
+  const [pausedTime, setPausedTime] = useState(0); // Track the time when the timer is paused
+  const [timerOffset, setTimerOffset] = useState(0);
   const videoRef = useRef(null);
   const mediaRecorderRef = useRef(null);
 
@@ -51,24 +51,63 @@ const RecordingLectures = () => {
 
   const toggleRecording = () => {
     setIsRecording(!isRecording);
-    // Update camera and microphone states based on recording status
+    setTimerActive(true);
     if (isRecording) {
       setCameraState("disabled");
       setMicrophoneState("disabled");
+      pauseTimer();
     } else {
       setCameraState("on");
       setMicrophoneState("on");
+      startTimer();
+    }
+  };
+
+  // const togglePause = () => {
+  //   if (isRecording) {
+  //     if (isTimerPaused) {
+  //       // If the timer is paused, resume it
+  //       setTimerActive(true);
+  //       setCameraState("on"); // Camera is on
+  //       setMicrophoneState("on"); // Microphone is on
+  //     } else {
+  //       // If the timer is not paused, pause it
+  //       setTimerActive(false);
+  //       setCameraState("off"); // Camera is off
+  //       setMicrophoneState("off"); // Microphone is off
+  //     }
+  //     setIsTimerPaused(!isTimerPaused); // Toggle the pause state
+  //   }
+  // };
+
+  const togglePause = () => {
+    if (isRecording) {
+      if (isTimerPaused) {
+        // If the timer is paused, resume it
+        const currentTime = new Date();
+        const elapsedMilliseconds = currentTime - pausedTime;
+        setStartTime(new Date(startTime.getTime() + elapsedMilliseconds));
+        setTimerActive(true);
+        setCameraState("on");
+        setMicrophoneState("on");
+      } else {
+        setTimerActive(false);
+        setCameraState("off");
+        setMicrophoneState("off");
+        const currentTime = new Date();
+        setPausedTime(currentTime);
+      }
+      setIsTimerPaused(!isTimerPaused);
     }
   };
 
   useEffect(() => {
-    if (isRecording) {
+    if (isRecording && !isTimerPaused) {
       startRecording();
     } else {
       stopRecording();
     }
-  }, [isRecording]);
-
+  }, [isRecording, isTimerPaused]);
   const toggleCamera = () => {
     const stream = videoRef.current.srcObject;
     if (stream) {
@@ -89,6 +128,25 @@ const RecordingLectures = () => {
     }
   };
 
+  useEffect(() => {
+    let timerInterval;
+    if (timerActive) {
+      timerInterval = setInterval(() => {
+        if (startTime) {
+          const currentTime = new Date();
+          const elapsedMilliseconds = currentTime - startTime;
+          setElapsedTime(elapsedMilliseconds);
+        }
+      }, 1000);
+    } else {
+      clearInterval(timerInterval);
+    }
+
+    return () => {
+      clearInterval(timerInterval); // Clean up the interval on unmount
+    };
+  }, [timerActive, startTime]);
+
   const toggleScreenSharing = async () => {
     try {
       const stream = await navigator.mediaDevices.getDisplayMedia({
@@ -104,6 +162,32 @@ const RecordingLectures = () => {
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
+  };
+
+  const startTimer = () => {
+    setStartTime(new Date());
+  };
+
+  const pauseTimer = () => {
+    if (startTime) {
+      const currentTime = new Date();
+      const elapsedMilliseconds = currentTime - startTime;
+      setElapsedTime(elapsedMilliseconds);
+    }
+  };
+
+  const formatElapsedTime = (milliseconds) => {
+    const seconds = Math.floor(milliseconds / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+    const remainingSeconds = seconds % 60;
+
+    const formattedTime = `${String(hours).padStart(2, "0")}: ${String(
+      remainingMinutes
+    ).padStart(2, "0")}: ${String(remainingSeconds).padStart(2, "0")}`;
+
+    return formattedTime;
   };
 
   const startRecording = async () => {
@@ -211,16 +295,22 @@ const RecordingLectures = () => {
         zIndex="1"
         direction="column"
       >
-        <Circle size="40px" bg="white">
-          <Tooltip label="Theatre Mode" placement="right">
-            <IconButton
-              isRound={"true"}
-              icon={<Icon as={FaExpand} boxSize={4} />}
-              size="sm"
-              onClick={toggleExpand}
-            />
-          </Tooltip>
-        </Circle>
+        <HStack gap={"18px"}>
+          <Circle size="40px" bg="white">
+            <Tooltip label="Theatre Mode" placement="right">
+              <IconButton
+                isRound={"true"}
+                icon={<Icon as={FaExpand} boxSize={4} />}
+                size="sm"
+                onClick={toggleExpand}
+              />
+            </Tooltip>
+          </Circle>
+
+          <Box top="20px" bg={"#F1F5F8"} padding="5px" borderRadius="27px">
+            {formatElapsedTime(elapsedTime)}
+          </Box>
+        </HStack>
 
         <Circle size="40px" bg="white" mt={10}>
           <Tooltip label={`Camera ${cameraState}`} placement="right">
@@ -280,6 +370,17 @@ const RecordingLectures = () => {
               icon={<Icon as={BsRecord} boxSize={4} />}
               size="sm"
               onClick={toggleRecording}
+            />
+          </Tooltip>
+        </Circle>
+
+        <Circle size="40px" bg="white">
+          <Tooltip label={"Pause"} placement="right">
+            <IconButton
+              isRound
+              icon={<Icon as={CiPause1} boxSize={4} />}
+              size="sm"
+              onClick={togglePause}
             />
           </Tooltip>
         </Circle>
