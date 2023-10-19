@@ -4,7 +4,7 @@ import RecordedClass from "../components/RecordedClass";
 const Recording = () => {
   return (
     <Flex m={"52px"}>
-      <ViewRecording></ViewRecording>
+      <ViewRecording />
       <RecordedClass />
     </Flex>
   );

@@ -55,6 +55,7 @@ const Actions = ({ peer, onOpenKickFromClass, setKickedPersonDetails }) => {
         <MenuList>
           <MenuItem
             icon={<IoIosRemoveCircleOutline size={20} />}
+            isDisabled={peer.isTeacher}
             fontSize={"1rem"}
             onClick={(e) => {
               e.stopPropagation();
@@ -68,6 +69,7 @@ const Actions = ({ peer, onOpenKickFromClass, setKickedPersonDetails }) => {
             icon={<BsMicMute size={20} />}
             fontSize={"1rem"}
             onClick={changeMicAccess}
+            isDisabled={peer.isTeacher}
           >
             {isMicBlocked ? "Unblock Mic" : "Block Mic"}
           </MenuItem>
