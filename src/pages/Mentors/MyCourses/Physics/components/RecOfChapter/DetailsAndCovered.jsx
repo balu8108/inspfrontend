@@ -9,14 +9,19 @@ import {
   Stack,
   Spacer,
   Image,
+  SimpleGrid,
+  Icon,
 } from "@chakra-ui/react";
 import { BsDownload } from "react-icons/bs";
 import chapterDetailsData from "../../data/Details";
 import defaultImageUrl from "../../../.././../../assets/images/image1.png";
 import viewChapterRecordings from "../../data/recording";
+import { IoIosAdd } from "react-icons/io";
+
 const ChapterDetailsAndCoveredPart = () => {
+  const maxAssignmentsToShow = 5;
   return (
-    <Box w={"100%"} height={"999px"} bg={"#F1F5F8"} borderRadius={"26px"}>
+    <Box w={"100%"} height={"full"} bg={"#F1F5F8"} borderRadius={"26px"}>
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
         <Box
           width={"12px"}
@@ -114,45 +119,76 @@ const ChapterDetailsAndCoveredPart = () => {
       </Box>
 
       <Box m={"20px"}>
-        <Text p={"13px"}>Assignments</Text>
+        <Flex>
+          <Text p={"13px"}>Assignments</Text>
+          <Spacer />
+          <Button
+            variant={"ghost"}
+            fontSize={"sm"}
+            fontWeight={400}
+            mt={"15px"}
+            mr={"10px"}
+            color={"#3C8DBC"}
+          >
+            <Icon as={IoIosAdd} mr={2} boxSize={7} /> Add Assignment
+          </Button>
+        </Flex>
+
         {chapterDetailsData.map((chapter) => (
-          <Flex key={chapter.id} gap={"18px"} mt={"16px"}>
-            {chapter.assignment.map((assignment, index) => (
-              <Card
-                key={index}
-                h={"200px"}
-                flex={1}
-                borderRadius={"18px"}
-                bg={"#F1F5F8"}
-                blendMode={"multiply"}
-                p={4}
-              >
-                <Text>{assignment.assignmentName}</Text>
-                <Text fontSize={"12px"} color={"#2C332978"}>
-                  {assignment.instructorName}
-                </Text>
-                <Text fontSize={"xs"} mt={"15px"}>
-                  Description
-                </Text>
-                <Text
-                  fontSize={"xs"}
-                  mt={"5px"}
-                  color={"#2C332978"}
-                  noOfLines={2}
+          <SimpleGrid key={chapter.id} gap={"24px"} mt={"16px"}>
+            {chapter.assignment
+              .slice(0, maxAssignmentsToShow)
+              .map((assignment, index) => (
+                <Card
+                  key={index}
+                  h={"100%"}
+                  flex={1}
+                  borderRadius={"18px"}
+                  bg={"#F1F5F8"}
+                  blendMode={"multiply"}
+                  p={4}
                 >
-                  {assignment.description}
-                </Text>
-                <Button
-                  variant={"ghost"}
-                  fontWeight={"600"}
-                  color={"#3C8DBC"}
-                  mt={"20px"}
-                >
-                  View Details
-                </Button>
-              </Card>
-            ))}
-          </Flex>
+                  <Text fontSize={"xs"} mt={"15px"}>
+                    Description
+                  </Text>
+                  <Text
+                    fontSize={"xs"}
+                    mt={"5px"}
+                    color={"#2C332978"}
+                    noOfLines={2}
+                  >
+                    {assignment.description}
+                  </Text>
+                  <HStack mt={"12px"}>
+                    {assignment.assignmentFiles.map((file, fileIndex) => (
+                      <Flex
+                        key={fileIndex}
+                        mt={"5px"}
+                        color={"#2C332978"}
+                        px={"15px"}
+                        py={"8px"}
+                        borderRadius={"6px"}
+                        border={"1px"}
+                        borderColor={"#9597927D"}
+                        boxShadow={"md"}
+                        w={"19%"}
+                        h={"49px"}
+                        fontSize={"13px"}
+                      >
+                        {file}
+                        <Spacer />
+                        <Button
+                          rightIcon={<BsDownload />}
+                          variant={"ghost"}
+                          color={"black"}
+                          ml={2}
+                        ></Button>
+                      </Flex>
+                    ))}
+                  </HStack>
+                </Card>
+              ))}
+          </SimpleGrid>
         ))}
       </Box>
     </Box>

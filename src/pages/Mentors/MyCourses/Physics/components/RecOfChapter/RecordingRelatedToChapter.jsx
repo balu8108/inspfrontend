@@ -41,7 +41,7 @@ const ViewAllRecordingsRelatedToOneChapter = () => {
   return (
     <Box
       w={"100%"}
-       h={"23%"}
+       h={"100%"}
       bg={"#F1F5F8"}
       borderRadius={"2xl"}
       mt={6}
