@@ -145,7 +145,7 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
                         borderRadius={6}
                         bg={"#F1F5F8"}
                         blendMode={"multiply"}
-                        w={"20%"}
+                        w={"50%"}
                         h={"20%"}
                         m={"10px"} // Adjust the margin to control spacing between recordings
                         boxShadow="md"
@@ -188,7 +188,7 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
         <HStack ml={"20px"}>
           {topicDetails && topicDetails.length > 0 ? (
             topicDetails.map((topicInfo, index) => (
-              <Box key={topicInfo.id} p={"10px"}>
+              <Box key={topicInfo.id}>
                 {topicInfo.soloClassRoomFiles.map((file, fileIndex) => (
                   <Box
                     key={fileIndex}

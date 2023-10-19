@@ -1,6 +1,27 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, IconButton, Icon, Circle, Stack, Tooltip } from "@chakra-ui/react";
-import { FaMicrophone, FaMicrophoneSlash, FaVideo, FaVideoSlash, FaExpand } from "react-icons/fa";
+import {
+  Box,
+  Button,
+  IconButton,
+  Icon,
+  Circle,
+  Stack,
+  Tooltip,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from "@chakra-ui/react";
+import {
+  FaMicrophone,
+  FaMicrophoneSlash,
+  FaVideo,
+  FaVideoSlash,
+  FaExpand,
+} from "react-icons/fa";
 import { BsRecord } from "react-icons/bs";
 import { MdOutlineScreenshotMonitor } from "react-icons/md";
 import { useParams } from "react-router-dom";
@@ -15,11 +36,30 @@ const RecordingLectures = () => {
   const [videoStream, setVideoStream] = useState(null);
   const [audioStream, setAudioStream] = useState(null);
   const [recordedVideo, setRecordedVideo] = useState(null);
+  const [classEnded, setClassEnded] = useState(false);
+  const [isCameraDisabled, setIsCameraDisabled] = useState(false);
+  const [isMicrophoneDisabled, setIsMicrophoneDisabled] = useState(false);
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+
+  const [cameraState, setCameraState] = useState("disabled");
+  const [microphoneState, setMicrophoneState] = useState("disabled");
 
   const videoRef = useRef(null);
   const mediaRecorderRef = useRef(null);
 
   const { soloClassRoomId } = useParams();
+
+  const toggleRecording = () => {
+    setIsRecording(!isRecording);
+    // Update camera and microphone states based on recording status
+    if (isRecording) {
+      setCameraState("disabled");
+      setMicrophoneState("disabled");
+    } else {
+      setCameraState("on");
+      setMicrophoneState("on");
+    }
+  };
 
   useEffect(() => {
     if (isRecording) {
@@ -35,6 +75,7 @@ const RecordingLectures = () => {
       const videoTrack = stream.getVideoTracks()[0];
       videoTrack.enabled = !videoTrack.enabled;
       setIsCameraOn(videoTrack.enabled);
+      setCameraState(videoTrack.enabled ? "on" : "off");
     }
   };
 
@@ -44,6 +85,7 @@ const RecordingLectures = () => {
       const audioTrack = stream.getAudioTracks()[0];
       audioTrack.enabled = !audioTrack.enabled;
       setIsMicrophoneOn(audioTrack.enabled);
+      setMicrophoneState(audioTrack.enabled ? "on" : "off");
     }
   };
 
@@ -64,7 +106,7 @@ const RecordingLectures = () => {
     setIsExpanded(!isExpanded);
   };
 
-  const startRecording = async() => {
+  const startRecording = async () => {
     try {
       const videoStream = await navigator.mediaDevices.getUserMedia({
         video: true,
@@ -79,7 +121,9 @@ const RecordingLectures = () => {
       ]);
       videoRef.current.srcObject = stream;
 
-      const mediaRecorder = new MediaRecorder(stream, { mimeType: "video/webm" });
+      const mediaRecorder = new MediaRecorder(stream, {
+        mimeType: "video/webm",
+      });
       const chunks = [];
 
       mediaRecorder.ondataavailable = (event) => {
@@ -115,6 +159,16 @@ const RecordingLectures = () => {
     if (audioStream) {
       audioStream.getTracks().forEach((track) => track.stop());
     }
+
+    videoRef.current.srcObject = null; // Stop the video playback
+  };
+
+  const openConfirmationModal = () => {
+    setIsConfirmationModalOpen(true);
+  };
+
+  const closeConfirmationModal = () => {
+    setIsConfirmationModalOpen(false);
   };
 
   const uploadVideoToAWS = async () => {
@@ -128,10 +182,16 @@ const RecordingLectures = () => {
         body: formData,
       }
     );
-
+    setClassEnded(true);
     // End the class immediately regardless of video upload status
-    window.location.href = "/mentor/solo-recordings/topic";
+    window.location.href = "/homepage";
   };
+  useEffect(() => {
+    if (classEnded) {
+      // Prevent the page from appearing when clicked on the arrow or go back button
+      window.history.replaceState(null, null, `/mentor/solo-recordings/topic`);
+    }
+  }, [classEnded]);
 
   return (
     <Box
@@ -152,7 +212,7 @@ const RecordingLectures = () => {
         direction="column"
       >
         <Circle size="40px" bg="white">
-          <Tooltip label="Expand">
+          <Tooltip label="Theatre Mode" placement="right">
             <IconButton
               isRound={"true"}
               icon={<Icon as={FaExpand} boxSize={4} />}
@@ -163,30 +223,21 @@ const RecordingLectures = () => {
         </Circle>
 
         <Circle size="40px" bg="white" mt={10}>
-          <Tooltip label="Microphone">
+          <Tooltip label={`Camera ${cameraState}`} placement="right">
             <IconButton
               isRound
               icon={
-                isMicrophoneOn ? (
-                  <Icon as={FaMicrophone} boxSize={4} />
-                ) : (
-                  <Icon as={FaMicrophoneSlash} boxSize={4} />
-                )
-              }
-              size="sm"
-              onClick={toggleMicrophone}
-            />
-          </Tooltip>
-        </Circle>
-        <Circle size="40px" bg="white">
-          <Tooltip label="Camera">
-            <IconButton
-              isRound
-              icon={
-                isCameraOn ? (
+                cameraState === "on" ? (
                   <Icon as={FaVideo} boxSize={4} />
-                ) : (
+                ) : cameraState === "off" ? (
                   <Icon as={FaVideoSlash} boxSize={4} />
+                ) : (
+                  // Default to camera disabled when not recording
+                  <Icon
+                    as={FaVideoSlash}
+                    boxSize={4}
+                    style={{ color: "gray" }}
+                  />
                 )
               }
               size="sm"
@@ -195,13 +246,40 @@ const RecordingLectures = () => {
           </Tooltip>
         </Circle>
         <Circle size="40px" bg="white">
-          <Tooltip label="Recording">
+          <Tooltip label={`Microphone ${microphoneState}`} placement="right">
             <IconButton
-              aria-label="Stop recording"
+              isRound
+              icon={
+                microphoneState === "on" ? (
+                  <Icon as={FaMicrophone} boxSize={4} />
+                ) : microphoneState === "off" ? (
+                  <Icon as={FaMicrophoneSlash} boxSize={4} />
+                ) : (
+                  // Default to microphone disabled when not recording
+                  <Icon
+                    as={FaMicrophoneSlash}
+                    boxSize={4}
+                    style={{ color: "gray" }}
+                  />
+                )
+              }
+              size="sm"
+              onClick={toggleMicrophone}
+            />
+          </Tooltip>
+        </Circle>
+
+        <Circle size="40px" bg="white">
+          <Tooltip
+            label={isRecording ? "Stop Recording" : "Start Recording"}
+            placement="right"
+          >
+            <IconButton
+              aria-labell={isRecording ? "Stop recording" : "Start recording"}
               isRound
               icon={<Icon as={BsRecord} boxSize={4} />}
               size="sm"
-              onClick={() => setIsRecording(!isRecording)}
+              onClick={toggleRecording}
             />
           </Tooltip>
         </Circle>
@@ -245,6 +323,8 @@ const RecordingLectures = () => {
         size="sm"
         onClick={() => {
           stopRecording();
+          toggleCamera();
+          toggleMicrophone();
           uploadVideoToAWS();
         }}
       >

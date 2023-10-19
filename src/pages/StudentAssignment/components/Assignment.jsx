@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Text,
@@ -17,7 +17,7 @@ import {
 import { FaSearch } from "react-icons/fa";
 import { BsDownload } from "react-icons/bs";
 import axios from "axios";
-import {BASE_URL} from "../../../constants/staticurls"
+import { BASE_URL } from "../../../constants/staticurls";
 import { extractFileNameFromS3URL } from "../../../utils";
 import { useDispatch } from "react-redux";
 import { setIsDocModalOpen } from "../../../store/actions/genericActions";
@@ -71,7 +71,12 @@ const PhysDetails = () => {
           <InputLeftElement pointerEvents="none">
             <FaSearch color="#000000" />
           </InputLeftElement>
-          <Input placeholder="Search" w={"240px"} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+          <Input
+            placeholder="Search"
+            w={"240px"}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </InputGroup>
       </HStack>
       <SimpleGrid
@@ -145,9 +150,8 @@ const PhysDetails = () => {
                   h={"49px"}
                   fontSize={"11px"}
                 >
-                
-                <Text mt={2}>{extractFileNameFromS3URL(files.key)}</Text>
-                  <Spacer/>
+                  <Text mt={2}>{extractFileNameFromS3URL(files.key)}</Text>
+                  <Spacer />
                   <Button
                     rightIcon={<BsDownload />}
                     variant={"ghost"}
