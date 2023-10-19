@@ -17,7 +17,7 @@ import chapterDetailsData from "../../data/Details";
 import defaultImageUrl from "../../../.././../../assets/images/image1.png";
 import viewChapterRecordings from "../../data/recording";
 import { IoIosAdd } from "react-icons/io";
-
+import UploadAssignmentPopup from "../../../../../../components/popups/UploadAssignmentPopup";
 const ChapterDetailsAndCoveredPart = () => {
   const maxAssignmentsToShow = 5;
   return (
