@@ -359,7 +359,7 @@ const RecordingLectures = () => {
           </Tooltip>
         </Circle>
 
-        <Circle size="40px" bg="white">
+        <Circle size="40px" bg="white" mt={5}>
           <Tooltip
             label={isRecording ? "Stop Recording" : "Start Recording"}
             placement="right"
@@ -384,7 +384,7 @@ const RecordingLectures = () => {
             />
           </Tooltip>
         </Circle>
-        <Circle size="40px" bg="white">
+        <Circle size="40px" bg="white" mt={5}>
           <Tooltip label="Screen Sharing ">
             <IconButton
               isRound
@@ -416,7 +416,7 @@ const RecordingLectures = () => {
         w="50px"
         position="absolute"
         bottom="20px"
-        mt="40px"
+        mt="100px"
         left="20px"
         borderRadius="27px"
         color="white"
