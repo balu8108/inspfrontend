@@ -15,6 +15,7 @@ import {
   Flex,
   Spinner,
   Textarea,
+  Text,
 } from "@chakra-ui/react";
 import {
   fetchAllSubjectsApi,
@@ -34,6 +35,8 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
   const [agenda, setAgenda] = useState("");
   const [files, setFiles] = useState([]);
   const [selectedTopicId, setSelectedTopicId] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
 
   const apiUrl = "http://localhost:5000";
@@ -46,6 +49,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
   };
 
   const handleSubmit = async () => {
+    setIsSubmitting(true);
     try {
       const formData = new FormData();
       formData.append("subjectId", selectedSubject);
@@ -70,7 +74,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
 
       if (response.status === 201) {
         console.log("SoloClass created successfully");
-
+        setSuccessMessage("SoloCLassRoom");
         const formValues = {
           subjectId: selectedSubject,
           topic: selectedTopic,
@@ -93,6 +97,8 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
       onClose();
     } catch (error) {
       console.error("Error creating soloclassroom", error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -257,10 +263,16 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
               color={"#FFFFFF"}
               fontWeight={500}
               onClick={handleSubmit}
+              disabled={isSubmitting}
             >
-              Send
+              {isSubmitting ? <Spinner /> : "Start"}
             </Button>
           </Flex>
+          {successMessage && (
+            <Text textAlign="center" mt={4}>
+              {successMessage}
+            </Text>
+          )}
         </ModalFooter>
       </ModalContent>
     </Modal>

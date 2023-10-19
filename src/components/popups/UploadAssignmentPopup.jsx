@@ -32,7 +32,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
   const [isLoadingSubjects, setIsLoadingSubjects] = useState(true);
   const [isLoadingChapters, setIsLoadingChapters] = useState(false);
   const [isLoadingTopics, setIsLoadingTopics] = useState(false);
-
+  const[isSending,setIsSending]=useState(false);
   const [subjects, setSubjects] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState("");
   const [chapters, setChapters] = useState([]);
@@ -63,6 +63,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
 
   const handleSubmit = async () => {
     try {
+      setIsSending(true);
       // Create a FormData object to send files along with other data
       const formData = new FormData();
       formData.append("subject", selectedSubject);
@@ -102,6 +103,8 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
     } catch (error) {
       console.error("Error submitting assignment:", error);
       // Handle any network or other errors that may occur during the request
+    } finally {
+      setIsSending(false)
     }
   };
 
@@ -282,7 +285,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
             </Flex>
           </FormControl>
         </ModalBody>
-        <ModalFooter>
+        {/* <ModalFooter>
           <Flex w={"full"} justifyContent={"center"}>
             <Button
               type="submit"
@@ -295,7 +298,34 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
               Send
             </Button>
           </Flex>
-        </ModalFooter>
+        </ModalFooter> */}
+        <ModalFooter>
+        <Flex w={"full"} justifyContent={"center"}>
+          {isSending ? ( // Render the spinner inside the button
+            <Button
+              type="submit"
+              w={"30%"}
+              bg={"#3C8DBC"}
+              color={"#FFFFFF"}
+              fontWeight={500}
+              isDisabled
+            >
+              <Spinner size="sm" color="white" />
+            </Button>
+          ) : (
+            <Button
+              type="submit"
+              w={"30%"}
+              bg={"#3C8DBC"}
+              color={"#FFFFFF"}
+              fontWeight={500}
+              onClick={handleSubmit}
+            >
+              Send
+            </Button>
+          )}
+        </Flex>
+      </ModalFooter>
       </ModalContent>
     </Modal>
   );

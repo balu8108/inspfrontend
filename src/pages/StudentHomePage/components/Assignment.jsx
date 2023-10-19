@@ -63,13 +63,14 @@ const Assignment = () => {
       <Flex mt={5}>
         {recentAssignments.map((homepageAssignment) => (
           <Card
+            key={homepageAssignment.id}
             borderRadius="18px"
             w={"100%"}
             h={"200px"}
             bg="#F1F5F8"
             ml="26px"
             mr="20px"
-            key={homepageAssignment.id}
+            
           >
             <Text
               fontSize="16px"
@@ -77,6 +78,7 @@ const Assignment = () => {
               color="#2C3329"
               ml="13px"
               mt="13px"
+              noOfLines={1}
             >
               {homepageAssignment.topicName}
             </Text>

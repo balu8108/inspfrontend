@@ -1,44 +1,10 @@
-// import React,{useEffect} from "react"
-// import { Box, Flex, VStack,useDisclosure } from "@chakra-ui/react";
-// import ScheduledMeetings from "../../../MeetingViewer/components/ScheduledMeetings";
-// import Header from "../../../MyCourses/components/Header";
-// import PhysicsVideos from "../components/PhysicsVideos";
-// const PhyScreen = () => {
-//   return (
-//     <Box ml={"52px"} mr={"52px"} mt={"52px"} mb={10}>
-//       <Flex>
-//         <VStack spacing={6}>
-//           <Header />
-//           <PhysicsVideos />
-//         </VStack>
-//         <ScheduledMeetings />
-//       </Flex>
-//     </Box>
-//   );
-// };
-// export default PhyScreen;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 import React,{useEffect} from "react"
 import { Box, Flex, Stack,useDisclosure } from "@chakra-ui/react";
 import ScheduledMeetings from "../../../MeetingViewer/components/ScheduledMeetings";
 import Header from "../../../MyCourses/components/Header";
 import PhysicsVideos from "../components/PhysicsVideos";
+import Library from "../../../StudentHomePage/components/Library";
 import ScheduleClassList from "../../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
 import { boxShadowStyles } from "../../../../utils";
@@ -55,7 +21,7 @@ const PhyScreen = () => {
       <>
       <Flex m={"50px"} gap={"24px"}>
       <Stack spacing={6} w={"78%"}>
-          <Header />
+          <Library />
           <PhysicsVideos />
         </Stack>
         <Box w={"25%"}>

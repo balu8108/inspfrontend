@@ -9,15 +9,16 @@ import {
   Button,
   SimpleGrid,
   Input,
+  InputGroup,
+  InputLeftElement,
   Spacer,
 } from "@chakra-ui/react";
-import { FaSearch } from "react-icons/fa";
+import { SearchIcon } from "@chakra-ui/icons";
 import { BsDownload } from "react-icons/bs";
 import uploadedChapterDetails from "../data/uploadingDetails";
 import DocumentViewer from "../../../../components/popups/DocumentViewer";
 import { BASE_URL } from "../../../../constants/staticurls";
 import { extractFileNameFromS3URL } from "../../../../utils";
-import { getPresignedUrlDocApi } from "../../../../api/genericapis";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setIsDocModalOpen } from "../../../../store/actions/genericActions";
@@ -27,6 +28,7 @@ const AllUploadedLecture = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedFileUrl, setSelectedFileUrl] = useState("");
+  const [loading,setLoading]=useState(false);
   const dispatch = useDispatch();
 
   const handleViewDetails = (assignmentId) => {
@@ -72,19 +74,19 @@ const AllUploadedLecture = () => {
         </Text>
 
         <Spacer />
-        <Input
-          type="text"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Search..."
-          w="30%"
-          border="1px solid #ccc"
-          borderRadius="md"
-          px="3"
-          py="2"
-          mx={12}
-          my={"17"}
-        />
+        <InputGroup w="30%" mx={12} my={17}>
+          <Input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search..."
+            border="1px solid #ccc"
+            borderRadius="md"
+          />
+          <InputLeftElement pointerEvents="none">
+            <SearchIcon />
+          </InputLeftElement>
+        </InputGroup>
       </HStack>
       <SimpleGrid
         columns={{ base: 1, md: 1, lg: 1 }}

@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 import { fetchAllChaptersApi } from "../../../../../api/inspexternalapis/index";
 const PhysicsCourse = () => {
   const [chapters, setChapters] = useState([]);
-  const [loading,setLoading]=useState(true);
+  const [loading, setLoading] = useState(true);
   const dummyDescriptions = [
     "This chapter covers the basics of electromagnetism, including its principles and applications.",
     "Learn about geometrical and wave optics in this chapter.",
@@ -54,81 +54,84 @@ const PhysicsCourse = () => {
           My Courses (Physics)
         </Text>
       </HStack>
-      {loading ?(
+      {loading ? (
         <Center>
-        <Spinner size="xl" mt="20%" color="blue.500"/> 
+          <Spinner size="md" mt="20%" />
         </Center>
-       
       ) : (
         <SimpleGrid
-        columns={{ base: 1, md: 2, lg: 3 }}
-        spacing={"24px"}
-        m={"20px"}
-      >
-        {chapters.map((chapter, index) => (
-          <Card
-            key={chapter.id}
-            w={"100%"}
-            h={"204px"}
-            blendMode={"multiply"}
-            bg={"#F1F5F8"}
-            borderRadius={"18px"}
-            mb={"18px"}
-          >
-            <Text fontSize={"15px"} ml={"13px"} mt={"16px"} lineHeight={"19px"}>
-              {chapter.name}
-            </Text>
-            <Text
-              fontWeight={400}
-              fontSize={"11px"}
-              lineHeight={"15px"}
-              ml={"13px"}
-              color={"rgba(44, 51, 41, 0.47)"}
+          columns={{ base: 1, md: 2, lg: 3 }}
+          spacing={"24px"}
+          m={"20px"}
+        >
+          {chapters.map((chapter, index) => (
+            <Card
+              key={chapter.id}
+              w={"100%"}
+              h={"204px"}
+              blendMode={"multiply"}
+              bg={"#F1F5F8"}
+              borderRadius={"18px"}
+              mb={"18px"}
             >
-              Nitin Sachan
-            </Text>
-            <Text
-              fontSize={"12px"}
-              lineHeight={"13px"}
-              ml={"13px"}
-              fontWeight={400}
-              color={"rgba(44, 51, 41, 1)"}
-              mt={"18px"}
-            >
-              Description
-            </Text>
-            <Text
-              fontSize={"11px"}
-              lineHeight={"21px"}
-              fontWeight={400}
-              ml={13}
-              noOfLines={"2"}
-              color={"rgba(44, 51, 41, 0.47)"}
-            >
-              {dummyDescriptions[index]}
-            </Text>
-            <Link
-              to={`/mentor/${chapter.id}/topics/${encodeURIComponent(
-                chapter.name
-              )}`}
-              style={{ display: "flex", justifyContent: "center" }}
-            >
-              <Button
-                variant={"ghost"}
-                color={"#3C8DBC"}
-                fontWeight={"600"}
-                size={"14px"}
-                lineHeight={"16px"}
-                mt={"40px"}
+              <Text
+                fontSize={"15px"}
+                ml={"13px"}
+                mt={"16px"}
+                lineHeight={"19px"}
               >
-                View Details
-              </Button>
-            </Link>
-          </Card>
-        ))}
-      </SimpleGrid>
+                {chapter.name}
+              </Text>
+              <Text
+                fontWeight={400}
+                fontSize={"11px"}
+                lineHeight={"15px"}
+                ml={"13px"}
+                color={"rgba(44, 51, 41, 0.47)"}
+              >
+                Nitin Sachan
+              </Text>
+              <Text
+                fontSize={"12px"}
+                lineHeight={"13px"}
+                ml={"13px"}
+                fontWeight={400}
+                color={"rgba(44, 51, 41, 1)"}
+                mt={"18px"}
+              >
+                Description
+              </Text>
+              <Text
+                fontSize={"11px"}
+                lineHeight={"21px"}
+                fontWeight={400}
+                ml={13}
+                noOfLines={"2"}
+                color={"rgba(44, 51, 41, 0.47)"}
+              >
+                {dummyDescriptions[index]}
+              </Text>
+              <Link
+                to={`/mentor/${chapter.id}/topics/${encodeURIComponent(
+                  chapter.name
+                )}`}
+                style={{ display: "flex", justifyContent: "center" }}
+              >
+                <Button
+                  variant={"ghost"}
+                  color={"#3C8DBC"}
+                  fontWeight={"600"}
+                  size={"14px"}
+                  lineHeight={"16px"}
+                  mt={"40px"}
+                >
+                  View Details
+                </Button>
+              </Link>
+            </Card>
+          ))}
+        </SimpleGrid>
       )}
-     
     </Box>
   );
 };

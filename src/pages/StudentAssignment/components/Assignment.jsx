@@ -12,16 +12,22 @@ import {
   InputGroup,
   InputLeftElement,
   Icon,
+  Spacer,
 } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
 import { BsDownload } from "react-icons/bs";
 import axios from "axios";
 import {BASE_URL} from "../../../constants/staticurls"
 import { extractFileNameFromS3URL } from "../../../utils";
+import { useDispatch } from "react-redux";
+import { setIsDocModalOpen } from "../../../store/actions/genericActions";
 const PhysDetails = () => {
   const [assignmentData, setAssignmentData] = useState([]);
   const [selectedAssignment, setSelectedAssignment] = useState(null);
-
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedFileUrl, setSelectedFileUrl] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const dispatch = useDispatch();
   const handleViewDetails = (assignmentId) => {
     setSelectedAssignment(assignmentId);
   };
@@ -29,6 +35,15 @@ const PhysDetails = () => {
   const clearSelection = () => {
     setSelectedAssignment(null);
   };
+  const handleCloseDocumentViewer = () => {
+    setModalIsOpen(false);
+    setSelectedFileUrl("");
+  };
+  const filteredData = assignmentData.filter((assignment) => {
+    const topicName = assignment.topicName.toLowerCase();
+    const search = searchQuery.toLowerCase();
+    return topicName.includes(search);
+  });
 
   useEffect(() => {
     axios
@@ -41,7 +56,7 @@ const PhysDetails = () => {
       });
   }, []);
   return (
-    <Box width={"100%"} h={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
+    <Box width={"100%"} h={"full"} bg={"#F1F5F8"} borderRadius={"26px"}>
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
         <Box
           width={"12px"}
@@ -56,7 +71,7 @@ const PhysDetails = () => {
           <InputLeftElement pointerEvents="none">
             <FaSearch color="#000000" />
           </InputLeftElement>
-          <Input placeholder="Search" w={"240px"} />
+          <Input placeholder="Search" w={"240px"} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
         </InputGroup>
       </HStack>
       <SimpleGrid
@@ -65,7 +80,7 @@ const PhysDetails = () => {
         p={4}
         mr={"20px"}
       >
-        {assignmentData.map((assignment) => (
+        {filteredData.map((assignment) => (
           <Card
             w="100%"
             blendMode={"multiply"}
@@ -130,13 +145,25 @@ const PhysDetails = () => {
                   h={"49px"}
                   fontSize={"11px"}
                 >
-                  {extractFileNameFromS3URL(files.key)}
+                
+                <Text mt={2}>{extractFileNameFromS3URL(files.key)}</Text>
+                  <Spacer/>
                   <Button
                     rightIcon={<BsDownload />}
                     variant={"ghost"}
                     size="sm"
                     color={"black"}
                     ml={2}
+                    onClick={() =>
+                      dispatch(
+                        setIsDocModalOpen(
+                          files?.id,
+                          files?.key,
+                          "assignment",
+                          true
+                        )
+                      )
+                    }
                   ></Button>
                 </Flex>
               ))}

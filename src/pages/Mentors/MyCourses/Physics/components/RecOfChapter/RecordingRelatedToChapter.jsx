@@ -5,28 +5,33 @@ import {
   HStack,
   Text,
   Card,
+  Center,
   Button,
   Flex,
   Spacer,
+  Spinner,
 } from "@chakra-ui/react";
 import viewChapterRecordings from "../../data/recording";
 import { fetchAllTopicsApi } from "../../../../../../api/inspexternalapis/index";
 import { useParams } from "react-router-dom";
 
 const ViewAllRecordingsRelatedToOneChapter = () => {
-  const { chapter_id, chapter_name } = useParams(); // Retrieve chapter_id from the URL
+  const { chapter_id, chapter_name } = useParams();
   const [topics, setTopics] = useState([]);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchTopics() {
       try {
-        const response = await fetchAllTopicsApi(chapter_id); // Fetch topics for the specified chapter_id
+        const response = await fetchAllTopicsApi(chapter_id);
 
         if (response.status) {
           setTopics(response.result);
         }
       } catch (error) {
         console.error("Error fetching topics:", error);
+      } finally {
+        setLoading(false);
       }
     }
 
@@ -36,7 +41,7 @@ const ViewAllRecordingsRelatedToOneChapter = () => {
   return (
     <Box
       w={"100%"}
-      // maxW={"870px"}
+       h={"23%"}
       bg={"#F1F5F8"}
       borderRadius={"2xl"}
       mt={6}
@@ -60,71 +65,75 @@ const ViewAllRecordingsRelatedToOneChapter = () => {
           {chapter_name}
         </Text>
       </HStack>
-      <Flex m="27px">
-        {topics.map((topic) => (
-          <Card
-            key={topic.id}
-            h={"204px"}
-            minW={"35%"}
-            p={3}
-            bg={"#F1F5F8"}
-            blendMode={"multiply"}
-            mx={4}
-            borderRadius={"26px"}
-          >
-            <Text
-              fontSize={"15px"}
-              ml={"13px"}
-              mt={"16px"}
-              lineHeight={"19px"}
-              noOfLines={1}
+      {isLoading ? (
+        <Center>
+          <Spinner />
+        </Center>
+      ) : (
+        <Flex m={"20px"} gap={"24px"} >
+          {topics.map((topic) => (
+            <Card
+              key={topic.id}
+              h={"200px"}
+              minW={"30%"}
+              bg={"#F1F5F8"}
+              blendMode={"multiply"}
+              borderRadius={"26px"}
             >
-              {topic.name}
-            </Text>
-            <Text
-              fontWeight={400}
-              fontSize={"11px"}
-              lineHeight={"15px"}
-              ml={"13px"}
-              color={"rgba(44, 51, 41, 0.47)"}
-            >
-              Nitin Sachan
-            </Text>
-            <Text
-              fontSize={"12px"}
-              lineHeight={"13px"}
-              ml={"13px"}
-              fontWeight={400}
-              color={"rgba(44, 51, 41, 1)"}
-              mt={"18px"}
-            >
-              Description
-            </Text>
-            <Text
-              fontSize={"11px"}
-              lineHeight={"21px"}
-              fontWeight={400}
-              ml={13}
-              noOfLines={"2"}
-              color={"rgba(44, 51, 41, 0.47)"}
-            >
-              No Data
-            </Text>
+              <Text
+                fontSize={"15px"}
+                ml={"13px"}
+                mt={"16px"}
+                lineHeight={"19px"}
+                noOfLines={1}
+              >
+                {topic.name}
+              </Text>
+              <Text
+                fontWeight={400}
+                fontSize={"11px"}
+                lineHeight={"15px"}
+                ml={"13px"}
+                color={"rgba(44, 51, 41, 0.47)"}
+              >
+                Nitin Sachan
+              </Text>
+              <Text
+                fontSize={"12px"}
+                lineHeight={"13px"}
+                ml={"13px"}
+                fontWeight={400}
+                color={"rgba(44, 51, 41, 1)"}
+                mt={"18px"}
+              >
+                Description
+              </Text>
+              <Text
+                fontSize={"11px"}
+                lineHeight={"21px"}
+                fontWeight={400}
+                ml={13}
+                noOfLines={"2"}
+                color={"rgba(44, 51, 41, 0.47)"}
+              >
+                No Data
+              </Text>
 
-            <Button
-              variant={"ghost"}
-              color={"#3C8DBC"}
-              fontWeight={"600"}
-              size={"14px"}
-              lineHeight={"16px"}
-              mt={"40px"}
-            >
-              View Details
-            </Button>
-          </Card>
-        ))}
-        <Spacer />
-      </Flex>
+              <Button
+                variant={"ghost"}
+                color={"#3C8DBC"}
+                fontWeight={"600"}
+                size={"14px"}
+                lineHeight={"16px"}
+                mt={"25%"}
+              >
+                View Details
+              </Button>
+            </Card>
+          ))}
+          <Spacer />
+        </Flex>
+      )}
 
       {viewChapterRecordings.length === 0 && (
         <Text textAlign="center" mt={4}>

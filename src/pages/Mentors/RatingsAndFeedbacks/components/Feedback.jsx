@@ -9,12 +9,14 @@ import {
   SimpleGrid,
   Button,
   Card,
-  Spinner, // Import the Spinner component
+  Spinner,
+  Icon,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../api/inspexternalapis/index";
+import { SearchIcon } from "@chakra-ui/icons";
 import rateNFeedbackDetails from "../data/feedbackData";
-
+import VectorImage from "../../../../assets/images/Line/Vector.svg";
 const AllUploadedLecture = () => {
   const [allTopicList, setAllTopicList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -52,13 +54,7 @@ const AllUploadedLecture = () => {
   }, []);
 
   return (
-    <Box
-      bg={"#F1F5F8"}
-      w={"full"} 
-      h={"full"}
-      mt={"24px"}
-      borderRadius={"26px"}
-    >
+    <Box bg={"#F1F5F8"} w={"full"} h={"full"} mt={"24px"} borderRadius={"26px"}>
       <Flex>
         <HStack spacing={"10px"} ml="27px">
           <Box
@@ -73,6 +69,7 @@ const AllUploadedLecture = () => {
         </HStack>
 
         <Spacer />
+
         <Input
           type="text"
           value={searchQuery}
@@ -85,6 +82,12 @@ const AllUploadedLecture = () => {
           py="2"
           mx={12}
           my={"17"}
+          style={{
+            backgroundImage: `url(${VectorImage})`,
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "10px center",
+            paddingLeft: "40px",
+          }}
         />
       </Flex>
 

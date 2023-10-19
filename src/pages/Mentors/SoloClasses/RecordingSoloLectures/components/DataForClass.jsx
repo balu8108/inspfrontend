@@ -11,10 +11,13 @@ import {
 } from "@chakra-ui/react";
 import { FaCircle } from "react-icons/fa";
 import { BsDownload } from "react-icons/bs";
-
+import { useDispatch } from "react-redux";
+import { setIsDocModalOpen } from "../../../../../store/actions/genericActions";
 const DataForClass = () => {
   const [formData, setFormData] = useState();
-
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedFileUrl, setSelectedFileUrl] = useState("");
+  const dispatch = useDispatch();
   useEffect(() => {
     // Retrieve the form data from local storage
     const storedFormData = localStorage.getItem("formData");
@@ -25,7 +28,10 @@ const DataForClass = () => {
       setFormData(parsedFormData);
     }
   }, []);
-
+  const handleCloseDocumentViewer = () => {
+    setModalIsOpen(false);
+    setSelectedFileUrl("");
+  };
   // Split the agenda into an array of items
   const agendaItems = formData?.agenda ? formData.agenda.split("\n") : [];
   const fileItems = formData?.files ? formData.files.split(",") : [];
@@ -90,7 +96,7 @@ const DataForClass = () => {
 
           <Box m={"12px"}>
             <Text>Files</Text>
-            {fileItems.map((fileItem, index) => (
+            {fileItems.map((file, index) => (
               <Flex
                 key={index}
                 alignItems="center"
@@ -101,18 +107,28 @@ const DataForClass = () => {
                 bg="white"
               >
                 <Text color={"#2C332978"} fontSize={"12px"} p={"12px"}>
-                  {fileItem}
+                  {file}
                 </Text>
                 <Spacer />
 
-                <Button size="sm" ml="auto" variant={"ghost"}>
-                  <Icon as={BsDownload} />
-                </Button>
+                <Button
+                  rightIcon={<BsDownload />}
+                  variant={"ghost"}
+                  size="sm"
+                  color={"black"}
+                  ml={2}
+                  onClick={() =>
+                    dispatch(
+                      setIsDocModalOpen(file?.id, file?.key, "solo", true)
+                    )
+                  }
+                ></Button>
               </Flex>
             ))}
           </Box>
         </Stack>
       )}
+     
     </Box>
   );
 };

@@ -1,20 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  Box,
-  Button,
-  IconButton,
-  Icon,
-  Circle,
-  Stack,
-  Tooltip,
-} from "@chakra-ui/react";
-import {
-  FaMicrophone,
-  FaMicrophoneSlash,
-  FaVideo,
-  FaVideoSlash,
-  FaExpand,
-} from "react-icons/fa";
+import { Box, Button, IconButton, Icon, Circle, Stack, Tooltip } from "@chakra-ui/react";
+import { FaMicrophone, FaMicrophoneSlash, FaVideo, FaVideoSlash, FaExpand } from "react-icons/fa";
 import { BsRecord } from "react-icons/bs";
 import { MdOutlineScreenshotMonitor } from "react-icons/md";
 import { useParams } from "react-router-dom";
@@ -28,13 +14,10 @@ const RecordingLectures = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [videoStream, setVideoStream] = useState(null);
   const [audioStream, setAudioStream] = useState(null);
-  const videoChunksRef = useRef([]);
+  const [recordedVideo, setRecordedVideo] = useState(null);
 
   const videoRef = useRef(null);
   const mediaRecorderRef = useRef(null);
-  const [videoFile, setVideoFile] = useState(null);
-
-  const chunksRef = useRef([]);
 
   const { soloClassRoomId } = useParams();
 
@@ -81,7 +64,7 @@ const RecordingLectures = () => {
     setIsExpanded(!isExpanded);
   };
 
-  const startRecording = async () => {
+  const startRecording = async() => {
     try {
       const videoStream = await navigator.mediaDevices.getUserMedia({
         video: true,
@@ -96,17 +79,18 @@ const RecordingLectures = () => {
       ]);
       videoRef.current.srcObject = stream;
 
-      const mediaRecorder = new MediaRecorder(stream);
+      const mediaRecorder = new MediaRecorder(stream, { mimeType: "video/webm" });
+      const chunks = [];
+
       mediaRecorder.ondataavailable = (event) => {
         if (event.data.size > 0) {
-          videoChunksRef.current.push(event.data);
+          chunks.push(event.data);
         }
       };
 
       mediaRecorder.onstop = () => {
-        const blob = new Blob(videoChunksRef.current, { type: "video/webm" });
-        setVideoFile(blob);
-        videoChunksRef.current = [];
+        const blob = new Blob(chunks, { type: "video/webm" });
+        setRecordedVideo(URL.createObjectURL(blob));
       };
 
       mediaRecorderRef.current = mediaRecorder;
@@ -131,14 +115,11 @@ const RecordingLectures = () => {
     if (audioStream) {
       audioStream.getTracks().forEach((track) => track.stop());
     }
-
-    const videoBlob = new Blob(videoChunksRef.current, { type: "video/webm" });
-    setVideoFile(videoBlob);
   };
 
   const uploadVideoToAWS = async () => {
     const formData = new FormData();
-    formData.append("files", videoFile);
+    formData.append("files", recordedVideo);
     formData.append("soloClassRoomId", soloClassRoomId);
     const response = await fetch(
       `${BASE_URL}/solo-lecture/solo-classroom-recording/${soloClassRoomId}`,

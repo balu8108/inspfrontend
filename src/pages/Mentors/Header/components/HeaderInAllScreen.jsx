@@ -77,7 +77,7 @@ const Header = () => {
 
       {loading ? ( // Display spinner while loading
         <Center>
-          <Spinner />
+          <Spinner mt={"5%"} />
         </Center>
       ) : (
         <Flex mt={"24px"}>
