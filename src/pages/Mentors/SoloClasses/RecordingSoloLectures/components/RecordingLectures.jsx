@@ -44,6 +44,7 @@ const RecordingLectures = () => {
   const [isTimerPaused, setIsTimerPaused] = useState(false);
   const [pausedTime, setPausedTime] = useState(0); // Track the time when the timer is paused
   const [timerOffset, setTimerOffset] = useState(0);
+
   const videoRef = useRef(null);
   const mediaRecorderRef = useRef(null);
 
@@ -148,14 +149,30 @@ const RecordingLectures = () => {
     };
   }, [timerActive, startTime]);
 
-  const toggleScreenSharing = async () => {
+  // const toggleScreenSharing = async () => {
+  //   try {
+  //     const stream = await navigator.mediaDevices.getDisplayMedia({
+  //       video: true,
+  //       audio: true,
+  //     });
+  //     videoRef.current.srcObject = stream;
+  //     setIsScreenSharing(true);
+  //   } catch (error) {
+  //     console.error("Error accessing screen sharing:", error);
+  //   }
+  // };
+  const toggleScreenSharing = () => {
     try {
-      const stream = await navigator.mediaDevices.getDisplayMedia({
-        video: true,
-        audio: true,
-      });
-      videoRef.current.srcObject = stream;
-      setIsScreenSharing(true);
+      navigator.mediaDevices
+        .getDisplayMedia({ video: true, audio: true })
+        .then((stream) => {
+          const videoTracks = stream.getVideoTracks();
+          if (videoTracks.length > 0) {
+            // Set the main video source to the screen sharing stream
+            videoRef.current.srcObject = new MediaStream(videoTracks);
+          }
+          setIsScreenSharing(true);
+        });
     } catch (error) {
       console.error("Error accessing screen sharing:", error);
     }
@@ -207,7 +224,7 @@ const RecordingLectures = () => {
       videoRef.current.srcObject = stream;
 
       const mediaRecorder = new MediaRecorder(stream, {
-        mimeType: "video/webm",
+        mimeType: "video/mp4",
       });
       const chunks = [];
 
@@ -229,6 +246,25 @@ const RecordingLectures = () => {
     }
   };
 
+  // const stopRecording = () => {
+  //   if (
+  //     mediaRecorderRef.current &&
+  //     mediaRecorderRef.current.state === "recording"
+  //   ) {
+  //     mediaRecorderRef.current.stop();
+  //   }
+
+  //   if (videoStream) {
+  //     videoStream.getTracks().forEach((track) => track.stop());
+  //   }
+
+  //   if (audioStream) {
+  //     audioStream.getTracks().forEach((track) => track.stop());
+  //   }
+
+  //   videoRef.current.srcObject = null; // Stop the video playback
+  // };
+
   const stopRecording = () => {
     if (
       mediaRecorderRef.current &&
@@ -245,6 +281,13 @@ const RecordingLectures = () => {
       audioStream.getTracks().forEach((track) => track.stop());
     }
 
+    if (isTimerPaused) {
+      // If the timer was paused, add the time when it was paused to elapsed time
+      const currentTime = new Date();
+      const elapsedMilliseconds = currentTime - pausedTime;
+      setElapsedTime(elapsedTime + elapsedMilliseconds);
+    }
+
     videoRef.current.srcObject = null; // Stop the video playback
   };
 
@@ -256,34 +299,15 @@ const RecordingLectures = () => {
     setIsConfirmationModalOpen(false);
   };
 
-  // const uploadVideoToAWS = async (chunks) => {
-  //   console.log("Uploading video to AWS");
-  //   const formData = new FormData();
-  //   formData.append("files", recordedVideo);
-  //   formData.append('video', new Blob(chunks, { type: 'video/mp4' }));
-  //   formData.append("soloClassRoomId", soloClassRoomId);
-  //   const response = await fetch(
-  //     `${BASE_URL}/solo-lecture/solo-classroom-recording/${soloClassRoomId}`,
-  //     {
-  //       method: "POST",
-  //       body: formData,
-  //     }
-  //   );
-  //   setClassEnded(true);
-  //   // End the class immediately regardless of video upload status
-  //   window.location.href = "/homepage";
-  // };
+  const uploadVideoToAWS = async (recordedVideo, soloClassRoomId) => {
+    const fileName = `sololecture_${soloClassRoomId}.mp4`;
 
-
-
-
-
-
-
-
-  const uploadVideoToAWS = async (chunks) => {
+    const file = new File([recordedVideo], fileName, {
+      type: "video/mp4",
+    });
     const formData = new FormData();
-    formData.append("video", new Blob(chunks, { type: "video/mp4" }));
+
+    formData.append("files", file);
     formData.append("soloClassRoomId", soloClassRoomId);
 
     try {
@@ -309,11 +333,6 @@ const RecordingLectures = () => {
     }
   };
 
-
-
-
-
-
   useEffect(() => {
     if (classEnded) {
       // Prevent the page from appearing when clicked on the arrow or go back button
@@ -324,13 +343,14 @@ const RecordingLectures = () => {
   return (
     <Box
       h="80vh"
-      width={isExpanded ? "120%" : "80%"}
+      width={isExpanded ? "120%" : "95%"}
       borderRadius="12px"
       boxShadow="md"
       position="relative"
       display="flex"
       flexDirection="column"
       bg={"black"}
+      m={"15px"}
     >
       <Stack
         position="absolute"
@@ -419,7 +439,7 @@ const RecordingLectures = () => {
         </Circle>
 
         <Circle size="40px" bg="white">
-          <Tooltip label={isTimerPaused ? "Resume" : "Pause"}  placement="right">
+          <Tooltip label={isTimerPaused ? "Resume" : "Pause"} placement="right">
             <IconButton
               isRound
               icon={<Icon as={CiPause1} boxSize={4} />}
@@ -453,6 +473,7 @@ const RecordingLectures = () => {
           }}
           autoPlay
         />
+        <source src={recordedVideo} type="video/mp4" />
       </Box>
 
       <Button
@@ -470,10 +491,10 @@ const RecordingLectures = () => {
           stopRecording();
           toggleCamera();
           toggleMicrophone();
-          if(isRecording) {
-            setTimerActive(false)
+          if (isRecording) {
+            setTimerActive(false);
           }
-          uploadVideoToAWS();
+          uploadVideoToAWS(recordedVideo, soloClassRoomId);
         }}
       >
         End
