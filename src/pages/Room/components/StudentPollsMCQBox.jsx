@@ -13,8 +13,11 @@ import {
 } from "@chakra-ui/react";
 import { roomData } from "../data/roomData";
 import { MainBtn } from "../../../components/button";
-import { setQuestion } from "../../../store/actions/socketActions";
-import { useDispatch } from "react-redux";
+import {
+  setQuestion,
+  setTimerIncrease,
+} from "../../../store/actions/socketActions";
+import { useDispatch, useSelector } from "react-redux";
 import { sendAnswerHandler } from "../../../socketconnections/socketconnections";
 const StudentPollsMCQBox = ({ question }) => {
   const [pollLimit, setPollLimit] = useState(0);
@@ -22,6 +25,7 @@ const StudentPollsMCQBox = ({ question }) => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [selectedCheckBox, setSelectedCheckbox] = useState([]);
   const { primaryBlue, lightGrey } = useTheme().colors.pallete;
+  const { pollTimerIncrease } = useSelector((state) => state.socket);
 
   const dispatch = useDispatch();
 
@@ -122,6 +126,15 @@ const StudentPollsMCQBox = ({ question }) => {
       }
     };
   }, [question, dispatch]);
+
+  useEffect(() => {
+    if (pollTimerIncrease) {
+      setPollLimit((prev) => prev + pollTimerIncrease.timeIncreaseBy);
+    }
+    return () => {
+      dispatch(setTimerIncrease(null));
+    };
+  }, [pollTimerIncrease, dispatch]);
 
   return (
     <>
