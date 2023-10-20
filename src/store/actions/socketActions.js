@@ -30,6 +30,8 @@ import {
   SET_IS_KICKED_OUT,
   SET_SELF_DETAILS,
   SET_QUESTION_MSG,
+  SET_SEND_POLL_RESPONSE,
+  SET_POLL_TIMER_INCREASE,
 } from "../constants";
 
 export const setSocket = (socket) => {
@@ -174,4 +176,12 @@ export const setAudioStreamEnabledOrDisabled =
 
 export const setKickedOutFromClass = (value) => async (dispatch) => {
   dispatch({ type: SET_IS_KICKED_OUT, payload: value });
+};
+
+export const setSendPollResponse = (value) => async (dispatch) => {
+  dispatch({ type: SET_SEND_POLL_RESPONSE, payload: value });
+};
+
+export const setTimerIncrease = (value) => async (dispatch) => {
+  dispatch({ type: SET_POLL_TIMER_INCREASE, payload: value });
 };

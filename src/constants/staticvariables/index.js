@@ -15,6 +15,12 @@ export const QnATypes = {
   trueFalse: "TRUE_FALSE",
 };
 
+export const QnATypeValues = {
+  mcq: "MCQ",
+  tf: "True & False",
+  poll: "Poll",
+};
+
 export const miroViewMode = {
   view: "view",
   edit: "edit",

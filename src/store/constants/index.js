@@ -44,6 +44,8 @@ export const SET_AUDIO_STREAM_ENABLED_OR_DISABLED =
 export const SET_IS_KICKED_OUT = "SET_IS_KICKED_OUT";
 export const SET_SELF_DETAILS = "SET_SELF_DETAILS";
 export const SET_QUESTION_MSG = "SET_QUESTION_MSG";
+export const SET_SEND_POLL_RESPONSE = "SET_SEND_POLL_RESPONSE"; // When mentor sends poll, we agian get response from server that is used to open pop up of poll timer increase
+export const SET_POLL_TIMER_INCREASE = "SET_POLL_TIMER_INCREASE";
 // Schedule classes related constants
 
 export const ADD_CLASS_SCHEDULE = "ADD_CLASS_SCHEDULE";

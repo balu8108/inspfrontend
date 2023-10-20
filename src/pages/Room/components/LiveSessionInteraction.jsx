@@ -27,6 +27,7 @@ import { Scrollbars } from "rc-scrollbars";
 import { checkUserType, containsEmoji } from "../../../utils";
 import Leaderboard from "./Leaderboard";
 import { userType } from "../../../constants/staticvariables";
+import PollTimer from "./PollTimer";
 
 // Active btns will be
 // 1 - Leaderboard
@@ -436,7 +437,7 @@ const ActiveContent = ({ activeContent }) => {
 
   return (
     <>
-      <Flex direction={"column"} height={"100%"}>
+      <Flex direction={"column"} height={"100%"} position={"relative"}>
         {activeContent === activeContentOptions.Chat ? (
           <ChatBox chatMsg={chatMsg} setChatMsg={setChatMsg} />
         ) : activeContent === activeContentOptions.QnA ? (
@@ -444,6 +445,7 @@ const ActiveContent = ({ activeContent }) => {
         ) : (
           <Leaderboard isLeaderBoardOpen={true} />
         )}
+        <PollTimer />
       </Flex>
     </>
   );

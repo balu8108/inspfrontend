@@ -27,6 +27,8 @@ import {
   SET_IS_KICKED_OUT,
   SET_SELF_DETAILS,
   SET_QUESTION_MSG,
+  SET_SEND_POLL_RESPONSE,
+  SET_POLL_TIMER_INCREASE,
 } from "../constants";
 const initialState = {
   isPeerLoading: true,
@@ -49,6 +51,8 @@ const initialState = {
   question: null,
   roomPreviewData: null,
   upcomingClassData: null,
+  pollData: null, // for teacher side the timer data of poll
+  pollTimerIncrease: null,
 };
 
 const socketReducer = (state = initialState, action) => {
@@ -270,6 +274,17 @@ const socketReducer = (state = initialState, action) => {
         ...state,
         isKickedOut: action.payload,
       };
+    case SET_SEND_POLL_RESPONSE:
+      return {
+        ...state,
+        pollData: action.payload,
+      };
+    case SET_POLL_TIMER_INCREASE:
+      return {
+        ...state,
+        pollTimerIncrease: action.payload,
+      };
+
     default:
       return state;
   }

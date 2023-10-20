@@ -21,6 +21,8 @@ import {
   setQuestion,
   setQuestionMessage,
   setSelfDetails,
+  setSendPollResponse,
+  setTimerIncrease,
   setUploadFiles,
   setUploadFilesInRoom,
 } from "../store/actions/socketActions";
@@ -418,6 +420,14 @@ const questionMsgResponseHandler = (res) => {
   store.dispatch(setQuestionMessage(res));
 };
 
+const sendPollResponseHandler = (res) => {
+  store.dispatch(setSendPollResponse(res));
+};
+
+const pollTimeIncreaseResponseHandler = (res) => {
+  store.dispatch(setTimerIncrease(res));
+};
+
 /** REPSONSE HANDLER ENDS HERE **/
 
 // SOCKET EVENT LISTENERS AND EVENT EMITTERS:-
@@ -441,6 +451,10 @@ export const initializeSocketConnections = (roomId) => {
     socket.on(SOCKET_EVENTS.QUESTION_SENT_FROM_SERVER, questionResponseHandler);
     socket.on(SOCKET_EVENTS.PRODUCER_PAUSED, producerPausedResponseHandler);
     socket.on(SOCKET_EVENTS.PRODUCER_RESUMED, producerResumeResponseHandler);
+    socket.on(
+      SOCKET_EVENTS.POLL_TIME_INCREASE_FROM_SERVER,
+      pollTimeIncreaseResponseHandler
+    );
     socket.on(
       SOCKET_EVENTS.QUESTION_MSG_SENT_FROM_SERVER,
       questionMsgResponseHandler
@@ -555,7 +569,11 @@ export const sendFileHandler = (filesData) => {
 export const sendQuestionHandler = (data) => {
   // data will contain type may be poll or true false
   // for poll it doesn't have any question but has timer value, poll no
-  socket.emit(SOCKET_EVENTS.QUESTION_SENT_TO_SERVER, data);
+  socket.emit(
+    SOCKET_EVENTS.QUESTION_SENT_TO_SERVER,
+    data,
+    sendPollResponseHandler
+  );
 };
 
 export const startRecordingHandler = (data) => {
@@ -638,5 +656,15 @@ export const sendQuestionMsg = (questionMsg) => {
       }
     }
   );
+};
+
+export const sendPollTimeIncreaseToServer = (
+  questionId,
+  timeIncreaseBy = 10
+) => {
+  socket.emit(SOCKET_EVENTS.POLL_TIME_INCREASE_TO_SERVER, {
+    questionId,
+    timeIncreaseBy,
+  });
 };
 /* EVENT EMIT FUNCTIONS ENDS HERE */
