@@ -14,7 +14,6 @@ import {
   Spinner,
   Center,
 } from "@chakra-ui/react";
-import { FaSearch } from "react-icons/fa";
 import rateNFeedbackDetails from "../../data/feedbackData";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../../api/inspexternalapis/index";
 import { Link } from "react-router-dom";
@@ -66,9 +65,11 @@ const ViewMentorsRatingAndFeedback = () => {
             borderRadius={"20px"}
             bg={"#3C8DBC"}
           ></Box>
-          <Text fontSize={"20px"} lineHeight={"24px"}>
-            Rating & feedback
-          </Text>
+          <Link to={`/mentor/rating&feedback`}>
+            <Text fontSize={"20px"} lineHeight={"24px"}>
+              Rating & feedback
+            </Text>
+          </Link>
         </HStack>
 
         <Spacer />

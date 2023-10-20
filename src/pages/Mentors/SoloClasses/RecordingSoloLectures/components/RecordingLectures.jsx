@@ -51,7 +51,8 @@ const RecordingLectures = () => {
 
   const toggleRecording = () => {
     setIsRecording(!isRecording);
-    setTimerActive(true);
+    setTimerActive(!isRecording);
+    // setTimerActive(true);
     if (isRecording) {
       setCameraState("disabled");
       setMicrophoneState("disabled");
@@ -375,7 +376,7 @@ const RecordingLectures = () => {
         </Circle>
 
         <Circle size="40px" bg="white">
-          <Tooltip label={"Pause"} placement="right">
+          <Tooltip label={isTimerPaused ? "Resume" : "Pause"}  placement="right">
             <IconButton
               isRound
               icon={<Icon as={CiPause1} boxSize={4} />}
@@ -426,6 +427,9 @@ const RecordingLectures = () => {
           stopRecording();
           toggleCamera();
           toggleMicrophone();
+          if(isRecording) {
+            setTimerActive(false)
+          }
           uploadVideoToAWS();
         }}
       >

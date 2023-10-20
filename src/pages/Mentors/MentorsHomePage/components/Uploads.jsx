@@ -35,7 +35,7 @@ const MentorsUploads = () => {
     });
   }, []);
   return (
-    <Box bg={"#F1F5F8"} w={"95%"} borderRadius={"26px"} h={"100%"}>
+    <Box bg={"#F1F5F8"} w={"95%"}  borderRadius={"26px"}>
       <Flex>
         <HStack spacing={"10px"}>
           <Box
