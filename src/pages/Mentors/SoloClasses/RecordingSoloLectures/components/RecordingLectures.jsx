@@ -51,7 +51,8 @@ const RecordingLectures = () => {
 
   const toggleRecording = () => {
     setIsRecording(!isRecording);
-    setTimerActive(true);
+    setTimerActive(!isRecording);
+    // setTimerActive(true);
     if (isRecording) {
       setCameraState("disabled");
       setMicrophoneState("disabled");
@@ -217,7 +218,7 @@ const RecordingLectures = () => {
       };
 
       mediaRecorder.onstop = () => {
-        const blob = new Blob(chunks, { type: "video/webm" });
+        const blob = new Blob(chunks, { type: "video/mp4" });
         setRecordedVideo(URL.createObjectURL(blob));
       };
 
@@ -255,21 +256,64 @@ const RecordingLectures = () => {
     setIsConfirmationModalOpen(false);
   };
 
-  const uploadVideoToAWS = async () => {
+  // const uploadVideoToAWS = async (chunks) => {
+  //   console.log("Uploading video to AWS");
+  //   const formData = new FormData();
+  //   formData.append("files", recordedVideo);
+  //   formData.append('video', new Blob(chunks, { type: 'video/mp4' }));
+  //   formData.append("soloClassRoomId", soloClassRoomId);
+  //   const response = await fetch(
+  //     `${BASE_URL}/solo-lecture/solo-classroom-recording/${soloClassRoomId}`,
+  //     {
+  //       method: "POST",
+  //       body: formData,
+  //     }
+  //   );
+  //   setClassEnded(true);
+  //   // End the class immediately regardless of video upload status
+  //   window.location.href = "/homepage";
+  // };
+
+
+
+
+
+
+
+
+  const uploadVideoToAWS = async (chunks) => {
     const formData = new FormData();
-    formData.append("files", recordedVideo);
+    formData.append("video", new Blob(chunks, { type: "video/mp4" }));
     formData.append("soloClassRoomId", soloClassRoomId);
-    const response = await fetch(
-      `${BASE_URL}/solo-lecture/solo-classroom-recording/${soloClassRoomId}`,
-      {
-        method: "POST",
-        body: formData,
+
+    try {
+      const response = await fetch(
+        `${BASE_URL}/solo-lecture/solo-classroom-recording/${soloClassRoomId}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (response.ok) {
+        setClassEnded(true);
+        // End the class immediately regardless of video upload status
+        window.location.href = "/homepage";
+      } else {
+        console.error("Error uploading video to AWS:", response.status);
+        // Handle the error as needed
       }
-    );
-    setClassEnded(true);
-    // End the class immediately regardless of video upload status
-    window.location.href = "/homepage";
+    } catch (error) {
+      console.error("Error uploading video to AWS:", error);
+      // Handle the error as needed
+    }
   };
+
+
+
+
+
+
   useEffect(() => {
     if (classEnded) {
       // Prevent the page from appearing when clicked on the arrow or go back button
@@ -375,7 +419,7 @@ const RecordingLectures = () => {
         </Circle>
 
         <Circle size="40px" bg="white">
-          <Tooltip label={"Pause"} placement="right">
+          <Tooltip label={isTimerPaused ? "Resume" : "Pause"}  placement="right">
             <IconButton
               isRound
               icon={<Icon as={CiPause1} boxSize={4} />}
@@ -426,6 +470,9 @@ const RecordingLectures = () => {
           stopRecording();
           toggleCamera();
           toggleMicrophone();
+          if(isRecording) {
+            setTimerActive(false)
+          }
           uploadVideoToAWS();
         }}
       >

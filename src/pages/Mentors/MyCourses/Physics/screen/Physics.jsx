@@ -35,7 +35,7 @@ const Physics = () => {
       )}
 
       <Flex m={"52px"}>
-        <Stack spacing={"24px"} w={"full"}>
+        <Stack spacing={"24px"} w={"full"}  h={"100%"}>
           <Header />
           <PhysicsCourse />
         </Stack>
