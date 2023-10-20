@@ -19,6 +19,7 @@ import { useNavigate } from "react-router";
 import { FaCircle } from "react-icons/fa";
 import { getPresignedUrlApi } from "../../../../../api/genericapis";
 import { BASE_URL } from "../../../../../constants/staticurls";
+import { SimpleGrid } from "@chakra-ui/layout";
 const DetailsCoveredFiles = ({ viewTopic }) => {
   const [topicDetails, setTopicDetails] = useState(null);
   const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
@@ -131,10 +132,10 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
         </Box>
       )}
 
-      <Box mt={"31px"}>
+     
         <Box ml={"20px"} mt="20px">
           <Text p={"13px"}>Recordings</Text>
-          <HStack>
+          <Flex  gap={"24px"} overflowX={"auto"}>
             {topicDetails && topicDetails.length > 0 ? (
               topicDetails.map((topicInfo, index) => (
                 <HStack key={index}>
@@ -145,11 +146,10 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
                         borderRadius={6}
                         bg={"#F1F5F8"}
                         blendMode={"multiply"}
-                        w={"50%"}
-                        h={"20%"}
-                        m={"10px"} // Adjust the margin to control spacing between recordings
+                         w={"150px"}
                         boxShadow="md"
                         position="relative"
+                        m={"20px"}
                         onMouseEnter={() => setHoveredCardIndex(index)}
                         onMouseLeave={() => setHoveredCardIndex(null)}
                         onClick={() => handleCardClick(recording.key)}
@@ -177,9 +177,9 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
                 <Text>No video recordings are available for this topic.</Text>
               </Box>
             )}
-          </HStack>
+          </Flex>
         </Box>
-      </Box>
+     
 
       <Box mt={"31px"} overflowX="auto">
         <Text ml={"20px"} p={"13px"}>

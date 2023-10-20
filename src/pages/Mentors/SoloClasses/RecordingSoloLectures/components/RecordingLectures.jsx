@@ -209,6 +209,7 @@ const RecordingLectures = () => {
   };
 
   const startRecording = async () => {
+    console.log("Start Recording")
     try {
       const videoStream = await navigator.mediaDevices.getUserMedia({
         video: true,
@@ -224,7 +225,7 @@ const RecordingLectures = () => {
       videoRef.current.srcObject = stream;
 
       const mediaRecorder = new MediaRecorder(stream, {
-        mimeType: "video/mp4",
+        mimeType: "video/webm",
       });
       const chunks = [];
 
@@ -235,7 +236,7 @@ const RecordingLectures = () => {
       };
 
       mediaRecorder.onstop = () => {
-        const blob = new Blob(chunks, { type: "video/mp4" });
+        const blob = new Blob(chunks, { type: "video/webm" });
         setRecordedVideo(URL.createObjectURL(blob));
       };
 
@@ -287,7 +288,7 @@ const RecordingLectures = () => {
       const elapsedMilliseconds = currentTime - pausedTime;
       setElapsedTime(elapsedTime + elapsedMilliseconds);
     }
-
+console.log("Stopping recording", recordedVideo)
     videoRef.current.srcObject = null; // Stop the video playback
   };
 
@@ -300,10 +301,10 @@ const RecordingLectures = () => {
   };
 
   const uploadVideoToAWS = async (recordedVideo, soloClassRoomId) => {
-    const fileName = `sololecture_${soloClassRoomId}.mp4`;
+    const fileName = `sololecture_${soloClassRoomId}.webm`;
 
     const file = new File([recordedVideo], fileName, {
-      type: "video/mp4",
+      type: "video/webm",
     });
     const formData = new FormData();
 
@@ -473,7 +474,7 @@ const RecordingLectures = () => {
           }}
           autoPlay
         />
-        <source src={recordedVideo} type="video/mp4" />
+        <source src={recordedVideo} type="video/webm" />
       </Box>
 
       <Button
