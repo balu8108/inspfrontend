@@ -44,9 +44,11 @@ const RecordingLectures = () => {
   const [isTimerPaused, setIsTimerPaused] = useState(false);
   const [pausedTime, setPausedTime] = useState(0); // Track the time when the timer is paused
   const [timerOffset, setTimerOffset] = useState(0);
+  const [screenSharingStream, setScreenSharingStream] = useState(null);
 
   const videoRef = useRef(null);
   const mediaRecorderRef = useRef(null);
+  const screenSharingVideoRef = useRef(null);
 
   const { soloClassRoomId } = useParams();
 
@@ -130,6 +132,35 @@ const RecordingLectures = () => {
     }
   };
 
+  const toggleScreenSharing = async () => {
+    if (!isScreenSharing) {
+      try {
+        const screenStream = await navigator.mediaDevices.getDisplayMedia({
+          video: { cursor: "always" },
+          audio: false,
+        });
+
+        // Display the screen sharing video in the big box
+        screenSharingVideoRef.current.srcObject = screenStream;
+        setScreenSharingStream(screenStream);
+
+        setIsScreenSharing(true);
+      } catch (error) {
+        console.error("Error sharing the screen:", error);
+      }
+    } else {
+      // Stop screen sharing
+      if (screenSharingStream) {
+        screenSharingStream.getTracks().forEach((track) => track.stop());
+      }
+
+      screenSharingVideoRef.current.srcObject = null;
+      setScreenSharingStream(null);
+
+      setIsScreenSharing(false);
+    }
+  };
+
   useEffect(() => {
     let timerInterval;
     if (timerActive) {
@@ -148,35 +179,6 @@ const RecordingLectures = () => {
       clearInterval(timerInterval); // Clean up the interval on unmount
     };
   }, [timerActive, startTime]);
-
-  // const toggleScreenSharing = async () => {
-  //   try {
-  //     const stream = await navigator.mediaDevices.getDisplayMedia({
-  //       video: true,
-  //       audio: true,
-  //     });
-  //     videoRef.current.srcObject = stream;
-  //     setIsScreenSharing(true);
-  //   } catch (error) {
-  //     console.error("Error accessing screen sharing:", error);
-  //   }
-  // };
-  const toggleScreenSharing = () => {
-    try {
-      navigator.mediaDevices
-        .getDisplayMedia({ video: true, audio: true })
-        .then((stream) => {
-          const videoTracks = stream.getVideoTracks();
-          if (videoTracks.length > 0) {
-            // Set the main video source to the screen sharing stream
-            videoRef.current.srcObject = new MediaStream(videoTracks);
-          }
-          setIsScreenSharing(true);
-        });
-    } catch (error) {
-      console.error("Error accessing screen sharing:", error);
-    }
-  };
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
@@ -209,7 +211,7 @@ const RecordingLectures = () => {
   };
 
   const startRecording = async () => {
-    console.log("Start Recording")
+    console.log("Start Recording");
     try {
       const videoStream = await navigator.mediaDevices.getUserMedia({
         video: true,
@@ -247,25 +249,6 @@ const RecordingLectures = () => {
     }
   };
 
-  // const stopRecording = () => {
-  //   if (
-  //     mediaRecorderRef.current &&
-  //     mediaRecorderRef.current.state === "recording"
-  //   ) {
-  //     mediaRecorderRef.current.stop();
-  //   }
-
-  //   if (videoStream) {
-  //     videoStream.getTracks().forEach((track) => track.stop());
-  //   }
-
-  //   if (audioStream) {
-  //     audioStream.getTracks().forEach((track) => track.stop());
-  //   }
-
-  //   videoRef.current.srcObject = null; // Stop the video playback
-  // };
-
   const stopRecording = () => {
     if (
       mediaRecorderRef.current &&
@@ -282,13 +265,6 @@ const RecordingLectures = () => {
       audioStream.getTracks().forEach((track) => track.stop());
     }
 
-    if (isTimerPaused) {
-      // If the timer was paused, add the time when it was paused to elapsed time
-      const currentTime = new Date();
-      const elapsedMilliseconds = currentTime - pausedTime;
-      setElapsedTime(elapsedTime + elapsedMilliseconds);
-    }
-console.log("Stopping recording", recordedVideo)
     videoRef.current.srcObject = null; // Stop the video playback
   };
 
@@ -460,6 +436,21 @@ console.log("Stopping recording", recordedVideo)
           </Tooltip>
         </Circle>
       </Stack>
+
+      <Box position="absolute" top="0" left="0" width="100%" height="100%">
+        <video
+          ref={screenSharingVideoRef}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            overflow: "hidden",
+            borderRadius: "20px",
+            background: "black",
+          }}
+          autoPlay
+        />
+      </Box>
 
       <Box position="absolute" top={"5%"} left={"80%"} mr={5} zIndex={1}>
         <video
