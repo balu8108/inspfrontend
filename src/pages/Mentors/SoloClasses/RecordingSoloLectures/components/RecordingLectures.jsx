@@ -21,7 +21,7 @@ import { CiPause1 } from "react-icons/ci";
 import { MdOutlineScreenshotMonitor } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import { BASE_URL } from "../../../../../constants/staticurls";
-
+import { ReactMediaRecorder } from "react-media-recorder";
 const RecordingLectures = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [isCameraOn, setIsCameraOn] = useState(true);
@@ -67,22 +67,7 @@ const RecordingLectures = () => {
     }
   };
 
-  // const togglePause = () => {
-  //   if (isRecording) {
-  //     if (isTimerPaused) {
-  //       // If the timer is paused, resume it
-  //       setTimerActive(true);
-  //       setCameraState("on"); // Camera is on
-  //       setMicrophoneState("on"); // Microphone is on
-  //     } else {
-  //       // If the timer is not paused, pause it
-  //       setTimerActive(false);
-  //       setCameraState("off"); // Camera is off
-  //       setMicrophoneState("off"); // Microphone is off
-  //     }
-  //     setIsTimerPaused(!isTimerPaused); // Toggle the pause state
-  //   }
-  // };
+  
 
   const togglePause = () => {
     if (isRecording) {
@@ -208,7 +193,7 @@ const RecordingLectures = () => {
     ).padStart(2, "0")}: ${String(remainingSeconds).padStart(2, "0")}`;
 
     return formattedTime;
-  };
+  };  
 
   const startRecording = async () => {
     console.log("Start Recording");
@@ -219,35 +204,39 @@ const RecordingLectures = () => {
       const audioStream = await navigator.mediaDevices.getUserMedia({
         audio: true,
       });
-
+  
       const stream = new MediaStream([
         ...videoStream.getTracks(),
         ...audioStream.getTracks(),
+        ...(isScreenSharing ? screenSharingStream.getTracks() : []),
       ]);
       videoRef.current.srcObject = stream;
-
+  
       const mediaRecorder = new MediaRecorder(stream, {
         mimeType: "video/webm",
       });
       const chunks = [];
-
+  
       mediaRecorder.ondataavailable = (event) => {
         if (event.data.size > 0) {
           chunks.push(event.data);
         }
       };
-
+  
       mediaRecorder.onstop = () => {
         const blob = new Blob(chunks, { type: "video/webm" });
         setRecordedVideo(URL.createObjectURL(blob));
+        // Now that recording is complete, upload the video to AWS
+        uploadVideoToAWS(blob, soloClassRoomId);
       };
-
+  
       mediaRecorderRef.current = mediaRecorder;
       mediaRecorder.start();
     } catch (error) {
       console.error("Error accessing camera or microphone:", error);
     }
   };
+  
 
   const stopRecording = () => {
     if (
@@ -309,6 +298,8 @@ const RecordingLectures = () => {
       // Handle the error as needed
     }
   };
+
+
 
   useEffect(() => {
     if (classEnded) {
@@ -486,7 +477,7 @@ const RecordingLectures = () => {
           if (isRecording) {
             setTimerActive(false);
           }
-          uploadVideoToAWS(recordedVideo, soloClassRoomId);
+        
         }}
       >
         End
@@ -494,5 +485,4 @@ const RecordingLectures = () => {
     </Box>
   );
 };
-
 export default RecordingLectures;
