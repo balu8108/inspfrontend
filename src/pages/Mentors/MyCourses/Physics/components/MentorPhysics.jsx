@@ -112,7 +112,7 @@ const PhysicsCourse = () => {
                 {dummyDescriptions[index]}
               </Text>
               <Link
-                to={`/mentor/${chapter.id}/topics/${encodeURIComponent(
+                to={`/details/${chapter.id}/topics/${encodeURIComponent(
                   chapter.name
                 )}`}
                 style={{ display: "flex", justifyContent: "center" }}

@@ -14,44 +14,54 @@ import {
   Input,
 } from "@chakra-ui/react";
 import physDetailsData from "../data/physicsDetails";
-import { fetchAllTopicsWithoutChapterIdApi } from "../../../../api/inspexternalapis";
-
+import { fetchAllChaptersApi } from "../../../../api/inspexternalapis";
 const PhysDetails = () => {
-  const [topics, setTopics] = useState([]);
+  
+  const [chapters, setChapters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
+  const dummyDescriptions = [
+    "This chapter covers the basics of electromagnetism, including its principles and applications.",
+    "Learn about geometrical and wave optics in this chapter.",
+    "Explore the fundamental principles of heat transfer and thermodynamics.",
+    "Get a deep understanding of mechanics in this chapter.",
+    "Discover modern physics in this comprehensive chapter.",
+  ];
+
   useEffect(() => {
-    async function fetchPhysicsTopics() {
+    async function fetchChapters() {
       try {
-        const response = await fetchAllTopicsWithoutChapterIdApi("Physics");
+        const response = await fetchAllChaptersApi();
+
         if (response.status) {
-          setTopics(response.result);
+          setChapters(response.result);
         }
+        setLoading(false);
       } catch (error) {
-        console.error("Error fetching physics topics:", error);
-      } finally {
+        console.error("Error fetching chapters:", error);
         setLoading(false);
       }
     }
 
-    fetchPhysicsTopics();
+    fetchChapters();
   }, []);
-  const filteredTopics = topics.filter((physScreen) =>
+
+  const filteredTopics = chapters.filter((physScreen) =>
     physScreen.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
-    <Box width={"full"} bg={"#F1F5F8"} borderRadius={"26px"}>
-      <Flex mt={"17px"} >
-        <HStack spacing={"10px"} alignItems="center" ml={"33px"} >
+    <Box width={"full"} h={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
+      <Flex mt={"17px"}>
+        <HStack spacing={"10px"} alignItems="center" ml={"33px"}>
           <Box
             width={"12px"}
             height={"25px"}
             borderRadius={"20px"}
             bg={"#3C8DBC"}
           ></Box>
-          <Text fontSize={"19px"} lineHeight={"24px"} >
+          <Text fontSize={"19px"} lineHeight={"24px"}>
             My Courses (Physics)
           </Text>
         </HStack>
@@ -77,9 +87,9 @@ const PhysDetails = () => {
       ) : (
         <Stack>
           <Flex flexWrap="wrap" p={6} gap={"24px"}>
-            {filteredTopics.map((physScreen) => (
+            {filteredTopics.map((chapter, index) => (
               <Card
-                key={physScreen.id}
+                key={chapter.id}
                 w="30%"
                 h={"204px"}
                 blendMode={"multiply"}
@@ -94,7 +104,7 @@ const PhysDetails = () => {
                   lineHeight={"19px"}
                   noOfLines={1}
                 >
-                  {physScreen.name}
+                  {chapter.name}
                 </Text>
                 <Text
                   fontWeight={400}
@@ -122,22 +132,24 @@ const PhysDetails = () => {
                   fontWeight={400}
                   ml={13}
                   color={"rgba(44, 51, 41, 0.47)"}
+                  noOfLines={2}
                 >
-                  {/* {physScreen.description} */}
-                  No Data
+                  {dummyDescriptions[index]}
+                 
                 </Text>
                 <Link
-                  to={`/student/chapter`}
+                  to={`/details/${chapter.id}/topics/${encodeURIComponent(
+                    chapter.name
+                  )}`}
                   style={{ display: "flex", justifyContent: "center" }}
                 >
                   <Button
                     variant={"ghost"}
                     color={"#3C8DBC"}
-                   
                     size={"14px"}
                     lineHeight={"16px"}
                     p={6}
-                    mt={"10"}
+                    mt={"5"}
                   >
                     View Details
                   </Button>

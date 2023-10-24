@@ -18,7 +18,10 @@ import defaultImageUrl from "../../../.././../../assets/images/image1.png";
 import viewChapterRecordings from "../../data/recording";
 import { IoIosAdd } from "react-icons/io";
 import UploadAssignmentPopup from "../../../../../../components/popups/UploadAssignmentPopup";
+import { checkUserType } from "../../../../../../utils";
+import { userType } from "../../../../../../constants/staticvariables";
 const ChapterDetailsAndCoveredPart = () => {
+  const userRoleType = checkUserType();
   const maxAssignmentsToShow = 5;
   return (
     <Box w={"100%"} height={"full"} bg={"#F1F5F8"} borderRadius={"26px"}>
@@ -130,7 +133,12 @@ const ChapterDetailsAndCoveredPart = () => {
             mr={"10px"}
             color={"#3C8DBC"}
           >
-            <Icon as={IoIosAdd} mr={2} boxSize={7} /> Add Assignment
+            {userRoleType === userType.teacher && (
+              <>
+                <Icon as={IoIosAdd} mr={2} boxSize={7} />
+                Add Assignment
+              </>
+            )}
           </Button>
         </Flex>
 

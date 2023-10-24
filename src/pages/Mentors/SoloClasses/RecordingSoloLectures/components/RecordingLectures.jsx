@@ -208,7 +208,8 @@ const RecordingLectures = () => {
       const stream = new MediaStream([
         ...videoStream.getTracks(),
         ...audioStream.getTracks(),
-        ...(isScreenSharing ? screenSharingStream.getTracks() : []),
+        
+      
       ]);
       videoRef.current.srcObject = stream;
   
@@ -238,6 +239,8 @@ const RecordingLectures = () => {
   };
   
 
+
+  
   const stopRecording = () => {
     if (
       mediaRecorderRef.current &&
@@ -253,6 +256,8 @@ const RecordingLectures = () => {
     if (audioStream) {
       audioStream.getTracks().forEach((track) => track.stop());
     }
+
+    
 
     videoRef.current.srcObject = null; // Stop the video playback
   };
