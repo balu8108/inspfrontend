@@ -101,14 +101,12 @@ const privateRoutes = [
     component: <PhyLibrary />,
   },
 
+  // {
+  //   name: "Student Physics Videos",
+  //   path: "/student/physics-library/:chapterName",
+  //   component: <PhyRecording />,
+  // },
 
- 
-
-  {
-    name: "Student Physics Videos",
-    path: "/student/physics-library/:chapterName",
-    component: <PhyRecording />,
-  },
   {
     name: "Chapter Recording",
     path: "/student/chapter",

@@ -30,7 +30,7 @@ const links = [
   { path: "/mentor/alluploads", label: "Uploads", availableTo: [1] },
   { path: "/student/assignments", label: "Assignments", availableTo: [0] },
   {
-    path: "student/library",
+    path: "/student/library/Physics",
     label: "Library",
     availableTo: [0],
   },
