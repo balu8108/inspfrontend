@@ -1,4 +1,5 @@
-import React from "react";
+// 
+import React, { useState } from "react";
 import {
   Box,
   Text,
@@ -14,7 +15,19 @@ import {
 import { Link } from "react-router-dom";
 import physVideosData from "../data/PhysVideosData";
 import { FaSearch } from "react-icons/fa";
-const PhysLibrary = () => {
+import { useParams } from "react-router-dom";
+const PhysLibrary = ({onLibrarySelect}) => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const { subjectName } = useParams();
+  const filteredVideos = physVideosData.filter((physScreen) => {
+    const chapterName = physScreen.chapterName.toLowerCase();
+    return chapterName.includes(searchQuery.toLowerCase());
+  });
+
+  const handleSearchInputChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
   return (
     <Box width={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
@@ -25,20 +38,26 @@ const PhysLibrary = () => {
           bg={"#3C8DBC"}
         ></Box>
         <Text fontSize={"19px"} lineHeight={"24px"}>
-          Library (Physics)
+          Library ({subjectName})
         </Text>
 
         <InputGroup m={4} w={"220px"} ml={370}>
           <InputLeftElement pointerEvents="none">
             <FaSearch color="#000000" />
           </InputLeftElement>
-          <Input placeholder="Search" w={"220px"} borderRadius={"14px"} />
+          <Input
+            placeholder="Search"
+            value={searchQuery}
+            onChange={handleSearchInputChange}
+            w={"220px"}
+            borderRadius={"14px"}
+          />
         </InputGroup>
       </HStack>
 
       <Stack>
         <Flex flexWrap="wrap" p={5} gap={"24px"} ml={5}>
-          {physVideosData.map((physScreen) => (
+          {filteredVideos.map((physScreen) => (
             <Card
               key={physScreen.id}
               w="30%"
@@ -78,7 +97,7 @@ const PhysLibrary = () => {
               >
                 {physScreen.description}
               </Text>
-              <Link to={`/student/physics-library/${physScreen.chapterName}`}>
+              <Link to={`/student/library/${subjectName}`}>
                 <Button
                   variant={"ghost"}
                   color={"#3C8DBC"}
@@ -100,3 +119,18 @@ const PhysLibrary = () => {
 };
 
 export default PhysLibrary;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

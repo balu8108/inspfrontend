@@ -94,11 +94,15 @@ const privateRoutes = [
     path: "/student/assignments",
     component: <StudentAssignment />,
   },
+
   {
     name: "Student Library",
-    path: "/student/physics-library",
+    path: "/student/library/:subjectName",
     component: <PhyLibrary />,
   },
+
+
+ 
 
   {
     name: "Student Physics Videos",
@@ -150,7 +154,6 @@ const privateRoutes = [
     path: "/mentor/solo-lectures/:soloClassRoomId",
     component: <RecordedScreen />,
   },
-
 ];
 
 export { publicRoutes, privateRoutes };

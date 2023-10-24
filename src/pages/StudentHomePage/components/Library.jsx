@@ -45,7 +45,7 @@ const Library = () => {
           >
             Library
           </Text>
-          <Link to="/student/physics-library">
+          <Link to="/student/library/Physics">
             <Button variant={"ghost"} fontSize={"13px"} fontWeight={"400"}>
               See All
             </Button>
@@ -93,7 +93,7 @@ const Library = () => {
             </Text>
             <Link
               style={{ display: "flex", justifyContent: "center" }}
-              to={`/student/${library.subjectName}-library`}
+              to={`/student/library/${library.subjectName}`}
             >
               <Button
                 color={"#3C8DBC"}

@@ -1,5 +1,5 @@
 
-import React,{useEffect} from "react"
+import React,{useEffect,useState} from "react"
 import { Box, Flex, Stack,useDisclosure } from "@chakra-ui/react";
 import ScheduledMeetings from "../../../MeetingViewer/components/ScheduledMeetings";
 import Header from "../../../MyCourses/components/Header";
@@ -11,6 +11,7 @@ import { boxShadowStyles } from "../../../../utils";
 import { useDispatch } from "react-redux";
 import { getAllLiveClassesSchedule } from "../../../../store/actions/scheduleClassActions";
 const PhyScreen = () => {
+
   const dispatch = useDispatch();
   const { onOpen: onSchedulePopupOpen } = useDisclosure();
   useEffect(() => {
@@ -21,7 +22,7 @@ const PhyScreen = () => {
       <>
       <Flex m={"50px"} gap={"24px"}>
       <Stack spacing={6} w={"78%"}>
-          <Library />
+          <Library  />
           <PhysicsVideos />
         </Stack>
         <Box w={"25%"}>

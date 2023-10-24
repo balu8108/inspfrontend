@@ -16,7 +16,6 @@ import {
 import physDetailsData from "../data/physicsDetails";
 import { fetchAllChaptersApi } from "../../../../api/inspexternalapis";
 const PhysDetails = () => {
-  
   const [chapters, setChapters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -135,7 +134,6 @@ const PhysDetails = () => {
                   noOfLines={2}
                 >
                   {dummyDescriptions[index]}
-                 
                 </Text>
                 <Link
                   to={`/details/${chapter.id}/topics/${encodeURIComponent(
