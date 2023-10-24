@@ -233,51 +233,6 @@ const RecordingLectures = () => {
     return formattedTime;
   };
 
-  // const startRecording = async () => {
-  //   console.log("Start Recording");
-  //   try {
-  //     const videoStream = await navigator.mediaDevices.getUserMedia({
-  //       video: true,
-  //     });
-  //     const audioStream = await navigator.mediaDevices.getUserMedia({
-  //       audio: true,
-  //     });
-
-  //     if (screenSharingStream) {
-  //       videoStream.addTrack(screenSharingStream.getVideoTracks()[0]);
-  //     }
-
-  //     const stream = new MediaStream([
-  //       ...videoStream.getTracks(),
-  //       ...audioStream.getTracks(),
-  //     ]);
-  //     videoRef.current.srcObject = stream;
-
-  //     const mediaRecorder = new MediaRecorder(stream, {
-  //       mimeType: "video/webm",
-  //     });
-  //     const chunks = [];
-
-  //     mediaRecorder.ondataavailable = (event) => {
-  //       if (event.data.size > 0) {
-  //         chunks.push(event.data);
-  //       }
-  //     };
-
-  //     mediaRecorder.onstop = () => {
-  //       const blob = new Blob(chunks, { type: "video/webm" });
-  //       setRecordedVideo(URL.createObjectURL(blob));
-  //       // Now that recording is complete, upload the video to AWS
-  //        uploadVideoToAWS(blob, soloClassRoomId);
-  //     };
-
-  //     mediaRecorderRef.current = mediaRecorder;
-  //     mediaRecorder.start();
-  //   } catch (error) {
-  //     console.error("Error accessing camera or microphone:", error);
-  //   }
-  // };
-
   const startRecording = async () => {
     console.log("Start Recording");
     try {
