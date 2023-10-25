@@ -123,7 +123,8 @@ const Room = () => {
   useEffect(() => {
     if (isMeetEnd) {
       addNotification("Class Ended", "success", 3000);
-      navigate(`/room-preview/${roomId}`);
+      // navigate(`/room-preview/${roomId}`);
+      navigate("/homepage");
     }
   }, [isMeetEnd, roomId, addNotification, navigate]);
 
