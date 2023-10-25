@@ -185,13 +185,13 @@ const AllUploadedLecture = () => {
           </Card>
         ))}
       </SimpleGrid>
-      {modalIsOpen && (
+      {/* {modalIsOpen && (
         <DocumentViewer
           isOpen={modalIsOpen}
           onClose={handleCloseDocumentViewer}
           docUrl={selectedFileUrl}
         />
-      )}
+      )} */}
     </Box>
   );
 };

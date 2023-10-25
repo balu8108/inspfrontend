@@ -1,4 +1,4 @@
-// here in this screen we will have all the topics  related to that particular chapter
+// // here in this screen we will have all the topics  related to that particular chapter
 import React, { useEffect, useState } from "react";
 import {
   Box,
@@ -11,14 +11,23 @@ import {
   Spacer,
   Spinner,
 } from "@chakra-ui/react";
-import viewChapterRecordings from "../../data/recording";
 import { fetchAllTopicsApi } from "../../../../../../api/inspexternalapis/index";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const ViewAllRecordingsRelatedToOneChapter = () => {
+const ViewAllRecordingsRelatedToOneChapter = ({ setViewTopic }) => {
   const { chapter_id, chapter_name } = useParams();
   const [topics, setTopics] = useState([]);
   const [isLoading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  const handleViewDetails = (topicId) => {
+    // Set the selected topicId to fetch assignments
+    setViewTopic(topicId);
+
+    // You can also navigate to a different route if needed
+    // navigate(`/assignments/${topicId}`);
+  };
 
   useEffect(() => {
     async function fetchTopics() {
@@ -41,7 +50,7 @@ const ViewAllRecordingsRelatedToOneChapter = () => {
   return (
     <Box
       w={"100%"}
-       h={"100%"}
+      h={"100%"}
       bg={"#F1F5F8"}
       borderRadius={"2xl"}
       mt={6}
@@ -61,7 +70,6 @@ const ViewAllRecordingsRelatedToOneChapter = () => {
           fontFamily={400}
           mt={"26px"}
         >
-          {/* Newton's First Law Of Recordings */}
           {chapter_name}
         </Text>
       </HStack>
@@ -69,8 +77,12 @@ const ViewAllRecordingsRelatedToOneChapter = () => {
         <Center>
           <Spinner />
         </Center>
+      ) : topics.length === 0 ? (
+        <Text textAlign="center" mt={4}>
+          No recordings available for this chapter.
+        </Text>
       ) : (
-        <Flex m={"20px"} gap={"24px"} >
+        <Flex m={"20px"} gap={"24px"}>
           {topics.map((topic) => (
             <Card
               key={topic.id}
@@ -126,6 +138,7 @@ const ViewAllRecordingsRelatedToOneChapter = () => {
                 size={"14px"}
                 lineHeight={"16px"}
                 mt={"25%"}
+                onClick={() => setViewTopic(topic.id)}
               >
                 View Details
               </Button>
@@ -133,12 +146,6 @@ const ViewAllRecordingsRelatedToOneChapter = () => {
           ))}
           <Spacer />
         </Flex>
-      )}
-
-      {viewChapterRecordings.length === 0 && (
-        <Text textAlign="center" mt={4}>
-          No recordings available for this chapter.
-        </Text>
       )}
     </Box>
   );

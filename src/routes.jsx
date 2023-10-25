@@ -5,11 +5,11 @@ import StudentHomePage from "./pages/StudentHomePage/screens/StudentHomePage";
 import StudentMathsCourse from "./pages/StudentCourses/Mathematics/screens/MathsCourse";
 import StudentChemCourse from "./pages/StudentCourses/Chemistry/screens/ChemCourse";
 import StudentPhyCourse from "./pages/StudentCourses/Physics/screens/PhysicsCourse";
-import Viewrecording from "./pages/ViewRecording/screen/Recordings";
+ import Viewrecording from "./pages/ViewRecording/screen/Recordings";
 import StudentAssignment from "./pages/StudentAssignment/screen/StudentAssignment";
 import PhyLibrary from "./pages/StudentLibrary/PhysicsLibrary/screen/PhyLibrary";
 import PhyRecording from "./pages/StudentLibrary/PhysicsLibrary/screen/ViewLectures";
-import ViewChapterRecording from "./pages/StudentCourses/Physics/screens/ViewChapRec";
+// import ViewChapterRecording from "./pages/StudentCourses/Physics/screens/ViewChapRec";
 import Home from "./components/home/Home";
 import AuthLoading from "./components/loaders/AuthLoading";
 
@@ -89,6 +89,8 @@ const privateRoutes = [
     path: "/view-recording",
     component: <Viewrecording />,
   },
+
+
   {
     name: "Student Assignments",
     path: "/student/assignments",
@@ -107,11 +109,11 @@ const privateRoutes = [
   //   component: <PhyRecording />,
   // },
 
-  {
-    name: "Chapter Recording",
-    path: "/student/chapter",
-    component: <ViewChapterRecording />,
-  },
+  // {
+  //   name: "Chapter Recording",
+  //   path: "/student/chapter",
+  //   component: <ViewChapterRecording />,
+  // },
   // {
   //   name: "Mentor HomePage",
   //   path: "/mentor/homepage",
@@ -122,11 +124,14 @@ const privateRoutes = [
     path: "/mentor/mycourses/physics",
     component: <MentorMyCoursesPhysics />,
   },
+
+
   {
     name: "Mentor All Recording Related To A Particular Chapter",
     path: "/details/:chapter_id/topics/:chapter_name",
     component: <AllRecordingsForAChapter />,
   },
+  
   {
     name: "Mentor All Uploads",
     path: "/mentor/alluploads",
@@ -147,6 +152,7 @@ const privateRoutes = [
     path: "/mentor/solo-recordings/topic",
     component: <SoloRecordedTopicsDetails />,
   },
+  
   {
     name: "Solo Recording Screen ",
     path: "/mentor/solo-lectures/:soloClassRoomId",

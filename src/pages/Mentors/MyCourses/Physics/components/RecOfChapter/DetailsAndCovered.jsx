@@ -1,4 +1,5 @@
-import React from "react";
+// this is the screen where  all the description , agenda , files , all assignments , recordings..
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Text,
@@ -20,9 +21,43 @@ import { IoIosAdd } from "react-icons/io";
 import UploadAssignmentPopup from "../../../../../../components/popups/UploadAssignmentPopup";
 import { checkUserType } from "../../../../../../utils";
 import { userType } from "../../../../../../constants/staticvariables";
-const ChapterDetailsAndCoveredPart = () => {
+import { BASE_URL } from "../../../../../../constants/staticurls";
+import { extractFileNameFromS3URL } from "../../../../../../utils";
+import axios from "axios";
+import { setIsDocModalOpen } from "../../../../../../store/actions/genericActions";
+import { useDispatch } from "react-redux";
+const ChapterDetailsAndCoveredPart = ({ viewTopic }) => {
+  const [assignmentDetails, setAssignmentDetails] = useState(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedFileUrl, setSelectedFileUrl] = useState("");
   const userRoleType = checkUserType();
   const maxAssignmentsToShow = 5;
+  const dispatch = useDispatch();
+
+  const handleCloseDocumentViewer = () => {
+    setModalIsOpen(false);
+    setSelectedFileUrl("");
+  };
+  const fetchAssignmentDetails = async (topicId) => {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/topic/get-all-assignments-topic-id?topicId=${topicId}`
+      );
+
+      const topicDetailsData = response.data;
+      console.log("Assignment Data from API:", topicDetailsData);
+      // Update the state with the received topic details
+      setAssignmentDetails(topicDetailsData);
+    } catch (error) {
+      console.error("Error fetching topic details:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (viewTopic !== null) {
+      fetchAssignmentDetails(viewTopic);
+    }
+  }, [viewTopic]);
   return (
     <Box w={"100%"} height={"full"} bg={"#F1F5F8"} borderRadius={"26px"}>
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
@@ -120,7 +155,6 @@ const ChapterDetailsAndCoveredPart = () => {
           )}
         </Box>
       </Box>
-
       <Box m={"20px"}>
         <Flex>
           <Text p={"13px"}>Assignments</Text>
@@ -142,62 +176,74 @@ const ChapterDetailsAndCoveredPart = () => {
           </Button>
         </Flex>
 
-        {chapterDetailsData.map((chapter) => (
-          <SimpleGrid key={chapter.id} gap={"24px"} mt={"16px"}>
-            {chapter.assignment
-              .slice(0, maxAssignmentsToShow)
-              .map((assignment, index) => (
-                <Card
-                  key={index}
-                  h={"100%"}
-                  flex={1}
-                  borderRadius={"18px"}
-                  bg={"#F1F5F8"}
-                  blendMode={"multiply"}
-                  p={4}
+        {assignmentDetails && (
+          <SimpleGrid gap={"24px"} mt={"16px"}>
+            {assignmentDetails.map((assignment, index) => (
+              <Card
+                key={index}
+                h={"100%"}
+                flex={1}
+                borderRadius={"18px"}
+                bg={"#F1F5F8"}
+                blendMode={"multiply"}
+                p={4}
+              >
+                <Text fontSize={"xs"} mt={"15px"}>
+                  Description
+                </Text>
+                <Text
+                  fontSize={"xs"}
+                  mt={"5px"}
+                  color={"#2C332978"}
+                  noOfLines={2}
                 >
-                  <Text fontSize={"xs"} mt={"15px"}>
-                    Description
-                  </Text>
-                  <Text
-                    fontSize={"xs"}
-                    mt={"5px"}
-                    color={"#2C332978"}
-                    noOfLines={2}
-                  >
-                    {assignment.description}
-                  </Text>
-                  <HStack mt={"12px"}>
-                    {assignment.assignmentFiles.map((file, fileIndex) => (
-                      <Flex
-                        key={fileIndex}
-                        mt={"5px"}
-                        color={"#2C332978"}
-                        px={"15px"}
-                        py={"8px"}
-                        borderRadius={"6px"}
-                        border={"1px"}
-                        borderColor={"#9597927D"}
-                        boxShadow={"md"}
-                        w={"19%"}
-                        h={"49px"}
-                        fontSize={"13px"}
-                      >
-                        {file}
-                        <Spacer />
-                        <Button
-                          rightIcon={<BsDownload />}
-                          variant={"ghost"}
-                          color={"black"}
-                          ml={2}
-                        ></Button>
-                      </Flex>
-                    ))}
-                  </HStack>
-                </Card>
-              ))}
+                  {assignment.description}
+                </Text>
+                <HStack mt={"12px"}>
+                  {assignment.AssignmentFiles.map((file, fileIndex) => (
+                    <Flex
+                      key={fileIndex}
+                      mt={"5px"}
+                      color={"#2C332978"}
+                      px={"15px"}
+                      py={"8px"}
+                      borderRadius={"6px"}
+                      border={"1px"}
+                      borderColor={"#9597927D"}
+                      boxShadow={"md"}
+                      w={"21%"}
+                      h={"49px"}
+                      fontSize={"13px"}
+                    >
+                      {extractFileNameFromS3URL(file.key)}
+
+                      <Spacer />
+                      <Button
+                        as="a"
+                        href={file.url}
+                        rightIcon={<BsDownload />}
+                        variant={"ghost"}
+                        color={"black"}
+                        ml={2}
+                        onClick={() =>
+                      dispatch(
+                        setIsDocModalOpen(
+                          file?.id,
+                          file?.key,
+                          "assignment",
+                          true
+                        )
+                      )
+                    }
+                      ></Button>
+                    </Flex>
+                  ))}
+                </HStack>
+              </Card>
+            ))}
           </SimpleGrid>
-        ))}
+          
+        )}
       </Box>
     </Box>
   );

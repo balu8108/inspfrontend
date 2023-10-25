@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { getAllLiveClassesSchedule } from "../../../../../store/actions/scheduleClassActions";
 import ScheduleClassPopup from "../../../../../components/popups/ScheduleClassPopup";
 const ChapterRecordings = () => {
+  const [viewTopic,setViewTopic] = useState(null);
   const dispatch = useDispatch();
   const {
     isOpen: isSchedulePopupOpen,
@@ -36,8 +37,8 @@ const ChapterRecordings = () => {
       )}
       <Flex m={"45px"}>
         <Stack spacing={"24px"} w={"73%"}>
-          <ViewAllRecordingsRelatedToOneChapter />
-          <ChapterDetailsAndCoveredPart />
+          <ViewAllRecordingsRelatedToOneChapter setViewTopic={setViewTopic} />
+          <ChapterDetailsAndCoveredPart  viewTopic={viewTopic}  />
         </Stack>
         <Box ml={"24px"} mt={"20px"} w={"25%"}>
           <SimpleBar
