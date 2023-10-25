@@ -457,9 +457,10 @@ const ScheduleClassPopup = ({
                         {scheduleClassData.filesToUpload}
                       </Text>
                     ) : (
-                      Object.keys(selectedFiles).map((key) => (
+                      Object.keys(selectedFiles).map((key, index) => (
                         <Text fontSize={"0.7rem"} key={key} color="#718096">
-                          {selectedFiles[key].name},
+                          {selectedFiles[key].name}
+                          {index !== selectedFiles.length - 1 && ", "}
                         </Text>
                       ))
                     )}
