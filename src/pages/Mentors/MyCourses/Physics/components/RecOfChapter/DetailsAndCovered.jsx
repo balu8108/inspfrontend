@@ -27,17 +27,39 @@ import axios from "axios";
 import { setIsDocModalOpen } from "../../../../../../store/actions/genericActions";
 import { useDispatch } from "react-redux";
 const ChapterDetailsAndCoveredPart = ({ viewTopic }) => {
+  const [liveClassRoomData, setLiveClassRoomData] = useState([]);
   const [assignmentDetails, setAssignmentDetails] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedFileUrl, setSelectedFileUrl] = useState("");
   const userRoleType = checkUserType();
-  const maxAssignmentsToShow = 5;
+  // const maxAssignmentsToShow = 5;
   const dispatch = useDispatch();
 
   const handleCloseDocumentViewer = () => {
     setModalIsOpen(false);
     setSelectedFileUrl("");
   };
+
+  const fetchLiveClassData = async (topicId) => {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/recording/all-live-recordings?type=topic&id=${topicId}`
+      );
+
+      const liveRecordingsData = response.data;
+      console.log("Live  class  room  Data from API:", liveRecordingsData);
+      setLiveClassRoomData(liveRecordingsData);
+    } catch (error) {
+      console.error("Error fetching live class room", error);
+    }
+  };
+
+  useEffect(() => {
+    if (viewTopic !== null) {
+      fetchLiveClassData(viewTopic);
+    }
+  }, [viewTopic]);
+
   const fetchAssignmentDetails = async (topicId) => {
     try {
       const response = await axios.get(
@@ -45,7 +67,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic }) => {
       );
 
       const topicDetailsData = response.data;
-      console.log("Assignment Data from API:", topicDetailsData);
+      // console.log("Assignment Data from API:", topicDetailsData);
       // Update the state with the received topic details
       setAssignmentDetails(topicDetailsData);
     } catch (error) {
@@ -103,32 +125,12 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic }) => {
         ))}
       </Stack>
 
-      <Box p={"13px"} ml={"21px"} overflowX={"auto"}>
-        <Text>Recordings</Text>
-        <Flex>
-          {viewChapterRecordings.map((chapter) => (
-            <Flex key={chapter.chapterId} gap={"24px"}>
-              {chapter.recordings.map((recording) => (
-                <Card
-                  key={recording.recordingId}
-                  mt={"15px"}
-                  color={"#2C332978"}
-                  fontSize={"13px"}
-                  w={"120px"}
-                >
-                  <Image src={defaultImageUrl} alt="Recording Image" />
-                </Card>
-              ))}
-            </Flex>
-          ))}
-        </Flex>
-      </Box>
-
-      <Box ml={"21px"} mt={"30px"}>
+      {/* <Box ml={"21px"} mt={"30px"}>
         <Text p={"12px"}>Files/Notes</Text>
-        <Box flex={1} display="flex" justifyContent="flex-end" gap={4}>
-          {chapterDetailsData.map((chapter) =>
-            chapter.filesOrNotes.map((filesOrNotes, index) => (
+        {liveClassRoomData?.data[0]?.LiveClassRoomFiles &&
+        liveClassRoomData.data[0].LiveClassRoomFiles.length > 0 ? (
+          <Box flex={1} display="flex" justifyContent="flex-end" gap={4}>
+            {liveClassRoomData.data[0].LiveClassRoomFiles.map((file, index) => (
               <Flex
                 key={index}
                 flex={1}
@@ -142,7 +144,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic }) => {
                 h={"49px"}
                 fontSize={"13px"}
               >
-                {filesOrNotes}
+                {extractFileNameFromS3URL(file.key)}
                 <Spacer />
                 <Button
                   rightIcon={<BsDownload />}
@@ -151,10 +153,15 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic }) => {
                   ml={2}
                 ></Button>
               </Flex>
-            ))
-          )}
-        </Box>
-      </Box>
+            ))}
+          </Box>
+        ) : (
+          <Text fontSize="12px" p={4}>
+            No files available for the topic.
+          </Text>
+        )}
+      </Box> */}
+
       <Box m={"20px"}>
         <Flex>
           <Text p={"13px"}>Assignments</Text>
@@ -176,7 +183,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic }) => {
           </Button>
         </Flex>
 
-        {assignmentDetails && (
+        {assignmentDetails && assignmentDetails.length > 0 ? (
           <SimpleGrid gap={"24px"} mt={"16px"}>
             {assignmentDetails.map((assignment, index) => (
               <Card
@@ -211,8 +218,6 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic }) => {
                       border={"1px"}
                       borderColor={"#9597927D"}
                       boxShadow={"md"}
-                      w={"21%"}
-                      h={"49px"}
                       fontSize={"13px"}
                     >
                       {extractFileNameFromS3URL(file.key)}
@@ -226,15 +231,15 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic }) => {
                         color={"black"}
                         ml={2}
                         onClick={() =>
-                      dispatch(
-                        setIsDocModalOpen(
-                          file?.id,
-                          file?.key,
-                          "assignment",
-                          true
-                        )
-                      )
-                    }
+                          dispatch(
+                            setIsDocModalOpen(
+                              file?.id,
+                              file?.key,
+                              "assignment",
+                              true
+                            )
+                          )
+                        }
                       ></Button>
                     </Flex>
                   ))}
@@ -242,7 +247,10 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic }) => {
               </Card>
             ))}
           </SimpleGrid>
-          
+        ) : (
+          <Text fontSize={"12px"} p={4}>
+            No assignments for this topic.
+          </Text>
         )}
       </Box>
     </Box>

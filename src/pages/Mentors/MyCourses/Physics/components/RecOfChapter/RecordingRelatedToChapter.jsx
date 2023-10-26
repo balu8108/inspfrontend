@@ -13,21 +13,12 @@ import {
 } from "@chakra-ui/react";
 import { fetchAllTopicsApi } from "../../../../../../api/inspexternalapis/index";
 import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-
+  import "../../../../../../constants/scrollbar/style.css"
+import topicDescriptionConstants from "../../../../../../constants/topicDescriptionConstants"
 const ViewAllRecordingsRelatedToOneChapter = ({ setViewTopic }) => {
   const { chapter_id, chapter_name } = useParams();
   const [topics, setTopics] = useState([]);
   const [isLoading, setLoading] = useState(true);
-  const navigate = useNavigate();
-
-  const handleViewDetails = (topicId) => {
-    // Set the selected topicId to fetch assignments
-    setViewTopic(topicId);
-
-    // You can also navigate to a different route if needed
-    // navigate(`/assignments/${topicId}`);
-  };
 
   useEffect(() => {
     async function fetchTopics() {
@@ -55,6 +46,7 @@ const ViewAllRecordingsRelatedToOneChapter = ({ setViewTopic }) => {
       borderRadius={"2xl"}
       mt={6}
       overflowX="auto"
+      className="example"
     >
       <HStack spacing={"10px"} ml="27px">
         <Box
@@ -79,18 +71,19 @@ const ViewAllRecordingsRelatedToOneChapter = ({ setViewTopic }) => {
         </Center>
       ) : topics.length === 0 ? (
         <Text textAlign="center" mt={4}>
-          No recordings available for this chapter.
+          No topics for this chapter.
         </Text>
       ) : (
-        <Flex m={"20px"} gap={"24px"}>
+     
+            <Flex m={"20px"} gap={"24px"} p={1} > 
           {topics.map((topic) => (
             <Card
               key={topic.id}
-              h={"200px"}
+              h={"204px"}
               minW={"30%"}
               bg={"#F1F5F8"}
               blendMode={"multiply"}
-              borderRadius={"26px"}
+              borderRadius={"26px"} 
             >
               <Text
                 fontSize={"15px"}
@@ -125,10 +118,10 @@ const ViewAllRecordingsRelatedToOneChapter = ({ setViewTopic }) => {
                 lineHeight={"21px"}
                 fontWeight={400}
                 ml={13}
-                noOfLines={"2"}
+                noOfLines={"3"}
                 color={"rgba(44, 51, 41, 0.47)"}
               >
-                No Data
+                  {topicDescriptionConstants[topic.id]}
               </Text>
 
               <Button
@@ -137,7 +130,7 @@ const ViewAllRecordingsRelatedToOneChapter = ({ setViewTopic }) => {
                 fontWeight={"600"}
                 size={"14px"}
                 lineHeight={"16px"}
-                mt={"25%"}
+               m={"20px"}
                 onClick={() => setViewTopic(topic.id)}
               >
                 View Details
