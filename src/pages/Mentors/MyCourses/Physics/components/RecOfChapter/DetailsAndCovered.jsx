@@ -27,7 +27,8 @@ import axios from "axios";
 import { setIsDocModalOpen } from "../../../../../../store/actions/genericActions";
 import { useDispatch } from "react-redux";
 const ChapterDetailsAndCoveredPart = ({ viewTopic }) => {
-  const [liveClassRoomData, setLiveClassRoomData] = useState([]);
+  const [liveClassRoomData, setLiveClassRoomData] = useState(null);
+  console.log("live class data ", liveClassRoomData);
   const [assignmentDetails, setAssignmentDetails] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedFileUrl, setSelectedFileUrl] = useState("");
@@ -225,7 +226,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic }) => {
                       <Spacer />
                       <Button
                         as="a"
-                        href={file.url}
+                       
                         rightIcon={<BsDownload />}
                         variant={"ghost"}
                         color={"black"}
