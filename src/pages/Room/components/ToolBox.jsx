@@ -78,8 +78,7 @@ const ToolBox = ({
   const [isRecordingLoading, setIsRecordingLoading] = useState(false);
   const { redBtnColor } = useTheme().colors.pallete;
   const userRoleType = checkUserType();
-  const navigate = useNavigate();
-  const { roomId } = useParams();
+
   const { roomPreviewData, selfDetails } = useSelector(
     (state) => state.socket,
     shallowEqual
