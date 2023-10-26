@@ -126,42 +126,43 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic }) => {
         ))}
       </Stack>
 
-      {/* <Box ml={"21px"} mt={"30px"}>
+      <Box ml={"21px"} mt={"30px"}>
         <Text p={"12px"}>Files/Notes</Text>
-        {liveClassRoomData?.data[0]?.LiveClassRoomFiles &&
-        liveClassRoomData.data[0].LiveClassRoomFiles.length > 0 ? (
-          <Box flex={1} display="flex" justifyContent="flex-end" gap={4}>
-            {liveClassRoomData.data[0].LiveClassRoomFiles.map((file, index) => (
-              <Flex
-                key={index}
-                flex={1}
-                mt={"10px"}
-                color={"#2C332978"}
-                p={"9px"}
-                borderRadius={"6px"}
-                border={"1px"}
-                borderColor={"#9597927D"}
-                boxShadow={"md"}
-                h={"49px"}
-                fontSize={"13px"}
-              >
-                {extractFileNameFromS3URL(file.key)}
-                <Spacer />
-                <Button
-                  rightIcon={<BsDownload />}
-                  variant={"ghost"}
-                  color={"black"}
-                  ml={2}
-                ></Button>
-              </Flex>
-            ))}
-          </Box>
+        {liveClassRoomData ? (
+          liveClassRoomData?.data.map((liveClassData) => (
+            <Box flex={1} display="flex" justifyContent="flex-end" gap={4}>
+              {liveClassData?.LiveClassRoomFiles.map((fileData, index) => (
+                <Flex
+                  key={index}
+                  flex={1}
+                  mt={"10px"}
+                  color={"#2C332978"}
+                  p={"9px"}
+                  borderRadius={"6px"}
+                  border={"1px"}
+                  borderColor={"#9597927D"}
+                  boxShadow={"md"}
+                  h={"49px"}
+                  fontSize={"13px"}
+                >
+                  {extractFileNameFromS3URL(fileData.key)}
+                  <Spacer />
+                  <Button
+                    rightIcon={<BsDownload />}
+                    variant={"ghost"}
+                    color={"black"}
+                    ml={2}
+                  ></Button>
+                </Flex>
+              ))}
+            </Box>
+          ))
         ) : (
           <Text fontSize="12px" p={4}>
             No files available for the topic.
           </Text>
         )}
-      </Box> */}
+      </Box>
 
       <Box m={"20px"}>
         <Flex>
@@ -226,7 +227,6 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic }) => {
                       <Spacer />
                       <Button
                         as="a"
-                       
                         rightIcon={<BsDownload />}
                         variant={"ghost"}
                         color={"black"}
