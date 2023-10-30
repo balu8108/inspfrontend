@@ -61,13 +61,18 @@ const VideoPlayer = ({ type, activeRecording }) => {
       console.log("drm toke", drmToken);
 
       const videoOptions = getVideoJsOptions(activeRecording?.url, drmToken);
-      const p = videojs(videoRef.current, videoOptions);
-      console.log("p", p);
-      console.log("vide option", videoOptions.sources);
-      p.eme();
-      p.src(videoOptions.sources);
 
-      setPlayer(p);
+      if (!player) {
+        const p = videojs(videoRef.current, videoOptions);
+        console.log("p", p);
+        console.log("vide option", videoOptions.sources);
+        p.eme();
+        setPlayer(p);
+      } else {
+        player.src(videoOptions.sources);
+      }
+
+      // p.src(videoOptions.sources);
     } catch (err) {
       console.log("error in setting player", err);
     }

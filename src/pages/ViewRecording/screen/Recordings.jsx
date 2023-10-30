@@ -24,7 +24,10 @@ const Recording = () => {
       const res = await viewRecordingApi(type, id);
       if (res.status === 200) {
         const { data } = res;
+        console.log("data", data);
+
         setActiveRecording(data?.data?.activeRecordingToPlay);
+        setRecordingDetail(data?.data);
       }
     } catch (err) {
       console.log("error", err);
@@ -36,7 +39,11 @@ const Recording = () => {
   return (
     <Flex m={"52px"}>
       <ViewRecording type={type} activeRecording={activeRecording} />
-      <RecordedClass />
+      <RecordedClass
+        recordingDetail={recordingDetail}
+        activeRecording={activeRecording}
+        setActiveRecording={setActiveRecording}
+      />
     </Flex>
   );
 };

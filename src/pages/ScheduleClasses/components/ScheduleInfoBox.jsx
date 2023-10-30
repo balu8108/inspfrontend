@@ -11,9 +11,11 @@ import {
   timeDifference,
   generateUniqueKey,
 } from "../../../utils";
-import { classStatus } from "../../../constants/staticvariables";
-
-import { userType, fileTypes } from "../../../constants/staticvariables";
+import {
+  classStatus,
+  userType,
+  fileTypes,
+} from "../../../constants/staticvariables";
 
 const ScheduleClassInformation = ({ scheduledClassesData, type }) => {
   const { lightGrey, primaryBlue, secondaryTextColor } =
