@@ -9,8 +9,6 @@ const Recording = () => {
   const [activeRecording, setActiveRecording] = useState(null);
 
   const location = useLocation();
-  console.log("recording detail", recordingDetail);
-  console.log("active recording", activeRecording);
 
   // Parse the query string to get the query parameters
   const queryParams = new URLSearchParams(location.search);
