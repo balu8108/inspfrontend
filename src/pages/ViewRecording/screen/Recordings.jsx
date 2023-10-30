@@ -22,7 +22,6 @@ const Recording = () => {
       const res = await viewRecordingApi(type, id);
       if (res.status === 200) {
         const { data } = res;
-        console.log("data", data);
 
         setActiveRecording(data?.data?.activeRecordingToPlay);
         setRecordingDetail(data?.data);
