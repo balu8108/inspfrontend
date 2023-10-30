@@ -27,6 +27,7 @@
     "chakra-react-select": "^4.7.3",
     "chart.js": "^4.4.0",
     "crypto-js": "^4.1.1",
+    "dashjs": "^4.7.2",
     "emoji-mart": "^5.5.2",
     "framer-motion": "^10.16.1",
     "html2canvas": "^1.4.1",
@@ -54,6 +55,8 @@
     "socket.io-client": "^4.7.2",
     "styled-components": "^6.0.7",
     "video.js": "^8.6.0",
+    "videojs-contrib-dash": "^5.1.1",
+    "videojs-contrib-eme": "^3.11.1",
     "videojs-contrib-quality-levels": "^4.0.0",
     "videojs-quality-selector-hls": "^1.1.1",
     "web-vitals": "^2.1.4"

@@ -35,7 +35,7 @@ const ScheduleClassBtn = ({ isLoading, status, onClickHandler }) => {
   } else if (status === classStatus.FINISHED) {
     backColor = finishedBtnColor;
     textColor = btnTextColor;
-    btnDisabled = true;
+    btnDisabled = false;
   } else if (status === classStatus.NOT_CONDUCTED) {
     backColor = notConductedBtnColor;
     textColor = btnTextColor;

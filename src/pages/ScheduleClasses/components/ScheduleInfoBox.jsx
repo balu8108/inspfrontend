@@ -11,17 +11,26 @@ import {
   timeDifference,
   generateUniqueKey,
 } from "../../../utils";
+import { classStatus } from "../../../constants/staticvariables";
 
 import { userType, fileTypes } from "../../../constants/staticvariables";
 
-const ScheduleClassInformation = ({
-  scheduledClassesData,
-  type,
-  startContinueClickHandler,
-  isLoading,
-}) => {
+const ScheduleClassInformation = ({ scheduledClassesData, type }) => {
   const { lightGrey, primaryBlue, secondaryTextColor } =
     useTheme().colors.pallete;
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const startContinueClickHandler = (info) => {
+    setIsLoading(true);
+    if (info?.classStatus === classStatus.FINISHED) {
+      navigate(`/view-recording?type=live&id=${info?.id}`);
+    } else {
+      navigate(`/room-preview/${info?.roomId}`);
+    }
+
+    setIsLoading(false);
+  };
 
   const renderSlicedString = (str) => {
     if (str) {
@@ -124,7 +133,7 @@ const ScheduleClassInformation = ({
                 status={info.classStatus}
                 backColor={primaryBlue}
                 textColor={"white"}
-                onClickHandler={() => startContinueClickHandler(info?.roomId)}
+                onClickHandler={() => startContinueClickHandler(info)}
               />
             )}
           </Box>
@@ -139,15 +148,6 @@ const ScheduleInfoBox = ({ type }) => {
   const { scheduledClassesData, scheduleClassLoading } = useSelector(
     (state) => state.scheduleClass
   );
-
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
-
-  const startContinueClickHandler = (roomId) => {
-    setIsLoading(true);
-    navigate(`/room-preview/${roomId}`);
-    setIsLoading(false);
-  };
 
   const renderContent = () => {
     if (scheduleClassLoading) {
@@ -172,8 +172,6 @@ const ScheduleInfoBox = ({ type }) => {
         <ScheduleClassInformation
           scheduledClassesData={scheduledClassesData}
           type={type}
-          startContinueClickHandler={startContinueClickHandler}
-          isLoading={isLoading}
         />
       );
     }

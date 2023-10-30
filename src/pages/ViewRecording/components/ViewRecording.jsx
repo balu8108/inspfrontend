@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import ReactPlayer from "react-player";
 import { Box, Text } from "@chakra-ui/react";
 import VideoPlayer from "../../../components/videoplayer/VideoPlayer";
+import SampleVideoPlayer from "../../../components/videoplayer/SampleVideoPlayer";
 
-const ViewRecording = () => {
+const ViewRecording = ({ type, activeRecording }) => {
   // const [videoUrl, setVideoUrl] = useState(true);
 
   // useEffect(() => {
@@ -46,7 +47,10 @@ const ViewRecording = () => {
 
   return (
     <Box>
-      <VideoPlayer videoUrl={""} />
+      <VideoPlayer type={type} activeRecording={activeRecording} />
+      {/* <SampleVideoPlayer
+        videoUrl={"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"}
+      /> */}
     </Box>
   );
 };
