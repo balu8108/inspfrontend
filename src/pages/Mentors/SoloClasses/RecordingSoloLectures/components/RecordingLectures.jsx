@@ -36,7 +36,9 @@ const RecordingLectures = () => {
   const [recordedVideo, setRecordedVideo] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
   const [classEnded, setClassEnded] = useState(false);
-  const [elapsedTime, setElapsedTime] = useState(0); // Define elapsedTime here
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const [theatreMode, setTheatreMode] = useState(false);
+
   const screenSharingVideoRef = useRef(null);
   const videoRef = useRef(null);
   const mediaRecorderRef = useRef(null);
@@ -254,7 +256,8 @@ const RecordingLectures = () => {
   return (
     <Box
       h="80vh"
-      width={"95%"}
+      //   width={"95%"}
+      width={theatreMode ? "120%" : "90%"}
       borderRadius="12px"
       boxShadow="md"
       position="relative"
@@ -276,6 +279,7 @@ const RecordingLectures = () => {
                 isRound={"true"}
                 icon={<Icon as={FaExpand} boxSize={4} />}
                 size="sm"
+                onClick={() => setTheatreMode(!theatreMode)}
               />
             </Tooltip>
           </Circle>
@@ -379,7 +383,7 @@ const RecordingLectures = () => {
         />
       </Box>
 
-      <Box position="absolute" ml={"70%"} mt={"8%"}>
+       <Box position="absolute" ml={"70%"} mt={"8%"}>
         <video
           ref={videoRef}
           style={{
@@ -394,7 +398,15 @@ const RecordingLectures = () => {
           autoPlay
         />
       </Box>
+
     </Box>
   );
 };
 export default RecordingLectures;
+
+
+
+
+
+
+
