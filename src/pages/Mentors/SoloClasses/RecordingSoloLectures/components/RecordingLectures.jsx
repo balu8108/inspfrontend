@@ -24,7 +24,7 @@ import { useParams } from "react-router-dom";
 import { BASE_URL } from "../../../../../constants/staticurls";
 import { useNavigate } from "react-router-dom";
 const RecordingLectures = () => {
-    const navigate=useNavigate();
+  const navigate = useNavigate();
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [screenSharingStream, setScreenSharingStream] = useState(null);
   const [isCameraOn, setIsCameraOn] = useState(true);
@@ -224,14 +224,14 @@ const RecordingLectures = () => {
         }
       );
 
-    //   if (response.ok) {
-    //     setClassEnded(true);
-    //     // End the class immediately regardless of video upload status
-    //     window.location.href = "/homepage";
-    //   } else {
-    //     console.error("Error uploading video to AWS:", response.status);
-    //     // Handle the error as needed
-    //   }
+      //   if (response.ok) {
+      //     setClassEnded(true);
+      //     // End the class immediately regardless of video upload status
+      //     window.location.href = "/homepage";
+      //   } else {
+      //     console.error("Error uploading video to AWS:", response.status);
+      //     // Handle the error as needed
+      //   }
     } catch (error) {
       console.error("Error uploading video to AWS:", error);
       // Handle the error as needed
@@ -243,14 +243,13 @@ const RecordingLectures = () => {
       // If recording is in progress, stop recording
       toggleRecording();
     }
-  
+
     // Now that the class has ended, you can navigate to the homepage
     window.location.href = "/homepage";
-  
+
     // Replace the current history entry with a new entry that has the same pathname.
     window.history.replaceState(null, null, `/mentor/solo-recordings/topic`);
   };
-  
 
   return (
     <Box
