@@ -78,6 +78,7 @@ const ToolBox = ({
   const [isRecordingLoading, setIsRecordingLoading] = useState(false);
   const { redBtnColor } = useTheme().colors.pallete;
   const userRoleType = checkUserType();
+  console.log("mentor screen sahre stream", screenShareStream);
 
   const { roomPreviewData, selfDetails } = useSelector(
     (state) => state.socket,
@@ -142,6 +143,7 @@ const ToolBox = ({
       if (screenShareStream) {
         const tracks = screenShareStream.getTracks();
         tracks.forEach((track) => (track.enabled = false));
+        // tracks.forEach((track) => track.stop());
       }
       setIsScreenShare(false);
     } else {

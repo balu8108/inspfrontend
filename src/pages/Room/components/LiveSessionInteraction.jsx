@@ -28,6 +28,7 @@ import { checkUserType, containsEmoji } from "../../../utils";
 import Leaderboard from "./Leaderboard";
 import { userType } from "../../../constants/staticvariables";
 import PollTimer from "./PollTimer";
+import { setSendPollResponse } from "../../../store/actions/socketActions";
 
 // Active btns will be
 // 1 - Leaderboard
@@ -434,6 +435,26 @@ const QuestionBox = () => {
 
 const ActiveContent = ({ activeContent }) => {
   const [chatMsg, setChatMsg] = useState("");
+  const [timer, setTimer] = useState(0);
+  const { pollData } = useSelector((state) => state.socket);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!pollData) {
+      return;
+    }
+    setTimer(pollData?.time);
+    const timerInterval = setInterval(() => {
+      setTimer((prev) => {
+        if (prev === 0) {
+          clearInterval(timerInterval);
+          dispatch(setSendPollResponse(null)); // time has elapsed now set poll timer box to null
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  }, [pollData]);
 
   return (
     <>
@@ -443,9 +464,12 @@ const ActiveContent = ({ activeContent }) => {
         ) : activeContent === activeContentOptions.QnA ? (
           <QuestionBox />
         ) : (
-          <Leaderboard isLeaderBoardOpen={true} />
+          <Leaderboard
+            timer={timer}
+            setTimer={setTimer}
+            isLeaderBoardOpen={true}
+          />
         )}
-        <PollTimer />
       </Flex>
     </>
   );

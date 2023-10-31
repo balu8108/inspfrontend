@@ -18,7 +18,7 @@ import {
   leaveRoomHandler,
   socket,
 } from "../../../socketconnections/socketconnections";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { liveSessionMemberViewType } from "../../../constants/staticvariables";
 import { useToastContext } from "../../../components/toastNotificationProvider/ToastNotificationProvider";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -26,6 +26,10 @@ import { checkUserType } from "../../../utils";
 import LiveSessionInteraction from "../components/LiveSessionInteraction";
 import LeaveOrEndClassPopup from "../../../components/popups/LeaveOrEndClassPopup";
 import KickFromClassPopup from "../../../components/popups/KickFromClassPopup";
+import {
+  resetChatMessages,
+  resetQuestionMessags,
+} from "../../../store/actions/socketActions";
 
 const Room = () => {
   const [isScreenShare, setIsScreenShare] = useState(false);
@@ -60,6 +64,7 @@ const Room = () => {
     onOpen: onOpenKickFromClass,
     onClose: onCloseKickFromClass,
   } = useDisclosure();
+  const dispatch = useDispatch();
 
   const theme = useTheme();
   const { primaryBlue, backgroundLightBlue } = theme.colors.pallete;
@@ -151,6 +156,14 @@ const Room = () => {
     };
     leavingRoom();
   }, [isKickedOut]);
+
+  useEffect(() => {
+    return () => {
+      // clear chat box and question container on unmounting
+      dispatch(resetChatMessages());
+      dispatch(resetQuestionMessags());
+    };
+  }, [dispatch]);
 
   /* use effect starts */
   return (
