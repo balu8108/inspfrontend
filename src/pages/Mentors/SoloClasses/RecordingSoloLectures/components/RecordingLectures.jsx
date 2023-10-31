@@ -15,105 +15,60 @@ import {
   FaVideo,
   FaVideoSlash,
   FaExpand,
+  FaDesktop,
 } from "react-icons/fa";
 import { BsRecord } from "react-icons/bs";
 import { CiPause1 } from "react-icons/ci";
-import { MdOutlineScreenshotMonitor } from "react-icons/md";
+import { MdDesktopAccessDisabled } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import { BASE_URL } from "../../../../../constants/staticurls";
-import { ReactMediaRecorder } from "react-media-recorder";
+import { useNavigate } from "react-router-dom";
 const RecordingLectures = () => {
-  const [isRecording, setIsRecording] = useState(false);
+    const navigate=useNavigate();
+  const [isScreenSharing, setIsScreenSharing] = useState(false);
+  const [screenSharingStream, setScreenSharingStream] = useState(null);
   const [isCameraOn, setIsCameraOn] = useState(true);
   const [isMicrophoneOn, setIsMicrophoneOn] = useState(true);
-  const [isScreenSharing, setIsScreenSharing] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [cameraState, setCameraState] = useState("disabled");
+  const [microphoneState, setMicrophoneState] = useState("disabled");
   const [videoStream, setVideoStream] = useState(null);
   const [audioStream, setAudioStream] = useState(null);
   const [recordedVideo, setRecordedVideo] = useState(null);
+  const [isRecording, setIsRecording] = useState(false);
   const [classEnded, setClassEnded] = useState(false);
-  const [isCameraDisabled, setIsCameraDisabled] = useState(false);
-  const [isMicrophoneDisabled, setIsMicrophoneDisabled] = useState(false);
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
-
-  const [cameraState, setCameraState] = useState("disabled");
-  const [microphoneState, setMicrophoneState] = useState("disabled");
-  const [startTime, setStartTime] = useState(null);
-  const [elapsedTime, setElapsedTime] = useState(0);
-  const [timerActive, setTimerActive] = useState(false);
-  const [isTimerPaused, setIsTimerPaused] = useState(false);
-  const [pausedTime, setPausedTime] = useState(0); // Track the time when the timer is paused
-  const [timerOffset, setTimerOffset] = useState(0);
-  const [screenSharingStream, setScreenSharingStream] = useState(null);
-
+  const [elapsedTime, setElapsedTime] = useState(0); // Define elapsedTime here
+  const screenSharingVideoRef = useRef(null);
   const videoRef = useRef(null);
   const mediaRecorderRef = useRef(null);
-  const screenSharingVideoRef = useRef(null);
 
   const { soloClassRoomId } = useParams();
 
-  const toggleRecording = () => {
-    setIsRecording(!isRecording);
-    setTimerActive(!isRecording);
-    // setTimerActive(true);
-    if (isRecording) {
-      setCameraState("disabled");
-      setMicrophoneState("disabled");
-      pauseTimer();
-    } else {
-      setCameraState("on");
-      setMicrophoneState("on");
-      startTimer();
-    }
+  const formatTime = (seconds) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+      2,
+      "0"
+    )}:${String(secs).padStart(2, "0")}`;
   };
 
-  const togglePause = () => {
-    if (isRecording) {
-      if (isTimerPaused) {
-        // If the timer is paused, resume it
-        const currentTime = new Date();
-        const elapsedMilliseconds = currentTime - pausedTime;
-        setStartTime(new Date(startTime.getTime() + elapsedMilliseconds));
-        setTimerActive(true);
-        setCameraState("on");
-        setMicrophoneState("on");
-      } else {
-        setTimerActive(false);
-        setCameraState("off");
-        setMicrophoneState("off");
-        const currentTime = new Date();
-        setPausedTime(currentTime);
-      }
-      setIsTimerPaused(!isTimerPaused);
-    }
-  };
-
+  // Update elapsed time every second
   useEffect(() => {
-    if (isRecording && !isTimerPaused) {
-      startRecording();
-    } else {
-      stopRecording();
-    }
-  }, [isRecording, isTimerPaused]);
-  const toggleCamera = () => {
-    const stream = videoRef.current.srcObject;
-    if (stream) {
-      const videoTrack = stream.getVideoTracks()[0];
-      videoTrack.enabled = !videoTrack.enabled;
-      setIsCameraOn(videoTrack.enabled);
-      setCameraState(videoTrack.enabled ? "on" : "off");
-    }
-  };
+    let timerInterval;
 
-  const toggleMicrophone = () => {
-    const stream = videoRef.current.srcObject;
-    if (stream) {
-      const audioTrack = stream.getAudioTracks()[0];
-      audioTrack.enabled = !audioTrack.enabled;
-      setIsMicrophoneOn(audioTrack.enabled);
-      setMicrophoneState(audioTrack.enabled ? "on" : "off");
+    if (isRecording) {
+      timerInterval = setInterval(() => {
+        setElapsedTime((prevElapsedTime) => prevElapsedTime + 1);
+      }, 1000);
+    } else {
+      clearInterval(timerInterval);
     }
-  };
+
+    return () => {
+      clearInterval(timerInterval);
+    };
+  }, [isRecording]);
 
   const toggleScreenSharing = async () => {
     if (!isScreenSharing) {
@@ -140,97 +95,28 @@ const RecordingLectures = () => {
       screenSharingVideoRef.current.srcObject = null;
       setScreenSharingStream(null);
 
-      setIsScreenSharing(false);
+      setIsScreenSharing(!isScreenSharing);
     }
   };
 
-  // const toggleScreenSharing = async () => {
-  //   if (!isScreenSharing) {
-  //     try {
-  //       const screenStream = await navigator.mediaDevices.getDisplayMedia({
-  //         video: { cursor: "never" },
-  //         audio: false,
-  //       });
-
-  //       // Attach screen sharing stream to both video elements
-  //       screenSharingVideoRef.current.srcObject = screenStream;
-  //       videoRef.current.srcObject = screenStream;
-
-  //       setScreenSharingStream(screenStream);
-  //       setIsScreenSharing(true);
-
-  //       if (isRecording) {
-  //         startRecording();
-  //       }
-  //     } catch (error) {
-  //       console.error("Error sharing the screen:", error);
-  //     }
-  //   } else {
-  //     // Stop screen sharing
-  //     if (screenSharingStream) {
-  //       screenSharingStream.getTracks().forEach((track) => track.stop());
-  //     }
-
-  //     screenSharingVideoRef.current.srcObject = null;
-  //     videoRef.current.srcObject = null;
-
-  //     setScreenSharingStream(null);
-
-  //     if (isRecording) {
-  //       stopRecording();
-  //     }
-
-  //     setIsScreenSharing(false);
-  //   }
-  // };
-
-  useEffect(() => {
-    let timerInterval;
-    if (timerActive) {
-      timerInterval = setInterval(() => {
-        if (startTime) {
-          const currentTime = new Date();
-          const elapsedMilliseconds = currentTime - startTime;
-          setElapsedTime(elapsedMilliseconds);
-        }
-      }, 1000);
-    } else {
-      clearInterval(timerInterval);
-    }
-
-    return () => {
-      clearInterval(timerInterval); // Clean up the interval on unmount
-    };
-  }, [timerActive, startTime]);
-
-  const toggleExpand = () => {
-    setIsExpanded(!isExpanded);
-  };
-
-  const startTimer = () => {
-    setStartTime(new Date());
-  };
-
-  const pauseTimer = () => {
-    if (startTime) {
-      const currentTime = new Date();
-      const elapsedMilliseconds = currentTime - startTime;
-      setElapsedTime(elapsedMilliseconds);
+  const toggleCamera = () => {
+    const stream = videoRef.current.srcObject;
+    if (stream) {
+      const videoTrack = stream.getVideoTracks()[0];
+      videoTrack.enabled = !videoTrack.enabled;
+      setIsCameraOn(videoTrack.enabled);
+      setCameraState(videoTrack.enabled ? "on" : "off");
     }
   };
 
-  const formatElapsedTime = (milliseconds) => {
-    const seconds = Math.floor(milliseconds / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
-    const remainingMinutes = minutes % 60;
-    const remainingSeconds = seconds % 60;
-
-    const formattedTime = `${String(hours).padStart(2, "0")}: ${String(
-      remainingMinutes
-    ).padStart(2, "0")}: ${String(remainingSeconds).padStart(2, "0")}`;
-
-    return formattedTime;
+  const toggleMicrophone = () => {
+    const stream = videoRef.current.srcObject;
+    if (stream) {
+      const audioTrack = stream.getAudioTracks()[0];
+      audioTrack.enabled = !audioTrack.enabled;
+      setIsMicrophoneOn(audioTrack.enabled);
+      setMicrophoneState(audioTrack.enabled ? "on" : "off");
+    }
   };
 
   const startRecording = async () => {
@@ -243,21 +129,18 @@ const RecordingLectures = () => {
         audio: true,
       });
 
+      let combinedStream = new MediaStream();
+
       if (screenSharingStream) {
-        // Add the screen sharing video track to the video stream
-        videoStream.getVideoTracks().forEach((videoTrack) => {
-          videoStream.removeTrack(videoTrack);
-        });
-        videoStream.addTrack(screenSharingStream.getVideoTracks()[0]);
+        combinedStream.addTrack(screenSharingStream.getVideoTracks()[0]);
       }
 
-      const stream = new MediaStream([
-        ...videoStream.getTracks(),
-        ...audioStream.getTracks(),
-      ]);
-      videoRef.current.srcObject = stream;
+      combinedStream.addTrack(videoStream.getVideoTracks()[0]);
+      combinedStream.addTrack(audioStream.getAudioTracks()[0]);
 
-      const mediaRecorder = new MediaRecorder(stream, {
+      videoRef.current.srcObject = combinedStream;
+
+      const mediaRecorder = new MediaRecorder(combinedStream, {
         mimeType: "video/webm",
       });
       const chunks = [];
@@ -300,14 +183,26 @@ const RecordingLectures = () => {
 
     videoRef.current.srcObject = null; // Stop the video playback
   };
+  const toggleRecording = () => {
+    setIsRecording(!isRecording);
 
-  const openConfirmationModal = () => {
-    setIsConfirmationModalOpen(true);
+    // setTimerActive(true);
+    if (isRecording) {
+      setCameraState("disabled");
+      setMicrophoneState("disabled");
+    } else {
+      setCameraState("on");
+      setMicrophoneState("on");
+    }
   };
 
-  const closeConfirmationModal = () => {
-    setIsConfirmationModalOpen(false);
-  };
+  useEffect(() => {
+    if (isRecording) {
+      startRecording();
+    } else {
+      stopRecording();
+    }
+  }, [isRecording]);
 
   const uploadVideoToAWS = async (recordedVideo, soloClassRoomId) => {
     const fileName = `sololecture_${soloClassRoomId}.webm`;
@@ -329,38 +224,44 @@ const RecordingLectures = () => {
         }
       );
 
-      if (response.ok) {
-        setClassEnded(true);
-        // End the class immediately regardless of video upload status
-        window.location.href = "/homepage";
-      } else {
-        console.error("Error uploading video to AWS:", response.status);
-        // Handle the error as needed
-      }
+    //   if (response.ok) {
+    //     setClassEnded(true);
+    //     // End the class immediately regardless of video upload status
+    //     window.location.href = "/homepage";
+    //   } else {
+    //     console.error("Error uploading video to AWS:", response.status);
+    //     // Handle the error as needed
+    //   }
     } catch (error) {
       console.error("Error uploading video to AWS:", error);
       // Handle the error as needed
     }
   };
 
-  useEffect(() => {
-    if (classEnded) {
-      // Prevent the page from appearing when clicked on the arrow or go back button
-      window.history.replaceState(null, null, `/mentor/solo-recordings/topic`);
+  const endClass = () => {
+    if (isRecording) {
+      // If recording is in progress, stop recording
+      toggleRecording();
     }
-  }, [classEnded]);
+  
+    // Now that the class has ended, you can navigate to the homepage
+    window.location.href = "/homepage";
+  
+    // Replace the current history entry with a new entry that has the same pathname.
+    window.history.replaceState(null, null, `/mentor/solo-recordings/topic`);
+  };
+  
 
   return (
     <Box
       h="80vh"
-      width={isExpanded ? "120%" : "95%"}
+      width={"95%"}
       borderRadius="12px"
       boxShadow="md"
       position="relative"
       display="flex"
       flexDirection="column"
       bg={"black"}
-      m={"15px"}
     >
       <Stack
         position="absolute"
@@ -376,33 +277,20 @@ const RecordingLectures = () => {
                 isRound={"true"}
                 icon={<Icon as={FaExpand} boxSize={4} />}
                 size="sm"
-                onClick={toggleExpand}
               />
             </Tooltip>
           </Circle>
 
           <Box top="20px" bg={"#F1F5F8"} padding="5px" borderRadius="27px">
-            {formatElapsedTime(elapsedTime)}
+            {formatTime(elapsedTime)}
           </Box>
         </HStack>
-
         <Circle size="40px" bg="white" mt={10}>
           <Tooltip label={`Camera ${cameraState}`} placement="right">
             <IconButton
               isRound
               icon={
-                cameraState === "on" ? (
-                  <Icon as={FaVideo} boxSize={4} />
-                ) : cameraState === "off" ? (
-                  <Icon as={FaVideoSlash} boxSize={4} />
-                ) : (
-                  // Default to camera disabled when not recording
-                  <Icon
-                    as={FaVideoSlash}
-                    boxSize={4}
-                    style={{ color: "gray" }}
-                  />
-                )
+                <Icon as={isCameraOn ? FaVideo : FaVideoSlash} boxSize={4} />
               }
               size="sm"
               onClick={toggleCamera}
@@ -414,18 +302,10 @@ const RecordingLectures = () => {
             <IconButton
               isRound
               icon={
-                microphoneState === "on" ? (
-                  <Icon as={FaMicrophone} boxSize={4} />
-                ) : microphoneState === "off" ? (
-                  <Icon as={FaMicrophoneSlash} boxSize={4} />
-                ) : (
-                  // Default to microphone disabled when not recording
-                  <Icon
-                    as={FaMicrophoneSlash}
-                    boxSize={4}
-                    style={{ color: "gray" }}
-                  />
-                )
+                <Icon
+                  as={isMicrophoneOn ? FaMicrophone : FaMicrophoneSlash}
+                  boxSize={4}
+                />
               }
               size="sm"
               onClick={toggleMicrophone}
@@ -439,7 +319,6 @@ const RecordingLectures = () => {
             placement="right"
           >
             <IconButton
-              aria-labell={isRecording ? "Stop recording" : "Start recording"}
               isRound
               icon={<Icon as={BsRecord} boxSize={4} />}
               size="sm"
@@ -448,26 +327,42 @@ const RecordingLectures = () => {
           </Tooltip>
         </Circle>
 
-        <Circle size="40px" bg="white">
-          <Tooltip label={isTimerPaused ? "Resume" : "Pause"} placement="right">
+        {/* <Circle size="40px" bg="white">
+          <Tooltip label={"Pause"} placement="right">
             <IconButton
               isRound
               icon={<Icon as={CiPause1} boxSize={4} />}
               size="sm"
-              onClick={togglePause}
             />
           </Tooltip>
-        </Circle>
-        <Circle size="40px" bg="white" mt={5}>
-          <Tooltip label="Screen Sharing ">
+        </Circle> */}
+        <Circle size="40px" bg="white">
+          <Tooltip label="Screen Sharing " placement="right">
             <IconButton
-              isRound
-              icon={<Icon as={MdOutlineScreenshotMonitor} boxSize={4} />}
+              icon={
+                isScreenSharing ? (
+                  <Icon as={FaDesktop} boxSize={4} />
+                ) : (
+                  <Icon as={MdDesktopAccessDisabled} boxSize={4} />
+                )
+              }
               size="sm"
               onClick={toggleScreenSharing}
             />
           </Tooltip>
         </Circle>
+        <Button
+          bg="#F63F4A"
+          w="50px"
+          borderRadius="27px"
+          color="white"
+          mt={"50%"}
+          fontWeight={500}
+          size="sm"
+          onClick={endClass}
+        >
+          End
+        </Button>
       </Stack>
 
       <Box position="absolute" top="0" left="0" width="100%" height="100%">
@@ -485,12 +380,13 @@ const RecordingLectures = () => {
         />
       </Box>
 
-      <Box position="absolute" top={"5%"} left={"80%"} mr={5} zIndex={1}>
+      <Box position="absolute" ml={"70%"} mt={"8%"}>
         <video
           ref={videoRef}
           style={{
-            width: "100%",
-            height: "100%",
+            width: "80%",
+            height: "80%",
+
             objectFit: "cover",
             overflow: "hidden",
             borderRadius: "20px",
@@ -498,31 +394,7 @@ const RecordingLectures = () => {
           }}
           autoPlay
         />
-        <source src={recordedVideo} type="video/webm" />
       </Box>
-
-      <Button
-        bg="#F63F4A"
-        w="50px"
-        position="absolute"
-        bottom="20px"
-        mt="100px"
-        left="20px"
-        borderRadius="27px"
-        color="white"
-        fontWeight={500}
-        size="sm"
-        onClick={() => {
-          stopRecording();
-          toggleCamera();
-          toggleMicrophone();
-          if (isRecording) {
-            setTimerActive(false);
-          }
-        }}
-      >
-        End
-      </Button>
     </Box>
   );
 };
