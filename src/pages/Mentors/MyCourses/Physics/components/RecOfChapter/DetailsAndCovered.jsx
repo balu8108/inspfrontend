@@ -26,7 +26,7 @@ import { extractFileNameFromS3URL } from "../../../../../../utils";
 import axios from "axios";
 import { setIsDocModalOpen } from "../../../../../../store/actions/genericActions";
 import { useDispatch } from "react-redux";
-const ChapterDetailsAndCoveredPart = ({ viewTopic }) => {
+const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
   const [liveClassRoomData, setLiveClassRoomData] = useState(null);
   console.log("live class data ", liveClassRoomData);
   const [assignmentDetails, setAssignmentDetails] = useState(null);
@@ -91,7 +91,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic }) => {
           bg={"#3C8DBC"}
         ></Box>
         <Text fontSize={"19px"} lineHeight={"24px"} fontWeight={400}>
-          Details
+          {viewtopicName}
         </Text>
       </HStack>
 
