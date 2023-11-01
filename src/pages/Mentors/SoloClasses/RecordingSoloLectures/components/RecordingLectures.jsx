@@ -409,7 +409,6 @@
 
 
 
-
 import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
@@ -580,57 +579,56 @@ const RecordingLectures = () => {
     }
   };
 
-
-
-
-
-const startRecording = async () => {
+  const startRecording = async () => {
     try {
-      // Get the audio stream (only if the microphone is on)
-      const audioStream = isMicrophoneOn
-        ? await navigator.mediaDevices.getUserMedia({ audio: true })
-        : null;
+      // Check if the microphone is on
+      if (isMicrophoneOn) {
+        // Request access to the microphone
+        const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
   
-      // Get the video stream
-      const videoStream = isCameraOn
-      ?  await navigator.mediaDevices.getUserMedia({
-        video: true,
-      }) : null;
+        // Check if the camera is on and request access to the video stream
+        const videoStream = isCameraOn ? await navigator.mediaDevices.getUserMedia({ video: true }) : null;
   
-      // Combine the video, audio, and screen sharing streams
-      const combinedStream = new MediaStream();
-      screenSharingStream.getTracks().forEach((track) => combinedStream.addTrack(track));
-      
-      if (audioStream) {
-        audioStream.getTracks().forEach((track) => combinedStream.addTrack(track));
-      }
-      
-      videoStream.getTracks().forEach((track) => combinedStream.addTrack(track));
+        // Combine the video, audio, and screen sharing streams
+        const combinedStream = new MediaStream();
   
-      // Create a MediaRecorder with the combined stream
-      mediaRecorderRef.current = new MediaRecorder(combinedStream);
-  
-      mediaRecorderRef.current.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          recordedChunksRef.current.push(event.data);
+        if (screenSharingStream) {
+          screenSharingStream.getTracks().forEach((track) => combinedStream.addTrack(track));
         }
-      };
   
-      mediaRecorderRef.current.onstop = () => {
-        // Recording stopped
-        stopRecording(); // You can implement this function to save the recorded chunks as a video file.
-      };
+        if (audioStream) {
+          audioStream.getTracks().forEach((track) => combinedStream.addTrack(track));
+        }
   
-      mediaRecorderRef.current.start();
-      setIsRecording(true);
+        if (videoStream) {
+          videoStream.getTracks().forEach((track) => combinedStream.addTrack(track));
+        }
+  
+        // Create a MediaRecorder with the combined stream
+        mediaRecorderRef.current = new MediaRecorder(combinedStream);
+  
+        mediaRecorderRef.current.ondataavailable = (event) => {
+          if (event.data.size > 0) {
+            recordedChunksRef.current.push(event.data);
+          }
+        };
+  
+        mediaRecorderRef.current.onstop = () => {
+          // Recording stopped
+          stopRecording(); // You can implement this function to save the recorded chunks as a video file.
+        };
+  
+        mediaRecorderRef.current.start();
+        setIsRecording(true);
+      } else {
+        console.log("Microphone is muted. Cannot start recording.");
+      }
     } catch (error) {
       console.error("Error accessing the audio or video stream:", error);
     }
   };
   
-
-
-
+  
 
   const stopRecording = () => {
     const blob = new Blob(recordedChunksRef.current, { type: "video/webm" });
