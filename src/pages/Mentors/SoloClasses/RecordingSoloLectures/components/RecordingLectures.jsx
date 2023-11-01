@@ -405,6 +405,9 @@
 // };
 // export default RecordingLectures;
 
+
+
+
 import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
@@ -576,6 +579,7 @@ const toggleMicrophone = async () => {
       // Set the microphone stream to null and update the state
       setMicrophoneStream(null);
       setIsMicrophoneOn(false);
+      setIsRecording(false); 
     }
   };
 
@@ -738,7 +742,7 @@ const startRecording = async () => {
               icon={<Icon as={BsRecord} boxSize={4} />}
               size="sm"
               onClick={toggleRecording}
-              isDisabled={!isScreenSharing}
+            
             />
           </Tooltip>
         </Circle>
