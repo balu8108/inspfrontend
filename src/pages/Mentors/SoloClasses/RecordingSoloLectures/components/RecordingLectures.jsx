@@ -405,6 +405,11 @@
 // };
 // export default RecordingLectures;
 
+
+
+
+
+
 import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
@@ -575,52 +580,59 @@ const RecordingLectures = () => {
     }
   };
 
-  const startRecording = async () => {
+
+
+
+
+const startRecording = async () => {
     try {
-      // Get the audio stream
-      const audioStream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
-      });
-
+      // Get the audio stream (only if the microphone is on)
+      const audioStream = isMicrophoneOn
+        ? await navigator.mediaDevices.getUserMedia({ audio: true })
+        : null;
+  
       // Get the video stream
-      const videoStream = await navigator.mediaDevices.getUserMedia({
+      const videoStream = isCameraOn
+      ?  await navigator.mediaDevices.getUserMedia({
         video: true,
-      });
-
+      }) : null;
+  
       // Combine the video, audio, and screen sharing streams
       const combinedStream = new MediaStream();
-      screenSharingStream
-        .getTracks()
-        .forEach((track) => combinedStream.addTrack(track));
-      audioStream
-        .getTracks()
-        .forEach((track) => combinedStream.addTrack(track));
-      videoStream
-        .getTracks()
-        .forEach((track) => combinedStream.addTrack(track));
-
+      screenSharingStream.getTracks().forEach((track) => combinedStream.addTrack(track));
+      
+      if (audioStream) {
+        audioStream.getTracks().forEach((track) => combinedStream.addTrack(track));
+      }
+      
+      videoStream.getTracks().forEach((track) => combinedStream.addTrack(track));
+  
       // Create a MediaRecorder with the combined stream
       mediaRecorderRef.current = new MediaRecorder(combinedStream);
-
+  
       mediaRecorderRef.current.ondataavailable = (event) => {
         if (event.data.size > 0) {
           recordedChunksRef.current.push(event.data);
         }
       };
-
+  
       mediaRecorderRef.current.onstop = () => {
         // Recording stopped
-        saveRecording(); // You can implement this function to save the recorded chunks as a video file.
+        stopRecording(); // You can implement this function to save the recorded chunks as a video file.
       };
-
+  
       mediaRecorderRef.current.start();
       setIsRecording(true);
     } catch (error) {
       console.error("Error accessing the audio or video stream:", error);
     }
   };
+  
 
-  const saveRecording = () => {
+
+
+
+  const stopRecording = () => {
     const blob = new Blob(recordedChunksRef.current, { type: "video/webm" });
 
     // Create an object URL for the blob
@@ -650,7 +662,7 @@ const RecordingLectures = () => {
       // Stop recording
       mediaRecorderRef.current.stop();
       setIsRecording(false);
-      saveRecording(); // You can implement this function to save the recorded chunks as a video file.
+      stopRecording(); // You can implement this function to save the recorded chunks as a video file.
     } else {
       // Start recording
       startRecording();
