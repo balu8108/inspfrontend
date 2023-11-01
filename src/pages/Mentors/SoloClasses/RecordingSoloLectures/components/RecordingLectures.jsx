@@ -405,8 +405,6 @@
 // };
 // export default RecordingLectures;
 
-
-
 import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
