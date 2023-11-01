@@ -407,7 +407,6 @@
 
 
 
-
 import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
@@ -579,7 +578,7 @@ const toggleMicrophone = async () => {
       // Set the microphone stream to null and update the state
       setMicrophoneStream(null);
       setIsMicrophoneOn(false);
-      setIsRecording(false); 
+   
     }
   };
 
