@@ -405,10 +405,6 @@
 // };
 // export default RecordingLectures;
 
-
-
-
-
 import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
@@ -442,7 +438,7 @@ const RecordingLectures = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [isMicrophoneOn, setIsMicrophoneOn] = useState(false);
-
+  const [microphoneStream, setMicrophoneStream] = useState(null);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [theatreMode, setTheatreMode] = useState(false);
 
@@ -547,17 +543,16 @@ const RecordingLectures = () => {
     }
   };
 
-  const toggleMicrophone = async () => {
+
+const toggleMicrophone = async () => {
     if (!isMicrophoneOn) {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
           audio: true,
         });
-
-        // Access to the microphone is granted, and the microphone audio stream is available in 'stream'.
-        // You can use this 'stream' for recording or other purposes.
-
-        // Update the state to indicate that the microphone is unmuted.
+  
+        // Store the microphone stream and update the state
+        setMicrophoneStream(stream);
         setIsMicrophoneOn(true);
       } catch (error) {
         if (error.name === "NotAllowedError") {
@@ -572,64 +567,63 @@ const RecordingLectures = () => {
         }
       }
     } else {
-      // If the microphone is already on, you can stop the audio stream or handle muting, depending on your use case.
-
-      // Update the state to indicate that the microphone is muted or turned off.
+      // If the microphone is already on, you can stop the audio stream.
+      if (microphoneStream) {
+        const tracks = microphoneStream.getTracks();
+        tracks.forEach((track) => track.stop());
+      }
+  
+      // Set the microphone stream to null and update the state
+      setMicrophoneStream(null);
       setIsMicrophoneOn(false);
     }
   };
 
-  const startRecording = async () => {
+
+
+
+
+
+const startRecording = async () => {
     try {
-      // Check if the microphone is on
-      if (isMicrophoneOn) {
-        // Request access to the microphone
-        const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      // Get the video stream
+      const videoStream = isCameraOn
+        ? await navigator.mediaDevices.getUserMedia({ video: true })
+        : null;
   
-        // Check if the camera is on and request access to the video stream
-        const videoStream = isCameraOn ? await navigator.mediaDevices.getUserMedia({ video: true }) : null;
-  
-        // Combine the video, audio, and screen sharing streams
-        const combinedStream = new MediaStream();
-  
-        if (screenSharingStream) {
-          screenSharingStream.getTracks().forEach((track) => combinedStream.addTrack(track));
-        }
-  
-        if (audioStream) {
-          audioStream.getTracks().forEach((track) => combinedStream.addTrack(track));
-        }
-  
-        if (videoStream) {
-          videoStream.getTracks().forEach((track) => combinedStream.addTrack(track));
-        }
-  
-        // Create a MediaRecorder with the combined stream
-        mediaRecorderRef.current = new MediaRecorder(combinedStream);
-  
-        mediaRecorderRef.current.ondataavailable = (event) => {
-          if (event.data.size > 0) {
-            recordedChunksRef.current.push(event.data);
-          }
-        };
-  
-        mediaRecorderRef.current.onstop = () => {
-          // Recording stopped
-          stopRecording(); // You can implement this function to save the recorded chunks as a video file.
-        };
-  
-        mediaRecorderRef.current.start();
-        setIsRecording(true);
-      } else {
-        console.log("Microphone is muted. Cannot start recording.");
+      // Combine the video, audio, and screen sharing streams
+      const combinedStream = new MediaStream();
+      if (screenSharingStream) {
+        screenSharingStream.getTracks().forEach((track) => combinedStream.addTrack(track));
       }
+      if (isMicrophoneOn && microphoneStream) {
+        microphoneStream.getTracks().forEach((track) => combinedStream.addTrack(track));
+      }
+      if (videoStream) {
+        videoStream.getTracks().forEach((track) => combinedStream.addTrack(track));
+      }
+  
+      // Create a MediaRecorder with the combined stream
+      mediaRecorderRef.current = new MediaRecorder(combinedStream);
+  
+      mediaRecorderRef.current.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          recordedChunksRef.current.push(event.data);
+        }
+      };
+  
+      mediaRecorderRef.current.onstop = () => {
+        // Recording stopped
+        stopRecording(); // You can implement this function to save the recorded chunks as a video file.
+      };
+  
+      mediaRecorderRef.current.start();
+      setIsRecording(true);
     } catch (error) {
       console.error("Error accessing the audio or video stream:", error);
     }
   };
   
-  
-
   const stopRecording = () => {
     const blob = new Blob(recordedChunksRef.current, { type: "video/webm" });
 
