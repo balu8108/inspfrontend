@@ -798,8 +798,7 @@ import {
   Stack,
   Tooltip,
   HStack,
-  Collapse,
-  useDisclosure
+  useTheme,
 } from "@chakra-ui/react";
 import {
   FaMicrophone,
@@ -815,15 +814,17 @@ import { AiOutlineStop } from "react-icons/ai";
 import { useParams } from "react-router-dom";
 import { BASE_URL } from "../../../../../constants/staticurls";
 import { useNavigate } from "react-router-dom";
-
-const RecordingLectures = () => {
+import DataForClass from "./DataForClass";
+const RecordingLectures = ({ onTheatreModeToggle }) => {
   const navigate = useNavigate();
+  const theme = useTheme();
+
+  const { backgroundLightBlue } = theme.colors.pallete;
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [screenSharingStream, setScreenSharingStream] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [isMicrophoneOn, setIsMicrophoneOn] = useState(false);
- 
 
   const [elapsedTime, setElapsedTime] = useState(0);
 
@@ -841,8 +842,6 @@ const RecordingLectures = () => {
       "0"
     )}:${String(secs).padStart(2, "0")}`;
   };
-
- 
 
   useEffect(() => {
     let timerInterval;
@@ -1044,153 +1043,165 @@ const RecordingLectures = () => {
 
   return (
     <Box
-      h="80vh"
-      width={"90%"}
-      borderRadius="12px"
-      boxShadow="md"
-      position="relative"
-      display="flex"
-      flexDirection="column"
-      bg={"black"}
+      width={"100%"}
+      bg={backgroundLightBlue}
+      blendMode={"multiply"}
+      borderRadius={"26px"}
     >
-   
-      <Stack
-        position="absolute"
-        top="20px"
-        left="20px"
-        zIndex="1"
-        direction="column"
+      <Box
+        h="80vh"
+        width={"97%"}
+        m={"12px"}
+        borderRadius="12px"
+        boxShadow="md"
+        position="relative"
+        display="flex"
+        flexDirection="column"
+        bg={"black"}
       >
-        <HStack gap={"18px"}>
-          <Circle size="40px" bg="white">
-            <Tooltip label="Theatre Mode" placement="right">
+        <Stack
+          position="absolute"
+          top="20px"
+          left="20px"
+          zIndex="1"
+          direction="column"
+        >
+          <HStack gap={"18px"}>
+            <Circle size="40px" bg="white">
+              <Tooltip label="Theatre Mode" placement="right">
+                <IconButton
+                  isRound
+                  icon={<Icon as={FaExpand} boxSize={4} />}
+                  size="sm"
+                  onClick={onTheatreModeToggle}
+                />
+              </Tooltip>
+            </Circle>
+
+            <Box top="20px" bg={"#F1F5F8"} padding="5px" borderRadius="27px">
+              {formatTime(elapsedTime)}
+            </Box>
+          </HStack>
+          <Circle size="40px" bg="white" mt={10}>
+            <Tooltip
+              label={isCameraOn ? "Turn Off Camera" : "Turn On Camera"}
+              placement="right"
+            >
               <IconButton
                 isRound
-                icon={<Icon as={FaExpand} boxSize={4} />}
+                icon={
+                  <Icon as={isCameraOn ? FaVideo : FaVideoSlash} boxSize={4} />
+                }
                 size="sm"
-                
+                onClick={toggleCamera}
+              />
+            </Tooltip>
+          </Circle>
+          <Circle size="40px" bg="white">
+            <Tooltip
+              label={isMicrophoneOn ? "Mute Microphone" : "Unmute Microphone"}
+              placement="right"
+            >
+              <IconButton
+                isRound
+                icon={
+                  <Icon
+                    as={isMicrophoneOn ? FaMicrophone : FaMicrophoneSlash}
+                    boxSize={4}
+                  />
+                }
+                size="sm"
+                onClick={toggleMicrophone}
               />
             </Tooltip>
           </Circle>
 
-          <Box top="20px" bg={"#F1F5F8"} padding="5px" borderRadius="27px">
-            {formatTime(elapsedTime)}
-          </Box>
-        </HStack>
-        <Circle size="40px" bg="white" mt={10}>
-          <Tooltip
-            label={isCameraOn ? "Turn Off Camera" : "Turn On Camera"}
-            placement="right"
-          >
-            <IconButton
-              isRound
-              icon={
-                <Icon as={isCameraOn ? FaVideo : FaVideoSlash} boxSize={4} />
-              }
-              size="sm"
-              onClick={toggleCamera}
-            />
-          </Tooltip>
-        </Circle>
-        <Circle size="40px" bg="white">
-          <Tooltip
-            label={isMicrophoneOn ? "Mute Microphone" : "Unmute Microphone"}
-            placement="right"
-          >
-            <IconButton
-              isRound
-              icon={
-                <Icon
-                  as={isMicrophoneOn ? FaMicrophone : FaMicrophoneSlash}
-                  boxSize={4}
-                />
-              }
-              size="sm"
-              onClick={toggleMicrophone}
-            />
-          </Tooltip>
-        </Circle>
+          <Circle size="40px" bg="white" mt={5}>
+            <Tooltip
+              label={isRecording ? "Stop Recording" : "Start Recording"}
+              placement="right"
+            >
+              <IconButton
+                isRound
+                icon={
+                  isRecording ? (
+                    <Icon as={BsRecord} boxSize={4} />
+                  ) : (
+                    <Icon as={AiOutlineStop} boxSize={4} />
+                  )
+                }
+                size="sm"
+                onClick={toggleRecording}
+              />
+            </Tooltip>
+          </Circle>
 
-        <Circle size="40px" bg="white" mt={5}>
-          <Tooltip
-            label={isRecording ? "Stop Recording" : "Start Recording"}
-            placement="right"
+          <Circle size="40px" bg="white">
+            <Tooltip label="Screen Sharing" placement="right">
+              <IconButton
+                icon={
+                  isScreenSharing ? (
+                    <Icon as={FaDesktop} boxSize={4} />
+                  ) : (
+                    <Icon as={MdDesktopAccessDisabled} boxSize={4} />
+                  )
+                }
+                size="sm"
+                onClick={toggleScreenSharing}
+              />
+            </Tooltip>
+          </Circle>
+
+          <Button
+            bg="#F63F4A"
+            w="50px"
+            borderRadius="27px"
+            color="white"
+            mt={"50%"}
+            fontWeight={500}
+            size="sm"
           >
-            <IconButton
-              isRound
-              icon={
-                isRecording ? (
-                  <Icon as={BsRecord} boxSize={4} />
-                ) : (
-                  <Icon as={AiOutlineStop} boxSize={4} />
-                )
-              }
-              size="sm"
-              onClick={toggleRecording}
-            />
-          </Tooltip>
-        </Circle>
+            End
+          </Button>
+        </Stack>
 
-        <Circle size="40px" bg="white">
-          <Tooltip label="Screen Sharing" placement="right">
-            <IconButton
-              icon={
-                isScreenSharing ? (
-                  <Icon as={FaDesktop} boxSize={4} />
-                ) : (
-                  <Icon as={MdDesktopAccessDisabled} boxSize={4} />
-                )
-              }
-              size="sm"
-              onClick={toggleScreenSharing}
-            />
-          </Tooltip>
-        </Circle>
+        <Box position="absolute" top="0" left="0" width="100%" height="100%">
+          <video
+            ref={screenSharingVideoRef}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              overflow: "hidden",
+              borderRadius: "20px",
+              background: "black",
+            }}
+            autoPlay
+          />
+        </Box>
 
-        <Button
-          bg="#F63F4A"
-          w="50px"
-          borderRadius="27px"
-          color="white"
-          mt={"50%"}
-          fontWeight={500}
-          size="sm"
+        <Box
+          position="absolute"
+          top="50px"
+          right="10px"
+          width="30%"
+          height="35%"
         >
-          End
-        </Button>
-      </Stack>
-     
-
-      <Box position="absolute" top="0" left="0" width="100%" height="100%">
-        <video
-          ref={screenSharingVideoRef}
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            overflow: "hidden",
-            borderRadius: "20px",
-            background: "black",
-          }}
-          autoPlay
-        />
-      </Box>
-
-      <Box position="absolute" top="50px" right="10px" width="30%" height="35%">
-        {/* Small video box for camera feed */}
-        <video
-          ref={cameraVideoRef}
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            overflow: "hidden",
-            borderRadius: "10px",
-            background: "black",
-            visibility: isCameraOn ? "visible" : "hidden",
-          }}
-          autoPlay
-        />
+          {/* Small video box for camera feed */}
+          <video
+            ref={cameraVideoRef}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              overflow: "hidden",
+              borderRadius: "10px",
+              background: "black",
+              visibility: isCameraOn ? "visible" : "hidden",
+            }}
+            autoPlay
+          />
+        </Box>
       </Box>
     </Box>
   );
