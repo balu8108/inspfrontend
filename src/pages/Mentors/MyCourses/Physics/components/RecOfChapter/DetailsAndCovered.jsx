@@ -32,7 +32,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 const ChapterDetailsAndCoveredPart = ({ viewTopic }) => {
   const [liveClassRoomData, setLiveClassRoomData] = useState(null);
-  console.log("live class data ", liveClassRoomData);
+
   const [assignmentDetails, setAssignmentDetails] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedFileUrl, setSelectedFileUrl] = useState("");
@@ -53,7 +53,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic }) => {
       );
 
       const liveRecordingsData = response.data;
-      console.log("Live  class  room  Data from API:", liveRecordingsData);
+
       setLiveClassRoomData(liveRecordingsData);
     } catch (error) {
       console.error("Error fetching live class room", error);
