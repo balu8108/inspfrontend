@@ -45,7 +45,7 @@ const ViewRecording = () => {
   // const playerRef = useRef(null);
 
   return (
-    <Box>
+    <Box w={"100%"} h={"100vh"} bg={"red"}>
       <VideoPlayer videoUrl={""} />
     </Box>
   );
