@@ -798,6 +798,8 @@ import {
   Stack,
   Tooltip,
   HStack,
+  Collapse,
+  useDisclosure
 } from "@chakra-ui/react";
 import {
   FaMicrophone,
@@ -821,6 +823,8 @@ const RecordingLectures = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [isMicrophoneOn, setIsMicrophoneOn] = useState(false);
+ 
+
   const [elapsedTime, setElapsedTime] = useState(0);
 
   const cameraVideoRef = useRef(null);
@@ -838,22 +842,7 @@ const RecordingLectures = () => {
     )}:${String(secs).padStart(2, "0")}`;
   };
 
-  // Update elapsed time every second
-  //   useEffect(() => {
-  //     let timerInterval;
-
-  //     if (isRecording) {
-  //       timerInterval = setInterval(() => {
-  //         elapsedTimeRef.current += 1;
-  //       }, 1000);
-  //     } else {
-  //       clearInterval(timerInterval);
-  //     }
-
-  //     return () => {
-  //       clearInterval(timerInterval);
-  //     };
-  //   }, [isRecording]);
+ 
 
   useEffect(() => {
     let timerInterval;
@@ -1046,7 +1035,9 @@ const RecordingLectures = () => {
         startRecording();
       } else {
         // You can provide a message or an alert to the user to indicate that both screen share and microphone must be enabled before starting the recording.
-        alert("Please enable both screen sharing and microphone before starting the recording.");
+        alert(
+          "Please enable both screen sharing and microphone before starting the recording."
+        );
       }
     }
   };
@@ -1062,6 +1053,7 @@ const RecordingLectures = () => {
       flexDirection="column"
       bg={"black"}
     >
+   
       <Stack
         position="absolute"
         top="20px"
@@ -1076,7 +1068,7 @@ const RecordingLectures = () => {
                 isRound
                 icon={<Icon as={FaExpand} boxSize={4} />}
                 size="sm"
-                // onClick={() => setTheatreMode(!theatreMode)}
+                
               />
             </Tooltip>
           </Circle>
@@ -1167,6 +1159,7 @@ const RecordingLectures = () => {
           End
         </Button>
       </Stack>
+     
 
       <Box position="absolute" top="0" left="0" width="100%" height="100%">
         <video

@@ -18,8 +18,8 @@ const DataForClass = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedFileUrl, setSelectedFileUrl] = useState("");
 
+  
   const dispatch = useDispatch();
-
   useEffect(() => {
     // Retrieve the form data from local storage
     const storedFormData = localStorage.getItem("formData");
