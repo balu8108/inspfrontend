@@ -38,7 +38,6 @@ const SampleVideoPlayer = ({ videoUrl }) => {
         type: "application/x-mpegURL",
         withCredentials: false,
       });
-      console.log("player", player);
     }
   }, [videoUrl, player]);
 
