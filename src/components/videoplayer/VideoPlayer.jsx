@@ -6,7 +6,13 @@ import "videojs-quality-selector-hls";
 import "videojs-contrib-eme";
 import "videojs-contrib-dash";
 import "dashjs";
+
+// import awesomeWatermark from "videojs-awesome-watermark";
+// import "videojs-awesome-watermark/dist/videojs-awesome-watermark.css";
 import { playRecordingApi } from "../../api/recordingapi";
+import WaterMark from "../watermark/WaterMark";
+import { checkUserType, getStorageData } from "../../utils";
+import { userType } from "../../constants/staticvariables";
 const getVideoJsOptions = (url, drmToken) => {
   const videoOptions = {
     autoplay: false,
@@ -43,6 +49,9 @@ const VideoPlayer = ({ type, activeRecording }) => {
 
   console.log("player", player);
 
+  const userRoleType = checkUserType();
+  const { data: inspUserProfile } = getStorageData("insp_user_profile");
+
   const setPlayerConfiguration = async (activeRecording) => {
     try {
       // Update the player's source when the src prop changes
@@ -64,32 +73,24 @@ const VideoPlayer = ({ type, activeRecording }) => {
 
       if (!player) {
         const p = videojs(videoRef.current, videoOptions);
+
+        console.log("videojs", videojs);
         console.log("p", p);
         console.log("vide option", videoOptions.sources);
+
         p.eme();
+
         setPlayer(p);
       } else {
         player.src(videoOptions.sources);
       }
-
-      // p.src(videoOptions.sources);
     } catch (err) {
       console.log("error in setting player", err);
     }
   };
 
-  // useEffect(() => {
-  //   if (player && activeRecording) {
-  //     console.log("setting");
-  //     setPlayerConfiguration(player, activeRecording);
-  //   }
-  // }, [activeRecording, player]);
-
   useEffect(() => {
     if (activeRecording) {
-      // const videoOptions = getVideoJsOptions(activeRecording?.url, "token");
-      // const p = videojs(videoRef.current, videoOptions);
-      // setPlayer(p);
       setPlayerConfiguration(activeRecording);
     }
 
@@ -106,13 +107,57 @@ const VideoPlayer = ({ type, activeRecording }) => {
     }
   }, [player]);
 
+  useEffect(() => {
+    const checkWaterMark = () => {
+      if (userRoleType === userType.student) {
+        const watermarkUserName = document.getElementById(
+          "watermark-user-name"
+        );
+        const watermarkUserEmail = document.getElementById(
+          "watermark-user-email"
+        );
+        console.log("water makr", watermarkUserName);
+        console.log("water mark", watermarkUserEmail);
+        let isWaterMark = true;
+        if (!watermarkUserName || !watermarkUserEmail) {
+          isWaterMark = false;
+        } else if (
+          (watermarkUserName &&
+            (watermarkUserName.style.display === "none" ||
+              watermarkUserName.style.visibility === "hidden")) ||
+          (watermarkUserEmail &&
+            (watermarkUserEmail.style.display === "none" ||
+              watermarkUserEmail.style.visibility === "hidden"))
+        ) {
+          isWaterMark = false;
+        } else if (
+          watermarkUserName.textContent !== inspUserProfile.name ||
+          watermarkUserEmail.textContent !== inspUserProfile.email
+        ) {
+          isWaterMark = false;
+        }
+        if (!isWaterMark) {
+          videoRef.current.srcObject = null;
+        }
+      }
+    };
+    const watermarkCheckInterval = setInterval(checkWaterMark, 2000);
+    return () => {
+      clearInterval(watermarkCheckInterval);
+    };
+  }, []);
+
   return (
     <>
-      <div data-vjs-player>
+      <div style={{ position: "relative" }} data-vjs-player>
         <video
           ref={videoRef}
           className="vidPlayer video-js vjs-default-skin vjs-big-play-centered"
         ></video>
+
+        {userRoleType === userType.student && (
+          <WaterMark inspUserProfile={inspUserProfile} />
+        )}
       </div>
     </>
   );
