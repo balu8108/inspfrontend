@@ -17,7 +17,9 @@ const DataForClass = () => {
   const [formData, setFormData] = useState();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedFileUrl, setSelectedFileUrl] = useState("");
+
   const dispatch = useDispatch();
+
   useEffect(() => {
     // Retrieve the form data from local storage
     const storedFormData = localStorage.getItem("formData");
@@ -96,8 +98,10 @@ const DataForClass = () => {
 
           <Box m={"12px"}>
             <Text>Files</Text>
-            {fileItems.map((file, index) => (
+            {console.log("file items", fileItems)}
+            {/* {fileItems.map((file, index) => (
               <Flex
+                h={"40px"}
                 key={index}
                 alignItems="center"
                 gap={2}
@@ -124,11 +128,10 @@ const DataForClass = () => {
                   }
                 ></Button>
               </Flex>
-            ))}
+            ))} */}
           </Box>
         </Stack>
       )}
-     
     </Box>
   );
 };
