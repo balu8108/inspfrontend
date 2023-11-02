@@ -405,183 +405,149 @@
 // };
 // export default RecordingLectures;
 
+// import React, { useState, useEffect, useRef } from "react";
+// import {
+//   Box,
+//   Button,
+//   IconButton,
+//   Icon,
+//   Circle,
+//   Stack,
+//   Tooltip,
+//   HStack,
+// } from "@chakra-ui/react";
+// import {
+//   FaMicrophone,
+//   FaMicrophoneSlash,
+//   FaVideo,
+//   FaVideoSlash,
+//   FaExpand,
+//   FaDesktop,
+// } from "react-icons/fa";
+// import { BsRecord } from "react-icons/bs";
+// import { CiPause1 } from "react-icons/ci";
+// import { MdDesktopAccessDisabled } from "react-icons/md";
+// import { AiOutlineStop } from "react-icons/ai";
+// import { useParams } from "react-router-dom";
+// import { BASE_URL } from "../../../../../constants/staticurls";
+// import { useNavigate } from "react-router-dom";
 
+// const RecordingLectures = () => {
+//   const navigate = useNavigate();
+//   const [isScreenSharing, setIsScreenSharing] = useState(false);
+//   const [screenSharingStream, setScreenSharingStream] = useState(null);
+//   const [isRecording, setIsRecording] = useState(false);
+//   const [isCameraOn, setIsCameraOn] = useState(false);
+//   const [isMicrophoneOn, setIsMicrophoneOn] = useState(false);
+//   //   const [microphoneStream, setMicrophoneStream] = useState(null);
+//   const [elapsedTime, setElapsedTime] = useState(0);
+//   const [theatreMode, setTheatreMode] = useState(false);
 
+//   const cameraVideoRef = useRef(null);
+//   const microphoneStream = useRef(null);
 
+//   const screenSharingVideoRef = useRef(null);
+//   const screenSharingStreamRef = useRef(null);
 
+//   const mediaRecorderRef = useRef(null);
+//   const recordedChunksRef = useRef([]);
 
-import React, { useState, useEffect, useRef } from "react";
-import {
-  Box,
-  Button,
-  IconButton,
-  Icon,
-  Circle,
-  Stack,
-  Tooltip,
-  HStack,
-} from "@chakra-ui/react";
-import {
-  FaMicrophone,
-  FaMicrophoneSlash,
-  FaVideo,
-  FaVideoSlash,
-  FaExpand,
-  FaDesktop,
-} from "react-icons/fa";
-import { BsRecord } from "react-icons/bs";
-import { CiPause1 } from "react-icons/ci";
-import { MdDesktopAccessDisabled } from "react-icons/md";
-import { useParams } from "react-router-dom";
-import { BASE_URL } from "../../../../../constants/staticurls";
-import { useNavigate } from "react-router-dom";
+//   const formatTime = (seconds) => {
+//     const hours = Math.floor(seconds / 3600);
+//     const minutes = Math.floor((seconds % 3600) / 60);
+//     const secs = seconds % 60;
+//     return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+//       2,
+//       "0"
+//     )}:${String(secs).padStart(2, "0")}`;
+//   };
 
-const RecordingLectures = () => {
-  const navigate = useNavigate();
-  const [isScreenSharing, setIsScreenSharing] = useState(false);
-  const [screenSharingStream, setScreenSharingStream] = useState(null);
-  const [isRecording, setIsRecording] = useState(false);
-  const [isCameraOn, setIsCameraOn] = useState(false);
-  const [isMicrophoneOn, setIsMicrophoneOn] = useState(false);
-  const [microphoneStream, setMicrophoneStream] = useState(null);
-  const [elapsedTime, setElapsedTime] = useState(0);
-  const [theatreMode, setTheatreMode] = useState(false);
-  const [isInitialPhase, setIsInitialPhase] = useState(true);
-  const screenSharingVideoRef = useRef(null);
-  const cameraVideoRef = useRef(null);
-  const mediaRecorderRef = useRef(null);
-  const recordedChunksRef = useRef([]);
+//   // Update elapsed time every second
+//   useEffect(() => {
+//     let timerInterval;
 
-  const formatTime = (seconds) => {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
-    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
-      2,
-      "0"
-    )}:${String(secs).padStart(2, "0")}`;
-  };
+//     if (isRecording) {
+//       timerInterval = setInterval(() => {
+//         setElapsedTime((prevElapsedTime) => prevElapsedTime + 1);
+//       }, 1000);
+//     } else {
+//       clearInterval(timerInterval);
+//     }
 
-  // Update elapsed time every second
-  useEffect(() => {
-    let timerInterval;
+//     return () => {
+//       clearInterval(timerInterval);
+//     };
+//   }, [isRecording]);
 
-    if (isRecording) {
-      timerInterval = setInterval(() => {
-        setElapsedTime((prevElapsedTime) => prevElapsedTime + 1);
-      }, 1000);
-    } else {
-      clearInterval(timerInterval);
-    }
+//   const toggleCamera = async () => {
+//     if (!isCameraOn) {
+//       try {
+//         const stream = await navigator.mediaDevices.getUserMedia({
+//           video: true,
+//         });
+//         cameraVideoRef.current.srcObject = stream;
+//         setIsCameraOn(true);
+//       } catch (error) {
+//         console.error("Error accessing camera:", error);
+//       }
+//     } else {
+//       const stream = cameraVideoRef.current.srcObject;
+//       if (stream) {
+//         const tracks = stream.getTracks();
+//         tracks.forEach((track) => track.stop());
+//       }
+//       cameraVideoRef.current.srcObject = null;
+//       setIsCameraOn(false);
+//     }
+//   };
 
-    return () => {
-      clearInterval(timerInterval);
-    };
-  }, [isRecording]);
+//   // toogle microphone.
+//   const toggleMicrophone = async () => {
+//     if (!isMicrophoneOn) {
+//       try {
+//         const stream = await navigator.mediaDevices.getUserMedia({
+//           audio: true,
+//         });
+//         microphoneStream.current = stream;
+//         setIsMicrophoneOn(true);
+//       } catch (error) {
+//         console.error("Error accessing microphone:", error);
+//       }
+//     } else {
+//       const stream = microphoneStream.current;
+//       if (stream) {
+//         const tracks = stream.getAudioTracks();
+//         tracks.forEach((track) => track.stop());
+//       }
+//       microphoneStream.current = null;
+//       setIsMicrophoneOn(false);
+//     }
+//   };
 
-  const toggleScreenSharing = async () => {
-    if (!isScreenSharing) {
-      try {
-        const screenStream = await navigator.mediaDevices.getDisplayMedia({
-          video: { cursor: "never" },
-          audio: false,
-        });
-
-        // Display the screen sharing video in the big box
-        screenSharingVideoRef.current.srcObject = screenStream;
-        setScreenSharingStream(screenStream);
-
-        setIsScreenSharing(true);
-      } catch (error) {
-        console.error("Error sharing the screen:", error);
-      }
-    } else {
-      // Stop screen sharing
-      if (screenSharingStream) {
-        screenSharingStream.getTracks().forEach((track) => track.stop());
-      }
-
-      screenSharingVideoRef.current.srcObject = null;
-      setScreenSharingStream(null);
-
-      setIsScreenSharing(false);
-    }
-  };
-
-  const toggleCamera = async () => {
-    if (!isCameraOn) {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
-        });
-
-        // Access to the camera is granted, and the camera video stream is available in 'stream'.
-        // Set the camera video stream to the 'cameraVideoRef'.
-        cameraVideoRef.current.srcObject = stream;
-
-        // Update the state to indicate that the camera is turned on.
-        setIsCameraOn(true);
-      } catch (error) {
-        if (error.name === "NotAllowedError") {
-          // The user denied camera access permission.
-          console.log("Camera access denied by the user.");
-        } else if (error.name === "NotFoundError") {
-          // The camera was not found or is not available.
-          console.log("Camera not found or not available.");
-        } else {
-          // Handle other errors.
-          console.error("Error accessing the camera:", error);
-        }
-      }
-    } else {
-      // If the camera is already on, stop the camera stream and set it to null.
-      if (cameraVideoRef.current.srcObject) {
-        const tracks = cameraVideoRef.current.srcObject.getTracks();
-        tracks.forEach((track) => track.stop());
-      }
-
-      // Set the camera video stream to null.
-      cameraVideoRef.current.srcObject = null;
-
-      // Update the state to indicate that the camera is turned off.
-      setIsCameraOn(false);
-    }
-  };
-
-  const toggleMicrophone = async () => {
-    if (!isMicrophoneOn) {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          audio: true,
-        });
-
-        // Store the microphone stream and update the state
-        setMicrophoneStream(stream);
-        setIsMicrophoneOn(true);
-      } catch (error) {
-        if (error.name === "NotAllowedError") {
-          // The user denied microphone access permission.
-          console.log("Microphone access denied by the user.");
-        } else if (error.name === "NotFoundError") {
-          // The microphone was not found or is not available.
-          console.log("Microphone not found or not available.");
-        } else {
-          // Handle other errors.
-          console.error("Error accessing the microphone:", error);
-        }
-      }
-    } else {
-      // If the microphone is already on, you can stop the audio stream.
-      if (microphoneStream) {
-        const tracks = microphoneStream.getTracks();
-        tracks.forEach((track) => track.stop());
-      }
-
-      // Set the microphone stream to null and update the state
-      setMicrophoneStream(null);
-      setIsMicrophoneOn(false);
-    }
-  };
+//   //
+//   const toggleScreenSharing = async () => {
+//     if (!isScreenSharing) {
+//       try {
+//         const screenStream = await navigator.mediaDevices.getDisplayMedia({
+//           video: true,
+//         });
+//         screenSharingVideoRef.current.srcObject = screenStream;
+//         screenSharingStreamRef.current = screenStream;
+//         setIsScreenSharing(true);
+//       } catch (error) {
+//         console.error("Error accessing screen sharing:", error);
+//       }
+//     } else {
+//       const screenStream = screenSharingStreamRef.current;
+//       if (screenStream) {
+//         const tracks = screenStream.getTracks();
+//         tracks.forEach((track) => track.stop());
+//       }
+//       screenSharingVideoRef.current.srcObject = null;
+//       screenSharingStreamRef.current = null;
+//       setIsScreenSharing(false);
+//     }
+//   };
 
 //   const startRecording = async () => {
 //     try {
@@ -590,22 +556,24 @@ const RecordingLectures = () => {
 //         ? await navigator.mediaDevices.getUserMedia({ video: true })
 //         : null;
 
+//       // Get the audio stream
+//       const audioStream = isMicrophoneOn
+//         ? await navigator.mediaDevices.getUserMedia({ audio: true })
+//         : null;
+
 //       // Combine the video, audio, and screen sharing streams
 //       const combinedStream = new MediaStream();
+
 //       if (screenSharingStream) {
-//         screenSharingStream
-//           .getTracks()
-//           .forEach((track) => combinedStream.addTrack(track));
+//         screenSharingStream.getTracks().forEach((track) => combinedStream.addTrack(track));
 //       }
-//       if (isMicrophoneOn && microphoneStream) {
-//         microphoneStream
-//           .getTracks()
-//           .forEach((track) => combinedStream.addTrack(track));
+
+//       if (audioStream) {
+//         audioStream.getTracks().forEach((track) => combinedStream.addTrack(track));
 //       }
+
 //       if (videoStream) {
-//         videoStream
-//           .getTracks()
-//           .forEach((track) => combinedStream.addTrack(track));
+//         videoStream.getTracks().forEach((track) => combinedStream.addTrack(track));
 //       }
 
 //       // Create a MediaRecorder with the combined stream
@@ -629,97 +597,464 @@ const RecordingLectures = () => {
 //     }
 //   };
 
+//   const stopRecording = () => {
+//     const blob = new Blob(recordedChunksRef.current, { type: "video/webm" });
 
+//     // Create an object URL for the blob
+//     const url = window.URL.createObjectURL(blob);
 
-const startRecording = async () => {
+//     // Create a download link
+//     const a = document.createElement("a");
+//     a.style.display = "none";
+//     a.href = url;
+//     a.download = "recording.webm";
+
+//     // Append the download link to the body
+//     document.body.appendChild(a);
+
+//     // Trigger a click event on the download link
+//     a.click();
+
+//     // Remove the download link from the body
+//     document.body.removeChild(a);
+
+//     // Revoke the object URL to free up resources
+//     window.URL.revokeObjectURL(url);
+//   };
+
+//   const toggleRecording = () => {
+//     if (isRecording) {
+//       // Stop recording
+//       mediaRecorderRef.current.stop();
+//       setIsRecording(false);
+//       stopRecording(); // You can implement this function to save the recorded chunks as a video file.
+//     } else {
+//       // Start recording
+//       startRecording();
+//     }
+//   };
+
+//   return (
+//     <Box
+//       h="80vh"
+//       width={theatreMode ? "120%" : "90%"}
+//       borderRadius="12px"
+//       boxShadow="md"
+//       position="relative"
+//       display="flex"
+//       flexDirection="column"
+//       bg={"black"}
+//     >
+//       <Stack
+//         position="absolute"
+//         top="20px"
+//         left="20px"
+//         zIndex="1"
+//         direction="column"
+//       >
+//         <HStack gap={"18px"}>
+//           <Circle size="40px" bg="white">
+//             <Tooltip label="Theatre Mode" placement="right">
+//               <IconButton
+//                 isRound
+//                 icon={<Icon as={FaExpand} boxSize={4} />}
+//                 size="sm"
+//                 onClick={() => setTheatreMode(!theatreMode)}
+//               />
+//             </Tooltip>
+//           </Circle>
+
+//           <Box top="20px" bg={"#F1F5F8"} padding="5px" borderRadius="27px">
+//             {formatTime(elapsedTime)}
+//           </Box>
+//         </HStack>
+//         <Circle size="40px" bg="white" mt={10}>
+//           <Tooltip
+//             label={isCameraOn ? "Turn Off Camera" : "Turn On Camera"}
+//             placement="right"
+//           >
+//             <IconButton
+//               isRound
+//               icon={
+//                 <Icon as={isCameraOn ? FaVideo : FaVideoSlash} boxSize={4} />
+//               }
+//               size="sm"
+//               onClick={toggleCamera}
+//             />
+//           </Tooltip>
+//         </Circle>
+//         <Circle size="40px" bg="white">
+//           <Tooltip
+//             label={isMicrophoneOn ? "Mute Microphone" : "Unmute Microphone"}
+//             placement="right"
+//           >
+//             <IconButton
+//               isRound
+//               icon={
+//                 <Icon
+//                   as={isMicrophoneOn ? FaMicrophone : FaMicrophoneSlash}
+//                   boxSize={4}
+//                 />
+//               }
+//               size="sm"
+//               onClick={toggleMicrophone} // Toggle microphone on click
+//             />
+//           </Tooltip>
+//         </Circle>
+
+//         <Circle size="40px" bg="white" mt={5}>
+//           <Tooltip
+//             label={isRecording ? "Stop Recording" : "Start Recording"}
+//             placement="right"
+//           >
+//             <IconButton
+//               isRound
+//               icon={
+//                 isRecording ? (
+//                   <Icon as={BsRecord} boxSize={4} />
+//                 ) : (
+//                   <Icon as={AiOutlineStop} boxSize={4} />
+//                 )
+//               }
+//               size="sm"
+//               onClick={toggleRecording}
+//             />
+//           </Tooltip>
+//         </Circle>
+
+//         <Circle size="40px" bg="white">
+//           <Tooltip label="Screen Sharing" placement="right">
+//             <IconButton
+//               icon={
+//                 isScreenSharing ? (
+//                   <Icon as={FaDesktop} boxSize={4} />
+//                 ) : (
+//                   <Icon as={MdDesktopAccessDisabled} boxSize={4} />
+//                 )
+//               }
+//               size="sm"
+//               onClick={toggleScreenSharing}
+//             />
+//           </Tooltip>
+//         </Circle>
+
+//         <Button
+//           bg="#F63F4A"
+//           w="50px"
+//           borderRadius="27px"
+//           color="white"
+//           mt={"50%"}
+//           fontWeight={500}
+//           size="sm"
+//         >
+//           End
+//         </Button>
+//       </Stack>
+
+//       <Box position="absolute" top="0" left="0" width="100%" height="100%">
+//         <video
+//           ref={screenSharingVideoRef}
+//           style={{
+//             width: "100%",
+//             height: "100%",
+//             objectFit: "cover",
+//             overflow: "hidden",
+//             borderRadius: "20px",
+//             background: "black",
+//           }}
+//           autoPlay
+//         />
+//       </Box>
+
+//       <Box position="absolute" top="50px" right="10px" width="30%" height="35%">
+//         {/* Small video box for camera feed */}
+//         <video
+//           ref={cameraVideoRef}
+//           style={{
+//             width: "100%",
+//             height: "100%",
+//             objectFit: "cover",
+//             overflow: "hidden",
+//             borderRadius: "10px",
+//             background: "black",
+//             visibility: isCameraOn ? "visible" : "hidden",
+//           }}
+//           autoPlay
+//         />
+//       </Box>
+//     </Box>
+//   );
+// };
+
+// export default RecordingLectures;
+
+import React, { useState, useEffect, useRef } from "react";
+import {
+  Box,
+  Button,
+  IconButton,
+  Icon,
+  Circle,
+  Stack,
+  Tooltip,
+  HStack,
+} from "@chakra-ui/react";
+import {
+  FaMicrophone,
+  FaMicrophoneSlash,
+  FaVideo,
+  FaVideoSlash,
+  FaExpand,
+  FaDesktop,
+} from "react-icons/fa";
+import { BsRecord } from "react-icons/bs";
+import { MdDesktopAccessDisabled } from "react-icons/md";
+import { AiOutlineStop } from "react-icons/ai";
+import { useParams } from "react-router-dom";
+import { BASE_URL } from "../../../../../constants/staticurls";
+import { useNavigate } from "react-router-dom";
+
+const RecordingLectures = () => {
+  const navigate = useNavigate();
+  const [isScreenSharing, setIsScreenSharing] = useState(false);
+  const [screenSharingStream, setScreenSharingStream] = useState(null);
+  const [isRecording, setIsRecording] = useState(false);
+  const [isCameraOn, setIsCameraOn] = useState(false);
+  const [isMicrophoneOn, setIsMicrophoneOn] = useState(false);
+  const [elapsedTime, setElapsedTime] = useState(0);
+
+  const cameraVideoRef = useRef(null);
+  const screenSharingVideoRef = useRef(null);
+  const mediaRecorderRef = useRef(null);
+  const recordedChunksRef = useRef([]);
+
+  const formatTime = (seconds) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+      2,
+      "0"
+    )}:${String(secs).padStart(2, "0")}`;
+  };
+
+  // Update elapsed time every second
+  //   useEffect(() => {
+  //     let timerInterval;
+
+  //     if (isRecording) {
+  //       timerInterval = setInterval(() => {
+  //         elapsedTimeRef.current += 1;
+  //       }, 1000);
+  //     } else {
+  //       clearInterval(timerInterval);
+  //     }
+
+  //     return () => {
+  //       clearInterval(timerInterval);
+  //     };
+  //   }, [isRecording]);
+
+  useEffect(() => {
+    let timerInterval;
+
+    if (isRecording) {
+      timerInterval = setInterval(() => {
+        setElapsedTime((prevTime) => prevTime + 1); // Update elapsed time using useState
+      }, 1000);
+    } else {
+      clearInterval(timerInterval);
+    }
+
+    return () => {
+      clearInterval(timerInterval);
+    };
+  }, [isRecording]);
+
+  const toggleCamera = async () => {
+    if (!isCameraOn) {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+        });
+        cameraVideoRef.current.srcObject = stream;
+        setIsCameraOn(true);
+      } catch (error) {
+        console.error("Error accessing camera:", error);
+      }
+    } else {
+      const stream = cameraVideoRef.current.srcObject;
+      if (stream) {
+        const tracks = stream.getTracks();
+        tracks.forEach((track) => track.stop());
+      }
+      cameraVideoRef.current.srcObject = null;
+      setIsCameraOn(false);
+    }
+  };
+  const audioStreamRef = useRef(null); // Ref to store the audio stream
+
+  const toggleMicrophone = async () => {
+    if (!isMicrophoneOn) {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+        });
+        audioStreamRef.current = stream; // Store the audio stream in the ref
+        setIsMicrophoneOn(true);
+      } catch (error) {
+        console.error("Error accessing microphone:", error);
+      }
+    } else {
+      // Stop the audio tracks from the stored audio stream
+      const audioStream = audioStreamRef.current;
+      if (audioStream) {
+        const audioTracks = audioStream.getAudioTracks();
+        audioTracks.forEach((track) => track.stop());
+      }
+      audioStreamRef.current = null;
+      setIsMicrophoneOn(false);
+    }
+  };
+
+  const toggleScreenSharing = async () => {
+    if (!isScreenSharing) {
+      try {
+        const screenStream = await navigator.mediaDevices.getDisplayMedia({
+          video: true,
+        });
+        screenSharingVideoRef.current.srcObject = screenStream;
+        setScreenSharingStream(screenStream);
+        setIsScreenSharing(true);
+      } catch (error) {
+        console.error("Error accessing screen sharing:", error);
+      }
+    } else {
+      const screenStream = screenSharingStream;
+      if (screenStream) {
+        const tracks = screenStream.getTracks();
+        tracks.forEach((track) => track.stop());
+      }
+      screenSharingVideoRef.current.srcObject = null;
+      setScreenSharingStream(null);
+      setIsScreenSharing(false);
+    }
+  };
+
+  const startRecording = async () => {
     try {
       // Get the video stream
       const videoStream = isCameraOn
         ? await navigator.mediaDevices.getUserMedia({ video: true })
         : null;
-  
+
       // Get the audio stream
       const audioStream = isMicrophoneOn
-        ? await navigator.mediaDevices.getUserMedia({ audio: true })
+        ? audioStreamRef.current // Use the stored audio stream
         : null;
-  
+
       // Combine the video, audio, and screen sharing streams
       const combinedStream = new MediaStream();
-  
+
       if (screenSharingStream) {
-        screenSharingStream.getTracks().forEach((track) => combinedStream.addTrack(track));
+        screenSharingStream
+          .getTracks()
+          .forEach((track) => combinedStream.addTrack(track));
       }
-  
+
       if (audioStream) {
-        audioStream.getTracks().forEach((track) => combinedStream.addTrack(track));
+        audioStream
+          .getTracks()
+          .forEach((track) => combinedStream.addTrack(track));
       }
-  
+
       if (videoStream) {
-        videoStream.getTracks().forEach((track) => combinedStream.addTrack(track));
+        videoStream
+          .getTracks()
+          .forEach((track) => combinedStream.addTrack(track));
       }
-  
+
       // Create a MediaRecorder with the combined stream
       mediaRecorderRef.current = new MediaRecorder(combinedStream);
-  
+
       mediaRecorderRef.current.ondataavailable = (event) => {
         if (event.data.size > 0) {
           recordedChunksRef.current.push(event.data);
         }
       };
-  
+
       mediaRecorderRef.current.onstop = () => {
         // Recording stopped
         stopRecording(); // You can implement this function to save the recorded chunks as a video file.
       };
-  
+
       mediaRecorderRef.current.start();
       setIsRecording(true);
     } catch (error) {
       console.error("Error accessing the audio or video stream:", error);
     }
   };
-  
-
   const stopRecording = () => {
-    const blob = new Blob(recordedChunksRef.current, { type: "video/webm" });
+    if (mediaRecorderRef.current) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
 
-    // Create an object URL for the blob
-    const url = window.URL.createObjectURL(blob);
+      const blob = new Blob(recordedChunksRef.current, { type: "video/webm" });
 
-    // Create a download link
-    const a = document.createElement("a");
-    a.style.display = "none";
-    a.href = url;
-    a.download = "recording.webm";
+      // Create an object URL for the blob
+      const url = window.URL.createObjectURL(blob);
 
-    // Append the download link to the body
-    document.body.appendChild(a);
+      // Create a download link
+      const a = document.createElement("a");
+      a.style.display = "none";
+      a.href = url;
+      a.download = "recorded-video.webm"; // You can change the filename as needed
 
-    // Trigger a click event on the download link
-    a.click();
+      // Append the download link to the body
+      document.body.appendChild(a);
 
-    // Remove the download link from the body
-    document.body.removeChild(a);
+      // Trigger a click event on the download link
+      a.click();
 
-    // Revoke the object URL to free up resources
-    window.URL.revokeObjectURL(url);
+      // Remove the download link from the body
+      document.body.removeChild(a);
+
+      // Revoke the object URL to free up resources
+      window.URL.revokeObjectURL(url);
+
+      console.log("Recording stopped. Video URL:", url);
+    }
   };
+
+  //   const toggleRecording = () => {
+  //     if (isRecording) {
+  //       // Stop recording
+  //       stopRecording();
+  //     } else {
+  //       // Start recording
+  //       startRecording();
+  //     }
+  //   };
 
   const toggleRecording = () => {
     if (isRecording) {
       // Stop recording
-      mediaRecorderRef.current.stop();
-      setIsRecording(false);
-      stopRecording(); // You can implement this function to save the recorded chunks as a video file.
+      stopRecording();
     } else {
-      // Start recording
-      startRecording();
+      if (isScreenSharing && isMicrophoneOn) {
+        // Start recording
+        startRecording();
+      } else {
+        // You can provide a message or an alert to the user to indicate that both screen share and microphone must be enabled before starting the recording.
+        alert("Please enable both screen sharing and microphone before starting the recording.");
+      }
     }
   };
+
   return (
     <Box
       h="80vh"
-      width={theatreMode ? "120%" : "90%"}
+      width={"90%"}
       borderRadius="12px"
       boxShadow="md"
       position="relative"
@@ -741,7 +1076,7 @@ const startRecording = async () => {
                 isRound
                 icon={<Icon as={FaExpand} boxSize={4} />}
                 size="sm"
-                onClick={() => setTheatreMode(!theatreMode)}
+                // onClick={() => setTheatreMode(!theatreMode)}
               />
             </Tooltip>
           </Circle>
@@ -791,7 +1126,13 @@ const startRecording = async () => {
           >
             <IconButton
               isRound
-              icon={<Icon as={BsRecord} boxSize={4} />}
+              icon={
+                isRecording ? (
+                  <Icon as={BsRecord} boxSize={4} />
+                ) : (
+                  <Icon as={AiOutlineStop} boxSize={4} />
+                )
+              }
               size="sm"
               onClick={toggleRecording}
             />
@@ -813,6 +1154,7 @@ const startRecording = async () => {
             />
           </Tooltip>
         </Circle>
+
         <Button
           bg="#F63F4A"
           w="50px"
