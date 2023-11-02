@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import SoloRecordModal from "../../SoloRecordModal/components/SoloRecordModal";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../../api/inspexternalapis";
+import "../../../../../constants/scrollbar/style.css"
 import axios from "axios";
 const TopicsBased = ({ setViewTopic }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -101,7 +102,7 @@ const TopicsBased = ({ setViewTopic }) => {
         </Flex>
       ) : (
         // Render topics when loading is complete
-        <Flex overflowX={"auto"}>
+        <Flex overflowX={"auto"} className="example">
           {topics.map((topic) => (
             <Card
               key={topic.id}
@@ -111,6 +112,7 @@ const TopicsBased = ({ setViewTopic }) => {
               blendMode={"multiply"}
               mx={6}
               borderRadius={"26px"}
+             
             >
               <Text
                 fontSize={"15px"}

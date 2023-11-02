@@ -13,9 +13,12 @@ import {
 } from "@chakra-ui/react";
 import { fetchAllTopicsApi } from "../../../../../../api/inspexternalapis/index";
 import { useParams } from "react-router-dom";
-  import "../../../../../../constants/scrollbar/style.css"
-import topicDescriptionConstants from "../../../../../../constants/topicDescriptionConstants"
-const ViewAllRecordingsRelatedToOneChapter = ({ setViewTopic }) => {
+import "../../../../../../constants/scrollbar/style.css";
+import topicDescriptionConstants from "../../../../../../constants/topicDescriptionConstants";
+const ViewAllRecordingsRelatedToOneChapter = ({
+  setViewTopic,
+  setTopicName,
+}) => {
   const { chapter_id, chapter_name } = useParams();
   const [topics, setTopics] = useState([]);
   const [isLoading, setLoading] = useState(true);
@@ -74,8 +77,7 @@ const ViewAllRecordingsRelatedToOneChapter = ({ setViewTopic }) => {
           No topics for this chapter.
         </Text>
       ) : (
-     
-            <Flex m={"20px"} gap={"24px"} p={1} > 
+        <Flex m={"20px"} gap={"24px"} p={1}>
           {topics.map((topic) => (
             <Card
               key={topic.id}
@@ -83,7 +85,7 @@ const ViewAllRecordingsRelatedToOneChapter = ({ setViewTopic }) => {
               minW={"30%"}
               bg={"#F1F5F8"}
               blendMode={"multiply"}
-              borderRadius={"26px"} 
+              borderRadius={"26px"}
             >
               <Text
                 fontSize={"15px"}
@@ -121,7 +123,7 @@ const ViewAllRecordingsRelatedToOneChapter = ({ setViewTopic }) => {
                 noOfLines={"3"}
                 color={"rgba(44, 51, 41, 0.47)"}
               >
-                  {topicDescriptionConstants[topic.id]}
+                {topicDescriptionConstants[topic.id]}
               </Text>
 
               <Button
@@ -130,8 +132,12 @@ const ViewAllRecordingsRelatedToOneChapter = ({ setViewTopic }) => {
                 fontWeight={"600"}
                 size={"14px"}
                 lineHeight={"16px"}
-               m={"20px"}
-                onClick={() => setViewTopic(topic.id)}
+                m={"20px"}
+                // onClick={() => setViewTopic(topic.id) }
+                onClick={() => {
+                  setViewTopic(topic.id);
+                  setTopicName(topic.name); // Call setTopicName with the topic name
+                }}
               >
                 View Details
               </Button>

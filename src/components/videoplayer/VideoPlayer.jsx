@@ -7,8 +7,6 @@ import "videojs-contrib-eme";
 import "videojs-contrib-dash";
 import "dashjs";
 
-// import awesomeWatermark from "videojs-awesome-watermark";
-// import "videojs-awesome-watermark/dist/videojs-awesome-watermark.css";
 import { playRecordingApi } from "../../api/recordingapi";
 import WaterMark from "../watermark/WaterMark";
 import { checkUserType, getStorageData } from "../../utils";
