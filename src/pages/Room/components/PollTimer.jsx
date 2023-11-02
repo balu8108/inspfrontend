@@ -1,44 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Box, Flex, Text, Grid, GridItem, useTheme } from "@chakra-ui/react";
 import MainBtn from "../../../components/button/MainBtn";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { QnATypeValues } from "../../../constants/staticvariables";
-import { setSendPollResponse } from "../../../store/actions/socketActions";
+
 import { sendPollTimeIncreaseToServer } from "../../../socketconnections/socketconnections";
 
-const PollTimer = () => {
+const PollTimer = ({ timer, setTimer }) => {
   const { backgroundLightBlue, primaryBlue, primaryBlueLight } =
     useTheme().colors.pallete;
-  const [timer, setTimer] = useState(0);
+
   const { pollData } = useSelector((state) => state.socket);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (!pollData) {
-      return;
-    }
-    setTimer(pollData?.time);
-    const timerInterval = setInterval(() => {
-      setTimer((prev) => {
-        if (prev === 0) {
-          clearInterval(timerInterval);
-          dispatch(setSendPollResponse(null)); // time has elapsed now set poll timer box to null
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => {
-      dispatch(setSendPollResponse(null));
-      clearInterval(timerInterval);
-    };
-  }, [pollData]);
 
   return (
     <>
       {pollData && (
-        <Box position={"absolute"} bg={backgroundLightBlue} w={"full"} p={2}>
+        <Box
+          position={"absolute"}
+          bg={backgroundLightBlue}
+          w={"full"}
+          p={2}
+          zIndex={10}
+          height={"100%"}
+        >
           <Text>Poll/Q&A</Text>
           <Flex
             direction={"column"}

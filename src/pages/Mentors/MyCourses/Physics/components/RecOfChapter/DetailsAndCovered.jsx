@@ -16,25 +16,30 @@ import {
 import { BsDownload } from "react-icons/bs";
 import chapterDetailsData from "../../data/Details";
 import defaultImageUrl from "../../../.././../../assets/images/image1.png";
-import viewChapterRecordings from "../../data/recording";
+
 import { IoIosAdd } from "react-icons/io";
-import UploadAssignmentPopup from "../../../../../../components/popups/UploadAssignmentPopup";
-import { checkUserType } from "../../../../../../utils";
+
+import {
+  checkUserType,
+  extractFileNameFromS3URL,
+} from "../../../../../../utils";
 import { userType } from "../../../../../../constants/staticvariables";
 import { BASE_URL } from "../../../../../../constants/staticurls";
-import { extractFileNameFromS3URL } from "../../../../../../utils";
+
 import axios from "axios";
 import { setIsDocModalOpen } from "../../../../../../store/actions/genericActions";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
   const [liveClassRoomData, setLiveClassRoomData] = useState(null);
-  console.log("live class data ", liveClassRoomData);
+
   const [assignmentDetails, setAssignmentDetails] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedFileUrl, setSelectedFileUrl] = useState("");
   const userRoleType = checkUserType();
   // const maxAssignmentsToShow = 5;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleCloseDocumentViewer = () => {
     setModalIsOpen(false);
@@ -48,7 +53,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
       );
 
       const liveRecordingsData = response.data;
-      console.log("Live  class  room  Data from API:", liveRecordingsData);
+
       setLiveClassRoomData(liveRecordingsData);
     } catch (error) {
       console.error("Error fetching live class room", error);
@@ -74,6 +79,11 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
     } catch (error) {
       console.error("Error fetching topic details:", error);
     }
+  };
+
+  const handleViewRecording = (recording) => {
+    console.log("recoridng", recording);
+    navigate(`/view-recording?type=live_specific&id=${recording.id}`);
   };
 
   useEffect(() => {
@@ -131,15 +141,16 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
         <Flex>
           {liveClassRoomData ? (
             liveClassRoomData?.data.map((liveClassData) => (
-              <Flex gap={"24px"}>
+              <Flex gap={"24px"} key={liveClassData.id}>
                 {liveClassData?.LiveClassRoomRecordings.map(
                   (recording, index) => (
                     <Card
-                      key={index}
+                      key={recording.id}
                       mt={"15px"}
                       color={"#2C332978"}
                       fontSize={"13px"}
                       w={"120px"}
+                      onClick={(recording) => handleViewRecording(recording)}
                     >
                       <Image
                         src={recording.imageUrl || defaultImageUrl}

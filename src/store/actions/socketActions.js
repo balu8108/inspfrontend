@@ -32,6 +32,9 @@ import {
   SET_QUESTION_MSG,
   SET_SEND_POLL_RESPONSE,
   SET_POLL_TIMER_INCREASE,
+  RESET_CHAT_MESSAGES,
+  RESET_QUESTION_MESSAGES,
+  CHANGE_POLL_DATA_TIMER,
 } from "../constants";
 
 export const setSocket = (socket) => {
@@ -184,4 +187,11 @@ export const setSendPollResponse = (value) => async (dispatch) => {
 
 export const setTimerIncrease = (value) => async (dispatch) => {
   dispatch({ type: SET_POLL_TIMER_INCREASE, payload: value });
+};
+
+export const resetChatMessages = () => async (dispatch) => {
+  dispatch({ type: RESET_CHAT_MESSAGES });
+};
+export const resetQuestionMessags = () => async (dispatch) => {
+  dispatch({ type: RESET_QUESTION_MESSAGES });
 };

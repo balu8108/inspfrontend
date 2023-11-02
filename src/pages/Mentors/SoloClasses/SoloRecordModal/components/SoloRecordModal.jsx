@@ -39,13 +39,11 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
   const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
 
-  const apiUrl = "http://localhost:5000";
   const fileInputRef = useRef(null);
 
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
     setFiles((prevFiles) => [...prevFiles, ...selectedFiles]);
-    console.log("Selected Files:", selectedFiles);
   };
 
   const handleSubmit = async () => {

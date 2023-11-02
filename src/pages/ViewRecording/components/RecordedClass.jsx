@@ -1,19 +1,15 @@
-import {
-  Box,
-  HStack,
-  Text,
-  Flex,
-  Icon,
-  Image,
-  Card,
-  SimpleGrid,
-} from "@chakra-ui/react";
-import recordedClassData from "../data/recordedClassData";
-import { BsDownload } from "react-icons/bs";
+import { Box, HStack, Text, Flex, Icon, Image, Card } from "@chakra-ui/react";
+
 import { FaCircle } from "react-icons/fa";
 import defaultImageUrl from "../../../assets/images/image1.png";
-import { Link } from "react-router-dom";
-const RecordedClass = () => {
+
+import FileBoxComponent from "../../../components/filebox/FileBoxComponent";
+import { fileTypes } from "../../../constants/staticvariables";
+const RecordedClass = ({
+  recordingDetail,
+  activeRecording,
+  setActiveRecording,
+}) => {
   return (
     <Box
       width={"400px"}
@@ -41,123 +37,93 @@ const RecordedClass = () => {
           Recorded Class
         </Text>
       </HStack>
-      <Box p={5}>
-        <Box>
-          {recordedClassData.map((recDetails) => (
-            <Box>
-              <Text
-                fontSize={"15px"}
-                lineHeight={"18px"}
-                fontWeight={400}
-                color={"rgba(44, 51, 41, 1)"}
-                mt={"28px"}
-              >
-                {recDetails.chapterName}
-              </Text>
-
-              <Text
-                fontSize={"12px"}
-                fontWeight={400}
-                lineHeight={"14px"}
-                color={"rgba(44, 51, 41, 0.47)"}
-              >
-                {recDetails.instructorName}
-              </Text>
-            </Box>
-          ))}
-        </Box>
-        <Box>
-          <Text mt={"29px"} fontSize={"15px"} lineHeight={"19px"}>
-            Description
+      <Box>
+        <Box ml={"30px"}>
+          <Text
+            fontSize={"15px"}
+            lineHeight={"18px"}
+            fontWeight={400}
+            color={"rgba(44, 51, 41, 1)"}
+            mt={"28px"}
+          >
+            {recordingDetail?.LiveClassRoomDetail?.topicName}
           </Text>
-          {recordedClassData.map((recDetails) => (
-            <Text
-              key={recDetails.id}
-              color={"#2C332978"}
-              fontSize={"12px"}
-              lineHeight={"20px"}
-            >
-              {recDetails.description}
-            </Text>
-          ))}
-        </Box>
-        <Text mt={"26px"}>Files</Text>
-        <Box
-          bg={"blackAlpha.200"}
-          w={"348px"}
-          h={"43px"}
-          mt={6}
-          mr={"30px"}
-          p={"6px"}
-          justifyContent={"space-between"}
-          borderRadius={"6px"}
-          border={"1px"}
-          borderColor={"#9597927D"}
-        >
-          <Icon ml={"290px"} w={"18px"} h={"18px"} as={BsDownload} />
-        </Box>
-        <Box
-          bg={"blackAlpha.200"}
-          w={"348px"}
-          h={"43px"}
-          mt={6}
-          mr={"30px"}
-          p={"6px"}
-          justifyContent={"space-between"}
-          borderRadius={"6px"}
-          border={"1px"}
-          borderColor={"#9597927D"}
-        >
-          <Icon ml={"290px"} w={"18px"} h={"18px"} as={BsDownload} />
-        </Box>
-        <Box>
-          <Box>
-            {recordedClassData.map((classAgenda) => (
-              <Box key={classAgenda.id} mt="13px" p="13px" fontSize={"12px"}>
-                <Text fontSize="16px" lineHeight={"19px"}>
-                  Agenda
-                </Text>
-                <Box>
-                  <Box mt={"16px"}>
-                    {classAgenda.agenda.map((aim) => (
-                      <Box key={aim.id} mt={"10px"}>
-                        <Icon
-                          boxSize={3}
-                          color={"#E0E0E0"}
-                          as={FaCircle}
-                          mr={"10px"}
-                        />
 
-                        {aim.aim}
-                      </Box>
-                    ))}
-                  </Box>
+          <Text
+            fontSize={"12px"}
+            fontWeight={400}
+            lineHeight={"14px"}
+            color={"rgba(44, 51, 41, 0.47)"}
+          >
+            {recordingDetail?.mentorName}
+          </Text>
+        </Box>
+      </Box>
+      <Box ml={"30px"}>
+        <Text mt={"29px"} fontSize={"15px"} lineHeight={"19px"}>
+          Description
+        </Text>
+
+        <Text color={"#2C332978"} fontSize={"12px"} lineHeight={"20px"}>
+          {recordingDetail?.LiveClassRoomDetail?.description}
+        </Text>
+      </Box>
+      <Text mt={"26px"} ml={"30px"}>
+        Files
+      </Text>
+
+      <Box my={4} ml={"30px"} mr={"30px"}>
+        {recordingDetail?.LiveClassRoomFiles.length > 0 ? (
+          <FileBoxComponent
+            data={recordingDetail.LiveClassRoomFiles}
+            type={fileTypes.live}
+          />
+        ) : (
+          <Text fontSize={"0.8rem"}>No Files</Text>
+        )}
+      </Box>
+
+      <Box>
+        <Box>
+          <Box mt="13px" ml="30px" p="13px" fontSize={"12px"}>
+            <Text fontSize="16px" lineHeight={"19px"}>
+              Agenda
+            </Text>
+            <Box>
+              <Box mt={"16px"}>
+                <Box mt={"10px"}>
+                  <Icon
+                    boxSize={3}
+                    color={"#E0E0E0"}
+                    as={FaCircle}
+                    mr={"10px"}
+                  />
+                  {recordingDetail?.LiveClassRoomDetail?.agenda}
                 </Box>
               </Box>
-            ))}
+            </Box>
           </Box>
-          <Box overflowX={"auto"}>
-            <Text>Recordings</Text>
-            <Flex>
-              {recordedClassData.map((topicInfo) => (
-                <Flex key={topicInfo.id} gap={"24px"}>
-                  {topicInfo.recordings.map((recording) => (
+        </Box>
+        <Box p={"13px"} overflowX={"auto"}>
+          <Text>Recordings</Text>
+          {recordingDetail?.LiveClassRoomRecordings?.map(
+            (lr) =>
+              lr.id !== activeRecording?.id && (
+                <Flex key={lr.id}>
+                  <Flex gap={"24px"}>
                     <Card
-                      key={recording.id}
                       mt={"15px"}
                       color={"#2C332978"}
                       fontSize={"13px"}
                       w={"150px"}
+                      onClick={() => setActiveRecording(lr)}
                     >
-                      <Link to="/view-recording">
-                        <Image src={defaultImageUrl} alt="Default Image" />
-                      </Link>
+                      <Image src={defaultImageUrl} alt="Default Image" />
                     </Card>
-                  ))}
+                  </Flex>
                 </Flex>
-              ))}
-            </Flex>
-          </Box>
+              )
+          )}
         </Box>
       </Box>
     </Box>

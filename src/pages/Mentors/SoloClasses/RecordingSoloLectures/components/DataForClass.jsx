@@ -97,7 +97,8 @@ const DataForClass = () => {
 
           <Box m={"12px"}>
             <Text>Files</Text>
-            {fileItems.map((file, index) => (
+            {console.log("file items", fileItems)}
+            {/* {fileItems.map((file, index) => (
               <Flex
                 h={"40px"}
                 key={index}
@@ -126,7 +127,7 @@ const DataForClass = () => {
                   }
                 ></Button>
               </Flex>
-            ))}
+            ))} */}
           </Box>
         </Stack>
       )}

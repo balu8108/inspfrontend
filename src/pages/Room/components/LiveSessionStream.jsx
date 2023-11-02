@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Box } from "@chakra-ui/react";
+import { Flex, Box, Text } from "@chakra-ui/react";
 
 import { useSelector } from "react-redux";
 import ToolBox from "./ToolBox";
@@ -8,6 +8,9 @@ import StudentPollsMCQBox from "./StudentPollsMCQBox";
 import RaiseHand from "./RaiseHand";
 import WebAudioPlayer from "../../../components/webaudioplayer/WebAudioPlayer";
 import MiroBoard from "./MiroBoard";
+import { checkUserType, getStorageData } from "../../../utils";
+import { userType } from "../../../constants/staticvariables";
+import WaterMark from "../../../components/watermark/WaterMark";
 
 const LiveSessionStream = (props) => {
   const {
@@ -39,6 +42,8 @@ const LiveSessionStream = (props) => {
   const { mentorScreenShareConsumer, audioConsumers, raiseHands } = useSelector(
     (state) => state.socket
   );
+  const userRoleType = checkUserType();
+  const { data: inspUserProfile } = getStorageData("insp_user_profile");
 
   const renderMentorScreenShare = () => {
     const getMentorScreenShare = mentorScreenShareConsumer;
@@ -86,6 +91,46 @@ const LiveSessionStream = (props) => {
     }
   }, [mentorScreenShareConsumer]);
 
+  useEffect(() => {
+    const checkWaterMark = () => {
+      if (userRoleType === userType.student) {
+        const watermarkUserName = document.getElementById(
+          "watermark-user-name"
+        );
+        const watermarkUserEmail = document.getElementById(
+          "watermark-user-email"
+        );
+        console.log("water makr", watermarkUserName);
+        console.log("water mark", watermarkUserEmail);
+        let isWaterMark = true;
+        if (!watermarkUserName || !watermarkUserEmail) {
+          isWaterMark = false;
+        } else if (
+          (watermarkUserName &&
+            (watermarkUserName.style.display === "none" ||
+              watermarkUserName.style.visibility === "hidden")) ||
+          (watermarkUserEmail &&
+            (watermarkUserEmail.style.display === "none" ||
+              watermarkUserEmail.style.visibility === "hidden"))
+        ) {
+          isWaterMark = false;
+        } else if (
+          watermarkUserName.textContent !== inspUserProfile.name ||
+          watermarkUserEmail.textContent !== inspUserProfile.email
+        ) {
+          isWaterMark = false;
+        }
+        if (!isWaterMark) {
+          screenShareRef.current.srcObject = null;
+        }
+      }
+    };
+    const watermarkCheckInterval = setInterval(checkWaterMark, 2000);
+    return () => {
+      clearInterval(watermarkCheckInterval);
+    };
+  }, []);
+
   return (
     <>
       <Box
@@ -114,6 +159,9 @@ const LiveSessionStream = (props) => {
             borderRadius: "10px",
           }}
         />
+        {userRoleType === userType.student && (
+          <WaterMark inspUserProfile={inspUserProfile} />
+        )}
         <audio ref={micRef} autoPlay playsInline hidden muted />
         <Box id="remote_audios">
           {audioConsumers.length > 0 &&
