@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useNavigate} from "react-router-dom"; // Import useHistory
 import { Box, Button, Flex, HStack, useDisclosure } from "@chakra-ui/react";
-import MyCourses from "../../MyCourses/components/Header";
+// import MyCourses from "../../MyCourses/components/Header";
+import Header from "../../Mentors/Header/components/HeaderInAllScreen";
 import Improvement from "../components/Improvement";
 import Assignment from "../components/Assignment";
 import Library from "../components/Library";
@@ -26,7 +27,7 @@ const StudentHomePage = () => {
     <>
       <Flex m={"52px"} justifyContent={"space-between"} gap={6}>
         <Box w="75%">
-          <MyCourses />
+          <Header />
           <HStack spacing={"24px"}>
             <Improvement />
             <Assignment />
