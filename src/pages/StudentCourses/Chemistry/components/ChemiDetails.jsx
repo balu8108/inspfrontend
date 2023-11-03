@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Text, HStack ,VStack,Center,Image} from "@chakra-ui/react";
+import { Box, Text, HStack, VStack, Center, Image } from "@chakra-ui/react";
 import ChemistryImage from "../../../../assets/images/undraw_science_re_mnnr 1.svg";
 const ChemDetails = () => {
   return (
