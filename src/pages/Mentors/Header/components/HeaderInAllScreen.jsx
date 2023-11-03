@@ -60,7 +60,7 @@ const Header = () => {
   }, []);
 
   return (
-    <Box bg={"#F1F5F8"} borderRadius={"25px"} w={"100%"} >
+    <Box bg={"#F1F5F8"} borderRadius={"25px"} w={"100%"}>
       <HStack spacing={"10px"}>
         <Box
           width={"12px"}
@@ -104,7 +104,7 @@ const Header = () => {
                 {subject.name}
               </Text>
               <Text
-                fontSize={"10px"}
+                fontSize={"12px"}
                 color={subject.status == "Completed" ? "#3DE302" : "#2C332978"}
                 lineHeight={"18px"}
                 ml={"13px"}
