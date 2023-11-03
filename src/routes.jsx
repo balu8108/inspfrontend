@@ -120,11 +120,13 @@ const privateRoutes = [
   //   path: "/mentor/homepage",
   //   component: <MentorHomePage />,
   // },
-  {
-    name: "Mentor MyCourses Physics",
-    path: "/mentor/mycourses/physics",
-    component: <MentorMyCoursesPhysics />,
-  },
+
+  
+  // {
+  //   name: "Mentor MyCourses Physics",
+  //   path: "/mentor/mycourses/physics",
+  //   component: <MentorMyCoursesPhysics />,
+  // },
 
 
   {

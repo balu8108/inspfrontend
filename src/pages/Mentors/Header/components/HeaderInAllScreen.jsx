@@ -13,6 +13,7 @@ import { fetchAllSubjectsApi } from "../../../../api/inspexternalapis/index";
 import headerDataInAllScreen from "../data/headerData";
 import { Link } from "react-router-dom";
 
+
 const Header = () => {
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -134,7 +135,7 @@ const Header = () => {
                   "Physics is the study of the fundamental principles that govern the behavior of the physical universe. It encompasses a wide range of topics, including classical mechanics, electromagnetism, thermodynamics, and quantum mechanics."}
               </Text>
               <Link
-                to={`/mentor/myCourses/${subject.name}`}
+                to={`/myCourses/${subject.name}`}
                 style={{ display: "flex", justifyContent: "center" }}
               >
                 <Button
