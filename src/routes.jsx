@@ -71,17 +71,18 @@ const privateRoutes = [
 
   {
     name: "Student MathsCourse",
-    path: "/student/myCourses/mathematics",
+    // path: "/student/myCourses/mathematics",
+    path: "/myCourses/mathematics",
     component: <StudentMathsCourse />,
   },
   {
     name: "Student ChemistryCourse",
-    path: "/student/myCourses/chemistry",
+    path: "/myCourses/chemistry",
     component: <StudentChemCourse />,
   },
   {
     name: "Student PhysicsCourse",
-    path: "/student/myCourses/physics",
+    path: "/myCourses/physics",
     component: <StudentPhyCourse />,
   },
   {
