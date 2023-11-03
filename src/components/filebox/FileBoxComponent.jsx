@@ -14,7 +14,7 @@ const FileBoxComponent = ({ data, type }) => {
   const { secondaryTextColor } = useTheme().colors.pallete;
   const userRoleType = checkUserType();
   const dispatch = useDispatch();
-
+console.log("data and type", data,type)
   return (
     <>
       <SimpleBar
