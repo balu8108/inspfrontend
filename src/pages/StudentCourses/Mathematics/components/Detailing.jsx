@@ -1,8 +1,10 @@
 import React from "react";
-import { Box, Text, HStack } from "@chakra-ui/react";
+import { Box, Text, HStack, Image, Center, VStack } from "@chakra-ui/react";
+import MathematicsImage from "../../../../assets/images/undraw_mathematics_-4-otb 1.svg";
+
 const MathsDetails = () => {
   return (
-    <Box width={"100%"} height={"999px"} bg={"#F1F5F8"} borderRadius={"26px"}>
+    <Box width={"100%"} height={"full"} bg={"#F1F5F8"} borderRadius={"26px"}>
       <HStack spacing={"10px"}>
         <Box
           width={"12px"}
@@ -16,10 +18,23 @@ const MathsDetails = () => {
           My Courses (Mathematics)
         </Text>
       </HStack>
-      <Text fontSize={"32px"} fontWeight={"500"} lineHeight={"37px"} m={20}>
-        Coming Soon
-      </Text>
+      <VStack gap={"34px"}>
+        <Center>
+          <Image
+            boxSize="350px"
+            objectFit="cover"
+            src={MathematicsImage}
+            alt="Mathematics"
+          />
+        </Center>
+        <Center>
+          <Text fontSize={"32px"} fontWeight={"500"} lineHeight={"37px"}>
+            Coming Soon
+          </Text>
+        </Center>
+      </VStack>
     </Box>
   );
 };
+
 export default MathsDetails;

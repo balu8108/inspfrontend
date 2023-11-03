@@ -1,8 +1,9 @@
 import React from "react";
-import { Box, Text, HStack } from "@chakra-ui/react";
+import { Box, Text, HStack ,VStack,Center,Image} from "@chakra-ui/react";
+import ChemistryImage from "../../../../assets/images/undraw_science_re_mnnr 1.svg";
 const ChemDetails = () => {
   return (
-    <Box width={"100%"} height={"999px"} bg={"#F1F5F8"} borderRadius={"26px"}>
+    <Box width={"100%"} height={"full"} bg={"#F1F5F8"} borderRadius={"26px"}>
       <HStack spacing={"10px"}>
         <Box
           width={"12px"}
@@ -16,9 +17,21 @@ const ChemDetails = () => {
           My Courses (Chemistry)
         </Text>
       </HStack>
-      <Text fontSize={"32px"} fontWeight={"500"} lineHeight={"37px"} m={20}>
-        Coming Soon
-      </Text>
+      <VStack gap={"34px"}>
+        <Center>
+          <Image
+            boxSize="350px"
+            objectFit="cover"
+            src={ChemistryImage}
+            alt="Mathematics"
+          />
+        </Center>
+        <Center>
+          <Text fontSize={"32px"} fontWeight={"500"} lineHeight={"37px"}>
+            Coming Soon
+          </Text>
+        </Center>
+      </VStack>
     </Box>
   );
 };
