@@ -13,7 +13,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { BASE_URL } from "../../../../constants/staticurls";
 const FeedBack = () => {
-  const apiUrl = "http://localhost:5000";
+ 
   const [feedbackData, setFeedbackData] = useState([]);
 
   useEffect(() => {
