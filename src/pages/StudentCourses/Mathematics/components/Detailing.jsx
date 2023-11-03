@@ -28,7 +28,12 @@ const MathsDetails = () => {
           />
         </Center>
         <Center>
-          <Text fontSize={"32px"} fontWeight={"500"} lineHeight={"37px"}>
+          <Text
+            fontSize={"32px"}
+            fontWeight={"500"}
+            lineHeight={"37px"}
+            p={"44px"}
+          >
             Coming Soon
           </Text>
         </Center>
