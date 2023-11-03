@@ -16,49 +16,46 @@ const FileBoxComponent = ({ data, type }) => {
   const dispatch = useDispatch();
 console.log("data and type", data,type)
   return (
-    <>
-      <SimpleBar
-        style={{
-          maxHeight: "140px",
-          borderRadius: "10px",
-        }}
-      >
-        {data.map((item) => (
-          <Flex
-            key={generateUniqueKey()}
-            justifyContent={"space-between"}
-            alignItems={"center"}
-            bg="white"
-            mb={2}
-            onClick={() =>
-              dispatch(setIsDocModalOpen(item?.id, item?.key, type, true))
-            }
-            boxShadow={boxShadowStyles.shadowFileBoxStyle.boxShadow}
-            borderRadius={"md"}
-            px={2}
-            py={3}
-          >
-            <Box>
-              <Text color={secondaryTextColor} fontSize={"10px"}>
-                {extractFileNameFromS3URL(item?.key)}
-              </Text>
-              <Text color={secondaryTextColor} fontSize={"10px"}></Text>
-            </Box>
+    <SimpleBar
+      style={{
+        maxHeight: "140px",
+        borderRadius: "10px",
+      }}
+    >
+      {data.map((item) => (
+        <Flex
+          key={generateUniqueKey()}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+          bg="white"
+          mb={2}
+          onClick={() =>
+            dispatch(setIsDocModalOpen(item?.id, item?.key, type, true))
+          }
+          boxShadow={boxShadowStyles.shadowFileBoxStyle.boxShadow}
+          borderRadius={"md"}
+          px={2}
+          py={3}
+        >
+          <Box>
+            <Text color={secondaryTextColor} fontSize={"10px"}>
+              {extractFileNameFromS3URL(item?.key)}
+            </Text>
+            <Text color={secondaryTextColor} fontSize={"10px"}></Text>
+          </Box>
 
-            {item.isDownloadable ||
-              (userRoleType === userType.teacher && (
-                <Icon
-                  as={FiDownload}
-                  onClick={() => {
-                    /*downloadFile(item)*/
-                  }}
-                  _hover={{ bg: "none", cursor: "pointer" }}
-                />
-              ))}
-          </Flex>
-        ))}
-      </SimpleBar>
-    </>
+          {(item.isDownloadable || userRoleType === userType.teacher) && (
+            <Icon
+              as={FiDownload}
+              onClick={() => {
+                /*downloadFile(item)*/
+              }}
+              _hover={{ bg: "none", cursor: "pointer" }}
+            />
+          )}
+        </Flex>
+      ))}
+    </SimpleBar>
   );
 };
 
