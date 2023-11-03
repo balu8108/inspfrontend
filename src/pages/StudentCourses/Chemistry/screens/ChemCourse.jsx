@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-import Header from "../../../MyCourses/components/Header";
+// import Header from "../../../MyCourses/components/Header";
+import Header from "../../../Mentors/Header/components/HeaderInAllScreen";
 import ChemDetails from "../components/ChemiDetails";
 import ScheduledMeetings from "../../../MeetingViewer/components/ScheduledMeetings";
 import { Flex, Stack, Box, useDisclosure } from "@chakra-ui/react";
