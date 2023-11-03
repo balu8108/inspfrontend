@@ -20,7 +20,7 @@ const PhyScreen = () => {
         <Header />
         <PhysDetails />
       </Stack>
-      <Box w={"30%"}>
+      <Box w={"33%"}>
         <SimpleBar
           style={{
             maxHeight: "85vh",

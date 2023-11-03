@@ -21,7 +21,7 @@ const MathsScreen = () => {
           <Header />
           <Details />
         </Stack>
-        <Box w={"30%"}>
+        <Box w={"33%"}>
           <SimpleBar
             style={{
               // maxHeight: "85vh",  initial code by amit
