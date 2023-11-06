@@ -46,11 +46,16 @@ const ViewRecording = ({ type, activeRecording }) => {
   // const playerRef = useRef(null);
 
   return (
-    <Box>
-      <VideoPlayer type={type} activeRecording={activeRecording} />
-      {/* <SampleVideoPlayer
-        videoUrl={"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"}
+    <Box w={"100%"} h={"full"} bg={"red.50"} borderRadius={"26px"} p={5}>
+      {/* <VideoPlayer
+        type={type}
+        activeRecording={activeRecording}
+       
       /> */}
+
+      <SampleVideoPlayer
+        videoUrl={"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"}
+      />
     </Box>
   );
 };
