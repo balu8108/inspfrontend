@@ -153,7 +153,7 @@ const VideoPlayer = ({ type, activeRecording }) => {
         <video
           ref={videoRef}
           className="vidPlayer video-js vjs-default-skin vjs-big-play-centered"
-          style={{ borderRadius: "10px" }}
+          // style={{ borderRadius: "1px" }}
         ></video>
 
         {userRoleType === userType.student && (

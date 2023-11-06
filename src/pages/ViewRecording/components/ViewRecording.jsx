@@ -47,15 +47,15 @@ const ViewRecording = ({ type, activeRecording }) => {
 
   return (
     <Box bg={"#F1F5F8"} borderRadius={"26px"} p={5}>
-      <VideoPlayer
+      {/* <VideoPlayer
         type={type}
         activeRecording={activeRecording}
        
-      />
-
-      {/* <SampleVideoPlayer
-        videoUrl={"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"}
       /> */}
+
+      <SampleVideoPlayer
+        videoUrl={"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"}
+      />
     </Box>
   );
 };
