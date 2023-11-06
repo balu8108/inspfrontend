@@ -409,6 +409,16 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
 import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
@@ -662,9 +672,6 @@ const RecordingLectures = ({ onTheatreModeToggle }) => {
     }
   };
 
-
-
-
     const endClass = () => {
     if (isRecording) {
       // If recording is in progress, stop recording
@@ -758,7 +765,7 @@ const RecordingLectures = ({ onTheatreModeToggle }) => {
               label={isRecording ? "Stop Recording" : "Start Recording"}
               placement="right"
             >
-              <IconButton
+              {/* <IconButton
                 isRound
                 icon={
                   isRecording ? (
@@ -769,7 +776,24 @@ const RecordingLectures = ({ onTheatreModeToggle }) => {
                 }
                 size="sm"
                 onClick={toggleRecording}
-              />
+              /> */}
+              <IconButton
+  isRound
+  icon={
+    isRecording ? (
+      <Icon as={BsRecord} boxSize={4} />
+    ) : (
+      isScreenSharing && isMicrophoneOn ? (
+        <Icon as={BsRecord} boxSize={4} />
+      ) : (
+        <Icon as={AiOutlineStop} boxSize={4} />
+      )
+    )
+  }
+  size="sm"
+  onClick={toggleRecording}
+/>
+
             </Tooltip>
           </Circle>
 
@@ -845,3 +869,5 @@ const RecordingLectures = ({ onTheatreModeToggle }) => {
 };
 
 export default RecordingLectures;
+
+
