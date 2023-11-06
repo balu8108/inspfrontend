@@ -9,6 +9,8 @@ import { useDispatch } from "react-redux";
 import { getAllLiveClassesSchedule } from "../../../../../store/actions/scheduleClassActions";
 import ScheduleClassPopup from "../../../../../components/popups/ScheduleClassPopup";
 const SoloRecordedTopicsDetails = () => {
+  const [viewTopic, setViewTopic] = useState(null);
+  const [viewtopicName, setTopicName] = useState(null);
   const dispatch = useDispatch();
   const {
     isOpen: isSchedulePopupOpen,
@@ -17,9 +19,6 @@ const SoloRecordedTopicsDetails = () => {
   } = useDisclosure();
 
   const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
-
-  
-  const [viewTopic,setViewTopic] = useState(null);
 
   const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
 
@@ -40,8 +39,14 @@ const SoloRecordedTopicsDetails = () => {
       )}
       <Flex gap={"24px"}>
         <Stack w={"73%"} spacing={"24px"}>
-          <TopicsBased  setViewTopic={setViewTopic} />
-          <DetailsCoveredFiles  viewTopic={viewTopic} />
+          <TopicsBased
+            setViewTopic={setViewTopic}
+            setTopicName={setTopicName}
+          />
+          <DetailsCoveredFiles
+            viewTopic={viewTopic}
+            viewtopicName={viewtopicName}
+          />
         </Stack>
 
         <Box w={"25%"}>

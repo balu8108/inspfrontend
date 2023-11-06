@@ -11,9 +11,10 @@ import {
 } from "@chakra-ui/react";
 import SoloRecordModal from "../../SoloRecordModal/components/SoloRecordModal";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../../api/inspexternalapis";
-import "../../../../../constants/scrollbar/style.css"
+import topicDescriptionConstants from "../../../../../constants/topicDescriptionConstants";
+import "../../../../../constants/scrollbar/style.css";
 import axios from "axios";
-const TopicsBased = ({ setViewTopic }) => {
+const TopicsBased = ({ setViewTopic, setTopicName }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoadingTopics, setIsLoadingTopics] = useState(true);
   const [topics, setTopics] = useState([]);
@@ -67,7 +68,7 @@ const TopicsBased = ({ setViewTopic }) => {
   // };
 
   return (
-    <Box bg={"#F1F5F8"} borderRadius={"26px"} w={"100%"} h={"300px"}>
+    <Box bg={"#F1F5F8"} borderRadius={"26px"} w={"100%"} h={"full"}>
       <Flex p={5}>
         <HStack spacing={"10px"}>
           <Box
@@ -111,8 +112,8 @@ const TopicsBased = ({ setViewTopic }) => {
               bg={"#F1F5F8"}
               blendMode={"multiply"}
               mx={6}
+              mb={"16px"}
               borderRadius={"26px"}
-             
             >
               <Text
                 fontSize={"15px"}
@@ -147,10 +148,10 @@ const TopicsBased = ({ setViewTopic }) => {
                 lineHeight={"21px"}
                 fontWeight={400}
                 ml={13}
-                noOfLines={"2"}
+                noOfLines={"3"}
                 color={"rgba(44, 51, 41, 0.47)"}
               >
-                {topic.description || dummyDescription}
+                {topicDescriptionConstants[topic.id]}
               </Text>
 
               <Button
@@ -159,9 +160,12 @@ const TopicsBased = ({ setViewTopic }) => {
                 fontWeight={"600"}
                 size={"14px"}
                 lineHeight={"16px"}
-                mt={"60px"}
+                p={6}
                 // onClick={() => handleViewDetailsClick(topic.id, topic.name)}
-                onClick={() => setViewTopic(topic.id)}
+                onClick={() => {
+                  setViewTopic(topic.id);
+                  setTopicName(topic.name);
+                }}
               >
                 View Details
               </Button>

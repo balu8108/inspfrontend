@@ -101,7 +101,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
           bg={"#3C8DBC"}
         ></Box>
         <Text fontSize={"19px"} lineHeight={"24px"} fontWeight={400}>
-          {viewtopicName}
+          Details( {viewtopicName} )
         </Text>
       </HStack>
 

@@ -13,7 +13,6 @@ import { fetchAllSubjectsApi } from "../../../../api/inspexternalapis/index";
 import headerDataInAllScreen from "../data/headerData";
 import { Link } from "react-router-dom";
 
-
 const Header = () => {
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);

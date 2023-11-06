@@ -20,7 +20,7 @@ import { FaCircle } from "react-icons/fa";
 import { getPresignedUrlApi } from "../../../../../api/genericapis";
 import { BASE_URL } from "../../../../../constants/staticurls";
 import { SimpleGrid } from "@chakra-ui/layout";
-const DetailsCoveredFiles = ({ viewTopic }) => {
+const DetailsCoveredFiles = ({ viewTopic, viewtopicName }) => {
   const [topicDetails, setTopicDetails] = useState(null);
   const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
   const [showVideo, setShowVideo] = useState(false);
@@ -39,19 +39,14 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
       setTopicDetails(topicDetailsData);
     } catch (error) {
       console.error("Error fetching topic details:", error);
-    
     }
   };
 
-  
   useEffect(() => {
     if (viewTopic !== null) {
-     
       fetchTopicDetails(viewTopic);
     }
   }, [viewTopic]);
-
- 
 
   const handleCardClick = async (videoUrl) => {
     try {
@@ -78,7 +73,7 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
           bg={"#3C8DBC"}
         />
         <Text fontSize={"19px"} lineHeight={"24px"}>
-          Details
+          Details( {viewtopicName} )
         </Text>
       </HStack>
 
@@ -132,54 +127,52 @@ const DetailsCoveredFiles = ({ viewTopic }) => {
         </Box>
       )}
 
-     
-        <Box ml={"20px"} mt="20px">
-          <Text p={"13px"}>Recordings</Text>
-          <Flex  gap={"24px"} overflowX={"auto"}>
-            {topicDetails && topicDetails.length > 0 ? (
-              topicDetails.map((topicInfo, index) => (
-                <HStack key={index}>
-                  {topicInfo.SoloClassRoomRecordings.map(
-                    (recording, recordingIndex) => (
-                      <Card
-                        key={recordingIndex}
-                        borderRadius={6}
-                        bg={"#F1F5F8"}
-                        blendMode={"multiply"}
-                         w={"150px"}
-                        boxShadow="md"
-                        position="relative"
-                        m={"20px"}
-                        onMouseEnter={() => setHoveredCardIndex(index)}
-                        onMouseLeave={() => setHoveredCardIndex(null)}
-                        onClick={() => handleCardClick(recording.key)}
-                      >
-                        <Flex alignItems="center">
-                          <Image src={defaultImageUrl} alt="Video Thumbnail" />
-                          <Icon
-                            as={BsPlayFill}
-                            color="#2C332978"
-                            fontSize="24px"
-                            position="absolute"
-                            top="50%"
-                            left="50%"
-                            transform="translate(-50%, -50%)"
-                            opacity={hoveredCardIndex === index ? 1 : 0}
-                          />
-                        </Flex>
-                      </Card>
-                    )
-                  )}
-                </HStack>
-              ))
-            ) : (
-              <Box p={4}>
-                <Text>No video recordings are available for this topic.</Text>
-              </Box>
-            )}
-          </Flex>
-        </Box>
-     
+      <Box ml={"20px"} mt="20px">
+        <Text p={"13px"}>Recordings</Text>
+        <Flex gap={"24px"} overflowX={"auto"}>
+          {topicDetails && topicDetails.length > 0 ? (
+            topicDetails.map((topicInfo, index) => (
+              <HStack key={index}>
+                {topicInfo.SoloClassRoomRecordings.map(
+                  (recording, recordingIndex) => (
+                    <Card
+                      key={recordingIndex}
+                      borderRadius={6}
+                      bg={"#F1F5F8"}
+                      blendMode={"multiply"}
+                      w={"150px"}
+                      boxShadow="md"
+                      position="relative"
+                      m={"20px"}
+                      onMouseEnter={() => setHoveredCardIndex(index)}
+                      onMouseLeave={() => setHoveredCardIndex(null)}
+                      onClick={() => handleCardClick(recording.key)}
+                    >
+                      <Flex alignItems="center">
+                        <Image src={defaultImageUrl} alt="Video Thumbnail" />
+                        <Icon
+                          as={BsPlayFill}
+                          color="#2C332978"
+                          fontSize="24px"
+                          position="absolute"
+                          top="50%"
+                          left="50%"
+                          transform="translate(-50%, -50%)"
+                          opacity={hoveredCardIndex === index ? 1 : 0}
+                        />
+                      </Flex>
+                    </Card>
+                  )
+                )}
+              </HStack>
+            ))
+          ) : (
+            <Box p={4}>
+              <Text>No video recordings are available for this topic.</Text>
+            </Box>
+          )}
+        </Flex>
+      </Box>
 
       <Box mt={"31px"} overflowX="auto">
         <Text ml={"20px"} p={"13px"}>
