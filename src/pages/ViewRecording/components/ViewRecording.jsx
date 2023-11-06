@@ -46,7 +46,7 @@ const ViewRecording = ({ type, activeRecording }) => {
   // const playerRef = useRef(null);
 
   return (
-    <Box w={"100%"} h={"full"} bg={"red.50"} borderRadius={"26px"} p={5}>
+    <Box bg={"#F1F5F8"} borderRadius={"26px"} p={5}>
       {/* <VideoPlayer
         type={type}
         activeRecording={activeRecording}
