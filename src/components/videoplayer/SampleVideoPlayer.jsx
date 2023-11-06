@@ -9,9 +9,8 @@ const getVideoJsOptions = (url) => {
     preload: "metadata",
     controls: true,
     poster: "",
-    width: "800",  // Added new width and height.
-    height: "450", 
-    
+    width: "800", // Added new width and height.
+    height: "450",
 
     sources: [
       {
