@@ -821,6 +821,7 @@ const RecordingLectures = ({ onTheatreModeToggle }) => {
             mt={"50%"}
             fontWeight={500}
             size="sm"
+            onClick={endClass}
           >
             End
           </Button>
