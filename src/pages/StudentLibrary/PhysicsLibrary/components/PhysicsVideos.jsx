@@ -1,4 +1,4 @@
-// I have given name as phy but it is component which take params as subject name
+// I have given name as phy but it is component which take params as subject name and displays all the  topics for the subject 
 import React, { useState, useEffect } from "react";
 import {
   Box,

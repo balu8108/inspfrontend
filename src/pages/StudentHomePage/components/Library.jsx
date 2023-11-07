@@ -9,19 +9,14 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import "../../../constants/scrollbar/style.css";
 import libraryData from "../data/library";
 
 const Library = () => {
   const { primaryBlue, mainTextColor } = useTheme().colors.pallete;
 
   return (
-    <Box
-      w={"full"}
-      height={"313px"}
-      bg={"#F1F5F8"}
-      borderRadius={"26px"}
-      mt={"24px"}
-    >
+    <Box w={"full"} bg={"#F1F5F8"} borderRadius={"26px"} mt={"24px"}>
       <HStack spacing={"10px"}>
         <Box
           bg={primaryBlue}
@@ -53,7 +48,7 @@ const Library = () => {
         </Flex>
       </HStack>
 
-      <Flex m={"24px"} gap={10} overflowX="auto">
+      <Flex m={"24px"} gap={10} overflowX="auto" className="example">
         {libraryData.map((library) => (
           <Card
             key={library.id}
@@ -62,6 +57,7 @@ const Library = () => {
             blendMode={"multiply"}
             backgroundColor={"#F1F5F8"}
             flexShrink={"0"}
+            mb={"20px"}
           >
             <Text
               fontSize={"14px"}
