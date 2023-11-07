@@ -16,7 +16,7 @@ const Library = () => {
   const { primaryBlue, mainTextColor } = useTheme().colors.pallete;
 
   return (
-    <Box w={"full"} bg={"#F1F5F8"} borderRadius={"26px"} mt={"24px"}>
+    <Box w={"full"} bg={"#F1F5F8"} borderRadius={"26px"} >
       <HStack spacing={"10px"}>
         <Box
           bg={primaryBlue}

@@ -32,7 +32,10 @@ const StudentHomePage = () => {
             <Improvement />
             <Assignment />
           </HStack>
+          <Box mt={"24px"}>
           <Library />
+          </Box>
+         
         </Box>
         <Box w={"25%"}>
           <SimpleBar

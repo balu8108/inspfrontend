@@ -17,7 +17,7 @@ const PhyScreen = () => {
   }, [dispatch]);
   return (
     <>
-      <Flex m={"50px"} gap={"24px"}>
+      <Flex m={"52px"} gap={"24px"}>
         <Stack spacing={6} w={"78%"}>
           <Library />
           <PhysicsVideos />

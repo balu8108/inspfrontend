@@ -19,7 +19,7 @@ import { SearchIcon } from "@chakra-ui/icons";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../api/inspexternalapis";
 import { useParams } from "react-router-dom";
 import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
-const PhysLibrary = () => {
+const Library = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [allTopicList, setAllTopicList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -142,4 +142,4 @@ const PhysLibrary = () => {
   );
 };
 
-export default PhysLibrary;
+export default Library;
