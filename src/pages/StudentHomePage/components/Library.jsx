@@ -16,7 +16,7 @@ const Library = () => {
   const { primaryBlue, mainTextColor } = useTheme().colors.pallete;
 
   return (
-    <Box w={"full"} bg={"#F1F5F8"} borderRadius={"26px"} >
+    <Box w={"full"} bg={"#F1F5F8"} borderRadius={"26px"}>
       <HStack spacing={"10px"}>
         <Box
           bg={primaryBlue}
@@ -52,7 +52,8 @@ const Library = () => {
         {libraryData.map((library) => (
           <Card
             key={library.id}
-            w={"33%"}
+            w={"30%"}
+            h={"200px"}
             borderRadius={"18px"}
             blendMode={"multiply"}
             backgroundColor={"#F1F5F8"}
@@ -83,7 +84,7 @@ const Library = () => {
               fontSize={"12px"}
               lineHeight={"21px"}
               ml={"13px"}
-              noOfLines={2}
+              noOfLines={3}
             >
               {library.description}
             </Text>
@@ -94,8 +95,6 @@ const Library = () => {
               <Button
                 color={"#3C8DBC"}
                 mt={"25px"}
-                mb={"5"}
-                p={["10px", "20px"]}
                 fontSize={"14px"}
                 lineHeight={"16px"}
                 fontWeight={"600"}
