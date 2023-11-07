@@ -405,20 +405,6 @@
 // };
 // export default RecordingLectures;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
@@ -672,7 +658,7 @@ const RecordingLectures = ({ onTheatreModeToggle }) => {
     }
   };
 
-    const endClass = () => {
+  const endClass = () => {
     if (isRecording) {
       // If recording is in progress, stop recording
       toggleRecording();
@@ -778,22 +764,19 @@ const RecordingLectures = ({ onTheatreModeToggle }) => {
                 onClick={toggleRecording}
               /> */}
               <IconButton
-  isRound
-  icon={
-    isRecording ? (
-      <Icon as={BsRecord} boxSize={4} />
-    ) : (
-      isScreenSharing && isMicrophoneOn ? (
-        <Icon as={BsRecord} boxSize={4} />
-      ) : (
-        <Icon as={AiOutlineStop} boxSize={4} />
-      )
-    )
-  }
-  size="sm"
-  onClick={toggleRecording}
-/>
-
+                isRound
+                icon={
+                  isRecording ? (
+                    <Icon as={BsRecord} boxSize={4} />
+                  ) : isScreenSharing && isMicrophoneOn ? (
+                    <Icon as={BsRecord} boxSize={4} />
+                  ) : (
+                    <Icon as={AiOutlineStop} boxSize={4} />
+                  )
+                }
+                size="sm"
+                onClick={toggleRecording}
+              />
             </Tooltip>
           </Circle>
 
@@ -870,5 +853,3 @@ const RecordingLectures = ({ onTheatreModeToggle }) => {
 };
 
 export default RecordingLectures;
-
-
