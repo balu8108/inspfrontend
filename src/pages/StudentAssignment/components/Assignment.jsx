@@ -19,6 +19,7 @@ import { BsDownload } from "react-icons/bs";
 import axios from "axios";
 import { BASE_URL } from "../../../constants/staticurls";
 import { extractFileNameFromS3URL } from "../../../utils";
+import { useParams } from "react-router";
 import { useDispatch } from "react-redux";
 import { setIsDocModalOpen } from "../../../store/actions/genericActions";
 const PhysDetails = () => {
@@ -27,6 +28,7 @@ const PhysDetails = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedFileUrl, setSelectedFileUrl] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const { subjectName } = useParams();
   const dispatch = useDispatch();
   const handleViewDetails = (assignmentId) => {
     setSelectedAssignment(assignmentId);
@@ -65,7 +67,7 @@ const PhysDetails = () => {
           bg={"#3C8DBC"}
         ></Box>
         <Text fontSize={"19px"} lineHeight={"24px"}>
-          Assignments (Physics)
+          Assignments ({subjectName})
         </Text>
         <InputGroup m={4} w={"220px"} ml={"320px"}>
           <InputLeftElement pointerEvents="none">

@@ -94,7 +94,7 @@ const privateRoutes = [
 
   {
     name: "Student Assignments",
-    path: "/student/assignments",
+    path: "/student/assignments/:subjectName",
     component: <StudentAssignment />,
   },
 

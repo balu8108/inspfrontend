@@ -1,7 +1,6 @@
-import React,{useEffect} from "react";
-import Header from "../../MyCourses/components/Header";
+import React, { useEffect } from "react";
+import AssignmentHeader from "../components/AssignmentHeader";
 import Assignment from "../components/Assignment";
-import ScheduledMeetings from "../../MeetingViewer/components/ScheduledMeetings";
 import { Flex, VStack, Box, useDisclosure } from "@chakra-ui/react";
 import ScheduleClassList from "../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
@@ -18,7 +17,7 @@ const AssignmentScreen = () => {
     <Box ml={"52px"} mr={"52px"} mt={"52px"} mb={10}>
       <Flex gap={"24px"}>
         <VStack spacing={6}>
-          <Header />
+          <AssignmentHeader />
           <Assignment />
         </VStack>
         <Box w={"25%"}>

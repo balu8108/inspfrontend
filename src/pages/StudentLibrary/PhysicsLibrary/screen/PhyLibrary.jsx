@@ -9,7 +9,7 @@ import SimpleBar from "simplebar-react";
 import { boxShadowStyles } from "../../../../utils";
 import { useDispatch } from "react-redux";
 import { getAllLiveClassesSchedule } from "../../../../store/actions/scheduleClassActions";
-const PhyScreen = () => {
+const LibraryScreen = () => {
   const dispatch = useDispatch();
   const { onOpen: onSchedulePopupOpen } = useDisclosure();
   useEffect(() => {
@@ -41,4 +41,4 @@ const PhyScreen = () => {
     </>
   );
 };
-export default PhyScreen;
+export default LibraryScreen;
