@@ -18,8 +18,10 @@ const PhyScreen = () => {
   return (
     <>
       <Flex m={"52px"} gap={"24px"}>
-        <Stack spacing={6} w={"78%"}>
-          <Library />
+        <Stack w={"78%"}>
+          <Box>
+            <Library />
+          </Box>
           <PhysicsVideos />
         </Stack>
         <Box w={"25%"}>
