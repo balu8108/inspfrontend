@@ -38,7 +38,7 @@ const RecordedClass = ({
         </Text>
       </HStack>
       <Box>
-        <Box ml={"30px"}>
+        <Box >
           <Text
             fontSize={"15px"}
             lineHeight={"18px"}
