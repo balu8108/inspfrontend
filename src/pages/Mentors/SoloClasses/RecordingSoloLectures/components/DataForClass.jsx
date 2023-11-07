@@ -12,14 +12,14 @@ import {
 import { FaCircle } from "react-icons/fa";
 import { BsDownload } from "react-icons/bs";
 import { BASE_URL } from "../../../../../constants/staticurls";
-import { useDispatch } from "react-redux";
-import { setIsDocModalOpen } from "../../../../../store/actions/genericActions";
-import { fileTypes } from "../../../../../constants/staticvariables";
+import { checkUserType } from "../../../../../utils";
+import { userType, fileTypes } from "../../../../../constants/staticvariables";
 import FileBoxComponent from "../../../../../components/filebox/FileBoxComponent";
 import axios from "axios";
 import { useParams } from "react-router";
 
 const DataForClass = () => {
+  const userRoleType = checkUserType();
   const [data, setData] = useState({
     topic: "",
     description: "",
@@ -69,6 +69,7 @@ const DataForClass = () => {
           lineHeight={"24px"}
           fontFamily={400}
           mt={"26px"}
+          noOfLines={1}
         >
           {data.topic}
         </Text>
@@ -103,10 +104,12 @@ const DataForClass = () => {
 
         <Box m={"12px"}>
           <Text>Files</Text>
+          {/* {userRoleType === userType.teacher && ( */}
           <FileBoxComponent
             data={data.soloClassRoomFile}
             type={fileTypes.solo}
           />
+          {/* )} */}
         </Box>
       </Stack>
     </Box>

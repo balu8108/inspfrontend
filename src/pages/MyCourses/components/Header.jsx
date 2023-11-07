@@ -144,7 +144,7 @@ const Header = () => {
               {headerDetails.description ||
                 "Physics is the study of the fundamental principles that govern the behavior of the physical universe. It encompasses a wide range of topics, including classical mechanics, electromagnetism, thermodynamics, and quantum mechanics."}
             </Text>
-            <Link to={`/student/myCourses/${headerDetails.name}`}>
+            <Link to={`/myCourses/${headerDetails.name}`}>
               <Button
                 variant={"ghost"}
                 color={"#3C8DBC"}

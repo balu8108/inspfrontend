@@ -13,7 +13,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../../../../constants/staticurls";
 const SoloClasses = () => {
- 
   const [latestSoloClassroom, setLatestSoloClassroom] = useState([]);
 
   const getSoloLatestClassroom = async () => {
@@ -112,17 +111,21 @@ const SoloClasses = () => {
               >
                 {soloclassInfo.description}
               </Text>
-
-              <Button
-                variant={"ghost"}
-                color={"#3C8DBC"}
-                fontWeight={"600"}
-                fontSize={"14px"}
-                lineHeight={"16px"}
-                mt={"20px"}
+              <Link
+                to={`/mentor/solo-recordings/topic`}
+                style={{ display: "flex", justifyContent: "center" }}
               >
-                View Details
-              </Button>
+                <Button
+                  variant={"ghost"}
+                  color={"#3C8DBC"}
+                  fontWeight={"600"}
+                  fontSize={"14px"}
+                  lineHeight={"16px"}
+                  mt={"20px"}
+                >
+                  View Details
+                </Button>
+              </Link>
             </Card>
           </Box>
         ))}

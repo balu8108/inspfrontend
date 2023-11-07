@@ -9,6 +9,8 @@ const getVideoJsOptions = (url) => {
     preload: "metadata",
     controls: true,
     poster: "",
+    width: "800", // Added new width and height.
+    height: "450",
 
     sources: [
       {
@@ -65,6 +67,7 @@ const SampleVideoPlayer = ({ videoUrl }) => {
         <video
           ref={videoRef}
           className="vidPlayer video-js vjs-default-skin vjs-big-play-centered"
+          style={{ borderRadius: "10px" }}
         ></video>
       </div>
     </>

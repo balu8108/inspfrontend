@@ -18,6 +18,7 @@ const RecordedClass = ({
       borderRadius={"26px"}
       bg={"#FFFFFF"}
       boxShadow="2px 2px 13px 0px #5C5C5C1F"
+      p={5}
     >
       <HStack spacing={"10px"}>
         <Box
@@ -26,7 +27,6 @@ const RecordedClass = ({
           borderRadius={"20px"}
           bg={"#3C8DBC"}
           mt={"27px"}
-          ml={"30px"}
         ></Box>
         <Text
           fontSize={"20px"}
@@ -38,7 +38,7 @@ const RecordedClass = ({
         </Text>
       </HStack>
       <Box>
-        <Box ml={"30px"}>
+        <Box >
           <Text
             fontSize={"15px"}
             lineHeight={"18px"}
@@ -59,7 +59,7 @@ const RecordedClass = ({
           </Text>
         </Box>
       </Box>
-      <Box ml={"30px"}>
+      <Box>
         <Text mt={"29px"} fontSize={"15px"} lineHeight={"19px"}>
           Description
         </Text>
@@ -68,11 +68,9 @@ const RecordedClass = ({
           {recordingDetail?.LiveClassRoomDetail?.description}
         </Text>
       </Box>
-      <Text mt={"26px"} ml={"30px"}>
-        Files
-      </Text>
+      <Text mt={"26px"}>Files</Text>
 
-      <Box my={4} ml={"30px"} mr={"30px"}>
+      <Box my={4}>
         {recordingDetail?.LiveClassRoomFiles.length > 0 ? (
           <FileBoxComponent
             data={recordingDetail.LiveClassRoomFiles}
@@ -85,7 +83,7 @@ const RecordedClass = ({
 
       <Box>
         <Box>
-          <Box mt="13px" ml="30px" p="13px" fontSize={"12px"}>
+          <Box mt="13px" fontSize={"12px"}>
             <Text fontSize="16px" lineHeight={"19px"}>
               Agenda
             </Text>
@@ -104,7 +102,7 @@ const RecordedClass = ({
             </Box>
           </Box>
         </Box>
-        <Box p={"13px"} overflowX={"auto"}>
+        <Box mt={"10px"} overflowX={"auto"}>
           <Text>Recordings</Text>
           {recordingDetail?.LiveClassRoomRecordings?.map(
             (lr) =>
