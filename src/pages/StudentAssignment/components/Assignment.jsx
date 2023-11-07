@@ -67,9 +67,10 @@ const PhysDetails = () => {
           bg={"#3C8DBC"}
         ></Box>
         <Text fontSize={"19px"} lineHeight={"24px"}>
-          Assignments ({subjectName})
+          Assignments({subjectName})
         </Text>
-        <InputGroup m={4} w={"220px"} ml={"320px"}>
+        <Spacer />
+        <InputGroup m={4} w={"220px"}>
           <InputLeftElement pointerEvents="none">
             <FaSearch color="#000000" />
           </InputLeftElement>
