@@ -66,7 +66,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
       setIsSending(true);
       // Create a FormData object to send files along with other data
       const formData = new FormData();
-      formData.append("subject", selectedSubject);
+      formData.append("subjectId", selectedSubject);
 
       const selectedSubjectName =
         subjects.find((subject) => subject.id === selectedSubject)?.name || "";
