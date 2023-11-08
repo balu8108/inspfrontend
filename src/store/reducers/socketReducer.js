@@ -277,7 +277,6 @@ const socketReducer = (state = initialState, action) => {
         isKickedOut: action.payload,
       };
     case SET_SEND_POLL_RESPONSE:
-      console.log("poll reponse", action.payload);
       return {
         ...state,
         pollData: action.payload,
