@@ -17,6 +17,12 @@ const AssignmentHeader = () => {
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const dummyDescriptions = [
+    " Explore the world of chemical reactions, elements, and compounds in this foundational science subject. Learn about the periodic table, bonding, and the fascinating properties of matter.",
+    "  Delve into the world of numbers, equations, and mathematical concepts. From algebra to calculus, discover the fundamental principles that underlie a wide range of scientific and practical applications.",
+    " Physics is the study of the fundamental principles that govern the behavior of the physical universe. It encompasses a wide range of topics, including classical mechanics, electromagnetism, thermodynamics, and quantum mechanics.",
+  ];
+
   useEffect(() => {
     // Fetch subjects when the component mounts
     async function fetchSubjects() {
@@ -24,32 +30,12 @@ const AssignmentHeader = () => {
         const response = await fetchAllSubjectsApi(); // Call your API function
 
         if (response.status) {
-          // Add missing subjects (Chemistry and Mathematics) if not present in the API response
+          // Assuming the API response contains all subjects, just update the state with the fetched data
           const subjectsFromAPI = response.result;
-          const missingSubjects = [
-            {
-              id: 4,
-              name: "CHEMISTRY",
-              status: "Upcoming",
-              description:
-                "Explore the world of chemical reactions, elements, and compounds in this foundational science subject. Learn about the periodic table, bonding, and the fascinating properties of matter.",
-            },
-            {
-              id: 5,
-              name: "MATHEMATICS",
-              status: "Upcoming",
-              description:
-                " Delve into the world of numbers, equations, and mathematical concepts. From algebra to calculus, discover the fundamental principles that underlie a wide range of scientific and practical applications.",
-            },
-          ];
-
-          // Merge the missing subjects with the subjects from the API
-          const mergedSubjects = [...subjectsFromAPI, ...missingSubjects];
-
-          setSubjects(mergedSubjects); // Update the state with fetched and missing data
+          setSubjects(subjectsFromAPI); // Update the state with fetched data
         }
       } catch (error) {
-        console.error("Error fetching subjectss:", error);
+        console.error("Error fetching subjects:", error);
       } finally {
         // Set loading to false after fetching, whether it was successful or not
         setLoading(false);
@@ -130,8 +116,7 @@ const AssignmentHeader = () => {
                 color={"rgba(44, 51, 41, 0.47)"}
                 noOfLines={3}
               >
-                {subject.description ||
-                  "Physics is the study of the fundamental principles that govern the behavior of the physical universe. It encompasses a wide range of topics, including classical mechanics, electromagnetism, thermodynamics, and quantum mechanics."}
+                {dummyDescriptions[3 - subject.id] || "Description not found"}
               </Text>
               <Link
                 style={{ display: "flex", justifyContent: "center" }}
