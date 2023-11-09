@@ -104,7 +104,7 @@ const createSendTransportResponseHandler = (res, resolve, reject) => {
     SOCKET_EVENTS.PRODUCE,
     async (parameters, callback, errback) => {
       // send back the producer id to the server
-      console.log("sending transport produce", producerTransport);
+
       try {
         await socket.emit(
           SOCKET_EVENTS.TRANSPORT_PRODUCE,
