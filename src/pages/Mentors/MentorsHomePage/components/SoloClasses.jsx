@@ -63,6 +63,7 @@ const SoloClasses = () => {
           <Box flexBasis="50%" key={soloclassInfo.id}>
             <Card
               h={"175px"}
+              w={"50"}
               borderRadius={"18px"}
               bg={"#F1F5F8"}
               ml={"20px"}
@@ -113,7 +114,12 @@ const SoloClasses = () => {
               </Text>
               <Link
                 to={`/mentor/solo-recordings/topic`}
-                style={{ display: "flex", justifyContent: "center" }}
+                style={{
+                  position: "absolute",
+                  bottom: "10px", 
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                }}
               >
                 <Button
                   variant={"ghost"}
@@ -121,7 +127,6 @@ const SoloClasses = () => {
                   fontWeight={"600"}
                   fontSize={"14px"}
                   lineHeight={"16px"}
-                  mt={"20px"}
                 >
                   View Details
                 </Button>
