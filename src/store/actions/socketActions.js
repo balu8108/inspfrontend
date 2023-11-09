@@ -35,6 +35,7 @@ import {
   RESET_CHAT_MESSAGES,
   RESET_QUESTION_MESSAGES,
   CHANGE_POLL_DATA_TIMER,
+  SET_UPDATE_PEER_DETAILS,
 } from "../constants";
 
 export const setSocket = (socket) => {
@@ -195,3 +196,9 @@ export const resetChatMessages = () => async (dispatch) => {
 export const resetQuestionMessags = () => async (dispatch) => {
   dispatch({ type: RESET_QUESTION_MESSAGES });
 };
+
+export const setUpdatePeerDetails =
+  (updatedPeerDetails) => async (dispatch) => {
+    // Here we are expecting updated peer details such as in case of blocking mic, we get peerdeatisl after mic is blocked
+    dispatch({ type: SET_UPDATE_PEER_DETAILS, payload: updatedPeerDetails });
+  };

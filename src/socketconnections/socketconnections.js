@@ -23,6 +23,7 @@ import {
   setSelfDetails,
   setSendPollResponse,
   setTimerIncrease,
+  setUpdatePeerDetails,
   setUploadFiles,
   setUploadFilesInRoom,
 } from "../store/actions/socketActions";
@@ -85,6 +86,7 @@ const createSendTransportResponseHandler = (res, resolve, reject) => {
     return;
   }
   producerTransport = device.createSendTransport(params);
+  console.log("producer transport created", producerTransport);
 
   producerTransport.on(
     SOCKET_EVENTS.CONNECT,
@@ -103,6 +105,7 @@ const createSendTransportResponseHandler = (res, resolve, reject) => {
     SOCKET_EVENTS.PRODUCE,
     async (parameters, callback, errback) => {
       // send back the producer id to the server
+      console.log("sending transport produce", producerTransport);
       try {
         await socket.emit(
           SOCKET_EVENTS.TRANSPORT_PRODUCE,
@@ -130,6 +133,13 @@ const consumeMediaFromProducer = async (
   serverConsumerTransportId,
   appData
 ) => {
+  console.log(
+    "consumer new media from Producer",
+    consumerTransport,
+    remoteProducerId,
+    serverConsumerTransportId,
+    appData
+  );
   await socket.emit(
     SOCKET_EVENTS.CONSUME,
     {
@@ -143,6 +153,7 @@ const consumeMediaFromProducer = async (
         console.log("Error in getting consume params", params.err);
         return;
       }
+      console.log("params rec", params);
       const consumer = await consumerTransport.consume({
         id: params.id,
         producerId: params.producerId,
@@ -186,6 +197,7 @@ const consumeMediaFromProducer = async (
 
 const createRecvTransport = async () => {
   return new Promise((resolve, reject) => {
+    console.log("create Recv transport");
     socket.emit(
       SOCKET_EVENTS.CREATE_WEB_RTC_TRANSPORT,
       { consumer: true },
@@ -226,8 +238,10 @@ const getProducersResponseHandler = async (producersIds) => {
     try {
       if (!consumerTransport) {
         // create Recv Transport before consuming media
+        console.log("creating consumer tranposrt....");
         await createRecvTransport();
       }
+
       producersIds.forEach(async (producer) => {
         await consumeMediaFromProducer(
           consumerTransport,
@@ -242,9 +256,12 @@ const getProducersResponseHandler = async (producersIds) => {
 
 const newProducerResponseHandler = async ({ producerId, appData }) => {
   try {
+    console.log("new producer detected...");
     if (!consumerTransport) {
+      console.log("consumer not created, initializing now....");
       await createRecvTransport();
     }
+
     await consumeMediaFromProducer(
       consumerTransport,
       producerId,
@@ -387,6 +404,7 @@ const endMeetReponseHandler = async () => {
 };
 
 const leaveRoomResponseHandler = (res) => {
+  console.log("leaving room...");
   const { feedBackStatus } = res;
   const userRoleType = checkUserType(); // Need to open feedback form only for students
   if (userRoleType === userType.student && feedBackStatus) {
@@ -397,6 +415,10 @@ const leaveRoomResponseHandler = (res) => {
       );
     }
   }
+  // after leaving class set producerTransport to again null
+  producerTransport = null;
+  consumerTransport = null;
+  console.log("Is Null affter leaving", producerTransport, consumerTransport);
 };
 
 const isAudioStreamEnabledResponse = (res) => {
@@ -410,7 +432,7 @@ const kickOutResponseHandler = () => {
 };
 
 const blockOrUnblockMicResponseHandler = (res) => {
-  // expecting here self details again from server
+  // expecting here details of self as mic is blocked by mentor
   store.dispatch(setSelfDetails(res));
 };
 const muteMicCommandByMentorResponseHandler = (res) => {
@@ -426,6 +448,11 @@ const sendPollResponseHandler = (res) => {
 
 const pollTimeIncreaseResponseHandler = (res) => {
   store.dispatch(setTimerIncrease(res));
+};
+
+const peerMicBlockedOrUnblockedResponseHandler = (res) => {
+  // some peer mic blocked so update the peers list
+  store.dispatch(setUpdatePeerDetails(res));
 };
 
 /** REPSONSE HANDLER ENDS HERE **/
@@ -487,9 +514,21 @@ export const initializeSocketConnections = (roomId) => {
       SOCKET_EVENTS.KICK_OUT_FROM_CLASS_FROM_SERVER,
       kickOutResponseHandler
     );
+    socket.on(
+      SOCKET_EVENTS.PEER_MIC_BLOCKED_OR_UNBLOCKED_FROM_SERVER,
+      peerMicBlockedOrUnblockedResponseHandler
+    );
     socket.on(SOCKET_EVENTS.END_MEET_FROM_SERVER, endMeetReponseHandler);
     socket.on(SOCKET_EVENTS.DISCONNECT, () => {
       console.log("socket disconnected with id", socket.id);
+
+      producerTransport = null;
+      consumerTransport = null;
+      console.log(
+        "Is Null affter disconnect",
+        producerTransport,
+        consumerTransport
+      );
     });
     socket.on(SOCKET_EVENTS.CONNECT_ERROR, (err) => {
       console.log(err instanceof Error);
@@ -513,7 +552,9 @@ export const joinRoomHandler = (roomId) => {
 
 export const initializeDeviceHandler = async (rtpCapabilities) => {
   try {
-    await device.load({ routerRtpCapabilities: rtpCapabilities });
+    if (device && !device.loaded) {
+      await device.load({ routerRtpCapabilities: rtpCapabilities });
+    }
   } catch (err) {
     console.log("error in creating device", err);
   }

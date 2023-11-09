@@ -31,6 +31,7 @@ import {
 import Scrollbars from "rc-scrollbars";
 const Actions = ({ peer, onOpenKickFromClass, setKickedPersonDetails }) => {
   const [isMicBlocked, setIsMicBlocked] = useState(peer?.isAudioBlocked);
+  console.log("peer detail member", peer);
 
   const changeMicAccess = (e) => {
     e.stopPropagation();

@@ -69,6 +69,9 @@ const Room = () => {
   const theme = useTheme();
   const { primaryBlue, backgroundLightBlue } = theme.colors.pallete;
 
+  console.log("mic stream of my auidio", micStream);
+  console.log("mentor video stream", mentorVideoStream);
+
   const stopScreenShare = () => {
     setIsScreenShare(false);
     setScreenShareStream(null);
@@ -165,7 +168,60 @@ const Room = () => {
     };
   }, [dispatch]);
 
-  /* use effect starts */
+  // const stopEveryEnabledStreams = (
+  //   micStream,
+  //   mentorVideoStream,
+  //   screenShareStream
+  // ) => {
+  //   // Stop mic stream if it was there
+  //   if (micStream) {
+  //     const tracks = micStream.getTracks();
+  //     tracks.forEach((track) => track.stop());
+  //   }
+  //   // stop video stream if it was there
+  //   if (mentorVideoStream) {
+  //     const tracks = mentorVideoStream.getTracks();
+  //     tracks.forEach((track) => track.stop());
+  //   }
+  //   // stop screenshare stream if it was there
+  //   if (screenShareStream) {
+  //     const tracks = screenShareStream.getTracks();
+  //     tracks.forEach((track) => track.stop());
+  //   }
+  // };
+
+  const stopMediaStream = (stream) => {
+    if (stream) {
+      const tracks = stream.getTracks();
+      tracks.forEach((track) => track.stop());
+    }
+  };
+
+  // This useEffect will clear all the mic,video,screenshare stream if component is unmounting
+  useEffect(() => {
+    console.log("use effect of micstream");
+    return () => {
+      console.log("unmoundt function clear stream runs...");
+      stopMediaStream(micStream);
+    };
+  }, [micStream]);
+
+  useEffect(() => {
+    console.log("use effect of micstream");
+    return () => {
+      console.log("unmoundt function clear stream runs...");
+      stopMediaStream(mentorVideoStream);
+    };
+  }, [mentorVideoStream]);
+  useEffect(() => {
+    console.log("use effect of micstream");
+    return () => {
+      console.log("unmoundt function clear stream runs...");
+      stopMediaStream(screenShareStream);
+    };
+  }, [screenShareStream]);
+
+  /* use effect end */
   return (
     <>
       {isOpenLeaveOrEndClass && (
