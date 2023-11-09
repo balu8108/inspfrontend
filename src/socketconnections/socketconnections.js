@@ -513,11 +513,6 @@ export const initializeSocketConnections = (roomId) => {
 
       producerTransport = null;
       consumerTransport = null;
-      console.log(
-        "Is Null affter disconnect",
-        producerTransport,
-        consumerTransport
-      );
     });
     socket.on(SOCKET_EVENTS.CONNECT_ERROR, (err) => {
       console.log(err instanceof Error);
