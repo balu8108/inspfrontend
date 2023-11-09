@@ -603,6 +603,7 @@ export const sendQuestionHandler = (data) => {
 
 export const startRecordingHandler = (data) => {
   if (data) {
+    console.log("recording handler data emit", data);
     socket.emit(SOCKET_EVENTS.START_RECORDING, data);
   }
 };

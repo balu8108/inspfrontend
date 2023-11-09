@@ -73,11 +73,15 @@ const ToolBox = ({
   const [isLeaveLoading, setIsLeaveLoading] = useState(false); // for leave button loading state
   // const [QNo, setQNo] = useState(0);
   const [isRecordingLoading, setIsRecordingLoading] = useState(false);
+  const [producerScreenShare, setProducerScreenShare] = useState(null);
+  const [producerMentorVideoShare, setProducerMentorVideoShare] =
+    useState(null);
+  const [producerAudioShare, setProducerAudioShare] = useState(null);
   const { redBtnColor } = useTheme().colors.pallete;
   const userRoleType = checkUserType();
-  let producerScreenShare = null;
-  let producerMentorVideoShare = null;
-  let producerAudioShare = null;
+  // let producerScreenShare = null;
+  // let producerMentorVideoShare = null;
+  // let producerAudioShare = null;
   console.log("producer mentor video share", producerMentorVideoShare);
 
   const { roomPreviewData, selfDetails } = useSelector(
@@ -120,13 +124,14 @@ const ToolBox = ({
             return;
           }
 
-          producerScreenShare = await producerTransport.produce({
+          const producerScreenShareRec = await producerTransport.produce({
             track: track,
             appData: {
               streamType: staticVariables.screenShare,
               isTeacher: true,
             },
           });
+          setProducerScreenShare(producerScreenShareRec);
           setScreenShareStream(stream);
           setIsScreenShare(true);
         }
@@ -181,13 +186,14 @@ const ToolBox = ({
             return;
           }
 
-          producerMentorVideoShare = await producerTransport.produce({
+          const producerMentorVideoShareRec = await producerTransport.produce({
             track: track,
             appData: {
               streamType: staticVariables.videoShare,
               isTeacher: true,
             },
           });
+          setProducerMentorVideoShare(producerMentorVideoShareRec);
           console.log(
             "producer vide share first initialize",
             producerMentorVideoShare
@@ -223,12 +229,12 @@ const ToolBox = ({
           let appData = {
             streamType: staticVariables.audioShare,
           };
-          producerAudioShare = await producerTransport.produce({
+          const producerAudioShareRec = await producerTransport.produce({
             track: track,
             appData: appData,
           });
-
-          setIsAudioStreamEnabled(true, producerAudioShare?.id); // send socket even to all peers tha this audio is enabled
+          setProducerAudioShare(producerAudioShareRec);
+          setIsAudioStreamEnabled(true, producerAudioShareRec?.id); // send socket even to all peers tha this audio is enabled
           setMicStream(stream);
           setIsMicOn(true);
         }
@@ -299,6 +305,7 @@ const ToolBox = ({
 
   const triggerStartRecording = () => {
     if (socket) {
+      console.log("start record  handler");
       startRecordingHandler({ producerScreenShare, producerAudioShare });
       setIsRecordOn(true);
     }
@@ -357,6 +364,7 @@ const ToolBox = ({
 
   useEffect(() => {
     if (isMicOn && isScreenShare && !isRecordOn) {
+      console.log("triggering start recording...");
       triggerStartRecording();
     } else if (!isMicOn && !isScreenShare) {
       triggerStopRecording();
