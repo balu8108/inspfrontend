@@ -395,7 +395,6 @@ const endMeetReponseHandler = async () => {
 };
 
 const leaveRoomResponseHandler = (res) => {
-  console.log("leaving room...");
   const { feedBackStatus } = res;
   const userRoleType = checkUserType(); // Need to open feedback form only for students
   if (userRoleType === userType.student && feedBackStatus) {
