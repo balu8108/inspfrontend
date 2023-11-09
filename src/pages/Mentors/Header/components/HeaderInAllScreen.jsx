@@ -17,53 +17,13 @@ const Header = () => {
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   // Fetch subjects when the component mounts
-  //   async function fetchSubjects() {
-  //     try {
-  //       const response = await fetchAllSubjectsApi(); // Call your API function
-
-  //       if (response.status) {
-  //         // Add missing subjects (Chemistry and Mathematics) if not present in the API response
-  //         const subjectsFromAPI = response.result;
-  //         const missingSubjects = [
-  //           {
-  //             id: 4,
-  //             name: "CHEMISTRY",
-  //             status: "Upcoming",
-  //             description:
-  //               "Explore the world of chemical reactions, elements, and compounds in this foundational science subject. Learn about the periodic table, bonding, and the fascinating properties of matter.",
-  //           },
-  //           {
-  //             id: 5,
-  //             name: "MATHEMATICS",
-  //             status: "Upcoming",
-  //             description:
-  //               " Delve into the world of numbers, equations, and mathematical concepts. From algebra to calculus, discover the fundamental principles that underlie a wide range of scientific and practical applications.",
-  //           },
-  //         ];
-
-  //         // Merge the missing subjects with the subjects from the API
-  //         const mergedSubjects = [...subjectsFromAPI, ...missingSubjects];
-
-  //         setSubjects(mergedSubjects); // Update the state with fetched and missing data
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching subjectss:", error);
-  //     } finally {
-  //       // Set loading to false after fetching, whether it was successful or not
-  //       setLoading(false);
-  //     }
-  //   }
-
-  //   fetchSubjects();
-  // }, []);
-
   const dummyDescriptions = [
     " Explore the world of chemical reactions, elements, and compounds in this foundational science subject. Learn about the periodic table, bonding, and the fascinating properties of matter.",
     "  Delve into the world of numbers, equations, and mathematical concepts. From algebra to calculus, discover the fundamental principles that underlie a wide range of scientific and practical applications.",
     " Physics is the study of the fundamental principles that govern the behavior of the physical universe. It encompasses a wide range of topics, including classical mechanics, electromagnetism, thermodynamics, and quantum mechanics.",
   ];
+
+  const subjectStatus = ["Upcoming", "Upcoming", "In Progress"];
 
   useEffect(() => {
     // Fetch subjects when the component mounts
@@ -72,14 +32,14 @@ const Header = () => {
         const response = await fetchAllSubjectsApi(); // Call your API function
 
         if (response.status) {
-          // Assuming the API response contains all subjects, just update the state with the fetched data
+          
           const subjectsFromAPI = response.result;
-          setSubjects(subjectsFromAPI); // Update the state with fetched data
+          setSubjects(subjectsFromAPI); 
         }
       } catch (error) {
         console.error("Error fetching subjects:", error);
       } finally {
-        // Set loading to false after fetching, whether it was successful or not
+        
         setLoading(false);
       }
     }
@@ -133,11 +93,16 @@ const Header = () => {
               </Text>
               <Text
                 fontSize={"12px"}
-                color={subject.status == "Completed" ? "#3DE302" : "#2C332978"}
+               
+                color={
+                  subjectStatus[3 - subject.id] === "In Progress"
+                    ? "#3DE302"
+                    : "#2C332978"
+                }
                 lineHeight={"18px"}
                 ml={"13px"}
               >
-                {subject.status || "In Progress"}
+                {subjectStatus[3 - subject.id] || "Status not found"}
               </Text>
               <Text
                 fontSize={"12px"}

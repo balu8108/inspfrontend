@@ -18,10 +18,10 @@ const MathsDetails = () => {
           My Courses (Mathematics)
         </Text>
       </HStack>
-      <VStack gap={"34px"}>
+      <VStack gap={"24px"}>
         <Center>
           <Image
-            boxSize="350px"
+            boxSize="200px"
             objectFit="cover"
             src={MathematicsImage}
             alt="Mathematics"
@@ -29,10 +29,11 @@ const MathsDetails = () => {
         </Center>
         <Center>
           <Text
-            fontSize={"32px"}
-            fontWeight={"500"}
+            fontSize={"25px"}
+           
             lineHeight={"37px"}
             p={"44px"}
+            color={"#2C3329"}
           >
             Coming Soon
           </Text>
