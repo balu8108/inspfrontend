@@ -145,7 +145,7 @@ const consumeMediaFromProducer = async (
         console.log("Error in getting consume params", params.err);
         return;
       }
-      console.log("params rec", params);
+
       const consumer = await consumerTransport.consume({
         id: params.id,
         producerId: params.producerId,
