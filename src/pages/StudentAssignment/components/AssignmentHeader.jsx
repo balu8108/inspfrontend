@@ -24,7 +24,6 @@ const AssignmentHeader = () => {
   ];
   const subjectStatus = ["Upcoming", "Upcoming", "In Progress"];
 
-
   useEffect(() => {
     // Fetch subjects when the component mounts
     async function fetchSubjects() {

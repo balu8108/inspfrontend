@@ -116,7 +116,7 @@ const SoloClasses = () => {
                 to={`/mentor/solo-recordings/topic`}
                 style={{
                   position: "absolute",
-                  bottom: "10px", 
+                  bottom: "10px",
                   left: "50%",
                   transform: "translateX(-50%)",
                 }}
