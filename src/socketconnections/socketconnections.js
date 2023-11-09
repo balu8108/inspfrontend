@@ -86,7 +86,6 @@ const createSendTransportResponseHandler = (res, resolve, reject) => {
     return;
   }
   producerTransport = device.createSendTransport(params);
-  console.log("producer transport created", producerTransport);
 
   producerTransport.on(
     SOCKET_EVENTS.CONNECT,
