@@ -69,9 +69,6 @@ const Room = () => {
   const theme = useTheme();
   const { primaryBlue, backgroundLightBlue } = theme.colors.pallete;
 
-  console.log("mic stream of my auidio", micStream);
-  console.log("mentor video stream", mentorVideoStream);
-
   const stopScreenShare = () => {
     setIsScreenShare(false);
     setScreenShareStream(null);
@@ -199,24 +196,18 @@ const Room = () => {
 
   // This useEffect will clear all the mic,video,screenshare stream if component is unmounting
   useEffect(() => {
-    console.log("use effect of micstream");
     return () => {
-      console.log("unmoundt function clear stream runs...");
       stopMediaStream(micStream);
     };
   }, [micStream]);
 
   useEffect(() => {
-    console.log("use effect of micstream");
     return () => {
-      console.log("unmoundt function clear stream runs...");
       stopMediaStream(mentorVideoStream);
     };
   }, [mentorVideoStream]);
   useEffect(() => {
-    console.log("use effect of micstream");
     return () => {
-      console.log("unmoundt function clear stream runs...");
       stopMediaStream(screenShareStream);
     };
   }, [screenShareStream]);

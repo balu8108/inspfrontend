@@ -27,7 +27,6 @@ const RatingAndFeedBackChart = () => {
     axios
       .get(`${BASE_URL}/generic/topic-feedback-rating-details/${topic_id}`)
       .then((response) => {
-        console.log("API Response:", response.data);
         setFeedbackData(response.data.topicDetails);
       })
       .catch((error) => {
@@ -58,7 +57,7 @@ const RatingAndFeedBackChart = () => {
     0
   );
   averageRating = totalStars / feedbackData.length;
-  console.log("Average Rating is", averageRating.toFixed(1));
+
   const starPercentages = {
     1: (starCounts[1] / totalFeedbackCount) * 100,
     2: (starCounts[2] / totalFeedbackCount) * 100,

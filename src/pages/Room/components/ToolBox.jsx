@@ -82,7 +82,6 @@ const ToolBox = ({
   // let producerScreenShare = null;
   // let producerMentorVideoShare = null;
   // let producerAudioShare = null;
-  console.log("producer mentor video share", producerMentorVideoShare);
 
   const { roomPreviewData, selfDetails } = useSelector(
     (state) => state.socket,
@@ -194,10 +193,6 @@ const ToolBox = ({
             },
           });
           setProducerMentorVideoShare(producerMentorVideoShareRec);
-          console.log(
-            "producer vide share first initialize",
-            producerMentorVideoShare
-          );
         }
       }
     } catch (err) {
@@ -260,10 +255,6 @@ const ToolBox = ({
       // close video share
       // instead of stopping the producer we can check if video share producer already available and he clicks stop video share then we can just pause it and resume later on
       if (producerMentorVideoShare) {
-        console.log(
-          "producer vide share already exists",
-          producerMentorVideoShare
-        );
         producerMentorVideoShare.pause();
         // emit event to backend  for pause one so that backend producer can also pauses
         producerPauseHandler(producerMentorVideoShare);
@@ -305,7 +296,6 @@ const ToolBox = ({
 
   const triggerStartRecording = () => {
     if (socket) {
-      console.log("start record  handler");
       startRecordingHandler({ producerScreenShare, producerAudioShare });
       setIsRecordOn(true);
     }
@@ -364,7 +354,6 @@ const ToolBox = ({
 
   useEffect(() => {
     if (isMicOn && isScreenShare && !isRecordOn) {
-      console.log("triggering start recording...");
       triggerStartRecording();
     } else if (!isMicOn && !isScreenShare) {
       triggerStopRecording();

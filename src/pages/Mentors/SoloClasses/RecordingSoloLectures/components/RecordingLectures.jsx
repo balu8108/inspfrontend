@@ -1091,8 +1091,6 @@ const RecordingLectures = ({ onTheatreModeToggle }) => {
 
           // Revoke the object URL to free up resources
           window.URL.revokeObjectURL(url);
-
-          console.log("Recording stopped. Video URL:", url);
         }
         recordedChunksRef.current = [];
       };

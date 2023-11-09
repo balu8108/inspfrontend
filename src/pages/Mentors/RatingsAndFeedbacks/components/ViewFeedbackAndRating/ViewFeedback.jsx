@@ -28,7 +28,7 @@ const ViewMentorsRatingAndFeedback = () => {
     async function fetchAllTopicsWithoutChapterId() {
       try {
         const response = await fetchAllTopicsWithoutChapterIdApi();
-        console.log("Topics Api Without the Chapter Id", response);
+
         if (response.status) {
           setAllTopicList(response.result);
           // Initially, display the first three topics

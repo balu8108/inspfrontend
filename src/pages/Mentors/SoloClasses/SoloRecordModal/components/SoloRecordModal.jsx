@@ -121,7 +121,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
       setIsLoadingTopics(true);
       try {
         const response = await fetchAllTopicsWithoutChapterIdApi();
-        console.log("Topics Api Without the Chapter Id", response);
+
         if (response.status) {
           setAllTopicList(response.result);
         }

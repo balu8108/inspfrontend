@@ -82,7 +82,6 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
   };
 
   const handleViewRecording = (recording) => {
-    console.log("recoridng", recording);
     navigate(`/view-recording?type=live_specific&id=${recording.id}`);
   };
 

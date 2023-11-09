@@ -27,7 +27,7 @@ const PSDDocumentViewer = ({ doc }) => {
       const printButton = iframeDoc.querySelector(
         ".PSPDFKit-Toolbar-Button-Print"
       );
-      console.log("print button", printButton);
+
       const exportButton = iframeDoc.querySelector(
         ".PSPDFKit-Toolbar-Button-Export-PDF"
       );

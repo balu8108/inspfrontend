@@ -189,7 +189,6 @@ const consumeMediaFromProducer = async (
 
 const createRecvTransport = async () => {
   return new Promise((resolve, reject) => {
-    console.log("create Recv transport");
     socket.emit(
       SOCKET_EVENTS.CREATE_WEB_RTC_TRANSPORT,
       { consumer: true },
@@ -230,7 +229,6 @@ const getProducersResponseHandler = async (producersIds) => {
     try {
       if (!consumerTransport) {
         // create Recv Transport before consuming media
-        console.log("creating consumer tranposrt....");
         await createRecvTransport();
       }
 
@@ -248,7 +246,6 @@ const getProducersResponseHandler = async (producersIds) => {
 
 const newProducerResponseHandler = async ({ producerId, appData }) => {
   try {
-    console.log("new producer detected...");
     if (!consumerTransport) {
       await createRecvTransport();
     }
@@ -603,7 +600,6 @@ export const sendQuestionHandler = (data) => {
 
 export const startRecordingHandler = (data) => {
   if (data) {
-    console.log("recording handler data emit", data);
     socket.emit(SOCKET_EVENTS.START_RECORDING, data);
   }
 };
