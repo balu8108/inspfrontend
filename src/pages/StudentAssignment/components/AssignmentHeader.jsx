@@ -22,6 +22,8 @@ const AssignmentHeader = () => {
     "  Delve into the world of numbers, equations, and mathematical concepts. From algebra to calculus, discover the fundamental principles that underlie a wide range of scientific and practical applications.",
     " Physics is the study of the fundamental principles that govern the behavior of the physical universe. It encompasses a wide range of topics, including classical mechanics, electromagnetism, thermodynamics, and quantum mechanics.",
   ];
+  const subjectStatus = ["Upcoming", "Upcoming", "In Progress"];
+
 
   useEffect(() => {
     // Fetch subjects when the component mounts
@@ -91,7 +93,11 @@ const AssignmentHeader = () => {
               </Text>
               <Text
                 fontSize={"12px"}
-                color={subject.status == "Completed" ? "#3DE302" : "#2C332978"}
+                color={
+                  subjectStatus[3 - subject.id] === "In Progress"
+                    ? "#3DE302"
+                    : "#2C332978"
+                }
                 lineHeight={"18px"}
                 ml={"13px"}
               >
