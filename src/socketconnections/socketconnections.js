@@ -250,7 +250,6 @@ const newProducerResponseHandler = async ({ producerId, appData }) => {
   try {
     console.log("new producer detected...");
     if (!consumerTransport) {
-      console.log("consumer not created, initializing now....");
       await createRecvTransport();
     }
 
