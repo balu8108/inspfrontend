@@ -211,6 +211,7 @@ const ToolBox = ({
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: {
           echoCancellation: true,
+          noiseSuppression: true,
         },
       });
       if (micRef.current) {
@@ -274,9 +275,8 @@ const ToolBox = ({
       // off the mic clear the audio track
       if (micStream) {
         const tracks = micStream.getTracks();
-        tracks.forEach((track) => track.stop());
 
-        // tracks.forEach((track) => (track.enabled = false));
+        tracks.forEach((track) => (track.enabled = false));
 
         setIsAudioStreamEnabled(false, producerAudioShare?.id);
       }
