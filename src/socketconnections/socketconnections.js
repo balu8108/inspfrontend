@@ -132,13 +132,6 @@ const consumeMediaFromProducer = async (
   serverConsumerTransportId,
   appData
 ) => {
-  console.log(
-    "consumer new media from Producer",
-    consumerTransport,
-    remoteProducerId,
-    serverConsumerTransportId,
-    appData
-  );
   await socket.emit(
     SOCKET_EVENTS.CONSUME,
     {
