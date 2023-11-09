@@ -1156,7 +1156,7 @@ const RecordingLectures = ({ onTheatreModeToggle }) => {
           ml={"16px"}
         >
           <HStack mt={"25px"}>
-            <Circle size="40px" bg="white" >
+            <Circle size="40px" bg="white">
               <Tooltip label="Theatre Mode" placement="right">
                 <IconButton
                   isRound
@@ -1173,14 +1173,14 @@ const RecordingLectures = ({ onTheatreModeToggle }) => {
           </HStack>
 
           <Stack>
-            <Circle size="40px" bg={isCameraOn?"white":"red"}>
+            <Circle size="40px" bg={isCameraOn ? "white" : "red"}>
               <Tooltip
                 label={isCameraOn ? "Turn Off Camera" : "Turn On Camera"}
                 placement="right"
               >
                 <IconButton
                   isRound
-                  bg={isCameraOn?"white":"red"}
+                  bg={isCameraOn ? "white" : "red"}
                   icon={
                     <Icon
                       as={isCameraOn ? FaVideo : FaVideoSlash}

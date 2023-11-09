@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import AssignmentHeader from "../components/AssignmentHeader";
-import Assignment from "../components/Assignment";
-import { Flex, VStack, Box, useDisclosure } from "@chakra-ui/react";
+import AssignmentDetails from "../components/Assignment";
+import { Flex, Stack, Box, useDisclosure } from "@chakra-ui/react";
 import ScheduleClassList from "../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
 import { boxShadowStyles } from "../../../utils";
@@ -16,11 +16,11 @@ const AssignmentScreen = () => {
   return (
     <Box ml={"52px"} mr={"52px"} mt={"52px"} mb={10}>
       <Flex gap={"24px"}>
-        <VStack spacing={6}>
+        <Stack spacing={6} w={"full"}>
           <AssignmentHeader />
-          <Assignment />
-        </VStack>
-        <Box w={"25%"}>
+          <AssignmentDetails />
+        </Stack>
+        <Box w={"32%"}>
           <SimpleBar
             style={{
               maxHeight: "85vh",
