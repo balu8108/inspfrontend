@@ -17,10 +17,10 @@ const ChemDetails = () => {
           My Courses (Chemistry)
         </Text>
       </HStack>
-      <VStack gap={"34px"}>
+      <VStack gap={"24px"}>
         <Center>
           <Image
-            boxSize="350px"
+            boxSize="200px"
             objectFit="cover"
             src={ChemistryImage}
             alt="Mathematics"
@@ -28,10 +28,11 @@ const ChemDetails = () => {
         </Center>
         <Center>
           <Text
-            fontSize={"32px"}
+            fontSize={"25px"}
             fontWeight={"500"}
             lineHeight={"37px"}
             p={"44px"}
+            color={"#2C3329"}
           >
             Coming Soon
           </Text>

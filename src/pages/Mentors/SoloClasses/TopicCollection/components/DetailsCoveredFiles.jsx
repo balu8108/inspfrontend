@@ -182,7 +182,7 @@ const DetailsCoveredFiles = ({ viewTopic, viewtopicName }) => {
           {topicDetails && topicDetails.length > 0 ? (
             topicDetails.map((topicInfo, index) => (
               <Box key={topicInfo.id}>
-                {topicInfo.soloClassRoomFiles.map((file, fileIndex) => (
+                {topicInfo.SoloClassRoomFiles.map((file, fileIndex) => (
                   <Box
                     key={fileIndex}
                     mr="10px"

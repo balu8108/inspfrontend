@@ -17,8 +17,8 @@ const getVideoJsOptions = (url, drmToken) => {
     preload: "metadata",
     controls: true,
     poster: "",
-    width: "800", // Added new width and height.
-    height: "450",
+    // width: "800", // Added new width and height.
+    // height: "450",
 
     sources: [
       {
@@ -153,7 +153,7 @@ const VideoPlayer = ({ type, activeRecording }) => {
         <video
           ref={videoRef}
           className="vidPlayer video-js vjs-default-skin vjs-big-play-centered"
-          // style={{ borderRadius: "1px" }}
+          style={{ borderRadius: "10px" , height:"73vh", width:"100%" }}
         ></video>
 
         {userRoleType === userType.student && (

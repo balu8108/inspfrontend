@@ -54,7 +54,7 @@ const DataForClass = () => {
   }, [soloClassRoomId]);
 
   return (
-    <Box w="25%" borderRadius={"12px"} bg={"#F1F5F8"}>
+    <Box w="25%" h={"full"} borderRadius={"12px"} bg={"#F1F5F8"}>
       <HStack spacing={"10px"}>
         <Box
           width={"12px"}

@@ -45,9 +45,6 @@ import { LeaveBtn } from "../../../components/button";
 import { useParams, useNavigate } from "react-router-dom";
 import { shallowEqual, useSelector } from "react-redux";
 import { checkUserType } from "../../../utils";
-let producerScreenShare = null;
-let producerMentorVideoShare = null;
-let producerAudioShare = null;
 
 const ToolBox = ({
   primaryBlue,
@@ -78,7 +75,10 @@ const ToolBox = ({
   const [isRecordingLoading, setIsRecordingLoading] = useState(false);
   const { redBtnColor } = useTheme().colors.pallete;
   const userRoleType = checkUserType();
-  console.log("mentor screen sahre stream", screenShareStream);
+  let producerScreenShare = null;
+  let producerMentorVideoShare = null;
+  let producerAudioShare = null;
+  console.log("producer mentor video share", producerMentorVideoShare);
 
   const { roomPreviewData, selfDetails } = useSelector(
     (state) => state.socket,
@@ -188,6 +188,10 @@ const ToolBox = ({
               isTeacher: true,
             },
           });
+          console.log(
+            "producer vide share first initialize",
+            producerMentorVideoShare
+          );
         }
       }
     } catch (err) {
@@ -247,6 +251,10 @@ const ToolBox = ({
       // close video share
       // instead of stopping the producer we can check if video share producer already available and he clicks stop video share then we can just pause it and resume later on
       if (producerMentorVideoShare) {
+        console.log(
+          "producer vide share already exists",
+          producerMentorVideoShare
+        );
         producerMentorVideoShare.pause();
         // emit event to backend  for pause one so that backend producer can also pauses
         producerPauseHandler(producerMentorVideoShare);
@@ -264,8 +272,10 @@ const ToolBox = ({
       // off the mic clear the audio track
       if (micStream) {
         const tracks = micStream.getTracks();
+        tracks.forEach((track) => track.stop());
 
-        tracks.forEach((track) => (track.enabled = false));
+        // tracks.forEach((track) => (track.enabled = false));
+
         setIsAudioStreamEnabled(false, producerAudioShare?.id);
       }
       setIsMicOn(false);
@@ -327,7 +337,6 @@ const ToolBox = ({
   const stopMicStream = () => {
     if (micStream) {
       const tracks = micStream.getTracks();
-
       tracks.forEach((track) => (track.enabled = false));
       setIsAudioStreamEnabled(false, producerAudioShare?.id);
     }
@@ -351,6 +360,7 @@ const ToolBox = ({
       triggerStopRecording();
     }
   }, [isMicOn, isScreenShare, isRecordOn]);
+
   return (
     <Box position={"absolute"} height={"100%"} p={4} zIndex={4}>
       <Flex

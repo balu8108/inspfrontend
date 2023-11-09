@@ -25,8 +25,7 @@ const ChemScreen = () => {
       <Box w={"33%"}>
         <SimpleBar
           style={{
-            // maxHeight: "85vh",  initial code by amit
-            maxHeight: "200vh",
+            maxHeight: "85vh", 
             borderRadius: "10px",
             boxShadow: boxShadowStyles.shadowOneStyle.boxShadow,
           }}

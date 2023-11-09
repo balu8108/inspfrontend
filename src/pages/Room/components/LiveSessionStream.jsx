@@ -100,8 +100,7 @@ const LiveSessionStream = (props) => {
         const watermarkUserEmail = document.getElementById(
           "watermark-user-email"
         );
-        console.log("water makr", watermarkUserName);
-        console.log("water mark", watermarkUserEmail);
+
         let isWaterMark = true;
         if (!watermarkUserName || !watermarkUserEmail) {
           isWaterMark = false;

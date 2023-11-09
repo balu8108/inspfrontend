@@ -12,17 +12,22 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { setIsDocModalOpen } from "../../store/actions/genericActions";
 import { getPresignedUrlDocApi } from "../../api/genericapis";
+import { checkUserType, getStorageData } from "../../utils";
 // import GoogleDocsViewer from "react-google-docs-viewer";
 // import { fileConverter } from "../../utils";
 
 const PSDDocumentViewer = ({ doc }) => {
   const docRef = useRef(null);
+
+  const { data: insp_user_profile } = getStorageData("insp_user_profile");
+
   const PSDFdocument = (instance) => {
     if (instance) {
       const iframeDoc = instance.contentWindow.document;
       const printButton = iframeDoc.querySelector(
         ".PSPDFKit-Toolbar-Button-Print"
       );
+      console.log("print button", printButton);
       const exportButton = iframeDoc.querySelector(
         ".PSPDFKit-Toolbar-Button-Export-PDF"
       );
@@ -52,6 +57,21 @@ const PSDDocumentViewer = ({ doc }) => {
       }
     }
   };
+
+  function addWatermark(ctx, pageIndex, pageSize) {
+    // Add a Confidential watermark on the page.
+
+    ctx.translate(100, 450);
+    ctx.rotate(-0.4);
+
+    ctx.font = "1rem Arial";
+    ctx.fillStyle = "rgba(76, 130, 212,.6)";
+    ctx.fillText(
+      `${insp_user_profile.name} - ${insp_user_profile.email} - ${insp_user_profile.mobile}`,
+      0,
+      0
+    );
+  }
   useEffect(() => {
     if (doc) {
       const container = docRef.current; // This `useRef` instance will render the PDF.
@@ -63,6 +83,7 @@ const PSDDocumentViewer = ({ doc }) => {
           disableWebAssemblyStreaming: true,
           container,
           document: doc,
+          renderPageCallback: addWatermark,
           // Use the public directory URL as a base URL. PSPDFKit will download its library assets from here.
           baseUrl: `${window.location.protocol}//${window.location.host}/${process.env.PUBLIC_URL}`,
         });

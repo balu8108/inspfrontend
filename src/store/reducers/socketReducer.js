@@ -31,6 +31,7 @@ import {
   SET_POLL_TIMER_INCREASE,
   RESET_CHAT_MESSAGES,
   RESET_QUESTION_MESSAGES,
+  SET_UPDATE_PEER_DETAILS,
 } from "../constants";
 const initialState = {
   isPeerLoading: true,
@@ -277,7 +278,6 @@ const socketReducer = (state = initialState, action) => {
         isKickedOut: action.payload,
       };
     case SET_SEND_POLL_RESPONSE:
-      console.log("poll reponse", action.payload);
       return {
         ...state,
         pollData: action.payload,
@@ -296,6 +296,15 @@ const socketReducer = (state = initialState, action) => {
       return {
         ...state,
         questionMessages: [],
+      };
+    case SET_UPDATE_PEER_DETAILS:
+      const updatePeerDetails = action.payload;
+      const updatedPeerList = state?.peers?.map((peer) =>
+        peer.id === updatePeerDetails.id ? updatePeerDetails : peer
+      );
+      return {
+        ...state,
+        peers: updatedPeerList,
       };
 
     default:
