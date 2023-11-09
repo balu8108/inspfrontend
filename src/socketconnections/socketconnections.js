@@ -409,7 +409,6 @@ const leaveRoomResponseHandler = (res) => {
   // after leaving class set producerTransport to again null
   producerTransport = null;
   consumerTransport = null;
-  console.log("Is Null affter leaving", producerTransport, consumerTransport);
 };
 
 const isAudioStreamEnabledResponse = (res) => {
