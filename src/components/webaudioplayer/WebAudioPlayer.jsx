@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from "react";
 const WebAudioPlayer = ({ mediaStreamTrack }) => {
   const audioRef = useRef(null);
   const audioContextRef = useRef(null);
+  console.log("Remote audio track", mediaStreamTrack);
 
   useEffect(() => {
     if (!mediaStreamTrack || !audioRef.current) return;

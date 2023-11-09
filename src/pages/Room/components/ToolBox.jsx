@@ -209,7 +209,9 @@ const ToolBox = ({
         return;
       }
       const stream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
+        audio: {
+          echoCancellation: true,
+        },
       });
       if (micRef.current) {
         micRef.current.srcObject = stream;
