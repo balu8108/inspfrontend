@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -10,14 +10,15 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import newAddedAssignment from "../data/newAddedAssignment";
-import {BASE_URL}  from "../../../constants/staticurls";
+import { BASE_URL } from "../../../constants/staticurls";
 import axios from "axios";
 const Assignment = () => {
   const theme = useTheme();
   const [recentAssignments, setRecentAssignments] = useState([]);
   useEffect(() => {
     // Inside a useEffect to make the API call when the component mounts
-    axios.get(BASE_URL + "/topic/recent-assignment")
+    axios
+      .get(BASE_URL + "/topic/recent-assignment")
       .then((response) => {
         setRecentAssignments(response.data.data);
       })
@@ -47,7 +48,7 @@ const Assignment = () => {
         <Text fontSize="20px" lineHeight="26.6px" mt="26px">
           Assignment
         </Text>
-        <Link to="/student/assignments">
+        <Link to="/student/assignments/PHYSICS">
           <Button
             variant={"ghost"}
             fontSize={"13px"}
@@ -70,7 +71,6 @@ const Assignment = () => {
             bg="#F1F5F8"
             ml="26px"
             mr="20px"
-            
           >
             <Text
               fontSize="16px"

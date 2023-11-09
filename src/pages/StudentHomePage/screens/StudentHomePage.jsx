@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useNavigate} from "react-router-dom"; // Import useHistory
+import { useNavigate } from "react-router-dom"; // Import useHistory
 import { Box, Button, Flex, HStack, useDisclosure } from "@chakra-ui/react";
 // import MyCourses from "../../MyCourses/components/Header";
 import Header from "../../Mentors/Header/components/HeaderInAllScreen";
@@ -14,7 +14,7 @@ import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassA
 
 const StudentHomePage = () => {
   const dispatch = useDispatch();
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const { onOpen: onSchedulePopupOpen } = useDisclosure();
   useEffect(() => {
     dispatch(getAllLiveClassesSchedule());
@@ -32,7 +32,9 @@ const StudentHomePage = () => {
             <Improvement />
             <Assignment />
           </HStack>
-          <Library />
+          <Box mt={"24px"}>
+            <Library />
+          </Box>
         </Box>
         <Box w={"25%"}>
           <SimpleBar
@@ -45,7 +47,6 @@ const StudentHomePage = () => {
             <Box p={4}>
               <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
             </Box>
-          
           </SimpleBar>
           {/* <Box bg={"gray"} position="relative">
             <Button

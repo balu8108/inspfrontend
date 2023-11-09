@@ -1,3 +1,4 @@
+// this is the assignment header .It is created separately ..
 import React, { useEffect, useState } from "react";
 import {
   Button,
@@ -9,11 +10,10 @@ import {
   Spinner,
   Center,
 } from "@chakra-ui/react";
-import { fetchAllSubjectsApi } from "../../../../api/inspexternalapis/index";
-import headerDataInAllScreen from "../data/headerData";
+import { fetchAllSubjectsApi } from "../../../api/inspexternalapis";
 import { Link } from "react-router-dom";
 
-const Header = () => {
+const AssignmentHeader = () => {
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -22,7 +22,6 @@ const Header = () => {
     "  Delve into the world of numbers, equations, and mathematical concepts. From algebra to calculus, discover the fundamental principles that underlie a wide range of scientific and practical applications.",
     " Physics is the study of the fundamental principles that govern the behavior of the physical universe. It encompasses a wide range of topics, including classical mechanics, electromagnetism, thermodynamics, and quantum mechanics.",
   ];
-
   const subjectStatus = ["Upcoming", "Upcoming", "In Progress"];
 
   useEffect(() => {
@@ -32,14 +31,14 @@ const Header = () => {
         const response = await fetchAllSubjectsApi(); // Call your API function
 
         if (response.status) {
-          
+          // Assuming the API response contains all subjects, just update the state with the fetched data
           const subjectsFromAPI = response.result;
-          setSubjects(subjectsFromAPI); 
+          setSubjects(subjectsFromAPI); // Update the state with fetched data
         }
       } catch (error) {
         console.error("Error fetching subjects:", error);
       } finally {
-        
+        // Set loading to false after fetching, whether it was successful or not
         setLoading(false);
       }
     }
@@ -93,7 +92,6 @@ const Header = () => {
               </Text>
               <Text
                 fontSize={"12px"}
-               
                 color={
                   subjectStatus[3 - subject.id] === "In Progress"
                     ? "#3DE302"
@@ -102,7 +100,7 @@ const Header = () => {
                 lineHeight={"18px"}
                 ml={"13px"}
               >
-                {subjectStatus[3 - subject.id] || "Status not found"}
+                {subject.status || "In Progress"}
               </Text>
               <Text
                 fontSize={"12px"}
@@ -126,8 +124,8 @@ const Header = () => {
                 {dummyDescriptions[3 - subject.id] || "Description not found"}
               </Text>
               <Link
-                to={`/myCourses/${subject.name}`}
                 style={{ display: "flex", justifyContent: "center" }}
+                to={`/student/assignments/${subject.name}`}
               >
                 <Button
                   variant={"ghost"}
@@ -149,4 +147,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default AssignmentHeader;

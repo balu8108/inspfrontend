@@ -32,7 +32,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
   const [isLoadingSubjects, setIsLoadingSubjects] = useState(true);
   const [isLoadingChapters, setIsLoadingChapters] = useState(false);
   const [isLoadingTopics, setIsLoadingTopics] = useState(false);
-  const[isSending,setIsSending]=useState(false);
+  const [isSending, setIsSending] = useState(false);
   const [subjects, setSubjects] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState("");
   const [chapters, setChapters] = useState([]);
@@ -66,19 +66,24 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
       setIsSending(true);
       // Create a FormData object to send files along with other data
       const formData = new FormData();
-      formData.append("subject", selectedSubject);
+      formData.append("subjectId", selectedSubject);
+
+      const selectedSubjectName =
+        subjects.find((subject) => subject.id === selectedSubject)?.name || "";
+
+      formData.append("subjectName", selectedSubjectName);
+
       formData.append("chapter", selectedChapters);
 
-      // Get the selected topic name based on the topic ID
       const selectedTopicName =
-    topics.find((topic) => topic.id === selectedTopic)?.name || "";
+        topics.find((topic) => topic.id === selectedTopic)?.name || "";
+
       formData.append("topicName", selectedTopicName); // Use the topic name
       formData.append("topicId", selectedTopic);
       formData.append("description", description);
 
-      
       files.forEach((file) => {
-        formData.append("files", file); 
+        formData.append("files", file);
       });
       const response = await axios.post(
         `${BASE_URL}/topic/upload-assignments`,
@@ -104,7 +109,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
       console.error("Error submitting assignment:", error);
       // Handle any network or other errors that may occur during the request
     } finally {
-      setIsSending(false)
+      setIsSending(false);
     }
   };
 
@@ -300,32 +305,32 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
           </Flex>
         </ModalFooter> */}
         <ModalFooter>
-        <Flex w={"full"} justifyContent={"center"}>
-          {isSending ? ( // Render the spinner inside the button
-            <Button
-              type="submit"
-              w={"30%"}
-              bg={"#3C8DBC"}
-              color={"#FFFFFF"}
-              fontWeight={500}
-              isDisabled
-            >
-              <Spinner size="sm" color="white" />
-            </Button>
-          ) : (
-            <Button
-              type="submit"
-              w={"30%"}
-              bg={"#3C8DBC"}
-              color={"#FFFFFF"}
-              fontWeight={500}
-              onClick={handleSubmit}
-            >
-              Send
-            </Button>
-          )}
-        </Flex>
-      </ModalFooter>
+          <Flex w={"full"} justifyContent={"center"}>
+            {isSending ? ( // Render the spinner inside the button
+              <Button
+                type="submit"
+                w={"30%"}
+                bg={"#3C8DBC"}
+                color={"#FFFFFF"}
+                fontWeight={500}
+                isDisabled
+              >
+                <Spinner size="sm" color="white" />
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                w={"30%"}
+                bg={"#3C8DBC"}
+                color={"#FFFFFF"}
+                fontWeight={500}
+                onClick={handleSubmit}
+              >
+                Send
+              </Button>
+            )}
+          </Flex>
+        </ModalFooter>
       </ModalContent>
     </Modal>
   );
