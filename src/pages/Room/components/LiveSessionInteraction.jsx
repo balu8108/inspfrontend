@@ -27,7 +27,7 @@ import { Scrollbars } from "rc-scrollbars";
 import { checkUserType, containsEmoji } from "../../../utils";
 import Leaderboard from "./Leaderboard";
 import { userType } from "../../../constants/staticvariables";
-import PollTimer from "./PollTimer";
+
 import { setSendPollResponse } from "../../../store/actions/socketActions";
 
 // Active btns will be
