@@ -266,6 +266,7 @@ const peerLeavedResponseHandler = (res) => {
 };
 
 const someProducerClosedResponseHandler = (res) => {
+  console.log("producer closed.... triggered.....");
   const { producerId, producerAppData } = res;
   // evaluate what type of consumer we need to stop
 
@@ -483,7 +484,8 @@ export const initializeSocketConnections = (roomId) => {
     socket.on(
       SOCKET_EVENTS.SOME_PRODUCER_CLOSED,
       someProducerClosedResponseHandler
-    );
+    ); // this is explicitly triggered by backend
+    socket.on(SOCKET_EVENTS.PRODUCER_CLOSED, someProducerClosedResponseHandler); // automatically triggered when any producer closes due to any reason
     socket.on(
       SOCKET_EVENTS.MIRO_BOARD_DATA_FROM_SERVER,
       miroBoardIdResponseHandler

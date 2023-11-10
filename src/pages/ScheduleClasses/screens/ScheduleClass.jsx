@@ -9,7 +9,7 @@ import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 import { boxShadowStyles } from "../../../utils";
 import ScheduleClassList from "../components/ScheduleClassList";
-
+import { Scrollbars } from "rc-scrollbars";
 const ScheduleClass = () => {
   const {
     isOpen: isSchedulePopupOpen,
@@ -40,20 +40,30 @@ const ScheduleClass = () => {
       )}
 
       <Box px={20} pt={4} pb={4}>
-        <Grid templateColumns={"20% 80%"} gap={4} alignItems={"start"}>
-          <SimpleBar
+        <Grid templateColumns={"20% 80%"} gap={6} alignItems={"start"}>
+          {/* <SimpleBar
             style={{
               maxHeight: "85vh",
               borderRadius: "10px",
               boxShadow: boxShadowStyles.shadowOneStyle.boxShadow,
             }}
+          > */}
+          <Scrollbars
+            style={{
+              height: "90vh",
+              boxShadow: "2px 2px 13px 0 rgba(92, 92, 92, 0.2)",
+              borderRadius: "10px",
+            }}
+            autoHide={true}
           >
             <GridItem p={4}>
               <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
             </GridItem>
-          </SimpleBar>
+          </Scrollbars>
 
-          <GridItem bg={lightGrey} borderRadius={"md"}>
+          {/* </SimpleBar> */}
+
+          <GridItem borderRadius={"md"}>
             <ScheduleCalendar
               onSchedulePopupOpen={onSchedulePopupOpen}
               setSelectedDate={setSelectedDate}

@@ -3,6 +3,32 @@
   --light-blue: rgba(183, 224, 230, 1);
   --text-color: rgba(107, 104, 112, 1);
   --light-blue: rgba(60, 141, 188, 1);
+  --extra-light-blue: rgba(0, 173, 197, 0.2);
+  --box-shadow-color: rgba(92, 92, 92, 0.2);
+}
+
+/*Main background color*/
+.fc.fc-media-screen {
+  background-color: white;
+  box-shadow: 2px 2px 13px 0 var(--box-shadow-color);
+  border-radius: 10px;
+  height: 100% !important;
+}
+/*Color of current day*/
+.fc .fc-day.fc-day-today {
+  background-color: var(--extra-light-blue);
+}
+
+/*Time grid day view modification*/
+.fc .fc-timeGridDay-view .fc-scrollgrid-section-header .fc-col-header-cell {
+  background-color: white;
+}
+.fc .fc-timeGridDay-view .fc-daygrid-day-frame {
+  background-color: white;
+}
+
+.fc .fc-timeGridDay-view .fc-timegrid-slot {
+  background-color: white;
 }
 .fc-button-group .fc-prev-button,
 .fc-button-group .fc-next-button,
