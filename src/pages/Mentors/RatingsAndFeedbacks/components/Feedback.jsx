@@ -22,8 +22,6 @@ const AllUploadedLecture = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredTopics, setFilteredTopics] = useState([]); // Add filteredTopics state
   const [isLoading, setIsLoading] = useState(true);
-  console.log("filteredTopics", filteredTopics);
-  console.log("allTopcid", allTopicList);
 
   const handleSearchChange = (event) => {
     const query = event.target.value;
