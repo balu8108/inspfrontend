@@ -1,12 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  Box,
-  Grid,
-  GridItem,
-  Text,
-  useDisclosure,
-  useTheme,
-} from "@chakra-ui/react";
+import { Box, Grid, GridItem, useDisclosure, useTheme } from "@chakra-ui/react";
 
 import LiveSessionDescription from "../components/LiveSessionDescription";
 import LiveSessionStream from "../components/LiveSessionStream";
@@ -21,7 +14,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { liveSessionMemberViewType } from "../../../constants/staticvariables";
 import { useToastContext } from "../../../components/toastNotificationProvider/ToastNotificationProvider";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { checkUserType } from "../../../utils";
 import LiveSessionInteraction from "../components/LiveSessionInteraction";
 import LeaveOrEndClassPopup from "../../../components/popups/LeaveOrEndClassPopup";
@@ -164,28 +157,6 @@ const Room = () => {
       dispatch(resetQuestionMessags());
     };
   }, [dispatch]);
-
-  // const stopEveryEnabledStreams = (
-  //   micStream,
-  //   mentorVideoStream,
-  //   screenShareStream
-  // ) => {
-  //   // Stop mic stream if it was there
-  //   if (micStream) {
-  //     const tracks = micStream.getTracks();
-  //     tracks.forEach((track) => track.stop());
-  //   }
-  //   // stop video stream if it was there
-  //   if (mentorVideoStream) {
-  //     const tracks = mentorVideoStream.getTracks();
-  //     tracks.forEach((track) => track.stop());
-  //   }
-  //   // stop screenshare stream if it was there
-  //   if (screenShareStream) {
-  //     const tracks = screenShareStream.getTracks();
-  //     tracks.forEach((track) => track.stop());
-  //   }
-  // };
 
   const stopMediaStream = (stream) => {
     if (stream) {
