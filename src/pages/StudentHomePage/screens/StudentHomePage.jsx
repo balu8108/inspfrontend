@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Import useHistory
-import { Box, Button, Flex, HStack, useDisclosure } from "@chakra-ui/react";
+
+import { Box, Flex, HStack, useDisclosure } from "@chakra-ui/react";
 // import MyCourses from "../../MyCourses/components/Header";
 import Header from "../../Mentors/Header/components/HeaderInAllScreen";
 import Improvement from "../components/Improvement";
@@ -14,15 +14,12 @@ import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassA
 
 const StudentHomePage = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+
   const { onOpen: onSchedulePopupOpen } = useDisclosure();
   useEffect(() => {
     dispatch(getAllLiveClassesSchedule());
   }, [dispatch]);
-  const handleViewCalendarClick = () => {
-    // Use history.push to navigate to "/schedule-class" when the button is clicked
-    navigate("/schedule-class");
-  };
+
   return (
     <>
       <Flex m={"52px"} justifyContent={"space-between"} gap={6}>
@@ -48,20 +45,6 @@ const StudentHomePage = () => {
               <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
             </Box>
           </SimpleBar>
-          {/* <Box bg={"gray"} position="relative">
-            <Button
-              w={"100%"}
-              variant="solid"
-              colorScheme="blue"
-              fontWeight={500}
-              size="md"
-              position={"absolute"}
-              mt={-10}
-              onClick={handleViewCalendarClick}
-            >
-              View Calendar
-            </Button>
-          </Box> */}
         </Box>
       </Flex>
     </>

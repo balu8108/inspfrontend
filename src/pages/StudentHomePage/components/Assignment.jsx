@@ -1,19 +1,10 @@
 import React, { useState, useEffect } from "react";
-import {
-  Box,
-  Button,
-  Text,
-  HStack,
-  useTheme,
-  Flex,
-  Card,
-} from "@chakra-ui/react";
+import { Box, Button, Text, HStack, Flex, Card } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import newAddedAssignment from "../data/newAddedAssignment";
+
 import { BASE_URL } from "../../../constants/staticurls";
 import axios from "axios";
 const Assignment = () => {
-  const theme = useTheme();
   const [recentAssignments, setRecentAssignments] = useState([]);
   useEffect(() => {
     // Inside a useEffect to make the API call when the component mounts

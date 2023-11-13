@@ -1,13 +1,11 @@
-import { Grid, GridItem, Box, useTheme, useDisclosure } from "@chakra-ui/react";
+import { Grid, GridItem, Box, useDisclosure } from "@chakra-ui/react";
 
 import ScheduleCalendar from "../components/ScheduleCalendar";
 import ScheduleClassPopup from "../../../components/popups/ScheduleClassPopup";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassActions";
-import SimpleBar from "simplebar-react";
-import "simplebar-react/dist/simplebar.min.css";
-import { boxShadowStyles } from "../../../utils";
+
 import ScheduleClassList from "../components/ScheduleClassList";
 import { Scrollbars } from "rc-scrollbars";
 const ScheduleClass = () => {
@@ -17,7 +15,6 @@ const ScheduleClass = () => {
     onClose: onScheduleClosePopupOpen,
   } = useDisclosure();
 
-  const { lightGrey } = useTheme().colors.pallete;
   const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
   const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
   const dispatch = useDispatch();

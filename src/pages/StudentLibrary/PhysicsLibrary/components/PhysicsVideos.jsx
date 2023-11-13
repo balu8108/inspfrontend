@@ -1,4 +1,4 @@
-// I have given name as phy but it is component which take params as subject name and displays all the  topics for the subject 
+// I have given name as phy but it is component which take params as subject name and displays all the  topics for the subject
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -13,8 +13,6 @@ import {
   InputGroup,
   Spacer,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
-import physVideosData from "../data/PhysVideosData";
 import { SearchIcon } from "@chakra-ui/icons";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../api/inspexternalapis";
 import { useParams } from "react-router-dom";

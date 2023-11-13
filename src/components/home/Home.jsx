@@ -5,6 +5,7 @@ import { useToastContext } from "../toastNotificationProvider/ToastNotificationP
 import { useEffect } from "react";
 import { isAuthenticated } from "../../utils";
 import { useNavigate } from "react-router-dom";
+
 const Home = () => {
   const { addNotification } = useToastContext();
   const navigate = useNavigate();

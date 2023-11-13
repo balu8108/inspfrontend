@@ -24,7 +24,6 @@ import {
   setSendPollResponse,
   setTimerIncrease,
   setUpdatePeerDetails,
-  setUploadFiles,
   setUploadFilesInRoom,
 } from "../store/actions/socketActions";
 
@@ -266,7 +265,7 @@ const peerLeavedResponseHandler = (res) => {
 };
 
 const someProducerClosedResponseHandler = (res) => {
-  const { producerId, producerAppData } = res;
+  const { producerAppData } = res;
   // evaluate what type of consumer we need to stop
 
   if (
