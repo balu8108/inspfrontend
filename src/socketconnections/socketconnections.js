@@ -266,7 +266,6 @@ const peerLeavedResponseHandler = (res) => {
 };
 
 const someProducerClosedResponseHandler = (res) => {
-  console.log("producer closed.... triggered.....");
   const { producerId, producerAppData } = res;
   // evaluate what type of consumer we need to stop
 
