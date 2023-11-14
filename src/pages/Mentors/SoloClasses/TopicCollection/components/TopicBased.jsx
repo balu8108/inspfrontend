@@ -8,16 +8,20 @@ import {
   Button,
   Flex,
   Spinner,
+  useTheme
 } from "@chakra-ui/react";
 import SoloRecordModal from "../../SoloRecordModal/components/SoloRecordModal";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../../api/inspexternalapis";
 import topicDescriptionConstants from "../../../../../constants/topicDescriptionConstants";
 import "../../../../../constants/scrollbar/style.css";
 import axios from "axios";
+
 const TopicsBased = ({ setViewTopic, setTopicName }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoadingTopics, setIsLoadingTopics] = useState(true);
   const [topics, setTopics] = useState([]);
+  const { extraTextLight, primaryBlue, primaryBlueLight } =
+  useTheme().colors.pallete;
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -90,6 +94,7 @@ const TopicsBased = ({ setViewTopic, setTopicName }) => {
             fontSize={"14px"}
             variant={"ghost"}
             onClick={openModal}
+            _hover={{ bg: primaryBlueLight }}
           >
             Solo record
           </Button>

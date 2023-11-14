@@ -91,7 +91,7 @@ const AssignmentHeader = () => {
                 {subject.name}
               </Text>
               <Text
-                fontSize={"12px"}
+                fontSize={"14px"}
                 color={
                   subjectStatus[3 - subject.id] === "In Progress"
                     ? "#3DE302"

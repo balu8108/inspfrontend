@@ -20,6 +20,7 @@ import {
   Text,
   Spinner,
   Textarea,
+  useTheme
 } from "@chakra-ui/react";
 import {
   fetchAllChaptersApi,
@@ -41,6 +42,8 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
   const [selectedTopic, setSelectedTopic] = useState("");
   const [description, setDescription] = useState("");
   const [files, setFiles] = useState([]);
+  const { extraTextLight, primaryBlue, primaryBlueLight } =
+  useTheme().colors.pallete;
 
   const apiUrl = "http://localhost:5000";
 
@@ -278,6 +281,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
               <Button
                 w={"40%"}
                 bg={"#3C8DBC"}
+                _hover={{ bg: primaryBlueLight }}
                 color={"#FFFFFF"}
                 fontWeight={500}
                 onClick={() => {
@@ -325,6 +329,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
                 color={"#FFFFFF"}
                 fontWeight={500}
                 onClick={handleSubmit}
+                _hover={{ bg: primaryBlueLight }}
               >
                 Send
               </Button>

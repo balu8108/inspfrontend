@@ -28,6 +28,7 @@ const links = [
   { path: "/schedule-class", label: "Calendar", availableTo: [0, 1] },
   { path: "/myCourses/PHYSICS", label: "Courses", availableTo: [1] },
   { path: "/mentor/alluploads", label: "Uploads", availableTo: [1] },
+
   {
     path: "/student/assignments/CHEMISTRY",
     label: "Assignments",

@@ -69,15 +69,14 @@ const DataForClass = () => {
           lineHeight={"24px"}
           fontFamily={400}
           mt={"26px"}
-          noOfLines={1}
         >
-          {data.topic}
+          Solo Recording
         </Text>
       </HStack>
 
       <Stack ml={"12px"} spacing={"25px"}>
         <Box mt={"38px"}>
-          <Text p={"13px"}></Text>
+          <Text p={"13px"}> {data.topic}</Text>
         </Box>
         <Box>
           <Text p={"13px"}>Description</Text>

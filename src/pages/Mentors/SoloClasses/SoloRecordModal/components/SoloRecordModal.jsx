@@ -16,6 +16,7 @@ import {
   Spinner,
   Textarea,
   Text,
+  useTheme,
 } from "@chakra-ui/react";
 import {
   fetchAllSubjectsApi,
@@ -37,6 +38,8 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
   const [selectedTopicId, setSelectedTopicId] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const { extraTextLight, primaryBlue, primaryBlueLight } =
+    useTheme().colors.pallete;
   const navigate = useNavigate();
 
   const fileInputRef = useRef(null);
@@ -238,6 +241,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
               <Button
                 w={"40%"}
                 bg={"#3C8DBC"}
+                _hover={{ bg: primaryBlueLight }}
                 color={"#FFFFFF"}
                 fontWeight={500}
                 onClick={() => {
@@ -254,6 +258,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
             <Button
               type="submit"
               w={"30%"}
+              _hover={{ bg: primaryBlueLight }}
               bg={"#3C8DBC"}
               color={"#FFFFFF"}
               fontWeight={500}

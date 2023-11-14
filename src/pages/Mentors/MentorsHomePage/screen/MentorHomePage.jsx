@@ -58,10 +58,10 @@ const MentorHomePage = () => {
             </Flex>
           </Box>
 
-          <Box>
-            <VStack gap={"24px"}>
-              <MentorGroups />
-              <Box w="90%" ml={5}>
+          {/* <Box>
+            <VStack gap={"24px"}> */}
+              {/* <MentorGroups /> */}
+              <Box w="35%" ml={5}>
                 <SimpleBar
                   style={{
                     maxHeight: "85vh",
@@ -77,8 +77,8 @@ const MentorHomePage = () => {
                     />
                   </Box>
                 </SimpleBar>
-              </Box>
-            </VStack>
+              {/* </Box>
+            </VStack> */}
           </Box>
         </Flex>
       </Box>
