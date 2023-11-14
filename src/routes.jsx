@@ -149,9 +149,15 @@ const privateRoutes = [
   },
   {
     name: "Solo Recording Detailed And Covered ",
-    path: "/mentor/solo-recordings/topic",
+    path: "/mentor/solo-recordings/topic/:topicId/:topic_name",
     component: <SoloRecordedTopicsDetails />,
   },
+
+  // {
+  //   name: "Solo Recording Detailed And Covered ",
+  //   path: "/mentor/solo-recordings/topic",
+  //   component: <SoloRecordedTopicsDetails />,
+  // },
 
   {
     name: "Solo Recording Screen ",

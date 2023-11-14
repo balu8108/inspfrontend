@@ -19,34 +19,33 @@ import { useNavigate } from "react-router";
 import { FaCircle } from "react-icons/fa";
 import { getPresignedUrlApi } from "../../../../../api/genericapis";
 import { BASE_URL } from "../../../../../constants/staticurls";
+import { useParams } from "react-router-dom";
 import { SimpleGrid } from "@chakra-ui/layout";
-const DetailsCoveredFiles = ({ viewTopic, viewtopicName }) => {
+const DetailsCoveredFiles = () => {
   const [topicDetails, setTopicDetails] = useState(null);
   const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
   const [showVideo, setShowVideo] = useState(false);
   const [videoUrl, setVideoUrl] = useState(null);
+  const { topicId, topic_name } = useParams();
   const navigate = useNavigate();
   // Function to fetch topic details
-  const fetchTopicDetails = async (topicId) => {
-    try {
-      const response = await axios.get(
-        `${BASE_URL}/solo-lecture/get-topic-details/${topicId}`
-      );
-
-      const topicDetailsData = response.data;
-
-      // Update the state with the received topic details
-      setTopicDetails(topicDetailsData);
-    } catch (error) {
-      console.error("Error fetching topic details:", error);
-    }
-  };
 
   useEffect(() => {
-    if (viewTopic !== null) {
-      fetchTopicDetails(viewTopic);
-    }
-  }, [viewTopic]);
+    const fetchTopicDetails = async () => {
+      try {
+        const response = await axios.get(
+          `${BASE_URL}/solo-lecture/get-topic-details/${topicId}`
+        );
+        const topicDetailsData = response.data;
+        // Update the state with the received topic details
+        setTopicDetails(topicDetailsData);
+      } catch (error) {
+        console.error("Error fetching topic details:", error);
+      }
+    };
+
+    fetchTopicDetails();
+  }, [topicId]);
 
   const handleCardClick = async (videoUrl) => {
     try {
@@ -73,7 +72,7 @@ const DetailsCoveredFiles = ({ viewTopic, viewtopicName }) => {
           bg={"#3C8DBC"}
         />
         <Text fontSize={"19px"} lineHeight={"24px"}>
-          Details( {viewtopicName} )
+          {topic_name}
         </Text>
       </HStack>
 
