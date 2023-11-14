@@ -52,9 +52,8 @@ const RoomPreviewVideo = () => {
     e.stopPropagation();
     if (isVideoOn) {
       if (videoStream) {
-        console.log("stopiing");
         const tracks = videoStream.getTracks();
-        console.log("tracks video", tracks);
+
         tracks.forEach((track) => track.stop());
 
         setVideoStream(null); // Clear the stored stream
