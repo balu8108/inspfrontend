@@ -6,9 +6,9 @@ import {
 
 // From Room preview we provided both as true
 const initialState = {
-  isVideoLoading: true,
-  isVideoOn: true,
-  isAudioOn: true,
+  isVideoLoading: false,
+  isPreviewVideoOn: false,
+  isPreviewAudioOn: false,
 };
 
 const streamControlsReducer = (state = initialState, action) => {
@@ -21,12 +21,12 @@ const streamControlsReducer = (state = initialState, action) => {
     case SET_VIDEO_CONTROL:
       return {
         ...state,
-        isVideoOn: action.payload,
+        isPreviewVideoOn: action.payload,
       };
     case SET_AUDIO_CONTROL:
       return {
         ...state,
-        isAudioOn: action.payload,
+        isPreviewAudioOn: action.payload,
       };
     default:
       return state;

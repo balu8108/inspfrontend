@@ -5,6 +5,7 @@
   --light-blue: rgba(60, 141, 188, 1);
   --extra-light-blue: rgba(0, 173, 197, 0.2);
   --box-shadow-color: rgba(92, 92, 92, 0.2);
+  --toolbar-text-color: rgba(58, 53, 65, 0.87);
 }
 
 /*Main background color*/
@@ -30,40 +31,48 @@
 .fc .fc-timeGridDay-view .fc-timegrid-slot {
   background-color: white;
 }
-.fc-button-group .fc-prev-button,
-.fc-button-group .fc-next-button,
-.fc-button-group .fc-prev-button:hover,
-.fc-button-group .fc-next-button:hover {
-  background: none;
-  border: none;
-  color: black;
-  outline: none;
+
+.fc .fc-daygrid-day-number {
+  padding: 0.3rem 0.6rem;
 }
 
-.fc-button-group .fc-prev-button:active,
-.fc-button-group .fc-next-button:active {
-  background: yellow;
-  color: inherit;
+.fc-header-toolbar.fc-toolbar.fc-toolbar-ltr {
+  padding: 0.8rem !important;
 }
-.fc-button-group .fc-prev-button:focus,
-.fc-button-group .fc-next-button:focus {
-  background: none;
-  color: inherit;
-  border: none;
-  outline: none;
+
+.fc .fc-toolbar.fc-header-toolbar {
+  margin-bottom: 0.3rem;
+}
+
+.fc .fc-button-group .fc-button-primary.fc-prev-button,
+.fc .fc-button-group .fc-button-primary.fc-next-button {
+  padding-right: 0.3rem;
+  padding-left: 0.3rem;
+  outline: none !important;
+  border: none !important;
+  color: var(--toolbar-text-color);
+}
+.fc .fc-button-group .fc-button-primary.fc-prev-button:active,
+.fc .fc-button-group .fc-button-primary.fc-next-button:active {
+  background-color: white;
+  border: none !important;
+  outline: none !important;
+}
+.fc .fc-button-group .fc-button-primary.fc-prev-button:focus {
+  background-color: white;
+  border: none !important;
+  outline: none !important;
 }
 
 .fc .fc-header-toolbar .fc-toolbar-chunk:nth-child(2) {
   margin-right: auto;
 }
 .fc .fc-header-toolbar .fc-toolbar-chunk .fc-toolbar-title {
-  color: var(--text-color);
-  font-size: 1.2rem;
+  color: rgba(58, 53, 65, 1);
+  font-size: 1.025rem;
+  font-weight: 500;
 }
 
-.fc-header-toolbar.fc-toolbar.fc-toolbar-ltr {
-  padding: 0.5rem;
-}
 .fc .fc-button-group .fc-button {
   text-transform: uppercase;
   font-size: 0.9rem;
