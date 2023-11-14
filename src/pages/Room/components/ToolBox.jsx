@@ -5,7 +5,6 @@ import {
   Tooltip,
   Stack,
   Flex,
-  Button,
   HStack,
   useTheme,
 } from "@chakra-ui/react";
@@ -24,8 +23,6 @@ import { SiMiro } from "react-icons/si";
 import { RiFullscreenFill } from "react-icons/ri";
 import {
   socket,
-  endMeetHandler,
-  leaveRoomHandler,
   producerPauseHandler,
   producerResumeHandler,
   producerTransport,
@@ -42,7 +39,7 @@ import {
 import { roomData } from "../data/roomData";
 import PostPoll from "../../../components/popups/PostPoll";
 import { LeaveBtn } from "../../../components/button";
-import { useParams, useNavigate } from "react-router-dom";
+
 import { shallowEqual, useSelector } from "react-redux";
 import { checkUserType } from "../../../utils";
 
@@ -77,6 +74,9 @@ const ToolBox = ({
   const [producerMentorVideoShare, setProducerMentorVideoShare] =
     useState(null);
   const [producerAudioShare, setProducerAudioShare] = useState(null);
+  const { isPreviewVideoOn, isPreviewAudioOn } = useSelector(
+    (state) => state.streamControls
+  );
   const { redBtnColor } = useTheme().colors.pallete;
   const userRoleType = checkUserType();
   // let producerScreenShare = null;
@@ -359,6 +359,18 @@ const ToolBox = ({
       triggerStopRecording();
     }
   }, [isMicOn, isScreenShare, isRecordOn]);
+
+  useEffect(() => {
+    if (isPreviewVideoOn) {
+      getVideoStreamFeed();
+    }
+  }, [isPreviewVideoOn]);
+
+  useEffect(() => {
+    if (isPreviewAudioOn) {
+      getAudioStreamFeed();
+    }
+  }, [isPreviewAudioOn]);
 
   return (
     <Box position={"absolute"} height={"100%"} p={4} zIndex={4}>
