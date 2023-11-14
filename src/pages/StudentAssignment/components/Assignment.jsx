@@ -6,12 +6,10 @@ import {
   Card,
   Flex,
   Button,
-  Stack,
   SimpleGrid,
   Input,
   InputGroup,
   InputLeftElement,
-  Icon,
   Spacer,
 } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
@@ -31,19 +29,6 @@ const AssignmentDetails = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const { subjectName } = useParams();
   const dispatch = useDispatch();
-
-  const handleViewDetails = (assignmentId) => {
-    setSelectedAssignment(assignmentId);
-  };
-
-  const clearSelection = () => {
-    setSelectedAssignment(null);
-  };
-
-  const handleCloseDocumentViewer = () => {
-    setModalIsOpen(false);
-    setSelectedFileUrl("");
-  };
 
   const filteredData = Array.isArray(assignmentData)
     ? assignmentData.filter((assignment) => {

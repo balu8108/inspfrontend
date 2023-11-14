@@ -88,7 +88,6 @@ const RoomPreviewVideo = () => {
 
   useEffect(() => {
     return () => {
-      console.log("registering unmounting..");
       stopMediaStream(videoStream);
     };
   }, [videoStream]);
