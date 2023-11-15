@@ -139,15 +139,15 @@ const AllUploadedLecture = () => {
             <Box
               flex={1}
               display="flex"
-              justifyContent="flex-end"
+             
               gap={4}
               my={"13px"}
-              mx={"25px"}
+               mx={"13px"}
             >
               {assignmentScreen.AssignmentFiles.map((file, index) => (
                 <Flex
                   key={index}
-                  flex={1}
+                 
                   bg={"blackAlpha.100"}
                   mt={"12px"}
                   color={"#2C332978"}
@@ -185,13 +185,7 @@ const AllUploadedLecture = () => {
           </Card>
         ))}
       </SimpleGrid>
-      {/* {modalIsOpen && (
-        <DocumentViewer
-          isOpen={modalIsOpen}
-          onClose={handleCloseDocumentViewer}
-          docUrl={selectedFileUrl}
-        />
-      )} */}
+     
     </Box>
   );
 };
