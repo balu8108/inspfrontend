@@ -32,23 +32,25 @@ const Header = () => {
         const response = await fetchAllSubjectsApi(); // Call your API function
 
         if (response.status) {
-          
           const subjectsFromAPI = response.result;
-          setSubjects(subjectsFromAPI); 
+          setSubjects(subjectsFromAPI);
         }
       } catch (error) {
         console.error("Error fetching subjects:", error);
       } finally {
-        
         setLoading(false);
       }
     }
 
     fetchSubjects();
   }, []);
-//boxShadow={"2px 2px 13px 0px #5C5C5C1F "} 
+  //boxShadow={"2px 2px 13px 0px #5C5C5C1F "}
   return (
-    <Box  boxShadow={"2px 2px 13px 0px #5C5C5C1F "}    borderRadius={"25px"} w={"100%"}>
+    <Box
+      boxShadow={"2px 2px 13px 0px #5C5C5C1F "}
+      borderRadius={"25px"}
+      w={"100%"}
+    >
       <HStack spacing={"10px"}>
         <Box
           width={"12px"}
@@ -93,7 +95,6 @@ const Header = () => {
               </Text>
               <Text
                 fontSize={"14px"}
-               
                 color={
                   subjectStatus[3 - subject.id] === "In Progress"
                     ? "#3DE302"

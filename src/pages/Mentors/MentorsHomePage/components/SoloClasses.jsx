@@ -36,7 +36,14 @@ const SoloClasses = () => {
     getSoloLatestClassroom();
   }, []);
   return (
-    <Box boxShadow={"2px 2px 13px 0px #5C5C5C1F "}   bg={"#FFFFFF"} mt={"23px"} borderRadius={"25px"} w={"95%"} h={"full"}>
+    <Box
+      boxShadow={"2px 2px 13px 0px #5C5C5C1F "}
+      bg={"#FFFFFF"}
+      mt={"23px"}
+      borderRadius={"25px"}
+      w={"95%"}
+      h={"full"}
+    >
       <Flex>
         <HStack spacing={"10px"}>
           <Box
