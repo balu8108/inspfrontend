@@ -28,7 +28,7 @@ const FeedBack = () => {
   }, [BASE_URL]);
 
   return (
-    <Box bg={"#F1F5F8"} mt={"23px"} borderRadius={"25px"} w={"58%"} h={"30%"}>
+    <Box boxShadow={"2px 2px 13px 0px #5C5C5C1F "}  mt={"23px"} borderRadius={"25px"} w={"58%"} h={"30%"}>
       <Flex>
         <HStack spacing={"10px"}>
           <Box

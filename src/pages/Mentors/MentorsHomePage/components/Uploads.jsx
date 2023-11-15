@@ -16,7 +16,7 @@ import axios from "axios";
 import UploadAssignmentPopup from "../../../../components/popups/UploadAssignmentPopup";
 import { BASE_URL } from "../../../../constants/staticurls";
 const MentorsUploads = () => {
-  const apiUrl = "http://localhost:5000";
+  
   const [latestAssignment, setLatestAssignment] = useState([]);
   const [isUploadAssignmentModalOpen, setUploadAssignmentModalOpen] =
     useState(false);
@@ -35,7 +35,7 @@ const MentorsUploads = () => {
     });
   }, []);
   return (
-    <Box bg={"#F1F5F8"} w={"95%"}  borderRadius={"26px"}>
+    <Box  boxShadow={"2px 2px 13px 0px #5C5C5C1F "}  w={"95%"}  borderRadius={"26px"}>
       <Flex>
         <HStack spacing={"10px"}>
           <Box
