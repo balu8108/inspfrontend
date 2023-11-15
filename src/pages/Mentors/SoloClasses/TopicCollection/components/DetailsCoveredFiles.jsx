@@ -21,6 +21,8 @@ import { getPresignedUrlApi } from "../../../../../api/genericapis";
 import { BASE_URL } from "../../../../../constants/staticurls";
 import { useParams } from "react-router-dom";
 import { SimpleGrid } from "@chakra-ui/layout";
+import { extractFileNameFromS3URL } from "../../../../../utils";
+import { wrap } from "framer-motion";
 const DetailsCoveredFiles = () => {
   const [topicDetails, setTopicDetails] = useState(null);
   const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
@@ -172,19 +174,20 @@ const DetailsCoveredFiles = () => {
           )}
         </Flex>
       </Box>
-
       <Box mt={"31px"} overflowX="auto">
         <Text ml={"20px"} p={"13px"}>
           Files/Notes
         </Text>
-        <HStack ml={"20px"}>
+
+        <Box w={"100%"} display={"flex"} flexWrap={"wrap"}>
           {topicDetails && topicDetails.length > 0 ? (
             topicDetails.map((topicInfo, index) => (
-              <Box key={topicInfo.id}>
+              <Box key={topicInfo.id} display="flex" flexWrap="wrap">
                 {topicInfo.SoloClassRoomFiles.map((file, fileIndex) => (
                   <Box
                     key={fileIndex}
                     mr="10px"
+                    ml={"20px"}
                     borderRadius={6}
                     bg={"#F1F5F8"}
                     blendMode={"multiply"}
@@ -192,23 +195,19 @@ const DetailsCoveredFiles = () => {
                     border={1}
                     boxShadow={"md"}
                     mb={"25px"}
+                    flex="0 0 auto" 
                   >
-                    <Flex>
-                      <Text fontSize={"12px"} mt={3} color={"#2C332978"}>
-                        {file.key}
+                    <Flex align="center">
+                      <Text fontSize={"11px"}  color={"#2C332978"}>
+                        {extractFileNameFromS3URL(file.key)}
                       </Text>
-                      <a
-                        href={file.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <Button
-                          rightIcon={<BsDownload />}
-                          variant={"ghost"}
-                          color={"black"}
-                          ml={2}
-                        />
-                      </a>
+                    <Spacer/>
+                      <Button
+                        rightIcon={<BsDownload />}
+                        variant={"ghost"}
+                        color={"black"}
+                        ml={2}
+                      />
                     </Flex>
                   </Box>
                 ))}
@@ -219,7 +218,7 @@ const DetailsCoveredFiles = () => {
               <Text>No files/notes are available for this topic.</Text>
             </Box>
           )}
-        </HStack>
+        </Box>
       </Box>
     </Box>
   );
