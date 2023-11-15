@@ -14,8 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../api/inspexternalapis/index";
-import { SearchIcon } from "@chakra-ui/icons";
-import rateNFeedbackDetails from "../data/feedbackData";
+import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
 import VectorImage from "../../../../assets/images/Line/Vector.svg";
 const AllUploadedLecture = () => {
   const [allTopicList, setAllTopicList] = useState([]);
@@ -54,7 +53,7 @@ const AllUploadedLecture = () => {
   }, []);
 
   return (
-    <Box bg={"#F1F5F8"} w={"full"} h={"full"} mt={"24px"} borderRadius={"26px"}>
+    <Box boxShadow={"  2px 2px 13px 0px #5C5C5C1F"} w={"full"} h={"full"} mt={"24px"} borderRadius={"26px"}>
       <Flex>
         <HStack spacing={"10px"} ml="27px">
           <Box
@@ -122,17 +121,24 @@ const AllUploadedLecture = () => {
               <Text fontSize={"12px"} mt={"18px"}>
                 Description
               </Text>
-              <Text fontSize="11px" color="#2C332978" noOfLines={2} mb={2}>
-                {chapter.description} No Data
-              </Text>
-              <Link
-                to={`/mentor/view/rating&feedback/${chapter.id}/${chapter.name}`}
-                style={{ display: "flex", justifyContent: "center" }}
+              <Text
+                fontSize="11px"
+                color="#2C332978"
+                noOfLines={3}
+                lineHeight={"21px"}
               >
-                <Button variant={"ghost"} color={"#3C8DBC"} mt={"4"}>
-                  View Details
-                </Button>
-              </Link>
+                {topicDescriptionConstants[chapter.id]}
+              </Text>
+              <Box mb={"-15px"}>
+                <Link
+                  to={`/mentor/view/rating&feedback/${chapter.id}/${chapter.name}`}
+                  style={{ display: "flex", justifyContent: "center" }}
+                >
+                  <Button variant={"ghost"} color={"#3C8DBC"}>
+                    View Details
+                  </Button>
+                </Link>
+              </Box>
             </Card>
           ))}
         </SimpleGrid>
