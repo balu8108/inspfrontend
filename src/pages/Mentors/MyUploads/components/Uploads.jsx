@@ -141,10 +141,12 @@ const AllUploadedLecture = () => {
             >
               {assignmentScreen.description}
             </Text>
-            <Box flex={1} display="flex" gap={4} my={"13px"} mx={"13px"}>
+            <Box flex={1} display="flex"  flexWrap={"wrap"} gap={4} my={"13px"} mx={"13px"}>
               {assignmentScreen.AssignmentFiles.map((file, index) => (
                 <Flex
                   key={index}
+                  w={"157px"}
+                  h={"49px"}
                   mt={"12px"}
                   color={"#2C332978"}
                   p={"9px"}
@@ -152,12 +154,11 @@ const AllUploadedLecture = () => {
                   border={"1px"}
                   borderColor={"#9597927D"}
                   boxShadow={" 0px 1px 6px 0px #00000029 "}
-                  h={"49px"}
                   fontSize={"11px"}
                   bg={"#FFFFFF"}
                 >
                   {/* Display file information here */}
-                  <Text mt={2}>{extractFileNameFromS3URL(file.key)}</Text>
+                  <Text mt={2} >{extractFileNameFromS3URL(file.key)}</Text>
                   <Spacer />
                   <Button
                     rightIcon={<BsDownload />}
