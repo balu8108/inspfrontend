@@ -4,7 +4,12 @@ import MathematicsImage from "../../../../assets/images/undraw_mathematics_-4-ot
 
 const MathsDetails = () => {
   return (
-    <Box width={"100%"} height={"full"} bg={"#F1F5F8"} borderRadius={"26px"}>
+    <Box
+      width={"100%"}
+      height={"full"}
+      boxShadow={"2px 2px 13px 0px #5C5C5C1F "}
+      borderRadius={"26px"}
+    >
       <HStack spacing={"10px"}>
         <Box
           width={"12px"}
@@ -30,7 +35,6 @@ const MathsDetails = () => {
         <Center>
           <Text
             fontSize={"25px"}
-           
             lineHeight={"37px"}
             p={"44px"}
             color={"#2C3329"}
