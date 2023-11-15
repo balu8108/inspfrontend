@@ -65,7 +65,11 @@ const DetailsCoveredFiles = () => {
   };
 
   return (
-    <Box bg={"#F1F5F8"} borderRadius={"26px"} w={"100%"}>
+    <Box
+      boxShadow={"2px 2px 13px 0px #5C5C5C1F "}
+      borderRadius={"26px"}
+      w={"100%"}
+    >
       <HStack spacing={"10px"} p={6}>
         <Box
           width={"12px"}
@@ -189,19 +193,17 @@ const DetailsCoveredFiles = () => {
                     mr="10px"
                     ml={"20px"}
                     borderRadius={6}
-                    bg={"#F1F5F8"}
-                    blendMode={"multiply"}
                     p={1}
-                    border={1}
-                    boxShadow={"md"}
+                    border={" 1px solid #9597927D "}
+                    boxShadow={" 0px 1px 6px 0px #00000029 "}
                     mb={"25px"}
-                    flex="0 0 auto" 
+                    flex="0 0 auto"
                   >
                     <Flex align="center">
-                      <Text fontSize={"11px"}  color={"#2C332978"}>
+                      <Text fontSize={"11px"} color={"#2C332978"}>
                         {extractFileNameFromS3URL(file.key)}
                       </Text>
-                    <Spacer/>
+                      <Spacer />
                       <Button
                         rightIcon={<BsDownload />}
                         variant={"ghost"}

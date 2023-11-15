@@ -21,8 +21,7 @@ const TopicsBased = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoadingTopics, setIsLoadingTopics] = useState(true);
   const [topics, setTopics] = useState([]);
-  const {  primaryBlueLight } =
-    useTheme().colors.pallete;
+  const { primaryBlueLight } = useTheme().colors.pallete;
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -31,7 +30,7 @@ const TopicsBased = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
- 
+
   useEffect(() => {
     async function fetchAllTopicsWithoutChapterId() {
       try {
@@ -51,7 +50,12 @@ const TopicsBased = () => {
   }, []);
 
   return (
-    <Box bg={"#F1F5F8"} borderRadius={"26px"} w={"100%"} h={"full"}>
+    <Box
+      boxShadow={"2px 2px 13px 0px #5C5C5C1F "}
+      borderRadius={"26px"}
+      w={"100%"}
+      h={"full"}
+    >
       <Flex p={5}>
         <HStack spacing={"10px"}>
           <Box
