@@ -61,7 +61,7 @@ const AllUploadedLecture = () => {
   }, []);
 
   return (
-    <Box width={"100%"} h={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
+    <Box width={"100%"} h={"100%"} boxShadow={"2px 2px 13px 0px #5C5C5C1F    "} borderRadius={"26px"}>
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
         <Box
           width={"12px"}
@@ -69,7 +69,7 @@ const AllUploadedLecture = () => {
           borderRadius={"20px"}
           bg={"#3C8DBC"}
         ></Box>
-        <Text fontSize={"19px"} lineHeight={"24px"}>
+        <Text fontSize={"20px"} lineHeight={"24px"}>
           My Uploads
         </Text>
 
@@ -80,8 +80,9 @@ const AllUploadedLecture = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search..."
-            border="1px solid #ccc"
-            borderRadius="md"
+          
+            borderRadius="14PX"
+            bg={"#F1F5F8"}
           />
           <InputLeftElement pointerEvents="none">
             <SearchIcon />
@@ -147,17 +148,16 @@ const AllUploadedLecture = () => {
               {assignmentScreen.AssignmentFiles.map((file, index) => (
                 <Flex
                   key={index}
-                 
-                  bg={"blackAlpha.100"}
                   mt={"12px"}
                   color={"#2C332978"}
                   p={"9px"}
                   borderRadius={"6px"}
                   border={"1px"}
                   borderColor={"#9597927D"}
-                  boxShadow={"md"}
+                  boxShadow={" 0px 1px 6px 0px #00000029 " }
                   h={"49px"}
                   fontSize={"11px"}
+                  bg={"#FFFFFF"}
                 >
                   {/* Display file information here */}
                   <Text mt={2}>{extractFileNameFromS3URL(file.key)}</Text>
