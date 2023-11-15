@@ -133,10 +133,10 @@ const ViewAllRecordingsRelatedToOneChapter = ({
                 size={"14px"}
                 lineHeight={"16px"}
                 m={"20px"}
-                // onClick={() => setViewTopic(topic.id) }
+               
                 onClick={() => {
                   setViewTopic(topic.id);
-                  setTopicName(topic.name); // Call setTopicName with the topic name
+                  setTopicName(topic.name); 
                 }}
               >
                 View Details
