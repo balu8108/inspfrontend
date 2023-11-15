@@ -21,7 +21,7 @@ const TopicsBased = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoadingTopics, setIsLoadingTopics] = useState(true);
   const [topics, setTopics] = useState([]);
-  const { extraTextLight, primaryBlue, primaryBlueLight } =
+  const {  primaryBlueLight } =
     useTheme().colors.pallete;
 
   const openModal = () => {
@@ -31,7 +31,7 @@ const TopicsBased = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  const dummyDescription = "This topic doesn't have a description yet.";
+ 
   useEffect(() => {
     async function fetchAllTopicsWithoutChapterId() {
       try {
