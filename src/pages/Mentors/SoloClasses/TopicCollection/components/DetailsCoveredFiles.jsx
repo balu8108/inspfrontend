@@ -21,7 +21,11 @@ import { getPresignedUrlApi } from "../../../../../api/genericapis";
 import { BASE_URL } from "../../../../../constants/staticurls";
 import { useParams } from "react-router-dom";
 import { SimpleGrid } from "@chakra-ui/layout";
-import { extractFileNameFromS3URL } from "../../../../../utils";
+import {
+  boxShadowStyles,
+  capitalize,
+  extractFileNameFromS3URL,
+} from "../../../../../utils";
 import { wrap } from "framer-motion";
 const DetailsCoveredFiles = () => {
   const [topicDetails, setTopicDetails] = useState(null);
@@ -66,9 +70,10 @@ const DetailsCoveredFiles = () => {
 
   return (
     <Box
-      boxShadow={"2px 2px 13px 0px #5C5C5C1F "}
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       borderRadius={"26px"}
       w={"100%"}
+      bg="white"
     >
       <HStack spacing={"10px"} p={6}>
         <Box
@@ -78,7 +83,7 @@ const DetailsCoveredFiles = () => {
           bg={"#3C8DBC"}
         />
         <Text fontSize={"19px"} lineHeight={"24px"}>
-          {topic_name}
+          {capitalize(topic_name)}
         </Text>
       </HStack>
 

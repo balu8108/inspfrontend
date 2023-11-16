@@ -17,7 +17,7 @@ const RoomPreview = () => {
     dispatch(getLiveClassDetails(roomId));
   }, [roomId, dispatch]);
   return (
-    <Box py={8} px={20}>
+    <Box py={8} px={20} bg="white">
       <Flex justifyContent={"space-between"} gap={10} alignItems="flex-start">
         <RoomPreviewVideo />
         <RoomPreviewJoinDescription roomId={roomId} />

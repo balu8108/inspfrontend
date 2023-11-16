@@ -24,8 +24,10 @@ const MathsScreen = () => {
         <SimpleBar
           style={{
             maxHeight: "85vh",
-            borderRadius: "10px",
-            boxShadow: boxShadowStyles.shadowOneStyle.boxShadow,
+            borderRadius: "26px",
+            background: "white",
+            backgroundBlendMode: "multiply",
+            boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
           }}
         >
           <Box p={4}>

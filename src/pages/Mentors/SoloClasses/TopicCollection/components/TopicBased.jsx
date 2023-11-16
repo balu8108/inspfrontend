@@ -16,6 +16,7 @@ import topicDescriptionConstants from "../../../../../constants/topicDescription
 import "../../../../../constants/scrollbar/style.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { boxShadowStyles, capitalize } from "../../../../../utils";
 
 const TopicsBased = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -51,10 +52,11 @@ const TopicsBased = () => {
 
   return (
     <Box
-      boxShadow={"2px 2px 13px 0px #5C5C5C1F "}
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       borderRadius={"26px"}
       w={"100%"}
       h={"full"}
+      bg="white"
     >
       <Flex p={5}>
         <HStack spacing={"10px"}>
@@ -65,7 +67,7 @@ const TopicsBased = () => {
             bg={"#3C8DBC"}
           ></Box>
           <Text fontSize={"19px"} lineHeight={"24px"}>
-            Solo Recordings
+            Solo Recording
           </Text>
         </HStack>
         <Spacer />
@@ -110,7 +112,7 @@ const TopicsBased = () => {
                 lineHeight={"19px"}
                 noOfLines={1}
               >
-                {topic.name}
+                {capitalize(topic?.name)}
               </Text>
               <Text
                 fontWeight={400}

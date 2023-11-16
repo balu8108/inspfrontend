@@ -45,7 +45,7 @@ const MentorHomePage = () => {
         />
       )}
 
-      <Box m={"50px"}  >
+      <Box m={"50px"}>
         <Flex>
           <Box w={"full"}>
             <Header />
@@ -58,27 +58,19 @@ const MentorHomePage = () => {
             </Flex>
           </Box>
 
-          {/* <Box>
-            <VStack gap={"24px"}> */}
-              {/* <MentorGroups /> */}
-              <Box w="35%" ml={5}>
-                <SimpleBar
-                  style={{
-                    maxHeight: "85vh",
-                    borderRadius: "26px",
-                    bg: "#F1F5F8",
-                    backgroundBlendMode: "multiply",
-                    boxShadow: boxShadowStyles.shadowOneStyle.boxShadow,
-                  }}
-                >
-                  <Box p={4}>
-                    <ScheduleClassList
-                      onSchedulePopupOpen={onSchedulePopupOpen}
-                    />
-                  </Box>
-                </SimpleBar>
-              {/* </Box>
-            </VStack> */}
+          <Box w="35%" ml={5}>
+            <SimpleBar
+              style={{
+                maxHeight: "85vh",
+                borderRadius: "26px",
+                background: "white",
+                boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
+              }}
+            >
+              <Box p={4}>
+                <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
+              </Box>
+            </SimpleBar>
           </Box>
         </Flex>
       </Box>

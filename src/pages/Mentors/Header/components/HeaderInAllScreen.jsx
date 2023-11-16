@@ -12,6 +12,7 @@ import {
 import { fetchAllSubjectsApi } from "../../../../api/inspexternalapis/index";
 import headerDataInAllScreen from "../data/headerData";
 import { Link } from "react-router-dom";
+import { boxShadowStyles, capitalize } from "../../../../utils";
 
 const Header = () => {
   const [subjects, setSubjects] = useState([]);
@@ -47,9 +48,10 @@ const Header = () => {
   //boxShadow={"2px 2px 13px 0px #5C5C5C1F "}
   return (
     <Box
-      boxShadow={"2px 2px 13px 0px #5C5C5C "}
       borderRadius={"25px"}
       w={"100%"}
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      bg="white"
     >
       <HStack spacing={"10px"}>
         <Box
@@ -91,7 +93,7 @@ const Header = () => {
                 ml={"13px"}
                 mt={"13px"}
               >
-                {subject.name}
+                {capitalize(subject?.name)}
               </Text>
               <Text
                 fontSize={"14px"}

@@ -10,6 +10,7 @@ import {
   formatTime,
   timeDifference,
   generateUniqueKey,
+  capitalize,
 } from "../../../utils";
 import {
   classStatus,
@@ -64,7 +65,7 @@ const ScheduleClassInformation = ({ scheduledClassesData, type }) => {
                 color={"rgba(44, 51, 41, 1)"}
                 mb={1}
               >
-                {info?.LiveClassRoomDetail?.topicName}
+                {capitalize(info?.LiveClassRoomDetail?.topicName)}
               </Text>
               <Text
                 fontSize={"10px"}

@@ -18,6 +18,7 @@ import rateNFeedbackDetails from "../../data/feedbackData";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../../api/inspexternalapis/index";
 import { Link } from "react-router-dom";
 import { SearchIcon } from "@chakra-ui/icons";
+import { boxShadowStyles, capitalize } from "../../../../../utils";
 const ViewMentorsRatingAndFeedback = () => {
   const [allTopicList, setAllTopicList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -57,9 +58,10 @@ const ViewMentorsRatingAndFeedback = () => {
 
   return (
     <Box
-      boxShadow={"2px 2px 13px 0px #5C5C5C1F"}
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       mt={"24px"}
       borderRadius={"26px"}
+      bg="white"
     >
       <Flex>
         <HStack spacing={"10px"} ml="27px">
@@ -113,7 +115,7 @@ const ViewMentorsRatingAndFeedback = () => {
               ml={"2"}
             >
               <Text fontSize="16px" noOfLines={1}>
-                {chapter.name}
+                {capitalize(chapter?.name)}
               </Text>
               <Text fontSize="12px" color={"#2C332978"}>
                 {chapter.instructorName} No Data

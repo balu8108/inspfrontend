@@ -21,33 +21,32 @@ const StudentHomePage = () => {
   }, [dispatch]);
 
   return (
-    <>
-      <Flex m={"52px"} justifyContent={"space-between"} gap={6}>
-        <Box w="75%">
-          <Header />
-          <HStack spacing={"24px"}>
-            <Improvement />
-            <Assignment />
-          </HStack>
-          <Box mt={"24px"}>
-            <Library />
+    <Flex m={"52px"} justifyContent={"space-between"} gap={6}>
+      <Box w="75%">
+        <Header />
+        <HStack spacing={"24px"}>
+          <Improvement />
+          <Assignment />
+        </HStack>
+        <Box mt={"24px"}>
+          <Library />
+        </Box>
+      </Box>
+      <Box w={"25%"}>
+        <SimpleBar
+          style={{
+            maxHeight: "85vh",
+            borderRadius: "10px",
+            background: "white",
+            boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
+          }}
+        >
+          <Box p={4}>
+            <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
           </Box>
-        </Box>
-        <Box w={"25%"}>
-          <SimpleBar
-            style={{
-              maxHeight: "85vh",
-              borderRadius: "10px",
-              boxShadow: boxShadowStyles.shadowOneStyle.boxShadow,
-            }}
-          >
-            <Box p={4}>
-              <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
-            </Box>
-          </SimpleBar>
-        </Box>
-      </Flex>
-    </>
+        </SimpleBar>
+      </Box>
+    </Flex>
   );
 };
 export default StudentHomePage;

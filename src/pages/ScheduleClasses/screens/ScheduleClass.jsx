@@ -8,6 +8,7 @@ import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassA
 
 import ScheduleClassList from "../components/ScheduleClassList";
 import { Scrollbars } from "rc-scrollbars";
+import { boxShadowStyles } from "../../../utils";
 const ScheduleClass = () => {
   const {
     isOpen: isSchedulePopupOpen,
@@ -48,8 +49,9 @@ const ScheduleClass = () => {
           <Scrollbars
             style={{
               height: "90vh",
-              boxShadow: "2px 2px 13px 0 rgba(92, 92, 92, 0.2)",
+              boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
               borderRadius: "10px",
+              background: "white",
             }}
             autoHide={true}
           >

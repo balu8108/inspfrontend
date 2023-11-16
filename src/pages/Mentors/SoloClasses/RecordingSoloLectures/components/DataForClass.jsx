@@ -12,7 +12,7 @@ import {
 import { FaCircle } from "react-icons/fa";
 import { BsDownload } from "react-icons/bs";
 import { BASE_URL } from "../../../../../constants/staticurls";
-import { checkUserType } from "../../../../../utils";
+import { boxShadowStyles, checkUserType } from "../../../../../utils";
 import { userType, fileTypes } from "../../../../../constants/staticvariables";
 import FileBoxComponent from "../../../../../components/filebox/FileBoxComponent";
 import axios from "axios";
@@ -58,7 +58,8 @@ const DataForClass = () => {
       w="25%"
       h={"full"}
       borderRadius={"12px"}
-      boxShadow={"2px 2px 13px 0px #5C5C5C1F "}
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      bg="white"
     >
       <HStack spacing={"10px"}>
         <Box

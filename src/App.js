@@ -31,9 +31,6 @@ function App() {
 
   return (
     <>
-    <Box>
-
-   
       {!isNavbarDisabled && <Navbar />}
 
       {isDocModalOpen && (
@@ -67,7 +64,6 @@ function App() {
           );
         })}
       </Routes>
-      </Box>
     </>
   );
 }

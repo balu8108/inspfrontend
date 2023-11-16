@@ -14,6 +14,7 @@ import { FaCircle } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../../../../../constants/staticurls";
+import { boxShadowStyles } from "../../../../../utils";
 Chart.register(ArcElement);
 
 const RatingAndFeedBackChart = () => {
@@ -132,7 +133,13 @@ const RatingAndFeedBackChart = () => {
   };
   if (!feedbackData || feedbackData.length === 0) {
     return (
-      <Box w={"100%"} h={"full"} bg={"#F1F5F8"} borderRadius={"26px"}>
+      <Box
+        w={"100%"}
+        h={"full"}
+        borderRadius={"26px"}
+        bg="white"
+        boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      >
         <Center>
           <Text fontSize={"20px"} textAlign="center" mt={5}>
             No feedback and ratings available.
@@ -145,7 +152,7 @@ const RatingAndFeedBackChart = () => {
     <Box
       w={"100%"}
       h={"full"}
-      boxShadow={"2px 2px 13px 0px #5C5C5C1F"}
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       borderRadius={"26px"}
     >
       <HStack spacing={"10px"} mx="27px" mt={"25px"}>

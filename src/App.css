@@ -4,8 +4,12 @@
   --text-color: rgba(107, 104, 112, 1);
   --light-blue: rgba(60, 141, 188, 1);
   --extra-light-blue: rgba(0, 173, 197, 0.2);
-  --box-shadow-color: rgba(92, 92, 92, 0.2);
+  --box-shadow-color: rgba(92, 92, 92, 0.12);
   --toolbar-text-color: rgba(58, 53, 65, 0.87);
+}
+
+body {
+  background-color: #f9f9f9 !important;
 }
 
 /*Main background color*/

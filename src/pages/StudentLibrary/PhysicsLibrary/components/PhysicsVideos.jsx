@@ -17,6 +17,7 @@ import { SearchIcon } from "@chakra-ui/icons";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../api/inspexternalapis";
 import { useParams } from "react-router-dom";
 import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
+import { capitalize } from "../../../../utils";
 const Library = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [allTopicList, setAllTopicList] = useState([]);
@@ -60,7 +61,7 @@ const Library = () => {
           bg={"#3C8DBC"}
         ></Box>
         <Text fontSize={"19px"} lineHeight={"24px"}>
-          Library ({subjectName})
+          Library ({capitalize(subjectName)})
         </Text>
         <Spacer />
         <InputGroup w="30%" mx={12} my={17}>
@@ -90,7 +91,7 @@ const Library = () => {
               borderRadius={"18px"}
             >
               <Text ml={"13px"} mt={"16px"} lineHeight={"18px"} noOfLines={1}>
-                {libraryData.name}
+                {capitalize(libraryData?.name)}
               </Text>
               <Text
                 fontSize={"12px"}

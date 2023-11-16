@@ -5,6 +5,7 @@ import defaultImageUrl from "../../../assets/images/image1.png";
 
 import FileBoxComponent from "../../../components/filebox/FileBoxComponent";
 import { fileTypes } from "../../../constants/staticvariables";
+import { boxShadowStyles } from "../../../utils";
 const RecordedClass = ({
   recordingDetail,
   activeRecording,
@@ -16,8 +17,8 @@ const RecordedClass = ({
       height={"full"}
       ml={"24px"}
       borderRadius={"26px"}
-      bg={"#FFFFFF"}
-      boxShadow="2px 2px 13px 0px #5C5C5C1F"
+      bg={"white"}
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       p={5}
     >
       <HStack spacing={"10px"}>
@@ -38,7 +39,7 @@ const RecordedClass = ({
         </Text>
       </HStack>
       <Box>
-        <Box >
+        <Box>
           <Text
             fontSize={"15px"}
             lineHeight={"18px"}

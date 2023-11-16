@@ -5,6 +5,9 @@ const boxShadowStyles = {
   shadowFileBoxStyle: {
     boxShadow: "0px 1px 6px 0px rgba(0, 0, 0, 0.16)",
   },
+  mainBoxShadow: {
+    boxShadow: "2px 2px 13px 0 rgba(92, 92, 92, 0.12)",
+  },
 };
 
 export default boxShadowStyles;

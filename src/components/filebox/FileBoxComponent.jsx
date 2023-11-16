@@ -32,8 +32,9 @@ const FileBoxComponent = ({ data, type }) => {
           onClick={() =>
             dispatch(setIsDocModalOpen(item?.id, item?.key, type, true))
           }
-          boxShadow={boxShadowStyles.shadowFileBoxStyle.boxShadow}
           borderRadius={"md"}
+          // border={"1px solid rgba(149, 151, 146, 0.49)"}
+          boxShadow={boxShadowStyles.shadowFileBoxStyle.boxShadow}
           px={2}
           py={3}
         >

@@ -33,30 +33,28 @@ const ScheduleCalendar = ({
     onSchedulePopupOpen();
   };
   return (
-    <>
-      <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        headerToolbar={{
-          left: "prev,next",
-          center: "title",
-          right: "dayGridMonth,timeGridWeek,timeGridDay",
-        }}
-        eventBackgroundColor={eventLightGreen}
-        eventBorderColor={eventLightGreen}
-        eventDisplay="block"
-        displayEventTime={true}
-        eventTimeFormat={{
-          hour: "numeric",
-          minute: "2-digit",
-          meridiem: true,
-        }}
-        dateClick={
-          checkUserType() === userType.teacher ? handleDateClick : () => {}
-        }
-        events={scheduledClasses}
-      />
-    </>
+    <FullCalendar
+      plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+      initialView="dayGridMonth"
+      headerToolbar={{
+        left: "prev,next",
+        center: "title",
+        right: "dayGridMonth,timeGridWeek,timeGridDay",
+      }}
+      eventBackgroundColor={eventLightGreen}
+      eventBorderColor={eventLightGreen}
+      eventDisplay="block"
+      displayEventTime={true}
+      eventTimeFormat={{
+        hour: "numeric",
+        minute: "2-digit",
+        meridiem: true,
+      }}
+      dateClick={
+        checkUserType() === userType.teacher ? handleDateClick : () => {}
+      }
+      events={scheduledClasses}
+    />
   );
 };
 

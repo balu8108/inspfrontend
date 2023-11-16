@@ -19,6 +19,7 @@ import {
 } from "react-icons/fi";
 import { LuMonitorOff, LuCircleOff } from "react-icons/lu";
 import { BsFullscreenExit } from "react-icons/bs";
+import { boxShadowStyles } from "../../../../../utils";
 const RecordingLectures = () => {
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [isMicrophoneOn, setIsMicrophoneOn] = useState(false);
@@ -248,6 +249,7 @@ const RecordingLectures = () => {
       bg={"#F1F5F8"}
       borderRadius={"26px"}
       position="relative"
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
     >
       <Box
         h={"90vh"}

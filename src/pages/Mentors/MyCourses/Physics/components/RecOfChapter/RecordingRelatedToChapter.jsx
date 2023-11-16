@@ -15,6 +15,7 @@ import { fetchAllTopicsApi } from "../../../../../../api/inspexternalapis/index"
 import { useParams } from "react-router-dom";
 import "../../../../../../constants/scrollbar/style.css";
 import topicDescriptionConstants from "../../../../../../constants/topicDescriptionConstants";
+import { boxShadowStyles, capitalize } from "../../../../../../utils";
 const ViewAllRecordingsRelatedToOneChapter = ({
   setViewTopic,
   setTopicName,
@@ -45,11 +46,12 @@ const ViewAllRecordingsRelatedToOneChapter = ({
     <Box
       w={"100%"}
       h={"100%"}
-      boxShadow={"2px 2px 13px 0px #5C5C5C1F "}
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       borderRadius={"2xl"}
       mt={6}
       overflowX="auto"
       className="example"
+      bg="white"
     >
       <HStack spacing={"10px"} ml="27px">
         <Box
@@ -65,7 +67,7 @@ const ViewAllRecordingsRelatedToOneChapter = ({
           fontFamily={400}
           mt={"26px"}
         >
-          {chapter_name}
+          {capitalize(chapter_name)}
         </Text>
       </HStack>
       {isLoading ? (
@@ -94,7 +96,7 @@ const ViewAllRecordingsRelatedToOneChapter = ({
                 lineHeight={"19px"}
                 noOfLines={1}
               >
-                {topic.name}
+                {capitalize(topic?.name)}
               </Text>
               <Text
                 fontWeight={400}

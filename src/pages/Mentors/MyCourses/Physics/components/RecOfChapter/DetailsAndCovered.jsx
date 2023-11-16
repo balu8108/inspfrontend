@@ -20,6 +20,8 @@ import defaultImageUrl from "../../../.././../../assets/images/image1.png";
 import { IoIosAdd } from "react-icons/io";
 
 import {
+  boxShadowStyles,
+  capitalize,
   checkUserType,
   extractFileNameFromS3URL,
 } from "../../../../../../utils";
@@ -93,9 +95,10 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
   return (
     <Box
       w={"100%"}
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       height={"full"}
-      boxShadow={"2px 2px 13px 0px #5C5C5C1F "}
       borderRadius={"26px"}
+      bg="white"
     >
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
         <Box
@@ -105,7 +108,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
           bg={"#3C8DBC"}
         ></Box>
         <Text fontSize={"19px"} lineHeight={"24px"} fontWeight={400}>
-          Details( {viewtopicName} )
+          Details( {capitalize(viewtopicName)} )
         </Text>
       </HStack>
 
@@ -177,10 +180,15 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
         <Text p={"12px"}>Files/Notes</Text>
         {liveClassRoomData ? (
           liveClassRoomData?.data.map((liveClassData) => (
-            <Box  display="flex" justifyContent="space-between" gap={4}>
+            <Box
+              key={liveClassData?.id}
+              display="flex"
+              justifyContent="space-between"
+              gap={4}
+            >
               {liveClassData?.LiveClassRoomFiles.map((fileData, index) => (
                 <Flex
-                  key={index}       
+                  key={fileData?.id}
                   mt={"10px"}
                   color={"#2C332978"}
                   p={"9px"}

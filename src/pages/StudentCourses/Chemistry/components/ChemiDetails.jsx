@@ -1,13 +1,15 @@
 import React from "react";
 import { Box, Text, HStack, VStack, Center, Image } from "@chakra-ui/react";
 import ChemistryImage from "../../../../assets/images/undraw_science_re_mnnr 1.svg";
+import { boxShadowStyles } from "../../../../utils";
 const ChemDetails = () => {
   return (
     <Box
       width={"100%"}
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       height={"full"}
-      boxShadow={"2px 2px 13px 0px #5C5C5C1F "}
       borderRadius={"26px"}
+      bg="white"
     >
       <HStack spacing={"10px"}>
         <Box
