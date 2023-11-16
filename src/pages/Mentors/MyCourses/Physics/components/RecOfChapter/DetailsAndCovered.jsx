@@ -92,7 +92,12 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
     }
   }, [viewTopic]);
   return (
-    <Box w={"100%"} height={"full"} bg={"#F1F5F8"} borderRadius={"26px"}>
+    <Box
+      w={"100%"}
+      height={"full"}
+      boxShadow={"2px 2px 13px 0px #5C5C5C1F "}
+      borderRadius={"26px"}
+    >
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
         <Box
           width={"12px"}
@@ -173,11 +178,11 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
         <Text p={"12px"}>Files/Notes</Text>
         {liveClassRoomData ? (
           liveClassRoomData?.data.map((liveClassData) => (
-            <Box flex={1} display="flex" justifyContent="flex-end" gap={4}>
+            <Box  display="flex" justifyContent="space-between" gap={4}>
               {liveClassData?.LiveClassRoomFiles.map((fileData, index) => (
                 <Flex
                   key={index}
-                  flex={1}
+                
                   mt={"10px"}
                   color={"#2C332978"}
                   p={"9px"}
