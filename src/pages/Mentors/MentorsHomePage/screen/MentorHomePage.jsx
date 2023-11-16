@@ -45,7 +45,7 @@ const MentorHomePage = () => {
         />
       )}
 
-      <Box m={"50px"}>
+      <Box m={"50px"}  >
         <Flex>
           <Box w={"full"}>
             <Header />
