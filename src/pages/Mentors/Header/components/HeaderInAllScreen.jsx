@@ -105,6 +105,7 @@ const Header = () => {
                 {capitalize(subject?.name)}
               </Text>
               <Text
+              mt={"3px"}
                 fontSize={"14px"}
                 color={
                   subjectStatus[3 - subject.id] === "In Progress"
