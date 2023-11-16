@@ -25,26 +25,23 @@ const Header = () => {
 
   const subjectStatus = ["Upcoming", "Upcoming", "In Progress"];
 
-
-
-
   useEffect(() => {
     // Fetch subjects when the component mounts
     async function fetchSubjects() {
       try {
         const response = await fetchAllSubjectsApi(); // Call your API function
-  
+
         if (response.status) {
           const subjectsFromAPI = response.result;
-  
+
           // Sort subjects by name in ascending order
           const sortedSubjects = subjectsFromAPI.sort((a, b) => {
             return a.name.localeCompare(b.name);
           });
-  
+
           // Reverse the order of the sorted array
           const reversedSubjects = sortedSubjects.reverse();
-  
+
           setSubjects(reversedSubjects);
         }
       } catch (error) {
@@ -53,15 +50,13 @@ const Header = () => {
         setLoading(false);
       }
     }
-  
+
     fetchSubjects();
   }, []);
-  
-
 
   return (
     <Box
-      boxShadow={"2px 2px 13px 0px #5C5C5C "}
+      boxShadow={"2px 2px 13px 0px #5C5C5C1F "}
       borderRadius={"25px"}
       w={"100%"}
     >
