@@ -183,7 +183,7 @@ const DetailsCoveredFiles = () => {
           Files/Notes
         </Text>
 
-        <Box w={"100%"} display={"flex"} flexWrap={"wrap"}>
+        <Box w={"full"} display={"flex"} flexWrap={"wrap"}>
           {topicDetails && topicDetails.length > 0 ? (
             topicDetails.map((topicInfo, index) => (
               <Box key={topicInfo.id} display="flex" flexWrap="wrap">

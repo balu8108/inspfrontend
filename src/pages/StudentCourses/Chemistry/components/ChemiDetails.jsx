@@ -19,7 +19,7 @@ const ChemDetails = () => {
           ml={"27px"}
         ></Box>
         <Text fontSize={"19px"} lineHeight={"24px"} mt={"28px"}>
-          My Courses (Chemistry)
+          My Courses (CHEMISTRY)
         </Text>
       </HStack>
       <VStack gap={"24px"}>
