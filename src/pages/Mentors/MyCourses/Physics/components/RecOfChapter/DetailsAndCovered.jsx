@@ -181,8 +181,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
             <Box  display="flex" justifyContent="space-between" gap={4}>
               {liveClassData?.LiveClassRoomFiles.map((fileData, index) => (
                 <Flex
-                  key={index}
-                
+                  key={index}       
                   mt={"10px"}
                   color={"#2C332978"}
                   p={"9px"}
@@ -272,12 +271,12 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                       key={fileIndex}
                       mt={"5px"}
                       color={"#2C332978"}
+                      bg={"#FFFFFF"}
                       px={"15px"}
                       py={"8px"}
                       borderRadius={"6px"}
-                      border={"1px"}
-                      borderColor={"#9597927D"}
-                      boxShadow={"md"}
+                      border={"1px solid #9597927D"}
+                      boxShadow={"0px 1px 6px 0px #00000029"}
                       fontSize={"13px"}
                     >
                       {extractFileNameFromS3URL(file.key)}
