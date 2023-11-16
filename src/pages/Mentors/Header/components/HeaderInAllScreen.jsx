@@ -57,7 +57,7 @@ const Header = () => {
   return (
     <Box
       boxShadow={"2px 2px 13px 0px #5C5C5C1F "}
-      borderRadius={"25px"}
+      borderRadius={"22px"}
       w={"100%"}
     >
       <HStack spacing={"10px"}>
@@ -84,7 +84,7 @@ const Header = () => {
             <Card
               w={"30%"}
               h={"200px"}
-              borderRadius={"18px"}
+              borderRadius={"16px"}
               bg={"#F1F5F8"}
               ml={"20px"}
               mb={"20px"}

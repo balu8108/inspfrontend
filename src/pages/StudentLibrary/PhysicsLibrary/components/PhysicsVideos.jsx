@@ -13,11 +13,10 @@ import {
   InputGroup,
   Spacer,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import physVideosData from "../data/PhysVideosData";
 import { SearchIcon } from "@chakra-ui/icons";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../api/inspexternalapis";
-import { useParams } from "react-router-dom";
 import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
 const Library = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -51,6 +50,7 @@ const Library = () => {
 
     fetchAllTopicsWithoutChapterId();
   }, []);
+
 
   return (
     <Box width={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
