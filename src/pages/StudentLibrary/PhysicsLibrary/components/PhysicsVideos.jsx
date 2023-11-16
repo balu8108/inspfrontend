@@ -29,10 +29,6 @@ const Library = () => {
     return topicName.includes(searchQuery.toLowerCase());
   });
 
-  const handleSearchInputChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
   useEffect(() => {
     async function fetchAllTopicsWithoutChapterId() {
       try {
