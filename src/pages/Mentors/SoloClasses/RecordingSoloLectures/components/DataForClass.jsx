@@ -1,14 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Box,
-  HStack,
-  Text,
-  Stack,
-  Flex,
-  Icon,
-  Spacer,
-  Button,
-} from "@chakra-ui/react";
+import { Box, HStack, Text, Stack } from "@chakra-ui/react";
 import { FaCircle } from "react-icons/fa";
 import { BsDownload } from "react-icons/bs";
 import { BASE_URL } from "../../../../../constants/staticurls";
