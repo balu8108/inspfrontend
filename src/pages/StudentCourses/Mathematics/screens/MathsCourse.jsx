@@ -15,28 +15,25 @@ const MathsScreen = () => {
     dispatch(getAllLiveClassesSchedule());
   }, [dispatch]);
   return (
-   
-      <Flex gap={"24px"} m={"52px"}>
-        <Stack spacing={6} w={"full"}>
-          <Header />
-          <Details />
-        </Stack>
-        <Box w={"33%"}>
-          <SimpleBar
-            style={{
-              // maxHeight: "85vh",  initial code by amit
-              maxHeight: "200vh",
-              borderRadius: "10px",
-              boxShadow: boxShadowStyles.shadowOneStyle.boxShadow,
-            }}
-          >
-            <Box p={4}>
-              <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
-            </Box>
-          </SimpleBar>
-        </Box>
-      </Flex>
-   
+    <Flex gap={"24px"} m={"52px"}>
+      <Stack spacing={6} w={"full"}>
+        <Header />
+        <Details />
+      </Stack>
+      <Box w={"33%"}>
+        <SimpleBar
+          style={{
+            maxHeight: "85vh",
+            borderRadius: "10px",
+            boxShadow: boxShadowStyles.shadowOneStyle.boxShadow,
+          }}
+        >
+          <Box p={4}>
+            <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
+          </Box>
+        </SimpleBar>
+      </Box>
+    </Flex>
   );
 };
 export default MathsScreen;

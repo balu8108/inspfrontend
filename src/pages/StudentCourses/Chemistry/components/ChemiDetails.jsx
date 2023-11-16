@@ -3,7 +3,12 @@ import { Box, Text, HStack, VStack, Center, Image } from "@chakra-ui/react";
 import ChemistryImage from "../../../../assets/images/undraw_science_re_mnnr 1.svg";
 const ChemDetails = () => {
   return (
-    <Box width={"100%"} height={"full"} bg={"#F1F5F8"} borderRadius={"26px"}>
+    <Box
+      width={"100%"}
+      height={"full"}
+      boxShadow={"2px 2px 13px 0px #5C5C5C1F "}
+      borderRadius={"26px"}
+    >
       <HStack spacing={"10px"}>
         <Box
           width={"12px"}

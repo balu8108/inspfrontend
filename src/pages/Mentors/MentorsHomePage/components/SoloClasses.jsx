@@ -9,11 +9,17 @@ import {
   Text,
 } from "@chakra-ui/react";
 import soloclasses from "../data/soloclass";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../../../../constants/staticurls";
 const SoloClasses = () => {
   const [latestSoloClassroom, setLatestSoloClassroom] = useState([]);
+  const navigate = useNavigate();
+
+  const handleSeeAllClick = () => {
+    // Use navigate to navigate to the specified URL
+    navigate("/mentor/solo-recordings/topic/36/ALTERNATING%20CURRENT");
+  };
 
   const getSoloLatestClassroom = async () => {
     try {
@@ -30,7 +36,14 @@ const SoloClasses = () => {
     getSoloLatestClassroom();
   }, []);
   return (
-    <Box bg={"#F1F5F8"} mt={"23px"} borderRadius={"25px"} w={"95%"}>
+    <Box
+      boxShadow={"2px 2px 13px 0px #5C5C5C1F "}
+      bg={"#FFFFFF"}
+      mt={"23px"}
+      borderRadius={"25px"}
+      w={"95%"}
+      h={"full"}
+    >
       <Flex>
         <HStack spacing={"10px"}>
           <Box
@@ -46,17 +59,17 @@ const SoloClasses = () => {
           </Text>
         </HStack>
         <Spacer />
-        <Link to={`/mentor/solo-recordings/topic`}>
-          <Button
-            variant={"ghost"}
-            fontSize={"sm"}
-            fontWeight={400}
-            mt={"15px"}
-            p={6}
-          >
-            See All
-          </Button>
-        </Link>
+
+        <Button
+          variant={"ghost"}
+          fontSize={"sm"}
+          fontWeight={400}
+          mt={"15px"}
+          p={6}
+          onClick={handleSeeAllClick}
+        >
+          See All
+        </Button>
       </Flex>
       <Flex mt={"34px"} flexWrap="wrap">
         {latestSoloClassroom.map((soloclassInfo) => (
@@ -113,7 +126,7 @@ const SoloClasses = () => {
                 {soloclassInfo.description}
               </Text>
               <Link
-                to={`/mentor/solo-recordings/topic`}
+                to={`/mentor/solo-recordings/topic/${soloclassInfo.topicId}/${soloclassInfo.topic}`}
                 style={{
                   position: "absolute",
                   bottom: "10px",

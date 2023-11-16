@@ -142,7 +142,12 @@ const RatingAndFeedBackChart = () => {
     );
   }
   return (
-    <Box w={"100%"} h={"full"} bg={"#F1F5F8"} borderRadius={"26px"}>
+    <Box
+      w={"100%"}
+      h={"full"}
+      boxShadow={"2px 2px 13px 0px #5C5C5C1F"}
+      borderRadius={"26px"}
+    >
       <HStack spacing={"10px"} mx="27px" mt={"25px"}>
         <Box
           width={"12px"}

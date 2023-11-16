@@ -45,7 +45,7 @@ const ViewAllRecordingsRelatedToOneChapter = ({
     <Box
       w={"100%"}
       h={"100%"}
-      bg={"#F1F5F8"}
+      boxShadow={"2px 2px 13px 0px #5C5C5C1F "}
       borderRadius={"2xl"}
       mt={6}
       overflowX="auto"
@@ -133,10 +133,9 @@ const ViewAllRecordingsRelatedToOneChapter = ({
                 size={"14px"}
                 lineHeight={"16px"}
                 m={"20px"}
-                // onClick={() => setViewTopic(topic.id) }
                 onClick={() => {
                   setViewTopic(topic.id);
-                  setTopicName(topic.name); // Call setTopicName with the topic name
+                  setTopicName(topic.name);
                 }}
               >
                 View Details

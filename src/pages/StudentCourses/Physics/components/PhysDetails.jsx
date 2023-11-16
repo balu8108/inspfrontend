@@ -51,7 +51,7 @@ const PhysDetails = () => {
   );
 
   return (
-    <Box width={"full"} h={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
+    <Box width={"full"} h={"100%"}    boxShadow={"2px 2px 13px 0px #5C5C5C1F "} borderRadius={"26px"}>
       <Flex mt={"17px"}>
         <HStack spacing={"10px"} alignItems="center" ml={"33px"}>
           <Box

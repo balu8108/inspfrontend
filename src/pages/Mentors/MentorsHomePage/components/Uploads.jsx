@@ -16,7 +16,6 @@ import axios from "axios";
 import UploadAssignmentPopup from "../../../../components/popups/UploadAssignmentPopup";
 import { BASE_URL } from "../../../../constants/staticurls";
 const MentorsUploads = () => {
-  const apiUrl = "http://localhost:5000";
   const [latestAssignment, setLatestAssignment] = useState([]);
   const [isUploadAssignmentModalOpen, setUploadAssignmentModalOpen] =
     useState(false);
@@ -35,7 +34,11 @@ const MentorsUploads = () => {
     });
   }, []);
   return (
-    <Box bg={"#F1F5F8"} w={"95%"}  borderRadius={"26px"}>
+    <Box
+      boxShadow={"2px 2px 13px 0px #5C5C5C1F "}
+      w={"95%"}
+      borderRadius={"26px"}
+    >
       <Flex>
         <HStack spacing={"10px"}>
           <Box
@@ -122,19 +125,22 @@ const MentorsUploads = () => {
               >
                 {mentorUploadDetails.description}
               </Text>
-              <Link to={`/mentor/alluploads`} style={{display:"flex",justifyContent:"center"}}>
-              <Button
-                variant={"ghost"}
-                color={"#3C8DBC"}
-                fontWeight={"600"}
-                size={"12px"}
-                fontSize={"14px"}
-                lineHeight={"16px"}
-                mt={"24px"}
-                mb={"10px"}
+              <Link
+                to={`/mentor/alluploads`}
+                style={{ display: "flex", justifyContent: "center" }}
               >
-                View Details
-              </Button>
+                <Button
+                  variant={"ghost"}
+                  color={"#3C8DBC"}
+                  fontWeight={"600"}
+                  size={"12px"}
+                  fontSize={"14px"}
+                  lineHeight={"16px"}
+                  mt={"24px"}
+                  mb={"10px"}
+                >
+                  View Details
+                </Button>
               </Link>
             </Card>
           </Box>

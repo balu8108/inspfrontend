@@ -19,34 +19,35 @@ import { useNavigate } from "react-router";
 import { FaCircle } from "react-icons/fa";
 import { getPresignedUrlApi } from "../../../../../api/genericapis";
 import { BASE_URL } from "../../../../../constants/staticurls";
+import { useParams } from "react-router-dom";
 import { SimpleGrid } from "@chakra-ui/layout";
-const DetailsCoveredFiles = ({ viewTopic, viewtopicName }) => {
+import { extractFileNameFromS3URL } from "../../../../../utils";
+import { wrap } from "framer-motion";
+const DetailsCoveredFiles = () => {
   const [topicDetails, setTopicDetails] = useState(null);
   const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
   const [showVideo, setShowVideo] = useState(false);
   const [videoUrl, setVideoUrl] = useState(null);
+  const { topicId, topic_name } = useParams();
   const navigate = useNavigate();
   // Function to fetch topic details
-  const fetchTopicDetails = async (topicId) => {
-    try {
-      const response = await axios.get(
-        `${BASE_URL}/solo-lecture/get-topic-details/${topicId}`
-      );
-
-      const topicDetailsData = response.data;
-
-      // Update the state with the received topic details
-      setTopicDetails(topicDetailsData);
-    } catch (error) {
-      console.error("Error fetching topic details:", error);
-    }
-  };
 
   useEffect(() => {
-    if (viewTopic !== null) {
-      fetchTopicDetails(viewTopic);
-    }
-  }, [viewTopic]);
+    const fetchTopicDetails = async () => {
+      try {
+        const response = await axios.get(
+          `${BASE_URL}/solo-lecture/get-topic-details/${topicId}`
+        );
+        const topicDetailsData = response.data;
+        // Update the state with the received topic details
+        setTopicDetails(topicDetailsData);
+      } catch (error) {
+        console.error("Error fetching topic details:", error);
+      }
+    };
+
+    fetchTopicDetails();
+  }, [topicId]);
 
   const handleCardClick = async (videoUrl) => {
     try {
@@ -64,7 +65,11 @@ const DetailsCoveredFiles = ({ viewTopic, viewtopicName }) => {
   };
 
   return (
-    <Box bg={"#F1F5F8"} borderRadius={"26px"} w={"100%"}>
+    <Box
+      boxShadow={"2px 2px 13px 0px #5C5C5C1F "}
+      borderRadius={"26px"}
+      w={"100%"}
+    >
       <HStack spacing={"10px"} p={6}>
         <Box
           width={"12px"}
@@ -73,7 +78,7 @@ const DetailsCoveredFiles = ({ viewTopic, viewtopicName }) => {
           bg={"#3C8DBC"}
         />
         <Text fontSize={"19px"} lineHeight={"24px"}>
-          Details( {viewtopicName} )
+          {topic_name}
         </Text>
       </HStack>
 
@@ -173,43 +178,38 @@ const DetailsCoveredFiles = ({ viewTopic, viewtopicName }) => {
           )}
         </Flex>
       </Box>
-
       <Box mt={"31px"} overflowX="auto">
         <Text ml={"20px"} p={"13px"}>
           Files/Notes
         </Text>
-        <HStack ml={"20px"}>
+
+        <Box w={"100%"} display={"flex"} flexWrap={"wrap"}>
           {topicDetails && topicDetails.length > 0 ? (
             topicDetails.map((topicInfo, index) => (
-              <Box key={topicInfo.id}>
+              <Box key={topicInfo.id} display="flex" flexWrap="wrap">
                 {topicInfo.SoloClassRoomFiles.map((file, fileIndex) => (
                   <Box
                     key={fileIndex}
                     mr="10px"
+                    ml={"20px"}
                     borderRadius={6}
-                    bg={"#F1F5F8"}
-                    blendMode={"multiply"}
                     p={1}
-                    border={1}
-                    boxShadow={"md"}
+                    border={" 1px solid #9597927D "}
+                    boxShadow={" 0px 1px 6px 0px #00000029 "}
                     mb={"25px"}
+                    flex="0 0 auto"
                   >
-                    <Flex>
-                      <Text fontSize={"12px"} mt={3} color={"#2C332978"}>
-                        {file.key}
+                    <Flex align="center">
+                      <Text fontSize={"11px"} color={"#2C332978"}>
+                        {extractFileNameFromS3URL(file.key)}
                       </Text>
-                      <a
-                        href={file.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <Button
-                          rightIcon={<BsDownload />}
-                          variant={"ghost"}
-                          color={"black"}
-                          ml={2}
-                        />
-                      </a>
+                      <Spacer />
+                      <Button
+                        rightIcon={<BsDownload />}
+                        variant={"ghost"}
+                        color={"black"}
+                        ml={2}
+                      />
                     </Flex>
                   </Box>
                 ))}
@@ -220,7 +220,7 @@ const DetailsCoveredFiles = ({ viewTopic, viewtopicName }) => {
               <Text>No files/notes are available for this topic.</Text>
             </Box>
           )}
-        </HStack>
+        </Box>
       </Box>
     </Box>
   );

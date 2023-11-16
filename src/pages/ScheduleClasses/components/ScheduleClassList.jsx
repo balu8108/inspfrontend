@@ -15,7 +15,7 @@ const ScheduleClassList = ({ onSchedulePopupOpen }) => {
   };
   return (
     <>
-      <Flex direction={"column"}>
+      <Flex direction={"column"} >
         {checkUserType() === userType.teacher && (
           <MainBtn
             isLoading={false}
@@ -25,7 +25,7 @@ const ScheduleClassList = ({ onSchedulePopupOpen }) => {
             onClickHandler={scheduleClassClickHandler}
             hoverColor={primaryBlueLight}
           />
-        )}
+        )}te
 
         {scheduleClassCategory.classCategories.map((category) => (
           <Box key={category.id} my={4}>

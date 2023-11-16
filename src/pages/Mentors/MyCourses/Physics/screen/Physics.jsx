@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, Flex, Stack, useDisclosure } from "@chakra-ui/react";
 import Header from "../../../Header/components/HeaderInAllScreen";
-import PhysicsCourse from "../components/MentorPhysics";
+import PhysDetails from "../../../../StudentCourses/Physics/components/PhysDetails";
 import ScheduleClassList from "../../../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
 import { boxShadowStyles } from "../../../../../utils";
@@ -35,9 +35,9 @@ const Physics = () => {
       )}
 
       <Flex m={"52px"}>
-        <Stack spacing={"24px"} w={"full"}  h={"100%"}>
+        <Stack spacing={"24px"} w={"full"} h={"100%"}>
           <Header />
-          <PhysicsCourse />
+          <PhysDetails />
         </Stack>
         <Box w="30%" ml={5}>
           <SimpleBar

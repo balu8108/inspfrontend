@@ -61,7 +61,12 @@ const AllUploadedLecture = () => {
   }, []);
 
   return (
-    <Box width={"100%"} h={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
+    <Box
+      width={"100%"}
+      h={"100%"}
+      boxShadow={"2px 2px 13px 0px #5C5C5C1F    "}
+      borderRadius={"26px"}
+    >
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
         <Box
           width={"12px"}
@@ -69,7 +74,7 @@ const AllUploadedLecture = () => {
           borderRadius={"20px"}
           bg={"#3C8DBC"}
         ></Box>
-        <Text fontSize={"19px"} lineHeight={"24px"}>
+        <Text fontSize={"20px"} lineHeight={"24px"}>
           My Uploads
         </Text>
 
@@ -80,8 +85,8 @@ const AllUploadedLecture = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search..."
-            border="1px solid #ccc"
-            borderRadius="md"
+            borderRadius="14PX"
+            bg={"#F1F5F8"}
           />
           <InputLeftElement pointerEvents="none">
             <SearchIcon />
@@ -139,28 +144,30 @@ const AllUploadedLecture = () => {
             <Box
               flex={1}
               display="flex"
-              justifyContent="flex-end"
+              flexWrap={"wrap"}
               gap={4}
               my={"13px"}
-              mx={"25px"}
+              mx={"13px"}
             >
               {assignmentScreen.AssignmentFiles.map((file, index) => (
                 <Flex
                   key={index}
-                  flex={1}
-                  bg={"blackAlpha.100"}
-                  mt={"12px"}
-                  color={"#2C332978"}
-                  p={"9px"}
-                  borderRadius={"6px"}
-                  border={"1px"}
-                  borderColor={"#9597927D"}
-                  boxShadow={"md"}
+                  w={"165px"}
                   h={"49px"}
-                  fontSize={"11px"}
+                  color={"#2C332978"}
+                  borderColor={"#9597927D"}
+                  boxShadow={" 0px 1px 6px 0px #00000029 "}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                  bg="white"
+                  mb={2}
+                  borderRadius={"md"}
+                  px={2}
+                  py={3}
                 >
-                  {/* Display file information here */}
-                  <Text mt={2}>{extractFileNameFromS3URL(file.key)}</Text>
+                  <Text mt={2} fontSize={"11px"}>
+                    {extractFileNameFromS3URL(file.key)}
+                  </Text>
                   <Spacer />
                   <Button
                     rightIcon={<BsDownload />}
@@ -185,13 +192,6 @@ const AllUploadedLecture = () => {
           </Card>
         ))}
       </SimpleGrid>
-      {/* {modalIsOpen && (
-        <DocumentViewer
-          isOpen={modalIsOpen}
-          onClose={handleCloseDocumentViewer}
-          docUrl={selectedFileUrl}
-        />
-      )} */}
     </Box>
   );
 };
