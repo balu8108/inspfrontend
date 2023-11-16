@@ -17,7 +17,7 @@ import {
   setAudioControl,
   setVideoControl,
 } from "../../../store/actions/streamControlActions";
-import { checkUserType } from "../../../utils";
+import { boxShadowStyles, checkUserType } from "../../../utils";
 import { toolTipMsgs, userType } from "../../../constants/staticvariables";
 
 const RoomPreviewVideo = () => {
@@ -93,7 +93,13 @@ const RoomPreviewVideo = () => {
   }, [videoStream]);
 
   return (
-    <Box bg={backgroundLightBlue} width={"70%"} borderRadius={"2xl"} p={6}>
+    <Box
+      bg={"white"}
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      width={"70%"}
+      borderRadius={"2xl"}
+      p={6}
+    >
       <VStack>
         <Box width="100%" height={"500px"} position={"relative"}>
           {!isVideoOn && (

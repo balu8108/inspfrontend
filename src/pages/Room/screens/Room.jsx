@@ -207,7 +207,7 @@ const Room = () => {
           templateRows="repeat(6, 1fr)"
           h="85vh"
           columnGap={4}
-          rowGap={2}
+          rowGap={4}
           className="scrollbar-parent"
         >
           {!isEnlarged && (
