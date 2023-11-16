@@ -178,7 +178,7 @@ const DetailsCoveredFiles = () => {
           )}
         </Flex>
       </Box>
-      <Box mt={"31px"} overflowX="auto">
+      <Box mt={"31px"}>
         <Text ml={"20px"} p={"13px"}>
           Files/Notes
         </Text>
@@ -190,6 +190,8 @@ const DetailsCoveredFiles = () => {
                 {topicInfo.SoloClassRoomFiles.map((file, fileIndex) => (
                   <Box
                     key={fileIndex}
+                    w={"157px"}
+                    h={"49px"}
                     mr="10px"
                     ml={"20px"}
                     borderRadius={6}
@@ -197,7 +199,7 @@ const DetailsCoveredFiles = () => {
                     border={" 1px solid #9597927D "}
                     boxShadow={" 0px 1px 6px 0px #00000029 "}
                     mb={"25px"}
-                    flex="0 0 auto"
+                    // flex="0 0 auto"
                   >
                     <Flex align="center">
                       <Text fontSize={"11px"} color={"#2C332978"}>
