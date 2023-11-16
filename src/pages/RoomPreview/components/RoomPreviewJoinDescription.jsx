@@ -19,7 +19,7 @@ import {
   setRtpCapabilities,
   setSelfDetails,
 } from "../../../store/actions/socketActions";
-import { formatTime, renderLeftMembersCount } from "../../../utils";
+import { capitalize, formatTime, renderLeftMembersCount } from "../../../utils";
 import { useToastContext } from "../../../components/toastNotificationProvider/ToastNotificationProvider";
 
 const PeerList = ({ peers, type }) => {
@@ -139,8 +139,9 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
             <Flex justifyContent={"space-between"}>
               <Box>
                 <Text fontSize={"14px"} color={mainTextColor}>
-                  {roomPreviewData?.LiveClassRoomDetail?.topicName ||
-                    liveSessionData.noData}
+                  {capitalize(
+                    roomPreviewData?.LiveClassRoomDetail?.topicName
+                  ) || liveSessionData.noData}
                 </Text>
                 <Text color={secondaryTextColor} fontSize={"12px"}>
                   {roomPreviewData?.mentorName || liveSessionData.noData}

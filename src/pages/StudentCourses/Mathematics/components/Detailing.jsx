@@ -22,7 +22,7 @@ const MathsDetails = () => {
           ml={"27px"}
         ></Box>
         <Text fontSize={"19px"} lineHeight={"24px"} mt={"26px"}>
-          My Courses (Mathematics)
+          My Courses (MATHEMATICS)
         </Text>
       </HStack>
       <VStack gap={"24px"}>
