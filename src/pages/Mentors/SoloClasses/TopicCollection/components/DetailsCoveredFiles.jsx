@@ -3,7 +3,6 @@ import {
   Box,
   HStack,
   Text,
-  Stack,
   Flex,
   Button,
   Spacer,
@@ -20,9 +19,8 @@ import { FaCircle } from "react-icons/fa";
 import { getPresignedUrlApi } from "../../../../../api/genericapis";
 import { BASE_URL } from "../../../../../constants/staticurls";
 import { useParams } from "react-router-dom";
-import { SimpleGrid } from "@chakra-ui/layout";
 import { extractFileNameFromS3URL } from "../../../../../utils";
-import { wrap } from "framer-motion";
+import "../../../../../constants/scrollbar/style.css"
 const DetailsCoveredFiles = () => {
   const [topicDetails, setTopicDetails] = useState(null);
   const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
@@ -132,26 +130,24 @@ const DetailsCoveredFiles = () => {
         </Box>
       )}
 
-      <Box ml={"20px"} mt="20px">
+      <Box ml={"20px"} mt="20px" mr={"21px"}>
         <Text p={"13px"}>Recordings</Text>
-        <Flex gap={"24px"} overflowX={"auto"}>
+        <Box ml={"13px"}>
           {topicDetails && topicDetails.length > 0 ? (
             topicDetails.map((topicInfo, index) => (
-              <HStack key={index}>
+              <Flex gap={"24px"} key={index} overflowX={"auto"}>
                 {topicInfo.SoloClassRoomRecordings.map(
                   (recording, recordingIndex) => (
                     <Card
                       key={recordingIndex}
                       borderRadius={6}
-                      bg={"#F1F5F8"}
-                      blendMode={"multiply"}
                       w={"150px"}
                       boxShadow="md"
                       position="relative"
-                      m={"20px"}
                       onMouseEnter={() => setHoveredCardIndex(index)}
                       onMouseLeave={() => setHoveredCardIndex(null)}
                       onClick={() => handleCardClick(recording.key)}
+                      flexShrink={0}
                     >
                       <Flex alignItems="center">
                         <Image src={defaultImageUrl} alt="Video Thumbnail" />
@@ -169,21 +165,21 @@ const DetailsCoveredFiles = () => {
                     </Card>
                   )
                 )}
-              </HStack>
+              </Flex>
             ))
           ) : (
             <Box p={4}>
               <Text>No video recordings are available for this topic.</Text>
             </Box>
           )}
-        </Flex>
+        </Box>
       </Box>
-      <Box mt={"31px"}>
+      <Box mt={"31px"} display="flex" flexWrap="wrap">
         <Text ml={"20px"} p={"13px"}>
           Files/Notes
         </Text>
 
-        <Box w={"full"} display={"flex"} flexWrap={"wrap"}>
+        <Box w={"100%"} ml={"13px"} display="flex" flexWrap="wrap">
           {topicDetails && topicDetails.length > 0 ? (
             topicDetails.map((topicInfo, index) => (
               <Box key={topicInfo.id} display="flex" flexWrap="wrap">
@@ -192,14 +188,12 @@ const DetailsCoveredFiles = () => {
                     key={fileIndex}
                     w={"157px"}
                     h={"49px"}
-                    mr="10px"
                     ml={"20px"}
                     borderRadius={6}
                     p={1}
                     border={" 1px solid #9597927D "}
                     boxShadow={" 0px 1px 6px 0px #00000029 "}
                     mb={"25px"}
-                    // flex="0 0 auto"
                   >
                     <Flex align="center">
                       <Text fontSize={"11px"} color={"#2C332978"}>
