@@ -14,7 +14,6 @@ import { Link } from "react-router-dom";
 import { BASE_URL } from "../../../../constants/staticurls";
 const FeedBack = () => {
   const [feedbackData, setFeedbackData] = useState([]);
-  console.log("feedback", feedbackData);
 
   useEffect(() => {
     axios
