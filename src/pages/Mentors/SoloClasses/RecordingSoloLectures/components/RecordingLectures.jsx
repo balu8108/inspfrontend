@@ -18,7 +18,7 @@ import {
   FiMonitor,
 } from "react-icons/fi";
 import { LuMonitorOff, LuCircleOff } from "react-icons/lu";
-import { BsFullscreenExit } from "react-icons/bs";
+
 import { boxShadowStyles } from "../../../../../utils";
 const RecordingLectures = () => {
   const [isCameraOn, setIsCameraOn] = useState(false);
