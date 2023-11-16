@@ -61,7 +61,6 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
     setFiles((prevFiles) => [...prevFiles, ...selectedFiles]);
-    console.log("Selected Files:", selectedFiles);
   };
 
   const handleSubmit = async () => {
@@ -100,7 +99,6 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
       );
 
       if (response.status === 201) {
-        console.log("Assignment submitted successfully");
         // Handle any success actions (e.g., showing a success message)
       } else {
         console.error("Error submitting assignment:", response.data.error);
@@ -121,7 +119,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
       setIsLoadingSubjects(true);
       try {
         const response = await fetchAllSubjectsApi();
-        console.log("Subject Api", response);
+
         if (response.status) {
           setSubjects(response.result);
         }
@@ -140,7 +138,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
       setIsLoadingChapters(true);
       try {
         const response = await fetchAllChaptersApi();
-        console.log("Chapter Api", response);
+
         if (response.status) {
           setChapters(response.result);
         }
@@ -159,7 +157,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
       setIsLoadingTopics(true);
       try {
         const response = await fetchAllTopicsApi(chapter_id);
-        console.log("Topic Api", response);
+
         if (response.status) {
           setTopics(response.result);
         }

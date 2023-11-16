@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import physDetailsData from "../data/physicsDetails";
 import { fetchAllChaptersApi } from "../../../../api/inspexternalapis";
+import { boxShadowStyles, capitalize } from "../../../../utils";
 const PhysDetails = () => {
   const [chapters, setChapters] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -51,7 +52,13 @@ const PhysDetails = () => {
   );
 
   return (
-    <Box width={"full"} h={"100%"}    boxShadow={"2px 2px 13px 0px #5C5C5C1F "} borderRadius={"26px"}>
+    <Box
+      width={"full"}
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      h={"100%"}
+      bg="white"
+      borderRadius={"26px"}
+    >
       <Flex mt={"17px"}>
         <HStack spacing={"10px"} alignItems="center" ml={"33px"}>
           <Box
@@ -103,7 +110,7 @@ const PhysDetails = () => {
                   lineHeight={"19px"}
                   noOfLines={1}
                 >
-                  {chapter.name}
+                  {capitalize(chapter?.name)}
                 </Text>
                 <Text
                   fontWeight={400}

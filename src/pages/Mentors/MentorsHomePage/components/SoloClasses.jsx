@@ -12,6 +12,7 @@ import soloclasses from "../data/soloclass";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../../../../constants/staticurls";
+import { boxShadowStyles, capitalize } from "../../../../utils";
 const SoloClasses = () => {
   const [latestSoloClassroom, setLatestSoloClassroom] = useState([]);
   const navigate = useNavigate();
@@ -37,8 +38,8 @@ const SoloClasses = () => {
   }, []);
   return (
     <Box
-      boxShadow={"2px 2px 13px 0px #5C5C5C1F "}
-      bg={"#FFFFFF"}
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      bg={"white"}
       mt={"23px"}
       borderRadius={"25px"}
       w={"95%"}
@@ -93,7 +94,7 @@ const SoloClasses = () => {
                 mt={"13px"}
                 noOfLines={1}
               >
-                {soloclassInfo.topic}
+                {capitalize(soloclassInfo.topic)}
               </Text>
               <Text
                 fontSize={"11px"}

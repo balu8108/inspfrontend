@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import UploadAssignmentPopup from "../../../../components/popups/UploadAssignmentPopup";
 import { BASE_URL } from "../../../../constants/staticurls";
+import { boxShadowStyles } from "../../../../utils";
 const MentorsUploads = () => {
   const [latestAssignment, setLatestAssignment] = useState([]);
   const [isUploadAssignmentModalOpen, setUploadAssignmentModalOpen] =
@@ -35,9 +36,10 @@ const MentorsUploads = () => {
   }, []);
   return (
     <Box
-      boxShadow={"2px 2px 13px 0px #5C5C5C1F "}
       w={"95%"}
       borderRadius={"26px"}
+      bg="white"
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
     >
       <Flex>
         <HStack spacing={"10px"}>

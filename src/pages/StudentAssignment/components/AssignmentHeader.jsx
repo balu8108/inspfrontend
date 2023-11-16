@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { fetchAllSubjectsApi } from "../../../api/inspexternalapis";
 import { Link } from "react-router-dom";
+import { boxShadowStyles, capitalize } from "../../../utils";
 
 const AssignmentHeader = () => {
   const [subjects, setSubjects] = useState([]);
@@ -47,7 +48,12 @@ const AssignmentHeader = () => {
   }, []);
 
   return (
-    <Box bg={"#F1F5F8"} borderRadius={"25px"} w={"100%"}>
+    <Box
+      bg={"white"}
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      borderRadius={"25px"}
+      w={"100%"}
+    >
       <HStack spacing={"10px"}>
         <Box
           width={"12px"}
@@ -88,7 +94,7 @@ const AssignmentHeader = () => {
                 ml={"13px"}
                 mt={"13px"}
               >
-                {subject.name}
+                {capitalize(subject?.name)}
               </Text>
               <Text
                 fontSize={"14px"}

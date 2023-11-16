@@ -1,8 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Box, HStack, Text, Card, Flex, Button,Spinner,Center } from "@chakra-ui/react";
+import {
+  Box,
+  HStack,
+  Text,
+  Card,
+  Flex,
+  Button,
+  Spinner,
+  Center,
+} from "@chakra-ui/react";
 import headerData from "../data/headerData";
 import { fetchAllSubjectsApi } from "../../../api/inspexternalapis";
+import { boxShadowStyles, capitalize } from "../../../utils";
 const Header = () => {
   const [subjects, setSubjects] = useState([]);
   // const dummydescription=[
@@ -77,7 +87,12 @@ const Header = () => {
   }, []);
 
   return (
-    <Box w={"100%"} bg={"#F1F5F8"} borderRadius={"2xl"}>
+    <Box
+      w={"100%"}
+      bg={"white"}
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      borderRadius={"2xl"}
+    >
       <HStack spacing={"10px"}>
         <Box
           width={"12px"}
@@ -96,74 +111,72 @@ const Header = () => {
           My Courses
         </Text>
       </HStack>
-      {loading ?(
+      {loading ? (
         <Center>
-        <Spinner size="lg" />
+          <Spinner size="lg" />
         </Center>
       ) : (
         <Flex p={5} gap={"24px"} mt={"10px"}>
-        {subjects.map((headerDetails) => (
-          <Card
-            key={headerDetails.id}
-            w={"30%"}
-            borderRadius={"18px"}
-            bg={"#F1F5F8"}
-            ml={"10px"}
-            blendMode={"multiply"}
-          >
-            <Text
-              fontSize={"16px"}
-              fontWeight={"400"}
-              lineHeight={"18px"}
-              color={"#2C3329"}
-              ml={"13px"}
-              mt={"13px"}
+          {subjects.map((headerDetails) => (
+            <Card
+              key={headerDetails.id}
+              w={"30%"}
+              borderRadius={"18px"}
+              bg={"#F1F5F8"}
+              ml={"10px"}
+              blendMode={"multiply"}
             >
-              {headerDetails.name}
-            </Text>
-
-            <Text
-              fontSize={"12px"}
-              lineHeight={"14px"}
-              fontWeight={"400px"}
-              color={"#2C3329"}
-              mt={"14px"}
-              ml={"14px"}
-            >
-              Description
-            </Text>
-            <Text
-              fontSize={"11px"}
-              lineHeight={"21px"}
-              fontWeight={"400px"}
-              ml={"13px"}
-              mt={"6px"}
-              noOfLines={3}
-              color={"rgba(44, 51, 41, 0.47)"}
-            >
-              {headerDetails.description ||
-                "Physics is the study of the fundamental principles that govern the behavior of the physical universe. It encompasses a wide range of topics, including classical mechanics, electromagnetism, thermodynamics, and quantum mechanics."}
-            </Text>
-            <Link to={`/myCourses/${headerDetails.name}`}>
-              <Button
-                variant={"ghost"}
-                color={"#3C8DBC"}
-                fontWeight={"600"}
-                size={"12px"}
-                fontSize={"14px"}
-                lineHeight={"16px"}
-                p={5}
-                ml={"50px"}
+              <Text
+                fontSize={"16px"}
+                fontWeight={"400"}
+                lineHeight={"18px"}
+                color={"#2C3329"}
+                ml={"13px"}
+                mt={"13px"}
               >
-                View Details
-              </Button>
-            </Link>
-          </Card>
-        ))}
-      </Flex>
-      )}
+                {headerDetails.name}
+              </Text>
 
-      
+              <Text
+                fontSize={"12px"}
+                lineHeight={"14px"}
+                fontWeight={"400px"}
+                color={"#2C3329"}
+                mt={"14px"}
+                ml={"14px"}
+              >
+                Description
+              </Text>
+              <Text
+                fontSize={"11px"}
+                lineHeight={"21px"}
+                fontWeight={"400px"}
+                ml={"13px"}
+                mt={"6px"}
+                noOfLines={3}
+                color={"rgba(44, 51, 41, 0.47)"}
+              >
+                {headerDetails.description ||
+                  "Physics is the study of the fundamental principles that govern the behavior of the physical universe. It encompasses a wide range of topics, including classical mechanics, electromagnetism, thermodynamics, and quantum mechanics."}
+              </Text>
+              <Link to={`/myCourses/${headerDetails.name}`}>
+                <Button
+                  variant={"ghost"}
+                  color={"#3C8DBC"}
+                  fontWeight={"600"}
+                  size={"12px"}
+                  fontSize={"14px"}
+                  lineHeight={"16px"}
+                  p={5}
+                  ml={"50px"}
+                >
+                  View Details
+                </Button>
+              </Link>
+            </Card>
+          ))}
+        </Flex>
+      )}
     </Box>
   );
 };

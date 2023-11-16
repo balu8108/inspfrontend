@@ -47,8 +47,6 @@ const VideoPlayer = ({ type, activeRecording }) => {
   const videoRef = useRef(null);
   const [player, setPlayer] = useState(undefined);
 
-  console.log("player", player);
-
   const userRoleType = checkUserType();
   const { data: inspUserProfile } = getStorageData("insp_user_profile");
 
@@ -57,26 +55,20 @@ const VideoPlayer = ({ type, activeRecording }) => {
       // Update the player's source when the src prop changes
 
       const url = activeRecording?.url;
-      console.log("url player", url);
-      console.log("type ", type);
+
       const res = await playRecordingApi({
         type: type,
         recordId: activeRecording?.id,
       });
 
       const { data } = res;
-      console.log("data", data);
+
       const drmToken = data?.data?.DRMjwtToken;
-      console.log("drm toke", drmToken);
 
       const videoOptions = getVideoJsOptions(activeRecording?.url, drmToken);
 
       if (!player) {
         const p = videojs(videoRef.current, videoOptions);
-
-        console.log("videojs", videojs);
-        console.log("p", p);
-        console.log("vide option", videoOptions.sources);
 
         p.eme();
 
@@ -116,8 +108,7 @@ const VideoPlayer = ({ type, activeRecording }) => {
         const watermarkUserEmail = document.getElementById(
           "watermark-user-email"
         );
-        console.log("water makr", watermarkUserName);
-        console.log("water mark", watermarkUserEmail);
+
         let isWaterMark = true;
         if (!watermarkUserName || !watermarkUserEmail) {
           isWaterMark = false;
@@ -153,7 +144,7 @@ const VideoPlayer = ({ type, activeRecording }) => {
         <video
           ref={videoRef}
           className="vidPlayer video-js vjs-default-skin vjs-big-play-centered"
-          style={{ borderRadius: "10px" , height:"73vh", width:"100%" }}
+          style={{ borderRadius: "10px", height: "73vh", width: "100%" }}
         ></video>
 
         {userRoleType === userType.student && (

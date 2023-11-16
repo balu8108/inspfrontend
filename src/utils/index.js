@@ -19,6 +19,7 @@ import { decryptData } from "./crypticFunctions";
 import fileConverter from "./fileConverter";
 import clearStorageData from "./clearStorageData";
 import isValidTimeFormat from "./isValidTimeFormat";
+import capitalize from "./capitalize";
 export {
   containsEmoji,
   openFileDialog,
@@ -43,4 +44,5 @@ export {
   fileConverter,
   clearStorageData,
   isValidTimeFormat,
+  capitalize,
 };

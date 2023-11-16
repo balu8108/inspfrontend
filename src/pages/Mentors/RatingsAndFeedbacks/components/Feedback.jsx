@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../api/inspexternalapis/index";
 import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
 import VectorImage from "../../../../assets/images/Line/Vector.svg";
+import { boxShadowStyles, capitalize } from "../../../../utils";
 const AllUploadedLecture = () => {
   const [allTopicList, setAllTopicList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -38,7 +39,7 @@ const AllUploadedLecture = () => {
     async function fetchAllTopicsWithoutChapterId() {
       try {
         const response = await fetchAllTopicsWithoutChapterIdApi();
-        console.log("Topics Api Without the Chapter Id", response);
+
         if (response.status) {
           setAllTopicList(response.result);
         }
@@ -54,11 +55,12 @@ const AllUploadedLecture = () => {
 
   return (
     <Box
-      boxShadow={"  2px 2px 13px 0px #5C5C5C1F"}
       w={"full"}
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       h={"full"}
       mt={"24px"}
       borderRadius={"26px"}
+      bg="white"
     >
       <Flex>
         <HStack spacing={"10px"} ml="27px">
@@ -119,7 +121,7 @@ const AllUploadedLecture = () => {
               ml={"2"}
             >
               <Text fontSize="16px" noOfLines={1}>
-                {chapter.name}
+                {capitalize(chapter?.name)}
               </Text>
               <Text fontSize="12px" color={"#2C332978"}>
                 {chapter.instructorName} No Data

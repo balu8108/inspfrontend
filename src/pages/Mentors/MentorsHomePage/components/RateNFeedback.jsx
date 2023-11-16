@@ -12,8 +12,8 @@ import {
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { BASE_URL } from "../../../../constants/staticurls";
+import { boxShadowStyles, capitalize } from "../../../../utils";
 const FeedBack = () => {
-  const apiUrl = "http://localhost:5000";
   const [feedbackData, setFeedbackData] = useState([]);
 
   useEffect(() => {
@@ -29,11 +29,12 @@ const FeedBack = () => {
 
   return (
     <Box
-      boxShadow={"2px 2px 13px 0px #5C5C5C1F "}
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       mt={"23px"}
       borderRadius={"25px"}
       w={"58%"}
       h={"30%"}
+      bg="white"
     >
       <Flex>
         <HStack spacing={"10px"}>
@@ -72,7 +73,6 @@ const FeedBack = () => {
               ml={"20px"}
               mb={"20px"}
               mr={"20px"}
-              blendMode={"multiply"}
             >
               <Text
                 fontSize={"16px"}
@@ -83,7 +83,9 @@ const FeedBack = () => {
                 mt={"13px"}
                 noOfLines={1}
               >
-                {rateNfeedebackOfAChapter.LiveClassRoomDetail.topicName}
+                {capitalize(
+                  rateNfeedebackOfAChapter?.LiveClassRoomDetail?.topicName
+                )}
               </Text>
               <Text
                 fontSize={"12px"}

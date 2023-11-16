@@ -14,7 +14,7 @@ const FileBoxComponent = ({ data, type }) => {
   const { secondaryTextColor } = useTheme().colors.pallete;
   const userRoleType = checkUserType();
   const dispatch = useDispatch();
-console.log("data and type", data,type)
+
   return (
     <SimpleBar
       style={{
@@ -32,8 +32,9 @@ console.log("data and type", data,type)
           onClick={() =>
             dispatch(setIsDocModalOpen(item?.id, item?.key, type, true))
           }
-          boxShadow={boxShadowStyles.shadowFileBoxStyle.boxShadow}
           borderRadius={"md"}
+          // border={"1px solid rgba(149, 151, 146, 0.49)"}
+          boxShadow={boxShadowStyles.shadowFileBoxStyle.boxShadow}
           px={2}
           py={3}
         >

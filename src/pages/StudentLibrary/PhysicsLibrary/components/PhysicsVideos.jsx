@@ -1,4 +1,4 @@
-// I have given name as phy but it is component which take params as subject name and displays all the  topics for the subject 
+// I have given name as phy but it is component which take params as subject name and displays all the  topics for the subject
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -18,6 +18,7 @@ import physVideosData from "../data/PhysVideosData";
 import { SearchIcon } from "@chakra-ui/icons";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../api/inspexternalapis";
 import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
+import { capitalize } from "../../../../utils";
 const Library = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [allTopicList, setAllTopicList] = useState([]);
@@ -28,10 +29,6 @@ const Library = () => {
     const topicName = libraryData.name.toLowerCase();
     return topicName.includes(searchQuery.toLowerCase());
   });
-
-  const handleSearchInputChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
 
   useEffect(() => {
     async function fetchAllTopicsWithoutChapterId() {
@@ -62,7 +59,7 @@ const Library = () => {
           bg={"#3C8DBC"}
         ></Box>
         <Text fontSize={"19px"} lineHeight={"24px"}>
-          Library ({subjectName})
+          Library ({capitalize(subjectName)})
         </Text>
         <Spacer />
         <InputGroup w="30%" mx={12} my={17}>
@@ -92,7 +89,7 @@ const Library = () => {
               borderRadius={"18px"}
             >
               <Text ml={"13px"} mt={"16px"} lineHeight={"18px"} noOfLines={1}>
-                {libraryData.name}
+                {capitalize(libraryData?.name)}
               </Text>
               <Text
                 fontSize={"12px"}

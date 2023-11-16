@@ -40,9 +40,9 @@ const MentorAllUploadedLectures = () => {
             style={{
               maxHeight: "85vh",
               borderRadius: "26px",
-              bg: "#F1F5F8",
+              background: "white",
               backgroundBlendMode: "multiply",
-              boxShadow: boxShadowStyles.shadowOneStyle.boxShadow,
+              boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
             }}
           >
             <Box p={4}>

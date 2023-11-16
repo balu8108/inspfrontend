@@ -6,19 +6,21 @@ import {
   Card,
   Flex,
   Button,
-  Stack,
   SimpleGrid,
   Input,
   InputGroup,
   InputLeftElement,
-  Icon,
   Spacer,
 } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
 import { BsDownload } from "react-icons/bs";
 import axios from "axios";
 import { BASE_URL } from "../../../constants/staticurls";
-import { extractFileNameFromS3URL } from "../../../utils";
+import {
+  boxShadowStyles,
+  capitalize,
+  extractFileNameFromS3URL,
+} from "../../../utils";
 import { useParams } from "react-router";
 import { useDispatch } from "react-redux";
 import { setIsDocModalOpen } from "../../../store/actions/genericActions";
@@ -31,19 +33,6 @@ const AssignmentDetails = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const { subjectName } = useParams();
   const dispatch = useDispatch();
-
-  const handleViewDetails = (assignmentId) => {
-    setSelectedAssignment(assignmentId);
-  };
-
-  const clearSelection = () => {
-    setSelectedAssignment(null);
-  };
-
-  const handleCloseDocumentViewer = () => {
-    setModalIsOpen(false);
-    setSelectedFileUrl("");
-  };
 
   const filteredData = Array.isArray(assignmentData)
     ? assignmentData.filter((assignment) => {
@@ -66,7 +55,13 @@ const AssignmentDetails = () => {
   }, [subjectName]);
 
   return (
-    <Box width={"full"} h={"full"} bg={"#F1F5F8"} borderRadius={"26px"}>
+    <Box
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      width={"full"}
+      h={"full"}
+      bg={"white"}
+      borderRadius={"26px"}
+    >
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
         <Box
           width={"12px"}
@@ -75,7 +70,7 @@ const AssignmentDetails = () => {
           bg={"#3C8DBC"}
         ></Box>
         <Text fontSize={"19px"} lineHeight={"24px"}>
-          Assignments({subjectName})
+          Assignments ({capitalize(subjectName)})
         </Text>
         <Spacer />
         <InputGroup m={4} w={"220px"}>
@@ -195,7 +190,7 @@ const AssignmentDetails = () => {
         </SimpleGrid>
       ) : (
         <Box textAlign="center" mt={4}>
-          <Text>No assignments for {subjectName}.</Text>
+          <Text>No assignments for {capitalize(subjectName)}.</Text>
         </Box>
       )}
     </Box>

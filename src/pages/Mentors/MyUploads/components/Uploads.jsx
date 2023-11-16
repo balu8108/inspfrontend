@@ -18,7 +18,7 @@ import { BsDownload } from "react-icons/bs";
 import uploadedChapterDetails from "../data/uploadingDetails";
 import DocumentViewer from "../../../../components/popups/DocumentViewer";
 import { BASE_URL } from "../../../../constants/staticurls";
-import { extractFileNameFromS3URL } from "../../../../utils";
+import { boxShadowStyles, extractFileNameFromS3URL } from "../../../../utils";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setIsDocModalOpen } from "../../../../store/actions/genericActions";
@@ -64,8 +64,9 @@ const AllUploadedLecture = () => {
     <Box
       width={"100%"}
       h={"100%"}
-      boxShadow={"2px 2px 13px 0px #5C5C5C1F    "}
       borderRadius={"26px"}
+      bg="white"
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
     >
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
         <Box

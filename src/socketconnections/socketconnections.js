@@ -24,7 +24,6 @@ import {
   setSendPollResponse,
   setTimerIncrease,
   setUpdatePeerDetails,
-  setUploadFiles,
   setUploadFilesInRoom,
 } from "../store/actions/socketActions";
 
@@ -145,7 +144,7 @@ const consumeMediaFromProducer = async (
         console.log("Error in getting consume params", params.err);
         return;
       }
-      console.log("params rec", params);
+
       const consumer = await consumerTransport.consume({
         id: params.id,
         producerId: params.producerId,
@@ -189,7 +188,6 @@ const consumeMediaFromProducer = async (
 
 const createRecvTransport = async () => {
   return new Promise((resolve, reject) => {
-    console.log("create Recv transport");
     socket.emit(
       SOCKET_EVENTS.CREATE_WEB_RTC_TRANSPORT,
       { consumer: true },
@@ -230,7 +228,6 @@ const getProducersResponseHandler = async (producersIds) => {
     try {
       if (!consumerTransport) {
         // create Recv Transport before consuming media
-        console.log("creating consumer tranposrt....");
         await createRecvTransport();
       }
 
@@ -248,9 +245,7 @@ const getProducersResponseHandler = async (producersIds) => {
 
 const newProducerResponseHandler = async ({ producerId, appData }) => {
   try {
-    console.log("new producer detected...");
     if (!consumerTransport) {
-      console.log("consumer not created, initializing now....");
       await createRecvTransport();
     }
 
@@ -270,7 +265,7 @@ const peerLeavedResponseHandler = (res) => {
 };
 
 const someProducerClosedResponseHandler = (res) => {
-  const { producerId, producerAppData } = res;
+  const { producerAppData } = res;
   // evaluate what type of consumer we need to stop
 
   if (
@@ -396,7 +391,6 @@ const endMeetReponseHandler = async () => {
 };
 
 const leaveRoomResponseHandler = (res) => {
-  console.log("leaving room...");
   const { feedBackStatus } = res;
   const userRoleType = checkUserType(); // Need to open feedback form only for students
   if (userRoleType === userType.student && feedBackStatus) {
@@ -410,7 +404,6 @@ const leaveRoomResponseHandler = (res) => {
   // after leaving class set producerTransport to again null
   producerTransport = null;
   consumerTransport = null;
-  console.log("Is Null affter leaving", producerTransport, consumerTransport);
 };
 
 const isAudioStreamEnabledResponse = (res) => {
@@ -489,7 +482,8 @@ export const initializeSocketConnections = (roomId) => {
     socket.on(
       SOCKET_EVENTS.SOME_PRODUCER_CLOSED,
       someProducerClosedResponseHandler
-    );
+    ); // this is explicitly triggered by backend
+    socket.on(SOCKET_EVENTS.PRODUCER_CLOSED, someProducerClosedResponseHandler); // automatically triggered when any producer closes due to any reason
     socket.on(
       SOCKET_EVENTS.MIRO_BOARD_DATA_FROM_SERVER,
       miroBoardIdResponseHandler
@@ -516,11 +510,6 @@ export const initializeSocketConnections = (roomId) => {
 
       producerTransport = null;
       consumerTransport = null;
-      console.log(
-        "Is Null affter disconnect",
-        producerTransport,
-        consumerTransport
-      );
     });
     socket.on(SOCKET_EVENTS.CONNECT_ERROR, (err) => {
       console.log(err instanceof Error);

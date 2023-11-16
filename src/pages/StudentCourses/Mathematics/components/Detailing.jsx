@@ -1,14 +1,16 @@
 import React from "react";
 import { Box, Text, HStack, Image, Center, VStack } from "@chakra-ui/react";
 import MathematicsImage from "../../../../assets/images/undraw_mathematics_-4-otb 1.svg";
+import { boxShadowStyles } from "../../../../utils";
 
 const MathsDetails = () => {
   return (
     <Box
       width={"100%"}
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       height={"full"}
-      boxShadow={"2px 2px 13px 0px #5C5C5C1F "}
       borderRadius={"26px"}
+      bg="white"
     >
       <HStack spacing={"10px"}>
         <Box

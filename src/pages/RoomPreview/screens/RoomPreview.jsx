@@ -18,7 +18,11 @@ const RoomPreview = () => {
   }, [roomId, dispatch]);
   return (
     <Box py={8} px={20}>
-      <Flex justifyContent={"space-between"} gap={10} alignItems="flex-start">
+      <Flex
+        justifyContent={"space-between"}
+        justifyItems={"flex-start"}
+        gap={10}
+      >
         <RoomPreviewVideo />
         <RoomPreviewJoinDescription roomId={roomId} />
       </Flex>

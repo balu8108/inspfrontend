@@ -5,7 +5,6 @@ import {
   Tooltip,
   Stack,
   Flex,
-  Button,
   HStack,
   useTheme,
 } from "@chakra-ui/react";
@@ -24,8 +23,6 @@ import { SiMiro } from "react-icons/si";
 import { RiFullscreenFill } from "react-icons/ri";
 import {
   socket,
-  endMeetHandler,
-  leaveRoomHandler,
   producerPauseHandler,
   producerResumeHandler,
   producerTransport,
@@ -42,7 +39,7 @@ import {
 import { roomData } from "../data/roomData";
 import PostPoll from "../../../components/popups/PostPoll";
 import { LeaveBtn } from "../../../components/button";
-import { useParams, useNavigate } from "react-router-dom";
+
 import { shallowEqual, useSelector } from "react-redux";
 import { checkUserType } from "../../../utils";
 
@@ -73,12 +70,18 @@ const ToolBox = ({
   const [isLeaveLoading, setIsLeaveLoading] = useState(false); // for leave button loading state
   // const [QNo, setQNo] = useState(0);
   const [isRecordingLoading, setIsRecordingLoading] = useState(false);
+  const [producerScreenShare, setProducerScreenShare] = useState(null);
+  const [producerMentorVideoShare, setProducerMentorVideoShare] =
+    useState(null);
+  const [producerAudioShare, setProducerAudioShare] = useState(null);
+  const { isPreviewVideoOn, isPreviewAudioOn } = useSelector(
+    (state) => state.streamControls
+  );
   const { redBtnColor } = useTheme().colors.pallete;
   const userRoleType = checkUserType();
-  let producerScreenShare = null;
-  let producerMentorVideoShare = null;
-  let producerAudioShare = null;
-  console.log("producer mentor video share", producerMentorVideoShare);
+  // let producerScreenShare = null;
+  // let producerMentorVideoShare = null;
+  // let producerAudioShare = null;
 
   const { roomPreviewData, selfDetails } = useSelector(
     (state) => state.socket,
@@ -120,13 +123,14 @@ const ToolBox = ({
             return;
           }
 
-          producerScreenShare = await producerTransport.produce({
+          const producerScreenShareRec = await producerTransport.produce({
             track: track,
             appData: {
               streamType: staticVariables.screenShare,
               isTeacher: true,
             },
           });
+          setProducerScreenShare(producerScreenShareRec);
           setScreenShareStream(stream);
           setIsScreenShare(true);
         }
@@ -181,17 +185,14 @@ const ToolBox = ({
             return;
           }
 
-          producerMentorVideoShare = await producerTransport.produce({
+          const producerMentorVideoShareRec = await producerTransport.produce({
             track: track,
             appData: {
               streamType: staticVariables.videoShare,
               isTeacher: true,
             },
           });
-          console.log(
-            "producer vide share first initialize",
-            producerMentorVideoShare
-          );
+          setProducerMentorVideoShare(producerMentorVideoShareRec);
         }
       }
     } catch (err) {
@@ -209,7 +210,10 @@ const ToolBox = ({
         return;
       }
       const stream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+        },
       });
       if (micRef.current) {
         micRef.current.srcObject = stream;
@@ -220,12 +224,12 @@ const ToolBox = ({
           let appData = {
             streamType: staticVariables.audioShare,
           };
-          producerAudioShare = await producerTransport.produce({
+          const producerAudioShareRec = await producerTransport.produce({
             track: track,
             appData: appData,
           });
-
-          setIsAudioStreamEnabled(true, producerAudioShare?.id); // send socket even to all peers tha this audio is enabled
+          setProducerAudioShare(producerAudioShareRec);
+          setIsAudioStreamEnabled(true, producerAudioShareRec?.id); // send socket even to all peers tha this audio is enabled
           setMicStream(stream);
           setIsMicOn(true);
         }
@@ -251,10 +255,6 @@ const ToolBox = ({
       // close video share
       // instead of stopping the producer we can check if video share producer already available and he clicks stop video share then we can just pause it and resume later on
       if (producerMentorVideoShare) {
-        console.log(
-          "producer vide share already exists",
-          producerMentorVideoShare
-        );
         producerMentorVideoShare.pause();
         // emit event to backend  for pause one so that backend producer can also pauses
         producerPauseHandler(producerMentorVideoShare);
@@ -272,9 +272,8 @@ const ToolBox = ({
       // off the mic clear the audio track
       if (micStream) {
         const tracks = micStream.getTracks();
-        tracks.forEach((track) => track.stop());
 
-        // tracks.forEach((track) => (track.enabled = false));
+        tracks.forEach((track) => (track.enabled = false));
 
         setIsAudioStreamEnabled(false, producerAudioShare?.id);
       }
@@ -360,6 +359,18 @@ const ToolBox = ({
       triggerStopRecording();
     }
   }, [isMicOn, isScreenShare, isRecordOn]);
+
+  useEffect(() => {
+    if (isPreviewVideoOn) {
+      getVideoStreamFeed();
+    }
+  }, [isPreviewVideoOn]);
+
+  useEffect(() => {
+    if (isPreviewAudioOn) {
+      getAudioStreamFeed();
+    }
+  }, [isPreviewAudioOn]);
 
   return (
     <Box position={"absolute"} height={"100%"} p={4} zIndex={4}>

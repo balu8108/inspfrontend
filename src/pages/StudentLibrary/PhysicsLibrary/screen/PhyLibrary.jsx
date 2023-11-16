@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Box, Flex, Stack, useDisclosure } from "@chakra-ui/react";
-import ScheduledMeetings from "../../../MeetingViewer/components/ScheduledMeetings";
-import Header from "../../../MyCourses/components/Header";
 import PhysicsVideos from "../components/PhysicsVideos";
 import Library from "../../../StudentHomePage/components/Library";
 import ScheduleClassList from "../../../ScheduleClasses/components/ScheduleClassList";
@@ -29,7 +27,8 @@ const LibraryScreen = () => {
             style={{
               maxHeight: "85vh",
               borderRadius: "10px",
-              boxShadow: boxShadowStyles.shadowOneStyle.boxShadow,
+              background: "white",
+              boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
             }}
           >
             <Box p={4}>

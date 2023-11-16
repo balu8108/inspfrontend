@@ -1,12 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  Box,
-  Grid,
-  GridItem,
-  Text,
-  useDisclosure,
-  useTheme,
-} from "@chakra-ui/react";
+import { Box, Grid, GridItem, useDisclosure, useTheme } from "@chakra-ui/react";
 
 import LiveSessionDescription from "../components/LiveSessionDescription";
 import LiveSessionStream from "../components/LiveSessionStream";
@@ -21,7 +14,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { liveSessionMemberViewType } from "../../../constants/staticvariables";
 import { useToastContext } from "../../../components/toastNotificationProvider/ToastNotificationProvider";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { checkUserType } from "../../../utils";
 import LiveSessionInteraction from "../components/LiveSessionInteraction";
 import LeaveOrEndClassPopup from "../../../components/popups/LeaveOrEndClassPopup";
@@ -68,9 +61,6 @@ const Room = () => {
 
   const theme = useTheme();
   const { primaryBlue, backgroundLightBlue } = theme.colors.pallete;
-
-  console.log("mic stream of my auidio", micStream);
-  console.log("mentor video stream", mentorVideoStream);
 
   const stopScreenShare = () => {
     setIsScreenShare(false);
@@ -168,28 +158,6 @@ const Room = () => {
     };
   }, [dispatch]);
 
-  // const stopEveryEnabledStreams = (
-  //   micStream,
-  //   mentorVideoStream,
-  //   screenShareStream
-  // ) => {
-  //   // Stop mic stream if it was there
-  //   if (micStream) {
-  //     const tracks = micStream.getTracks();
-  //     tracks.forEach((track) => track.stop());
-  //   }
-  //   // stop video stream if it was there
-  //   if (mentorVideoStream) {
-  //     const tracks = mentorVideoStream.getTracks();
-  //     tracks.forEach((track) => track.stop());
-  //   }
-  //   // stop screenshare stream if it was there
-  //   if (screenShareStream) {
-  //     const tracks = screenShareStream.getTracks();
-  //     tracks.forEach((track) => track.stop());
-  //   }
-  // };
-
   const stopMediaStream = (stream) => {
     if (stream) {
       const tracks = stream.getTracks();
@@ -199,24 +167,18 @@ const Room = () => {
 
   // This useEffect will clear all the mic,video,screenshare stream if component is unmounting
   useEffect(() => {
-    console.log("use effect of micstream");
     return () => {
-      console.log("unmoundt function clear stream runs...");
       stopMediaStream(micStream);
     };
   }, [micStream]);
 
   useEffect(() => {
-    console.log("use effect of micstream");
     return () => {
-      console.log("unmoundt function clear stream runs...");
       stopMediaStream(mentorVideoStream);
     };
   }, [mentorVideoStream]);
   useEffect(() => {
-    console.log("use effect of micstream");
     return () => {
-      console.log("unmoundt function clear stream runs...");
       stopMediaStream(screenShareStream);
     };
   }, [screenShareStream]);
@@ -245,7 +207,7 @@ const Room = () => {
           templateRows="repeat(6, 1fr)"
           h="85vh"
           columnGap={4}
-          rowGap={2}
+          rowGap={4}
           className="scrollbar-parent"
         >
           {!isEnlarged && (
