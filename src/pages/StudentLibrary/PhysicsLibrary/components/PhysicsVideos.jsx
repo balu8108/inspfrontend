@@ -14,35 +14,33 @@ import {
 } from "@chakra-ui/react";
 import { Link, useParams } from "react-router-dom";
 import { SearchIcon } from "@chakra-ui/icons";
-import { fetchAllTopicsWithoutChapterIdApi } from "../../../../api/inspexternalapis";
+import { fetchAllTopicsForSubjectApi } from "../../../../api/inspexternalapis";
 import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
 import { capitalize } from "../../../../utils";
 
 const Library = () => {
+  const { subject_id, subjectName } = useParams();
   const [searchQuery, setSearchQuery] = useState("");
   const [allTopicList, setAllTopicList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { subjectName } = useParams();
+
+  const handleFetchTopics = async () => {
+    try {
+      const response = await fetchAllTopicsForSubjectApi(subject_id);
+      if (response && response.status) {
+        setAllTopicList(response.result);
+        console.log("API Result:", response.result); // Log the result here
+      }
+    } catch (err) {
+      console.log("Error fetching topics data:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    async function fetchTopicsForSubject() {
-      try {
-        const response = await fetchAllTopicsWithoutChapterIdApi(subjectName);
-  
-        if (response.status) {
-          console.log("Fetched topics data:", response.result);
-          setAllTopicList(response.result);
-        }
-      } catch (error) {
-        console.error("Error fetching topics data:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-  
-    fetchTopicsForSubject();
-  }, [subjectName]);
-  
+    handleFetchTopics();
+  }, [subject_id]);
 
   const filteredLibrary = allTopicList.filter((libraryData) => {
     const topicName = libraryData.name.toLowerCase();
@@ -105,6 +103,7 @@ const Library = () => {
                   color={"#2C3329"}
                   mt={"13px"}
                   ml={"13px"}
+                  noOfLines={1}
                 >
                   {capitalize(libraryData.name)}
                 </Text>
@@ -142,15 +141,15 @@ const Library = () => {
                   style={{ display: "flex", justifyContent: "center" }}
                   to={`/student/library/${libraryData.name}`}
                 > */}
-                  <Button
-                    color={"#3C8DBC"}
-                    mt={"10px"}
-                    fontSize={"14px"}
-                    lineHeight={"16px"}
-                    fontWeight={"600"}
-                  >
-                    View Details
-                  </Button>
+                <Button
+                  color={"#3C8DBC"}
+                  mt={"10px"}
+                  fontSize={"14px"}
+                  lineHeight={"16px"}
+                  fontWeight={"600"}
+                >
+                  View Details
+                </Button>
                 {/* </Link> */}
               </Card>
             ))

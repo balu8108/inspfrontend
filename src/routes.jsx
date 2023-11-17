@@ -99,7 +99,7 @@ const privateRoutes = [
 
   {
     name: "Student Library",
-    path: "/student/library/:subjectName",
+    path: "/student/:subject_id/library/:subjectName",
     component: <PhyLibrary />,
   },
 

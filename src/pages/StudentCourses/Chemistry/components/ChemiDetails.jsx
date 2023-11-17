@@ -1,8 +1,21 @@
-import React from "react";
-import { Box, Text, HStack, VStack, Center, Image } from "@chakra-ui/react";
+import React, { useState } from "react";
+import {
+  Box,
+  Text,
+  HStack,
+  VStack,
+  Center,
+  Image,
+  Input,
+  Spacer,
+  Flex,
+} from "@chakra-ui/react";
 import ChemistryImage from "../../../../assets/images/undraw_science_re_mnnr 1.svg";
 import { boxShadowStyles } from "../../../../utils";
+
 const ChemDetails = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+
   return (
     <Box
       width={"100%"}
@@ -11,19 +24,32 @@ const ChemDetails = () => {
       borderRadius={"26px"}
       bg="white"
     >
-      <HStack spacing={"10px"}>
-        <Box
-          width={"12px"}
-          height={"25px"}
-          borderRadius={"20px"}
-          bg={"#3C8DBC"}
-          mt={"33px"}
-          ml={"27px"}
-        ></Box>
-        <Text fontSize={"19px"} lineHeight={"24px"} mt={"28px"}>
-          My Courses (Chemistry)
-        </Text>
-      </HStack>
+      <Flex mt={"17px"}>
+        <HStack spacing={"10px"} alignItems="center" ml={"33px"}>
+          <Box
+            width={"12px"}
+            height={"25px"}
+            borderRadius={"20px"}
+            bg={"#3C8DBC"}
+          ></Box>
+          <Text fontSize={"19px"} lineHeight={"24px"}>
+            My Courses (Chemistry)
+          </Text>
+        </HStack>
+        <Spacer />
+        {/* <Input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search..."
+          w="30%"
+          border="1px solid #ccc"
+          borderRadius="md"
+          px="3"
+          py="2"
+          mx={"10"}
+        /> */}
+      </Flex>
       <VStack gap={"24px"}>
         <Center>
           <Image
