@@ -82,13 +82,8 @@ const renderPeerData = (isPeerLoading, peers, liveSessionData, type) => {
 const RoomPreviewJoinDescription = ({ roomId }) => {
   const [isRoomLoading, setIsRoomLoading] = useState(false);
   const theme = useTheme();
-  const {
-    backgroundLightBlue,
-    primaryBlue,
-    primaryBlueLight,
-    mainTextColor,
-    secondaryTextColor,
-  } = theme.colors.pallete;
+  const { primaryBlue, primaryBlueLight, mainTextColor, secondaryTextColor } =
+    theme.colors.pallete;
 
   const { isPeerLoading, peers, roomPreviewData } = useSelector(
     (state) => state.socket
