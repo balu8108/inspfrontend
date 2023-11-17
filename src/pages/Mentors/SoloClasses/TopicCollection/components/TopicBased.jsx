@@ -86,7 +86,6 @@ const TopicsBased = () => {
         </Box>
       </Flex>
 
-      {/* Conditionally render a spinner while loading */}
       {isLoadingTopics ? (
         <Flex justifyContent="center" alignItems="center" height="200px">
           <Spinner size="lg" color="blue.500" />
