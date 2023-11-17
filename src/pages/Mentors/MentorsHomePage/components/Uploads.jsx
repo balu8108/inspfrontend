@@ -129,7 +129,12 @@ const MentorsUploads = () => {
               </Text>
               <Link
                 to={`/mentor/alluploads`}
-                style={{ display: "flex", justifyContent: "center" }}
+                style={{
+                  position: "absolute",
+                  bottom: "10px",
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                }}
               >
                 <Button
                   variant={"ghost"}
@@ -138,7 +143,7 @@ const MentorsUploads = () => {
                   size={"12px"}
                   fontSize={"14px"}
                   lineHeight={"16px"}
-                  mt={"24px"}
+                  mt={"240px"}
                   mb={"10px"}
                 >
                   View Details
