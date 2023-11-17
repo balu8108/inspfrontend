@@ -20,8 +20,11 @@ const MentorsUploads = () => {
   const [latestAssignment, setLatestAssignment] = useState([]);
   const [isUploadAssignmentModalOpen, setUploadAssignmentModalOpen] =
     useState(false);
-  const openUploadAssignmentModal = () => {
+  const openUploadAssignmentModal = (e) => {
     // Function to open the UploadAssignmentModal
+    e.preventDefault();
+    e.stopPropagation();
+
     setUploadAssignmentModalOpen(true);
   };
 
@@ -51,32 +54,28 @@ const MentorsUploads = () => {
             mt={"27px"}
             ml={"27px"}
           ></Box>
-          <Link to={`/mentor/alluploads`}>
-            <Text fontSize={"20px"} lineHeight={"24px"} mt={"26px"}>
-              My Uploads
-            </Text>
-          </Link>
+
+          <Text fontSize={"20px"} lineHeight={"24px"} mt={"26px"}>
+            My Uploads
+          </Text>
         </HStack>
         <Spacer />
-
-        <Button
-          variant={"ghost"}
-          fontSize={"sm"}
-          fontWeight={400}
-          mt={"15px"}
-          mr={"10px"}
-          color={"#3C8DBC"}
-          onClick={openUploadAssignmentModal}
-        >
-          <Icon as={IoIosAdd} mr={2} boxSize={7} /> Add Assignment
-        </Button>
+        <Box>
+          <Button
+            fontSize={"sm"}
+            fontWeight={400}
+            mt={"15px"}
+            mr={"10px"}
+            color={"#3C8DBC"}
+            onClick={(e) => openUploadAssignmentModal(e)}
+          >
+            <Icon as={IoIosAdd} mr={2} boxSize={7} /> Add Assignment
+          </Button>
+        </Box>
       </Flex>
       <Flex mt={"34px"} flexWrap="wrap">
         {latestAssignment.map((mentorUploadDetails) => (
-          <Box
-            flexBasis="50%" // Two cards per line
-            key={mentorUploadDetails.id}
-          >
+          <Box flexBasis="50%" key={mentorUploadDetails.id}>
             <Card
               h={"170px"}
               borderRadius={"18px"}
@@ -85,70 +84,64 @@ const MentorsUploads = () => {
               mb={"20px"}
               mr={"20px"}
               blendMode={"multiply"}
+              justifyContent={"space-between"}
+              flexDirection={"column"}
             >
-              <Text
-                fontSize={"16px"}
-                fontWeight={"400"}
-                lineHeight={"18px"}
-                color={"#2C3329"}
-                ml={"13px"}
-                mt={"13px"}
-                noOfLines={1}
-              >
-                {capitalize(mentorUploadDetails.topicName)}
-              </Text>
-              <Text
-                fontSize={"11px"}
-                lineHeight={"18px"}
-                color={"#2C332978"}
-                ml={3}
-              >
-                {mentorUploadDetails.instructorName}
-              </Text>
-
-              <Text
-                fontSize={"12px"}
-                lineHeight={"14px"}
-                fontWeight={"400px"}
-                color={"#2C3329"}
-                mt={"14px"}
-                ml={"14px"}
-              >
-                Description
-              </Text>
-              <Text
-                fontSize={"11px"}
-                lineHeight={"21px"}
-                fontWeight={"400px"}
-                ml={"13px"}
-                mt={"6px"}
-                color={"#2C332978"}
-                noOfLines={2}
-              >
-                {mentorUploadDetails.description}
-              </Text>
-              <Link
-                to={`/mentor/alluploads`}
-                style={{
-                  position: "absolute",
-                  bottom: "10px",
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                }}
-              >
-                <Button
-                  variant={"ghost"}
-                  color={"#3C8DBC"}
-                  fontWeight={"600"}
-                  size={"12px"}
-                  fontSize={"14px"}
-                  lineHeight={"16px"}
-                  mt={"240px"}
-                  mb={"10px"}
+              <Box>
+                <Text
+                  fontSize={"16px"}
+                  fontWeight={"400"}
+                  lineHeight={"18px"}
+                  color={"#2C3329"}
+                  ml={"13px"}
+                  mt={"13px"}
+                  noOfLines={1}
                 >
-                  View Details
-                </Button>
-              </Link>
+                  {capitalize(mentorUploadDetails.topicName)}
+                </Text>
+                <Text
+                  fontSize={"11px"}
+                  lineHeight={"18px"}
+                  color={"#2C332978"}
+                  ml={3}
+                >
+                  {mentorUploadDetails.instructorName}
+                </Text>
+
+                <Text
+                  fontSize={"12px"}
+                  lineHeight={"14px"}
+                  fontWeight={"400px"}
+                  color={"#2C3329"}
+                  ml={"14px"}
+                  mt={"18px"}
+                >
+                  Description
+                </Text>
+
+                <Text
+                  fontSize={"11px"}
+                  lineHeight={"21px"}
+                  fontWeight={"400px"}
+                  ml={"13px"}
+                  mt={"6px"}
+                  color={"#2C332978"}
+                  noOfLines={2}
+                >
+                  {mentorUploadDetails.description}
+                </Text>
+              </Box>
+              <Button
+                variant={"ghost"}
+                color={"#3C8DBC"}
+                fontWeight={"600"}
+                size={"12px"}
+                fontSize={"14px"}
+                lineHeight={"16px"}
+                mb={"10px"}
+              >
+                View Details
+              </Button>
             </Card>
           </Box>
         ))}
