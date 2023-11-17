@@ -222,7 +222,12 @@ const Room = () => {
             </GridItem>
           )}
 
-          <GridItem rowSpan={6} bg={backgroundLightBlue} p={4}>
+          <GridItem
+            rowSpan={6}
+            bg={backgroundLightBlue}
+            p={4}
+            borderRadius={"md"}
+          >
             <LiveSessionStream
               primaryBlue={primaryBlue}
               isScreenShare={isScreenShare}

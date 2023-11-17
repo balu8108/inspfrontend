@@ -2,14 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Box, HStack, Text, Stack } from "@chakra-ui/react";
 
 import { BASE_URL } from "../../../../../constants/staticurls";
-import { boxShadowStyles, checkUserType } from "../../../../../utils";
-import { userType, fileTypes } from "../../../../../constants/staticvariables";
+import { boxShadowStyles, capitalize } from "../../../../../utils";
+import { fileTypes } from "../../../../../constants/staticvariables";
 import FileBoxComponent from "../../../../../components/filebox/FileBoxComponent";
 import axios from "axios";
 import { useParams } from "react-router";
 
 const DataForClass = () => {
-  const userRoleType = checkUserType();
   const [data, setData] = useState({
     topic: "",
     description: "",
@@ -72,7 +71,7 @@ const DataForClass = () => {
 
       <Stack ml={"12px"} spacing={"25px"}>
         <Box mt={"38px"}>
-          <Text p={"13px"}> {data.topic}</Text>
+          <Text p={"13px"}>{capitalize(data?.topic)}</Text>
         </Box>
         <Box>
           <Text p={"13px"}>Description</Text>

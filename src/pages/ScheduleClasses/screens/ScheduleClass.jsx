@@ -41,21 +41,22 @@ const ScheduleClass = () => {
         <Grid templateColumns={"20% 80%"} gap={6} alignItems={"start"}>
           {/* <SimpleBar
             style={{
-              maxHeight: "85vh",
+              maxHeight: "90vh",
               borderRadius: "10px",
               boxShadow: boxShadowStyles.shadowOneStyle.boxShadow,
             }}
           > */}
+
           <Scrollbars
             style={{
-              height: "90vh",
+              height: "100%",
               boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
               borderRadius: "10px",
               background: "white",
             }}
             autoHide={true}
           >
-            <GridItem p={4}>
+            <GridItem p={4} height={"100%"}>
               <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
             </GridItem>
           </Scrollbars>

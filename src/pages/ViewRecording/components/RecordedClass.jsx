@@ -5,7 +5,7 @@ import defaultImageUrl from "../../../assets/images/image1.png";
 
 import FileBoxComponent from "../../../components/filebox/FileBoxComponent";
 import { fileTypes } from "../../../constants/staticvariables";
-import { boxShadowStyles } from "../../../utils";
+import { boxShadowStyles, capitalize } from "../../../utils";
 const RecordedClass = ({
   recordingDetail,
   activeRecording,
@@ -47,7 +47,7 @@ const RecordedClass = ({
             color={"rgba(44, 51, 41, 1)"}
             mt={"28px"}
           >
-            {recordingDetail?.LiveClassRoomDetail?.topicName}
+            {capitalize(recordingDetail?.LiveClassRoomDetail?.topicName)}
           </Text>
 
           <Text

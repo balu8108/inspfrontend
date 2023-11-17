@@ -18,7 +18,11 @@ import { BsDownload } from "react-icons/bs";
 import uploadedChapterDetails from "../data/uploadingDetails";
 import DocumentViewer from "../../../../components/popups/DocumentViewer";
 import { BASE_URL } from "../../../../constants/staticurls";
-import { boxShadowStyles, extractFileNameFromS3URL } from "../../../../utils";
+import {
+  boxShadowStyles,
+  capitalize,
+  extractFileNameFromS3URL,
+} from "../../../../utils";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setIsDocModalOpen } from "../../../../store/actions/genericActions";
@@ -109,7 +113,7 @@ const AllUploadedLecture = () => {
             key={assignmentScreen.id}
           >
             <Text fontSize={"15px"} lineHeight={"18px"} ml={"13px"} mt={"16px"}>
-              {assignmentScreen.topicName}
+              {capitalize(assignmentScreen?.topicName)}
             </Text>
             <Text
               fontWeight={400}

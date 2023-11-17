@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import UploadAssignmentPopup from "../../../../components/popups/UploadAssignmentPopup";
 import { BASE_URL } from "../../../../constants/staticurls";
-import { boxShadowStyles } from "../../../../utils";
+import { boxShadowStyles, capitalize } from "../../../../utils";
 const MentorsUploads = () => {
   const [latestAssignment, setLatestAssignment] = useState([]);
   const [isUploadAssignmentModalOpen, setUploadAssignmentModalOpen] =
@@ -95,7 +95,7 @@ const MentorsUploads = () => {
                 mt={"13px"}
                 noOfLines={1}
               >
-                {mentorUploadDetails.topicName}
+                {capitalize(mentorUploadDetails?.topicName)}
               </Text>
               <Text
                 fontSize={"11px"}

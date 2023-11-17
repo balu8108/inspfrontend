@@ -9,7 +9,7 @@ import {
   getLiveClassDetails,
   getUpcomingClassDetails,
 } from "../../../store/actions/socketActions";
-import { checkUserType, formatTime } from "../../../utils";
+import { capitalize, checkUserType, formatTime } from "../../../utils";
 import { userType, fileTypes } from "../../../constants/staticvariables";
 
 const RoomContent = ({ mainTextColor, secondaryTextColor, type }) => {
@@ -29,7 +29,8 @@ const RoomContent = ({ mainTextColor, secondaryTextColor, type }) => {
     <>
       <Box pt={6}>
         <Text fontSize={"14px"} color={mainTextColor}>
-          {renderContent()?.LiveClassRoomDetail?.topicName || roomData.noData}
+          {capitalize(renderContent()?.LiveClassRoomDetail?.topicName) ||
+            roomData.noData}
         </Text>
         <Text color={secondaryTextColor} fontSize={"12px"}>
           {formatTime(renderContent()?.scheduledStartTime)} -

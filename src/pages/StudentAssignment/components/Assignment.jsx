@@ -27,9 +27,6 @@ import { setIsDocModalOpen } from "../../../store/actions/genericActions";
 
 const AssignmentDetails = () => {
   const [assignmentData, setAssignmentData] = useState([]);
-  const [selectedAssignment, setSelectedAssignment] = useState(null);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [selectedFileUrl, setSelectedFileUrl] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const { subjectName } = useParams();
   const dispatch = useDispatch();
@@ -107,7 +104,7 @@ const AssignmentDetails = () => {
                 ml={"13px"}
                 mt={"16px"}
               >
-                {assignment.topicName}
+                {capitalize(assignment?.topicName)}
               </Text>
               <Text
                 fontWeight={400}
@@ -148,7 +145,7 @@ const AssignmentDetails = () => {
                 my={"13px"}
                 mx={"25px"}
               >
-                {assignment.AssignmentFiles.map((files, index) => (
+                {assignment?.AssignmentFiles.map((files, index) => (
                   <Flex
                     key={index}
                     flex={1}

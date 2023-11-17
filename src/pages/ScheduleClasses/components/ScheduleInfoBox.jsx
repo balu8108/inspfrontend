@@ -50,7 +50,7 @@ const ScheduleClassInformation = ({ scheduledClassesData, type }) => {
       {scheduledClassesData[type].map((info) => {
         return (
           <Box
-            key={generateUniqueKey()}
+            key={info?.id}
             bg={lightGrey}
             my={2}
             px={2}

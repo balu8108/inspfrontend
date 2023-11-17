@@ -1,4 +1,12 @@
-import { Flex, Box, useTheme, HStack, Text } from "@chakra-ui/react";
+import {
+  Flex,
+  Box,
+  useTheme,
+  HStack,
+  Text,
+  Stack,
+  VStack,
+} from "@chakra-ui/react";
 import React from "react";
 import { MainBtn } from "../../../components/button";
 import { scheduleClassData } from "../data/scheduleClassData";
@@ -14,7 +22,7 @@ const ScheduleClassList = ({ onSchedulePopupOpen }) => {
     onSchedulePopupOpen();
   };
   return (
-    <Flex direction={"column"} >
+    <>
       {checkUserType() === userType.teacher && (
         <MainBtn
           isLoading={false}
@@ -25,24 +33,29 @@ const ScheduleClassList = ({ onSchedulePopupOpen }) => {
           hoverColor={primaryBlueLight}
         />
       )}
-
-      {scheduleClassCategory.classCategories.map((category) => (
-        <Box key={category.id} my={4}>
-          <HStack>
-            <Box
-              bg={primaryBlue}
-              width="10px"
-              height="24px"
-              borderRadius={"20px"}
-            ></Box>
-            <Text fontWeight={"400"} fontSize={"15px"}>
-              {category.label}
-            </Text>
-          </HStack>
-          <ScheduleInfoBox type={category.category} />
-        </Box>
-      ))}
-    </Flex>
+      <Flex
+        direction={"column"}
+        justifyContent={"space-between"}
+        height={"100%"}
+      >
+        {scheduleClassCategory.classCategories.map((category) => (
+          <Box key={category.id} my={4}>
+            <HStack>
+              <Box
+                bg={primaryBlue}
+                width="10px"
+                height="24px"
+                borderRadius={"20px"}
+              ></Box>
+              <Text fontWeight={"400"} fontSize={"15px"}>
+                {category.label}
+              </Text>
+            </HStack>
+            <ScheduleInfoBox type={category.category} />
+          </Box>
+        ))}
+      </Flex>
+    </>
   );
 };
 
