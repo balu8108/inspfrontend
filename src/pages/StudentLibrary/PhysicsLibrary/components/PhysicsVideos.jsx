@@ -24,20 +24,11 @@ const Library = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { subjectName } = useParams();
 
-  const filteredLibrary = allTopicList.filter((libraryData) => {
-    const topicName = libraryData.name.toLowerCase();
-    return topicName.includes(searchQuery.toLowerCase());
-  });
-
-  const handleSearchInputChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
   useEffect(() => {
     async function fetchTopicsForSubject() {
       try {
         const response = await fetchAllTopicsWithoutChapterIdApi(subjectName);
-
+  
         if (response.status) {
           console.log("Fetched topics data:", response.result);
           setAllTopicList(response.result);
@@ -48,9 +39,19 @@ const Library = () => {
         setIsLoading(false);
       }
     }
-
+  
     fetchTopicsForSubject();
   }, [subjectName]);
+  
+
+  const filteredLibrary = allTopicList.filter((libraryData) => {
+    const topicName = libraryData.name.toLowerCase();
+    return topicName.includes(searchQuery.toLowerCase());
+  });
+
+  const handleSearchInputChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
 
   return (
     <Box width={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
@@ -82,69 +83,78 @@ const Library = () => {
 
       <Stack>
         <Flex flexWrap="wrap" p={5} gap={"24px"} ml={5}>
-          {filteredLibrary.map((libraryData) => {
-            if (libraryData.subject === subjectName) {
-              return (
-                <Card
-                  key={libraryData.id}
-                  w="30%"
-                  h={"204px"}
-                  blendMode={"multiply"}
-                  bg={"#F1F5F8"}
-                  borderRadius={"18px"}
+          {filteredLibrary.length === 0 ? (
+            <Text>No topics found for {capitalize(subjectName)}</Text>
+          ) : (
+            filteredLibrary.map((libraryData) => (
+              <Card
+                key={libraryData.id}
+                w="30%"
+                h={"204px"}
+                blendMode={"multiply"}
+                bg={"#F1F5F8"}
+                borderRadius={"18px"}
+                display="flex"
+                flexDirection="column"
+                justifyContent="space-between"
+              >
+                <Text
+                  fontSize={"15px"}
+                  fontWeight={"400px"}
+                  lineHeight={"19.36px"}
+                  color={"#2C3329"}
+                  mt={"13px"}
+                  ml={"13px"}
                 >
-                  <Text ml={"13px"} mt={"16px"} lineHeight={"18px"} noOfLines={1}>
-                    {capitalize(libraryData?.name)}
-                  </Text>
-                  <Text
-                    fontSize={"12px"}
-                    lineHeight={"15px"}
-                    ml={"13px"}
-                    color={"rgba(44, 51, 41, 0.47)"}
-                  >
-                    Nitin Sachan {/* Hardcoded, replace with libraryData.instructorName */}
-                  </Text>
-                  <Text
-                    fontSize={"12px"}
-                    lineHeight={"13px"}
-                    ml={"13px"}
-                    fontWeight={400}
-                    color={"rgba(44, 51, 41, 1)"}
-                    mt={"18px"}
-                  >
-                    Description
-                  </Text>
-                  <Text
-                    fontSize={"11px"}
-                    lineHeight={"21px"}
-                    ml={13}
-                    mt={"6px"}
-                    color={"rgba(44, 51, 41, 0.47)"}
-                    noOfLines={3}
-                  >
-                    {topicDescriptionConstants[libraryData.id]}
-                  </Text>
+                  {capitalize(libraryData.name)}
+                </Text>
 
-                  <Link
-                    to={`/mentor/view/rating&feedback/${libraryData.id}/${libraryData.name}`}
-                    style={{ display: "flex", justifyContent: "center" }}
+                <Text
+                  fontWeight={400}
+                  fontSize={"11px"}
+                  lineHeight={"15px"}
+                  ml={"13px"}
+                  color={"rgba(44, 51, 41, 0.47)"}
+                >
+                  Nitin Sachan
+                </Text>
+
+                <Text
+                  mt={"16px"}
+                  ml={"13px"}
+                  fontSize={"12px"}
+                  lineHeight={"14.52px"}
+                >
+                  Description
+                </Text>
+                <Text
+                  fontSize={"11px"}
+                  lineHeight={"21px"}
+                  fontWeight={400}
+                  ml={13}
+                  noOfLines={"3"}
+                  color={"rgba(44, 51, 41, 0.47)"}
+                >
+                  {topicDescriptionConstants[libraryData.id]}
+                </Text>
+
+                {/* <Link
+                  style={{ display: "flex", justifyContent: "center" }}
+                  to={`/student/library/${libraryData.name}`}
+                > */}
+                  <Button
+                    color={"#3C8DBC"}
+                    mt={"10px"}
+                    fontSize={"14px"}
+                    lineHeight={"16px"}
+                    fontWeight={"600"}
                   >
-                    <Button
-                      variant={"ghost"}
-                      color={"#3C8DBC"}
-                      fontWeight={"600"}
-                      fontSize={"14px"}
-                      lineHeight={"16px"}
-                      p={7}
-                    >
-                      View Details
-                    </Button>
-                  </Link>
-                </Card>
-              );
-            }
-            return null; // Skip rendering if subjects don't match
-          })}
+                    View Details
+                  </Button>
+                {/* </Link> */}
+              </Card>
+            ))
+          )}
         </Flex>
       </Stack>
     </Box>
