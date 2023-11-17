@@ -12,16 +12,21 @@ import {
   Spinner,
   Icon,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../api/inspexternalapis/index";
 import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
 import VectorImage from "../../../../assets/images/Line/Vector.svg";
 import { boxShadowStyles, capitalize } from "../../../../utils";
 const AllUploadedLecture = () => {
+  const navigate = useNavigate();
   const [allTopicList, setAllTopicList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredTopics, setFilteredTopics] = useState([]); // Add filteredTopics state
   const [isLoading, setIsLoading] = useState(true);
+
+  const handleViewDetails = () => {
+    navigate("{`/mentor/view/rating&feedback/${chapter.id}/${chapter.name}`}");
+  };
 
   const handleSearchChange = (event) => {
     const query = event.target.value;
@@ -110,44 +115,46 @@ const AllUploadedLecture = () => {
           mr={"20px"}
         >
           {(searchQuery ? filteredTopics : allTopicList).map((chapter) => (
-            <Card
-              w={"100%"}
-              h={"204px"}
-              key={chapter.id}
-              bg={"#F1F5F8"}
-              blendMode={"multiply"}
-              borderRadius={"26px"}
-              p={4}
-              ml={"2"}
-            >
-              <Text fontSize="16px" noOfLines={1}>
-                {capitalize(chapter?.name)}
-              </Text>
-              <Text fontSize="12px" color={"#2C332978"}>
-                {chapter.instructorName} No Data
-              </Text>
-              <Text fontSize={"12px"} mt={"18px"}>
-                Description
-              </Text>
-              <Text
-                fontSize="11px"
-                color="#2C332978"
-                noOfLines={3}
-                lineHeight={"21px"}
+          
+              <Card
+                w={"100%"}
+                h={"204px"}
+                key={chapter.id}
+                bg={"#F1F5F8"}
+                blendMode={"multiply"}
+                borderRadius={"26px"}
+                p={4}
+                ml={"2"}
               >
-                {topicDescriptionConstants[chapter.id]}
-              </Text>
-              <Box mb={"-15px"}>
-                <Link
-                  to={`/mentor/view/rating&feedback/${chapter.id}/${chapter.name}`}
-                  style={{ display: "flex", justifyContent: "center" }}
+                <Text fontSize="16px" noOfLines={1}>
+                  {capitalize(chapter?.name)}
+                </Text>
+                <Text fontSize="12px" color={"#2C332978"}>
+                  {/* {chapter.instructorName} No Data */}
+                  Nitin Sachan
+                </Text>
+                <Text fontSize={"12px"} mt={"18px"}>
+                  Description
+                </Text>
+                <Text
+                  fontSize="11px"
+                  color="#2C332978"
+                  noOfLines={3}
+                  lineHeight={"21px"}
                 >
-                  <Button variant={"ghost"} color={"#3C8DBC"}>
-                    View Details
-                  </Button>
-                </Link>
-              </Box>
-            </Card>
+                  {topicDescriptionConstants[chapter.id]}
+                </Text>
+                <Flex>
+                  <Link
+                    to={`/mentor/view/rating&feedback/${chapter.id}/${chapter.name}`}
+                    style={{ display: "flex", justifyContent: "center" }}
+                  >
+                    <Button variant={"ghost"} color={"#3C8DBC"} >
+                      View Details
+                    </Button>
+                  </Link>
+                </Flex>
+              </Card>
           ))}
         </SimpleGrid>
       )}

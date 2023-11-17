@@ -68,7 +68,7 @@ const PhysDetails = () => {
             bg={"#3C8DBC"}
           ></Box>
           <Text fontSize={"19px"} lineHeight={"24px"}>
-            My Courses (PHYSICS)
+            My Courses (Physics)
           </Text>
         </HStack>
         <Spacer />

@@ -25,6 +25,29 @@ const AssignmentHeader = () => {
   ];
   const subjectStatus = ["Upcoming", "Upcoming", "In Progress"];
 
+  // useEffect(() => {
+  //   // Fetch subjects when the component mounts
+  //   async function fetchSubjects() {
+  //     try {
+  //       const response = await fetchAllSubjectsApi(); // Call your API function
+
+  //       if (response.status) {
+  //         // Assuming the API response contains all subjects, just update the state with the fetched data
+  //         const subjectsFromAPI = response.result;
+  //         setSubjects(subjectsFromAPI); // Update the state with fetched data
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching subjects:", error);
+  //     } finally {
+  //       // Set loading to false after fetching, whether it was successful or not
+  //       setLoading(false);
+  //     }
+  //   }
+
+  //   fetchSubjects();
+  // }, []);
+
+
   useEffect(() => {
     // Fetch subjects when the component mounts
     async function fetchSubjects() {
@@ -32,20 +55,28 @@ const AssignmentHeader = () => {
         const response = await fetchAllSubjectsApi(); // Call your API function
 
         if (response.status) {
-          // Assuming the API response contains all subjects, just update the state with the fetched data
           const subjectsFromAPI = response.result;
-          setSubjects(subjectsFromAPI); // Update the state with fetched data
+
+          // Sort subjects by name in ascending order
+          const sortedSubjects = subjectsFromAPI.sort((a, b) => {
+            return a.name.localeCompare(b.name);
+          });
+
+          // Reverse the order of the sorted array
+          const reversedSubjects = sortedSubjects.reverse();
+
+          setSubjects(reversedSubjects);
         }
       } catch (error) {
         console.error("Error fetching subjects:", error);
       } finally {
-        // Set loading to false after fetching, whether it was successful or not
         setLoading(false);
       }
     }
 
     fetchSubjects();
   }, []);
+
 
   return (
     <Box

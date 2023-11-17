@@ -1,20 +1,20 @@
 const libraryData = [
   {
     id: 1,
-    subjectName: "Physics",
+    subjectName: "PHYSICS",
     description:
       "Explore the fascinating world of Physics with a collection of resources covering classical mechanics, electromagnetism, thermodynamics, and quantum mechanics. Dive into the fundamental principles that govern the physical universe.",
   },
 
   {
     id: 2,
-    subjectName: "Mathematics",
+    subjectName: "MATHEMATICS",
     description:
       "Discover the power of Mathematics with a variety of topics that range from algebra to calculus. Explore the world of numbers, equations, and mathematical concepts that underlie a wide range of scientific and practical applications.",
   },
   {
     id: 3,
-    subjectName: "Chemistry",
+    subjectName: "CHEMISTRY",
     description:
       "Delve into the realm of Chemistry, where you can learn about chemical reactions, the periodic table, bonding, and the intriguing properties of matter. Discover the secrets of the elements and compounds that make up our world",
   },

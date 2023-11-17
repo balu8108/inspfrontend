@@ -1,4 +1,3 @@
-// I have given name as phy but it is component which take params as subject name and displays all the  topics for the subject
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -14,11 +13,11 @@ import {
   Spacer,
 } from "@chakra-ui/react";
 import { Link, useParams } from "react-router-dom";
-import physVideosData from "../data/PhysVideosData";
 import { SearchIcon } from "@chakra-ui/icons";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../api/inspexternalapis";
 import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
 import { capitalize } from "../../../../utils";
+
 const Library = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [allTopicList, setAllTopicList] = useState([]);
@@ -30,12 +29,17 @@ const Library = () => {
     return topicName.includes(searchQuery.toLowerCase());
   });
 
+  const handleSearchInputChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
   useEffect(() => {
-    async function fetchAllTopicsWithoutChapterId() {
+    async function fetchTopicsForSubject() {
       try {
-        const response = await fetchAllTopicsWithoutChapterIdApi();
+        const response = await fetchAllTopicsWithoutChapterIdApi(subjectName);
 
         if (response.status) {
+          console.log("Fetched topics data:", response.result);
           setAllTopicList(response.result);
         }
       } catch (error) {
@@ -45,9 +49,8 @@ const Library = () => {
       }
     }
 
-    fetchAllTopicsWithoutChapterId();
-  }, []);
-
+    fetchTopicsForSubject();
+  }, [subjectName]);
 
   return (
     <Box width={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
@@ -66,7 +69,7 @@ const Library = () => {
           <Input
             type="text"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={handleSearchInputChange}
             placeholder="Search..."
             border="1px solid #ccc"
             borderRadius="md"
@@ -79,60 +82,69 @@ const Library = () => {
 
       <Stack>
         <Flex flexWrap="wrap" p={5} gap={"24px"} ml={5}>
-          {filteredLibrary.map((libraryData) => (
-            <Card
-              key={libraryData.id}
-              w="30%"
-              h={"204px"}
-              blendMode={"multiply"}
-              bg={"#F1F5F8"}
-              borderRadius={"18px"}
-            >
-              <Text ml={"13px"} mt={"16px"} lineHeight={"18px"} noOfLines={1}>
-                {capitalize(libraryData?.name)}
-              </Text>
-              <Text
-                fontSize={"12px"}
-                lineHeight={"15px"}
-                ml={"13px"}
-                color={"rgba(44, 51, 41, 0.47)"}
-              >
-                {/* {libraryData.instructorName} */}
-                Nitin Sachan
-              </Text>
-              <Text
-                fontSize={"12px"}
-                lineHeight={"13px"}
-                ml={"13px"}
-                fontWeight={400}
-                color={"rgba(44, 51, 41, 1)"}
-                mt={"18px"}
-              >
-                Description
-              </Text>
-              <Text
-                fontSize={"11px"}
-                lineHeight={"21px"}
-                ml={13}
-                mt={"6px"}
-                color={"rgba(44, 51, 41, 0.47)"}
-                noOfLines={3}
-              >
-                {topicDescriptionConstants[libraryData.id]}
-              </Text>
+          {filteredLibrary.map((libraryData) => {
+            if (libraryData.subject === subjectName) {
+              return (
+                <Card
+                  key={libraryData.id}
+                  w="30%"
+                  h={"204px"}
+                  blendMode={"multiply"}
+                  bg={"#F1F5F8"}
+                  borderRadius={"18px"}
+                >
+                  <Text ml={"13px"} mt={"16px"} lineHeight={"18px"} noOfLines={1}>
+                    {capitalize(libraryData?.name)}
+                  </Text>
+                  <Text
+                    fontSize={"12px"}
+                    lineHeight={"15px"}
+                    ml={"13px"}
+                    color={"rgba(44, 51, 41, 0.47)"}
+                  >
+                    Nitin Sachan {/* Hardcoded, replace with libraryData.instructorName */}
+                  </Text>
+                  <Text
+                    fontSize={"12px"}
+                    lineHeight={"13px"}
+                    ml={"13px"}
+                    fontWeight={400}
+                    color={"rgba(44, 51, 41, 1)"}
+                    mt={"18px"}
+                  >
+                    Description
+                  </Text>
+                  <Text
+                    fontSize={"11px"}
+                    lineHeight={"21px"}
+                    ml={13}
+                    mt={"6px"}
+                    color={"rgba(44, 51, 41, 0.47)"}
+                    noOfLines={3}
+                  >
+                    {topicDescriptionConstants[libraryData.id]}
+                  </Text>
 
-              <Button
-                variant={"ghost"}
-                color={"#3C8DBC"}
-                fontWeight={"600"}
-                fontSize={"14px"}
-                lineHeight={"16px"}
-                p={7}
-              >
-                View Details
-              </Button>
-            </Card>
-          ))}
+                  <Link
+                    to={`/mentor/view/rating&feedback/${libraryData.id}/${libraryData.name}`}
+                    style={{ display: "flex", justifyContent: "center" }}
+                  >
+                    <Button
+                      variant={"ghost"}
+                      color={"#3C8DBC"}
+                      fontWeight={"600"}
+                      fontSize={"14px"}
+                      lineHeight={"16px"}
+                      p={7}
+                    >
+                      View Details
+                    </Button>
+                  </Link>
+                </Card>
+              );
+            }
+            return null; // Skip rendering if subjects don't match
+          })}
         </Flex>
       </Stack>
     </Box>
