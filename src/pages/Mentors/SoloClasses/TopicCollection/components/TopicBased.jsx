@@ -15,7 +15,7 @@ import { fetchAllTopicsWithoutChapterIdApi } from "../../../../../api/inspextern
 import topicDescriptionConstants from "../../../../../constants/topicDescriptionConstants";
 import "../../../../../constants/scrollbar/style.css";
 import { Link } from "react-router-dom";
-import axios from "axios";
+
 import { boxShadowStyles, capitalize } from "../../../../../utils";
 
 const TopicsBased = () => {
