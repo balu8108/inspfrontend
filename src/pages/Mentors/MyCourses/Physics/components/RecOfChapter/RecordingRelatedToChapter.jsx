@@ -49,8 +49,6 @@ const ViewAllRecordingsRelatedToOneChapter = ({
       boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       borderRadius={"2xl"}
       mt={6}
-      overflowX="auto"
-      className="example"
       bg="white"
     >
       <HStack spacing={"10px"} ml="27px">
@@ -79,7 +77,7 @@ const ViewAllRecordingsRelatedToOneChapter = ({
           No topics for this chapter.
         </Text>
       ) : (
-        <Flex m={"20px"} gap={"24px"} p={1}>
+        <Flex  ml={"20px"} my={"20px"} gap={"24px"} p={1}  overflowX="auto" className="example">
           {topics.map((topic) => (
             <Card
               key={topic.id}

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState,useEffect } from "react";
 import Header from "../../../Mentors/Header/components/HeaderInAllScreen";
 import Details from "../components/Detailing";
 import ScheduledMeetings from "../../../MeetingViewer/components/ScheduledMeetings";
@@ -8,13 +8,33 @@ import SimpleBar from "simplebar-react";
 import { boxShadowStyles } from "../../../../utils";
 import { useDispatch } from "react-redux";
 import { getAllLiveClassesSchedule } from "../../../../store/actions/scheduleClassActions";
+import ScheduleClassPopup from "../../../../components/popups/ScheduleClassPopup";
+
 const MathsScreen = () => {
   const dispatch = useDispatch();
-  const { onOpen: onSchedulePopupOpen } = useDisclosure();
+  const {
+    isOpen: isSchedulePopupOpen,
+    onOpen: onSchedulePopupOpen,
+    onClose: onScheduleClosePopupOpen,
+  } = useDisclosure();
+  const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
+  const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
   useEffect(() => {
     dispatch(getAllLiveClassesSchedule());
   }, [dispatch]);
   return (
+    <>
+      {isSchedulePopupOpen && (
+        <ScheduleClassPopup
+          isOpen={isSchedulePopupOpen}
+          onClose={onScheduleClosePopupOpen}
+          selectedDate={selectedDate}
+          classTiming={classTiming}
+          setSelectedDate={setSelectedDate}
+          setClassTiming={setClassTiming}
+        />
+      )}
+   
     <Flex gap={"24px"} m={"52px"}>
       <Stack spacing={6} w={"full"}>
         <Header />
@@ -36,6 +56,7 @@ const MathsScreen = () => {
         </SimpleBar>
       </Box>
     </Flex>
+    </>
   );
 };
 export default MathsScreen;

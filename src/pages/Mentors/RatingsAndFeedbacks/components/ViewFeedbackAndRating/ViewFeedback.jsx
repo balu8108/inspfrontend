@@ -18,6 +18,7 @@ import rateNFeedbackDetails from "../../data/feedbackData";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../../api/inspexternalapis/index";
 import { Link } from "react-router-dom";
 import { SearchIcon } from "@chakra-ui/icons";
+import topicDescriptionConstants from "../../../../../constants/topicDescriptionConstants";
 import { boxShadowStyles, capitalize } from "../../../../../utils";
 const ViewMentorsRatingAndFeedback = () => {
   const [allTopicList, setAllTopicList] = useState([]);
@@ -118,19 +119,24 @@ const ViewMentorsRatingAndFeedback = () => {
                 {capitalize(chapter?.name)}
               </Text>
               <Text fontSize="12px" color={"#2C332978"}>
-                {chapter.instructorName} No Data
+                Nitin Sachan
               </Text>
               <Text fontSize={"12px"} mt={"18px"}>
                 Description
               </Text>
-              <Text fontSize="11px" color="#2C332978" noOfLines={2} mb={2}>
-                {chapter.description} No Data
+              <Text
+                fontSize="11px"
+                color="#2C332978"
+                noOfLines={3}
+                lineHeight={"21px"}
+              >
+                {topicDescriptionConstants[chapter.id]}
               </Text>
               <Link
                 to={`/mentor/view/rating&feedback/${chapter.id}/${chapter.name}`}
                 style={{ display: "flex", justifyContent: "center" }}
               >
-                <Button variant={"ghost"} color={"#3C8DBC"} mt={"4"}>
+                <Button variant={"ghost"} color={"#3C8DBC"}>
                   View Details
                 </Button>
               </Link>

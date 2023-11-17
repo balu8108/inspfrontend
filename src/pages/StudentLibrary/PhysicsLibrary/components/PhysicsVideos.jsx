@@ -1,4 +1,3 @@
-// I have given name as phy but it is component which take params as subject name and displays all the  topics for the subject
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -14,40 +13,43 @@ import {
   Spacer,
 } from "@chakra-ui/react";
 import { Link, useParams } from "react-router-dom";
-import physVideosData from "../data/PhysVideosData";
 import { SearchIcon } from "@chakra-ui/icons";
-import { fetchAllTopicsWithoutChapterIdApi } from "../../../../api/inspexternalapis";
+import { fetchAllTopicsForSubjectApi } from "../../../../api/inspexternalapis";
 import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
 import { capitalize } from "../../../../utils";
+
 const Library = () => {
+  const { subject_id, subjectName } = useParams();
   const [searchQuery, setSearchQuery] = useState("");
   const [allTopicList, setAllTopicList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { subjectName } = useParams();
+
+  const handleFetchTopics = async () => {
+    try {
+      const response = await fetchAllTopicsForSubjectApi(subject_id);
+      if (response && response.status) {
+        setAllTopicList(response.result);
+        console.log("API Result:", response.result); // Log the result here
+      }
+    } catch (err) {
+      console.log("Error fetching topics data:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleFetchTopics();
+  }, [subject_id]);
 
   const filteredLibrary = allTopicList.filter((libraryData) => {
     const topicName = libraryData.name.toLowerCase();
     return topicName.includes(searchQuery.toLowerCase());
   });
 
-  useEffect(() => {
-    async function fetchAllTopicsWithoutChapterId() {
-      try {
-        const response = await fetchAllTopicsWithoutChapterIdApi();
-
-        if (response.status) {
-          setAllTopicList(response.result);
-        }
-      } catch (error) {
-        console.error("Error fetching topics data:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    fetchAllTopicsWithoutChapterId();
-  }, []);
-
+  const handleSearchInputChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
 
   return (
     <Box width={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
@@ -66,7 +68,7 @@ const Library = () => {
           <Input
             type="text"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={handleSearchInputChange}
             placeholder="Search..."
             border="1px solid #ccc"
             borderRadius="md"
@@ -79,60 +81,79 @@ const Library = () => {
 
       <Stack>
         <Flex flexWrap="wrap" p={5} gap={"24px"} ml={5}>
-          {filteredLibrary.map((libraryData) => (
-            <Card
-              key={libraryData.id}
-              w="30%"
-              h={"204px"}
-              blendMode={"multiply"}
-              bg={"#F1F5F8"}
-              borderRadius={"18px"}
-            >
-              <Text ml={"13px"} mt={"16px"} lineHeight={"18px"} noOfLines={1}>
-                {capitalize(libraryData?.name)}
-              </Text>
-              <Text
-                fontSize={"12px"}
-                lineHeight={"15px"}
-                ml={"13px"}
-                color={"rgba(44, 51, 41, 0.47)"}
+          {filteredLibrary.length === 0 ? (
+            <Text>No topics found for {capitalize(subjectName)}</Text>
+          ) : (
+            filteredLibrary.map((libraryData) => (
+              <Card
+                key={libraryData.id}
+                w="30%"
+                h={"204px"}
+                blendMode={"multiply"}
+                bg={"#F1F5F8"}
+                borderRadius={"18px"}
+                display="flex"
+                flexDirection="column"
+                justifyContent="space-between"
               >
-                {/* {libraryData.instructorName} */}
-                Nitin Sachan
-              </Text>
-              <Text
-                fontSize={"12px"}
-                lineHeight={"13px"}
-                ml={"13px"}
-                fontWeight={400}
-                color={"rgba(44, 51, 41, 1)"}
-                mt={"18px"}
-              >
-                Description
-              </Text>
-              <Text
-                fontSize={"11px"}
-                lineHeight={"21px"}
-                ml={13}
-                mt={"6px"}
-                color={"rgba(44, 51, 41, 0.47)"}
-                noOfLines={3}
-              >
-                {topicDescriptionConstants[libraryData.id]}
-              </Text>
+                <Text
+                  fontSize={"15px"}
+                  fontWeight={"400px"}
+                  lineHeight={"19.36px"}
+                  color={"#2C3329"}
+                  mt={"13px"}
+                  ml={"13px"}
+                  noOfLines={1}
+                >
+                  {capitalize(libraryData.name)}
+                </Text>
 
-              <Button
-                variant={"ghost"}
-                color={"#3C8DBC"}
-                fontWeight={"600"}
-                fontSize={"14px"}
-                lineHeight={"16px"}
-                p={7}
-              >
-                View Details
-              </Button>
-            </Card>
-          ))}
+                <Text
+                  fontWeight={400}
+                  fontSize={"11px"}
+                  lineHeight={"15px"}
+                  ml={"13px"}
+                  color={"rgba(44, 51, 41, 0.47)"}
+                >
+                  Nitin Sachan
+                </Text>
+
+                <Text
+                  mt={"16px"}
+                  ml={"13px"}
+                  fontSize={"12px"}
+                  lineHeight={"14.52px"}
+                >
+                  Description
+                </Text>
+                <Text
+                  fontSize={"11px"}
+                  lineHeight={"21px"}
+                  fontWeight={400}
+                  ml={13}
+                  noOfLines={"3"}
+                  color={"rgba(44, 51, 41, 0.47)"}
+                >
+                  {topicDescriptionConstants[libraryData.id]}
+                </Text>
+
+                {/* <Link
+                  style={{ display: "flex", justifyContent: "center" }}
+                  to={`/student/library/${libraryData.name}`}
+                > */}
+                <Button
+                  color={"#3C8DBC"}
+                  mt={"10px"}
+                  fontSize={"14px"}
+                  lineHeight={"16px"}
+                  fontWeight={"600"}
+                >
+                  View Details
+                </Button>
+                {/* </Link> */}
+              </Card>
+            ))
+          )}
         </Flex>
       </Stack>
     </Box>

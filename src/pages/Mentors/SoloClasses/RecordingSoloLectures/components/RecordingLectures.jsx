@@ -350,7 +350,8 @@ const RecordingLectures = () => {
           </Stack>
           <Button
             bg="#F63F4A"
-            w="50px"
+            w="80px"
+            h="40px"
             borderRadius="27px"
             color="white"
             fontWeight={500}

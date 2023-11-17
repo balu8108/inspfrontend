@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import "../../../constants/scrollbar/style.css";
+import { capitalize } from "../../../utils";
 import libraryData from "../data/library";
 
 const Library = () => {
@@ -40,8 +41,8 @@ const Library = () => {
           >
             Library
           </Text>
-          <Link to="/student/library/Physics">
-            <Button variant={"ghost"} fontSize={"13px"} fontWeight={"400"}>
+          <Link to="/student/1/library/PHYSICS">
+            <Button variant={"ghost"} fontSize={"13px"} fontWeight={"400"} mt={"40%"}>
               See All
             </Button>
           </Link>
@@ -68,7 +69,7 @@ const Library = () => {
               mt={"13px"}
               ml={"13px"}
             >
-              {library.subjectName}
+              {capitalize(library.subjectName)}
             </Text>
             <Text
               mt={"14px"}
@@ -90,7 +91,7 @@ const Library = () => {
             </Text>
             <Link
               style={{ display: "flex", justifyContent: "center" }}
-              to={`/student/library/${library.subjectName}`}
+              to={`/student/${library.subject_id}/library/${library.subjectName}`}
             >
               <Button
                 color={"#3C8DBC"}

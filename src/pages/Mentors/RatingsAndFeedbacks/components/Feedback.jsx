@@ -10,24 +10,29 @@ import {
   Button,
   Card,
   Spinner,
-  Icon,
+  Center,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../api/inspexternalapis/index";
 import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
 import VectorImage from "../../../../assets/images/Line/Vector.svg";
 import { boxShadowStyles, capitalize } from "../../../../utils";
+
 const AllUploadedLecture = () => {
+  const navigate = useNavigate();
   const [allTopicList, setAllTopicList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredTopics, setFilteredTopics] = useState([]); // Add filteredTopics state
+  const [filteredTopics, setFilteredTopics] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const handleViewDetails = (chapterId, chapterName) => {
+    navigate(`/mentor/view/rating&feedback/${chapterId}/${chapterName}`);
+  };
 
   const handleSearchChange = (event) => {
     const query = event.target.value;
     setSearchQuery(query);
 
-    // Filter topics based on the search query
     const filtered = allTopicList.filter((topic) =>
       topic.name.toLowerCase().includes(query.toLowerCase())
     );
@@ -120,32 +125,42 @@ const AllUploadedLecture = () => {
               p={4}
               ml={"2"}
             >
-              <Text fontSize="16px" noOfLines={1}>
-                {capitalize(chapter?.name)}
-              </Text>
-              <Text fontSize="12px" color={"#2C332978"}>
-                {chapter.instructorName} No Data
-              </Text>
-              <Text fontSize={"12px"} mt={"18px"}>
-                Description
-              </Text>
-              <Text
-                fontSize="11px"
-                color="#2C332978"
-                noOfLines={3}
-                lineHeight={"21px"}
+              <Flex
+                direction="column"
+                justifyContent="space-between"
+                height="100%"
               >
-                {topicDescriptionConstants[chapter.id]}
-              </Text>
-              <Box mb={"-15px"}>
-                <Link
-                  to={`/mentor/view/rating&feedback/${chapter.id}/${chapter.name}`}
-                  style={{ display: "flex", justifyContent: "center" }}
-                >
-                  <Button variant={"ghost"} color={"#3C8DBC"}>
+                <Box>
+                  <Text fontSize="16px" noOfLines={1}>
+                    {capitalize(chapter?.name)}
+                  </Text>
+                  <Text fontSize="12px" color={"#2C332978"}>
+                    Nitin Sachan
+                  </Text>
+                </Box>
+
+                <Box mt={"16px"}>
+                  <Text fontSize={"12px"}>Description</Text>
+                  <Text
+                    fontSize="11px"
+                    color="#2C332978"
+                    noOfLines={3}
+                    lineHeight={"21px"}
+                  >
+                    {topicDescriptionConstants[chapter.id]}
+                  </Text>
+                </Box>
+              </Flex>
+              <Box mt={"5px"}>
+                <Center>
+                  <Button
+                    variant={"ghost"}
+                    color={"#3C8DBC"}
+                    onClick={() => handleViewDetails(chapter.id, chapter.name)}
+                  >
                     View Details
                   </Button>
-                </Link>
+                </Center>
               </Box>
             </Card>
           ))}

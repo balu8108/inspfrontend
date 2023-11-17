@@ -35,7 +35,7 @@ const links = [
     availableTo: [0],
   },
   {
-    path: "/student/library/Physics",
+    path: "/student/1/library/PHYSICS",
     label: "Library",
     availableTo: [0],
   },
