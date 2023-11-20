@@ -100,7 +100,6 @@ const AssignmentDetails = () => {
               borderRadius={"18px"}
               key={assignment.id}
             >
-              {/* ... (existing code for displaying assignment details) */}
               <Text
                 fontSize={"15px"}
                 lineHeight={"18px"}

@@ -47,7 +47,7 @@ const Library = () => {
           >
             Library
           </Text>
-          {!isDetailView && ( 
+          {!isDetailView && (
             <Link to="/student/1/library/PHYSICS">
               <Button
                 variant={"ghost"}
@@ -67,8 +67,8 @@ const Library = () => {
         {libraryData.map((library) => (
           <Card
             key={library.id}
-            w={"30%"}
-            h={"200px"}
+            w={"31%"}
+            h={"204px"}
             borderRadius={"18px"}
             blendMode={"multiply"}
             backgroundColor={"#F1F5F8"}
@@ -76,14 +76,23 @@ const Library = () => {
             mb={"20px"}
           >
             <Text
-              fontSize={"14px"}
+              fontSize={"16px"}
               fontWeight={"400px"}
-              lineHeight={"19.36px"}
               color={"#2C3329"}
               mt={"13px"}
               ml={"13px"}
+              lineHeight={"18px"}
             >
               {capitalize(library.subjectName)}
+            </Text>
+            <Text
+              mt={"3px"}
+              fontSize={"14px"}
+              lineHeight={"18px"}
+              ml={"13px"}
+              color={library.color}
+            >
+              {library.status}
             </Text>
             <Text
               mt={"14px"}
@@ -108,8 +117,9 @@ const Library = () => {
               to={`/student/${library.subject_id}/library/${library.subjectName}`}
             >
               <Button
+                variant={"ghost"}
                 color={"#3C8DBC"}
-                mt={"25px"}
+                mt={"18px"}
                 fontSize={"14px"}
                 lineHeight={"16px"}
                 fontWeight={"600"}

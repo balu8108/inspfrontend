@@ -29,7 +29,7 @@ const PhysicsLibrary = () => {
       const response = await fetchAllTopicsForSubjectApi(subject_id);
       if (response && response.status) {
         setAllTopicList(response.result);
-        console.log("API Result:", response.result); // Log the result here
+        console.log("API Result:", response.result);
       }
     } catch (err) {
       console.log("Error fetching topics data:", err);
@@ -137,12 +137,9 @@ const PhysicsLibrary = () => {
                   {topicDescriptionConstants[libraryData.id]}
                 </Text>
 
-                {/* <Link
-                  style={{ display: "flex", justifyContent: "center" }}
-                  to={`/student/library/${libraryData.name}`}
-                > */}
                 <Button
                   color={"#3C8DBC"}
+                  variant={"ghost"}
                   mt={"10px"}
                   fontSize={"14px"}
                   lineHeight={"16px"}
@@ -150,7 +147,6 @@ const PhysicsLibrary = () => {
                 >
                   View Details
                 </Button>
-                {/* </Link> */}
               </Card>
             ))
           )}
@@ -159,5 +155,27 @@ const PhysicsLibrary = () => {
     </Box>
   );
 };
-
 export default PhysicsLibrary;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

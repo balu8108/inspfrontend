@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Box, Button, Text, HStack, Flex, Card } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, navigate, useNavigate } from "react-router-dom";
 
 import { BASE_URL } from "../../../constants/staticurls";
 import axios from "axios";
 const Assignment = () => {
+  const navigate = useNavigate();
   const [recentAssignments, setRecentAssignments] = useState([]);
+
+  const handleViewDetail = () => {
+    navigate(`/student/assignments/PHYSICS`);
+  };
   useEffect(() => {
-    // Inside a useEffect to make the API call when the component mounts
     axios
       .get(BASE_URL + "/topic/recent-assignment")
       .then((response) => {
@@ -105,6 +109,7 @@ const Assignment = () => {
               lineHeight="1.5"
               p={6}
               mt={8}
+              onClick={handleViewDetail}
             >
               View Details
             </Button>
