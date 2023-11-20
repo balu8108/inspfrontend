@@ -8,13 +8,19 @@ import {
   useTheme,
   HStack,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../../constants/scrollbar/style.css";
 import { capitalize } from "../../../utils";
 import libraryData from "../data/library";
 
 const Library = () => {
+  const navigate = useNavigate();
   const { primaryBlue, mainTextColor } = useTheme().colors.pallete;
+  const isDetailView = window.location.pathname.includes("/library/");
+
+  const handleSeeAllClick = () => {
+    navigate("/student/1/library/PHYSICS");
+  };
 
   return (
     <Box w={"full"} bg={"#F1F5F8"} borderRadius={"26px"}>
@@ -41,11 +47,19 @@ const Library = () => {
           >
             Library
           </Text>
-          <Link to="/student/1/library/PHYSICS">
-            <Button variant={"ghost"} fontSize={"13px"} fontWeight={"400"} mt={"40%"}>
-              See All
-            </Button>
-          </Link>
+          {!isDetailView && ( 
+            <Link to="/student/1/library/PHYSICS">
+              <Button
+                variant={"ghost"}
+                fontSize={"13px"}
+                fontWeight={"400"}
+                mt={"40%"}
+                onClick={handleSeeAllClick}
+              >
+                See All
+              </Button>
+            </Link>
+          )}
         </Flex>
       </HStack>
 
