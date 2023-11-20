@@ -3,17 +3,16 @@ import {
   Box,
   Text,
   HStack,
-  VStack,
-  Center,
   Image,
-  Input,
-  Spacer,
+  Center,
+  VStack,
   Flex,
+  Spacer,
 } from "@chakra-ui/react";
-import ChemistryImage from "../../../../assets/images/undraw_science_re_mnnr 1.svg";
+import MathematicsImage from "../../../../assets/images/undraw_mathematics_-4-otb 1.svg";
 import { boxShadowStyles } from "../../../../utils";
 
-const ChemDetails = () => {
+const MathsLibrary = () => {
   return (
     <Box
       width={"100%"}
@@ -31,7 +30,7 @@ const ChemDetails = () => {
             bg={"#3C8DBC"}
           ></Box>
           <Text fontSize={"19px"} lineHeight={"24px"}>
-            My Courses (Chemistry)
+            Library (Mathematics)
           </Text>
         </HStack>
         <Spacer />
@@ -41,14 +40,13 @@ const ChemDetails = () => {
           <Image
             boxSize="200px"
             objectFit="cover"
-            src={ChemistryImage}
-            alt="Chemistry"
+            src={MathematicsImage}
+            alt="Mathematics"
           />
         </Center>
         <Center>
           <Text
             fontSize={"25px"}
-            fontWeight={"500"}
             lineHeight={"37px"}
             p={"44px"}
             color={"#2C3329"}
@@ -60,4 +58,5 @@ const ChemDetails = () => {
     </Box>
   );
 };
-export default ChemDetails;
+
+export default MathsLibrary;

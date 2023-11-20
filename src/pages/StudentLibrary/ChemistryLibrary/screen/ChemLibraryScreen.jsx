@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import PhysDetails from "../components/PhysDetails";
-// import Header from "../../../MyCourses/components/Header";
-import Header from "../../../Mentors/Header/components/HeaderInAllScreen";
+import Library from "../../../StudentHomePage/components/Library";
+import ChemLibrary from "../components/ChemLibrary";
 import { Flex, Stack, Box, useDisclosure } from "@chakra-ui/react";
 import ScheduleClassList from "../../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
@@ -10,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { getAllLiveClassesSchedule } from "../../../../store/actions/scheduleClassActions";
 import ScheduleClassPopup from "../../../../components/popups/ScheduleClassPopup";
 
-const PhyScreen = () => {
+const MathsScreen = () => {
   const dispatch = useDispatch();
   const {
     isOpen: isSchedulePopupOpen,
@@ -34,10 +33,11 @@ const PhyScreen = () => {
           setClassTiming={setClassTiming}
         />
       )}
-      <Flex gap={"23px"} m={"52px"}>
-        <Stack spacing={6} w={"100%"}>
-          <Header />
-          <PhysDetails />
+
+      <Flex gap={"24px"} m={"52px"}>
+        <Stack spacing={6} w={"full"}>
+          <Library />
+          <ChemLibrary />
         </Stack>
         <Box w={"33%"}>
           <SimpleBar
@@ -58,4 +58,4 @@ const PhyScreen = () => {
     </>
   );
 };
-export default PhyScreen;
+export default MathsScreen;

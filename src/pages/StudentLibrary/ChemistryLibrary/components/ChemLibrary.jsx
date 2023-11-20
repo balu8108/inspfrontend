@@ -13,7 +13,7 @@ import {
 import ChemistryImage from "../../../../assets/images/undraw_science_re_mnnr 1.svg";
 import { boxShadowStyles } from "../../../../utils";
 
-const ChemDetails = () => {
+const ChemLibrary = () => {
   return (
     <Box
       width={"100%"}
@@ -60,4 +60,4 @@ const ChemDetails = () => {
     </Box>
   );
 };
-export default ChemDetails;
+export default ChemLibrary;

@@ -11,6 +11,9 @@ import {
   InputGroup,
   InputLeftElement,
   Spacer,
+  Center,
+  Image,
+  VStack,
 } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
 import { BsDownload } from "react-icons/bs";
@@ -24,6 +27,8 @@ import {
 import { useParams } from "react-router";
 import { useDispatch } from "react-redux";
 import { setIsDocModalOpen } from "../../../store/actions/genericActions";
+import ChemistryImage from "../../../assets/images/undraw_science_re_mnnr 1.svg";
+import MathematicsImage from "../../../assets/images/undraw_mathematics_-4-otb 1.svg";
 
 const AssignmentDetails = () => {
   const [assignmentData, setAssignmentData] = useState([]);
@@ -185,8 +190,50 @@ const AssignmentDetails = () => {
           ))}
         </SimpleGrid>
       ) : (
-        <Box textAlign="center" mt={4}>
-          <Text>No assignments for {capitalize(subjectName)}.</Text>
+        <Box mt={4}>
+          {subjectName === "CHEMISTRY" && (
+            <Center>
+              <VStack>
+                <Image
+                  boxSize="200px"
+                  objectFit="cover"
+                  src={ChemistryImage}
+                  alt="Chemistry"
+                />
+                <Text
+                  fontSize={"25px"}
+                  fontWeight={"500"}
+                  lineHeight={"37px"}
+                  color={"#2C3329"}
+                  p={"44px"}
+                >
+                  Coming Soon
+                </Text>
+              </VStack>
+            </Center>
+          )}
+
+          {subjectName === "MATHEMATICS" && (
+            <Center>
+              <VStack>
+                <Image
+                  boxSize="200px"
+                  objectFit="cover"
+                  src={MathematicsImage}
+                  alt="MATHEMATICS"
+                />
+                <Text
+                  fontSize={"25px"}
+                  fontWeight={"500"}
+                  lineHeight={"37px"}
+                  color={"#2C3329"}
+                  p={"44px"}
+                >
+                  Coming Soon
+                </Text>
+              </VStack>
+            </Center>
+          )}
         </Box>
       )}
     </Box>

@@ -8,6 +8,8 @@ import StudentPhyCourse from "./pages/StudentCourses/Physics/screens/PhysicsCour
 import Viewrecording from "./pages/ViewRecording/screen/Recordings";
 import StudentAssignment from "./pages/StudentAssignment/screen/StudentAssignment";
 import PhyLibrary from "./pages/StudentLibrary/PhysicsLibrary/screen/PhyLibrary";
+import MathsLibrary from "./pages/StudentLibrary/MathematicsLibrary/screen/MathsLibrary";
+import ChemLibrary from "./pages/StudentLibrary/ChemistryLibrary/screen/ChemLibraryScreen";
 import Home from "./components/home/Home";
 import AuthLoading from "./components/loaders/AuthLoading";
 
@@ -93,6 +95,18 @@ const privateRoutes = [
     name: "Student Library",
     path: "/student/:subject_id/library/:subjectName",
     component: <PhyLibrary />,
+  },
+
+  {
+    name: " Student Mathematics Library",
+    path: "/student/2/library/MATHEMATICS",
+    component: <MathsLibrary />,
+  },
+
+  {
+    name: " Student Mathematics Library",
+    path: "/student/3/library/CHEMISTRY",
+    component: <ChemLibrary />,
   },
 
   {

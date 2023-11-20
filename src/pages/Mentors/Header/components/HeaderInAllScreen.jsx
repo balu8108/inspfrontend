@@ -72,7 +72,7 @@ const Header = () => {
         </Text>
       </HStack>
 
-      {loading ? ( 
+      {loading ? (
         <Center>
           <Spinner mt={"5%"} />
         </Center>
@@ -145,7 +145,7 @@ const Header = () => {
                   size={"12px"}
                   fontSize={"14px"}
                   lineHeight={"16px"}
-                   mt={"20px"}
+                  mt={"20px"}
                 >
                   View Details
                 </Button>
