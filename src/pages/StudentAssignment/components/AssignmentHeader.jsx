@@ -25,44 +25,16 @@ const AssignmentHeader = () => {
   ];
   const subjectStatus = ["Upcoming", "Upcoming", "In Progress"];
 
-  // useEffect(() => {
-  //   // Fetch subjects when the component mounts
-  //   async function fetchSubjects() {
-  //     try {
-  //       const response = await fetchAllSubjectsApi(); // Call your API function
-
-  //       if (response.status) {
-  //         // Assuming the API response contains all subjects, just update the state with the fetched data
-  //         const subjectsFromAPI = response.result;
-  //         setSubjects(subjectsFromAPI); // Update the state with fetched data
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching subjects:", error);
-  //     } finally {
-  //       // Set loading to false after fetching, whether it was successful or not
-  //       setLoading(false);
-  //     }
-  //   }
-
-  //   fetchSubjects();
-  // }, []);
-
-
   useEffect(() => {
-    // Fetch subjects when the component mounts
     async function fetchSubjects() {
       try {
-        const response = await fetchAllSubjectsApi(); // Call your API function
+        const response = await fetchAllSubjectsApi();
 
         if (response.status) {
           const subjectsFromAPI = response.result;
-
-          // Sort subjects by name in ascending order
           const sortedSubjects = subjectsFromAPI.sort((a, b) => {
             return a.name.localeCompare(b.name);
           });
-
-          // Reverse the order of the sorted array
           const reversedSubjects = sortedSubjects.reverse();
 
           setSubjects(reversedSubjects);
@@ -76,7 +48,6 @@ const AssignmentHeader = () => {
 
     fetchSubjects();
   }, []);
-
 
   return (
     <Box
@@ -128,6 +99,7 @@ const AssignmentHeader = () => {
                 {capitalize(subject?.name)}
               </Text>
               <Text
+                mt={"3px"}
                 fontSize={"14px"}
                 color={
                   subjectStatus[3 - subject.id] === "In Progress"
@@ -137,7 +109,7 @@ const AssignmentHeader = () => {
                 lineHeight={"18px"}
                 ml={"13px"}
               >
-                {subject.status || "In Progress"}
+                {subjectStatus[3 - subject.id] || "Status not found"}
               </Text>
               <Text
                 fontSize={"12px"}
