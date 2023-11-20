@@ -104,7 +104,6 @@ const Library = () => {
             </Text>
             <Text
               color={"#2C332978"}
-              mt={"6px"}
               fontSize={"12px"}
               lineHeight={"21px"}
               ml={"13px"}
