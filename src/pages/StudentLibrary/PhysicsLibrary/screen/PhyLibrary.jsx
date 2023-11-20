@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Box, Flex, Stack, useDisclosure } from "@chakra-ui/react";
-import PhysicsVideos from "../components/PhysicsVideos";
+import PhysicsLibrary from "../components/Library";
 import Library from "../../../StudentHomePage/components/Library";
 import ScheduleClassList from "../../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
@@ -20,7 +20,7 @@ const LibraryScreen = () => {
           <Box>
             <Library />
           </Box>
-          <PhysicsVideos />
+          <PhysicsLibrary />
         </Stack>
         <Box w={"25%"}>
           <SimpleBar

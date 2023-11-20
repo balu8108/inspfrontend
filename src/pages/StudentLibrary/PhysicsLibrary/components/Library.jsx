@@ -18,7 +18,7 @@ import { fetchAllTopicsForSubjectApi } from "../../../../api/inspexternalapis";
 import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
 import { capitalize } from "../../../../utils";
 
-const Library = () => {
+const PhysicsLibrary = () => {
   const { subject_id, subjectName } = useParams();
   const [searchQuery, setSearchQuery] = useState("");
   const [allTopicList, setAllTopicList] = useState([]);
@@ -160,4 +160,4 @@ const Library = () => {
   );
 };
 
-export default Library;
+export default PhysicsLibrary;
