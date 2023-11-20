@@ -27,9 +27,6 @@ import { setIsDocModalOpen } from "../../../store/actions/genericActions";
 
 const AssignmentDetails = () => {
   const [assignmentData, setAssignmentData] = useState([]);
-  const [selectedAssignment, setSelectedAssignment] = useState(null);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [selectedFileUrl, setSelectedFileUrl] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const { subjectName } = useParams();
   const dispatch = useDispatch();

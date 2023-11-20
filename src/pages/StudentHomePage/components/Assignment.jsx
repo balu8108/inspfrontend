@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, Button, Text, HStack, Flex, Card } from "@chakra-ui/react";
-import { Link, navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { BASE_URL } from "../../../constants/staticurls";
 import axios from "axios";
@@ -18,7 +18,6 @@ const Assignment = () => {
         setRecentAssignments(response.data.data);
       })
       .catch((error) => {
-        // Handle any errors here
         console.error("Error fetching recent assignments:", error);
       });
   }, []);

@@ -12,7 +12,7 @@ import {
   InputGroup,
   Spacer,
 } from "@chakra-ui/react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { SearchIcon } from "@chakra-ui/icons";
 import { fetchAllTopicsForSubjectApi } from "../../../../api/inspexternalapis";
 import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
@@ -156,26 +156,3 @@ const PhysicsLibrary = () => {
   );
 };
 export default PhysicsLibrary;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
