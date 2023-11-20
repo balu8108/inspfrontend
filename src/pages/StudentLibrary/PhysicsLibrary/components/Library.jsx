@@ -7,17 +7,21 @@ import {
   Flex,
   Button,
   Stack,
+  VStack,
   Input,
   InputLeftElement,
   InputGroup,
   Spacer,
+  Image,
+  Center,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { SearchIcon } from "@chakra-ui/icons";
 import { fetchAllTopicsForSubjectApi } from "../../../../api/inspexternalapis";
 import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
 import { capitalize } from "../../../../utils";
-
+import MathematicsImage from "../../../../assets/images/undraw_mathematics_-4-otb 1.svg";
+import ChemistryImage from "../../../../assets/images/undraw_science_re_mnnr 1.svg";
 const PhysicsLibrary = () => {
   const { subject_id, subjectName } = useParams();
   const [searchQuery, setSearchQuery] = useState("");
@@ -82,7 +86,51 @@ const PhysicsLibrary = () => {
       <Stack>
         <Flex flexWrap="wrap" p={5} gap={"24px"} ml={5}>
           {filteredLibrary.length === 0 ? (
-            <Text>No topics found for {capitalize(subjectName)}</Text>
+            <Box mt={4} ml={"35%"}>
+              {subjectName === "CHEMISTRY" && (
+                <Center>
+                  <VStack spacing={4}>
+                    <Image
+                      boxSize="200px"
+                      objectFit="cover"
+                      src={ChemistryImage}
+                      alt="Chemistry"
+                    />
+                    <Text
+                      fontSize={"25px"}
+                      fontWeight={"500"}
+                      lineHeight={"37px"}
+                      color={"#2C3329"}
+                      p={"40px"}
+                    >
+                      Coming Soon
+                    </Text>
+                  </VStack>
+                </Center>
+              )}
+
+              {subjectName === "MATHEMATICS" && (
+                <Center>
+                  <VStack spacing={4}>
+                    <Image
+                      boxSize="200px"
+                      objectFit="cover"
+                      src={MathematicsImage}
+                      alt="Mathematics"
+                    />
+                    <Text
+                      fontSize={"25px"}
+                      fontWeight={"500"}
+                      lineHeight={"37px"}
+                      color={"#2C3329"}
+                      p={"40px"}
+                    >
+                      Coming Soon
+                    </Text>
+                  </VStack>
+                </Center>
+              )}
+            </Box>
           ) : (
             filteredLibrary.map((libraryData) => (
               <Card
@@ -155,4 +203,5 @@ const PhysicsLibrary = () => {
     </Box>
   );
 };
+
 export default PhysicsLibrary;

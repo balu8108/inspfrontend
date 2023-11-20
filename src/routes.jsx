@@ -97,17 +97,17 @@ const privateRoutes = [
     component: <PhyLibrary />,
   },
 
-  {
-    name: " Student Mathematics Library",
-    path: "/student/2/library/MATHEMATICS",
-    component: <MathsLibrary />,
-  },
+  // {
+  //   name: " Student Mathematics Library",
+  //   path: "/student/2/library/MATHEMATICS",
+  //   component: <MathsLibrary />,
+  // },
 
-  {
-    name: " Student Mathematics Library",
-    path: "/student/3/library/CHEMISTRY",
-    component: <ChemLibrary />,
-  },
+  // {
+  //   name: " Student Mathematics Library",
+  //   path: "/student/3/library/CHEMISTRY",
+  //   component: <ChemLibrary />,
+  // },
 
   {
     name: "Mentor All Recording Related To A Particular Chapter",
