@@ -22,7 +22,7 @@ import topicDescriptionConstants from "../../../../constants/topicDescriptionCon
 import { capitalize } from "../../../../utils";
 import MathematicsImage from "../../../../assets/images/undraw_mathematics_-4-otb 1.svg";
 import ChemistryImage from "../../../../assets/images/undraw_science_re_mnnr 1.svg";
-const PhysicsLibrary = () => {
+const SubjectLibrary = () => {
   const { subject_id, subjectName } = useParams();
   const [searchQuery, setSearchQuery] = useState("");
   const [allTopicList, setAllTopicList] = useState([]);
@@ -204,4 +204,4 @@ const PhysicsLibrary = () => {
   );
 };
 
-export default PhysicsLibrary;
+export default SubjectLibrary;
