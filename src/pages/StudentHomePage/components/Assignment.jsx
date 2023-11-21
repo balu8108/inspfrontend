@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, Button, Text, HStack, Flex, Card } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
+import { boxShadowStyles, capitalize } from "../../../utils";
 
 import { BASE_URL } from "../../../constants/staticurls";
 import axios from "axios";
@@ -27,7 +28,7 @@ const Assignment = () => {
       w={"50%"}
       h="313px"
       mt="24px"
-      backgroundColor="#F1F5F8"
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       borderRadius="26px"
     >
       <HStack spacing="10px">

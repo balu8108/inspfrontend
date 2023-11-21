@@ -90,9 +90,8 @@ export const fetchAllTopicsWithoutChapterIdApi = async () => {
 };
 
 // this is the api which will fetch all the  topics for particular subject.
-
 export const fetchAllTopicsForSubjectApi = async (subject_id) => {
-  const body = { subject_id, ...secret_key };
+  const body = {subject_id:subject_id,...secret_key,}
   const requestOptions = {
     method: "POST",
     body: JSON.stringify(body),
