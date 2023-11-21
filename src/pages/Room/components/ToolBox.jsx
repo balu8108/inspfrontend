@@ -507,7 +507,7 @@ const ToolBox = ({
           >
             {"\u{1F44B}"}
           </Button> */}
-          {/* <IconButton isRound={true} icon={<FiMenu size={20} />} /> */}
+
           {userRoleType === userType.teacher && (
             <IconButton
               isRound={true}
