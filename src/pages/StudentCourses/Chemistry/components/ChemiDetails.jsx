@@ -41,7 +41,7 @@ const ChemDetails = () => {
             boxSize="200px"
             objectFit="cover"
             src={ChemistryImage}
-            alt="Mathematics"
+            alt="Chemistry"
           />
         </Center>
         <Center>
