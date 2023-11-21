@@ -13,7 +13,7 @@ import { sendChatMessage } from "../../../socketconnections/socketconnections";
 
 import { useDispatch, useSelector } from "react-redux";
 import { setChatMessage } from "../../../store/actions/socketActions";
-import { roomData } from "../data/roomData";
+
 import data from "@emoji-mart/data";
 import { init, SearchIndex } from "emoji-mart";
 import { containsEmoji } from "../../../utils";
