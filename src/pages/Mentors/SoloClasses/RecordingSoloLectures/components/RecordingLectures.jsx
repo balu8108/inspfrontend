@@ -326,7 +326,7 @@ const RecordingLectures = () => {
             <IconButton
               isRound={true}
               variant="solid"
-              colorScheme="red"
+              colorScheme={isRecording ? "gray" : "red"}
               aria-label="Done"
               fontSize="20px"
               icon={isRecording ? <FiCircle /> : <LuCircleOff />}
@@ -340,7 +340,7 @@ const RecordingLectures = () => {
               <IconButton
                 isRound={true}
                 variant="solid"
-                colorScheme="red"
+                colorScheme={isScreenSharing ? "gray" : "red"}
                 aria-label="Done"
                 fontSize="20px"
                 icon={isScreenSharing ? <FiMonitor /> : <LuMonitorOff />}
