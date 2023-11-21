@@ -48,7 +48,7 @@ const Library = () => {
             Library
           </Text>
           {!isDetailView && (
-            <Link to="/student/1/library/PHYSICS">
+            <Link to="/library/PHYSICS/1">
               <Button
                 variant={"ghost"}
                 fontSize={"13px"}
@@ -113,7 +113,7 @@ const Library = () => {
             </Text>
             <Link
               style={{ display: "flex", justifyContent: "center" }}
-              to={`/student/${library.subject_id}/library/${library.subjectName}`}
+              to={`/library/${library.subjectName}$/{library.subject_id}`}
             >
               <Button
                 variant={"ghost"}

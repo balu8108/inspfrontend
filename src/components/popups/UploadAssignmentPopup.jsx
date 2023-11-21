@@ -9,18 +9,12 @@ import {
   ModalCloseButton,
   Button,
   FormControl,
-  FormLabel,
   Select,
   Input,
-  Box,
-  InputGroup,
-  InputRightAddon,
-  Center,
   Flex,
-  Text,
   Spinner,
   Textarea,
-  useTheme
+  useTheme,
 } from "@chakra-ui/react";
 import {
   fetchAllChaptersApi,
@@ -43,11 +37,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
   const [description, setDescription] = useState("");
   const [files, setFiles] = useState([]);
   const { extraTextLight, primaryBlue, primaryBlueLight } =
-  useTheme().colors.pallete;
-
-  const apiUrl = "http://localhost:5000";
-
-  // Create a ref for the file input
+    useTheme().colors.pallete;
   const fileInputRef = useRef(null);
 
   const resetFormFields = () => {
