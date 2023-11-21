@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Flex, Box } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 
 import { useSelector } from "react-redux";
 import ToolBox from "./ToolBox";
