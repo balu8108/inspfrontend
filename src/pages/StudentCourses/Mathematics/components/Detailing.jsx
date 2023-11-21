@@ -8,7 +8,6 @@ import {
   VStack,
   Flex,
   Spacer,
-  Input,
 } from "@chakra-ui/react";
 import MathematicsImage from "../../../../assets/images/undraw_mathematics_-4-otb 1.svg";
 import { boxShadowStyles } from "../../../../utils";
