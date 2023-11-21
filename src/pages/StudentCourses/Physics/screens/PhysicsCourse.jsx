@@ -24,7 +24,7 @@ const PhyScreen = () => {
   }, [dispatch]);
   return (
     <>
-     {isSchedulePopupOpen && (
+      {isSchedulePopupOpen && (
         <ScheduleClassPopup
           isOpen={isSchedulePopupOpen}
           onClose={onScheduleClosePopupOpen}

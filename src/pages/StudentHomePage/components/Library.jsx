@@ -8,13 +8,19 @@ import {
   useTheme,
   HStack,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../../constants/scrollbar/style.css";
 import { capitalize } from "../../../utils";
 import libraryData from "../data/library";
 
 const Library = () => {
+  const navigate = useNavigate();
   const { primaryBlue, mainTextColor } = useTheme().colors.pallete;
+  const isDetailView = window.location.pathname.includes("/library/");
+
+  const handleSeeAllClick = () => {
+    navigate("/student/1/library/PHYSICS");
+  };
 
   return (
     <Box w={"full"} bg={"#F1F5F8"} borderRadius={"26px"}>
@@ -41,11 +47,19 @@ const Library = () => {
           >
             Library
           </Text>
-          <Link to="/student/1/library/PHYSICS">
-            <Button variant={"ghost"} fontSize={"13px"} fontWeight={"400"} mt={"40%"}>
-              See All
-            </Button>
-          </Link>
+          {!isDetailView && (
+            <Link to="/student/1/library/PHYSICS">
+              <Button
+                variant={"ghost"}
+                fontSize={"13px"}
+                fontWeight={"400"}
+                mt={"40%"}
+                onClick={handleSeeAllClick}
+              >
+                See All
+              </Button>
+            </Link>
+          )}
         </Flex>
       </HStack>
 
@@ -53,8 +67,8 @@ const Library = () => {
         {libraryData.map((library) => (
           <Card
             key={library.id}
-            w={"30%"}
-            h={"200px"}
+            w={"31%"}
+            h={"204px"}
             borderRadius={"18px"}
             blendMode={"multiply"}
             backgroundColor={"#F1F5F8"}
@@ -62,14 +76,23 @@ const Library = () => {
             mb={"20px"}
           >
             <Text
-              fontSize={"14px"}
+              fontSize={"16px"}
               fontWeight={"400px"}
-              lineHeight={"19.36px"}
               color={"#2C3329"}
               mt={"13px"}
               ml={"13px"}
+              lineHeight={"18px"}
             >
               {capitalize(library.subjectName)}
+            </Text>
+            <Text
+              mt={"3px"}
+              fontSize={"14px"}
+              lineHeight={"18px"}
+              ml={"13px"}
+              color={library.color}
+            >
+              {library.status}
             </Text>
             <Text
               mt={"14px"}
@@ -81,7 +104,6 @@ const Library = () => {
             </Text>
             <Text
               color={"#2C332978"}
-              mt={"6px"}
               fontSize={"12px"}
               lineHeight={"21px"}
               ml={"13px"}
@@ -94,8 +116,9 @@ const Library = () => {
               to={`/student/${library.subject_id}/library/${library.subjectName}`}
             >
               <Button
+                variant={"ghost"}
                 color={"#3C8DBC"}
-                mt={"25px"}
+                mt={"18px"}
                 fontSize={"14px"}
                 lineHeight={"16px"}
                 fontWeight={"600"}

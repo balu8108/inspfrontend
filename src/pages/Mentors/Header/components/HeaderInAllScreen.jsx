@@ -10,7 +10,6 @@ import {
   Center,
 } from "@chakra-ui/react";
 import { fetchAllSubjectsApi } from "../../../../api/inspexternalapis/index";
-import headerDataInAllScreen from "../data/headerData";
 import { Link } from "react-router-dom";
 import { boxShadowStyles, capitalize } from "../../../../utils";
 
@@ -27,20 +26,17 @@ const Header = () => {
   const subjectStatus = ["Upcoming", "Upcoming", "In Progress"];
 
   useEffect(() => {
-    // Fetch subjects when the component mounts
     async function fetchSubjects() {
       try {
-        const response = await fetchAllSubjectsApi(); // Call your API function
+        const response = await fetchAllSubjectsApi();
 
         if (response.status) {
           const subjectsFromAPI = response.result;
 
-          // Sort subjects by name in ascending order
           const sortedSubjects = subjectsFromAPI.sort((a, b) => {
             return a.name.localeCompare(b.name);
           });
 
-          // Reverse the order of the sorted array
           const reversedSubjects = sortedSubjects.reverse();
 
           setSubjects(reversedSubjects);
@@ -76,7 +72,7 @@ const Header = () => {
         </Text>
       </HStack>
 
-      {loading ? ( // Display spinner while loading
+      {loading ? (
         <Center>
           <Spinner mt={"5%"} />
         </Center>
@@ -105,7 +101,7 @@ const Header = () => {
                 {capitalize(subject?.name)}
               </Text>
               <Text
-              mt={"3px"}
+                mt={"3px"}
                 fontSize={"14px"}
                 color={
                   subjectStatus[3 - subject.id] === "In Progress"
@@ -149,7 +145,7 @@ const Header = () => {
                   size={"12px"}
                   fontSize={"14px"}
                   lineHeight={"16px"}
-                  p={["10px", "21px"]}
+                  mt={"20px"}
                 >
                   View Details
                 </Button>

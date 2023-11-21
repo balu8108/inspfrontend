@@ -9,7 +9,6 @@ import {
   Text,
   Icon,
 } from "@chakra-ui/react";
-import upload from "../data/uploads";
 import { IoIosAdd } from "react-icons/io";
 import { Link } from "react-router-dom";
 import axios from "axios";

@@ -7,9 +7,7 @@ import StudentChemCourse from "./pages/StudentCourses/Chemistry/screens/ChemCour
 import StudentPhyCourse from "./pages/StudentCourses/Physics/screens/PhysicsCourse";
 import Viewrecording from "./pages/ViewRecording/screen/Recordings";
 import StudentAssignment from "./pages/StudentAssignment/screen/StudentAssignment";
-import PhyLibrary from "./pages/StudentLibrary/PhysicsLibrary/screen/PhyLibrary";
-import PhyRecording from "./pages/StudentLibrary/PhysicsLibrary/screen/ViewLectures";
-// import ViewChapterRecording from "./pages/StudentCourses/Physics/screens/ViewChapRec";
+import LibraryScreen from "./pages/StudentLibrary/SubjectLibrary/screen/LibraryScreen";
 import Home from "./components/home/Home";
 import AuthLoading from "./components/loaders/AuthLoading";
 
@@ -63,16 +61,8 @@ const privateRoutes = [
     component: <ScheduleClass />,
   },
 
-  // {
-  //   name: "Student Homepage",
-  //   path: "/student/homepage",
-  //   component: <StudentHomePage />,
-  // },
-
   {
     name: "Student MathsCourse",
-    // path: "/student/myCourses/mathematics",
-    path: "/myCourses/mathematics",
     component: <StudentMathsCourse />,
   },
   {
@@ -100,31 +90,8 @@ const privateRoutes = [
   {
     name: "Student Library",
     path: "/student/:subject_id/library/:subjectName",
-    component: <PhyLibrary />,
+    component: <LibraryScreen />,
   },
-
-  // {
-  //   name: "Student Physics Videos",
-  //   path: "/student/physics-library/:chapterName",
-  //   component: <PhyRecording />,
-  // },
-
-  // {
-  //   name: "Chapter Recording",
-  //   path: "/student/chapter",
-  //   component: <ViewChapterRecording />,
-  // },
-  // {
-  //   name: "Mentor HomePage",
-  //   path: "/mentor/homepage",
-  //   component: <MentorHomePage />,
-  // },
-
-  // {
-  //   name: "Mentor MyCourses Physics",
-  //   path: "/mentor/mycourses/physics",
-  //   component: <MentorMyCoursesPhysics />,
-  // },
 
   {
     name: "Mentor All Recording Related To A Particular Chapter",
@@ -152,12 +119,6 @@ const privateRoutes = [
     path: "/mentor/solo-recordings/topic/:topicId/:topic_name",
     component: <SoloRecordedTopicsDetails />,
   },
-
-  // {
-  //   name: "Solo Recording Detailed And Covered ",
-  //   path: "/mentor/solo-recordings/topic",
-  //   component: <SoloRecordedTopicsDetails />,
-  // },
 
   {
     name: "Solo Recording Screen ",
