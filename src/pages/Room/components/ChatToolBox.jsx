@@ -11,12 +11,6 @@ import {
 } from "@chakra-ui/react";
 import { sendChatMessage } from "../../../socketconnections/socketconnections";
 
-import { FaRegComment } from "react-icons/fa";
-import { TfiMenuAlt } from "react-icons/tfi";
-import { PiPaperPlaneTiltBold } from "react-icons/pi";
-
-import { BsEmojiSmile } from "react-icons/bs";
-import { BiBarChart } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { setChatMessage } from "../../../store/actions/socketActions";
 import { roomData } from "../data/roomData";
