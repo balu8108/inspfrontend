@@ -63,11 +63,6 @@ const LiveSessionStream = (props) => {
       }
     }
   };
-  // useEffect(() => {
-  //   if (audioConsumers && audioConsumers.length > 0) {
-  //     renderAudioStreams();
-  //   }
-  // }, [audioConsumers]);
 
   useEffect(() => {
     if (mentorScreenShareConsumer) {
