@@ -4,6 +4,7 @@ import improvementMarks from "../data/improvement";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Box, Text, HStack, Spacer, Flex, Icon } from "@chakra-ui/react";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { boxShadowStyles, capitalize } from "../../../utils";
 import "../Styling/progress.css";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -44,7 +45,8 @@ const Improvement = () => {
       w={"130%"}
       h={"313px"}
       borderRadius={"26px"}
-      bg={"#F1F5F8"}
+
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
     >
       <HStack spacing={"10px"}>
         <Box

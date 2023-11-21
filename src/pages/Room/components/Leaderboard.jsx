@@ -13,7 +13,7 @@ import { GrRefresh } from "react-icons/gr";
 import leaderboardRankingIcons from "../data/leaderboardRankingIcons";
 import { shallowEqual, useSelector } from "react-redux";
 import { formatSeconds } from "../../../utils";
-import SimpleBar from "simplebar-react";
+
 import PollTimer from "./PollTimer";
 import { Scrollbars } from "rc-scrollbars";
 const Leaderboard = ({ isLeaderBoardOpen, timer, setTimer }) => {

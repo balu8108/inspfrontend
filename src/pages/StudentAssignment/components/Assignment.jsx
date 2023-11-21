@@ -49,7 +49,6 @@ const AssignmentDetails = () => {
       .get(BASE_URL + `/topic/get-assignment-by-subject-name/${subjectName}`)
       .then((response) => {
         setAssignmentData(response.data);
-        console.log("data for assignment", response);
       })
       .catch((error) => {
         console.error("Error fetching assignments:", error);
