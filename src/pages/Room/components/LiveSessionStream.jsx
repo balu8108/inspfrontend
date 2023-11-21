@@ -52,20 +52,6 @@ const LiveSessionStream = (props) => {
     screenShareRef.current.srcObject = stream;
   };
 
-  // const renderAudioStreams = () => {
-  //   audioConsumers.forEach((consumer) => {
-  //     const { track } = consumer;
-
-  //     if (track) {
-  //       const audioElement = document.createElement("audio");
-  //       audioElement.srcObject = new MediaStream([track]);
-  //       audioElement.autoplay = true;
-  //       audioElement.playsInline = true;
-  //       document.getElementById("remote_audios").appendChild(audioElement);
-  //     }
-  //   });
-  // };
-
   const removeMentorScreenShare = () => {
     if (screenShareRef.current) {
       screenShareRef.current.srcObject = null;
