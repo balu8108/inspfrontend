@@ -82,13 +82,8 @@ const renderPeerData = (isPeerLoading, peers, liveSessionData, type) => {
 const RoomPreviewJoinDescription = ({ roomId }) => {
   const [isRoomLoading, setIsRoomLoading] = useState(false);
   const theme = useTheme();
-  const {
-    backgroundLightBlue,
-    primaryBlue,
-    primaryBlueLight,
-    mainTextColor,
-    secondaryTextColor,
-  } = theme.colors.pallete;
+  const { primaryBlue, primaryBlueLight, mainTextColor, secondaryTextColor } =
+    theme.colors.pallete;
 
   const { isPeerLoading, peers, roomPreviewData } = useSelector(
     (state) => state.socket
@@ -128,145 +123,139 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
   };
 
   return (
-    <>
-      <Box
-        boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
-        bg={"white"}
-        width={"30%"}
-        borderRadius={"2xl"}
-        p={8}
+    <Box
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      bg={"white"}
+      width={"30%"}
+      borderRadius={"2xl"}
+      p={8}
+    >
+      <Flex
+        height={"100%"}
+        direction={"column"}
+        justifyContent={"space-between"}
       >
-        <Flex
-          height="100%"
-          direction={"column"}
-          justifyContent={"space-between"}
-        >
-          <Box>
-            <HStack mb={4}>
-              <Box
-                bg={primaryBlue}
-                width="12px"
-                height="25px"
-                borderRadius={"20px"}
-              ></Box>
-              <Text fontWeight={"400"}>{liveSessionData.liveSessionText}</Text>
-            </HStack>
-            <Box pt={6} mb={4}>
-              <Flex justifyContent={"space-between"}>
-                <Box>
-                  <Text fontSize={"14px"} color={mainTextColor} mb={2}>
-                    {capitalize(
-                      roomPreviewData?.LiveClassRoomDetail?.topicName
-                    ) || liveSessionData.noData}
-                  </Text>
-                  <Text color={secondaryTextColor} fontSize={"12px"}>
-                    {roomPreviewData?.mentorName || liveSessionData.noData}
-                  </Text>
-                </Box>
-                <Box>
-                  <Text pt={1} color={secondaryTextColor} fontSize={"12px"}>
-                    {formatTime(roomPreviewData?.scheduledStartTime)} -
-                    {formatTime(roomPreviewData?.scheduledEndTime)}
-                  </Text>
-                </Box>
-              </Flex>
-            </Box>
+        <Box>
+          <HStack mb={4}>
+            <Box
+              bg={primaryBlue}
+              width="12px"
+              height="25px"
+              borderRadius={"20px"}
+            ></Box>
+            <Text fontWeight={"400"}>{liveSessionData.liveSessionText}</Text>
+          </HStack>
+          <Box pt={6} mb={4}>
+            <Flex justifyContent={"space-between"}>
+              <Box>
+                <Text fontSize={"14px"} color={mainTextColor} mb={2}>
+                  {capitalize(
+                    roomPreviewData?.LiveClassRoomDetail?.topicName
+                  ) || liveSessionData.noData}
+                </Text>
+                <Text color={secondaryTextColor} fontSize={"12px"}>
+                  {roomPreviewData?.mentorName || liveSessionData.noData}
+                </Text>
+              </Box>
+              <Box>
+                <Text pt={1} color={secondaryTextColor} fontSize={"12px"}>
+                  {formatTime(roomPreviewData?.scheduledStartTime)} -
+                  {formatTime(roomPreviewData?.scheduledEndTime)}
+                </Text>
+              </Box>
+            </Flex>
+          </Box>
 
-            <Box pt={6} mb={4}>
-              <Text fontSize={"14px"} color={mainTextColor} mb={2}>
-                {liveSessionData.description}
-              </Text>
+          <Box pt={6} mb={4}>
+            <Text fontSize={"14px"} color={mainTextColor} mb={2}>
+              {liveSessionData.description}
+            </Text>
+            <Text color={secondaryTextColor} fontSize={"12px"} noOfLines={2}>
+              {roomPreviewData?.LiveClassRoomDetail?.description ||
+                liveSessionData.noData}
+            </Text>
+          </Box>
+          <Box pt={6}>
+            <Text fontSize={"14px"} color={mainTextColor} mb={2}>
+              {liveSessionData.agenda}
+            </Text>
+
+            <HStack pt={1}>
+              <Box
+                width={"15px"}
+                height={"15px"}
+                bg={"gray.200"}
+                borderRadius={"100%"}
+              />
               <Text color={secondaryTextColor} fontSize={"12px"}>
-                {roomPreviewData?.LiveClassRoomDetail?.description ||
+                {roomPreviewData?.LiveClassRoomDetail?.agenda ||
                   liveSessionData.noData}
               </Text>
-            </Box>
-            <Box pt={6}>
-              <Text fontSize={"14px"} color={mainTextColor} mb={2}>
-                {liveSessionData.agenda}
-              </Text>
-
-              <HStack pt={1}>
-                <Box
-                  width={"15px"}
-                  height={"15px"}
-                  bg={"gray.200"}
-                  borderRadius={"100%"}
-                />
-                <Text color={secondaryTextColor} fontSize={"12px"}>
-                  {roomPreviewData?.LiveClassRoomDetail?.agenda ||
-                    liveSessionData.noData}
-                </Text>
-              </HStack>
-            </Box>
+            </HStack>
           </Box>
-          <Box>
-            <Box pt={6}>
-              <VStack>
-                <Text fontSize={"14px"} color={mainTextColor}>
-                  {liveSessionData.mentorsJoined}
-                </Text>
-                {/* <Flex gap={2}>
+        </Box>
+        <Box>
+          <Box pt={6}>
+            <VStack>
+              <Text fontSize={"14px"} color={mainTextColor}>
+                {liveSessionData.mentorsJoined}
+              </Text>
+              {/* <Flex gap={2}>
                 <Text fontSize={"12px"}>No Mentors joined</Text>
               </Flex> */}
-                <Flex gap={2}>
-                  {renderPeerData(
-                    isPeerLoading,
-                    peers,
-                    liveSessionData,
-                    liveSessionData.mentor
-                  )}
-                </Flex>
-              </VStack>
-              <VStack pt={2}>
-                <Text fontSize={"14px"} color={mainTextColor}>
-                  {liveSessionData.studentsJoined}
-                </Text>
-                <Flex gap={2}>
-                  {renderPeerData(
-                    isPeerLoading,
-                    peers,
-                    liveSessionData,
-                    liveSessionData.student
-                  )}
-                  {peers.length > 4 && (
-                    <Center p={2} borderRadius={"md"} bg={"gray.200"}>
-                      <Flex
-                        borderRadius={"md"}
-                        w={"30px"}
-                        height={"30px"}
-                        bg={primaryBlue}
-                        justifyContent={"center"}
-                        alignItems={"center"}
-                      >
-                        <Text
-                          color={"white"}
-                          fontWeight={600}
-                          fontSize={"10px"}
-                        >
-                          +{renderLeftMembersCount(studentPeerCount, 3)}
-                        </Text>
-                      </Flex>
-                    </Center>
-                  )}
-                </Flex>
-              </VStack>
-            </Box>
-
-            <Box pt={6}>
-              <MainBtn
-                isLoading={isRoomLoading}
-                text={liveSessionData.joinClass}
-                backColor={primaryBlue}
-                textColor="white"
-                onClickHandler={navigateToRoom}
-                hoverColor={primaryBlueLight}
-              />
-            </Box>
+              <Flex gap={2}>
+                {renderPeerData(
+                  isPeerLoading,
+                  peers,
+                  liveSessionData,
+                  liveSessionData.mentor
+                )}
+              </Flex>
+            </VStack>
+            <VStack pt={2}>
+              <Text fontSize={"14px"} color={mainTextColor}>
+                {liveSessionData.studentsJoined}
+              </Text>
+              <Flex gap={2}>
+                {renderPeerData(
+                  isPeerLoading,
+                  peers,
+                  liveSessionData,
+                  liveSessionData.student
+                )}
+                {peers.length > 4 && (
+                  <Center p={2} borderRadius={"md"} bg={"gray.200"}>
+                    <Flex
+                      borderRadius={"md"}
+                      w={"30px"}
+                      height={"30px"}
+                      bg={primaryBlue}
+                      justifyContent={"center"}
+                      alignItems={"center"}
+                    >
+                      <Text color={"white"} fontWeight={600} fontSize={"10px"}>
+                        +{renderLeftMembersCount(studentPeerCount, 3)}
+                      </Text>
+                    </Flex>
+                  </Center>
+                )}
+              </Flex>
+            </VStack>
           </Box>
-        </Flex>
-      </Box>
-    </>
+
+          <Box pt={6}>
+            <MainBtn
+              isLoading={isRoomLoading}
+              text={liveSessionData.joinClass}
+              backColor={primaryBlue}
+              textColor="white"
+              onClickHandler={navigateToRoom}
+              hoverColor={primaryBlueLight}
+            />
+          </Box>
+        </Box>
+      </Flex>
+    </Box>
   );
 };
 

@@ -15,7 +15,7 @@ import { fetchAllTopicsWithoutChapterIdApi } from "../../../../../api/inspextern
 import topicDescriptionConstants from "../../../../../constants/topicDescriptionConstants";
 import "../../../../../constants/scrollbar/style.css";
 import { Link } from "react-router-dom";
-import axios from "axios";
+
 import { boxShadowStyles, capitalize } from "../../../../../utils";
 
 const TopicsBased = () => {
@@ -86,7 +86,6 @@ const TopicsBased = () => {
         </Box>
       </Flex>
 
-      {/* Conditionally render a spinner while loading */}
       {isLoadingTopics ? (
         <Flex justifyContent="center" alignItems="center" height="200px">
           <Spinner size="lg" color="blue.500" />

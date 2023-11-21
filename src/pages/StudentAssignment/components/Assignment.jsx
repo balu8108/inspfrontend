@@ -49,7 +49,6 @@ const AssignmentDetails = () => {
       .get(BASE_URL + `/topic/get-assignment-by-subject-name/${subjectName}`)
       .then((response) => {
         setAssignmentData(response.data);
-        console.log("data for assignment", response);
       })
       .catch((error) => {
         console.error("Error fetching assignments:", error);
@@ -108,7 +107,7 @@ const AssignmentDetails = () => {
                 ml={"13px"}
                 mt={"16px"}
               >
-                {assignment.topicName}
+                {capitalize(assignment?.topicName)}
               </Text>
               <Text
                 fontWeight={400}
@@ -149,7 +148,7 @@ const AssignmentDetails = () => {
                 my={"13px"}
                 mx={"25px"}
               >
-                {assignment.AssignmentFiles.map((files, index) => (
+                {assignment?.AssignmentFiles.map((files, index) => (
                   <Flex
                     key={index}
                     flex={1}

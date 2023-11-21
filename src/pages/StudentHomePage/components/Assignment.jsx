@@ -5,6 +5,7 @@ import { boxShadowStyles, capitalize } from "../../../utils";
 
 import { BASE_URL } from "../../../constants/staticurls";
 import axios from "axios";
+import { capitalize } from "../../../utils";
 const Assignment = () => {
   const navigate = useNavigate();
   const [recentAssignments, setRecentAssignments] = useState([]);
@@ -75,7 +76,7 @@ const Assignment = () => {
               mt="13px"
               noOfLines={1}
             >
-              {homepageAssignment.topicName}
+              {capitalize(homepageAssignment?.topicName)}
             </Text>
             <Text fontSize="12px" fontWeight="400" color="gray" ml="13px">
               {homepageAssignment.instructorName}

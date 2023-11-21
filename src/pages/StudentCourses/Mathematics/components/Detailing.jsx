@@ -14,7 +14,6 @@ import MathematicsImage from "../../../../assets/images/undraw_mathematics_-4-ot
 import { boxShadowStyles } from "../../../../utils";
 
 const MathsDetails = () => {
-  const [searchTerm, setSearchTerm] = useState("");
   return (
     <Box
       width={"100%"}
@@ -36,18 +35,6 @@ const MathsDetails = () => {
           </Text>
         </HStack>
         <Spacer />
-        {/* <Input
-          type="text"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Search..."
-          w="30%"
-          border="1px solid #ccc"
-          borderRadius="md"
-          px="3"
-          py="2"
-          mx={"10"}
-        /> */}
       </Flex>
       <VStack gap={"24px"}>
         <Center>

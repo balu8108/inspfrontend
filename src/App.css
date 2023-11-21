@@ -17,7 +17,7 @@ body {
   background-color: white;
   box-shadow: 2px 2px 13px 0 var(--box-shadow-color);
   border-radius: 10px;
-  height: 100% !important;
+  height: 90vh !important;
 }
 /*Color of current day*/
 .fc .fc-day.fc-day-today {
