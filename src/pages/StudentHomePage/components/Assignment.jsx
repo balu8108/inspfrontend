@@ -5,7 +5,7 @@ import { boxShadowStyles, capitalize } from "../../../utils";
 
 import { BASE_URL } from "../../../constants/staticurls";
 import axios from "axios";
-import { capitalize } from "../../../utils";
+
 const Assignment = () => {
   const navigate = useNavigate();
   const [recentAssignments, setRecentAssignments] = useState([]);
