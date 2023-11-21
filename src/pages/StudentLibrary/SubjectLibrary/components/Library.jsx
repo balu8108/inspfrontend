@@ -28,8 +28,6 @@ const SubjectLibrary = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [allTopicList, setAllTopicList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
- 
-
 
   const filteredLibrary = allTopicList.filter((libraryData) => {
     const topicName = libraryData.name.toLowerCase();
@@ -46,7 +44,6 @@ const SubjectLibrary = () => {
         const response = await fetchAllTopicsForSubjectApi(subject_id);
         if (response && response.status) {
           setAllTopicList(response.result);
-          console.log("API Result:", response.result);
         }
       } catch (err) {
         console.log("Error fetching topics data:", err);
@@ -57,7 +54,6 @@ const SubjectLibrary = () => {
 
     handleFetchTopics();
   }, [subject_id]);
-
 
   return (
     <Box width={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
