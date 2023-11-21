@@ -1,5 +1,5 @@
 import "./App.css";
-import { Box } from "@chakra-ui/react";
+
 import Navbar from "./components/navbar/Navbar";
 import { useDisclosure } from "@chakra-ui/react";
 import { Routes, Route, useLocation, Outlet, Navigate } from "react-router-dom";
