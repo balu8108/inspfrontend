@@ -31,7 +31,7 @@ const MentorsUploads = () => {
 
   useEffect(() => {
     axios.get(`${BASE_URL}/topic/latest-assignment`).then((response) => {
-      console.log(" reposne of the assignment", response);
+     
       setAssignment(response.data.data);
     });
   }, [assignment]);
@@ -74,7 +74,7 @@ const MentorsUploads = () => {
         </Button>
       </Flex>
       <Flex mt={"34px"} flexWrap="wrap">
-        {console.log("asdf", assignment)}
+       
         {assignment?.map((mentorUploadDetails) => (
           <Box
             flexBasis="50%" // Two cards per line
