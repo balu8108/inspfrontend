@@ -82,21 +82,19 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data", 
+            "Content-Type": "multipart/form-data",
             Authorization: `Token ${"U5Ga0Z1aaNlYHp0MjdEdXJ1aKVVVB1TP"}`,
           },
         }
       );
       console.log("assignment response", response);
       if (response.status === 201) {
-      
         setAssignment(response.data.assignmentFiles);
       } else {
         console.error("Error submitting assignment:", response.data.error);
-      
       }
 
-      onClose(); 
+      onClose();
     } catch (error) {
       console.error("Error submitting assignment:", error);
     } finally {
@@ -272,7 +270,6 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
                 color={"#FFFFFF"}
                 fontWeight={500}
                 onClick={() => {
-                 
                   fileInputRef.current.click();
                 }}
               >
