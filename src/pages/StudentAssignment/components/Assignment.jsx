@@ -142,28 +142,31 @@ const AssignmentDetails = () => {
               </Text>
               <Box
                 flex={1}
-                display="flex"
-                justifyContent="flex-end"
-                gap={4}
-                my={"13px"}
-                mx={"25px"}
+              display="flex"
+              flexWrap={"wrap"}
+              gap={4}
+              my={"13px"}
+              mx={"13px"}
+               
               >
                 {assignment?.AssignmentFiles.map((files, index) => (
                   <Flex
                     key={index}
-                    flex={1}
-                    bg={"blackAlpha.100"}
-                    mt={"12px"}
-                    color={"#2C332978"}
-                    p={"9px"}
-                    borderRadius={"6px"}
-                    border={"1px"}
-                    borderColor={"#9597927D"}
-                    boxShadow={"md"}
+                    w={"180px"}
                     h={"49px"}
-                    fontSize={"11px"}
+                    word-wrap={"break-word"}
+                    color={"#2C332978"}
+                    borderColor={"#9597927D"}
+                    boxShadow={" 0px 1px 6px 0px #00000029 "}
+                    justifyContent={"space-between"}
+                    alignItems={"center"}
+                    bg="white"
+                    mb={2}
+                    borderRadius={"md"}
+                    px={2}
+                    py={5}
                   >
-                    <Text mt={2}>{extractFileNameFromS3URL(files.key)}</Text>
+                    <Text mt={2} fontSize={"11px"}>{extractFileNameFromS3URL(files.key)}</Text>
                     <Spacer />
                     <Button
                       rightIcon={<BsDownload />}
