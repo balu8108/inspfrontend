@@ -192,16 +192,15 @@ const DetailsCoveredFiles = () => {
                 {topicInfo.SoloClassRoomFiles.map((file, fileIndex) => (
                   <Box
                     key={fileIndex}
-                    w={"157px"}
+                    w={"170px"}
                     h={"49px"}
                     ml={"20px"}
                     borderRadius={6}
-                    p={1}
                     border={" 1px solid #9597927D "}
                     boxShadow={" 0px 1px 6px 0px #00000029 "}
                     mb={"25px"}
                   >
-                    <Flex align="center">
+                    <Flex align="center" m={"5px"}>
                       <Text fontSize={"11px"} color={"#2C332978"}>
                         {extractFileNameFromS3URL(file.key)}
                       </Text>
@@ -218,7 +217,7 @@ const DetailsCoveredFiles = () => {
               </Box>
             ))
           ) : (
-            <Box p={4}>
+            <Box p={4} fontSize={"12px"}>
               <Text>No files/notes are available for this topic.</Text>
             </Box>
           )}
