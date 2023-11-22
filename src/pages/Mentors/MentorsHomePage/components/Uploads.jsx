@@ -10,16 +10,16 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import { IoIosAdd } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import UploadAssignmentPopup from "../../../../components/popups/UploadAssignmentPopup";
 import { BASE_URL } from "../../../../constants/staticurls";
 import { boxShadowStyles, capitalize } from "../../../../utils";
 const MentorsUploads = () => {
   const [latestAssignment, setLatestAssignment] = useState([]);
+  const navigate= useNavigate();
   const [assignment, setAssignment] = useState([]);
-  const [isUploadAssignmentModalOpen, setUploadAssignmentModalOpen] =
-    useState(false);
+  const [isUploadAssignmentModalOpen, setUploadAssignmentModalOpen] = useState(false);
 
   const openUploadAssignmentModal = () => {
     setUploadAssignmentModalOpen(true);
@@ -29,9 +29,11 @@ const MentorsUploads = () => {
     setUploadAssignmentModalOpen(false);
   };
 
+  const handleViewDetail=() => {
+    navigate(`/mentor/allUploads`);
+  }
   useEffect(() => {
     axios.get(`${BASE_URL}/topic/latest-assignment`).then((response) => {
-     
       setAssignment(response.data.data);
     });
   }, [assignment]);
@@ -53,11 +55,10 @@ const MentorsUploads = () => {
             mt={"27px"}
             ml={"27px"}
           ></Box>
-          <Link to={`/mentor/alluploads`}>
-            <Text fontSize={"20px"} lineHeight={"24px"} mt={"26px"}>
-              My Uploads
-            </Text>
-          </Link>
+
+          <Text fontSize={"20px"} lineHeight={"24px"} mt={"26px"}>
+            My Uploads
+          </Text>
         </HStack>
         <Spacer />
 
@@ -69,17 +70,15 @@ const MentorsUploads = () => {
           mr={"10px"}
           color={"#3C8DBC"}
           onClick={openUploadAssignmentModal}
+          _hover={{bg:"#FFFFFF"}}
         >
           <Icon as={IoIosAdd} mr={2} boxSize={7} /> Add Assignment
         </Button>
       </Flex>
-      <Flex mt={"34px"} flexWrap="wrap">
-       
+
+      <Flex mt={"34px"} flexWrap="wrap" position="relative">
         {assignment?.map((mentorUploadDetails) => (
-          <Box
-            flexBasis="50%" // Two cards per line
-            key={mentorUploadDetails.id}
-          >
+          <Box flexBasis="50%" key={mentorUploadDetails.id}>
             <Card
               h={"170px"}
               borderRadius={"18px"}
@@ -88,6 +87,8 @@ const MentorsUploads = () => {
               mb={"20px"}
               mr={"20px"}
               blendMode={"multiply"}
+              display="flex"
+              flexDirection="column"
             >
               <Text
                 fontSize={"16px"}
@@ -130,15 +131,7 @@ const MentorsUploads = () => {
               >
                 {mentorUploadDetails.description}
               </Text>
-              {/* <Link
-                to={`/mentor/alluploads`}
-                style={{
-                  position: "absolute",
-                  bottom: "10px",
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                }}
-              > */}
+
               <Button
                 variant={"ghost"}
                 color={"#3C8DBC"}
@@ -146,11 +139,12 @@ const MentorsUploads = () => {
                 size={"12px"}
                 fontSize={"14px"}
                 lineHeight={"16px"}
-                mb={"10px"}
+                mb={"15px"}
+                mt={"auto"}
+                onClick={handleViewDetail}
               >
                 View Details
               </Button>
-              {/* </Link> */}
             </Card>
           </Box>
         ))}
