@@ -183,7 +183,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
             <Box
               key={liveClassData?.id}
               display="flex"
-              justifyContent="space-between"
+              flexWrap={"wrap"}
               gap={4}
             >
               {liveClassData?.LiveClassRoomFiles.map((fileData, index) => (
@@ -193,11 +193,11 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                   color={"#2C332978"}
                   p={"9px"}
                   borderRadius={"6px"}
-                  border={"1px"}
-                  borderColor={"#9597927D"}
-                  boxShadow={"md"}
+                  border={" 1px solid #9597927D "}
+                  boxShadow={" 0px 1px 6px 0px #00000029 "}
+                  w={"170px"}
                   h={"49px"}
-                  fontSize={"13px"}
+                  fontSize={"11px"}
                 >
                   {extractFileNameFromS3URL(fileData.key)}
                   <Spacer />
@@ -240,12 +240,12 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
             mr={"10px"}
             color={"#3C8DBC"}
           >
-            {userRoleType === userType.teacher && (
+            {/* {userRoleType === userType.teacher && (
               <>
                 <Icon as={IoIosAdd} mr={2} boxSize={7} />
                 Add Assignment
               </>
-            )}
+            )} */}
           </Button>
         </Flex>
 
@@ -277,14 +277,15 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                     <Flex
                       key={fileIndex}
                       mt={"5px"}
+                      w={"175px"}
+                      h={"49px"}
                       color={"#2C332978"}
                       bg={"#FFFFFF"}
-                      px={"15px"}
-                      py={"8px"}
+                      p={"9px"}
                       borderRadius={"6px"}
                       border={"1px solid #9597927D"}
                       boxShadow={"0px 1px 6px 0px #00000029"}
-                      fontSize={"13px"}
+                      fontSize={"11px"}
                     >
                       {extractFileNameFromS3URL(file.key)}
 
