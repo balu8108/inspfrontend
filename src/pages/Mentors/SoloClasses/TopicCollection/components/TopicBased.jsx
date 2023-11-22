@@ -120,7 +120,7 @@ const TopicsBased = () => {
                 ml={"13px"}
                 color={"rgba(44, 51, 41, 0.47)"}
               >
-                {topic.instructorName} No Data
+                Nitin Sachan
               </Text>
               <Text
                 fontSize={"12px"}
@@ -145,7 +145,12 @@ const TopicsBased = () => {
 
               <Link
                 to={`/mentor/solo-recordings/topic/${topic.id}/${topic.name}`}
-                style={{ display: "flex", justifyContent: "center" }}
+                style={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                }}
               >
                 <Button
                   variant={"ghost"}
