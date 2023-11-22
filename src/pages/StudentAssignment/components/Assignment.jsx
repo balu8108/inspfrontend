@@ -141,18 +141,21 @@ const AssignmentDetails = () => {
                 {assignment.description}
               </Text>
               <Box
-                flex={1}
+             
+              flex={1}
               display="flex"
               flexWrap={"wrap"}
               gap={4}
-              my={"13px"}
-              mx={"13px"}
+              mx={"14px"}
+              my={"7px"}
+
+
                
               >
                 {assignment?.AssignmentFiles.map((files, index) => (
                   <Flex
                     key={index}
-                    w={"180px"}
+                    w={"175px"}
                     h={"49px"}
                     word-wrap={"break-word"}
                     color={"#2C332978"}
