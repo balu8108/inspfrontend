@@ -23,7 +23,7 @@ import {
 } from "../../api/inspexternalapis";
 import axios from "axios";
 import { BASE_URL } from "../../constants/staticurls";
-const UploadAssignmentPopup = ({ isOpen, onClose }) => {
+const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
   const [isLoadingSubjects, setIsLoadingSubjects] = useState(true);
   const [isLoadingChapters, setIsLoadingChapters] = useState(false);
   const [isLoadingTopics, setIsLoadingTopics] = useState(false);
@@ -82,23 +82,23 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data", // Set the content type to multipart/form-data for file uploads
+            "Content-Type": "multipart/form-data", 
             Authorization: `Token ${"U5Ga0Z1aaNlYHp0MjdEdXJ1aKVVVB1TP"}`,
           },
         }
       );
-
+      console.log("assignment response", response);
       if (response.status === 201) {
-        // Handle any success actions (e.g., showing a success message)
+      
+        setAssignment(response.data.assignmentFiles);
       } else {
         console.error("Error submitting assignment:", response.data.error);
-        // Handle the error response from the backend
+      
       }
 
-      onClose(); // Close the modal
+      onClose(); 
     } catch (error) {
       console.error("Error submitting assignment:", error);
-      // Handle any network or other errors that may occur during the request
     } finally {
       setIsSending(false);
     }
@@ -166,7 +166,6 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
   }, [selectedChapters]);
 
   useEffect(() => {
-    // Reset form fields when the modal is closed
     if (!isOpen) {
       resetFormFields();
     }
@@ -273,7 +272,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
                 color={"#FFFFFF"}
                 fontWeight={500}
                 onClick={() => {
-                  // Trigger the file input click event using the ref
+                 
                   fileInputRef.current.click();
                 }}
               >

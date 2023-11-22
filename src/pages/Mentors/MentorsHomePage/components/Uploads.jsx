@@ -17,22 +17,25 @@ import { BASE_URL } from "../../../../constants/staticurls";
 import { boxShadowStyles, capitalize } from "../../../../utils";
 const MentorsUploads = () => {
   const [latestAssignment, setLatestAssignment] = useState([]);
+  const [assignment, setAssignment] = useState([]);
   const [isUploadAssignmentModalOpen, setUploadAssignmentModalOpen] =
     useState(false);
+
   const openUploadAssignmentModal = () => {
-    // Function to open the UploadAssignmentModal
     setUploadAssignmentModalOpen(true);
   };
 
   const closeUploadAssignmentModal = () => {
-    // Function to close the UploadAssignmentModal
     setUploadAssignmentModalOpen(false);
   };
+
   useEffect(() => {
     axios.get(`${BASE_URL}/topic/latest-assignment`).then((response) => {
-      setLatestAssignment(response.data.data);
+      console.log(" reposne of the assignment", response);
+      setAssignment(response.data.data);
     });
-  }, []);
+  }, [assignment]);
+
   return (
     <Box
       w={"95%"}
@@ -71,7 +74,8 @@ const MentorsUploads = () => {
         </Button>
       </Flex>
       <Flex mt={"34px"} flexWrap="wrap">
-        {latestAssignment.map((mentorUploadDetails) => (
+        {console.log("asdf", assignment)}
+        {assignment?.map((mentorUploadDetails) => (
           <Box
             flexBasis="50%" // Two cards per line
             key={mentorUploadDetails.id}
@@ -126,7 +130,7 @@ const MentorsUploads = () => {
               >
                 {mentorUploadDetails.description}
               </Text>
-              <Link
+              {/* <Link
                 to={`/mentor/alluploads`}
                 style={{
                   position: "absolute",
@@ -134,25 +138,25 @@ const MentorsUploads = () => {
                   left: "50%",
                   transform: "translateX(-50%)",
                 }}
+              > */}
+              <Button
+                variant={"ghost"}
+                color={"#3C8DBC"}
+                fontWeight={"600"}
+                size={"12px"}
+                fontSize={"14px"}
+                lineHeight={"16px"}
+                mb={"10px"}
               >
-                <Button
-                  variant={"ghost"}
-                  color={"#3C8DBC"}
-                  fontWeight={"600"}
-                  size={"12px"}
-                  fontSize={"14px"}
-                  lineHeight={"16px"}
-                  mt={"240px"}
-                  mb={"10px"}
-                >
-                  View Details
-                </Button>
-              </Link>
+                View Details
+              </Button>
+              {/* </Link> */}
             </Card>
           </Box>
         ))}
       </Flex>
       <UploadAssignmentPopup
+        setAssignment={setAssignment}
         isOpen={isUploadAssignmentModalOpen}
         onClose={closeUploadAssignmentModal}
       />

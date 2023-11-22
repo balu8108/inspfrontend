@@ -54,7 +54,7 @@ const Library = () => {
                 fontSize={"13px"}
                 fontWeight={"400"}
                 mt={"40%"}
-                onClick={handleSeeAllClick}
+                // onClick={handleSeeAllClick}
               >
                 See All
               </Button>
