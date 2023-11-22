@@ -122,14 +122,12 @@ const RecordingLectures = () => {
       }
       screenSharingVideoRef.current.srcObject = null;
       <IconButton
-      isRound={true}
-      variant="solid"
-      
-      aria-label="Done"
-      fontSize="20px"
-      icon={<LuMonitorOff />}
-      
-    />
+        isRound={true}
+        variant="solid"
+        aria-label="Done"
+        fontSize="20px"
+        icon={<LuMonitorOff />}
+      />;
       setScreenSharingStream(null);
       setIsScreenSharing(false);
     }
@@ -226,7 +224,6 @@ const RecordingLectures = () => {
   //   }
   // };
 
-
   const stopRecording = () => {
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
@@ -235,19 +232,19 @@ const RecordingLectures = () => {
           recordedChunksRef.current.push(event.data);
         }
       };
-  
+
       mediaRecorderRef.current.onstop = () => {
         setIsRecording(false);
-  
+
         if (recordedChunksRef.current.length > 0) {
           // Combine the recorded chunks into a single Blob
           const blob = new Blob(recordedChunksRef.current, {
             type: "video/webm",
           });
-  
+
           // Create an object URL for the Blob
           const url = window.URL.createObjectURL(blob);
-  
+
           // Create a download link for the video
           const a = document.createElement("a");
           a.style.display = "none";
@@ -256,7 +253,7 @@ const RecordingLectures = () => {
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
-  
+
           // Revoke the object URL to free up resources
           window.URL.revokeObjectURL(url);
         }
@@ -264,14 +261,12 @@ const RecordingLectures = () => {
       };
     }
   };
-  
+
   const toggleRecording = () => {
     if (isRecording) {
-      
       stopRecording();
     } else {
       if (isScreenSharing && isMicrophoneOn) {
-       
         startRecording();
       } else {
         // You can provide a message or an alert to the user to indicate that both screen share and microphone must be enabled before starting the recording.
@@ -446,7 +441,6 @@ const RecordingLectures = () => {
             }}
             autoPlay
           />
-          
         </Box>
       </Box>
     </Box>

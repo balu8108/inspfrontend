@@ -17,9 +17,10 @@ import { BASE_URL } from "../../../../constants/staticurls";
 import { boxShadowStyles, capitalize } from "../../../../utils";
 const MentorsUploads = () => {
   const [latestAssignment, setLatestAssignment] = useState([]);
-  const navigate= useNavigate();
+  const navigate = useNavigate();
   const [assignment, setAssignment] = useState([]);
-  const [isUploadAssignmentModalOpen, setUploadAssignmentModalOpen] = useState(false);
+  const [isUploadAssignmentModalOpen, setUploadAssignmentModalOpen] =
+    useState(false);
 
   const openUploadAssignmentModal = () => {
     setUploadAssignmentModalOpen(true);
@@ -29,9 +30,9 @@ const MentorsUploads = () => {
     setUploadAssignmentModalOpen(false);
   };
 
-  const handleViewDetail=() => {
+  const handleViewDetail = () => {
     navigate(`/mentor/allUploads`);
-  }
+  };
   useEffect(() => {
     axios.get(`${BASE_URL}/topic/latest-assignment`).then((response) => {
       setAssignment(response.data.data);
@@ -70,7 +71,7 @@ const MentorsUploads = () => {
           mr={"10px"}
           color={"#3C8DBC"}
           onClick={openUploadAssignmentModal}
-          _hover={{bg:"#FFFFFF"}}
+          _hover={{ bg: "#FFFFFF" }}
         >
           <Icon as={IoIosAdd} mr={2} boxSize={7} /> Add Assignment
         </Button>
