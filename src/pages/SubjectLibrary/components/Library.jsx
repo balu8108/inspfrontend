@@ -20,7 +20,7 @@ import { useParams } from "react-router-dom";
 import { SearchIcon } from "@chakra-ui/icons";
 import { fetchAllTopicsForSubjectApi } from "../../../api/inspexternalapis";
 import topicDescriptionConstants from "../../../constants/topicDescriptionConstants";
-import { capitalize } from "../../../utils";
+import { boxShadowStyles, capitalize } from "../../../utils";
 import MathematicsImage from "../../../assets/images/undraw_mathematics_-4-otb 1.svg";
 import ChemistryImage from "../../../assets/images/undraw_science_re_mnnr 1.svg";
 import TopicBasedRecordings from "./TopicBasedRecordings";
@@ -63,7 +63,11 @@ const SubjectLibrary = () => {
   }
 
   return (
-    <Box width={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
+    <Box
+      width={"100%"}
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      borderRadius={"26px"}
+    >
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
         <Box
           width={"12px"}

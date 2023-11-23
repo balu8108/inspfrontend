@@ -15,7 +15,7 @@ import {
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../api/inspexternalapis";
 import { SearchIcon } from "@chakra-ui/icons";
 import topicDescriptionConstants from "../../../constants/topicDescriptionConstants";
-import { capitalize } from "../../../utils";
+import { boxShadowStyles, capitalize } from "../../../utils";
 import { useParams } from "react-router-dom";
 const TopicBasedRecordings = () => {
   const [topic, setTopic] = useState(null);
@@ -46,7 +46,11 @@ const TopicBasedRecordings = () => {
   }
 
   return (
-    <Box width={"100%"} borderRadius={"26px"}>
+    <Box
+      width={"100%"}
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      borderRadius={"26px"}
+    >
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
         <Box
           width={"12px"}
