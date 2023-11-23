@@ -104,7 +104,6 @@ export const fetchAllTopicsForSubjectApi = async (subject_id) => {
     );
     const data = await response.json();
     if (data) {
-      console.log("data is ",data);
       return data;
     }
   } catch (err) {
