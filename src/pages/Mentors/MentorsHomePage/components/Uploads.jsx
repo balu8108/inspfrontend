@@ -37,7 +37,7 @@ const MentorsUploads = () => {
     axios.get(`${BASE_URL}/topic/latest-assignment`).then((response) => {
       setAssignment(response.data.data);
     });
-  }, [assignment]);
+  }, []);
 
   return (
     <Box
