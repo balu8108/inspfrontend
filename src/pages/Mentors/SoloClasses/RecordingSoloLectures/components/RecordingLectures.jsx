@@ -121,6 +121,13 @@ const RecordingLectures = () => {
         tracks.forEach((track) => track.stop());
       }
       screenSharingVideoRef.current.srcObject = null;
+      <IconButton
+        isRound={true}
+        variant="solid"
+        aria-label="Done"
+        fontSize="20px"
+        icon={<LuMonitorOff />}
+      />;
       setScreenSharingStream(null);
       setIsScreenSharing(false);
     }
@@ -179,11 +186,47 @@ const RecordingLectures = () => {
     }
   };
 
+  // const stopRecording = () => {
+  //   if (mediaRecorderRef.current) {
+  //     mediaRecorderRef.current.stop();
+  //     setIsRecording(false);
+
+  //     mediaRecorderRef.current.ondataavailable = (event) => {
+  //       if (event.data.size > 0) {
+  //         recordedChunksRef.current.push(event.data);
+  //       }
+  //     };
+
+  //     mediaRecorderRef.current.onstop = () => {
+  //       if (recordedChunksRef.current.length > 0) {
+  //         // Combine the recorded chunks into a single Blob
+  //         const blob = new Blob(recordedChunksRef.current, {
+  //           type: "video/webm",
+  //         });
+
+  //         // Create an object URL for the Blob
+  //         const url = window.URL.createObjectURL(blob);
+
+  //         // Create a download link for the video
+  //         const a = document.createElement("a");
+  //         a.style.display = "none";
+  //         a.href = url;
+  //         a.download = "recorded-video.webm";
+  //         document.body.appendChild(a);
+  //         a.click();
+  //         document.body.removeChild(a);
+
+  //         // Revoke the object URL to free up resources
+  //         window.URL.revokeObjectURL(url);
+  //       }
+  //       recordedChunksRef.current = [];
+  //     };
+  //   }
+  // };
+
   const stopRecording = () => {
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
-      setIsRecording(false);
-
       mediaRecorderRef.current.ondataavailable = (event) => {
         if (event.data.size > 0) {
           recordedChunksRef.current.push(event.data);
@@ -191,6 +234,8 @@ const RecordingLectures = () => {
       };
 
       mediaRecorderRef.current.onstop = () => {
+        setIsRecording(false);
+
         if (recordedChunksRef.current.length > 0) {
           // Combine the recorded chunks into a single Blob
           const blob = new Blob(recordedChunksRef.current, {
@@ -219,11 +264,9 @@ const RecordingLectures = () => {
 
   const toggleRecording = () => {
     if (isRecording) {
-      // Stop recording
       stopRecording();
     } else {
       if (isScreenSharing && isMicrophoneOn) {
-        // Start recording
         startRecording();
       } else {
         // You can provide a message or an alert to the user to indicate that both screen share and microphone must be enabled before starting the recording.
@@ -326,7 +369,7 @@ const RecordingLectures = () => {
             <IconButton
               isRound={true}
               variant="solid"
-              colorScheme="red"
+              colorScheme={isRecording ? "gray" : "red"}
               aria-label="Done"
               fontSize="20px"
               icon={isRecording ? <FiCircle /> : <LuCircleOff />}
@@ -340,7 +383,7 @@ const RecordingLectures = () => {
               <IconButton
                 isRound={true}
                 variant="solid"
-                colorScheme="red"
+                colorScheme={isScreenSharing ? "gray" : "red"}
                 aria-label="Done"
                 fontSize="20px"
                 icon={isScreenSharing ? <FiMonitor /> : <LuMonitorOff />}
@@ -358,6 +401,7 @@ const RecordingLectures = () => {
             size="sm"
             mb={"25px"}
             _hover={"#F63F4A"}
+            onClick={endClass}
           >
             End
           </Button>

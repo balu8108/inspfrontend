@@ -14,6 +14,7 @@ import {
   Spacer,
   Image,
   Center,
+  filter,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { SearchIcon } from "@chakra-ui/icons";
@@ -29,21 +30,23 @@ const SubjectLibrary = () => {
   const [allTopicList, setAllTopicList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const filteredLibrary = allTopicList.filter((libraryData) => {
-    const topicName = libraryData.name.toLowerCase();
-    return topicName.includes(searchQuery.toLowerCase());
-  });
-
   const handleSearchInputChange = (event) => {
     setSearchQuery(event.target.value);
+    const filteredLibrary = allTopicList.filter((libraryData) => {
+      const topicName = libraryData.name.toLowerCase();
+      return topicName.includes(event.target.value.toLowerCase());
+    });
+    setAllTopicList(filteredLibrary);
   };
 
   useEffect(() => {
     const handleFetchTopics = async () => {
       try {
         const response = await fetchAllTopicsForSubjectApi(subject_id);
-        if (response && response.status) {
-          setAllTopicList(response.result);
+        if (response) {
+          if (response.result) setAllTopicList(response.result);
+          else setAllTopicList([]);
+          console.log("API Result:", response.result);
         }
       } catch (err) {
         console.log("Error fetching topics data:", err);
@@ -85,9 +88,9 @@ const SubjectLibrary = () => {
 
       <Stack>
         <Flex flexWrap="wrap" p={5} gap={"24px"} ml={5}>
-          {filteredLibrary.length === 0
+          {allTopicList?.length === 0
             ? null
-            : filteredLibrary.map((libraryData) => (
+            : allTopicList?.map((libraryData) => (
                 <Card
                   key={libraryData.id}
                   w="30%"
@@ -155,7 +158,7 @@ const SubjectLibrary = () => {
         </Flex>
       </Stack>
 
-      {filteredLibrary.length === 0 && (
+      {allTopicList?.length === 0 && (
         <Box mt={4}>
           {subjectName === "CHEMISTRY" && (
             <Center>

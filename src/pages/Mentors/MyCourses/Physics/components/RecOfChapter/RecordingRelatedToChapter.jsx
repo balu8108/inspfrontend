@@ -77,7 +77,14 @@ const ViewAllRecordingsRelatedToOneChapter = ({
           No topics for this chapter.
         </Text>
       ) : (
-        <Flex  ml={"20px"} my={"20px"} gap={"24px"} p={1}  overflowX="auto" className="example">
+        <Flex
+          ml={"20px"}
+          my={"20px"}
+          gap={"24px"}
+          p={1}
+          overflowX="auto"
+          className="example"
+        >
           {topics.map((topic) => (
             <Card
               key={topic.id}

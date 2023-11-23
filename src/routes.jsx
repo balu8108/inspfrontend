@@ -63,6 +63,7 @@ const privateRoutes = [
 
   {
     name: "Student MathsCourse",
+    path: "/myCourses/mathematics",
     component: <StudentMathsCourse />,
   },
   {

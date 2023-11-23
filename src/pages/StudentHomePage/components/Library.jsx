@@ -54,7 +54,7 @@ const Library = () => {
                 fontSize={"13px"}
                 fontWeight={"400"}
                 mt={"40%"}
-                onClick={handleSeeAllClick}
+                // onClick={handleSeeAllClick}
               >
                 See All
               </Button>
@@ -113,7 +113,7 @@ const Library = () => {
             </Text>
             <Link
               style={{ display: "flex", justifyContent: "center" }}
-              to={`/library/${library.subjectName}$/{library.subject_id}`}
+              to={`/library/${library.subjectName}/${library.subject_id}`}
             >
               <Button
                 variant={"ghost"}
