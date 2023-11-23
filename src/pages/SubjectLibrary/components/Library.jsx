@@ -1,52 +1,69 @@
 import React, { useState, useEffect } from "react";
 import {
   Box,
-  Card,
-  HStack,
   Text,
-  InputGroup,
-  Input,
-  InputLeftElement,
-  Spacer,
-  Stack,
+  HStack,
+  Card,
   Flex,
   Button,
+  Stack,
+  VStack,
+  Input,
+  InputLeftElement,
+  InputGroup,
+  Spacer,
+  Image,
+  Center,
+  filter,
 } from "@chakra-ui/react";
-import { fetchAllTopicsWithoutChapterIdApi } from "../../../../api/inspexternalapis";
-import { SearchIcon } from "@chakra-ui/icons";
-import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
-import { capitalize } from "../../../../utils";
 import { useParams } from "react-router-dom";
-const TopicBasedRecordings = () => {
-  const [topic, setTopic] = useState(null);
+import { SearchIcon } from "@chakra-ui/icons";
+import { fetchAllTopicsForSubjectApi } from "../../../api/inspexternalapis";
+import topicDescriptionConstants from "../../../constants/topicDescriptionConstants";
+import { capitalize } from "../../../utils";
+import MathematicsImage from "../../../assets/images/undraw_mathematics_-4-otb 1.svg";
+import ChemistryImage from "../../../assets/images/undraw_science_re_mnnr 1.svg";
+import TopicBasedRecordings from "./TopicBasedRecordings";
+
+const SubjectLibrary = () => {
+  const { subject_id, subjectName } = useParams();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [allTopicList, setAllTopicList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const { subjectName } = useParams();
+
+  const handleSearchInputChange = (event) => {
+    setSearchQuery(event.target.value);
+    const filteredLibrary = allTopicList.filter((libraryData) => {
+      const topicName = libraryData.name.toLowerCase();
+      return topicName.includes(event.target.value.toLowerCase());
+    });
+    setAllTopicList(filteredLibrary);
+  };
+
   useEffect(() => {
-    const fetchtopic = async () => {
+    const handleFetchTopics = async () => {
       try {
-        const response = await fetchAllTopicsWithoutChapterIdApi();
-        if (response && response.result) {
-          setTopic(response.result);
-        } else {
-          setTopic([]);
+        const response = await fetchAllTopicsForSubjectApi(subject_id);
+        if (response) {
+          if (response.result) setAllTopicList(response.result);
+          else setAllTopicList([]);
         }
       } catch (err) {
-        setError(err);
+        console.log("Error fetching topics data:", err);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchtopic();
-  }, []);
+    handleFetchTopics();
+  }, [subject_id]);
 
-  if (isLoading) {
-    return <Box>Loading...</Box>;
+  if (subject_id === "4") {
+    return <TopicBasedRecordings />;
   }
 
   return (
-    <Box width={"100%"} borderRadius={"26px"}>
+    <Box width={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
         <Box
           width={"12px"}
@@ -61,6 +78,8 @@ const TopicBasedRecordings = () => {
         <InputGroup w="30%" mx={12} my={17}>
           <Input
             type="text"
+            value={searchQuery}
+            onChange={handleSearchInputChange}
             placeholder="Search..."
             border="1px solid #ccc"
             borderRadius="md"
@@ -71,19 +90,11 @@ const TopicBasedRecordings = () => {
         </InputGroup>
       </HStack>
 
-      {/* {topic && (
-        <Card>
-          {topic.map((item) => (
-            <li key={item.id}>{item.name}</li>
-          ))}
-        </Card>
-      )} */}
-
       <Stack>
         <Flex flexWrap="wrap" p={5} gap={"24px"} ml={5}>
-          {topic?.length === 0
+          {allTopicList?.length === 0
             ? null
-            : topic?.map((libraryData) => (
+            : allTopicList?.map((libraryData) => (
                 <Card
                   key={libraryData.id}
                   w="30%"
@@ -150,8 +161,56 @@ const TopicBasedRecordings = () => {
               ))}
         </Flex>
       </Stack>
+
+      {allTopicList?.length === 0 && (
+        <Box mt={4}>
+          {subjectName === "CHEMISTRY" && (
+            <Center>
+              <VStack spacing={4}>
+                <Image
+                  boxSize="200px"
+                  objectFit="cover"
+                  src={ChemistryImage}
+                  alt="Chemistry"
+                />
+                <Text
+                  fontSize={"25px"}
+                  fontWeight={"500"}
+                  lineHeight={"37px"}
+                  color={"#2C3329"}
+                  p={"40px"}
+                >
+                  Coming Soon
+                </Text>
+              </VStack>
+            </Center>
+          )}
+
+          {subjectName === "MATHEMATICS" && (
+            <Center>
+              <VStack spacing={4}>
+                <Image
+                  boxSize="200px"
+                  objectFit="cover"
+                  src={MathematicsImage}
+                  alt="Mathematics"
+                />
+                <Text
+                  fontSize={"25px"}
+                  fontWeight={"500"}
+                  lineHeight={"37px"}
+                  color={"#2C3329"}
+                  p={"40px"}
+                >
+                  Coming Soon
+                </Text>
+              </VStack>
+            </Center>
+          )}
+        </Box>
+      )}
     </Box>
   );
 };
 
-export default TopicBasedRecordings;
+export default SubjectLibrary;
