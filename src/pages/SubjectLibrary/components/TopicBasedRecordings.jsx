@@ -11,6 +11,8 @@ import {
   Stack,
   Flex,
   Button,
+  Spinner,
+  Center,
 } from "@chakra-ui/react";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../api/inspexternalapis";
 import { SearchIcon } from "@chakra-ui/icons";
@@ -19,17 +21,22 @@ import { boxShadowStyles, capitalize } from "../../../utils";
 import { useParams } from "react-router-dom";
 const TopicBasedRecordings = () => {
   const [topic, setTopic] = useState(null);
+  const [filteredTopic, setFilteredTopic] = useState(null); // New state for filtered topics
+  const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { subjectName } = useParams();
+
   useEffect(() => {
     const fetchtopic = async () => {
       try {
         const response = await fetchAllTopicsWithoutChapterIdApi();
         if (response && response.result) {
           setTopic(response.result);
+          setFilteredTopic(response.result); // Initialize filtered list with all topics
         } else {
           setTopic([]);
+          setFilteredTopic([]); // Initialize filtered list with an empty array
         }
       } catch (err) {
         setError(err);
@@ -41,8 +48,25 @@ const TopicBasedRecordings = () => {
     fetchtopic();
   }, []);
 
+  const handleSearchInputChange = (event) => {
+    const query = event.target.value.toLowerCase();
+    setSearchQuery(query);
+    const filteredLibrary = topic.filter((libraryData) => {
+      const topicName = libraryData.name.toLowerCase();
+      return topicName.includes(query);
+    });
+
+    setFilteredTopic(filteredLibrary);
+  };
+
   if (isLoading) {
-    return <Box>Loading...</Box>;
+    return (
+      <Box>
+        <Center>
+          <Spinner size={"xl"} mt={"50%"} color="#F1F5F8" />
+        </Center>
+      </Box>
+    );
   }
 
   return (
@@ -65,6 +89,8 @@ const TopicBasedRecordings = () => {
         <InputGroup w="30%" mx={12} my={17}>
           <Input
             type="text"
+            value={searchQuery}
+            onChange={handleSearchInputChange}
             placeholder="Search..."
             border="1px solid #ccc"
             borderRadius="md"
@@ -74,20 +100,11 @@ const TopicBasedRecordings = () => {
           </InputLeftElement>
         </InputGroup>
       </HStack>
-
-      {/* {topic && (
-        <Card>
-          {topic.map((item) => (
-            <li key={item.id}>{item.name}</li>
-          ))}
-        </Card>
-      )} */}
-
       <Stack>
         <Flex flexWrap="wrap" p={5} gap={"24px"} ml={5}>
-          {topic?.length === 0
+          {filteredTopic?.length === 0
             ? null
-            : topic?.map((libraryData) => (
+            : filteredTopic?.map((libraryData) => (
                 <Card
                   key={libraryData.id}
                   w="30%"
