@@ -1,12 +1,4 @@
-import {
-  Flex,
-  Box,
-  useTheme,
-  HStack,
-  Text,
-  Stack,
-  VStack,
-} from "@chakra-ui/react";
+import { Flex, Box, useTheme, HStack, Text, Stack } from "@chakra-ui/react";
 import React from "react";
 import { MainBtn } from "../../../components/button";
 import { scheduleClassData } from "../data/scheduleClassData";
