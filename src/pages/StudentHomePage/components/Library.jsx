@@ -14,7 +14,6 @@ import { capitalize } from "../../../utils";
 import libraryData from "../data/library";
 
 const Library = () => {
-  const navigate = useNavigate();
   const { primaryBlue, mainTextColor } = useTheme().colors.pallete;
   const isDetailView = window.location.pathname.includes("/library/");
 
