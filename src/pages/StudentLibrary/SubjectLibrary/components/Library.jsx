@@ -26,18 +26,11 @@ import ChemistryImage from "../../../../assets/images/undraw_science_re_mnnr 1.s
 
 const SubjectLibrary = () => {
   const { subject_id, subjectName } = useParams();
-  console.log("subject id",subject_id);
   const [searchQuery, setSearchQuery] = useState("");
   const [allTopicList, setAllTopicList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-console.log("topic list",allTopicList);
-
-
-
-  
 
   const handleSearchInputChange = (event) => {
-   
     setSearchQuery(event.target.value);
     const filteredLibrary = allTopicList.filter((libraryData) => {
       const topicName = libraryData.name.toLowerCase();
@@ -50,11 +43,9 @@ console.log("topic list",allTopicList);
     const handleFetchTopics = async () => {
       try {
         const response = await fetchAllTopicsForSubjectApi(subject_id);
-        if (response ) {
-          if(response.result) 
-          setAllTopicList(response.result);
-        else
-         setAllTopicList([]);
+        if (response) {
+          if (response.result) setAllTopicList(response.result);
+          else setAllTopicList([]);
           console.log("API Result:", response.result);
         }
       } catch (err) {
@@ -66,7 +57,6 @@ console.log("topic list",allTopicList);
 
     handleFetchTopics();
   }, [subject_id]);
-
 
   return (
     <Box width={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
