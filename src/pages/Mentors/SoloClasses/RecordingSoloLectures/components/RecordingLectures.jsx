@@ -401,6 +401,7 @@ const RecordingLectures = () => {
             size="sm"
             mb={"25px"}
             _hover={"#F63F4A"}
+            onClick={endClass}
           >
             End
           </Button>
