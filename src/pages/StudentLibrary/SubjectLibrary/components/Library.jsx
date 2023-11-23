@@ -23,6 +23,7 @@ import topicDescriptionConstants from "../../../../constants/topicDescriptionCon
 import { capitalize } from "../../../../utils";
 import MathematicsImage from "../../../../assets/images/undraw_mathematics_-4-otb 1.svg";
 import ChemistryImage from "../../../../assets/images/undraw_science_re_mnnr 1.svg";
+import TopicBasedRecordings from "../../TopicBasedLibrary/components/TopicBasedRecordings";
 
 const SubjectLibrary = () => {
   const { subject_id, subjectName } = useParams();
@@ -46,7 +47,6 @@ const SubjectLibrary = () => {
         if (response) {
           if (response.result) setAllTopicList(response.result);
           else setAllTopicList([]);
-          console.log("API Result:", response.result);
         }
       } catch (err) {
         console.log("Error fetching topics data:", err);
@@ -57,6 +57,10 @@ const SubjectLibrary = () => {
 
     handleFetchTopics();
   }, [subject_id]);
+
+  if (subject_id === "4") {
+    return <TopicBasedRecordings />;
+  }
 
   return (
     <Box width={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
