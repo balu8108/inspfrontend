@@ -20,7 +20,7 @@ import {
 import { LuMonitorOff, LuCircleOff } from "react-icons/lu";
 
 import { boxShadowStyles } from "../../../../../utils";
-const RecordingLectures = () => {
+const RecordingLectures = ({toggleDataVisibility  }) => {
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [isMicrophoneOn, setIsMicrophoneOn] = useState(false);
   const [isScreenSharing, setIsScreenSharing] = useState(false);
@@ -323,6 +323,10 @@ const RecordingLectures = () => {
                   fontSize="20px"
                   mt={"16px"}
                   icon={<RiFullscreenLine />}
+                  onClick={() => {
+           
+            toggleDataVisibility(); // Add this line to toggle the visibility of DataForClass
+          }}
                 />
               </Tooltip>
 
