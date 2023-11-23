@@ -2,7 +2,6 @@ import {
   Box,
   Flex,
   VStack,
-  useTheme,
   HStack,
   IconButton,
   Text,
@@ -28,9 +27,8 @@ const RoomPreviewVideo = () => {
 
   const dispatch = useDispatch();
   const videoRef = useRef();
-  const theme = useTheme();
+
   const userRoleType = checkUserType();
-  const { backgroundLightBlue } = theme.colors.pallete;
 
   const getWebCamFeed = async () => {
     try {

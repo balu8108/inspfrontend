@@ -8,7 +8,7 @@ import {
   Spacer,
   Text,
 } from "@chakra-ui/react";
-import soloclasses from "../data/soloclass";
+
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../../../../constants/staticurls";

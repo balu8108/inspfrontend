@@ -36,8 +36,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
   const [selectedTopic, setSelectedTopic] = useState("");
   const [description, setDescription] = useState("");
   const [files, setFiles] = useState([]);
-  const { extraTextLight, primaryBlue, primaryBlueLight } =
-    useTheme().colors.pallete;
+  const { primaryBlueLight } = useTheme().colors.pallete;
   const fileInputRef = useRef(null);
 
   const resetFormFields = () => {
