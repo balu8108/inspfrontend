@@ -18,10 +18,6 @@ const Library = () => {
   const { primaryBlue, mainTextColor } = useTheme().colors.pallete;
   const isDetailView = window.location.pathname.includes("/library/");
 
-  const handleSeeAllClick = () => {
-    navigate("/student/1/library/PHYSICS");
-  };
-
   return (
     <Box w={"full"} bg={"#F1F5F8"} borderRadius={"26px"}>
       <HStack spacing={"10px"}>
