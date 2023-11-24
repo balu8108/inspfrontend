@@ -14,7 +14,6 @@ import {
   Spacer,
   Image,
   Center,
-  filter,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { SearchIcon } from "@chakra-ui/icons";
