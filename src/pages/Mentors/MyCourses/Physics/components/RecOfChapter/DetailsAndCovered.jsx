@@ -28,6 +28,7 @@ import axios from "axios";
 import { setIsDocModalOpen } from "../../../../../../store/actions/genericActions";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { wrap } from "framer-motion";
 const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
   const [liveClassRoomData, setLiveClassRoomData] = useState(null);
 
@@ -264,7 +265,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                         setIsDocModalOpen(
                           liveClassData.LiveClassRoomQNANote?.id,
                           liveClassData.LiveClassRoomQNANote?.key,
-                          "live",
+                          "qna",
                           true
                         )
                       )
@@ -275,7 +276,9 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
             </Box>
           ))
         ) : (
-          <Text  fontSize={"12px"} p={4}>No Data</Text>
+          <Text fontSize={"12px"} p={4}>
+            No Data
+          </Text>
         )}
       </Box>
 
@@ -316,7 +319,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                 >
                   {assignment.description}
                 </Text>
-                <HStack mt={"12px"}>
+                <HStack mt={"12px"} flexWrap="wrap">
                   {assignment.AssignmentFiles.map((file, fileIndex) => (
                     <Flex
                       key={fileIndex}
