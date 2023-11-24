@@ -13,7 +13,6 @@ import {
   Spacer,
   Input,
 } from "@chakra-ui/react";
-import physDetailsData from "../data/physicsDetails";
 import { fetchAllChaptersApi } from "../../../../api/inspexternalapis";
 import { boxShadowStyles, capitalize } from "../../../../utils";
 const PhysDetails = () => {
