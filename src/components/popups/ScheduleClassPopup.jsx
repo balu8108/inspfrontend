@@ -201,8 +201,6 @@ const ScheduleClassPopup = ({
       return;
     }
 
-    console.log("data", scheduleClassFormData);
-
     dispatch(setAddClassSchedule(formData));
     setScheduleClassFormData({});
     onClose();
