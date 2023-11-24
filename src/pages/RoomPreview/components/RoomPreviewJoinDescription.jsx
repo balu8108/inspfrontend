@@ -126,7 +126,7 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
     <Box
       boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       bg={"white"}
-      width={"30%"}
+      width={["100%", "100%", "40%", "30%"]}
       borderRadius={"2xl"}
       p={8}
     >
