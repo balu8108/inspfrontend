@@ -22,7 +22,6 @@ const FullRec = () => {
   return (
     <Box
       width={"290px"}
-      // w={"100%"}
       h={"999px"}
       borderRadius={"26px"}
       bg={"#F1F5F8"}
