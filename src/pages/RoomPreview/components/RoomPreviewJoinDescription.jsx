@@ -9,7 +9,6 @@ import {
   Avatar,
   Spinner,
   Center,
-  Stack,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { liveSessionData } from "../data/liveSessionData";
