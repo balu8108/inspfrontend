@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import "../../../constants/scrollbar/style.css";
-import { capitalize } from "../../../utils";
+import { boxShadowStyles,capitalize } from "../../../utils";
 import libraryData from "../data/library";
 
 const Library = () => {
@@ -18,7 +18,11 @@ const Library = () => {
   const isDetailView = window.location.pathname.includes("/library/");
 
   return (
-    <Box w={"full"} bg={"#F1F5F8"} borderRadius={"26px"}>
+    <Box
+      w={"full"}
+      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      borderRadius={"26px"}
+    >
       <HStack spacing={"10px"}>
         <Box
           bg={primaryBlue}

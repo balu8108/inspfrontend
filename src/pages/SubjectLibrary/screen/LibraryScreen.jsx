@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { Box, Flex, Stack, useDisclosure } from "@chakra-ui/react";
-import Library from "../../../StudentHomePage/components/Library";
+import Library from "../../StudentHomePage/components/Library";
 import SubjectLibrary from "../components/Library";
-import ScheduleClassList from "../../../ScheduleClasses/components/ScheduleClassList";
+import ScheduleClassList from "../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
-import { boxShadowStyles } from "../../../../utils";
+import { boxShadowStyles } from "../../../utils";
 import { useDispatch } from "react-redux";
-import { getAllLiveClassesSchedule } from "../../../../store/actions/scheduleClassActions";
+import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassActions";
 const LibraryScreen = () => {
   const dispatch = useDispatch();
   const { onOpen: onSchedulePopupOpen } = useDisclosure();

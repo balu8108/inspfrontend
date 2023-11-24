@@ -88,7 +88,12 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
       );
       console.log("assignment response", response);
       if (response.status === 201) {
-        setAssignment(response.data.assignmentFiles);
+        console.log("value for assignment is ", response.data.assignmentFiles);
+        // setAssignment(response.data.assignmentFiles);
+
+        setAssignment((prev) => {
+          return [response?.data?.assignment, ...prev];
+        });
       } else {
         console.error("Error submitting assignment:", response.data.error);
       }
