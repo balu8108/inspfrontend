@@ -10,7 +10,7 @@ import {
   Spinner,
   Center,
 } from "@chakra-ui/react";
-import headerData from "../data/headerData";
+
 import { fetchAllSubjectsApi } from "../../../api/inspexternalapis";
 import { boxShadowStyles, capitalize } from "../../../utils";
 const Header = () => {
