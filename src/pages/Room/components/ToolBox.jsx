@@ -68,7 +68,6 @@ const ToolBox = ({
 }) => {
   const [isRaiseHand, setIsRaiseHand] = useState(false);
   const [isLeaveLoading, setIsLeaveLoading] = useState(false); // for leave button loading state
-  // const [QNo, setQNo] = useState(0);
   const [isRecordingLoading, setIsRecordingLoading] = useState(false);
   const [producerScreenShare, setProducerScreenShare] = useState(null);
   const [producerMentorVideoShare, setProducerMentorVideoShare] =
@@ -79,9 +78,6 @@ const ToolBox = ({
   );
   const { redBtnColor } = useTheme().colors.pallete;
   const userRoleType = checkUserType();
-  // let producerScreenShare = null;
-  // let producerMentorVideoShare = null;
-  // let producerAudioShare = null;
 
   const { roomPreviewData, selfDetails } = useSelector(
     (state) => state.socket,
