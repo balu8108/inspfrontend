@@ -84,17 +84,37 @@ const DataForClass = () => {
             {data.description}
           </Text>
         </Box>
-        <Stack ml={"12px"}>
-          <Text>Agenda</Text>
-          <Text
-            fontSize={"12px"}
-            lineHeight={"14px"}
-            color={"#2C332978"}
-            ml={2}
-          >
-            {data.agenda}
+
+        <Box m={"12px"}>
+          <Text fontSize={"16px"} lineHeight={"19px"}>
+            Agenda
           </Text>
-        </Stack>
+
+          <Box  mt={"16px"}>
+          {data.agenda.split("\r\n").map((agendaItem, index) => (
+            <Stack
+              key={index}
+              spacing={1}
+              direction="row"
+              alignItems="center"
+              mt={"10px"}
+              
+            >
+              <Box
+                w={"15px"}
+                h={"15px"}
+                bg="#C3C3C3"
+                borderRadius="20px"
+                mr={2}
+                blendMode={"multiply"}
+              ></Box>
+              <Text fontSize={"12px"} lineHeight={"14px"} color={"#2C332978"}>
+                {agendaItem}
+              </Text>
+            </Stack>
+          ))}
+          </Box>
+        </Box>
 
         <Box m={"12px"}>
           <Text>Files</Text>
