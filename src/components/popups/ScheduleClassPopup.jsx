@@ -200,11 +200,9 @@ const ScheduleClassPopup = ({
       setIsSubmitLoading(false);
       return;
     }
-
     dispatch(setAddClassSchedule(formData));
     setScheduleClassFormData({});
     onClose();
-
     setIsSubmitLoading(false);
   };
 
