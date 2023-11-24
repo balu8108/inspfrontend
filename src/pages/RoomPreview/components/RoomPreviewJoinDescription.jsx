@@ -180,10 +180,6 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
             <Text fontSize={"14px"} color={mainTextColor} mb={2}>
               {liveSessionData.agenda}
             </Text>
-            {console.log(
-              " roomPreviewData.LiveClassRoomDetail.agenda",
-              roomPreviewData?.LiveClassRoomDetail?.agenda
-            )}
             {roomPreviewData?.LiveClassRoomDetail?.agenda ? (
               roomPreviewData.LiveClassRoomDetail.agenda
                 .split("\r\n")
