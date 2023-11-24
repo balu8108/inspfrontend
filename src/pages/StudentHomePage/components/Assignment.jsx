@@ -96,6 +96,7 @@ const Assignment = () => {
               ml="13px"
               mt="6px"
               color="rgba(44, 51, 41, 0.47)"
+              noOfLines={2}
             >
               {homepageAssignment.description}
             </Text>
@@ -107,7 +108,7 @@ const Assignment = () => {
               size="sm"
               lineHeight="1.5"
               p={6}
-              mt={8}
+             mt={4}
               onClick={handleViewDetail}
             >
               View Details

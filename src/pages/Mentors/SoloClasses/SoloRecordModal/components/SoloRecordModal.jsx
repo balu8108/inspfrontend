@@ -207,6 +207,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
             <Textarea
               placeholder="Agenda"
               value={agenda}
+              resize={"none"}
               onChange={(e) => setAgenda(e.target.value)}
             ></Textarea>
           </FormControl>
@@ -226,11 +227,14 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
               style={{ display: "none" }}
               ref={fileInputRef}
               onChange={handleFileChange}
+              
               multiple
             />
             <Flex gap={"16px"}>
               <Input
                 placeholder="Files To Upload"
+                fontSize={"11px"}
+                color={"gray"}
                 readOnly
                 value={
                   files.length > 0
