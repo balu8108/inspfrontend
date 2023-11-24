@@ -31,24 +31,6 @@ const SubjectLibrary = () => {
   const [filteredTopicList, setFilteredTopicList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // useEffect(() => {
-  //   const handleFetchTopics = async () => {
-  //     try {
-  //       const response = await fetchAllTopicsForSubjectApi(subject_id);
-  //       if (response) {
-  //         if (response.result) setAllTopicList(response.result);
-  //         else setAllTopicList([]);
-  //       }
-  //     } catch (err) {
-  //       console.log("Error fetching topics data:", err);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-
-  //   handleFetchTopics();
-  // }, [subject_id]);
-
   useEffect(() => {
     const handleFetchTopics = async () => {
       try {
