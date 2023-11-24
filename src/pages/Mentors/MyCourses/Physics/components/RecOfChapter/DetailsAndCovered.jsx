@@ -11,21 +11,17 @@ import {
   Spacer,
   Image,
   SimpleGrid,
-  Icon,
 } from "@chakra-ui/react";
 import { BsDownload } from "react-icons/bs";
 import chapterDetailsData from "../../data/Details";
 import defaultImageUrl from "../../../.././../../assets/images/image1.png";
-
-import { IoIosAdd } from "react-icons/io";
-
 import {
   boxShadowStyles,
   capitalize,
-  checkUserType,
   extractFileNameFromS3URL,
 } from "../../../../../../utils";
-import { userType } from "../../../../../../constants/staticvariables";
+
+import { pollsFileNameExtraction } from "../../../../../../utils/pollsFileNameExtraction";
 import { BASE_URL } from "../../../../../../constants/staticurls";
 
 import axios from "axios";
@@ -38,8 +34,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
   const [assignmentDetails, setAssignmentDetails] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedFileUrl, setSelectedFileUrl] = useState("");
-  const userRoleType = checkUserType();
-  // const maxAssignmentsToShow = 5;
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -228,6 +223,61 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
         )}
       </Box>
 
+      <Box ml={"21px"} mt={"30px"}>
+        <Text p={"12px"}>Polls/QnA</Text>
+        {liveClassRoomData ? (
+          liveClassRoomData.data.map((liveClassData) => (
+            <Box
+              key={liveClassData.id}
+              display="flex"
+              flexWrap={"wrap"}
+              gap={4}
+            >
+              {liveClassData.LiveClassRoomQNANote !== null &&
+              typeof liveClassData.LiveClassRoomQNANote === "object" ? (
+                <Flex
+                  key={liveClassData.LiveClassRoomQNANote.id}
+                  mt={"12px"}
+                  color={"#2C332978"}
+                  p={"10px"}
+                  borderRadius={"6px"}
+                  border={" 1px solid #9597927D "}
+                  boxShadow={" 0px 1px 6px 0px #00000029 "}
+                  alignItems="center"
+                  w={"157px"}
+                  h={"49px"}
+                  fontSize={"13px"}
+                >
+                  <Text flex="1">
+                    {pollsFileNameExtraction(
+                      liveClassData.LiveClassRoomQNANote.key
+                    )}
+                  </Text>
+                  <Button
+                    rightIcon={<BsDownload />}
+                    variant={"ghost"}
+                    color={"black"}
+                    ml={2}
+                    onClick={() =>
+                      dispatch(
+                        setIsDocModalOpen(
+                          liveClassData.LiveClassRoomQNANote?.id,
+                          liveClassData.LiveClassRoomQNANote?.key,
+                          "live",
+                          true
+                        )
+                      )
+                    }
+                  ></Button>
+                </Flex>
+              ) : null}
+            </Box>
+          ))
+        ) : (
+          <Text  fontSize={"12px"} p={4}>No Data</Text>
+        )}
+      </Box>
+
       <Box m={"20px"}>
         <Flex>
           <Text p={"13px"}>Assignments</Text>
@@ -239,14 +289,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
             mt={"15px"}
             mr={"10px"}
             color={"#3C8DBC"}
-          >
-            {/* {userRoleType === userType.teacher && (
-              <>
-                <Icon as={IoIosAdd} mr={2} boxSize={7} />
-                Add Assignment
-              </>
-            )} */}
-          </Button>
+          ></Button>
         </Flex>
 
         {assignmentDetails && assignmentDetails.length > 0 ? (
