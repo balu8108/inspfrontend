@@ -12,8 +12,7 @@ import Home from "./components/home/Home";
 import AuthLoading from "./components/loaders/AuthLoading";
 
 //Mentor Routes
-import MentorHomePage from "./pages/Mentors/MentorsHomePage/screen/MentorHomePage";
-import MentorMyCoursesPhysics from "./pages/Mentors/MyCourses/Physics/screen/Physics";
+
 import AllRecordingsForAChapter from "./pages/Mentors/MyCourses/Physics/screen/ChapterRecording";
 import MentorAllUploadedLectures from "./pages/Mentors/MyUploads/screen/UploadScreen";
 import RateNFeedback from "./pages/Mentors/RatingsAndFeedbacks/screen/RateNFeedback";
