@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import PhysDetails from "../components/PhysDetails";
-// import Header from "../../../MyCourses/components/Header";
 import Header from "../../../Mentors/Header/components/HeaderInAllScreen";
 import { Flex, Stack, Box, useDisclosure } from "@chakra-ui/react";
 import ScheduleClassList from "../../../ScheduleClasses/components/ScheduleClassList";
