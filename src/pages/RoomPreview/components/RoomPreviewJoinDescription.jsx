@@ -9,6 +9,7 @@ import {
   Avatar,
   Spinner,
   Center,
+  Stack,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { liveSessionData } from "../data/liveSessionData";
@@ -179,19 +180,32 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
             <Text fontSize={"14px"} color={mainTextColor} mb={2}>
               {liveSessionData.agenda}
             </Text>
-
-            <HStack pt={1}>
-              <Box
-                width={"15px"}
-                height={"15px"}
-                bg={"gray.200"}
-                borderRadius={"100%"}
-              />
-              <Text color={secondaryTextColor} fontSize={"12px"}>
-                {roomPreviewData?.LiveClassRoomDetail?.agenda ||
-                  liveSessionData.noData}
+            {console.log(
+              " roomPreviewData.LiveClassRoomDetail.agenda",
+              roomPreviewData?.LiveClassRoomDetail?.agenda
+            )}
+            {roomPreviewData?.LiveClassRoomDetail?.agenda ? (
+              roomPreviewData.LiveClassRoomDetail.agenda
+                .split("\r\n")
+                .slice(0, 4) // Take only the first 4 items
+                .map((agenda, index) => (
+                  <HStack key={index} pt={1}>
+                    <Box
+                      width={"15px"}
+                      height={"15px"}
+                      bg={"gray.200"}
+                      borderRadius={"100%"}
+                    />
+                    <Text color={secondaryTextColor} fontSize={"12px"}>
+                      {agenda}
+                    </Text>
+                  </HStack>
+                ))
+            ) : (
+              <Text color={secondaryTextColor} fontSize={"12px"} noOfLines={2}>
+                {liveSessionData.noData}
               </Text>
-            </HStack>
+            )}
           </Box>
         </Box>
         <Box>
