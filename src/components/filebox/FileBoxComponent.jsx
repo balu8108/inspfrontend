@@ -5,7 +5,7 @@ import {
   boxShadowStyles,
   checkUserType,
   extractFileNameFromS3URL,
-  generateUniqueKey,
+  downloadFile,
 } from "../../utils";
 import { userType } from "../../constants/staticvariables";
 import { useDispatch } from "react-redux";
@@ -24,7 +24,7 @@ const FileBoxComponent = ({ data, type }) => {
     >
       {data.map((item) => (
         <Flex
-          key={generateUniqueKey()}
+          key={item?.id}
           justifyContent={"space-between"}
           alignItems={"center"}
           bg="white"
@@ -48,8 +48,10 @@ const FileBoxComponent = ({ data, type }) => {
           {(item.isDownloadable || userRoleType === userType.teacher) && (
             <Icon
               as={FiDownload}
-              onClick={() => {
-                /*downloadFile(item)*/
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                downloadFile(item);
               }}
               _hover={{ bg: "none", cursor: "pointer" }}
             />

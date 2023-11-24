@@ -12,9 +12,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { setIsDocModalOpen } from "../../store/actions/genericActions";
 import { getPresignedUrlDocApi } from "../../api/genericapis";
-import { checkUserType, getStorageData } from "../../utils";
-// import GoogleDocsViewer from "react-google-docs-viewer";
-// import { fileConverter } from "../../utils";
+import { getStorageData } from "../../utils";
 
 const PSDDocumentViewer = ({ doc }) => {
   const docRef = useRef(null);

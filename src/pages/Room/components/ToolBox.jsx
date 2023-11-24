@@ -498,16 +498,7 @@ const ToolBox = ({
               onClick={(e) => handleScreenShare(e)}
             />
           </Tooltip>
-          {/* <Button
-            bg={isRaiseHand ? primaryBlue : "gray.200"}
-            _hover={{ bg: isRaiseHand ? primaryBlue : "gray.200" }}
-            borderRadius={"100%"}
-            p={0}
-            onClick={handRaisedHandler}
-          >
-            {"\u{1F44B}"}
-          </Button> */}
-          {/* <IconButton isRound={true} icon={<FiMenu size={20} />} /> */}
+
           {userRoleType === userType.teacher && (
             <IconButton
               isRound={true}
@@ -517,11 +508,7 @@ const ToolBox = ({
           )}
 
           {userRoleType === userType.teacher && (
-            <PostPoll
-              // QNo={QNo}
-              // setQNo={setQNo}
-              screenShareStream={screenShareStream}
-            />
+            <PostPoll screenShareStream={screenShareStream} />
           )}
         </Stack>
 
@@ -539,12 +526,6 @@ const ToolBox = ({
             onClickHandler={leaveRoomOrEndMeetHandler}
           />
         </HStack>
-        {/* <Stack>
-          <VideoSection mentorVideoRef={mentorVideoRef} />
-        </Stack> */}
-        {/* <Stack>
-          <VideoSection />
-        </Stack> */}
       </Flex>
     </Box>
   );

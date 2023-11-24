@@ -23,7 +23,7 @@ import { sendQuestionHandler } from "../../socketconnections/socketconnections";
 import { useState, useEffect } from "react";
 import { screenshotHandler } from "../../utils";
 import { imageToDocApi } from "../../api/genericapis";
-import { Form, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const questionTypeOptions = [
   { value: "poll", label: "Poll" },

@@ -17,8 +17,6 @@ const getVideoJsOptions = (url, drmToken) => {
     preload: "metadata",
     controls: true,
     poster: "",
-    // width: "800", // Added new width and height.
-    // height: "450",
 
     sources: [
       {

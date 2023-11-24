@@ -18,7 +18,6 @@ const ScheduleCalendar = ({
 }) => {
   const { eventLightGreen } = useTheme().colors.pallete;
   const { scheduledClasses } = useSelector((state) => state.scheduleClass);
-  console.log("scheduledClass", scheduledClasses);
 
   const handleDateClick = (args) => {
     const { view, date } = args;

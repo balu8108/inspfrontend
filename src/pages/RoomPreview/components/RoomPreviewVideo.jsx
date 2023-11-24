@@ -2,7 +2,6 @@ import {
   Box,
   Flex,
   VStack,
-  useTheme,
   HStack,
   IconButton,
   Text,
@@ -28,9 +27,8 @@ const RoomPreviewVideo = () => {
 
   const dispatch = useDispatch();
   const videoRef = useRef();
-  const theme = useTheme();
+
   const userRoleType = checkUserType();
-  const { backgroundLightBlue } = theme.colors.pallete;
 
   const getWebCamFeed = async () => {
     try {
@@ -96,7 +94,7 @@ const RoomPreviewVideo = () => {
     <Box
       bg={"white"}
       boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
-      width={"70%"}
+      width={["100%", "100%", "60%", "70%"]}
       borderRadius={"2xl"}
       p={6}
     >
@@ -108,8 +106,9 @@ const RoomPreviewVideo = () => {
               position={"absolute"}
               top="50%"
               left="50%"
+              textAlign={"center"}
               transform="translate(-50%, -50%)"
-              fontSize={"2rem"}
+              fontSize={["1rem", "1.5rem", "1.75rem", "2rem"]}
             >
               {liveSessionData.cameraOff}
             </Text>

@@ -1,19 +1,17 @@
 import RoomPreview from "./pages/RoomPreview/screens/RoomPreview";
 import Room from "./pages/Room/screens/Room";
 import ScheduleClass from "./pages/ScheduleClasses/screens/ScheduleClass";
-import StudentHomePage from "./pages/StudentHomePage/screens/StudentHomePage";
 import StudentMathsCourse from "./pages/StudentCourses/Mathematics/screens/MathsCourse";
 import StudentChemCourse from "./pages/StudentCourses/Chemistry/screens/ChemCourse";
 import StudentPhyCourse from "./pages/StudentCourses/Physics/screens/PhysicsCourse";
 import Viewrecording from "./pages/ViewRecording/screen/Recordings";
 import StudentAssignment from "./pages/StudentAssignment/screen/StudentAssignment";
-import LibraryScreen from "./pages/SubjectLibrary/screen/LibraryScreen"
+import LibraryScreen from "./pages/SubjectLibrary/screen/LibraryScreen";
 import Home from "./components/home/Home";
 import AuthLoading from "./components/loaders/AuthLoading";
 
 //Mentor Routes
-import MentorHomePage from "./pages/Mentors/MentorsHomePage/screen/MentorHomePage";
-import MentorMyCoursesPhysics from "./pages/Mentors/MyCourses/Physics/screen/Physics";
+
 import AllRecordingsForAChapter from "./pages/Mentors/MyCourses/Physics/screen/ChapterRecording";
 import MentorAllUploadedLectures from "./pages/Mentors/MyUploads/screen/UploadScreen";
 import RateNFeedback from "./pages/Mentors/RatingsAndFeedbacks/screen/RateNFeedback";

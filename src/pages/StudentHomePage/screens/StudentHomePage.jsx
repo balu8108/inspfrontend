@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import { Box, Flex, HStack, useDisclosure } from "@chakra-ui/react";
-// import MyCourses from "../../MyCourses/components/Header";
+
 import Header from "../../Mentors/Header/components/HeaderInAllScreen";
 import Improvement from "../components/Improvement";
 import Assignment from "../components/Assignment";

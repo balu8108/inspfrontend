@@ -14,7 +14,7 @@ import { FaCircle } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../../../../../constants/staticurls";
-import { boxShadowStyles } from "../../../../../utils";
+import { boxShadowStyles, capitalize } from "../../../../../utils";
 Chart.register(ArcElement);
 
 const RatingAndFeedBackChart = () => {
@@ -163,7 +163,7 @@ const RatingAndFeedBackChart = () => {
           bg={"#3C8DBC"}
         ></Box>
         <Text fontSize={"20px"} lineHeight={"24px"}>
-          {topic_name}
+          {capitalize(topic_name)}
         </Text>
       </HStack>
 

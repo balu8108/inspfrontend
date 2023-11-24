@@ -8,19 +8,14 @@ import {
   useTheme,
   HStack,
 } from "@chakra-ui/react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../../../constants/scrollbar/style.css";
 import { boxShadowStyles,capitalize } from "../../../utils";
 import libraryData from "../data/library";
 
 const Library = () => {
-  const navigate = useNavigate();
   const { primaryBlue, mainTextColor } = useTheme().colors.pallete;
   const isDetailView = window.location.pathname.includes("/library/");
-
-  const handleSeeAllClick = () => {
-    navigate("/student/1/library/PHYSICS");
-  };
 
   return (
     <Box

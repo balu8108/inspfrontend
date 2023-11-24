@@ -20,7 +20,7 @@ function App() {
   const location = useLocation();
   const { onClose: onDocModalClose } = useDisclosure();
   const { onClose: onFeedBackClose } = useDisclosure();
-  console.log("process env", process.env);
+
   const { isDocModalOpen, isFeedbackModalOpen } = useSelector(
     (state) => state.generic
   );
