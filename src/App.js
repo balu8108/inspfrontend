@@ -1,6 +1,6 @@
 import "./App.css";
 import Navbar from "./components/navbar/Navbar";
-import { Box, useDisclosure } from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
 import { Routes, Route, useLocation, Outlet, Navigate } from "react-router-dom";
 import { publicRoutes, privateRoutes } from "./routes";
 import { isAuthenticated } from "./utils";
