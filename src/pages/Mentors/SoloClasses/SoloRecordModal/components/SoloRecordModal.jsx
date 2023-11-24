@@ -226,6 +226,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
               style={{ display: "none" }}
               ref={fileInputRef}
               onChange={handleFileChange}
+              fontSize={"12px"}
               multiple
             />
             <Flex gap={"16px"}>
