@@ -253,6 +253,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                       liveClassData.LiveClassRoomQNANote.key
                     )}
                   </Text>
+                  {console.log("live class data", liveClassData)}
                   <Button
                     rightIcon={<BsDownload />}
                     variant={"ghost"}
