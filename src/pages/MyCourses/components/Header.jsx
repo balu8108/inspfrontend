@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 
 import { fetchAllSubjectsApi } from "../../../api/inspexternalapis";
-import { boxShadowStyles, capitalize } from "../../../utils";
+import { boxShadowStyles } from "../../../utils";
 const Header = () => {
   const [subjects, setSubjects] = useState([]);
   // const dummydescription=[
