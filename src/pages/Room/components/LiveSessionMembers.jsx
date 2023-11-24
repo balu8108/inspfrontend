@@ -95,7 +95,7 @@ const LiveSessionMembers = ({
       const rowHeight =
         viewType === liveSessionMemberViewType.compact ? 80 : 120; // Adjust row height as needed
 
-      const calculatedMaxBoxes = Math.floor(screenHeight / rowHeight) - 1;
+      const calculatedMaxBoxes = Math.floor(screenHeight / rowHeight) - 2;
       setMaxBoxesPerRow(calculatedMaxBoxes > 0 ? calculatedMaxBoxes : 1); // Ensure at least one box per row
     };
 
@@ -206,7 +206,7 @@ const LiveSessionMembers = ({
         ))}
 
         {peers.length > maxBoxesPerRow && (
-          <Center px={3} py={2} borderRadius={"md"} bg={"gray.200"}>
+          <Center px={"10px"} py={2} borderRadius={"md"} bg={"gray.200"}>
             <Flex
               borderRadius={"md"}
               w={"100%"}
@@ -215,7 +215,7 @@ const LiveSessionMembers = ({
               justifyContent={"center"}
               alignItems={"center"}
             >
-              <Text color={"white"} fontWeight={600} fontSize={"10px"}>
+              <Text color={"white"} fontWeight={600} fontSize={"14px"}>
                 +{renderLeftMembersCount(peers.length, maxBoxesPerRow)}
               </Text>
             </Flex>
@@ -228,7 +228,7 @@ const LiveSessionMembers = ({
   return (
     <>
       {viewType === liveSessionMemberViewType.compact ? (
-        <Stack gap={4}>{renderCompactPeers()}</Stack>
+        <Stack gap={"15px"}>{renderCompactPeers()}</Stack>
       ) : (
         <>
           <Scrollbars autoHeight={true} autoHeightMin={"85vh"}>
