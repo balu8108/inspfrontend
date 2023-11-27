@@ -12,7 +12,7 @@ import MentorsUploads from "../components/Uploads";
 import FeedBack from "../components/RateNFeedback";
 import MentorSchedulingClass from "../../SchedulingClass/components/MentorSchedule";
 import SoloClasses from "../components/SoloClasses";
-import MentorGroups from "../components/Groups";
+
 import ScheduleClassList from "../../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
 import { boxShadowStyles } from "../../../../utils";
