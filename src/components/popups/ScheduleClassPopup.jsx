@@ -67,7 +67,10 @@ const ScheduleClassPopup = ({
   const [date, setDate] = useState(selectedDate);
   const [isSubjectLoading, setIsSubjectLoading] = useState(false);
   const [isChaptersLoading, setIsChaptersLoading] = useState(false);
+  const [isChaptersDisabled, setIsChaptersDisabled] = useState(true);
   const [subjectsData, setSubjectsData] = useState([]);
+  const [selectedChapter, setSelectedChapter] = useState(null);
+  const [selectedTopic, setSelectedTopic] = useState(null);
   const [chaptersData, setChaptersData] = useState([]);
   const [isTopicsLoading, setIsTopicsLoading] = useState(false);
   const [isTopicsDisabled, setIsTopicsDisabled] = useState(true);
@@ -111,10 +114,33 @@ const ScheduleClassPopup = ({
     } catch (err) {}
   };
   const handleSelectChange = (object, event) => {
-    if (event.name === "chapter") {
+    if (event.name === "subject") {
+      // getting subject
+      console.log("subject object", object);
+      if (object?.label === "PHYSICS") {
+        // On selecting physics get all chpters
+        getChaptersByFetch();
+      } else {
+        // on selecting other than physics then we reset chapter selection and topic selection
+        setScheduleClassFormData((prev) => ({
+          ...prev,
+          chapter: null,
+          topic: null,
+        }));
+        setSelectedChapter(null);
+        setSelectedTopic(null);
+        setChaptersData([]);
+        setTopicsData([]);
+        setIsChaptersDisabled(true);
+        setIsTopicsDisabled(true);
+      }
+    } else if (event.name === "chapter") {
       // means chapter changed
+      setSelectedChapter(object);
 
       fetchAllTopics(object.value);
+    } else if (event.name === "topic") {
+      setSelectedTopic(object);
     }
     setScheduleClassFormData((prev) => ({ ...prev, [event.name]: object }));
     setScheduleClassFormErrorData((prev) => ({ ...prev, [event.name]: "" }));
@@ -135,12 +161,20 @@ const ScheduleClassPopup = ({
       ...prev,
       scheduledStartTime: value,
     }));
+    setScheduleClassFormErrorData((prev) => ({
+      ...prev,
+      scheduledStartTime: "",
+    }));
   };
   const handleEndTimeChange = (value) => {
     setEndTime(value);
     setScheduleClassFormData((prev) => ({
       ...prev,
       scheduledEndTime: value,
+    }));
+    setScheduleClassFormErrorData((prev) => ({
+      ...prev,
+      scheduledEndTime: "",
     }));
   };
   const handleCheckBoxChange = (e) => {
@@ -185,7 +219,9 @@ const ScheduleClassPopup = ({
 
     dataKey.forEach((key) => {
       const isMissingKey = !(key in scheduleClassFormData);
-      const isEmptyValue = scheduleClassFormData[key] === "";
+      const isEmptyValue =
+        scheduleClassFormData[key] === "" ||
+        scheduleClassFormData[key] === null;
       const isInvalidTimeFormat =
         (key === "scheduledStartTime" || key === "scheduledEndTime") &&
         !isValidTimeFormat(scheduleClassFormData[key]);
@@ -196,10 +232,12 @@ const ScheduleClassPopup = ({
     });
 
     if (Object.keys(errors).length > 0) {
+      console.log("error data", errors);
       setScheduleClassFormErrorData(errors);
       setIsSubmitLoading(false);
       return;
     }
+
     dispatch(setAddClassSchedule(formData));
     setScheduleClassFormData({});
     onClose();
@@ -230,6 +268,7 @@ const ScheduleClassPopup = ({
       console.log(err);
     }
     setIsChaptersLoading(false);
+    setIsChaptersDisabled(false);
   };
 
   useEffect(() => {
@@ -254,241 +293,266 @@ const ScheduleClassPopup = ({
 
   useEffect(() => {
     getSubjectsByFetch();
-    getChaptersByFetch();
+    // getChaptersByFetch();
   }, []);
 
   return (
-    <>
-      <Modal isOpen={isOpen} onClose={onClose} size={"xl"}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader
-            fontWeight={500}
-            fontSize={"1.2rem"}
-            color={extraTextLight}
-          >
-            {scheduleClassData.scheduleClassTitle}
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <FormControl>
-              <Box>
-                <Box mb={6}>
-                  <Box mb={3}>
-                    <FormControl
-                      isInvalid={scheduleClassFormErrorData["subject"]}
-                    >
-                      <Select
-                        placeholder={
-                          scheduleClassData.scheduleClassFormPlaceholder
-                            .selectSubject
-                        }
-                        isLoading={isSubjectLoading}
-                        isDisabled={isSubjectLoading}
-                        name={"subject"}
-                        onChange={handleSelectChange}
-                        chakraStyles={chakraStyles}
-                        options={subjectsData.map((subject) => {
-                          let obj = {
-                            value: subject.id,
-                            label: subject.name,
-                          };
-                          return obj;
-                        })}
-                        useBasicStyles
-                      />
-                      {scheduleClassFormErrorData["subject"] && (
-                        <FormErrorMessage>
-                          {scheduleClassFormErrorData["subject"]}
-                        </FormErrorMessage>
-                      )}
-                    </FormControl>
-                  </Box>
-                  <Grid
-                    templateColumns={"repeat(2,1fr)"}
-                    gap={2}
-                    justifyContent={"space-between"}
-                    alignItems={"start"}
+    <Modal isOpen={isOpen} onClose={onClose} size={"xl"}>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader
+          fontWeight={500}
+          fontSize={"1.2rem"}
+          color={extraTextLight}
+        >
+          {scheduleClassData.scheduleClassTitle}
+        </ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <FormControl>
+            <Box>
+              <Box mb={6}>
+                <Box mb={3}>
+                  <FormControl
+                    isInvalid={scheduleClassFormErrorData["subject"]}
                   >
-                    <FormControl isInvalid={scheduleClassFormErrorData["date"]}>
-                      <Input
-                        type="date"
-                        value={date}
-                        py={6}
-                        onChange={handleDateChange}
-                      />
-                      {scheduleClassFormErrorData["date"] && (
-                        <FormErrorMessage>
-                          {scheduleClassFormErrorData["date"]}
-                        </FormErrorMessage>
-                      )}
-                    </FormControl>
+                    <Select
+                      placeholder={
+                        scheduleClassData.scheduleClassFormPlaceholder
+                          .selectSubject
+                      }
+                      isLoading={isSubjectLoading}
+                      isDisabled={isSubjectLoading}
+                      name={"subject"}
+                      onChange={handleSelectChange}
+                      chakraStyles={chakraStyles}
+                      options={subjectsData.map((subject) => {
+                        let obj = {
+                          value: subject.id,
+                          label: subject.name,
+                        };
+                        return obj;
+                      })}
+                      useBasicStyles
+                    />
+                    {scheduleClassFormErrorData["subject"] && (
+                      <FormErrorMessage>
+                        {scheduleClassFormErrorData["subject"]}
+                      </FormErrorMessage>
+                    )}
+                  </FormControl>
+                </Box>
+                <Grid
+                  templateColumns={"repeat(2,1fr)"}
+                  gap={2}
+                  justifyContent={"space-between"}
+                  alignItems={"start"}
+                >
+                  <FormControl
+                    isInvalid={scheduleClassFormErrorData["scheduledDate"]}
+                  >
+                    <Input
+                      type="date"
+                      value={date}
+                      py={6}
+                      onChange={handleDateChange}
+                    />
+                    {scheduleClassFormErrorData["scheduledDate"] && (
+                      <FormErrorMessage>Please select a date</FormErrorMessage>
+                    )}
+                  </FormControl>
+                  <Box>
                     <Flex alignItems={"center"} gap={1}>
-                      <TimePicker
-                        onChange={handleStartTimeChange}
-                        value={startTime}
-                        eachInputDropdown={true}
-                        manuallyDisplayDropdown
-                        hour12Format={true}
-                      />
+                      <Box
+                        position={"relative"}
+                        className={`schedule-start-time ${
+                          scheduleClassFormErrorData["scheduledStartTime"]
+                            ? "invalid"
+                            : ""
+                        }`}
+                      >
+                        <TimePicker
+                          onChange={handleStartTimeChange}
+                          value={startTime}
+                          eachInputDropdown={true}
+                          manuallyDisplayDropdown
+                          hour12Format={true}
+                        />
+                      </Box>
                       <Text>to</Text>
-                      <TimePicker
-                        onChange={handleEndTimeChange}
-                        value={endTime}
-                        eachInputDropdown={true}
-                        manuallyDisplayDropdown
-                        hour12Format={true}
-                      />
+                      <Box
+                        className={`schedule-end-time ${
+                          scheduleClassFormErrorData["scheduledEndTime"]
+                            ? "invalid"
+                            : ""
+                        }`}
+                      >
+                        <TimePicker
+                          onChange={handleEndTimeChange}
+                          value={endTime}
+                          eachInputDropdown={true}
+                          manuallyDisplayDropdown
+                          hour12Format={true}
+                        />
+                      </Box>
                     </Flex>
-                  </Grid>
-                </Box>
-                <Box my={3}>
-                  <FormControl
-                    isInvalid={scheduleClassFormErrorData["chapter"]}
-                  >
-                    <Select
-                      placeholder={
-                        scheduleClassData.scheduleClassFormPlaceholder
-                          .selectChapter
-                      }
-                      isLoading={isChaptersLoading}
-                      isDisabled={isChaptersLoading}
-                      onChange={handleSelectChange}
-                      name="chapter"
-                      chakraStyles={chakraStyles}
-                      options={chaptersData.map((chapter) => {
-                        let obj = {
-                          value: chapter.id,
-                          label: chapter.name,
-                        };
-                        return obj;
-                      })}
-                      useBasicStyles
-                    />
-                    {scheduleClassFormErrorData["chapter"] && (
-                      <FormErrorMessage>
-                        {scheduleClassFormErrorData["chapter"]}
-                      </FormErrorMessage>
-                    )}
-                  </FormControl>
-                </Box>
-                <Box my={3}>
-                  <FormControl isInvalid={scheduleClassFormErrorData["topic"]}>
-                    <Select
-                      placeholder={
-                        scheduleClassData.scheduleClassFormPlaceholder
-                          .selectTopic
-                      }
-                      onChange={handleSelectChange}
-                      isDisabled={isTopicsDisabled}
-                      isLoading={isTopicsLoading}
-                      name="topic"
-                      chakraStyles={chakraStyles}
-                      options={topicsData.map((topic) => {
-                        let obj = {
-                          value: topic.id,
-                          label: topic.name,
-                        };
-                        return obj;
-                      })}
-                      useBasicStyles
-                    />
-                    {scheduleClassFormErrorData["topic"] && (
-                      <FormErrorMessage>
-                        {scheduleClassFormErrorData["topic"]}
-                      </FormErrorMessage>
-                    )}
-                  </FormControl>
-                </Box>
-                <Box my={3}>
-                  <FormControl isInvalid={scheduleClassFormErrorData["agenda"]}>
-                    <Textarea
-                      name={"agenda"}
-                      onChange={handleInputChange}
-                      resize={"none"}
-                      placeholder={
-                        scheduleClassData.scheduleClassFormPlaceholder.agenda
-                      }
-                    />
-                    {scheduleClassFormErrorData["agenda"] && (
-                      <FormErrorMessage>
-                        Please select an agenda
-                      </FormErrorMessage>
-                    )}
-                  </FormControl>
-                </Box>
-
-                <Box my={3}>
-                  <FormControl
-                    isInvalid={scheduleClassFormErrorData["description"]}
-                  >
-                    <Textarea
-                      name="description"
-                      onChange={handleInputChange}
-                      resize={"none"}
-                      placeholder={
-                        scheduleClassData.scheduleClassFormPlaceholder
-                          .description
-                      }
-                    />
-                    {scheduleClassFormErrorData["description"] && (
-                      <FormErrorMessage>
-                        Please select a description
-                      </FormErrorMessage>
-                    )}
-                  </FormControl>
-                </Box>
-                <Flex>
-                  <Flex
-                    w={"80%"}
-                    border={"1px solid #E2E8F0"}
-                    marginRight={2}
-                    borderRadius={"md"}
-                    alignItems={"center"}
-                    pl={4}
-                    cursor={"pointer"}
-                    overflowX="auto"
-                    scrollBehavior="smooth"
-                  >
-                    {!selectedFiles ? (
-                      <Text color="#718096">
-                        {scheduleClassData.filesToUpload}
+                    {(scheduleClassFormErrorData["scheduledStartTime"] ||
+                      scheduleClassFormErrorData["scheduledEndTime"]) && (
+                      <Text
+                        fontSize={"14px"}
+                        fontWeight={400}
+                        mt={1}
+                        color="#E53E3E"
+                      >
+                        Please select time
                       </Text>
-                    ) : (
-                      Object.keys(selectedFiles).map((key, index) => (
-                        <Text fontSize={"0.7rem"} key={key} color="#718096">
-                          {selectedFiles[key].name}
-                          {index !== selectedFiles.length - 1 && ", "}
-                        </Text>
-                      ))
                     )}
-                  </Flex>
-                  <Button
-                    w={"20%"}
-                    bg={primaryBlue}
-                    _hover={{ bg: primaryBlueLight }}
-                    color="white"
-                    fontSize={"14px"}
-                    fontWeight={500}
-                    py={6}
-                    px={20}
-                    onClick={handleFileUpload}
-                  >
-                    {scheduleClassData.upload}
-                  </Button>
-                </Flex>
+                  </Box>
+                </Grid>
+              </Box>
+              <Box my={3}>
+                <FormControl isInvalid={scheduleClassFormErrorData["chapter"]}>
+                  <Select
+                    placeholder={
+                      scheduleClassData.scheduleClassFormPlaceholder
+                        .selectChapter
+                    }
+                    isLoading={isChaptersLoading}
+                    isDisabled={isChaptersDisabled}
+                    onChange={handleSelectChange}
+                    name="chapter"
+                    value={selectedChapter}
+                    chakraStyles={chakraStyles}
+                    options={chaptersData.map((chapter) => {
+                      let obj = {
+                        value: chapter.id,
+                        label: chapter.name,
+                      };
+                      return obj;
+                    })}
+                    useBasicStyles
+                  />
+                  {scheduleClassFormErrorData["chapter"] && (
+                    <FormErrorMessage>
+                      {scheduleClassFormErrorData["chapter"]}
+                    </FormErrorMessage>
+                  )}
+                </FormControl>
+              </Box>
+              <Box my={3}>
+                <FormControl isInvalid={scheduleClassFormErrorData["topic"]}>
+                  <Select
+                    placeholder={
+                      scheduleClassData.scheduleClassFormPlaceholder.selectTopic
+                    }
+                    onChange={handleSelectChange}
+                    isDisabled={isTopicsDisabled}
+                    isLoading={isTopicsLoading}
+                    value={selectedTopic}
+                    name="topic"
+                    chakraStyles={chakraStyles}
+                    options={topicsData.map((topic) => {
+                      let obj = {
+                        value: topic.id,
+                        label: topic.name,
+                      };
+                      return obj;
+                    })}
+                    useBasicStyles
+                  />
+                  {scheduleClassFormErrorData["topic"] && (
+                    <FormErrorMessage>
+                      {scheduleClassFormErrorData["topic"]}
+                    </FormErrorMessage>
+                  )}
+                </FormControl>
+              </Box>
+              <Box my={3}>
+                <FormControl isInvalid={scheduleClassFormErrorData["agenda"]}>
+                  <Textarea
+                    name={"agenda"}
+                    onChange={handleInputChange}
+                    resize={"none"}
+                    placeholder={
+                      scheduleClassData.scheduleClassFormPlaceholder.agenda
+                    }
+                  />
+                  {scheduleClassFormErrorData["agenda"] && (
+                    <FormErrorMessage>Please select an agenda</FormErrorMessage>
+                  )}
+                </FormControl>
+              </Box>
 
-                <Flex justifyContent={"center"} pt={6}>
-                  <HStack mr={6}>
-                    <Checkbox
-                      onChange={handleCheckBoxChange}
-                      name="muteAllStudents"
-                    />
-                    <Text fontSize={"14px"} color={"#718096"}>
-                      {scheduleClassData.muteAll}
+              <Box my={3}>
+                <FormControl
+                  isInvalid={scheduleClassFormErrorData["description"]}
+                >
+                  <Textarea
+                    name="description"
+                    onChange={handleInputChange}
+                    resize={"none"}
+                    placeholder={
+                      scheduleClassData.scheduleClassFormPlaceholder.description
+                    }
+                  />
+                  {scheduleClassFormErrorData["description"] && (
+                    <FormErrorMessage>
+                      Please select a description
+                    </FormErrorMessage>
+                  )}
+                </FormControl>
+              </Box>
+              <Flex>
+                <Flex
+                  w={"80%"}
+                  border={"1px solid #E2E8F0"}
+                  marginRight={2}
+                  borderRadius={"md"}
+                  alignItems={"center"}
+                  pl={4}
+                  cursor={"pointer"}
+                  overflowX="auto"
+                  scrollBehavior="smooth"
+                >
+                  {!selectedFiles ? (
+                    <Text color="#718096">
+                      {scheduleClassData.filesToUpload}
                     </Text>
-                  </HStack>
-                  <HStack>
+                  ) : (
+                    Object.keys(selectedFiles).map((key, index) => (
+                      <Text fontSize={"0.7rem"} key={key} color="#718096">
+                        {selectedFiles[key].name}
+                        {index !== selectedFiles.length - 1 && ", "}
+                      </Text>
+                    ))
+                  )}
+                </Flex>
+                <Button
+                  w={"20%"}
+                  bg={primaryBlue}
+                  _hover={{ bg: primaryBlueLight }}
+                  color="white"
+                  fontSize={"14px"}
+                  fontWeight={500}
+                  py={6}
+                  px={20}
+                  onClick={handleFileUpload}
+                >
+                  {scheduleClassData.upload}
+                </Button>
+              </Flex>
+
+              <Flex pt={6}>
+                <HStack mr={6}>
+                  <Checkbox
+                    onChange={handleCheckBoxChange}
+                    name="muteAllStudents"
+                  />
+                  <Text fontSize={"14px"} color={"#718096"}>
+                    {scheduleClassData.muteAll}
+                  </Text>
+                </HStack>
+                {/* <HStack>
                     <Checkbox
                       onChange={handleCheckBoxChange}
                       name="blockStudentsCamera"
@@ -496,27 +560,26 @@ const ScheduleClassPopup = ({
                     <Text fontSize={"14px"} color={"#718096"}>
                       {scheduleClassData.blockCamera}
                     </Text>
-                  </HStack>
-                </Flex>
-              </Box>
-            </FormControl>
-          </ModalBody>
+                  </HStack> */}
+              </Flex>
+            </Box>
+          </FormControl>
+        </ModalBody>
 
-          <ModalFooter>
-            <Flex w={"full"} justifyContent={"center"}>
-              <InlineBtn
-                isLoading={isSubmitLoading}
-                text={scheduleClassData.scheduleClassTitle}
-                backColor={primaryBlue}
-                textColor="white"
-                onClickHandler={handleSubmit}
-                hoverColor={primaryBlueLight}
-              />
-            </Flex>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
+        <ModalFooter>
+          <Flex w={"full"} justifyContent={"center"}>
+            <InlineBtn
+              isLoading={isSubmitLoading}
+              text={scheduleClassData.scheduleClassTitle}
+              backColor={primaryBlue}
+              textColor="white"
+              onClickHandler={handleSubmit}
+              hoverColor={primaryBlueLight}
+            />
+          </Flex>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 };
 

@@ -18,7 +18,7 @@ const scheduleClassReducer = (state = initialState, action) => {
     case ADD_CLASS_SCHEDULE:
       const obj = action.payload?.data;
       const createEventForCalendar = {
-        title: capitalize(obj.LiveClassRoomDetail.topicName),
+        title: capitalize(obj?.LiveClassRoomDetail?.topicName),
         start: `${extractDateInYYYMMDD(obj.scheduledDate)}T${
           obj.scheduledStartTime
         }`,
@@ -55,7 +55,7 @@ const scheduleClassReducer = (state = initialState, action) => {
 
       action.payload.data.forEach((obj) => {
         const calendarEventObj = {
-          title: capitalize(obj.LiveClassRoomDetail.topicName),
+          title: capitalize(obj?.LiveClassRoomDetail?.topicName),
           start: `${extractDateInYYYMMDD(obj.scheduledDate)}T${
             obj.scheduledStartTime
           }`,

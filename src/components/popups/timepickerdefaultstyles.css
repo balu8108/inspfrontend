@@ -12,7 +12,15 @@
   /* width: auto; */
   justify-content: center;
   position: relative;
+
   /* z-index: 1; */
+}
+
+.schedule-start-time.invalid .react-time-input-picker {
+  border: 2px solid red;
+}
+.schedule-end-time.invalid .react-time-input-picker {
+  border: 2px solid red;
 }
 
 .react-time-input-picker input::-webkit-outer-spin-button,
