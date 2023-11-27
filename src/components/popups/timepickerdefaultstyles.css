@@ -52,10 +52,6 @@
   align-items: center;
 }
 
-.react-time-input-picker input::selection {
-  /* background: red; */
-}
-
 .react-time-input-picker input::placeholder {
   opacity: 1;
   font-weight: inherit;
