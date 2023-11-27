@@ -94,7 +94,6 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
     }
   }, [viewTopic]);
 
-
   if (!viewTopic) {
     return (
       <Box
@@ -105,7 +104,9 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
         bg="white"
         p={4}
       >
-        <Text textAlign="center">Please select a topic to view details.</Text>
+        <Text textAlign="center" m={"10%"}>
+          Please select a topic to view details.
+        </Text>
       </Box>
     );
   }
