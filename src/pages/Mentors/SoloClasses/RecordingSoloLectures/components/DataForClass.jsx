@@ -19,7 +19,6 @@ const DataForClass = () => {
   const { soloClassRoomId } = useParams();
 
   useEffect(() => {
-    // Fetch data from your API
     axios
       .get(
         `${BASE_URL}/solo-lecture/get-details-data-for-class/${soloClassRoomId}`
@@ -118,12 +117,22 @@ const DataForClass = () => {
 
         <Box m={"12px"}>
           <Text>Files</Text>
-          {/* {userRoleType === userType.teacher && ( */}
-          <FileBoxComponent
-            data={data.soloClassRoomFile}
-            type={fileTypes.solo}
-          />
-          {/* )} */}
+
+          {data.soloClassRoomFile.length > 0 ? (
+            <FileBoxComponent
+              data={data.soloClassRoomFile}
+              type={fileTypes.solo}
+            />
+          ) : (
+            <Text
+              fontSize={"12px"}
+              lineHeight={"14px"}
+              color={"#2C332978"}
+              mt={3}
+            >
+              No Data.
+            </Text>
+          )}
         </Box>
       </Stack>
     </Box>
