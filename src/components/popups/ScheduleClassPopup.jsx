@@ -293,7 +293,6 @@ const ScheduleClassPopup = ({
 
   useEffect(() => {
     getSubjectsByFetch();
-    // getChaptersByFetch();
   }, []);
 
   return (
