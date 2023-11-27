@@ -277,7 +277,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
           ))
         ) : (
           <Text fontSize={"12px"} p={4}>
-            No Data
+            No Polls are conducted for this topic.
           </Text>
         )}
       </Box>
