@@ -19,7 +19,6 @@ const DataForClass = () => {
   const { soloClassRoomId } = useParams();
 
   useEffect(() => {
-    // Fetch data from your API
     axios
       .get(
         `${BASE_URL}/solo-lecture/get-details-data-for-class/${soloClassRoomId}`
@@ -81,7 +80,7 @@ const DataForClass = () => {
             color={"#2C332978"}
             ml={"12px"}
           >
-            {data.description}
+            {data.description ? data.description : "No Data"}
           </Text>
         </Box>
 
@@ -90,40 +89,50 @@ const DataForClass = () => {
             Agenda
           </Text>
 
-          <Box  mt={"16px"}>
-          {data.agenda.split("\r\n").map((agendaItem, index) => (
-            <Stack
-              key={index}
-              spacing={1}
-              direction="row"
-              alignItems="center"
-              mt={"10px"}
-              
-            >
-              <Box
-                w={"15px"}
-                h={"15px"}
-                bg="#C3C3C3"
-                borderRadius="20px"
-                mr={2}
-                blendMode={"multiply"}
-              ></Box>
-              <Text fontSize={"12px"} lineHeight={"14px"} color={"#2C332978"}>
-                {agendaItem}
-              </Text>
-            </Stack>
-          ))}
+          <Box mt={"16px"}>
+            {data.agenda.split("\r\n").map((agendaItem, index) => (
+              <Stack
+                key={index}
+                spacing={1}
+                direction="row"
+                alignItems="center"
+                mt={"10px"}
+              >
+                <Box
+                  w={"15px"}
+                  h={"15px"}
+                  bg="#C3C3C3"
+                  borderRadius="20px"
+                  mr={2}
+                  blendMode={"multiply"}
+                  display={agendaItem ? "block" : "none"}
+                ></Box>
+                <Text fontSize={"12px"} lineHeight={"14px"} color={"#2C332978"}>
+                  {agendaItem ? agendaItem : "No Data"}
+                </Text>
+              </Stack>
+            ))}
           </Box>
         </Box>
 
         <Box m={"12px"}>
           <Text>Files</Text>
-          {/* {userRoleType === userType.teacher && ( */}
-          <FileBoxComponent
-            data={data.soloClassRoomFile}
-            type={fileTypes.solo}
-          />
-          {/* )} */}
+
+          {data.soloClassRoomFile.length > 0 ? (
+            <FileBoxComponent
+              data={data.soloClassRoomFile}
+              type={fileTypes.solo}
+            />
+          ) : (
+            <Text
+              fontSize={"12px"}
+              lineHeight={"14px"}
+              color={"#2C332978"}
+              mt={3}
+            >
+              No Data.
+            </Text>
+          )}
         </Box>
       </Stack>
     </Box>

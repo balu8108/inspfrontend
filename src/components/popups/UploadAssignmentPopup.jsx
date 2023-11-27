@@ -15,6 +15,7 @@ import {
   Spinner,
   Textarea,
   useTheme,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import {
   fetchAllChaptersApi,
@@ -23,6 +24,7 @@ import {
 } from "../../api/inspexternalapis";
 import axios from "axios";
 import { BASE_URL } from "../../constants/staticurls";
+
 const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
   const [isLoadingSubjects, setIsLoadingSubjects] = useState(true);
   const [isLoadingChapters, setIsLoadingChapters] = useState(false);
@@ -30,21 +32,50 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
   const [isSending, setIsSending] = useState(false);
   const [subjects, setSubjects] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState("");
+  const [subjectError, setSubjectError] = useState("");
   const [chapters, setChapters] = useState([]);
   const [selectedChapters, setSelectedChapters] = useState("");
+  const [chapterError, setChapterError] = useState("");
   const [topics, setTopics] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState("");
+  const [topicError, setTopicError] = useState("");
   const [description, setDescription] = useState("");
+  const [descriptionError, setDescriptionError] = useState("");
   const [files, setFiles] = useState([]);
   const { primaryBlueLight } = useTheme().colors.pallete;
   const fileInputRef = useRef(null);
 
+  // Reset form fields and errors
   const resetFormFields = () => {
     setSelectedSubject("");
     setSelectedChapters("");
     setSelectedTopic("");
     setDescription("");
     setFiles([]);
+    setSubjectError("");
+    setChapterError("");
+    setTopicError("");
+    setDescriptionError("");
+  };
+
+  const handleSubjectChange = (e) => {
+    setSelectedSubject(e.target.value);
+    setSubjectError(""); // Clear the error when a selection is made
+  };
+
+  const handleChapterChange = (e) => {
+    setSelectedChapters(e.target.value);
+    setChapterError(""); // Clear the error when a selection is made
+  };
+
+  const handleTopicChange = (e) => {
+    setSelectedTopic(e.target.value);
+    setTopicError(""); // Clear the error when a selection is made
+  };
+
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+    setDescriptionError(""); // Clear the error when a selection is made
   };
 
   const handleFileChange = (e) => {
@@ -54,7 +85,29 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
 
   const handleSubmit = async () => {
     try {
+      // Validation checks
+      if (!selectedSubject) {
+        setSubjectError("Please select a subject");
+        return;
+      }
+
+      if (!selectedChapters) {
+        setChapterError("Please select a chapter");
+        return;
+      }
+
+      if (!selectedTopic) {
+        setTopicError("Please select a topic");
+        return;
+      }
+
+      if (!description.trim()) {
+        setDescriptionError("Please enter a description");
+        return;
+      }
+
       setIsSending(true);
+
       // Create a FormData object to send files along with other data
       const formData = new FormData();
       formData.append("subjectId", selectedSubject);
@@ -69,13 +122,14 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
       const selectedTopicName =
         topics.find((topic) => topic.id === selectedTopic)?.name || "";
 
-      formData.append("topicName", selectedTopicName); // Use the topic name
+      formData.append("topicName", selectedTopicName);
       formData.append("topicId", selectedTopic);
       formData.append("description", description);
 
       files.forEach((file) => {
         formData.append("files", file);
       });
+
       const response = await axios.post(
         `${BASE_URL}/topic/upload-assignments`,
         formData,
@@ -86,14 +140,9 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
           },
         }
       );
-      console.log("assignment response", response);
-      if (response.status === 201) {
-        console.log("value for assignment is ", response.data.assignmentFiles);
-        // setAssignment(response.data.assignmentFiles);
 
-        setAssignment((prev) => {
-          return [response?.data?.assignment, ...prev];
-        });
+      if (response.status === 201) {
+        setAssignment((prev) => [response?.data?.assignment, ...prev]);
       } else {
         console.error("Error submitting assignment:", response.data.error);
       }
@@ -186,13 +235,13 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <FormControl>
+          <FormControl mt={4} isInvalid={subjectError !== ""}>
             <Select
               placeholder={
                 isLoadingSubjects ? <Spinner size="sm" /> : "Select Subject"
               }
               value={selectedSubject}
-              onChange={(e) => setSelectedSubject(e.target.value)}
+              onChange={handleSubjectChange}
               isDisabled={isLoadingSubjects}
             >
               {isLoadingSubjects
@@ -203,14 +252,15 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
                     </option>
                   ))}
             </Select>
+            <FormErrorMessage>{subjectError}</FormErrorMessage>
           </FormControl>
-          <FormControl mt={4}>
+          <FormControl mt={4} isInvalid={chapterError !== ""}>
             <Select
               placeholder={
                 isLoadingChapters ? <Spinner size="sm" /> : "Select Chapter"
               }
               value={selectedChapters}
-              onChange={(e) => setSelectedChapters(e.target.value)}
+              onChange={handleChapterChange}
               isDisabled={isLoadingChapters}
             >
               {isLoadingChapters
@@ -221,14 +271,15 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
                     </option>
                   ))}
             </Select>
+            <FormErrorMessage>{chapterError}</FormErrorMessage>
           </FormControl>
-          <FormControl mt={4}>
+          <FormControl mt={4} isInvalid={topicError !== ""}>
             <Select
               placeholder={
                 isLoadingTopics ? <Spinner size="sm" /> : "Select Topic"
               }
               value={selectedTopic}
-              onChange={(e) => setSelectedTopic(e.target.value)}
+              onChange={handleTopicChange}
               isDisabled={isLoadingTopics}
             >
               {isLoadingTopics
@@ -239,21 +290,23 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
                     </option>
                   ))}
             </Select>
+            <FormErrorMessage>{topicError}</FormErrorMessage>
           </FormControl>
-          <FormControl mt={4}>
+          <FormControl mt={4} isInvalid={descriptionError !== ""}>
             <Textarea
               placeholder=" Description"
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={handleDescriptionChange}
               resize={"none"}
             />
+            <FormErrorMessage>{descriptionError}</FormErrorMessage>
           </FormControl>
           <FormControl mt={4}>
             <Input
               type="file"
               accept=".pdf,.doc,.docx"
               style={{ display: "none" }}
-              ref={fileInputRef} // Attach the ref to the input element
+              ref={fileInputRef}
               onChange={handleFileChange}
               multiple
             />
@@ -282,23 +335,9 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
             </Flex>
           </FormControl>
         </ModalBody>
-        {/* <ModalFooter>
-          <Flex w={"full"} justifyContent={"center"}>
-            <Button
-              type="submit"
-              w={"30%"}
-              bg={"#3C8DBC"}
-              color={"#FFFFFF"}
-              fontWeight={500}
-              onClick={handleSubmit}
-            >
-              Send
-            </Button>
-          </Flex>
-        </ModalFooter> */}
         <ModalFooter>
           <Flex w={"full"} justifyContent={"center"}>
-            {isSending ? ( // Render the spinner inside the button
+            {isSending ? (
               <Button
                 type="submit"
                 w={"30%"}

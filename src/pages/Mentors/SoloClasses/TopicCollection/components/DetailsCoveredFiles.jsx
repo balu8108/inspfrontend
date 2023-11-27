@@ -92,50 +92,53 @@ const DetailsCoveredFiles = () => {
             <HStack>
               <Box flex={1}>
                 {index === 0 && <Text p={"13px"}>Description</Text>}
-                {topicInfo.description.split("\n").map((item, i) => (
-                  <HStack key={i} spacing={"5px"}>
-                    <Icon
-                      as={FaCircle}
-                      boxSize={2}
-                      color="#C3C3C3"
-                      blendMode={"multiply"}
-                    />
-                    <Text fontSize={"12px"} color={"#2C332978"}>
-                      {item}
-                    </Text>
-                  </HStack>
-                ))}
+                {topicInfo.description &&
+                  topicInfo.description.split("\n").map((item, i) => (
+                    <HStack key={i} spacing={"5px"}>
+                      <Icon
+                        as={FaCircle}
+                        boxSize={2}
+                        color="#C3C3C3"
+                        blendMode={"multiply"}
+                      />
+                      <Text fontSize={"12px"} color={"#2C332978"}>
+                        {item}
+                      </Text>
+                    </HStack>
+                  ))}
               </Box>
               <Spacer />
               <Box flex={1} ml={"24px"}>
                 {index === 0 && <Text p={"13px"}>Agenda</Text>}
-                {topicInfo.agenda.split("\n").map((item, i) => (
-                  <HStack key={i} spacing={"5px"}>
-                    <Icon
-                      as={FaCircle}
-                      boxSize={2}
-                      color="#C3C3C3"
-                      blendMode={"multiply"}
-                    />
-                    <Text
-                      fontSize={"12px"}
-                      color={"#2C332978"}
-                      lineHeight={"21px"}
-                    >
-                      {item}
-                    </Text>
-                  </HStack>
-                ))}
+                {topicInfo.agenda &&
+                  topicInfo.agenda.split("\n").map((item, i) => (
+                    <HStack key={i} spacing={"5px"}>
+                      <Icon
+                        as={FaCircle}
+                        boxSize={2}
+                        color="#C3C3C3"
+                        blendMode={"multiply"}
+                      />
+                      <Text
+                        fontSize={"12px"}
+                        color={"#2C332978"}
+                        lineHeight={"21px"}
+                      >
+                        {item}
+                      </Text>
+                    </HStack>
+                  ))}
               </Box>
             </HStack>
           </Box>
         ))
       ) : (
-        <Box p={4} mx={5}>
+        <Box p={4} mx={8} fontSize={"14px"}>
           <Text>No details available for this topic.</Text>
         </Box>
       )}
 
+      
       <Box ml={"20px"} mt="20px" mr={"21px"}>
         <Text p={"13px"}>Recordings</Text>
         <Box ml={"13px"}>
@@ -174,7 +177,7 @@ const DetailsCoveredFiles = () => {
               </Flex>
             ))
           ) : (
-            <Box p={4}>
+            <Box p={4} fontSize={"14px"}>
               <Text>No video recordings are available for this topic.</Text>
             </Box>
           )}
@@ -217,7 +220,7 @@ const DetailsCoveredFiles = () => {
               </Box>
             ))
           ) : (
-            <Box p={4} fontSize={"12px"}>
+            <Box p={4} fontSize={"14px"} ml={5}>
               <Text>No files/notes are available for this topic.</Text>
             </Box>
           )}
