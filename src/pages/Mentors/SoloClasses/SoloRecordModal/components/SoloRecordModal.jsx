@@ -212,6 +212,8 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
             ></Textarea>
           </FormControl>
 
+       
+
           <FormControl mt={4}>
             <Textarea
               placeholder=" Description"
@@ -227,7 +229,6 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
               style={{ display: "none" }}
               ref={fileInputRef}
               onChange={handleFileChange}
-              
               multiple
             />
             <Flex gap={"16px"}>

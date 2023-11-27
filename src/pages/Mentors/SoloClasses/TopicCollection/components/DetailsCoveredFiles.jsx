@@ -131,7 +131,7 @@ const DetailsCoveredFiles = () => {
           </Box>
         ))
       ) : (
-        <Box p={4} mx={5}>
+        <Box p={4} mx={8} fontSize={"14px"}>
           <Text>No details available for this topic.</Text>
         </Box>
       )}
@@ -174,7 +174,7 @@ const DetailsCoveredFiles = () => {
               </Flex>
             ))
           ) : (
-            <Box p={4}>
+            <Box p={4} fontSize={"14px"} >
               <Text>No video recordings are available for this topic.</Text>
             </Box>
           )}
@@ -217,7 +217,7 @@ const DetailsCoveredFiles = () => {
               </Box>
             ))
           ) : (
-            <Box p={4} fontSize={"12px"}>
+            <Box p={4} fontSize={"14px"} ml={5}>
               <Text>No files/notes are available for this topic.</Text>
             </Box>
           )}
