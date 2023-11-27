@@ -135,7 +135,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
           </Box>
 
           <Box flex={1} ml={"24px"}>
-            <Text fontSize="md">Covered</Text>
+            <Text fontSize="md">Agenda</Text>
             <UnorderedList
               fontSize={"12px"}
               color={"#2C332978"}
