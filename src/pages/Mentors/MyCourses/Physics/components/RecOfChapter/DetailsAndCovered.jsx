@@ -28,13 +28,13 @@ import axios from "axios";
 import { setIsDocModalOpen } from "../../../../../../store/actions/genericActions";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { wrap } from "framer-motion";
 const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
   const [liveClassRoomData, setLiveClassRoomData] = useState(null);
 
   const [assignmentDetails, setAssignmentDetails] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedFileUrl, setSelectedFileUrl] = useState("");
+  const [selectedTopic, setSelectedTopic] = useState(null);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -88,6 +88,12 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
       fetchAssignmentDetails(viewTopic);
     }
   }, [viewTopic]);
+
+  const handleTopicClick = (topicId) => {
+    setSelectedTopic(topicId);
+    // Any additional logic you want to perform when a topic is clicked
+  };
+
   return (
     <Box
       w={"100%"}
@@ -96,17 +102,21 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
       borderRadius={"26px"}
       bg="white"
     >
-      <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
-        <Box
-          width={"12px"}
-          height={"25px"}
-          borderRadius={"20px"}
-          bg={"#3C8DBC"}
-        ></Box>
-        <Text fontSize={"19px"} lineHeight={"24px"} fontWeight={400}>
-          Details( {capitalize(viewtopicName)} )
-        </Text>
-      </HStack>
+      {viewTopic && (
+        <>
+          <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
+            <Box
+              width={"12px"}
+              height={"25px"}
+              borderRadius={"20px"}
+              bg={"#3C8DBC"}
+            ></Box>
+            <Text fontSize={"19px"} lineHeight={"24px"} fontWeight={400}>
+              {capitalize(viewtopicName)}
+            </Text>
+          </HStack>
+        </>
+      )}
 
       <Stack ml={"20px"} mt={"50px"}>
         {chapterDetailsData.map((chapter) => (

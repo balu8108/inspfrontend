@@ -12,6 +12,7 @@ import ScheduleClassPopup from "../../../../../components/popups/ScheduleClassPo
 const ChapterRecordings = () => {
   const [viewTopic, setViewTopic] = useState(null);
   const [viewtopicName, setTopicName] = useState(null);
+  
   const dispatch = useDispatch();
   const {
     isOpen: isSchedulePopupOpen,
