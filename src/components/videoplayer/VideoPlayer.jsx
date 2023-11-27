@@ -52,8 +52,6 @@ const VideoPlayer = ({ type, activeRecording }) => {
     try {
       // Update the player's source when the src prop changes
 
-      const url = activeRecording?.url;
-
       const res = await playRecordingApi({
         type: type,
         recordId: activeRecording?.id,
