@@ -94,6 +94,22 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
     }
   }, [viewTopic]);
 
+
+  if (!viewTopic) {
+    return (
+      <Box
+        w={"100%"}
+        boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+        height={"full"}
+        borderRadius={"26px"}
+        bg="white"
+        p={4}
+      >
+        <Text textAlign="center">Please select a topic to view details.</Text>
+      </Box>
+    );
+  }
+
   return (
     <Box
       w={"100%"}
