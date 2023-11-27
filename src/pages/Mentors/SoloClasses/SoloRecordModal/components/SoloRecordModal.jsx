@@ -17,8 +17,6 @@ import {
   Textarea,
   Text,
   useTheme,
-  FormLabel,
-  FormHelperText,
   FormErrorMessage,
 } from "@chakra-ui/react";
 import {
@@ -41,7 +39,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
   const [selectedTopicId, setSelectedTopicId] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
-  const { extraTextLight, primaryBlue, primaryBlueLight } =
+  const {  primaryBlueLight } =
     useTheme().colors.pallete;
   const navigate = useNavigate();
 
@@ -102,7 +100,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
           topicId: selectedTopicId,
           agenda: agenda,
           description: description,
-          files: files.map((file) => file.name).join(", "), // Add this line
+          files: files.map((file) => file.name).join(", "),
         };
 
         const formDataToSave = JSON.stringify(formValues);
@@ -156,10 +154,12 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
       }
     }
 
+    setAllTopicList([]);
+
     if (selectedSubject) {
       fetchAllTopicsForSubject();
     } else {
-      setAllTopicList([]); // Clear the topics if no subject is selected
+      setAllTopicList([]); 
     }
   }, [selectedSubject]);
 
@@ -185,7 +185,9 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
               value={selectedSubject}
               onChange={(e) => {
                 setSelectedSubject(e.target.value);
-                setSubjectError(false); // Clear the error when subject is selected
+                setSubjectError(false); 
+                setSelectedTopic("");
+                setAllTopicList([]);
               }}
               isDisabled={isLoadingSubjects}
             >
@@ -197,6 +199,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
                     </option>
                   ))}
             </Select>
+
             <FormErrorMessage>Select subject is required.</FormErrorMessage>
           </FormControl>
 
@@ -209,7 +212,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
               onChange={(e) => {
                 const selectedTopicValue = e.target.value;
                 setSelectedTopic(selectedTopicValue);
-                setTopicError(false); // Clear the error when topic is selected
+                setTopicError(false);
               }}
               isDisabled={isLoadingTopics || allTopicList.length === 0}
             >
