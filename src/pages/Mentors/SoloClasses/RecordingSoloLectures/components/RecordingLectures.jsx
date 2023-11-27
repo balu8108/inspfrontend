@@ -20,7 +20,7 @@ import {
 import { LuMonitorOff, LuCircleOff } from "react-icons/lu";
 
 import { boxShadowStyles } from "../../../../../utils";
-const RecordingLectures = ({ toggleDataVisibility }) => {
+const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [isMicrophoneOn, setIsMicrophoneOn] = useState(false);
   const [isScreenSharing, setIsScreenSharing] = useState(false);
@@ -288,14 +288,15 @@ const RecordingLectures = ({ toggleDataVisibility }) => {
   return (
     <Box
       w={"100%"}
-      h={"95vh"}
+      h={"100%"}
       bg={"#F1F5F8"}
       borderRadius={"26px"}
       position="relative"
       boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      mb={"20px"}
     >
       <Box
-        h={"90vh"}
+        h={"73vh"}
         bg={"black"}
         m={"12px"}
         borderRadius={"8"}
@@ -322,6 +323,7 @@ const RecordingLectures = ({ toggleDataVisibility }) => {
                   variant="solid"
                   fontSize="20px"
                   mt={"16px"}
+                  colorScheme={isTheatreMode ? "blue" : "gray"}
                   icon={<RiFullscreenLine />}
                   onClick={() => {
                     toggleDataVisibility();
@@ -369,15 +371,20 @@ const RecordingLectures = ({ toggleDataVisibility }) => {
             </Tooltip>
           </Stack>
           <Stack>
-            <IconButton
-              isRound={true}
-              variant="solid"
-              colorScheme={isRecording ? "gray" : "red"}
-              aria-label="Done"
-              fontSize="20px"
-              icon={isRecording ? <FiCircle /> : <LuCircleOff />}
-              onClick={toggleRecording}
-            />
+            <Tooltip
+              label={isRecording ? "Stop Recording " : "Start Recording"}
+              placement="right"
+            >
+              <IconButton
+                isRound={true}
+                variant="solid"
+                colorScheme={isRecording ? "gray" : "red"}
+                aria-label="Done"
+                fontSize="20px"
+                icon={isRecording ? <FiCircle /> : <LuCircleOff />}
+                onClick={toggleRecording}
+              />
+            </Tooltip>
 
             <Tooltip
               label={isScreenSharing ? "Stop Presenting" : "Present Now"}
@@ -427,10 +434,10 @@ const RecordingLectures = ({ toggleDataVisibility }) => {
 
         <Box
           position="absolute"
-          top="50px"
+          top="10px"
           right="10px"
-          width="30%"
-          height="35%"
+          width="150px"
+          height="120px"
         >
           <video
             ref={cameraVideoRef}
