@@ -7,23 +7,29 @@ import {
   Card,
   Flex,
   Button,
+  Icon,
   Stack,
   Spacer,
   Image,
   SimpleGrid,
+  List,
+  ListItem,
+  ListIcon,
+  OrderedList,
+  UnorderedList,
 } from "@chakra-ui/react";
 import { BsDownload } from "react-icons/bs";
-import chapterDetailsData from "../../data/Details";
+import chapterDetailsData from "../../data/chapterDetailsData";
 import defaultImageUrl from "../../../.././../../assets/images/image1.png";
 import {
   boxShadowStyles,
   capitalize,
   extractFileNameFromS3URL,
 } from "../../../../../../utils";
-
+import topicDescriptionConstants from "../../../../../../constants/topicDescriptionConstants";
 import { pollsFileNameExtraction } from "../../../../../../utils/pollsFileNameExtraction";
 import { BASE_URL } from "../../../../../../constants/staticurls";
-
+import { FaCircle } from "react-icons/fa";
 import axios from "axios";
 import { setIsDocModalOpen } from "../../../../../../store/actions/genericActions";
 import { useDispatch } from "react-redux";
@@ -71,8 +77,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
       );
 
       const topicDetailsData = response.data;
-      // console.log("Assignment Data from API:", topicDetailsData);
-      // Update the state with the received topic details
+
       setAssignmentDetails(topicDetailsData);
     } catch (error) {
       console.error("Error fetching topic details:", error);
@@ -88,11 +93,6 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
       fetchAssignmentDetails(viewTopic);
     }
   }, [viewTopic]);
-
-  const handleTopicClick = (topicId) => {
-    setSelectedTopic(topicId);
-    // Any additional logic you want to perform when a topic is clicked
-  };
 
   return (
     <Box
@@ -119,34 +119,35 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
       )}
 
       <Stack ml={"20px"} mt={"50px"}>
-        {chapterDetailsData.map((chapter) => (
-          <Flex key={chapter.id} p={4}>
-            <Box flex={1}>
-              <Text>Description</Text>
-
-              <Text fontSize={"12px"} color={"#2C332978"} mt={"15px"}>
-                {chapter.description}
-              </Text>
-            </Box>
-
-            <Box flex={1} ml={"24px"}>
-              <Text fontSize="md">Covered</Text>
-              <ul
-                style={{
-                  listStyle: "circle",
-                  fontSize: "12px",
-                  lineHeight: "20px",
-                  color: "#2C332978",
-                  marginTop: "15px",
-                }}
+        <Flex p={4}>
+          <Box flex={1}>
+            <Text fontSize="md">Description</Text>
+            {viewTopic && (
+              <Text
+                fontSize="12px"
+                lineHeight={"21px"}
+                color={"#2C332978"}
+                mt={"15px"}
               >
-                {chapter.covered.map((topic, index) => (
-                  <li key={index}>{topic}</li>
-                ))}
-              </ul>
-            </Box>
-          </Flex>
-        ))}
+                {topicDescriptionConstants[viewTopic]}
+              </Text>
+            )}
+          </Box>
+
+          <Box flex={1} ml={"24px"}>
+            <Text fontSize="md">Covered</Text>
+            <UnorderedList
+              fontSize={"12px"}
+              color={"#2C332978"}
+              spacing={"10px"}
+              mt={"16px"}
+            >
+              {chapterDetailsData[0].covered.map((topic, index) => (
+                <ListItem key={index}>{topic}</ListItem>
+              ))}
+            </UnorderedList>
+          </Box>
+        </Flex>
       </Stack>
 
       <Box p={"13px"} ml={"21px"} overflowX={"auto"}>
