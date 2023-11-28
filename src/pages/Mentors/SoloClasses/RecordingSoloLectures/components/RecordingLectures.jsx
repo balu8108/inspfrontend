@@ -251,12 +251,14 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
       if (isScreenSharing && isMicrophoneOn) {
         startRecording();
       } else {
-        alert(
+        prompt(
           "Please enable both screen sharing and microphone before starting the recording."
         );
       }
     }
   };
+
+ 
 
   const endClass = () => {
     if (isRecording) {
