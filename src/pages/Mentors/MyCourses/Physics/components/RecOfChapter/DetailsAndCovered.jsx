@@ -119,21 +119,17 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
       borderRadius={"26px"}
       bg="white"
     >
-      {viewTopic && (
-        <>
-          <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
-            <Box
-              width={"12px"}
-              height={"25px"}
-              borderRadius={"20px"}
-              bg={"#3C8DBC"}
-            ></Box>
-            <Text fontSize={"19px"} lineHeight={"24px"} fontWeight={400}>
-              {capitalize(viewtopicName)}
-            </Text>
-          </HStack>
-        </>
-      )}
+      <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
+        <Box
+          width={"12px"}
+          height={"25px"}
+          borderRadius={"20px"}
+          bg={"#3C8DBC"}
+        ></Box>
+        <Text fontSize={"19px"} lineHeight={"24px"} fontWeight={400}>
+          {capitalize(viewtopicName)}
+        </Text>
+      </HStack>
 
       <Stack ml={"20px"} mt={"50px"}>
         <Flex p={4}>
@@ -203,14 +199,9 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
       <Box ml={"21px"} mt={"30px"}>
         <Text p={"12px"}>Files/Notes</Text>
         {liveClassRoomData ? (
-          liveClassRoomData?.data.map((liveClassData) => (
-            <Box
-              key={liveClassData?.id}
-              display="flex"
-              flexWrap={"wrap"}
-              gap={4}
-            >
-              {liveClassData?.LiveClassRoomFiles.map((fileData, index) => (
+          <Flex flexWrap="wrap" gap={4} ml={"10px"}>
+            {liveClassRoomData?.data.map((liveClassData) =>
+              liveClassData?.LiveClassRoomFiles.map((fileData, index) => (
                 <Flex
                   key={fileData?.id}
                   mt={"10px"}
@@ -242,9 +233,9 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                     }
                   ></Button>
                 </Flex>
-              ))}
-            </Box>
-          ))
+              ))
+            )}
+          </Flex>
         ) : (
           <Text fontSize="12px" p={4}>
             No files available for the topic.
@@ -255,54 +246,49 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
       <Box ml={"21px"} mt={"30px"}>
         <Text p={"12px"}>Polls/QnA</Text>
         {liveClassRoomData ? (
-          liveClassRoomData.data.map((liveClassData) => (
-            <Box
-              key={liveClassData.id}
-              display="flex"
-              flexWrap={"wrap"}
-              gap={4}
-            >
-              {liveClassData.LiveClassRoomQNANote !== null &&
-              typeof liveClassData.LiveClassRoomQNANote === "object" ? (
-                <Flex
-                  key={liveClassData.LiveClassRoomQNANote.id}
-                  mt={"12px"}
-                  color={"#2C332978"}
-                  p={"10px"}
-                  borderRadius={"6px"}
-                  border={" 1px solid #9597927D "}
-                  boxShadow={" 0px 1px 6px 0px #00000029 "}
-                  alignItems="center"
-                  w={"157px"}
-                  h={"49px"}
-                  fontSize={"13px"}
-                >
-                  <Text flex="1">
-                    {pollsFileNameExtraction(
-                      liveClassData.LiveClassRoomQNANote.key
-                    )}
-                  </Text>
-                  {console.log("live class data", liveClassData)}
-                  <Button
-                    rightIcon={<BsDownload />}
-                    variant={"ghost"}
-                    color={"black"}
-                    ml={2}
-                    onClick={() =>
-                      dispatch(
-                        setIsDocModalOpen(
-                          liveClassData.LiveClassRoomQNANote?.id,
-                          liveClassData.LiveClassRoomQNANote?.key,
-                          "qna",
-                          true
+          <Flex flexWrap="wrap" gap={4} ml={"10px"}>
+            {liveClassRoomData.data.map((liveClassData) => (
+              <Flex key={liveClassData.id} mt={"12px"} flexWrap="wrap" gap={4}>
+                {liveClassData.LiveClassRoomQNANote !== null &&
+                typeof liveClassData.LiveClassRoomQNANote === "object" ? (
+                  <Flex
+                    key={liveClassData.LiveClassRoomQNANote.id}
+                    color={"#2C332978"}
+                    p={"10px"}
+                    borderRadius={"6px"}
+                    border={" 1px solid #9597927D "}
+                    boxShadow={" 0px 1px 6px 0px #00000029 "}
+                    alignItems="center"
+                    w={"157px"}
+                    h={"49px"}
+                    fontSize={"13px"}
+                  >
+                    <Text flex="1">
+                      {pollsFileNameExtraction(
+                        liveClassData.LiveClassRoomQNANote.key
+                      )}
+                    </Text>
+                    <Button
+                      rightIcon={<BsDownload />}
+                      variant={"ghost"}
+                      color={"black"}
+                      ml={2}
+                      onClick={() =>
+                        dispatch(
+                          setIsDocModalOpen(
+                            liveClassData.LiveClassRoomQNANote?.id,
+                            liveClassData.LiveClassRoomQNANote?.key,
+                            "qna",
+                            true
+                          )
                         )
-                      )
-                    }
-                  ></Button>
-                </Flex>
-              ) : null}
-            </Box>
-          ))
+                      }
+                    ></Button>
+                  </Flex>
+                ) : null}
+              </Flex>
+            ))}
+          </Flex>
         ) : (
           <Text fontSize={"12px"} p={4}>
             No Polls are conducted for this topic.
