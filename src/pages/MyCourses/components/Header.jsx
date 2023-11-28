@@ -9,41 +9,16 @@ import {
   Button,
   Spinner,
   Center,
+  useTheme,
 } from "@chakra-ui/react";
 
 import { fetchAllSubjectsApi } from "../../../api/inspexternalapis";
 import { boxShadowStyles } from "../../../utils";
 const Header = () => {
   const [subjects, setSubjects] = useState([]);
-  // const dummydescription=[
-  //   "  Physics is the study of the fundamental principles that govern the behavior of the physical universe. It encompasses a wide range of topics, including classical mechanics, electromagnetism, thermodynamics, and quantum mechanics.",
-  //   "Explore the world of chemical reactions, elements, and compounds in this foundational science subject. Learn about the periodic table, bonding, and the fascinating properties of matter.",
-  //   " Delve into the world of numbers, equations, and mathematical concepts. From algebra to calculus, discover the fundamental principles that underlie a wide range of scientific and practical applications.",
-  // ]
-
-  // useEffect(() => {
-  //   // Fetch subjects when the component mounts
-  //   async function fetchSubjects() {
-  //     try {
-  //       const response = await fetchAllSubjectsApi(); // Call your API function
-
-  //       if (response.status) {
-  //         const filteredSubjects = response.result.filter(
-  //           (subject) =>
-  //             subject.name !== "Chemistry" && subject.name !== "Mathematics"
-  //         );
-  //         setSubjects(filteredSubjects);
-  //         // setSubjects(response.result); // Update the state with fetched data
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching subjects:", error);
-  //     }
-  //   }
-
-  //   fetchSubjects();
-  // }, []); // Empty dependency array ensures this effect runs once when the component mounts
 
   const [loading, setLoading] = useState(true);
+  const { outerBackground } = useTheme().colors.pallete;
   useEffect(() => {
     // Fetch subjects when the component mounts
     async function fetchSubjects() {
@@ -89,7 +64,7 @@ const Header = () => {
   return (
     <Box
       w={"100%"}
-      bg={"white"}
+      bg={outerBackground}
       boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       borderRadius={"2xl"}
     >

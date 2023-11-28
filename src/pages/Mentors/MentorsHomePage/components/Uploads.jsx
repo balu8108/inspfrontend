@@ -8,6 +8,7 @@ import {
   Spacer,
   Text,
   Icon,
+  useTheme,
 } from "@chakra-ui/react";
 import { IoIosAdd } from "react-icons/io";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -21,7 +22,7 @@ const MentorsUploads = () => {
   const [assignment, setAssignment] = useState([]);
   const [isUploadAssignmentModalOpen, setUploadAssignmentModalOpen] =
     useState(false);
-
+  const { outerBackground } = useTheme().colors.pallete;
   const openUploadAssignmentModal = () => {
     setUploadAssignmentModalOpen(true);
   };
@@ -35,7 +36,7 @@ const MentorsUploads = () => {
   };
   useEffect(() => {
     axios.get(`${BASE_URL}/topic/latest-assignment`).then((response) => {
-      console.log("response is " , response.data.data);
+      console.log("response is ", response.data.data);
       setAssignment(response.data.data);
     });
   }, []);
@@ -44,7 +45,7 @@ const MentorsUploads = () => {
     <Box
       w={"95%"}
       borderRadius={"26px"}
-      bg="white"
+      bg={outerBackground}
       boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
     >
       <Flex>
@@ -79,7 +80,7 @@ const MentorsUploads = () => {
       </Flex>
 
       <Flex mt={"34px"} flexWrap="wrap" position="relative">
-        {assignment?.slice(0,2)?.map((mentorUploadDetails) => (
+        {assignment?.slice(0, 2)?.map((mentorUploadDetails) => (
           <Box flexBasis="50%" key={mentorUploadDetails.id}>
             <Card
               h={"170px"}

@@ -7,6 +7,7 @@ import {
   HStack,
   Spacer,
   Text,
+  useTheme,
 } from "@chakra-ui/react";
 
 import { Link, useNavigate } from "react-router-dom";
@@ -16,6 +17,7 @@ import { boxShadowStyles, capitalize } from "../../../../utils";
 const SoloClasses = () => {
   const [latestSoloClassroom, setLatestSoloClassroom] = useState([]);
   const navigate = useNavigate();
+  const { outerBackground } = useTheme().colors.pallete;
 
   const handleSeeAllClick = () => {
     // Use navigate to navigate to the specified URL
@@ -39,7 +41,7 @@ const SoloClasses = () => {
   return (
     <Box
       boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
-      bg={"white"}
+      bg={outerBackground}
       mt={"23px"}
       borderRadius={"25px"}
       w={"95%"}

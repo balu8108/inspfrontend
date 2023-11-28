@@ -10,16 +10,18 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import "../../../constants/scrollbar/style.css";
-import { boxShadowStyles,capitalize } from "../../../utils";
+import { boxShadowStyles, capitalize } from "../../../utils";
 import libraryData from "../data/library";
 
 const Library = () => {
-  const { primaryBlue, mainTextColor } = useTheme().colors.pallete;
+  const { primaryBlue, mainTextColor, outerBackground } =
+    useTheme().colors.pallete;
   const isDetailView = window.location.pathname.includes("/library/");
 
   return (
     <Box
       w={"full"}
+      bg={outerBackground}
       boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       borderRadius={"26px"}
     >
