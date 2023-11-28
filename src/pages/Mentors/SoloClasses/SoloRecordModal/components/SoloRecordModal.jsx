@@ -39,8 +39,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
   const [selectedTopicId, setSelectedTopicId] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
-  const {  primaryBlueLight } =
-    useTheme().colors.pallete;
+  const { primaryBlueLight } = useTheme().colors.pallete;
   const navigate = useNavigate();
 
   const fileInputRef = useRef(null);
@@ -159,7 +158,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
     if (selectedSubject) {
       fetchAllTopicsForSubject();
     } else {
-      setAllTopicList([]); 
+      setAllTopicList([]);
     }
   }, [selectedSubject]);
 
@@ -185,7 +184,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
               value={selectedSubject}
               onChange={(e) => {
                 setSelectedSubject(e.target.value);
-                setSubjectError(false); 
+                setSubjectError(false);
                 setSelectedTopic("");
                 setAllTopicList([]);
               }}
@@ -212,6 +211,12 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
               onChange={(e) => {
                 const selectedTopicValue = e.target.value;
                 setSelectedTopic(selectedTopicValue);
+                const selectedTopicObject = allTopicList.find(
+                  (topic) => topic.name === selectedTopicValue
+                );
+                if (selectedTopicObject) {
+                  setSelectedTopicId(selectedTopicObject.id);
+                }
                 setTopicError(false);
               }}
               isDisabled={isLoadingTopics || allTopicList.length === 0}
