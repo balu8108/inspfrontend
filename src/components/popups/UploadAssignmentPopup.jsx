@@ -18,24 +18,20 @@ import {
   FormErrorMessage,
 } from "@chakra-ui/react";
 import {
-  fetchAllChaptersApi,
+  fetchAllTopicsForSubjectApi,
   fetchAllSubjectsApi,
-  fetchAllTopicsApi,
 } from "../../api/inspexternalapis";
 import axios from "axios";
 import { BASE_URL } from "../../constants/staticurls";
 
 const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
   const [isLoadingSubjects, setIsLoadingSubjects] = useState(true);
-  const [isLoadingChapters, setIsLoadingChapters] = useState(false);
   const [isLoadingTopics, setIsLoadingTopics] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [subjects, setSubjects] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState("");
   const [subjectError, setSubjectError] = useState("");
-  const [chapters, setChapters] = useState([]);
   const [selectedChapters, setSelectedChapters] = useState("");
-  const [chapterError, setChapterError] = useState("");
   const [topics, setTopics] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState("");
   const [topicError, setTopicError] = useState("");
@@ -45,7 +41,6 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
   const { primaryBlueLight } = useTheme().colors.pallete;
   const fileInputRef = useRef(null);
 
-  // Reset form fields and errors
   const resetFormFields = () => {
     setSelectedSubject("");
     setSelectedChapters("");
@@ -53,29 +48,23 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
     setDescription("");
     setFiles([]);
     setSubjectError("");
-    setChapterError("");
     setTopicError("");
     setDescriptionError("");
   };
 
   const handleSubjectChange = (e) => {
     setSelectedSubject(e.target.value);
-    setSubjectError(""); // Clear the error when a selection is made
-  };
-
-  const handleChapterChange = (e) => {
-    setSelectedChapters(e.target.value);
-    setChapterError(""); // Clear the error when a selection is made
+    setSubjectError("");
   };
 
   const handleTopicChange = (e) => {
     setSelectedTopic(e.target.value);
-    setTopicError(""); // Clear the error when a selection is made
+    setTopicError("");
   };
 
   const handleDescriptionChange = (e) => {
     setDescription(e.target.value);
-    setDescriptionError(""); // Clear the error when a selection is made
+    setDescriptionError("");
   };
 
   const handleFileChange = (e) => {
@@ -85,14 +74,8 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
 
   const handleSubmit = async () => {
     try {
-      // Validation checks
       if (!selectedSubject) {
         setSubjectError("Please select a subject");
-        return;
-      }
-
-      if (!selectedChapters) {
-        setChapterError("Please select a chapter");
         return;
       }
 
@@ -108,7 +91,6 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
 
       setIsSending(true);
 
-      // Create a FormData object to send files along with other data
       const formData = new FormData();
       formData.append("subjectId", selectedSubject);
 
@@ -175,46 +157,29 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
   }, []);
 
   useEffect(() => {
-    async function fetchChapters() {
-      setIsLoadingChapters(true);
-      try {
-        const response = await fetchAllChaptersApi();
-
-        if (response.status) {
-          setChapters(response.result);
-        }
-      } catch (error) {
-        console.error("Error fetching chapters:", error);
-      } finally {
-        setIsLoadingChapters(false);
-      }
-    }
-
-    fetchChapters();
-  }, []);
-
-  useEffect(() => {
-    async function fetchtopics(chapter_id) {
+    async function fetchAllTopicsForSubject() {
       setIsLoadingTopics(true);
       try {
-        const response = await fetchAllTopicsApi(chapter_id);
-
+        const response = await fetchAllTopicsForSubjectApi(selectedSubject);
         if (response.status) {
           setTopics(response.result);
+          setSelectedTopic("");
         }
       } catch (error) {
-        console.error("Error fetching topics:", error);
+        console.error("Error fetching topics data:", error);
       } finally {
         setIsLoadingTopics(false);
       }
     }
 
-    if (selectedChapters) {
-      fetchtopics(selectedChapters);
+    setTopics([]);
+    if (selectedSubject) {
+      fetchAllTopicsForSubject();
     } else {
       setTopics([]);
+      setSelectedTopic("");
     }
-  }, [selectedChapters]);
+  }, [selectedSubject]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -254,25 +219,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
             </Select>
             <FormErrorMessage>{subjectError}</FormErrorMessage>
           </FormControl>
-          <FormControl mt={4} isInvalid={chapterError !== ""}>
-            <Select
-              placeholder={
-                isLoadingChapters ? <Spinner size="sm" /> : "Select Chapter"
-              }
-              value={selectedChapters}
-              onChange={handleChapterChange}
-              isDisabled={isLoadingChapters}
-            >
-              {isLoadingChapters
-                ? null
-                : chapters.map((chapter) => (
-                    <option key={chapter.id} value={chapter.id}>
-                      {chapter.name}
-                    </option>
-                  ))}
-            </Select>
-            <FormErrorMessage>{chapterError}</FormErrorMessage>
-          </FormControl>
+
           <FormControl mt={4} isInvalid={topicError !== ""}>
             <Select
               placeholder={
@@ -280,7 +227,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
               }
               value={selectedTopic}
               onChange={handleTopicChange}
-              isDisabled={isLoadingTopics}
+              isDisabled={isLoadingTopics || topics.length === 0}
             >
               {isLoadingTopics
                 ? null
@@ -290,6 +237,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
                     </option>
                   ))}
             </Select>
+
             <FormErrorMessage>{topicError}</FormErrorMessage>
           </FormControl>
           <FormControl mt={4} isInvalid={descriptionError !== ""}>

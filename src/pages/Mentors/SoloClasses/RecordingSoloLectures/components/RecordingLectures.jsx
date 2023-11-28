@@ -18,7 +18,7 @@ import {
   FiMonitor,
 } from "react-icons/fi";
 import { LuMonitorOff, LuCircleOff } from "react-icons/lu";
-
+import { CiPause1 } from "react-icons/ci";
 import { boxShadowStyles } from "../../../../../utils";
 const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
   const [isCameraOn, setIsCameraOn] = useState(false);
@@ -26,6 +26,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [screenSharingStream, setScreenSharingStream] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
+  const [isTimerPaused, setTimerPaused] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
   const cameraVideoRef = useRef(null);
   const audioStreamRef = useRef(null);
@@ -48,7 +49,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
 
     if (isRecording) {
       timerInterval = setInterval(() => {
-        setElapsedTime((prevTime) => prevTime + 1); // Update elapsed time using useState
+        setElapsedTime((prevTime) => prevTime + 1);
       }, 1000);
     } else {
       clearInterval(timerInterval);
@@ -86,13 +87,12 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
         const stream = await navigator.mediaDevices.getUserMedia({
           audio: true,
         });
-        audioStreamRef.current = stream; // Store the audio stream in the ref
+        audioStreamRef.current = stream;
         setIsMicrophoneOn(true);
       } catch (error) {
         console.error("Error accessing microphone:", error);
       }
     } else {
-      // Stop the audio tracks from the stored audio stream
       const audioStream = audioStreamRef.current;
       if (audioStream) {
         const audioTracks = audioStream.getAudioTracks();
@@ -121,24 +121,19 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
         tracks.forEach((track) => track.stop());
       }
       screenSharingVideoRef.current.srcObject = null;
-
       setScreenSharingStream(null);
       setIsScreenSharing(false);
     }
   };
+
   const startRecording = async () => {
     try {
-      // Get the video stream
       const videoStream = isCameraOn
         ? await navigator.mediaDevices.getUserMedia({ video: true })
         : null;
 
-      // Get the audio stream
-      const audioStream = isMicrophoneOn
-        ? audioStreamRef.current // Use the stored audio stream
-        : null;
+      const audioStream = isMicrophoneOn ? audioStreamRef.current : null;
 
-      // Combine the video, audio, and screen sharing streams
       const combinedStream = new MediaStream();
 
       if (screenSharingStream) {
@@ -158,8 +153,6 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
           .getTracks()
           .forEach((track) => combinedStream.addTrack(track));
       }
-
-      // Create a MediaRecorder with the combined stream
       mediaRecorderRef.current = new MediaRecorder(combinedStream);
 
       mediaRecorderRef.current.ondataavailable = (event) => {
@@ -169,8 +162,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
       };
 
       mediaRecorderRef.current.onstop = () => {
-        // Recording stopped
-        stopRecording(); // You can implement this function to save the recorded chunks as a video file.
+        stopRecording();
       };
 
       mediaRecorderRef.current.start();
@@ -231,15 +223,12 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
         setIsRecording(false);
 
         if (recordedChunksRef.current.length > 0) {
-          // Combine the recorded chunks into a single Blob
           const blob = new Blob(recordedChunksRef.current, {
             type: "video/webm",
           });
 
-          // Create an object URL for the Blob
           const url = window.URL.createObjectURL(blob);
 
-          // Create a download link for the video
           const a = document.createElement("a");
           a.style.display = "none";
           a.href = url;
@@ -248,7 +237,6 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
           a.click();
           document.body.removeChild(a);
 
-          // Revoke the object URL to free up resources
           window.URL.revokeObjectURL(url);
         }
         recordedChunksRef.current = [];
@@ -263,13 +251,14 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
       if (isScreenSharing && isMicrophoneOn) {
         startRecording();
       } else {
-        // You can provide a message or an alert to the user to indicate that both screen share and microphone must be enabled before starting the recording.
-        alert(
+        prompt(
           "Please enable both screen sharing and microphone before starting the recording."
         );
       }
     }
   };
+
+ 
 
   const endClass = () => {
     if (isRecording) {
@@ -395,6 +384,21 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
             </Tooltip>
 
             <Tooltip
+              label={isTimerPaused ? "Resume" : "Pause"}
+              placement="right"
+            >
+              <IconButton
+                isRound={true}
+                variant="solid"
+                colorScheme={isTimerPaused ? "gray" : "red"}
+                fontSize="20px"
+                icon={<CiPause1 />}
+              />
+            </Tooltip>
+          </Stack>
+
+          <Box>
+            <Tooltip
               label={isScreenSharing ? "Stop Presenting" : "Present Now"}
               placement="right"
             >
@@ -408,7 +412,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
                 onClick={toggleScreenSharing}
               />
             </Tooltip>
-          </Stack>
+          </Box>
           <Button
             bg="#F63F4A"
             w="80px"
