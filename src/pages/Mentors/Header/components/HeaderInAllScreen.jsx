@@ -102,7 +102,7 @@ const Header = () => {
               </Text>
               <Text
                 mt={"3px"}
-                fontSize={"14px"}
+                fontSize={"12px"}
                 color={
                   subjectStatus[3 - subject.id] === "In Progress"
                     ? "#3DE302"
