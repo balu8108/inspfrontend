@@ -1,4 +1,3 @@
-// this is the assignment header .It is created separately ..
 import React, { useEffect, useState } from "react";
 import {
   Button,
