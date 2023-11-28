@@ -14,7 +14,7 @@ import {
   Spinner,
   Center,
 } from "@chakra-ui/react";
-import rateNFeedbackDetails from "../../data/feedbackData";
+
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../../api/inspexternalapis/index";
 import { Link } from "react-router-dom";
 import { SearchIcon } from "@chakra-ui/icons";
