@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, HStack, Text, Stack } from "@chakra-ui/react";
+import { Box, HStack, Text, Stack, useTheme } from "@chakra-ui/react";
 
 import { BASE_URL } from "../../../../../constants/staticurls";
 import { boxShadowStyles, capitalize } from "../../../../../utils";
@@ -15,6 +15,7 @@ const DataForClass = () => {
     agenda: "",
     soloClassRoomFile: [],
   });
+  const { outerBackground } = useTheme().colors.pallete;
 
   const { soloClassRoomId } = useParams();
 
@@ -47,7 +48,7 @@ const DataForClass = () => {
       h={"full"}
       borderRadius={"12px"}
       boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
-      bg="white"
+      bg={outerBackground}
     >
       <HStack spacing={"10px"}>
         <Box

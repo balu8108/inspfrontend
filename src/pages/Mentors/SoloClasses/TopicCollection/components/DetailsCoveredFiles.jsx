@@ -9,6 +9,7 @@ import {
   Image,
   Icon,
   Card,
+  useTheme,
 } from "@chakra-ui/react";
 import defaultImageUrl from "../../../../../assets/images/image1.png";
 import { BsDownload } from "react-icons/bs";
@@ -32,6 +33,7 @@ const DetailsCoveredFiles = () => {
   const [showVideo, setShowVideo] = useState(false);
   const [videoUrl, setVideoUrl] = useState(null);
   const { topicId, topic_name } = useParams();
+  const { outerBackground } = useTheme().colors.pallete;
   const navigate = useNavigate();
   // Function to fetch topic details
 
@@ -72,7 +74,7 @@ const DetailsCoveredFiles = () => {
       boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       borderRadius={"26px"}
       w={"100%"}
-      bg="white"
+      bg={outerBackground}
     >
       <HStack spacing={"10px"} p={6}>
         <Box
@@ -138,7 +140,6 @@ const DetailsCoveredFiles = () => {
         </Box>
       )}
 
-      
       <Box ml={"20px"} mt="20px" mr={"21px"}>
         <Text p={"13px"}>Recordings</Text>
         <Box ml={"13px"}>

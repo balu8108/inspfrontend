@@ -16,6 +16,7 @@ import { useParams } from "react-router-dom";
 import "../../../../../../constants/scrollbar/style.css";
 import topicDescriptionConstants from "../../../../../../constants/topicDescriptionConstants";
 import { boxShadowStyles, capitalize } from "../../../../../../utils";
+import { useTheme } from "@emotion/react";
 const ViewAllRecordingsRelatedToOneChapter = ({
   setViewTopic,
   setTopicName,
@@ -23,6 +24,7 @@ const ViewAllRecordingsRelatedToOneChapter = ({
   const { chapter_id, chapter_name } = useParams();
   const [topics, setTopics] = useState([]);
   const [isLoading, setLoading] = useState(true);
+  const { outerBackground } = useTheme().colors.pallete;
 
   useEffect(() => {
     async function fetchTopics() {
@@ -49,7 +51,7 @@ const ViewAllRecordingsRelatedToOneChapter = ({
       boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       borderRadius={"2xl"}
       mt={6}
-      bg="white"
+      bg={outerBackground}
     >
       <HStack spacing={"10px"} ml="27px">
         <Box

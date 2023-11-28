@@ -14,6 +14,7 @@ import {
   Center,
   Image,
   VStack,
+  useTheme,
 } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
 import { BsDownload } from "react-icons/bs";
@@ -34,6 +35,7 @@ const AssignmentDetails = () => {
   const [assignmentData, setAssignmentData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const { subjectName } = useParams();
+  const { outerBackground } = useTheme().colors.pallete;
   const dispatch = useDispatch();
 
   const filteredData = Array.isArray(assignmentData)
@@ -60,7 +62,7 @@ const AssignmentDetails = () => {
       boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       width={"full"}
       h={"full"}
-      bg={"white"}
+      bg={outerBackground}
       borderRadius={"26px"}
     >
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>

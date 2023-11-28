@@ -11,6 +11,7 @@ import {
   Card,
   Spinner,
   Center,
+  useTheme,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../api/inspexternalapis/index";
@@ -24,6 +25,7 @@ const AllUploadedLecture = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredTopics, setFilteredTopics] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { outerBackground } = useTheme().colors.pallete;
 
   const handleViewDetails = (chapterId, chapterName) => {
     navigate(`/mentor/view/rating&feedback/${chapterId}/${chapterName}`);
@@ -65,7 +67,7 @@ const AllUploadedLecture = () => {
       h={"full"}
       mt={"24px"}
       borderRadius={"26px"}
-      bg="white"
+      bg={outerBackground}
     >
       <Flex>
         <HStack spacing={"10px"} ml="27px">

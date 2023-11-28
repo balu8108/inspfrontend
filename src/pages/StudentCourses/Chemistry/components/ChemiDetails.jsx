@@ -8,18 +8,20 @@ import {
   Image,
   Spacer,
   Flex,
+  useTheme,
 } from "@chakra-ui/react";
 import ChemistryImage from "../../../../assets/images/undraw_science_re_mnnr 1.svg";
 import { boxShadowStyles } from "../../../../utils";
 
 const ChemDetails = () => {
+  const { outerBackground } = useTheme().colors.pallete;
   return (
     <Box
       width={"100%"}
       boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       height={"full"}
       borderRadius={"26px"}
-      bg="white"
+      bg={outerBackground}
     >
       <Flex mt={"17px"}>
         <HStack spacing={"10px"} alignItems="center" ml={"33px"}>

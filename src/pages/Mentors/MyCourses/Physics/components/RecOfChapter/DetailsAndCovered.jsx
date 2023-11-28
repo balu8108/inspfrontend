@@ -17,6 +17,7 @@ import {
   ListIcon,
   OrderedList,
   UnorderedList,
+  useTheme,
 } from "@chakra-ui/react";
 import { BsDownload } from "react-icons/bs";
 import chapterDetailsData from "../../data/chapterDetailsData";
@@ -41,6 +42,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedFileUrl, setSelectedFileUrl] = useState("");
   const [selectedTopic, setSelectedTopic] = useState(null);
+  const { outerBackground } = useTheme().colors.pallete;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -101,7 +103,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
         boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
         height={"full"}
         borderRadius={"26px"}
-        bg="white"
+        bg={outerBackground}
         p={4}
       >
         <Text textAlign="center" m={"10%"}>
@@ -117,7 +119,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
       boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       height={"full"}
       borderRadius={"26px"}
-      bg="white"
+      bg={outerBackground}
     >
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
         <Box

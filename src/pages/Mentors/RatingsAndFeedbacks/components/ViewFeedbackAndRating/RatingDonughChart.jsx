@@ -7,6 +7,7 @@ import {
   Stack,
   Text,
   Center,
+  useTheme,
 } from "@chakra-ui/react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart, ArcElement } from "chart.js";
@@ -22,7 +23,7 @@ const RatingAndFeedBackChart = () => {
   const { topic_id, topic_name } = useParams();
 
   const [feedbackData, setFeedbackData] = useState(); // State to store feedback data
-
+  const { outerBackground } = useTheme().colors.pallete;
   useEffect(() => {
     axios
       .get(`${BASE_URL}/generic/topic-feedback-rating-details/${topic_id}`)
@@ -136,7 +137,7 @@ const RatingAndFeedBackChart = () => {
         w={"100%"}
         h={"full"}
         borderRadius={"26px"}
-        bg="white"
+        bg={outerBackground}
         boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       >
         <Center>
@@ -153,6 +154,7 @@ const RatingAndFeedBackChart = () => {
       h={"full"}
       boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       borderRadius={"26px"}
+      bg={outerBackground}
     >
       <HStack spacing={"10px"} mx="27px" mt={"25px"}>
         <Box

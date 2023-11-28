@@ -22,7 +22,7 @@ const TopicsBased = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoadingTopics, setIsLoadingTopics] = useState(true);
   const [topics, setTopics] = useState([]);
-  const { primaryBlueLight } = useTheme().colors.pallete;
+  const { primaryBlueLight, outerBackground } = useTheme().colors.pallete;
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -56,7 +56,7 @@ const TopicsBased = () => {
       borderRadius={"26px"}
       w={"100%"}
       h={"full"}
-      bg="white"
+      bg={outerBackground}
     >
       <Flex p={5}>
         <HStack spacing={"10px"}>

@@ -13,6 +13,7 @@ import {
   Card,
   Spinner,
   Center,
+  useTheme,
 } from "@chakra-ui/react";
 
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../../api/inspexternalapis/index";
@@ -25,6 +26,7 @@ const ViewMentorsRatingAndFeedback = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [displayedChapters, setDisplayedChapters] = useState([]);
+  const { outerBackground } = useTheme().colors.pallete;
 
   useEffect(() => {
     async function fetchAllTopicsWithoutChapterId() {
@@ -62,7 +64,7 @@ const ViewMentorsRatingAndFeedback = () => {
       boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       mt={"24px"}
       borderRadius={"26px"}
-      bg="white"
+      bg={outerBackground}
     >
       <Flex>
         <HStack spacing={"10px"} ml="27px">
