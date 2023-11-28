@@ -12,6 +12,7 @@ import {
   Center,
   Spacer,
   Input,
+  useTheme,
 } from "@chakra-ui/react";
 import { fetchAllChaptersApi } from "../../../../api/inspexternalapis";
 import { boxShadowStyles, capitalize } from "../../../../utils";
@@ -19,6 +20,7 @@ const PhysDetails = () => {
   const [chapters, setChapters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const { outerBackground } = useTheme().colors.pallete;
 
   const dummyDescriptions = [
     "This chapter covers the basics of electromagnetism, including its principles and applications.",
@@ -55,7 +57,7 @@ const PhysDetails = () => {
       width={"full"}
       boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       h={"100%"}
-      bg="white"
+      bg={outerBackground}
       borderRadius={"26px"}
     >
       <Flex mt={"17px"}>

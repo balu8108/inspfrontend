@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, Text, HStack, Flex, Card } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Text,
+  HStack,
+  Flex,
+  Card,
+  useTheme,
+} from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { boxShadowStyles, capitalize } from "../../../utils";
 
@@ -8,6 +16,7 @@ import axios from "axios";
 const Assignment = () => {
   const navigate = useNavigate();
   const [recentAssignments, setRecentAssignments] = useState([]);
+  const { outerBackground } = useTheme().colors.pallete;
   const handleViewDetail = () => {
     navigate(`/student/assignments/PHYSICS`);
   };
@@ -29,6 +38,7 @@ const Assignment = () => {
       mt="24px"
       boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       borderRadius="26px"
+      background={outerBackground}
     >
       <HStack spacing="10px">
         <Box
@@ -108,7 +118,7 @@ const Assignment = () => {
               size="sm"
               lineHeight="1.5"
               p={6}
-             mt={4}
+              mt={4}
               onClick={handleViewDetail}
             >
               View Details

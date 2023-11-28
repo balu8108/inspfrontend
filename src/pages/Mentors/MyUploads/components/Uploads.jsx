@@ -12,6 +12,7 @@ import {
   InputGroup,
   InputLeftElement,
   Spacer,
+  useTheme,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import { BsDownload } from "react-icons/bs";
@@ -30,6 +31,7 @@ const AllUploadedLecture = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const dispatch = useDispatch();
+  const { outerBackground } = useTheme().colors.pallete;
 
   const filteredAssignments = assignments.filter((assignment) =>
     assignment.topicName.toLowerCase().includes(searchTerm.toLowerCase())
@@ -52,7 +54,7 @@ const AllUploadedLecture = () => {
       width={"100%"}
       h={"100%"}
       borderRadius={"26px"}
-      bg="white"
+      bg={outerBackground}
       boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
     >
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>

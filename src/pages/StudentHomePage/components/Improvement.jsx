@@ -2,13 +2,22 @@ import React from "react";
 import { Doughnut } from "react-chartjs-2";
 import improvementMarks from "../data/improvement";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Box, Text, HStack, Spacer, Flex, Icon } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  HStack,
+  Spacer,
+  Flex,
+  Icon,
+  useTheme,
+} from "@chakra-ui/react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { boxShadowStyles } from "../../../utils";
 import "../Styling/progress.css";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Improvement = () => {
+  const { outerBackground } = useTheme().colors.pallete;
   const data = improvementMarks.map((subject) => subject.percentage);
   const averagePercentage =
     data.reduce((total, percentage) => total + percentage, 0) / data.length;
@@ -45,6 +54,7 @@ const Improvement = () => {
       w={"130%"}
       h={"313px"}
       borderRadius={"26px"}
+      bg={outerBackground}
       boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
     >
       <HStack spacing={"10px"}>

@@ -82,8 +82,13 @@ const renderPeerData = (isPeerLoading, peers, liveSessionData, type) => {
 const RoomPreviewJoinDescription = ({ roomId }) => {
   const [isRoomLoading, setIsRoomLoading] = useState(false);
   const theme = useTheme();
-  const { primaryBlue, primaryBlueLight, mainTextColor, secondaryTextColor } =
-    theme.colors.pallete;
+  const {
+    primaryBlue,
+    primaryBlueLight,
+    mainTextColor,
+    secondaryTextColor,
+    outerBackground,
+  } = theme.colors.pallete;
 
   const { isPeerLoading, peers, roomPreviewData } = useSelector(
     (state) => state.socket
@@ -125,7 +130,7 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
   return (
     <Box
       boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
-      bg={"white"}
+      bg={outerBackground}
       width={["100%", "100%", "40%", "30%"]}
       borderRadius={"2xl"}
       p={8}
@@ -186,8 +191,8 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
                 .map((agenda, index) => (
                   <HStack key={index} pt={1}>
                     <Box
-                      width={"15px"}
-                      height={"15px"}
+                      width={"13px"}
+                      height={"13px"}
                       bg={"gray.200"}
                       borderRadius={"100%"}
                     />

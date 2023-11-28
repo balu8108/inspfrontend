@@ -8,6 +8,7 @@ import {
   HStack,
   Spacer,
   Text,
+  useTheme,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -15,6 +16,7 @@ import { BASE_URL } from "../../../../constants/staticurls";
 import { boxShadowStyles, capitalize } from "../../../../utils";
 const FeedBack = () => {
   const [feedbackData, setFeedbackData] = useState([]);
+  const { outerBackground } = useTheme().colors.pallete;
 
   useEffect(() => {
     axios
@@ -34,7 +36,7 @@ const FeedBack = () => {
       borderRadius={"25px"}
       w={"58%"}
       h={"30%"}
-      bg="white"
+      bg={outerBackground}
     >
       <Flex>
         <HStack spacing={"10px"}>

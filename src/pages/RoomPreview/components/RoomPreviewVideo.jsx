@@ -6,6 +6,7 @@ import {
   IconButton,
   Text,
   Tooltip,
+  useTheme,
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { FiMic, FiMicOff, FiVideo, FiVideoOff } from "react-icons/fi";
@@ -29,6 +30,7 @@ const RoomPreviewVideo = () => {
   const videoRef = useRef();
 
   const userRoleType = checkUserType();
+  const { outerBackground } = useTheme().colors.pallete;
 
   const getWebCamFeed = async () => {
     try {
@@ -92,7 +94,7 @@ const RoomPreviewVideo = () => {
 
   return (
     <Box
-      bg={"white"}
+      bg={outerBackground}
       boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       width={["100%", "100%", "60%", "70%"]}
       borderRadius={"2xl"}

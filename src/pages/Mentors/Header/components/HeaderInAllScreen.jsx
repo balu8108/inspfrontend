@@ -8,6 +8,7 @@ import {
   Text,
   Spinner,
   Center,
+  useTheme,
 } from "@chakra-ui/react";
 import { fetchAllSubjectsApi } from "../../../../api/inspexternalapis/index";
 import { Link } from "react-router-dom";
@@ -16,6 +17,7 @@ import { boxShadowStyles, capitalize } from "../../../../utils";
 const Header = () => {
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { outerBackground } = useTheme().colors.pallete;
 
   const dummyDescriptions = [
     " Explore the world of chemical reactions, elements, and compounds in this foundational science subject. Learn about the periodic table, bonding, and the fascinating properties of matter.",
@@ -56,7 +58,7 @@ const Header = () => {
       borderRadius={"25px"}
       w={"100%"}
       boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
-      bg="white"
+      bg={outerBackground}
     >
       <HStack spacing={"10px"}>
         <Box
