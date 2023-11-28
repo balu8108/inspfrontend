@@ -121,13 +121,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
         tracks.forEach((track) => track.stop());
       }
       screenSharingVideoRef.current.srcObject = null;
-      <IconButton
-        isRound={true}
-        variant="solid"
-        aria-label="Done"
-        fontSize="20px"
-        icon={<LuMonitorOff />}
-      />;
+
       setScreenSharingStream(null);
       setIsScreenSharing(false);
     }
@@ -285,6 +279,20 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
     window.history.replaceState(null, null, `/mentor/solo-recordings/topic`);
   };
 
+  const stopScreenShare = () => {
+    setIsScreenSharing(false);
+    setScreenSharingStream(null);
+  };
+
+  useEffect(() => {
+    if (screenSharingStream) {
+      const screenShareTrack = screenSharingStream.getVideoTracks()[0];
+      screenShareTrack.addEventListener("ended", stopScreenShare);
+      return () => {
+        screenShareTrack.removeEventListener("ended", stopScreenShare);
+      };
+    }
+  }, [screenSharingStream]);
   return (
     <Box
       w={"100%"}
