@@ -9,11 +9,11 @@ import {
   Flex,
   useTheme,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useRef } from "react";
 import { kickOutFromClass } from "../../socketconnections/socketconnections";
 
 const KickFromClassPopup = ({ isOpen, onClose, kickedPersonDetails }) => {
-  const cancelRef = React.useRef();
+  const cancelRef = useRef();
   const { primaryBlue, primaryBlueLight } = useTheme().colors.pallete;
 
   const handleKickFromClass = () => {
