@@ -286,62 +286,56 @@ const ChatBox = ({ chatMsg, setChatMsg }) => {
     }
   };
   return (
-    <>
-      <Flex
-        direction={"column"}
-        height={"100%"}
-        justifyContent={"space-between"}
-      >
-        <Box height={"100%"} position={"relative"}>
-          <ChatContainer />
-          <EmojiContainer
-            isEmojiOpen={isEmojiOpen}
-            setIsEmojiOpen={setIsEmojiOpen}
-          />
-        </Box>
+    <Flex direction={"column"} height={"100%"} justifyContent={"space-between"}>
+      <Box height={"100%"} position={"relative"}>
+        <ChatContainer />
+        <EmojiContainer
+          isEmojiOpen={isEmojiOpen}
+          setIsEmojiOpen={setIsEmojiOpen}
+        />
+      </Box>
 
-        <InputGroup bg="white" borderRadius={"full"} mt={2}>
-          <IconButton
-            bg="white"
-            borderRadius={"full"}
-            onClick={() => setIsEmojiOpen(!isEmojiOpen)}
-            icon={<BsEmojiSmile size={16} />}
-          />
-          <Input
-            type="text"
-            placeholder={"Type something..."}
-            borderRadius="full"
-            border={"none"}
-            fontSize={"12px"}
-            value={chatMsg}
-            onChange={(e) => handleChatMsgChange(e)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                sendChatMsg(e);
-              }
-            }}
-            px={1}
-            transition={"all 0.3 ease"}
-            overflow={"hidden"}
-            _focus={{
-              outline: "none",
-              boxShadow: "none",
-              border: "none",
-            }}
-          />
+      <InputGroup bg="white" borderRadius={"full"} mt={2}>
+        <IconButton
+          bg="white"
+          borderRadius={"full"}
+          onClick={() => setIsEmojiOpen(!isEmojiOpen)}
+          icon={<BsEmojiSmile size={16} />}
+        />
+        <Input
+          type="text"
+          placeholder={"Type something..."}
+          borderRadius="full"
+          border={"none"}
+          fontSize={"12px"}
+          value={chatMsg}
+          onChange={(e) => handleChatMsgChange(e)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              sendChatMsg(e);
+            }
+          }}
+          px={1}
+          transition={"all 0.3 ease"}
+          overflow={"hidden"}
+          _focus={{
+            outline: "none",
+            boxShadow: "none",
+            border: "none",
+          }}
+        />
 
-          <IconButton
-            bg="white"
-            transition={"all 0.3 ease"}
-            borderRadius={"full"}
-            isLoading={isChatSentLoading}
-            isDisabled={isSentBtnDisabled}
-            onClick={(e) => sendChatMsg(e)}
-            icon={<PiPaperPlaneTiltBold size={16} />}
-          />
-        </InputGroup>
-      </Flex>
-    </>
+        <IconButton
+          bg="white"
+          transition={"all 0.3 ease"}
+          borderRadius={"full"}
+          isLoading={isChatSentLoading}
+          isDisabled={isSentBtnDisabled}
+          onClick={(e) => sendChatMsg(e)}
+          icon={<PiPaperPlaneTiltBold size={16} />}
+        />
+      </InputGroup>
+    </Flex>
   );
 };
 
