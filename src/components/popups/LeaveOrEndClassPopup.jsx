@@ -9,7 +9,7 @@ import {
   Flex,
   useTheme,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useRef } from "react";
 import {
   endMeetHandler,
   leaveRoomHandler,
@@ -18,7 +18,7 @@ import { checkUserType } from "../../utils";
 import { userType } from "../../constants/staticvariables";
 import { useNavigate, useParams } from "react-router-dom";
 const LeaveOrEndClassPopup = ({ isOpen, onClose }) => {
-  const cancelRef = React.useRef();
+  const cancelRef = useRef();
   const { primaryBlue, primaryBlueLight } = useTheme().colors.pallete;
   const userRoleType = checkUserType();
   const { roomId } = useParams();
