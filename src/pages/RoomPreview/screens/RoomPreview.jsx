@@ -17,7 +17,7 @@ const RoomPreview = () => {
     dispatch(getLiveClassDetails(roomId));
   }, [roomId, dispatch]);
   return (
-    <Box py={8} px={20}>
+    <Box py={8} px={[6, 8, 10, 20]}>
       <Flex
         justifyContent={"space-between"}
         gap={[8, 8, 8, 10]}

@@ -264,6 +264,20 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
     window.history.replaceState(null, null, `/mentor/solo-recordings/topic`);
   };
 
+  const stopScreenShare = () => {
+    setIsScreenSharing(false);
+    setScreenSharingStream(null);
+  };
+
+  useEffect(() => {
+    if (screenSharingStream) {
+      const screenShareTrack = screenSharingStream.getVideoTracks()[0];
+      screenShareTrack.addEventListener("ended", stopScreenShare);
+      return () => {
+        screenShareTrack.removeEventListener("ended", stopScreenShare);
+      };
+    }
+  }, [screenSharingStream]);
   return (
     <Box
       w={"100%"}

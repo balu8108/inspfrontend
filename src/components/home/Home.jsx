@@ -37,7 +37,7 @@ const Home = () => {
           <Center my={6}>
             <Link
               color={"blue"}
-              href="https://www.inspedu.in/"
+              href={process.env.REACT_APP_EXTERNAL_INSP_BASE_URL}
               display={"inline-flex"}
               alignItems={"center"}
               fontSize={"1rem"}
