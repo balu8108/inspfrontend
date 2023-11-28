@@ -60,6 +60,64 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
     };
   }, [isRecording]);
 
+  useEffect(() => {
+    // Event listener for beforeunload
+    const handleBeforeUnload = (event) => {
+      const confirmationMessage = "Are you sure you want to leave?";
+      event.returnValue = confirmationMessage; // Standard for most browsers
+      return confirmationMessage; // For some older browsers
+    };
+
+    // Attach the event listener
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    // Cleanup function to remove the event listener
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      // Additional cleanup code if needed
+      if (isRecording) {
+        stopRecording();
+      }
+      // Stop camera, mic, and screen sharing streams
+      stopCamera();
+      stopMicrophone();
+      stopScreenSharing();
+    };
+  }, [isRecording]);
+
+  // Add these functions in your component
+
+  const stopCamera = () => {
+    const stream = cameraVideoRef.current.srcObject;
+    if (stream) {
+      const tracks = stream.getTracks();
+      tracks.forEach((track) => track.stop());
+    }
+    cameraVideoRef.current.srcObject = null;
+    setIsCameraOn(false);
+  };
+
+  const stopMicrophone = () => {
+    const audioStream = audioStreamRef.current;
+    if (audioStream) {
+      const audioTracks = audioStream.getAudioTracks();
+      audioTracks.forEach((track) => track.stop());
+    }
+    audioStreamRef.current = null;
+    setIsMicrophoneOn(false);
+  };
+
+  const stopScreenSharing = () => {
+    const screenStream = screenSharingStream;
+    if (screenStream) {
+      const tracks = screenStream.getTracks();
+      tracks.forEach((track) => track.stop());
+    }
+    screenSharingVideoRef.current.srcObject = null;
+    setScreenSharingStream(null);
+    setIsScreenSharing(false);
+  };
+
   const toggleCamera = async () => {
     if (!isCameraOn) {
       try {
