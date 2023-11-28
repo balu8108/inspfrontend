@@ -31,7 +31,7 @@ const TopicBasedRecordings = () => {
     const fetchtopic = async () => {
       try {
         const response = await fetchAllTopicsWithoutChapterIdApi();
-        if (response && response.result) {
+        if (response?.result) {
           setTopic(response.result);
           setFilteredTopic(response.result); // Initialize filtered list with all topics
         } else {

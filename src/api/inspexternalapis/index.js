@@ -3,7 +3,7 @@ import { EXTERNAL_INSP_BASE_URL } from "../../constants/staticurls";
 // This is temporary secret key instead of this we will use clients secret key who is logged in
 
 const secret_key = {
-  secret_key: "U5Ga0Z1aaNlYHp0MjdEdXJ1aKVVVB1TP",
+  secret_key: process.env.REACT_APP_S_KEY,
 };
 
 export const fetchAllSubjectsApi = async () => {
@@ -91,7 +91,7 @@ export const fetchAllTopicsWithoutChapterIdApi = async () => {
 
 // this is the api which will fetch all the  topics for particular subject.
 export const fetchAllTopicsForSubjectApi = async (subject_id) => {
-  const body = {subject_id:subject_id,...secret_key,}
+  const body = { subject_id: subject_id, ...secret_key };
   const requestOptions = {
     method: "POST",
     body: JSON.stringify(body),

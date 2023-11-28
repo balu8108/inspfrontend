@@ -18,8 +18,6 @@ import {
   DrawerContent,
   DrawerCloseButton,
   DrawerBody,
-  DrawerHeader,
-  DrawerFooter,
   Text,
   useTheme,
   useDisclosure,
@@ -29,7 +27,6 @@ import insplogo from "../../assets/images/insplogo.png";
 import { clearStorageData, getStorageData } from "../../utils";
 import { useNavigate, NavLink, useLocation } from "react-router-dom";
 import { FaBars } from "react-icons/fa6";
-import { HamburgerIcon } from "@chakra-ui/icons";
 
 // In below links the available To is the user type
 // if the same link is available to both type of user then we add 0,1
@@ -66,7 +63,7 @@ const NavLinks = ({ userData, type }) => {
               <Box mx={2} my={type === "hamburger" ? 4 : 0}>
                 {link.path === "/insp-website" ? (
                   <a
-                    href="https://www.inspedu.in/student/profile"
+                    href={`${process.env.REACT_APP_EXTERNAL_INSP_BASE_URL}/student/profile`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -171,11 +168,11 @@ export default function Navbar() {
   }, []);
   return (
     <>
-      <Box bg={backgroundLightBlue} py={1} px={20}>
+      <Box bg={backgroundLightBlue} py={1} px={[6, 8, 10, 20]}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <Box>
             <a
-              href="https://www.inspedu.in"
+              href={process.env.REACT_APP_EXTERNAL_INSP_BASE_URL}
               target="_blank"
               rel="noopener noreferrer"
             >
