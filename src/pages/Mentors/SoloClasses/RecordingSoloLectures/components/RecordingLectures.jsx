@@ -18,6 +18,7 @@ import {
   FiMonitor,
 } from "react-icons/fi";
 import { LuMonitorOff, LuCircleOff } from "react-icons/lu";
+import { CiPause1 } from "react-icons/ci";
 import { boxShadowStyles } from "../../../../../utils";
 const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
   const [isCameraOn, setIsCameraOn] = useState(false);
@@ -25,6 +26,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [screenSharingStream, setScreenSharingStream] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
+  const [isTimerPaused, setTimerPaused] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
   const cameraVideoRef = useRef(null);
   const audioStreamRef = useRef(null);
@@ -380,6 +382,21 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
             </Tooltip>
 
             <Tooltip
+              label={isTimerPaused ? "Resume" : "Pause"}
+              placement="right"
+            >
+              <IconButton
+                isRound={true}
+                variant="solid"
+                colorScheme={isTimerPaused ? "gray" : "red"}
+                fontSize="20px"
+                icon={<CiPause1 />}
+              />
+            </Tooltip>
+          </Stack>
+
+          <Box>
+            <Tooltip
               label={isScreenSharing ? "Stop Presenting" : "Present Now"}
               placement="right"
             >
@@ -393,7 +410,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
                 onClick={toggleScreenSharing}
               />
             </Tooltip>
-          </Stack>
+          </Box>
           <Button
             bg="#F63F4A"
             w="80px"
