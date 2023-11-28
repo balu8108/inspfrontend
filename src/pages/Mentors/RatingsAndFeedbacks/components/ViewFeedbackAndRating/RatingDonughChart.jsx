@@ -24,7 +24,6 @@ const RatingAndFeedBackChart = () => {
   const [feedbackData, setFeedbackData] = useState(); // State to store feedback data
 
   useEffect(() => {
-    // Fetch feedback data from your API
     axios
       .get(`${BASE_URL}/generic/topic-feedback-rating-details/${topic_id}`)
       .then((response) => {
