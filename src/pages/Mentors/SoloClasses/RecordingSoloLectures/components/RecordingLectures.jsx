@@ -60,8 +60,6 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
     };
   }, [isRecording]);
 
- 
-
   const toggleCamera = async () => {
     if (!isCameraOn) {
       try {
