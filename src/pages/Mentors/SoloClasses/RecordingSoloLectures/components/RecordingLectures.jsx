@@ -19,21 +19,26 @@ import {
 } from "react-icons/fi";
 import { LuMonitorOff, LuCircleOff } from "react-icons/lu";
 import { CiPause1 } from "react-icons/ci";
+import { RiFullscreenExitFill } from "react-icons/ri";
+import { useToastContext } from "../../../../../components/toastNotificationProvider/ToastNotificationProvider";
 import { boxShadowStyles } from "../../../../../utils";
+import { BASE_URL } from "../../../../../constants/staticurls";
 const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
+
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [isMicrophoneOn, setIsMicrophoneOn] = useState(false);
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [screenSharingStream, setScreenSharingStream] = useState(null);
+  const [videoStream, setVideoStream] = useState(null);
+   const [audioStream, setAudioStream] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
-  const [isTimerPaused, setTimerPaused] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
   const cameraVideoRef = useRef(null);
   const audioStreamRef = useRef(null);
   const screenSharingVideoRef = useRef(null);
   const mediaRecorderRef = useRef(null);
   const recordedChunksRef = useRef([]);
-
+  const { addNotification } = useToastContext();
   const formatTime = (seconds) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
@@ -172,76 +177,23 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
     }
   };
 
-  // const stopRecording = () => {
-  //   if (mediaRecorderRef.current) {
-  //     mediaRecorderRef.current.stop();
-  //     setIsRecording(false);
-
-  //     mediaRecorderRef.current.ondataavailable = (event) => {
-  //       if (event.data.size > 0) {
-  //         recordedChunksRef.current.push(event.data);
-  //       }
-  //     };
-
-  //     mediaRecorderRef.current.onstop = () => {
-  //       if (recordedChunksRef.current.length > 0) {
-  //         // Combine the recorded chunks into a single Blob
-  //         const blob = new Blob(recordedChunksRef.current, {
-  //           type: "video/webm",
-  //         });
-
-  //         // Create an object URL for the Blob
-  //         const url = window.URL.createObjectURL(blob);
-
-  //         // Create a download link for the video
-  //         const a = document.createElement("a");
-  //         a.style.display = "none";
-  //         a.href = url;
-  //         a.download = "recorded-video.webm";
-  //         document.body.appendChild(a);
-  //         a.click();
-  //         document.body.removeChild(a);
-
-  //         // Revoke the object URL to free up resources
-  //         window.URL.revokeObjectURL(url);
-  //       }
-  //       recordedChunksRef.current = [];
-  //     };
-  //   }
-  // };
-
   const stopRecording = () => {
-    if (mediaRecorderRef.current) {
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state === "recording"
+    ) {
       mediaRecorderRef.current.stop();
-      mediaRecorderRef.current.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          recordedChunksRef.current.push(event.data);
-        }
-      };
-
-      mediaRecorderRef.current.onstop = () => {
-        setIsRecording(false);
-
-        if (recordedChunksRef.current.length > 0) {
-          const blob = new Blob(recordedChunksRef.current, {
-            type: "video/webm",
-          });
-
-          const url = window.URL.createObjectURL(blob);
-
-          const a = document.createElement("a");
-          a.style.display = "none";
-          a.href = url;
-          a.download = "recorded-video.webm";
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-
-          window.URL.revokeObjectURL(url);
-        }
-        recordedChunksRef.current = [];
-      };
     }
+
+    if (videoStream) {
+      videoStream.getTracks().forEach((track) => track.stop());
+    }
+
+    if (audioStream) {
+      audioStream.getTracks().forEach((track) => track.stop());
+    }
+
+    cameraVideoRef.current.srcObject = null; // Stop the video playback
   };
 
   const toggleRecording = () => {
@@ -251,14 +203,14 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
       if (isScreenSharing && isMicrophoneOn) {
         startRecording();
       } else {
-        prompt(
-          "Please enable both screen sharing and microphone before starting the recording."
+        addNotification(
+          "Please enable both screen sharing and microphone !",
+          "info",
+          1800
         );
       }
     }
   };
-
- 
 
   const endClass = () => {
     if (isRecording) {
@@ -282,6 +234,41 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
       };
     }
   }, [screenSharingStream]);
+
+  const uploadVideoToAWS = async (recordedVideo, soloClassRoomId) => {
+    const fileName = `sololecture_${soloClassRoomId}.webm`;
+
+    const file = new File([recordedVideo], fileName, {
+      type: "video/webm",
+    });
+    const formData = new FormData();
+
+    formData.append("files", file);
+    formData.append("soloClassRoomId", soloClassRoomId);
+
+    try {
+      const response = await fetch(
+        `${BASE_URL}/solo-lecture/solo-classroom-recording/${soloClassRoomId}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      //   if (response.ok) {
+      //     setClassEnded(true);
+      //     // End the class immediately regardless of video upload status
+      //     window.location.href = "/homepage";
+      //   } else {
+      //     console.error("Error uploading video to AWS:", response.status);
+      //     // Handle the error as needed
+      //   }
+    } catch (error) {
+      console.error("Error uploading video to AWS:", error);
+      // Handle the error as needed
+    }
+  };
+
   return (
     <Box
       w={"100%"}
@@ -314,14 +301,23 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
         >
           <Stack>
             <HStack spacing={"16px"}>
-              <Tooltip label="Theatre Mode" placement="right">
+              <Tooltip
+                label={isTheatreMode ? "Exit Full Screen" : "Full screen"}
+                placement="top"
+              >
                 <IconButton
                   isRound={true}
                   variant="solid"
                   fontSize="20px"
                   mt={"16px"}
-                  colorScheme={isTheatreMode ? "blue" : "gray"}
-                  icon={<RiFullscreenLine />}
+                  colorScheme={"red"}
+                  icon={
+                    isTheatreMode ? (
+                      <RiFullscreenExitFill />
+                    ) : (
+                      <RiFullscreenLine />
+                    )
+                  }
                   onClick={() => {
                     toggleDataVisibility();
                   }}
@@ -384,21 +380,6 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
             </Tooltip>
 
             <Tooltip
-              label={isTimerPaused ? "Resume" : "Pause"}
-              placement="right"
-            >
-              <IconButton
-                isRound={true}
-                variant="solid"
-                colorScheme={isTimerPaused ? "gray" : "red"}
-                fontSize="20px"
-                icon={<CiPause1 />}
-              />
-            </Tooltip>
-          </Stack>
-
-          <Box>
-            <Tooltip
               label={isScreenSharing ? "Stop Presenting" : "Present Now"}
               placement="right"
             >
@@ -412,7 +393,8 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
                 onClick={toggleScreenSharing}
               />
             </Tooltip>
-          </Box>
+          </Stack>
+
           <Button
             bg="#F63F4A"
             w="80px"
@@ -437,7 +419,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
               height: "100%",
               background: "black",
               borderRadius: "8px",
-              objectFit: "cover",
+              objectFit: "fill",
               visibility: isScreenSharing ? "visible" : "hidden",
             }}
             autoPlay

@@ -130,7 +130,7 @@ const SoloClasses = () => {
                 {soloclassInfo.description}
               </Text>
               <Link
-                to={`/mentor/solo-recordings/topic/${soloclassInfo.id}/${soloclassInfo.topic}`}
+                to={`/mentor/solo-recordings/topic/${soloclassInfo.topicId}/${soloclassInfo.topic}`}
                 style={{
                   position: "absolute",
                   bottom: "10px",
