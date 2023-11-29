@@ -19,6 +19,7 @@ import {
 } from "react-icons/fi";
 import { LuMonitorOff, LuCircleOff } from "react-icons/lu";
 import { CiPause1 } from "react-icons/ci";
+import { useToastContext } from "../../../../../components/toastNotificationProvider/ToastNotificationProvider";
 import { boxShadowStyles } from "../../../../../utils";
 const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
   const [isCameraOn, setIsCameraOn] = useState(false);
@@ -33,7 +34,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
   const screenSharingVideoRef = useRef(null);
   const mediaRecorderRef = useRef(null);
   const recordedChunksRef = useRef([]);
-
+  const { addNotification } = useToastContext();
   const formatTime = (seconds) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
@@ -217,8 +218,10 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
       if (isScreenSharing && isMicrophoneOn) {
         startRecording();
       } else {
-        alert(
-          "Please enable both screen sharing and microphone before starting the recording."
+        addNotification(
+          "Please enable both screen sharing and microphone.",
+          "info",
+          3000
         );
       }
     }
