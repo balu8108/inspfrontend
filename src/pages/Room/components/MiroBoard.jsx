@@ -10,29 +10,6 @@ const MiroBoard = () => {
   const [img, setImg] = useState(null);
   const iframeRef = useRef(null);
 
-  //   const [miroBoardId, setMiroBoardId] = useState(null);
-
-  //   const openMiroBoardAuth = () => {
-  //     window.miroBoardsPicker.open({
-  //       clientId: "3458764563018758552", // Replace it with your app ClientId
-  //       action: "select",
-  //       success: (data) => {
-  //         setMiroBoardId(data.id);
-  //       },
-  //     });
-  //   };
-  //   useEffect(() => {
-  //     const script = document.createElement("script");
-
-  //     script.src = MIRO_BOARD_PICKER_SCRIPT;
-  //     script.async = true;
-
-  //     document.body.appendChild(script);
-
-  //     return () => {
-  //       document.body.removeChild(script);
-  //     };
-  //   }, []);
   const renderMiroBoardUrl = (miroBoard) => {
     if (miroBoard?.boardId && miroBoard?.mode === miroViewMode.edit) {
       return `https://miro.com/app/live-embed/${miroBoard?.boardId}/?autoplay=true&moveToViewport=-23165,-5837,13803,7546`;
