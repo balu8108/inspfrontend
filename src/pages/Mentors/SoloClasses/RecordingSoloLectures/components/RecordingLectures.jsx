@@ -18,7 +18,7 @@ import {
   FiMonitor,
 } from "react-icons/fi";
 import { LuMonitorOff, LuCircleOff } from "react-icons/lu";
-import { CiPause1 } from "react-icons/ci";
+import { useParams } from "react-router-dom";
 import { RiFullscreenExitFill } from "react-icons/ri";
 import { useToastContext } from "../../../../../components/toastNotificationProvider/ToastNotificationProvider";
 import { boxShadowStyles } from "../../../../../utils";
@@ -35,6 +35,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
   const screenSharingVideoRef = useRef(null);
   const mediaRecorderRef = useRef(null);
   const recordedChunksRef = useRef([]);
+  const { soloClassRoomId } = useParams();
   const { addNotification } = useToastContext();
   const formatTime = (seconds) => {
     const hours = Math.floor(seconds / 3600);
@@ -182,18 +183,11 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
       mediaRecorderRef.current.ondataavailable = async (event) => {
         if (event.data.size > 0) {
           recordedChunksRef.current.push(event.data);
-
-          // Combine the recorded chunks into a single Blob
           const blob = new Blob(recordedChunksRef.current, {
             type: "video/webm",
           });
 
-          // Get solo classroom ID from the URL
-          const urlSegments = window.location.pathname.split("/");
-          const soloClassRoomId = urlSegments[urlSegments.length - 1];
-
           if (soloClassRoomId) {
-            // Upload the Blob to AWS
             await uploadVideoToAWS(blob, soloClassRoomId);
           } else {
             console.error("Solo classroom ID not found in the URL");
@@ -202,6 +196,10 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
       };
 
       mediaRecorderRef.current.onstop = () => {
+        toggleMicrophone();
+        setElapsedTime(0);
+        setIsScreenSharing();
+
         recordedChunksRef.current = [];
       };
     }
@@ -266,17 +264,14 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
         }
       );
 
-      //   if (response.ok) {
-      //     setClassEnded(true);
-      //     // End the class immediately regardless of video upload status
-      //     window.location.href = "/homepage";
-      //   } else {
-      //     console.error("Error uploading video to AWS:", response.status);
-      //     // Handle the error as needed
-      //   }
+      if (response.ok) {
+        addNotification("Lecture is uploaded successfully", "success", 5000);
+        window.location.href = "/homepage";
+      } else {
+        console.error("Error uploading video to AWS:", response.status);
+      }
     } catch (error) {
       console.error("Error uploading video to AWS:", error);
-      // Handle the error as needed
     }
   };
 
