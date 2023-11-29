@@ -18,7 +18,7 @@ import {
   FiMonitor,
 } from "react-icons/fi";
 import { LuMonitorOff, LuCircleOff } from "react-icons/lu";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { RiFullscreenExitFill } from "react-icons/ri";
 import { useToastContext } from "../../../../../components/toastNotificationProvider/ToastNotificationProvider";
 import { boxShadowStyles } from "../../../../../utils";
@@ -37,6 +37,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
   const recordedChunksRef = useRef([]);
   const { soloClassRoomId } = useParams();
   const { addNotification } = useToastContext();
+  const navigate = useNavigate();
   const formatTime = (seconds) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
@@ -226,7 +227,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
       toggleRecording();
     }
     window.location.href = "/homepage";
-    window.history.replaceState(null, null, `/mentor/solo-recordings/topic`);
+    window.history.replaceState(null, null, `/homepage`);
   };
 
   const stopScreenShare = () => {
@@ -265,8 +266,9 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
       );
 
       if (response.ok) {
-        addNotification("Lecture is uploaded successfully", "success", 5000);
-        window.location.href = "/homepage";
+        addNotification("Lecture is uploaded successfully", "success", 3000);
+        navigate("/homepage");
+        window.history.replaceState(null, null, `/homepage`);
       } else {
         console.error("Error uploading video to AWS:", response.status);
       }
