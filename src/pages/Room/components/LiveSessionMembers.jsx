@@ -81,6 +81,7 @@ const Actions = ({ peer, onOpenKickFromClass, setKickedPersonDetails }) => {
 
 const LiveSessionMembers = ({
   primaryBlue,
+  outerBackground,
   viewType,
   onOpenKickFromClass,
   setKickedPersonDetails,
@@ -126,7 +127,7 @@ const LiveSessionMembers = ({
                 key={peer.id}
                 p={2}
                 borderRadius={"md"}
-                bg={"gray.200"}
+                bg={outerBackground}
                 alignItems={"center"}
               >
                 <Avatar
@@ -192,7 +193,7 @@ const LiveSessionMembers = ({
             key={peer.id}
             p={2}
             borderRadius={"md"}
-            bg={"gray.200"}
+            bg={outerBackground}
             alignItems={"center"}
           >
             <Avatar

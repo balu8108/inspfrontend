@@ -11,7 +11,7 @@ import { userType } from "../../constants/staticvariables";
 import { useDispatch } from "react-redux";
 import { setIsDocModalOpen } from "../../store/actions/genericActions";
 const FileBoxComponent = ({ data, type }) => {
-  const { secondaryTextColor } = useTheme().colors.pallete;
+  const { secondaryTextColor, innerBackground } = useTheme().colors.pallete;
   const userRoleType = checkUserType();
   const dispatch = useDispatch();
 
@@ -33,6 +33,7 @@ const FileBoxComponent = ({ data, type }) => {
           }
           borderRadius={"md"}
           border={"1px solid rgba(149, 151, 146, 0.49)"}
+          bg={innerBackground}
           // boxShadow={boxShadowStyles.shadowFileBoxStyle.boxShadow}
           px={2}
           py={3}

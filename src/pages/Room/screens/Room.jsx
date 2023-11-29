@@ -60,7 +60,8 @@ const Room = () => {
   const dispatch = useDispatch();
 
   const theme = useTheme();
-  const { primaryBlue, backgroundLightBlue } = theme.colors.pallete;
+  const { primaryBlue, backgroundLightBlue, outerBackground } =
+    theme.colors.pallete;
 
   const stopScreenShare = () => {
     setIsScreenShare(false);
@@ -213,7 +214,7 @@ const Room = () => {
           {!isEnlarged && (
             <GridItem
               rowSpan={2}
-              bg={backgroundLightBlue}
+              bg={outerBackground}
               borderRadius={"md"}
               className="scrollbar-primary"
               overflowY={"scroll"}
@@ -222,12 +223,7 @@ const Room = () => {
             </GridItem>
           )}
 
-          <GridItem
-            rowSpan={6}
-            bg={backgroundLightBlue}
-            p={4}
-            borderRadius={"md"}
-          >
+          <GridItem rowSpan={6} bg={outerBackground} p={4} borderRadius={"md"}>
             <LiveSessionStream
               primaryBlue={primaryBlue}
               isScreenShare={isScreenShare}
@@ -267,6 +263,7 @@ const Room = () => {
             >
               <LiveSessionMembers
                 primaryBlue={primaryBlue}
+                outerBackground={outerBackground}
                 viewType={peersViewType}
                 onOpenKickFromClass={onOpenKickFromClass}
                 setKickedPersonDetails={setKickedPersonDetails}
@@ -275,7 +272,7 @@ const Room = () => {
           )}
 
           {!isEnlarged && (
-            <GridItem rowSpan={4} bg={backgroundLightBlue} borderRadius={"md"}>
+            <GridItem rowSpan={4} bg={outerBackground} borderRadius={"md"}>
               <LiveSessionInteraction />
             </GridItem>
           )}
