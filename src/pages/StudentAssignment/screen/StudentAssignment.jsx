@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import AssignmentHeader from "../components/AssignmentHeader";
 import AssignmentDetails from "../components/Assignment";
-import { Flex, Stack, Box, useDisclosure } from "@chakra-ui/react";
+import { Flex, Stack, Box, useDisclosure, useTheme } from "@chakra-ui/react";
 import ScheduleClassList from "../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
 import { boxShadowStyles } from "../../../utils";
@@ -10,6 +10,7 @@ import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassA
 const AssignmentScreen = () => {
   const dispatch = useDispatch();
   const { onOpen: onSchedulePopupOpen } = useDisclosure();
+  const { outerBackground } = useTheme().colors.pallete;
   useEffect(() => {
     dispatch(getAllLiveClassesSchedule());
   }, [dispatch]);
@@ -25,8 +26,8 @@ const AssignmentScreen = () => {
             style={{
               maxHeight: "85vh",
               borderRadius: "10px",
-              background: "white",
-              boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
+              background: outerBackground,
+              // boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
             }}
           >
             <Box p={4}>

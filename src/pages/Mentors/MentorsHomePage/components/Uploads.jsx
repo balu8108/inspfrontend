@@ -22,7 +22,8 @@ const MentorsUploads = () => {
   const [assignment, setAssignment] = useState([]);
   const [isUploadAssignmentModalOpen, setUploadAssignmentModalOpen] =
     useState(false);
-  const { outerBackground } = useTheme().colors.pallete;
+  const { outerBackground, innerBackground, innerBoxShadow } =
+    useTheme().colors.pallete;
   const openUploadAssignmentModal = () => {
     setUploadAssignmentModalOpen(true);
   };
@@ -46,7 +47,7 @@ const MentorsUploads = () => {
       w={"95%"}
       borderRadius={"26px"}
       bg={outerBackground}
-      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
     >
       <Flex>
         <HStack spacing={"10px"}>
@@ -85,11 +86,11 @@ const MentorsUploads = () => {
             <Card
               h={"170px"}
               borderRadius={"18px"}
-              bg={"#F1F5F8"}
+              bg={innerBackground}
+              boxShadow={innerBoxShadow}
               ml={"20px"}
               mb={"20px"}
               mr={"20px"}
-              blendMode={"multiply"}
               display="flex"
               flexDirection="column"
             >

@@ -24,7 +24,8 @@ const ViewAllRecordingsRelatedToOneChapter = ({
   const { chapter_id, chapter_name } = useParams();
   const [topics, setTopics] = useState([]);
   const [isLoading, setLoading] = useState(true);
-  const { outerBackground } = useTheme().colors.pallete;
+  const { outerBackground, innerBackground, innerBoxShadow } =
+    useTheme().colors.pallete;
 
   useEffect(() => {
     async function fetchTopics() {
@@ -48,7 +49,7 @@ const ViewAllRecordingsRelatedToOneChapter = ({
     <Box
       w={"100%"}
       h={"100%"}
-      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       borderRadius={"2xl"}
       mt={6}
       bg={outerBackground}
@@ -92,8 +93,8 @@ const ViewAllRecordingsRelatedToOneChapter = ({
               key={topic.id}
               h={"204px"}
               minW={"30%"}
-              bg={"#F1F5F8"}
-              blendMode={"multiply"}
+              bg={innerBackground}
+              boxShadow={innerBoxShadow}
               borderRadius={"26px"}
             >
               <Text

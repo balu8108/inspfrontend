@@ -17,7 +17,8 @@ import { boxShadowStyles, capitalize } from "../../../../utils";
 const Header = () => {
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { outerBackground } = useTheme().colors.pallete;
+  const { outerBackground, innerBackground, innerBoxShadow } =
+    useTheme().colors.pallete;
 
   const dummyDescriptions = [
     " Explore the world of chemical reactions, elements, and compounds in this foundational science subject. Learn about the periodic table, bonding, and the fascinating properties of matter.",
@@ -57,7 +58,7 @@ const Header = () => {
     <Box
       borderRadius={"25px"}
       w={"100%"}
-      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       bg={outerBackground}
     >
       <HStack spacing={"10px"}>
@@ -85,12 +86,12 @@ const Header = () => {
               w={"30%"}
               h={"200px"}
               borderRadius={"16px"}
-              bg={"#F1F5F8"}
+              bg={innerBackground}
               ml={"20px"}
               mb={"20px"}
               mr={"20px"}
-              blendMode={"multiply"}
               key={subject.id}
+              boxShadow={innerBoxShadow}
             >
               <Text
                 fontSize={"16px"}

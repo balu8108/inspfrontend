@@ -6,6 +6,7 @@ import {
   useDisclosure,
   Stack,
   HStack,
+  useTheme,
 } from "@chakra-ui/react";
 import Header from "../../Header/components/HeaderInAllScreen";
 import MentorsUploads from "../components/Uploads";
@@ -24,6 +25,7 @@ const MentorHomePage = () => {
     onOpen: onSchedulePopupOpen,
     onClose: onScheduleClosePopupOpen,
   } = useDisclosure();
+  const { outerBackground } = useTheme().colors.pallete;
 
   const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
   const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
@@ -61,8 +63,8 @@ const MentorHomePage = () => {
               style={{
                 maxHeight: "85vh",
                 borderRadius: "26px",
-                background: "white",
-                boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
+                background: outerBackground,
+                // boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
               }}
             >
               <Box p={4}>

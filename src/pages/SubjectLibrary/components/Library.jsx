@@ -14,6 +14,7 @@ import {
   Spacer,
   Image,
   Center,
+  useTheme,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { SearchIcon } from "@chakra-ui/icons";
@@ -30,6 +31,8 @@ const SubjectLibrary = () => {
   const [allTopicList, setAllTopicList] = useState([]);
   const [filteredTopicList, setFilteredTopicList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { outerBackground, innerBackground, innerBoxShadow } =
+    useTheme().colors.pallete;
 
   useEffect(() => {
     const handleFetchTopics = async () => {
@@ -77,7 +80,8 @@ const SubjectLibrary = () => {
   return (
     <Box
       width={"100%"}
-      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      bg={outerBackground}
       borderRadius={"26px"}
     >
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
@@ -98,6 +102,7 @@ const SubjectLibrary = () => {
             placeholder="Search..."
             border="1px solid #ccc"
             borderRadius="md"
+            bg={innerBackground}
           />
           <InputLeftElement pointerEvents="none">
             <SearchIcon />
@@ -114,8 +119,8 @@ const SubjectLibrary = () => {
                   key={libraryData.id}
                   w="30%"
                   h={"204px"}
-                  blendMode={"multiply"}
-                  bg={"#F1F5F8"}
+                  bg={innerBackground}
+                  boxShadow={innerBoxShadow}
                   borderRadius={"18px"}
                   display="flex"
                   flexDirection="column"

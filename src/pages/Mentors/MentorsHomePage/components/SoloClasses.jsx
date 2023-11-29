@@ -17,7 +17,8 @@ import { boxShadowStyles, capitalize } from "../../../../utils";
 const SoloClasses = () => {
   const [latestSoloClassroom, setLatestSoloClassroom] = useState([]);
   const navigate = useNavigate();
-  const { outerBackground } = useTheme().colors.pallete;
+  const { outerBackground, innerBackground, innerBoxShadow } =
+    useTheme().colors.pallete;
 
   const handleSeeAllClick = () => {
     // Use navigate to navigate to the specified URL
@@ -40,7 +41,7 @@ const SoloClasses = () => {
   }, []);
   return (
     <Box
-      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       bg={outerBackground}
       mt={"23px"}
       borderRadius={"25px"}
@@ -81,11 +82,11 @@ const SoloClasses = () => {
               h={"175px"}
               w={"50"}
               borderRadius={"18px"}
-              bg={"#F1F5F8"}
+              bg={innerBackground}
+              boxShadow={innerBoxShadow}
               ml={"20px"}
               mb={"20px"}
               mr={"20px"}
-              blendMode={"multiply"}
             >
               <Text
                 fontSize={"16px"}
@@ -130,7 +131,6 @@ const SoloClasses = () => {
               </Text>
               <Link
                 to={`/mentor/solo-recordings/topic/${soloclassInfo.id}/${soloclassInfo.topic}`}
-             
                 style={{
                   position: "absolute",
                   bottom: "10px",
@@ -138,7 +138,6 @@ const SoloClasses = () => {
                   transform: "translateX(-50%)",
                 }}
               >
-             
                 <Button
                   variant={"ghost"}
                   color={"#3C8DBC"}

@@ -138,7 +138,7 @@ const RatingAndFeedBackChart = () => {
         h={"full"}
         borderRadius={"26px"}
         bg={outerBackground}
-        boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+        // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       >
         <Center>
           <Text fontSize={"20px"} textAlign="center" mt={5}>
@@ -152,7 +152,7 @@ const RatingAndFeedBackChart = () => {
     <Box
       w={"100%"}
       h={"full"}
-      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       borderRadius={"26px"}
       bg={outerBackground}
     >

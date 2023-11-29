@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { Box, Flex, HStack, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, HStack, useDisclosure, useTheme } from "@chakra-ui/react";
 
 import Header from "../../Mentors/Header/components/HeaderInAllScreen";
 import Improvement from "../components/Improvement";
@@ -14,6 +14,7 @@ import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassA
 
 const StudentHomePage = () => {
   const dispatch = useDispatch();
+  const { outerBackground } = useTheme().colors.pallete;
 
   const { onOpen: onSchedulePopupOpen } = useDisclosure();
   useEffect(() => {
@@ -37,8 +38,8 @@ const StudentHomePage = () => {
           style={{
             maxHeight: "85vh",
             borderRadius: "10px",
-            background: "white",
-            boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
+            background: outerBackground,
+            // boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
           }}
         >
           <Box p={4}>

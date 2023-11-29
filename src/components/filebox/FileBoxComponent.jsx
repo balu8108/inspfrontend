@@ -27,14 +27,13 @@ const FileBoxComponent = ({ data, type }) => {
           key={item?.id}
           justifyContent={"space-between"}
           alignItems={"center"}
-          bg="white"
           mb={2}
           onClick={() =>
             dispatch(setIsDocModalOpen(item?.id, item?.key, type, true))
           }
           borderRadius={"md"}
-          // border={"1px solid rgba(149, 151, 146, 0.49)"}
-          boxShadow={boxShadowStyles.shadowFileBoxStyle.boxShadow}
+          border={"1px solid rgba(149, 151, 146, 0.49)"}
+          // boxShadow={boxShadowStyles.shadowFileBoxStyle.boxShadow}
           px={2}
           py={3}
         >

@@ -16,7 +16,8 @@ import axios from "axios";
 const Assignment = () => {
   const navigate = useNavigate();
   const [recentAssignments, setRecentAssignments] = useState([]);
-  const { outerBackground } = useTheme().colors.pallete;
+  const { outerBackground, innerBackground, innerBoxShadow } =
+    useTheme().colors.pallete;
   const handleViewDetail = () => {
     navigate(`/student/assignments/PHYSICS`);
   };
@@ -36,7 +37,7 @@ const Assignment = () => {
       w={"50%"}
       h="313px"
       mt="24px"
-      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       borderRadius="26px"
       background={outerBackground}
     >
@@ -72,7 +73,8 @@ const Assignment = () => {
             borderRadius="18px"
             w={"100%"}
             h={"200px"}
-            bg="#F1F5F8"
+            bg={innerBackground}
+            boxShadow={innerBoxShadow}
             ml="26px"
             mr="20px"
           >

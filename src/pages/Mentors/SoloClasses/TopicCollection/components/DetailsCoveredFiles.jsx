@@ -71,7 +71,7 @@ const DetailsCoveredFiles = () => {
 
   return (
     <Box
-      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       borderRadius={"26px"}
       w={"100%"}
       bg={outerBackground}

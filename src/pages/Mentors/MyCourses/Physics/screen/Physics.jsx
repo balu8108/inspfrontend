@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Flex, Stack, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, Stack, useDisclosure, useTheme } from "@chakra-ui/react";
 import Header from "../../../Header/components/HeaderInAllScreen";
 import PhysDetails from "../../../../StudentCourses/Physics/components/PhysDetails";
 import ScheduleClassList from "../../../../ScheduleClasses/components/ScheduleClassList";
@@ -15,6 +15,7 @@ const Physics = () => {
     onOpen: onSchedulePopupOpen,
     onClose: onScheduleClosePopupOpen,
   } = useDisclosure();
+  const { outerBackground } = useTheme().colors.pallete;
 
   const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
   const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
@@ -44,9 +45,8 @@ const Physics = () => {
             style={{
               maxHeight: "85vh",
               borderRadius: "26px",
-              bg: "#F1F5F8",
-              backgroundBlendMode: "multiply",
-              boxShadow: boxShadowStyles.shadowOneStyle.boxShadow,
+              background: outerBackground,
+              // boxShadow: boxShadowStyles.shadowOneStyle.boxShadow,
             }}
           >
             <Box p={4}>

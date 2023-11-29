@@ -26,7 +26,8 @@ const ViewMentorsRatingAndFeedback = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [displayedChapters, setDisplayedChapters] = useState([]);
-  const { outerBackground } = useTheme().colors.pallete;
+  const { outerBackground, innerBackground, innerBoxShadow } =
+    useTheme().colors.pallete;
 
   useEffect(() => {
     async function fetchAllTopicsWithoutChapterId() {
@@ -61,7 +62,7 @@ const ViewMentorsRatingAndFeedback = () => {
 
   return (
     <Box
-      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       mt={"24px"}
       borderRadius={"26px"}
       bg={outerBackground}
@@ -88,6 +89,7 @@ const ViewMentorsRatingAndFeedback = () => {
             value={searchQuery}
             onChange={handleSearchChange}
             placeholder="Search..."
+            bg={innerBackground}
           />
           <InputLeftElement pointerEvents="none">
             <SearchIcon />
@@ -111,8 +113,8 @@ const ViewMentorsRatingAndFeedback = () => {
               w={"100%"}
               h={"204px"}
               key={chapter.id}
-              bg={"#F1F5F8"}
-              blendMode={"multiply"}
+              bg={innerBackground}
+              boxShadow={innerBoxShadow}
               borderRadius={"26px"}
               p={4}
               ml={"2"}

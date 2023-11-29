@@ -16,7 +16,6 @@ import { fetchAllSubjectsApi } from "../../../api/inspexternalapis";
 import { boxShadowStyles } from "../../../utils";
 const Header = () => {
   const [subjects, setSubjects] = useState([]);
-
   const [loading, setLoading] = useState(true);
   const { outerBackground } = useTheme().colors.pallete;
   useEffect(() => {
@@ -65,7 +64,7 @@ const Header = () => {
     <Box
       w={"100%"}
       bg={outerBackground}
-      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       borderRadius={"2xl"}
     >
       <HStack spacing={"10px"}>

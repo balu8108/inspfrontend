@@ -17,7 +17,8 @@ import { boxShadowStyles, capitalize } from "../../../utils";
 const AssignmentHeader = () => {
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { outerBackground } = useTheme().colors.pallete;
+  const { outerBackground, innerBackground, innerBoxShadow } =
+    useTheme().colors.pallete;
 
   const dummyDescriptions = [
     " Explore the world of chemical reactions, elements, and compounds in this foundational science subject. Learn about the periodic table, bonding, and the fascinating properties of matter.",
@@ -53,7 +54,7 @@ const AssignmentHeader = () => {
   return (
     <Box
       bg={outerBackground}
-      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       borderRadius={"25px"}
       w={"100%"}
     >
@@ -82,11 +83,11 @@ const AssignmentHeader = () => {
               w={"30%"}
               h={"200px"}
               borderRadius={"18px"}
-              bg={"#F1F5F8"}
+              bg={innerBackground}
+              boxShadow={innerBoxShadow}
               ml={"20px"}
               mb={"20px"}
               mr={"20px"}
-              blendMode={"multiply"}
               key={subject.id}
             >
               <Text

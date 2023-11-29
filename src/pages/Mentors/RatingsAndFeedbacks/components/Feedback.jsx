@@ -25,7 +25,8 @@ const AllUploadedLecture = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredTopics, setFilteredTopics] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { outerBackground } = useTheme().colors.pallete;
+  const { outerBackground, innerBackground, innerBoxShadow } =
+    useTheme().colors.pallete;
 
   const handleViewDetails = (chapterId, chapterName) => {
     navigate(`/mentor/view/rating&feedback/${chapterId}/${chapterName}`);
@@ -63,7 +64,7 @@ const AllUploadedLecture = () => {
   return (
     <Box
       w={"full"}
-      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       h={"full"}
       mt={"24px"}
       borderRadius={"26px"}
@@ -93,6 +94,7 @@ const AllUploadedLecture = () => {
           border="1px solid #ccc"
           borderRadius="md"
           px="3"
+          bg={innerBackground}
           py="2"
           mx={12}
           my={"17"}
@@ -121,8 +123,8 @@ const AllUploadedLecture = () => {
               w={"100%"}
               h={"204px"}
               key={chapter.id}
-              bg={"#F1F5F8"}
-              blendMode={"multiply"}
+              bg={innerBackground}
+              boxShadow={innerBoxShadow}
               borderRadius={"26px"}
               p={4}
               ml={"2"}

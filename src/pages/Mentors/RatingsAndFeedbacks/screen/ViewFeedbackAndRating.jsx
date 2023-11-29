@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Flex, Stack, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, Stack, useDisclosure, useTheme } from "@chakra-ui/react";
 import ViewMentorsRatingAndFeedback from "../components/ViewFeedbackAndRating/ViewFeedback";
 import RatingAndFeedBackChart from "../components/ViewFeedbackAndRating/RatingDonughChart";
 import MentorSchedulingClass from "../../SchedulingClass/components/MentorSchedule";
@@ -17,6 +17,7 @@ const ViewRatingAndFeedback = () => {
     onOpen: onSchedulePopupOpen,
     onClose: onScheduleClosePopupOpen,
   } = useDisclosure();
+  const { outerBackground } = useTheme().colors.pallete;
 
   const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
   const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
@@ -45,9 +46,9 @@ const ViewRatingAndFeedback = () => {
             style={{
               maxHeight: "85vh",
               borderRadius: "26px",
-              background: "white",
-              backgroundBlendMode: "multiply",
-              boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
+              background: outerBackground,
+
+              // boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
             }}
           >
             <Box p={4}>

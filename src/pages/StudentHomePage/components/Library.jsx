@@ -14,15 +14,20 @@ import { boxShadowStyles, capitalize } from "../../../utils";
 import libraryData from "../data/library";
 
 const Library = () => {
-  const { primaryBlue, mainTextColor, outerBackground } =
-    useTheme().colors.pallete;
+  const {
+    primaryBlue,
+    mainTextColor,
+    outerBackground,
+    innerBackground,
+    innerBoxShadow,
+  } = useTheme().colors.pallete;
   const isDetailView = window.location.pathname.includes("/library/");
 
   return (
     <Box
       w={"full"}
       bg={outerBackground}
-      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       borderRadius={"26px"}
     >
       <HStack spacing={"10px"}>
@@ -70,9 +75,9 @@ const Library = () => {
             key={library.id}
             w={"31%"}
             h={"204px"}
+            bg={innerBackground}
+            boxShadow={innerBoxShadow}
             borderRadius={"18px"}
-            blendMode={"multiply"}
-            backgroundColor={"#F1F5F8"}
             flexShrink={"0"}
             mb={"20px"}
           >
@@ -88,7 +93,7 @@ const Library = () => {
             </Text>
             <Text
               mt={"3px"}
-              fontSize={"14px"}
+              fontSize={"12px"}
               lineHeight={"18px"}
               ml={"13px"}
               color={library.color}

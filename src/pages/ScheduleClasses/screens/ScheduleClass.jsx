@@ -1,4 +1,4 @@
-import { Grid, GridItem, Box, useDisclosure } from "@chakra-ui/react";
+import { Grid, GridItem, Box, useDisclosure, useTheme } from "@chakra-ui/react";
 
 import ScheduleCalendar from "../components/ScheduleCalendar";
 import ScheduleClassPopup from "../../../components/popups/ScheduleClassPopup";
@@ -19,6 +19,7 @@ const ScheduleClass = () => {
   const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
   const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
   const dispatch = useDispatch();
+  const { outerBackground } = useTheme().colors.pallete;
 
   useEffect(() => {
     dispatch(getAllLiveClassesSchedule());
@@ -50,9 +51,9 @@ const ScheduleClass = () => {
           <Scrollbars
             style={{
               height: "100%",
-              boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
+              // boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
               borderRadius: "10px",
-              background: "white",
+              background: outerBackground,
             }}
             autoHide={true}
           >

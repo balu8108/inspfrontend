@@ -20,7 +20,8 @@ const PhysDetails = () => {
   const [chapters, setChapters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const { outerBackground } = useTheme().colors.pallete;
+  const { outerBackground, innerBackground, innerBoxShadow } =
+    useTheme().colors.pallete;
 
   const dummyDescriptions = [
     "This chapter covers the basics of electromagnetism, including its principles and applications.",
@@ -55,7 +56,7 @@ const PhysDetails = () => {
   return (
     <Box
       width={"full"}
-      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       h={"100%"}
       bg={outerBackground}
       borderRadius={"26px"}
@@ -76,12 +77,14 @@ const PhysDetails = () => {
         <Input
           type="text"
           value={searchTerm}
+          bg={innerBackground}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search..."
           w="30%"
           border="1px solid #ccc"
           borderRadius="md"
           px="3"
+          fontWeight={400}
           py="2"
           mx={"10"}
         />
@@ -96,11 +99,11 @@ const PhysDetails = () => {
           <Flex flexWrap="wrap" p={6} gap={"24px"}>
             {filteredTopics.map((chapter, index) => (
               <Card
+                bg={innerBackground}
+                boxShadow={innerBoxShadow}
                 key={chapter.id}
                 w="30%"
                 h={"204px"}
-                blendMode={"multiply"}
-                bg={"#F1F5F8"}
                 borderRadius={"18px"}
               >
                 <Text

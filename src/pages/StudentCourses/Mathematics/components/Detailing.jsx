@@ -18,7 +18,7 @@ const MathsDetails = () => {
   return (
     <Box
       width={"100%"}
-      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       height={"full"}
       borderRadius={"26px"}
       bg={outerBackground}

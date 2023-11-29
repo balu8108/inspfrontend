@@ -31,7 +31,8 @@ const AllUploadedLecture = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const dispatch = useDispatch();
-  const { outerBackground } = useTheme().colors.pallete;
+  const { outerBackground, innerBackground, innerBoxShadow } =
+    useTheme().colors.pallete;
 
   const filteredAssignments = assignments.filter((assignment) =>
     assignment.topicName.toLowerCase().includes(searchTerm.toLowerCase())
@@ -55,7 +56,7 @@ const AllUploadedLecture = () => {
       h={"100%"}
       borderRadius={"26px"}
       bg={outerBackground}
-      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
     >
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
         <Box
@@ -76,7 +77,7 @@ const AllUploadedLecture = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search..."
             borderRadius="14PX"
-            bg={"#F1F5F8"}
+            bg={innerBackground}
           />
           <InputLeftElement pointerEvents="none">
             <SearchIcon />
@@ -92,8 +93,8 @@ const AllUploadedLecture = () => {
         {filteredAssignments.map((assignmentScreen) => (
           <Card
             w="100%"
-            blendMode={"multiply"}
-            bg={"#F1F5F8"}
+            bg={innerBackground}
+            boxShadow={innerBoxShadow}
             borderRadius={"18px"}
             key={assignmentScreen.id}
           >
@@ -146,8 +147,8 @@ const AllUploadedLecture = () => {
                   h={"49px"}
                   word-wrap={"break-word"}
                   color={"#2C332978"}
-                  borderColor={"#9597927D"}
-                  boxShadow={" 0px 1px 6px 0px #00000029 "}
+                  border={"1px solid rgba(149, 151, 146, 0.49)"}
+                  // boxShadow={" 0px 1px 6px 0px #00000029 "}
                   justifyContent={"space-between"}
                   alignItems={"center"}
                   bg="white"

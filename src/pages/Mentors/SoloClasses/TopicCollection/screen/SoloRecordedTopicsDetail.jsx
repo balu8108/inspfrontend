@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Stack, Flex, useDisclosure } from "@chakra-ui/react";
+import { Box, Stack, Flex, useDisclosure, useTheme } from "@chakra-ui/react";
 import TopicsBased from "../components/TopicBased";
 import DetailsCoveredFiles from "../components/DetailsCoveredFiles";
 import ScheduleClassList from "../../../../ScheduleClasses/components/ScheduleClassList";
@@ -16,6 +16,7 @@ const SoloRecordedTopicsDetails = () => {
     onClose: onScheduleClosePopupOpen,
   } = useDisclosure();
 
+  const { outerBackground } = useTheme().colors.pallete;
   const [selectedDate, setSelectedDate] = useState("");
 
   const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
@@ -46,9 +47,8 @@ const SoloRecordedTopicsDetails = () => {
             style={{
               maxHeight: "85vh",
               borderRadius: "26px",
-              background: "white",
-              backgroundBlendMode: "multiply",
-              boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
+              background: outerBackground,
+              // boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
             }}
           >
             <Box p={4}>

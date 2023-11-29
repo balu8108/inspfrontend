@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Flex, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, useDisclosure, useTheme } from "@chakra-ui/react";
 import Feedback from "../components/Feedback";
 import ScheduleClassList from "../../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
@@ -14,7 +14,7 @@ const RateNFeedback = () => {
     onOpen: onSchedulePopupOpen,
     onClose: onScheduleClosePopupOpen,
   } = useDisclosure();
-
+  const { outerBackground } = useTheme().colors.pallete;
   const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
   const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
   useEffect(() => {
@@ -39,9 +39,8 @@ const RateNFeedback = () => {
             style={{
               maxHeight: "85vh",
               borderRadius: "26px",
-              background: "white",
-              backgroundBlendMode: "multiply",
-              boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
+              background: outerBackground,
+              // boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
             }}
           >
             <Box p={4}>

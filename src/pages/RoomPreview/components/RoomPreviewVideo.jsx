@@ -95,7 +95,7 @@ const RoomPreviewVideo = () => {
   return (
     <Box
       bg={outerBackground}
-      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       width={["100%", "100%", "60%", "70%"]}
       borderRadius={"2xl"}
       p={6}

@@ -16,7 +16,8 @@ import { BASE_URL } from "../../../../constants/staticurls";
 import { boxShadowStyles, capitalize } from "../../../../utils";
 const FeedBack = () => {
   const [feedbackData, setFeedbackData] = useState([]);
-  const { outerBackground } = useTheme().colors.pallete;
+  const { outerBackground, innerBackground, innerBoxShadow } =
+    useTheme().colors.pallete;
 
   useEffect(() => {
     axios
@@ -31,7 +32,7 @@ const FeedBack = () => {
 
   return (
     <Box
-      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       mt={"23px"}
       borderRadius={"25px"}
       w={"58%"}
@@ -71,7 +72,8 @@ const FeedBack = () => {
             <Card
               h={"175px"}
               borderRadius={"18px"}
-              bg={"#F1F5F8"}
+              bg={innerBackground}
+              boxShadow={innerBoxShadow}
               ml={"20px"}
               mb={"20px"}
               mr={"20px"}

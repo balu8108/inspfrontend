@@ -18,7 +18,7 @@ import {
 } from "../../../constants/staticvariables";
 
 const ScheduleClassInformation = ({ scheduledClassesData, type }) => {
-  const { lightGrey, primaryBlue, secondaryTextColor } =
+  const { lightGrey, primaryBlue, secondaryTextColor, innerBackground } =
     useTheme().colors.pallete;
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -50,11 +50,10 @@ const ScheduleClassInformation = ({ scheduledClassesData, type }) => {
         return (
           <Box
             key={info?.id}
-            bg={lightGrey}
+            bg={innerBackground}
             my={2}
             px={2}
             py={4}
-            boxShadow={"md"}
             borderRadius={"md"}
           >
             <Flex justifyContent={"space-between"} alignItems={"center"}>

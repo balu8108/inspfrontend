@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Box, Flex, Stack, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, Stack, useDisclosure, useTheme } from "@chakra-ui/react";
 import Library from "../../StudentHomePage/components/Library";
 import SubjectLibrary from "../components/Library";
 import ScheduleClassList from "../../ScheduleClasses/components/ScheduleClassList";
@@ -10,6 +10,7 @@ import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassA
 const LibraryScreen = () => {
   const dispatch = useDispatch();
   const { onOpen: onSchedulePopupOpen } = useDisclosure();
+  const { outerBackground } = useTheme().colors.pallete;
   useEffect(() => {
     dispatch(getAllLiveClassesSchedule());
   }, [dispatch]);
@@ -27,8 +28,8 @@ const LibraryScreen = () => {
             style={{
               maxHeight: "85vh",
               borderRadius: "10px",
-              background: "white",
-              boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
+              background: outerBackground,
+              // boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
             }}
           >
             <Box p={4}>

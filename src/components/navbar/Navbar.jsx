@@ -142,7 +142,7 @@ const DrawerComponent = ({
 
 export default function Navbar() {
   const theme = useTheme();
-  const { backgroundLightBlue } = theme.colors.pallete;
+  const { backgroundLightBlue, outerBackground } = theme.colors.pallete;
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -168,7 +168,7 @@ export default function Navbar() {
   }, []);
   return (
     <>
-      <Box bg={backgroundLightBlue} py={1} px={[6, 8, 10, 20]}>
+      <Box bg={outerBackground} py={1} px={[6, 8, 10, 20]}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <Box>
             <a

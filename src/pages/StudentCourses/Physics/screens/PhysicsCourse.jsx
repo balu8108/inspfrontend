@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PhysDetails from "../components/PhysDetails";
 import Header from "../../../Mentors/Header/components/HeaderInAllScreen";
-import { Flex, Stack, Box, useDisclosure } from "@chakra-ui/react";
+import { Flex, Stack, Box, useDisclosure, useTheme } from "@chakra-ui/react";
 import ScheduleClassList from "../../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
 import { boxShadowStyles } from "../../../../utils";
@@ -16,6 +16,7 @@ const PhyScreen = () => {
     onOpen: onSchedulePopupOpen,
     onClose: onScheduleClosePopupOpen,
   } = useDisclosure();
+  const { outerBackground } = useTheme().colors.pallete;
   const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
   const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
   useEffect(() => {
@@ -43,9 +44,9 @@ const PhyScreen = () => {
             style={{
               maxHeight: "85vh",
               borderRadius: "26px",
-              background: "white",
-              backgroundBlendMode: "multiply",
-              boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
+              background: outerBackground,
+
+              // boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
             }}
           >
             <Box p={4}>

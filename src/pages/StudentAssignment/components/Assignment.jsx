@@ -35,7 +35,8 @@ const AssignmentDetails = () => {
   const [assignmentData, setAssignmentData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const { subjectName } = useParams();
-  const { outerBackground } = useTheme().colors.pallete;
+  const { outerBackground, innerBackground, innerBoxShadow } =
+    useTheme().colors.pallete;
   const dispatch = useDispatch();
 
   const filteredData = Array.isArray(assignmentData)
@@ -59,7 +60,7 @@ const AssignmentDetails = () => {
 
   return (
     <Box
-      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       width={"full"}
       h={"full"}
       bg={outerBackground}
@@ -85,6 +86,7 @@ const AssignmentDetails = () => {
             w={"240px"}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            bg={innerBackground}
           />
         </InputGroup>
       </HStack>
@@ -98,8 +100,8 @@ const AssignmentDetails = () => {
           {filteredData.map((assignment) => (
             <Card
               w="100%"
-              blendMode={"multiply"}
-              bg={"#F1F5F8"}
+              bg={innerBackground}
+              boxShadow={innerBoxShadow}
               borderRadius={"18px"}
               key={assignment.id}
             >
