@@ -19,6 +19,7 @@ import {
 } from "react-icons/fi";
 import { LuMonitorOff, LuCircleOff } from "react-icons/lu";
 import { CiPause1 } from "react-icons/ci";
+import { RiFullscreenExitFill } from "react-icons/ri";
 import { useToastContext } from "../../../../../components/toastNotificationProvider/ToastNotificationProvider";
 import { boxShadowStyles } from "../../../../../utils";
 const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
@@ -280,14 +281,23 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
         >
           <Stack>
             <HStack spacing={"16px"}>
-              <Tooltip label="Theatre Mode" placement="right">
+              <Tooltip
+                label={isTheatreMode ? "Exit Full Screen" : "Full screen"}
+                placement="down"
+              >
                 <IconButton
                   isRound={true}
                   variant="solid"
                   fontSize="20px"
                   mt={"16px"}
-                  colorScheme={isTheatreMode ? "blue" : "gray"}
-                  icon={<RiFullscreenLine />}
+                  colorScheme={"red"}
+                  icon={
+                    isTheatreMode ? (
+                      <RiFullscreenExitFill />
+                    ) : (
+                      <RiFullscreenLine />
+                    )
+                  }
                   onClick={() => {
                     toggleDataVisibility();
                   }}
@@ -318,11 +328,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
             </Tooltip>
             <Tooltip
               label={
-                isMicrophoneOn
-                  ? "Turn Off Microphone"
-                  : isScreenSharing
-                  ? "Turn On Microphone"
-                  : "Microphone is disabled"
+                isMicrophoneOn ? "Turn Off Microphone" : "Turn On Microphone"
               }
               placement="right"
             >
@@ -332,19 +338,8 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
                 colorScheme={isMicrophoneOn ? "gray" : "red"}
                 aria-label="Done"
                 fontSize="20px"
-                icon={
-                  isScreenSharing ? (
-                    isMicrophoneOn ? (
-                      <FiMic />
-                    ) : (
-                      <FiMicOff />
-                    )
-                  ) : (
-                    <FiMicOff />
-                  )
-                }
-                onClick={isScreenSharing ? toggleMicrophone : undefined}
-                isDisabled={!isScreenSharing && !isMicrophoneOn}
+                icon={isMicrophoneOn ? <FiMic /> : <FiMicOff />}
+                onClick={toggleMicrophone}
               />
             </Tooltip>
           </Stack>
