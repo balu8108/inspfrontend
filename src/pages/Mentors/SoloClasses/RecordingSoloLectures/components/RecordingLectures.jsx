@@ -26,7 +26,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [screenSharingStream, setScreenSharingStream] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
-  const [isTimerPaused, setTimerPaused] = useState(false);
+  const [isScreenSharedFirst, setIsScreenSharedFirst] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
   const cameraVideoRef = useRef(null);
   const audioStreamRef = useRef(null);
@@ -172,47 +172,11 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
     }
   };
 
-  // const stopRecording = () => {
-  //   if (mediaRecorderRef.current) {
-  //     mediaRecorderRef.current.stop();
-  //     setIsRecording(false);
-
-  //     mediaRecorderRef.current.ondataavailable = (event) => {
-  //       if (event.data.size > 0) {
-  //         recordedChunksRef.current.push(event.data);
-  //       }
-  //     };
-
-  //     mediaRecorderRef.current.onstop = () => {
-  //       if (recordedChunksRef.current.length > 0) {
-  //         // Combine the recorded chunks into a single Blob
-  //         const blob = new Blob(recordedChunksRef.current, {
-  //           type: "video/webm",
-  //         });
-
-  //         // Create an object URL for the Blob
-  //         const url = window.URL.createObjectURL(blob);
-
-  //         // Create a download link for the video
-  //         const a = document.createElement("a");
-  //         a.style.display = "none";
-  //         a.href = url;
-  //         a.download = "recorded-video.webm";
-  //         document.body.appendChild(a);
-  //         a.click();
-  //         document.body.removeChild(a);
-
-  //         // Revoke the object URL to free up resources
-  //         window.URL.revokeObjectURL(url);
-  //       }
-  //       recordedChunksRef.current = [];
-  //     };
-  //   }
-  // };
-
   const stopRecording = () => {
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
+      setIsRecording(false);
+
       mediaRecorderRef.current.ondataavailable = (event) => {
         if (event.data.size > 0) {
           recordedChunksRef.current.push(event.data);
@@ -220,15 +184,16 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
       };
 
       mediaRecorderRef.current.onstop = () => {
-        setIsRecording(false);
-
         if (recordedChunksRef.current.length > 0) {
+          // Combine the recorded chunks into a single Blob
           const blob = new Blob(recordedChunksRef.current, {
             type: "video/webm",
           });
 
+          // Create an object URL for the Blob
           const url = window.URL.createObjectURL(blob);
 
+          // Create a download link for the video
           const a = document.createElement("a");
           a.style.display = "none";
           a.href = url;
@@ -237,6 +202,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
           a.click();
           document.body.removeChild(a);
 
+          // Revoke the object URL to free up resources
           window.URL.revokeObjectURL(url);
         }
         recordedChunksRef.current = [];
@@ -251,14 +217,12 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
       if (isScreenSharing && isMicrophoneOn) {
         startRecording();
       } else {
-        prompt(
+        alert(
           "Please enable both screen sharing and microphone before starting the recording."
         );
       }
     }
   };
-
- 
 
   const endClass = () => {
     if (isRecording) {
@@ -350,22 +314,27 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
                 onClick={toggleCamera}
               />
             </Tooltip>
-            <Tooltip
-              label={
-                isMicrophoneOn ? "Turn Off Microphone" : "Turn On Microphone"
+
+            <IconButton
+              isRound={true}
+              variant="solid"
+              colorScheme={isMicrophoneOn ? "gray" : "red"}
+              aria-label="Done"
+              fontSize="20px"
+              icon={
+                isScreenSharing ? (
+                  isMicrophoneOn ? (
+                    <FiMic />
+                  ) : (
+                    <FiMicOff />
+                  )
+                ) : (
+                  <FiMicOff />
+                )
               }
-              placement="right"
-            >
-              <IconButton
-                isRound={true}
-                variant="solid"
-                colorScheme={isMicrophoneOn ? "gray" : "red"}
-                aria-label="Done"
-                fontSize="20px"
-                icon={isMicrophoneOn ? <FiMic /> : <FiMicOff />}
-                onClick={toggleMicrophone}
-              />
-            </Tooltip>
+              onClick={isScreenSharing ? toggleMicrophone : undefined}
+              isDisabled={!isScreenSharing && !isMicrophoneOn}
+            />
           </Stack>
           <Stack>
             <Tooltip
@@ -384,21 +353,6 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
             </Tooltip>
 
             <Tooltip
-              label={isTimerPaused ? "Resume" : "Pause"}
-              placement="right"
-            >
-              <IconButton
-                isRound={true}
-                variant="solid"
-                colorScheme={isTimerPaused ? "gray" : "red"}
-                fontSize="20px"
-                icon={<CiPause1 />}
-              />
-            </Tooltip>
-          </Stack>
-
-          <Box>
-            <Tooltip
               label={isScreenSharing ? "Stop Presenting" : "Present Now"}
               placement="right"
             >
@@ -412,7 +366,8 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
                 onClick={toggleScreenSharing}
               />
             </Tooltip>
-          </Box>
+          </Stack>
+
           <Button
             bg="#F63F4A"
             w="80px"
