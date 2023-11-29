@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, Flex, useDisclosure, useTheme } from "@chakra-ui/react";
 import AllUploadedLecture from "../components/Uploads";
-import SchedulingClass from "../../SchedulingClass/components/MentorSchedule";
 import ScheduleClassList from "../../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
 import { boxShadowStyles } from "../../../../utils";
