@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Box, Flex, Stack, useDisclosure, useTheme } from "@chakra-ui/react";
 import ViewAllRecordingsRelatedToOneChapter from "../components/RecOfChapter/RecordingRelatedToChapter";
 import ChapterDetailsAndCoveredPart from "../components/RecOfChapter/DetailsAndCovered";
-import MentorSchedulingClass from "../../../SchedulingClass/components/MentorSchedule";
 import ScheduleClassList from "../../../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
 import { boxShadowStyles } from "../../../../../utils";
