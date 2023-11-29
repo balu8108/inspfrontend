@@ -22,11 +22,15 @@ import { CiPause1 } from "react-icons/ci";
 import { RiFullscreenExitFill } from "react-icons/ri";
 import { useToastContext } from "../../../../../components/toastNotificationProvider/ToastNotificationProvider";
 import { boxShadowStyles } from "../../../../../utils";
+import { BASE_URL } from "../../../../../constants/staticurls";
 const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
+
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [isMicrophoneOn, setIsMicrophoneOn] = useState(false);
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [screenSharingStream, setScreenSharingStream] = useState(null);
+  const [videoStream, setVideoStream] = useState(null);
+   const [audioStream, setAudioStream] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
   const cameraVideoRef = useRef(null);
@@ -174,41 +178,22 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
   };
 
   const stopRecording = () => {
-    if (mediaRecorderRef.current) {
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state === "recording"
+    ) {
       mediaRecorderRef.current.stop();
-      setIsRecording(false);
-
-      mediaRecorderRef.current.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          recordedChunksRef.current.push(event.data);
-        }
-      };
-
-      mediaRecorderRef.current.onstop = () => {
-        if (recordedChunksRef.current.length > 0) {
-          // Combine the recorded chunks into a single Blob
-          const blob = new Blob(recordedChunksRef.current, {
-            type: "video/webm",
-          });
-
-          // Create an object URL for the Blob
-          const url = window.URL.createObjectURL(blob);
-
-          // Create a download link for the video
-          const a = document.createElement("a");
-          a.style.display = "none";
-          a.href = url;
-          a.download = "recorded-video.webm";
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-
-          // Revoke the object URL to free up resources
-          window.URL.revokeObjectURL(url);
-        }
-        recordedChunksRef.current = [];
-      };
     }
+
+    if (videoStream) {
+      videoStream.getTracks().forEach((track) => track.stop());
+    }
+
+    if (audioStream) {
+      audioStream.getTracks().forEach((track) => track.stop());
+    }
+
+    cameraVideoRef.current.srcObject = null; // Stop the video playback
   };
 
   const toggleRecording = () => {
@@ -249,6 +234,41 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
       };
     }
   }, [screenSharingStream]);
+
+  const uploadVideoToAWS = async (recordedVideo, soloClassRoomId) => {
+    const fileName = `sololecture_${soloClassRoomId}.webm`;
+
+    const file = new File([recordedVideo], fileName, {
+      type: "video/webm",
+    });
+    const formData = new FormData();
+
+    formData.append("files", file);
+    formData.append("soloClassRoomId", soloClassRoomId);
+
+    try {
+      const response = await fetch(
+        `${BASE_URL}/solo-lecture/solo-classroom-recording/${soloClassRoomId}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      //   if (response.ok) {
+      //     setClassEnded(true);
+      //     // End the class immediately regardless of video upload status
+      //     window.location.href = "/homepage";
+      //   } else {
+      //     console.error("Error uploading video to AWS:", response.status);
+      //     // Handle the error as needed
+      //   }
+    } catch (error) {
+      console.error("Error uploading video to AWS:", error);
+      // Handle the error as needed
+    }
+  };
+
   return (
     <Box
       w={"100%"}
@@ -283,7 +303,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
             <HStack spacing={"16px"}>
               <Tooltip
                 label={isTheatreMode ? "Exit Full Screen" : "Full screen"}
-                placement="down"
+                placement="top"
               >
                 <IconButton
                   isRound={true}
