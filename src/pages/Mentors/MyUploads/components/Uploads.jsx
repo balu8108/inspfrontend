@@ -39,7 +39,6 @@ const AllUploadedLecture = () => {
   );
 
   useEffect(() => {
-    // Make an API request to fetch assignments with files
     axios
       .get(`${BASE_URL}/topic/all-assignment-with-files`)
       .then((response) => {
