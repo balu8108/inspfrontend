@@ -128,7 +128,6 @@ const SoloClasses = () => {
               </Text>
               <Link
                 to={`/mentor/solo-recordings/topic/${soloclassInfo.topicId}/${soloclassInfo.topic}`}
-             
                 style={{
                   position: "absolute",
                   bottom: "10px",
@@ -136,7 +135,6 @@ const SoloClasses = () => {
                   transform: "translateX(-50%)",
                 }}
               >
-             
                 <Button
                   variant={"ghost"}
                   color={"#3C8DBC"}
