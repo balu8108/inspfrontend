@@ -24,13 +24,10 @@ import { useToastContext } from "../../../../../components/toastNotificationProv
 import { boxShadowStyles } from "../../../../../utils";
 import { BASE_URL } from "../../../../../constants/staticurls";
 const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
-
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [isMicrophoneOn, setIsMicrophoneOn] = useState(false);
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [screenSharingStream, setScreenSharingStream] = useState(null);
-  const [videoStream, setVideoStream] = useState(null);
-   const [audioStream, setAudioStream] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
   const cameraVideoRef = useRef(null);
@@ -177,23 +174,37 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
     }
   };
 
-  const stopRecording = () => {
-    if (
-      mediaRecorderRef.current &&
-      mediaRecorderRef.current.state === "recording"
-    ) {
+  const stopRecording = async () => {
+    if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
-    }
+      setIsRecording(false);
 
-    if (videoStream) {
-      videoStream.getTracks().forEach((track) => track.stop());
-    }
+      mediaRecorderRef.current.ondataavailable = async (event) => {
+        if (event.data.size > 0) {
+          recordedChunksRef.current.push(event.data);
 
-    if (audioStream) {
-      audioStream.getTracks().forEach((track) => track.stop());
-    }
+          // Combine the recorded chunks into a single Blob
+          const blob = new Blob(recordedChunksRef.current, {
+            type: "video/webm",
+          });
 
-    cameraVideoRef.current.srcObject = null; // Stop the video playback
+          // Get solo classroom ID from the URL
+          const urlSegments = window.location.pathname.split("/");
+          const soloClassRoomId = urlSegments[urlSegments.length - 1];
+
+          if (soloClassRoomId) {
+            // Upload the Blob to AWS
+            await uploadVideoToAWS(blob, soloClassRoomId);
+          } else {
+            console.error("Solo classroom ID not found in the URL");
+          }
+        }
+      };
+
+      mediaRecorderRef.current.onstop = () => {
+        recordedChunksRef.current = [];
+      };
+    }
   };
 
   const toggleRecording = () => {
