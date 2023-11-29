@@ -27,7 +27,6 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [screenSharingStream, setScreenSharingStream] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
-  const [isScreenSharedFirst, setIsScreenSharedFirst] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
   const cameraVideoRef = useRef(null);
   const audioStreamRef = useRef(null);
@@ -219,9 +218,9 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
         startRecording();
       } else {
         addNotification(
-          "Please enable both screen sharing and microphone.",
+          "Please enable both screen sharing and microphone !",
           "info",
-          3000
+          1800
         );
       }
     }
@@ -317,27 +316,37 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
                 onClick={toggleCamera}
               />
             </Tooltip>
-
-            <IconButton
-              isRound={true}
-              variant="solid"
-              colorScheme={isMicrophoneOn ? "gray" : "red"}
-              aria-label="Done"
-              fontSize="20px"
-              icon={
-                isScreenSharing ? (
-                  isMicrophoneOn ? (
-                    <FiMic />
+            <Tooltip
+              label={
+                isMicrophoneOn
+                  ? "Turn Off Microphone"
+                  : isScreenSharing
+                  ? "Turn On Microphone"
+                  : "Microphone is disabled"
+              }
+              placement="right"
+            >
+              <IconButton
+                isRound={true}
+                variant="solid"
+                colorScheme={isMicrophoneOn ? "gray" : "red"}
+                aria-label="Done"
+                fontSize="20px"
+                icon={
+                  isScreenSharing ? (
+                    isMicrophoneOn ? (
+                      <FiMic />
+                    ) : (
+                      <FiMicOff />
+                    )
                   ) : (
                     <FiMicOff />
                   )
-                ) : (
-                  <FiMicOff />
-                )
-              }
-              onClick={isScreenSharing ? toggleMicrophone : undefined}
-              isDisabled={!isScreenSharing && !isMicrophoneOn}
-            />
+                }
+                onClick={isScreenSharing ? toggleMicrophone : undefined}
+                isDisabled={!isScreenSharing && !isMicrophoneOn}
+              />
+            </Tooltip>
           </Stack>
           <Stack>
             <Tooltip
@@ -395,7 +404,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
               height: "100%",
               background: "black",
               borderRadius: "8px",
-              objectFit: "cover",
+              objectFit: "fill",
               visibility: isScreenSharing ? "visible" : "hidden",
             }}
             autoPlay
