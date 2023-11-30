@@ -35,8 +35,9 @@ const Recording = () => {
   }, [id, type]);
   return (
     <Flex m={"52px"} h={"full"}>
-      <ViewRecording type={type} activeRecording={activeRecording} />
+      {/* <ViewRecording type={type} activeRecording={activeRecording} /> */}
       <RecordedClass
+        type={type}
         recordingDetail={recordingDetail}
         activeRecording={activeRecording}
         setActiveRecording={setActiveRecording}

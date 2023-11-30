@@ -18,6 +18,7 @@ import {
   FiMonitor,
 } from "react-icons/fi";
 import { LuMonitorOff, LuCircleOff } from "react-icons/lu";
+import { useParams, useNavigate } from "react-router-dom";
 import { useToastContext } from "../../../../../components/toastNotificationProvider/ToastNotificationProvider";
 import { boxShadowStyles } from "../../../../../utils";
 import { BASE_URL } from "../../../../../constants/staticurls";
@@ -26,8 +27,6 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
   const [isMicrophoneOn, setIsMicrophoneOn] = useState(false);
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [screenSharingStream, setScreenSharingStream] = useState(null);
-  const [videoStream, setVideoStream] = useState(null);
-  const [audioStream, setAudioStream] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
   const cameraVideoRef = useRef(null);
@@ -35,7 +34,9 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
   const screenSharingVideoRef = useRef(null);
   const mediaRecorderRef = useRef(null);
   const recordedChunksRef = useRef([]);
+  const { soloClassRoomId } = useParams();
   const { addNotification } = useToastContext();
+  const navigate = useNavigate();
   const formatTime = (seconds) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
@@ -174,23 +175,34 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
     }
   };
 
-  const stopRecording = () => {
-    if (
-      mediaRecorderRef.current &&
-      mediaRecorderRef.current.state === "recording"
-    ) {
+  const stopRecording = async () => {
+    if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
-    }
+      setIsRecording(false);
 
-    if (videoStream) {
-      videoStream.getTracks().forEach((track) => track.stop());
-    }
+      mediaRecorderRef.current.ondataavailable = async (event) => {
+        if (event.data.size > 0) {
+          recordedChunksRef.current.push(event.data);
+          const blob = new Blob(recordedChunksRef.current, {
+            type: "video/webm",
+          });
 
-    if (audioStream) {
-      audioStream.getTracks().forEach((track) => track.stop());
-    }
+          if (soloClassRoomId) {
+            await uploadVideoToAWS(blob, soloClassRoomId);
+          } else {
+            console.error("Solo classroom ID not found in the URL");
+          }
+        }
+      };
 
-    cameraVideoRef.current.srcObject = null; // Stop the video playback
+      mediaRecorderRef.current.onstop = () => {
+        toggleMicrophone();
+        setElapsedTime(0);
+        setIsScreenSharing();
+
+        recordedChunksRef.current = [];
+      };
+    }
   };
 
   const toggleRecording = () => {
@@ -214,7 +226,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
       toggleRecording();
     }
     window.location.href = "/homepage";
-    window.history.replaceState(null, null, `/mentor/solo-recordings/topic`);
+    window.history.replaceState(null, null, `/homepage`);
   };
 
   const stopScreenShare = () => {
@@ -251,9 +263,16 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
           body: formData,
         }
       );
+
+      if (response.ok) {
+        addNotification("Lecture is uploaded successfully", "success", 3000);
+        navigate("/homepage");
+        window.history.replaceState(null, null, `/homepage`);
+      } else {
+        console.error("Error uploading video to AWS:", response.status);
+      }
     } catch (error) {
       console.error("Error uploading video to AWS:", error);
-      // Handle the error as needed
     }
   };
 

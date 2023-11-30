@@ -7,10 +7,49 @@ import FileBoxComponent from "../../../components/filebox/FileBoxComponent";
 import { fileTypes } from "../../../constants/staticvariables";
 import { boxShadowStyles, capitalize } from "../../../utils";
 const RecordedClass = ({
+  type,
   recordingDetail,
   activeRecording,
   setActiveRecording,
 }) => {
+  console.log(type, recordingDetail, activeRecording);
+
+  const renderFiles = (files) => {
+    return (
+      <>
+        {files && files.length > 0 ? (
+          <FileBoxComponent data={files} type={fileTypes.solo} />
+        ) : (
+          <Text fontSize={"0.8rem"}>No Files</Text>
+        )}
+      </>
+    );
+  };
+
+  const renderRecordings = (recordings, activeRecording) => {
+    return (
+      <>
+        {recordings?.map(
+          (lr) =>
+            lr.id !== activeRecording?.id && (
+              <Flex key={lr.id}>
+                <Flex gap={"24px"}>
+                  <Card
+                    mt={"15px"}
+                    color={"#2C332978"}
+                    fontSize={"13px"}
+                    w={"150px"}
+                    onClick={() => setActiveRecording(lr)}
+                  >
+                    <Image src={defaultImageUrl} alt="Default Image" />
+                  </Card>
+                </Flex>
+              </Flex>
+            )
+        )}
+      </>
+    );
+  };
   return (
     <Box
       width={"400px"}
@@ -38,6 +77,7 @@ const RecordedClass = ({
           Recorded Class
         </Text>
       </HStack>
+
       <Box>
         <Box>
           <Text
@@ -47,7 +87,11 @@ const RecordedClass = ({
             color={"rgba(44, 51, 41, 1)"}
             mt={"28px"}
           >
-            {capitalize(recordingDetail?.LiveClassRoomDetail?.topicName)}
+            {capitalize(
+              type === "live" || type === "live_specific"
+                ? recordingDetail?.LiveClassRoomDetail?.topicName
+                : recordingDetail?.topic
+            )}
           </Text>
 
           <Text
@@ -60,26 +104,25 @@ const RecordedClass = ({
           </Text>
         </Box>
       </Box>
+
       <Box>
         <Text mt={"29px"} fontSize={"15px"} lineHeight={"19px"}>
           Description
         </Text>
 
         <Text color={"#2C332978"} fontSize={"12px"} lineHeight={"20px"}>
-          {recordingDetail?.LiveClassRoomDetail?.description}
+          {type === "live" || type === "live_specific"
+            ? recordingDetail?.LiveClassRoomDetail?.description
+            : recordingDetail?.description}
         </Text>
       </Box>
+
       <Text mt={"26px"}>Files</Text>
 
       <Box my={4}>
-        {recordingDetail?.LiveClassRoomFiles.length > 0 ? (
-          <FileBoxComponent
-            data={recordingDetail.LiveClassRoomFiles}
-            type={fileTypes.live}
-          />
-        ) : (
-          <Text fontSize={"0.8rem"}>No Files</Text>
-        )}
+        {type === "live" || type === "live_specific"
+          ? renderFiles(recordingDetail?.LiveClassRoomFiles)
+          : renderFiles(recordingDetail?.SoloClassRoomFiles)}
       </Box>
 
       <Box>
@@ -97,7 +140,9 @@ const RecordedClass = ({
                     as={FaCircle}
                     mr={"10px"}
                   />
-                  {recordingDetail?.LiveClassRoomDetail?.agenda}
+                  {type === "live" || type === "live_specific"
+                    ? recordingDetail?.LiveClassRoomDetail?.agenda
+                    : recordingDetail?.agenda}
                 </Box>
               </Box>
             </Box>
@@ -105,24 +150,15 @@ const RecordedClass = ({
         </Box>
         <Box mt={"10px"} overflowX={"auto"}>
           <Text>Recordings</Text>
-          {recordingDetail?.LiveClassRoomRecordings?.map(
-            (lr) =>
-              lr.id !== activeRecording?.id && (
-                <Flex key={lr.id}>
-                  <Flex gap={"24px"}>
-                    <Card
-                      mt={"15px"}
-                      color={"#2C332978"}
-                      fontSize={"13px"}
-                      w={"150px"}
-                      onClick={() => setActiveRecording(lr)}
-                    >
-                      <Image src={defaultImageUrl} alt="Default Image" />
-                    </Card>
-                  </Flex>
-                </Flex>
+          {type === "live" || type === "live_specific"
+            ? renderRecordings(
+                recordingDetail?.LiveClassRoomRecordings,
+                activeRecording
               )
-          )}
+            : renderRecordings(
+                recordingDetail?.SoloClassRoomRecordings,
+                activeRecording
+              )}
         </Box>
       </Box>
     </Box>
