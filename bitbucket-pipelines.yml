@@ -16,4 +16,4 @@ pipelines:
             - export SONAR_SCANNER_OPTS="-server"
             - sonar-scanner -Dsonar.projectKey=inspfrontend -Dsonar.sources=. -Dsonar.host.url=https://sonar.turnkey.work -Dsonar.login="sqp_87d490f5bae13c50aeaf6bf46919a4a4bb3f14c3"
           caches:
-            - node_modules
+            - node
