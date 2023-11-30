@@ -62,15 +62,13 @@ const SampleVideoPlayer = ({ videoUrl }) => {
   }, [player]);
 
   return (
-    <>
-      <div data-vjs-player>
-        <video
-          ref={videoRef}
-          className="vidPlayer video-js vjs-default-skin vjs-big-play-centered"
-          style={{ borderRadius: "10px" }}
-        ></video>
-      </div>
-    </>
+    <div data-vjs-player>
+      <video
+        ref={videoRef}
+        className="vidPlayer video-js vjs-default-skin vjs-big-play-centered"
+        style={{ borderRadius: "10px" }}
+      ></video>
+    </div>
   );
 };
 

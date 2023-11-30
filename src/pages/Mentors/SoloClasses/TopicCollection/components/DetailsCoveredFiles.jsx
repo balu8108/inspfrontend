@@ -112,24 +112,23 @@ const DetailsCoveredFiles = () => {
               <Spacer />
               <Box flex={1} ml={"24px"}>
                 {index === 0 && <Text p={"13px"}>Agenda</Text>}
-                {topicInfo.agenda &&
-                  topicInfo.agenda.split("\n").map((item, i) => (
-                    <HStack key={i} spacing={"5px"}>
-                      <Icon
-                        as={FaCircle}
-                        boxSize={2}
-                        color="#C3C3C3"
-                        blendMode={"multiply"}
-                      />
-                      <Text
-                        fontSize={"12px"}
-                        color={"#2C332978"}
-                        lineHeight={"21px"}
-                      >
-                        {item}
-                      </Text>
-                    </HStack>
-                  ))}
+                {topicInfo?.agenda?.split("\n").map((item, i) => (
+                  <HStack key={i} spacing={"5px"}>
+                    <Icon
+                      as={FaCircle}
+                      boxSize={2}
+                      color="#C3C3C3"
+                      blendMode={"multiply"}
+                    />
+                    <Text
+                      fontSize={"12px"}
+                      color={"#2C332978"}
+                      lineHeight={"21px"}
+                    >
+                      {item}
+                    </Text>
+                  </HStack>
+                ))}
               </Box>
             </HStack>
           </Box>

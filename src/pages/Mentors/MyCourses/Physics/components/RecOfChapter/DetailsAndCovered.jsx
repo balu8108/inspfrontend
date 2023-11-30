@@ -7,15 +7,11 @@ import {
   Card,
   Flex,
   Button,
-  Icon,
   Stack,
   Spacer,
   Image,
   SimpleGrid,
-  List,
   ListItem,
-  ListIcon,
-  OrderedList,
   UnorderedList,
   useTheme,
 } from "@chakra-ui/react";
@@ -30,7 +26,6 @@ import {
 import topicDescriptionConstants from "../../../../../../constants/topicDescriptionConstants";
 import { pollsFileNameExtraction } from "../../../../../../utils/pollsFileNameExtraction";
 import { BASE_URL } from "../../../../../../constants/staticurls";
-import { FaCircle } from "react-icons/fa";
 import axios from "axios";
 import { setIsDocModalOpen } from "../../../../../../store/actions/genericActions";
 import { useDispatch } from "react-redux";
@@ -41,7 +36,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
   const [assignmentDetails, setAssignmentDetails] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedFileUrl, setSelectedFileUrl] = useState("");
-  const [selectedTopic, setSelectedTopic] = useState(null);
+
   const { outerBackground } = useTheme().colors.pallete;
 
   const dispatch = useDispatch();

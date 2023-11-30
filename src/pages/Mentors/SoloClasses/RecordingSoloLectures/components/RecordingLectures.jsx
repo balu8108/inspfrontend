@@ -8,7 +8,7 @@ import {
   Stack,
   HStack,
 } from "@chakra-ui/react";
-import { RiFullscreenLine } from "react-icons/ri";
+import { RiFullscreenLine, RiFullscreenExitFill } from "react-icons/ri";
 import {
   FiMic,
   FiMicOff,
@@ -18,19 +18,16 @@ import {
   FiMonitor,
 } from "react-icons/fi";
 import { LuMonitorOff, LuCircleOff } from "react-icons/lu";
-import { CiPause1 } from "react-icons/ci";
-import { RiFullscreenExitFill } from "react-icons/ri";
 import { useToastContext } from "../../../../../components/toastNotificationProvider/ToastNotificationProvider";
 import { boxShadowStyles } from "../../../../../utils";
 import { BASE_URL } from "../../../../../constants/staticurls";
 const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
-
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [isMicrophoneOn, setIsMicrophoneOn] = useState(false);
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [screenSharingStream, setScreenSharingStream] = useState(null);
   const [videoStream, setVideoStream] = useState(null);
-   const [audioStream, setAudioStream] = useState(null);
+  const [audioStream, setAudioStream] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
   const cameraVideoRef = useRef(null);
@@ -254,15 +251,6 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
           body: formData,
         }
       );
-
-      //   if (response.ok) {
-      //     setClassEnded(true);
-      //     // End the class immediately regardless of video upload status
-      //     window.location.href = "/homepage";
-      //   } else {
-      //     console.error("Error uploading video to AWS:", response.status);
-      //     // Handle the error as needed
-      //   }
     } catch (error) {
       console.error("Error uploading video to AWS:", error);
       // Handle the error as needed

@@ -244,108 +244,105 @@ const PostPoll = ({ screenShareStream }) => {
   }, [QNo]);
 
   return (
-    <>
-      <Popover
-        placement="right"
-        isOpen={isOpen}
-        onOpen={() => {
-          // setQNo(QNo + 1);
-          onOpen();
-        }}
-        onClose={onClose}
-      >
-        <PopoverTrigger>
-          <IconButton isRound={true} icon={<BiBarChart size={20} />} />
-        </PopoverTrigger>
+    <Popover
+      placement="right"
+      isOpen={isOpen}
+      onOpen={() => {
+        onOpen();
+      }}
+      onClose={onClose}
+    >
+      <PopoverTrigger>
+        <IconButton isRound={true} icon={<BiBarChart size={20} />} />
+      </PopoverTrigger>
 
-        <PopoverContent px={4} py={2} w="300px">
-          <Stack>
-            <Flex w="full" justifyContent="space-between" alignItems="center">
-              <Text fontWeight={"bold"}>{roomData.pollMcqTF}</Text>
-              <IconButton
-                onClick={() => onClose()}
-                icon={<MdClose size={20} />}
-                bg="none"
-                _hover={{ bg: "none" }}
-              />
-            </Flex>
-            <Box py={2}>
-              <FormControl isInvalid={!!errorData.questionType}>
-                <Select
-                  placeholder={roomData.selectQuestionType}
-                  value={questionType}
-                  onChange={handleQuestionTypeChange}
-                  options={questionTypeOptions}
-                  useBasicStyles
-                />
-                <FormErrorMessage>{errorData.questionType}</FormErrorMessage>
-              </FormControl>
-            </Box>
-            <Box py={2}>
-              <FormControl isInvalid={!!errorData.questionNo}>
-                <Input
-                  value={QNo}
-                  placeholder={roomData.questionNo}
-                  type="number"
-                  onChange={(e) => handleQnoChange(e)}
-                />
-                <FormErrorMessage>{errorData.questionNo}</FormErrorMessage>
-              </FormControl>
-            </Box>
-            <Box py={2}>
-              <FormControl isInvalid={!!errorData.timer}>
-                <Input
-                  type="number"
-                  value={timer}
-                  placeholder={roomData.timerPlaceholder}
-                  onChange={(e) => handleTimerChange(e)}
-                />
-                <FormErrorMessage>{errorData.timer}</FormErrorMessage>
-              </FormControl>
-            </Box>
-            <Box py={2}>
-              <FormControl isInvalid={!!errorData.noOfOptions}>
-                <Input
-                  type="number"
-                  value={
-                    qnaData?.type && qnaData?.type === "tf" ? 2 : noOfOptions
-                  }
-                  onChange={(e) => handleNoOfOptionsChange(e)}
-                  placeholder={roomData.selectNumberOfOptions}
-                  isDisabled={!qnaData?.type}
-                  min={2}
-                  max={10}
-                />
-                <FormErrorMessage>{errorData.noOfOptions}</FormErrorMessage>
-              </FormControl>
-            </Box>
-            <Box py={2}>
-              <FormControl isInvalid={!!errorData.correctAnswers}>
-                <Select
-                  value={selectedAnswer}
-                  isMulti={qnaData?.type === "poll"}
-                  placeholder={roomData.selectCorrectAnswer}
-                  options={answerOptions}
-                  isDisabled={!qnaData?.type}
-                  onChange={handleAnswerChange}
-                  useBasicStyles
-                />
-                <FormErrorMessage>{errorData.correctAnswers}</FormErrorMessage>
-              </FormControl>
-            </Box>
-          </Stack>
-          <Box width={"100%"} mb={2} mt={6} px={6}>
-            <MainBtn
-              isLoading={isLoading}
-              text={roomData.send}
-              backColor={primaryBlue}
-              textColor={"white"}
-              onClickHandler={() => sendPoll()}
+      <PopoverContent px={4} py={2} w="300px">
+        <Stack>
+          <Flex w="full" justifyContent="space-between" alignItems="center">
+            <Text fontWeight={"bold"}>{roomData.pollMcqTF}</Text>
+            <IconButton
+              onClick={() => onClose()}
+              icon={<MdClose size={20} />}
+              bg="none"
+              _hover={{ bg: "none" }}
             />
+          </Flex>
+          <Box py={2}>
+            <FormControl isInvalid={!!errorData.questionType}>
+              <Select
+                placeholder={roomData.selectQuestionType}
+                value={questionType}
+                onChange={handleQuestionTypeChange}
+                options={questionTypeOptions}
+                useBasicStyles
+              />
+              <FormErrorMessage>{errorData.questionType}</FormErrorMessage>
+            </FormControl>
           </Box>
-        </PopoverContent>
-      </Popover>
-    </>
+          <Box py={2}>
+            <FormControl isInvalid={!!errorData.questionNo}>
+              <Input
+                value={QNo}
+                placeholder={roomData.questionNo}
+                type="number"
+                onChange={(e) => handleQnoChange(e)}
+              />
+              <FormErrorMessage>{errorData.questionNo}</FormErrorMessage>
+            </FormControl>
+          </Box>
+          <Box py={2}>
+            <FormControl isInvalid={!!errorData.timer}>
+              <Input
+                type="number"
+                value={timer}
+                placeholder={roomData.timerPlaceholder}
+                onChange={(e) => handleTimerChange(e)}
+              />
+              <FormErrorMessage>{errorData.timer}</FormErrorMessage>
+            </FormControl>
+          </Box>
+          <Box py={2}>
+            <FormControl isInvalid={!!errorData.noOfOptions}>
+              <Input
+                type="number"
+                value={
+                  qnaData?.type && qnaData?.type === "tf" ? 2 : noOfOptions
+                }
+                onChange={(e) => handleNoOfOptionsChange(e)}
+                placeholder={roomData.selectNumberOfOptions}
+                isDisabled={!qnaData?.type}
+                min={2}
+                max={10}
+              />
+              <FormErrorMessage>{errorData.noOfOptions}</FormErrorMessage>
+            </FormControl>
+          </Box>
+          <Box py={2}>
+            <FormControl isInvalid={!!errorData.correctAnswers}>
+              <Select
+                value={selectedAnswer}
+                isMulti={qnaData?.type === "poll"}
+                placeholder={roomData.selectCorrectAnswer}
+                options={answerOptions}
+                isDisabled={!qnaData?.type}
+                onChange={handleAnswerChange}
+                useBasicStyles
+              />
+              <FormErrorMessage>{errorData.correctAnswers}</FormErrorMessage>
+            </FormControl>
+          </Box>
+        </Stack>
+        <Box width={"100%"} mb={2} mt={6} px={6}>
+          <MainBtn
+            isLoading={isLoading}
+            text={roomData.send}
+            backColor={primaryBlue}
+            textColor={"white"}
+            onClickHandler={() => sendPoll()}
+          />
+        </Box>
+      </PopoverContent>
+    </Popover>
   );
 };
 

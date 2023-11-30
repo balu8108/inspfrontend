@@ -16,7 +16,7 @@ import topicDescriptionConstants from "../../../../../constants/topicDescription
 import "../../../../../constants/scrollbar/style.css";
 import { Link } from "react-router-dom";
 
-import { boxShadowStyles, capitalize } from "../../../../../utils";
+import { capitalize } from "../../../../../utils";
 
 const TopicsBased = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

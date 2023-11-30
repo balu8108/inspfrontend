@@ -4,7 +4,6 @@ import Header from "../../../Header/components/HeaderInAllScreen";
 import PhysDetails from "../../../../StudentCourses/Physics/components/PhysDetails";
 import ScheduleClassList from "../../../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
-import { boxShadowStyles } from "../../../../../utils";
 import { useDispatch } from "react-redux";
 import { getAllLiveClassesSchedule } from "../../../../../store/actions/scheduleClassActions";
 import ScheduleClassPopup from "../../../../../components/popups/ScheduleClassPopup";

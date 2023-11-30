@@ -1,13 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
-import { MIRO_BOARD_PICKER_SCRIPT } from "../../../constants/staticurls";
-import { Box, Button, Image } from "@chakra-ui/react";
+import React, { useRef } from "react";
+import { Box } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { miroViewMode } from "../../../constants/staticvariables";
-import html2canvas from "html2canvas";
 
 const MiroBoard = () => {
   const { miroBoard } = useSelector((state) => state.socket);
-  const [img, setImg] = useState(null);
+
   const iframeRef = useRef(null);
 
   const renderMiroBoardUrl = (miroBoard) => {
@@ -20,29 +18,27 @@ const MiroBoard = () => {
   return (
     <>
       {miroBoard.boardId && (
-        <>
-          <Box
-            zIndex={20}
-            position={"absolute"}
-            borderRadius={"md"}
-            w={"75%"}
-            py={4}
-            mx={"auto"}
-            height={"full"}
-            top={"50%"}
-            left={"50%"}
-            transform={"translate(-50%,-50%)"}
-          >
-            <iframe
-              ref={iframeRef}
-              title="Miro board"
-              width="100%"
-              height="100%"
-              src={renderMiroBoardUrl(miroBoard)}
-              allowFullScreen
-            ></iframe>
-          </Box>
-        </>
+        <Box
+          zIndex={20}
+          position={"absolute"}
+          borderRadius={"md"}
+          w={"75%"}
+          py={4}
+          mx={"auto"}
+          height={"full"}
+          top={"50%"}
+          left={"50%"}
+          transform={"translate(-50%,-50%)"}
+        >
+          <iframe
+            ref={iframeRef}
+            title="Miro board"
+            width="100%"
+            height="100%"
+            src={renderMiroBoardUrl(miroBoard)}
+            allowFullScreen
+          ></iframe>
+        </Box>
       )}
     </>
   );

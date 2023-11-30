@@ -18,7 +18,10 @@ import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import data from "@emoji-mart/data";
 import { init, SearchIndex } from "emoji-mart";
 
-import { setChatMessage } from "../../../store/actions/socketActions";
+import {
+  setChatMessage,
+  setSendPollResponse,
+} from "../../../store/actions/socketActions";
 import {
   sendChatMessage,
   sendQuestionMsg,
@@ -27,8 +30,6 @@ import { Scrollbars } from "rc-scrollbars";
 import { checkUserType, containsEmoji } from "../../../utils";
 import Leaderboard from "./Leaderboard";
 import { userType } from "../../../constants/staticvariables";
-
-import { setSendPollResponse } from "../../../store/actions/socketActions";
 
 // Active btns will be
 // 1 - Leaderboard
@@ -77,42 +78,40 @@ const QuestionContainer = () => {
   }, [questionMessages, autoScroll]);
 
   return (
-    <>
-      <Scrollbars
-        ref={questionContainerRef}
-        style={{ height: "100%" }}
-        autoHide={true}
-        onScroll={handleScroll}
-      >
-        {/* <SimpleBar style={{ maxHeight: "250px" }} autoHide={false} color="white"> */}
-        {questionMessages.length === 0 ? (
-          <Text textAlign={"center"} fontSize={"14px"}>
-            No Questions
-          </Text>
-        ) : (
-          questionMessages?.map((question) => {
-            return (
-              <Box key={question?.peerDetails?.id} mb={4}>
-                <HStack>
-                  <Avatar
-                    bg={primaryBlue}
-                    color="white"
-                    size={"xs"}
-                    name={question?.peerDetails?.name}
-                  />
+    <Scrollbars
+      ref={questionContainerRef}
+      style={{ height: "100%" }}
+      autoHide={true}
+      onScroll={handleScroll}
+    >
+      {/* <SimpleBar style={{ maxHeight: "250px" }} autoHide={false} color="white"> */}
+      {questionMessages.length === 0 ? (
+        <Text textAlign={"center"} fontSize={"14px"}>
+          No Questions
+        </Text>
+      ) : (
+        questionMessages?.map((question) => {
+          return (
+            <Box key={question?.peerDetails?.id} mb={4}>
+              <HStack>
+                <Avatar
+                  bg={primaryBlue}
+                  color="white"
+                  size={"xs"}
+                  name={question?.peerDetails?.name}
+                />
 
-                  <Text fontSize={"14px"}>{question?.peerDetails?.name}</Text>
-                </HStack>
-                <Box>
-                  <Text fontSize={"12px"}>{question?.questionMsg}</Text>
-                </Box>
+                <Text fontSize={"14px"}>{question?.peerDetails?.name}</Text>
+              </HStack>
+              <Box>
+                <Text fontSize={"12px"}>{question?.questionMsg}</Text>
               </Box>
-            );
-          })
-        )}
-        {/* </SimpleBar> */}
-      </Scrollbars>
-    </>
+            </Box>
+          );
+        })
+      )}
+      {/* </SimpleBar> */}
+    </Scrollbars>
   );
 };
 
@@ -209,44 +208,42 @@ const ChatContainer = () => {
   }, [chatMessages, autoScroll]);
 
   return (
-    <>
-      <Scrollbars
-        ref={chatContainerRef}
-        style={{ height: "100%" }}
-        onScroll={handleScroll}
-        autoHide={true}
-      >
-        {chatMessages.length === 0 ? (
-          <Text textAlign={"center"} fontSize={"14px"}>
-            No Chats
-          </Text>
-        ) : (
-          chatMessages?.map((chat) => {
-            return (
-              <Box key={chat.peerDetails?.id} mb={4}>
-                <HStack>
-                  <Avatar
-                    bg={primaryBlue}
-                    color="white"
-                    size={"xs"}
-                    name={chat?.peerDetails?.name}
-                  />
+    <Scrollbars
+      ref={chatContainerRef}
+      style={{ height: "100%" }}
+      onScroll={handleScroll}
+      autoHide={true}
+    >
+      {chatMessages.length === 0 ? (
+        <Text textAlign={"center"} fontSize={"14px"}>
+          No Chats
+        </Text>
+      ) : (
+        chatMessages?.map((chat) => {
+          return (
+            <Box key={chat.peerDetails?.id} mb={4}>
+              <HStack>
+                <Avatar
+                  bg={primaryBlue}
+                  color="white"
+                  size={"xs"}
+                  name={chat?.peerDetails?.name}
+                />
 
-                  <Text fontSize={"14px"}>{chat?.peerDetails?.name}</Text>
-                </HStack>
-                <Box>
-                  {containsEmoji(chat?.msg) ? (
-                    <Box style={{ fontSize: "3em" }}>{chat?.msg}</Box>
-                  ) : (
-                    <Text fontSize={"12px"}>{chat?.msg}</Text>
-                  )}
-                </Box>
+                <Text fontSize={"14px"}>{chat?.peerDetails?.name}</Text>
+              </HStack>
+              <Box>
+                {containsEmoji(chat?.msg) ? (
+                  <Box style={{ fontSize: "3em" }}>{chat?.msg}</Box>
+                ) : (
+                  <Text fontSize={"12px"}>{chat?.msg}</Text>
+                )}
               </Box>
-            );
-          })
-        )}
-      </Scrollbars>
-    </>
+            </Box>
+          );
+        })
+      )}
+    </Scrollbars>
   );
 };
 
@@ -371,59 +368,53 @@ const QuestionBox = () => {
     }
   };
   return (
-    <>
-      <Flex
-        direction={"column"}
-        height={"100%"}
-        justifyContent={"space-between"}
-      >
-        <Box height={"100%"} position={"relative"}>
-          <QuestionContainer />
-        </Box>
-        {userRoleType === userType.student && (
-          <InputGroup bg="white" borderRadius={"full"} mt={2}>
-            <IconButton
-              borderRadius={"full"}
-              bg="white"
-              icon={<TfiMenuAlt size={16} />}
-            />
+    <Flex direction={"column"} height={"100%"} justifyContent={"space-between"}>
+      <Box height={"100%"} position={"relative"}>
+        <QuestionContainer />
+      </Box>
+      {userRoleType === userType.student && (
+        <InputGroup bg="white" borderRadius={"full"} mt={2}>
+          <IconButton
+            borderRadius={"full"}
+            bg="white"
+            icon={<TfiMenuAlt size={16} />}
+          />
 
-            <Input
-              type="text"
-              placeholder={"Ask something..."}
-              borderRadius="full"
-              border={"none"}
-              fontSize={"12px"}
-              value={questionMsg}
-              onChange={(e) => handleQuestionInputChange(e)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  sendQuestionMsgHandler(e);
-                }
-              }}
-              px={1}
-              transition={"all 0.3 ease"}
-              overflow={"hidden"}
-              _focus={{
-                outline: "none",
-                boxShadow: "none",
-                border: "none",
-              }}
-            />
+          <Input
+            type="text"
+            placeholder={"Ask something..."}
+            borderRadius="full"
+            border={"none"}
+            fontSize={"12px"}
+            value={questionMsg}
+            onChange={(e) => handleQuestionInputChange(e)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                sendQuestionMsgHandler(e);
+              }
+            }}
+            px={1}
+            transition={"all 0.3 ease"}
+            overflow={"hidden"}
+            _focus={{
+              outline: "none",
+              boxShadow: "none",
+              border: "none",
+            }}
+          />
 
-            <IconButton
-              bg="white"
-              isLoading={isQuestionSentLoading}
-              isDisabled={isSentBtnDisabled}
-              onClick={(e) => sendQuestionMsgHandler(e)}
-              transition={"all 0.3 ease"}
-              borderRadius={"full"}
-              icon={<PiPaperPlaneTiltBold size={16} />}
-            />
-          </InputGroup>
-        )}
-      </Flex>
-    </>
+          <IconButton
+            bg="white"
+            isLoading={isQuestionSentLoading}
+            isDisabled={isSentBtnDisabled}
+            onClick={(e) => sendQuestionMsgHandler(e)}
+            transition={"all 0.3 ease"}
+            borderRadius={"full"}
+            icon={<PiPaperPlaneTiltBold size={16} />}
+          />
+        </InputGroup>
+      )}
+    </Flex>
   );
 };
 
@@ -451,21 +442,19 @@ const ActiveContent = ({ activeContent }) => {
   }, [pollData]);
 
   return (
-    <>
-      <Flex direction={"column"} height={"100%"} position={"relative"}>
-        {activeContent === activeContentOptions.Chat ? (
-          <ChatBox chatMsg={chatMsg} setChatMsg={setChatMsg} />
-        ) : activeContent === activeContentOptions.QnA ? (
-          <QuestionBox />
-        ) : (
-          <Leaderboard
-            timer={timer}
-            setTimer={setTimer}
-            isLeaderBoardOpen={true}
-          />
-        )}
-      </Flex>
-    </>
+    <Flex direction={"column"} height={"100%"} position={"relative"}>
+      {activeContent === activeContentOptions.Chat ? (
+        <ChatBox chatMsg={chatMsg} setChatMsg={setChatMsg} />
+      ) : activeContent === activeContentOptions.QnA ? (
+        <QuestionBox />
+      ) : (
+        <Leaderboard
+          timer={timer}
+          setTimer={setTimer}
+          isLeaderBoardOpen={true}
+        />
+      )}
+    </Flex>
   );
 };
 const LiveSessionInteraction = () => {
@@ -476,66 +465,60 @@ const LiveSessionInteraction = () => {
     setActiveContent(type);
   };
   return (
-    <>
-      <Flex
-        px={4}
-        py={2}
-        direction={"column"}
-        justifyContent={"space-between"}
-        height="100%"
-      >
-        <ActiveContent activeContent={activeContent} />
-        <Flex justifyContent={"space-between"} gap={2} mt={2}>
-          <IconButton
-            borderRadius={"full"}
-            bg={
-              activeContent === activeContentOptions.Leaderboard
-                ? primaryBlue
-                : "white"
-            }
-            color={
-              activeContent === activeContentOptions.Leaderboard
-                ? "white"
-                : "black"
-            }
-            size="sm"
-            onClick={() =>
-              handleActiveBtnChange(activeContentOptions?.Leaderboard)
-            }
-            icon={<BiBarChart size={14} />}
-          />
+    <Flex
+      px={4}
+      py={2}
+      direction={"column"}
+      justifyContent={"space-between"}
+      height="100%"
+    >
+      <ActiveContent activeContent={activeContent} />
+      <Flex justifyContent={"space-between"} gap={2} mt={2}>
+        <IconButton
+          borderRadius={"full"}
+          bg={
+            activeContent === activeContentOptions.Leaderboard
+              ? primaryBlue
+              : "white"
+          }
+          color={
+            activeContent === activeContentOptions.Leaderboard
+              ? "white"
+              : "black"
+          }
+          size="sm"
+          onClick={() =>
+            handleActiveBtnChange(activeContentOptions?.Leaderboard)
+          }
+          icon={<BiBarChart size={14} />}
+        />
 
-          <IconButton
-            borderRadius={"full"}
-            bg={
-              activeContent === activeContentOptions.QnA ? primaryBlue : "white"
-            }
-            color={
-              activeContent === activeContentOptions.QnA ? "white" : "black"
-            }
-            size="sm"
-            onClick={() => handleActiveBtnChange(activeContentOptions?.QnA)}
-            icon={<TfiMenuAlt size={14} />}
-          />
+        <IconButton
+          borderRadius={"full"}
+          bg={
+            activeContent === activeContentOptions.QnA ? primaryBlue : "white"
+          }
+          color={activeContent === activeContentOptions.QnA ? "white" : "black"}
+          size="sm"
+          onClick={() => handleActiveBtnChange(activeContentOptions?.QnA)}
+          icon={<TfiMenuAlt size={14} />}
+        />
 
-          <IconButton
-            bg={
-              activeContent === activeContentOptions.Chat
-                ? primaryBlue
-                : "white"
-            }
-            color={
-              activeContent === activeContentOptions.Chat ? "white" : "black"
-            }
-            transition={"all 0.3 ease"}
-            size="sm"
-            borderRadius={"full"}
-            onClick={() => handleActiveBtnChange(activeContentOptions?.Chat)}
-            icon={<PiPaperPlaneTiltBold size={14} />}
-          />
-        </Flex>
+        <IconButton
+          bg={
+            activeContent === activeContentOptions.Chat ? primaryBlue : "white"
+          }
+          color={
+            activeContent === activeContentOptions.Chat ? "white" : "black"
+          }
+          transition={"all 0.3 ease"}
+          size="sm"
+          borderRadius={"full"}
+          onClick={() => handleActiveBtnChange(activeContentOptions?.Chat)}
+          icon={<PiPaperPlaneTiltBold size={14} />}
+        />
       </Flex>
-    </>
+    </Flex>
   );
 };
 

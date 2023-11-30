@@ -43,29 +43,27 @@ const ScheduleClassBtn = ({ isLoading, status, onClickHandler }) => {
   }
 
   return (
-    <>
-      <Button
-        w={"full"}
-        isLoading={isLoading}
-        bg={backColor}
-        isDisabled={btnDisabled}
-        color={textColor}
-        fontWeight={"500"}
-        fontSize={"14px"}
-        _hover={{
-          opacity:
-            status === classStatus.SCHEDULED ||
-            status === classStatus.ONGOING ||
-            status === classStatus.NOT_STARTED
-              ? 0.8
-              : "none",
-          bg: backColor,
-        }}
-        onClick={() => onClickHandler()}
-      >
-        {text}
-      </Button>
-    </>
+    <Button
+      w={"full"}
+      isLoading={isLoading}
+      bg={backColor}
+      isDisabled={btnDisabled}
+      color={textColor}
+      fontWeight={"500"}
+      fontSize={"14px"}
+      _hover={{
+        opacity:
+          status === classStatus.SCHEDULED ||
+          status === classStatus.ONGOING ||
+          status === classStatus.NOT_STARTED
+            ? 0.8
+            : "none",
+        bg: backColor,
+      }}
+      onClick={() => onClickHandler()}
+    >
+      {text}
+    </Button>
   );
 };
 

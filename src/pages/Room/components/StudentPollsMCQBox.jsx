@@ -41,20 +41,18 @@ const StudentPollsMCQBox = ({ question }) => {
     };
     if (question.type === roomData.QnAType.MCQ) {
       return (
-        <>
-          <RadioGroup value={selectedAnswer} onChange={handleRadioChange}>
-            <Stack>
-              {Array.from({ length: question.noOfOptions }, (_, index) => {
-                const optionLabel = String.fromCharCode(65 + index);
-                return (
-                  <Radio key={optionLabel} mb={1} value={optionLabel}>
-                    <Text fontSize={"0.8rem"}>{optionLabel}</Text>
-                  </Radio>
-                );
-              })}
-            </Stack>
-          </RadioGroup>
-        </>
+        <RadioGroup value={selectedAnswer} onChange={handleRadioChange}>
+          <Stack>
+            {Array.from({ length: question.noOfOptions }, (_, index) => {
+              const optionLabel = String.fromCharCode(65 + index);
+              return (
+                <Radio key={optionLabel} mb={1} value={optionLabel}>
+                  <Text fontSize={"0.8rem"}>{optionLabel}</Text>
+                </Radio>
+              );
+            })}
+          </Stack>
+        </RadioGroup>
       );
     } else if (question.type === roomData.QnAType.TF) {
       return (
@@ -137,49 +135,47 @@ const StudentPollsMCQBox = ({ question }) => {
   }, [pollTimerIncrease, dispatch]);
 
   return (
-    <>
-      <Box
-        zIndex={20}
-        position={"absolute"}
-        bg={lightGrey}
-        right={5}
-        bottom={20}
-        borderRadius={"md"}
-        p={6}
-        w={"300px"}
-      >
-        <HStack>
-          <Box
-            bg={primaryBlue}
-            width="12px"
-            height="25px"
-            borderRadius={"20px"}
-          ></Box>
+    <Box
+      zIndex={20}
+      position={"absolute"}
+      bg={lightGrey}
+      right={5}
+      bottom={20}
+      borderRadius={"md"}
+      p={6}
+      w={"300px"}
+    >
+      <HStack>
+        <Box
+          bg={primaryBlue}
+          width="12px"
+          height="25px"
+          borderRadius={"20px"}
+        ></Box>
 
-          {question.type ? (
-            <Flex width={"full"} justifyContent={"space-between"}>
-              <Text fontSize={"0.9rem"} fontWeight={400}>
-                {roomData.QnATitle[question.type]}
-              </Text>
-              <Text fontSize={"0.9rem"}>{pollLimit}s</Text>
-            </Flex>
-          ) : (
-            <Text>No Type</Text>
-          )}
-        </HStack>
-        <Box mt={4}>{renderAnswerOptions(question)}</Box>
+        {question.type ? (
+          <Flex width={"full"} justifyContent={"space-between"}>
+            <Text fontSize={"0.9rem"} fontWeight={400}>
+              {roomData.QnATitle[question.type]}
+            </Text>
+            <Text fontSize={"0.9rem"}>{pollLimit}s</Text>
+          </Flex>
+        ) : (
+          <Text>No Type</Text>
+        )}
+      </HStack>
+      <Box mt={4}>{renderAnswerOptions(question)}</Box>
 
-        <Box mt={4}>
-          <MainBtn
-            isLoading={false}
-            text={roomData.submit}
-            backColor={primaryBlue}
-            textColor={"white"}
-            onClickHandler={sendAnswer}
-          />
-        </Box>
+      <Box mt={4}>
+        <MainBtn
+          isLoading={false}
+          text={roomData.submit}
+          backColor={primaryBlue}
+          textColor={"white"}
+          onClickHandler={sendAnswer}
+        />
       </Box>
-    </>
+    </Box>
   );
 };
 

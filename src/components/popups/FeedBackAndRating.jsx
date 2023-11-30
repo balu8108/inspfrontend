@@ -67,79 +67,77 @@ const FeedBackAndRating = ({ isOpen, onClose }) => {
     dispatch(setFeedbackModalOpen(false, null));
   };
   return (
-    <>
-      <AlertDialog
-        motionPreset="slideInBottom"
-        onClose={onClose}
-        isOpen={isOpen}
-        size="xs"
-        isCentered
-      >
-        <AlertDialogOverlay />
+    <AlertDialog
+      motionPreset="slideInBottom"
+      onClose={onClose}
+      isOpen={isOpen}
+      size="xs"
+      isCentered
+    >
+      <AlertDialogOverlay />
 
-        <AlertDialogContent>
-          <AlertDialogBody py={4}>
-            <Stack>
-              <FormControl isInvalid={!!errorData.rating}>
-                <Box mb={4}>
-                  <Text fontSize={"18px"} fontWeight={500}>
-                    Rating
-                  </Text>
-
-                  <Center mt={4}>
-                    <StarRatings
-                      rating={rating}
-                      starDimension="2rem"
-                      starRatedColor="rgba(255, 179, 0, 1)"
-                      numberOfStars={5}
-                      starHoverColor={"rgba(255, 179, 0, 1)"}
-                      changeRating={(rating) => {
-                        setRating(rating);
-                        setErrorData((prev) => ({ ...prev, rating: 0 }));
-                      }}
-                    />
-                  </Center>
-                </Box>
-                <FormErrorMessage>{errorData.rating}</FormErrorMessage>
-              </FormControl>
+      <AlertDialogContent>
+        <AlertDialogBody py={4}>
+          <Stack>
+            <FormControl isInvalid={!!errorData.rating}>
               <Box mb={4}>
                 <Text fontSize={"18px"} fontWeight={500}>
-                  Feedback
+                  Rating
                 </Text>
-                <FormControl isInvalid={!!errorData.feedback}>
-                  <Textarea
-                    mt={4}
-                    value={feedback}
-                    onChange={(e) => {
-                      setFeedback(e.target.value);
-                      setErrorData((prev) => ({ ...prev, feedback: "" }));
+
+                <Center mt={4}>
+                  <StarRatings
+                    rating={rating}
+                    starDimension="2rem"
+                    starRatedColor="rgba(255, 179, 0, 1)"
+                    numberOfStars={5}
+                    starHoverColor={"rgba(255, 179, 0, 1)"}
+                    changeRating={(rating) => {
+                      setRating(rating);
+                      setErrorData((prev) => ({ ...prev, rating: 0 }));
                     }}
-                    placeholder="Feedback"
-                    size="sm"
-                    resize="none"
-                    minH={"6rem"}
                   />
-                  <FormErrorMessage>{errorData.feedback}</FormErrorMessage>
-                </FormControl>
+                </Center>
               </Box>
-              <Button
-                w={"full"}
-                isLoading={isLoading}
-                bg={primaryBlue}
-                color={"white"}
-                fontWeight={"500"}
-                py={6}
-                fontSize={"1rem"}
-                _hover={{ bg: primaryBlue }}
-                onClick={handleFeedbackSubmit}
-              >
-                Submit
-              </Button>
-            </Stack>
-          </AlertDialogBody>
-        </AlertDialogContent>
-      </AlertDialog>
-    </>
+              <FormErrorMessage>{errorData.rating}</FormErrorMessage>
+            </FormControl>
+            <Box mb={4}>
+              <Text fontSize={"18px"} fontWeight={500}>
+                Feedback
+              </Text>
+              <FormControl isInvalid={!!errorData.feedback}>
+                <Textarea
+                  mt={4}
+                  value={feedback}
+                  onChange={(e) => {
+                    setFeedback(e.target.value);
+                    setErrorData((prev) => ({ ...prev, feedback: "" }));
+                  }}
+                  placeholder="Feedback"
+                  size="sm"
+                  resize="none"
+                  minH={"6rem"}
+                />
+                <FormErrorMessage>{errorData.feedback}</FormErrorMessage>
+              </FormControl>
+            </Box>
+            <Button
+              w={"full"}
+              isLoading={isLoading}
+              bg={primaryBlue}
+              color={"white"}
+              fontWeight={"500"}
+              py={6}
+              fontSize={"1rem"}
+              _hover={{ bg: primaryBlue }}
+              onClick={handleFeedbackSubmit}
+            >
+              Submit
+            </Button>
+          </Stack>
+        </AlertDialogBody>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
 

@@ -109,7 +109,7 @@ const DataForClass = () => {
                   display={agendaItem ? "block" : "none"}
                 ></Box>
                 <Text fontSize={"12px"} lineHeight={"14px"} color={"#2C332978"}>
-                  {agendaItem ? agendaItem : "No Data"}
+                  {agendaItem ?? "No Data"}
                 </Text>
               </Stack>
             ))}

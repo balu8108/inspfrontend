@@ -60,8 +60,7 @@ const Room = () => {
   const dispatch = useDispatch();
 
   const theme = useTheme();
-  const { primaryBlue, backgroundLightBlue, outerBackground } =
-    theme.colors.pallete;
+  const { primaryBlue, outerBackground } = theme.colors.pallete;
 
   const stopScreenShare = () => {
     setIsScreenShare(false);

@@ -18,11 +18,7 @@ import { SearchIcon } from "@chakra-ui/icons";
 import { BsDownload } from "react-icons/bs";
 
 import { BASE_URL } from "../../../../constants/staticurls";
-import {
-  boxShadowStyles,
-  extractFileNameFromS3URL,
-  capitalize,
-} from "../../../../utils";
+import { extractFileNameFromS3URL, capitalize } from "../../../../utils";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setIsDocModalOpen } from "../../../../store/actions/genericActions";

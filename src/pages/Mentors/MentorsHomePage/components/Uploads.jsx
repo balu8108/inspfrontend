@@ -11,25 +11,24 @@ import {
   useTheme,
 } from "@chakra-ui/react";
 import { IoIosAdd } from "react-icons/io";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import UploadAssignmentPopup from "../../../../components/popups/UploadAssignmentPopup";
 import { BASE_URL } from "../../../../constants/staticurls";
-import { boxShadowStyles, capitalize } from "../../../../utils";
+import { capitalize } from "../../../../utils";
 const MentorsUploads = () => {
-  const [latestAssignment, setLatestAssignment] = useState([]);
   const navigate = useNavigate();
   const [assignment, setAssignment] = useState([]);
-  const [isUploadAssignmentModalOpen, setUploadAssignmentModalOpen] =
+  const [isUploadAssignmentModalOpen, setIsUploadAssignmentModalOpen] =
     useState(false);
   const { outerBackground, innerBackground, innerBoxShadow } =
     useTheme().colors.pallete;
   const openUploadAssignmentModal = () => {
-    setUploadAssignmentModalOpen(true);
+    setIsUploadAssignmentModalOpen(true);
   };
 
   const closeUploadAssignmentModal = () => {
-    setUploadAssignmentModalOpen(false);
+    setIsUploadAssignmentModalOpen(false);
   };
 
   const handleViewDetail = () => {

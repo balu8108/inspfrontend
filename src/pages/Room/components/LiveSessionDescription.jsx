@@ -77,26 +77,24 @@ const LiveSessionDescription = () => {
     }
   }, [roomId, dispatch]);
   return (
-    <>
-      <Box p={4}>
-        <HStack>
-          <Box
-            bg={primaryBlue}
-            width="12px"
-            height="25px"
-            borderRadius={"20px"}
-          ></Box>
-          <Text fontWeight={"400"}>{roomData.liveSessionText}</Text>
-        </HStack>
-        <Box>
-          <RoomContent
-            mainTextColor={mainTextColor}
-            secondaryTextColor={secondaryTextColor}
-            type={"active"}
-          />
-        </Box>
+    <Box p={4}>
+      <HStack>
+        <Box
+          bg={primaryBlue}
+          width="12px"
+          height="25px"
+          borderRadius={"20px"}
+        ></Box>
+        <Text fontWeight={"400"}>{roomData.liveSessionText}</Text>
+      </HStack>
+      <Box>
+        <RoomContent
+          mainTextColor={mainTextColor}
+          secondaryTextColor={secondaryTextColor}
+          type={"active"}
+        />
       </Box>
-    </>
+    </Box>
   );
 };
 

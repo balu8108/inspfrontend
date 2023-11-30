@@ -1,15 +1,6 @@
 import React from "react";
-import {
-  Box,
-  Text,
-  Flex,
-  HStack,
-  useTheme,
-  Button,
-  Image,
-} from "@chakra-ui/react";
+import { Box, Text, Flex, HStack, useTheme, Image } from "@chakra-ui/react";
 import { roomData } from "../data/roomData";
-import { GrRefresh } from "react-icons/gr";
 import leaderboardRankingIcons from "../data/leaderboardRankingIcons";
 import { shallowEqual, useSelector } from "react-redux";
 import { formatSeconds } from "../../../utils";

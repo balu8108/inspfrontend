@@ -9,19 +9,17 @@ const InlineBtn = ({
   hoverColor,
 }) => {
   return (
-    <>
-      <Button
-        isLoading={isLoading}
-        bg={backColor}
-        px={10}
-        py={6}
-        color={textColor}
-        onClick={onClickHandler}
-        _hover={{ bg: hoverColor }}
-      >
-        {text}
-      </Button>
-    </>
+    <Button
+      isLoading={isLoading}
+      bg={backColor}
+      px={10}
+      py={6}
+      color={textColor}
+      onClick={onClickHandler}
+      _hover={{ bg: hoverColor }}
+    >
+      {text}
+    </Button>
   );
 };
 

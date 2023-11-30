@@ -11,9 +11,7 @@ import {
   Center,
   useTheme,
 } from "@chakra-ui/react";
-
 import { fetchAllSubjectsApi } from "../../../api/inspexternalapis";
-import { boxShadowStyles } from "../../../utils";
 const Header = () => {
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);

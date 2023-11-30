@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { fetchAllSubjectsApi } from "../../../../api/inspexternalapis/index";
 import { Link } from "react-router-dom";
-import { boxShadowStyles, capitalize } from "../../../../utils";
+import { capitalize } from "../../../../utils";
 
 const Header = () => {
   const [subjects, setSubjects] = useState([]);
