@@ -7,7 +7,7 @@ import { viewRecordingApi } from "../../../api/recordingapi";
 const Recording = () => {
   const [recordingDetail, setRecordingDetail] = useState(null);
   const [activeRecording, setActiveRecording] = useState(null);
-
+  console.log("Active recording ",activeRecording,recordingDetail);
   const location = useLocation();
 
   // Parse the query string to get the query parameters
@@ -35,8 +35,9 @@ const Recording = () => {
   }, [id, type]);
   return (
     <Flex m={"52px"} h={"full"}>
-      <ViewRecording type={type} activeRecording={activeRecording} />
+      {/* <ViewRecording type={type} activeRecording={activeRecording} /> */}
       <RecordedClass
+      type={type}
         recordingDetail={recordingDetail}
         activeRecording={activeRecording}
         setActiveRecording={setActiveRecording}
