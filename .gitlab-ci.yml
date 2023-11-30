@@ -1,7 +1,12 @@
 stages:
-  - build
+  - deploy_dev
 
-build_job:
-  stage: build
+deploy_dev_job:
+  stage: deploy_dev
   script:
-    - echo "Building..."
+    - echo "Starting Deploying to Dev ..."
+    - echo "${INSP_PEM_FILE}" > ssh_key.pem
+    - chmod 400 ssh_key.pem
+    - ssh -o StrictHostKeyChecking=no -i ssh_key.pem -A "${INSP_DEV_USER}"@"${INSP_DEV_SERVER_IP}" "./script_frontend.sh"
+  only:
+    - dev
