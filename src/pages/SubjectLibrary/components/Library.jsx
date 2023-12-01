@@ -37,8 +37,9 @@ const SubjectLibrary = () => {
 
   const navigate = useNavigate();
 
-  const handleViewRecording = (recording) => {
-    navigate(`/view-recording?type=live_topic&id=${recording.id}`);
+  const handleViewRecording = (data) => {
+   
+    navigate(`/view-recording?type=live_topic&id=${data?.id}`);
   };
 
   useEffect(() => {
@@ -180,7 +181,7 @@ const SubjectLibrary = () => {
                     fontSize={"14px"}
                     lineHeight={"16px"}
                     fontWeight={"600"}
-                    onClick={handleViewRecording}
+                   onClick={()=>handleViewRecording(libraryData)}
                   >
                     View Details
                   </Button>

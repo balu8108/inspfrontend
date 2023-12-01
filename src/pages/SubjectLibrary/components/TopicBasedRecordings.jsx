@@ -33,8 +33,8 @@ const TopicBasedRecordings = () => {
 
   const navigate = useNavigate();
 
-  const handleViewRecording = (recording) => {
-    navigate(`/view-recording?type=solo_topic&id=${recording.id}`);
+  const handleViewRecording = (data) => {
+    navigate(`/view-recording?type=solo_topic&id=${data?.id}`);
   };
   useEffect(() => {
     const fetchtopic = async () => {
@@ -175,7 +175,7 @@ const TopicBasedRecordings = () => {
                     fontSize={"14px"}
                     lineHeight={"16px"}
                     fontWeight={"600"}
-                    onClick={handleViewRecording}
+                    onClick={()=>handleViewRecording(libraryData)}
                   >
                     View Details
                   </Button>

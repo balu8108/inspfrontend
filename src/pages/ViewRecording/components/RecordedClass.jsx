@@ -20,7 +20,9 @@ const RecordedClass = ({
         {files && files.length > 0 ? (
           <FileBoxComponent data={files} type={fileTypes.solo} />
         ) : (
-          <Text fontSize={"0.8rem"} color={"#2C332978"}  >No Files</Text>
+          <Text fontSize={"0.8rem"} color={"#2C332978"}>
+            No Files
+          </Text>
         )}
       </>
     );
@@ -110,7 +112,12 @@ const RecordedClass = ({
           Description
         </Text>
 
-        <Text color={"#2C332978"} fontSize={"12px"} lineHeight={"20px"} mt={"6px"}>
+        <Text
+          color={"#2C332978"}
+          fontSize={"12px"}
+          lineHeight={"20px"}
+          mt={"6px"}
+        >
           {type === "live" || type === "live_specific"
             ? recordingDetail?.LiveClassRoomDetail?.description || "No Data"
             : recordingDetail?.description || "No Data"}
@@ -125,33 +132,29 @@ const RecordedClass = ({
           : renderFiles(recordingDetail?.SoloClassRoomFiles)}
       </Box>
 
-      
-        <Box mt="26px" fontSize={"12px"}>
-          <Text fontSize="16px" lineHeight={"19px"}>
-            Agenda
-          </Text>
-          {recordingDetail?.LiveClassRoomDetail?.agenda ||
-          recordingDetail?.agenda ? (
-            <Box>
-              <Box mt={"16px"}>
-                <Box mt={"10px"}>
-                  <Icon
-                    boxSize={3}
-                    color={"#E0E0E0"}
-                    as={FaCircle}
-                    mr={"10px"}
-                  />
-                  {type === "live" || type === "live_specific"
-                    ? recordingDetail?.LiveClassRoomDetail?.agenda || "No Data"
-                    : recordingDetail?.agenda || "No Data"}
-                </Box>
+      <Box mt="26px" fontSize={"12px"}>
+        <Text fontSize="16px" lineHeight={"19px"}>
+          Agenda
+        </Text>
+        {recordingDetail?.LiveClassRoomDetail?.agenda ||
+        recordingDetail?.agenda ? (
+          <Box>
+            <Box mt={"16px"}>
+              <Box mt={"10px"}>
+                <Icon boxSize={3} color={"#E0E0E0"} as={FaCircle} mr={"10px"} />
+                {type === "live" || type === "live_specific"
+                  ? recordingDetail?.LiveClassRoomDetail?.agenda || "No Data"
+                  : recordingDetail?.agenda || "No Data"}
               </Box>
             </Box>
-          ) : (
-            <Text color={"#2C332978"} mt={2} >No Data</Text>
-          )}
-        </Box>
-     
+          </Box>
+        ) : (
+          <Text color={"#2C332978"} mt={2}>
+            No Data
+          </Text>
+        )}
+      </Box>
+
       <Box mt={"16px"}>
         <Text>Recordings</Text>
         <Flex
