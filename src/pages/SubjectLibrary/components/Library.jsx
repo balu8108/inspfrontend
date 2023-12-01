@@ -38,7 +38,7 @@ const SubjectLibrary = () => {
   const navigate = useNavigate();
 
   const handleViewRecording = (recording) => {
-    navigate(`/view-recording?type=live_specific&id=${recording.id}`);
+    navigate(`/view-recording?type=live_topic&id=${recording.id}`);
   };
 
   useEffect(() => {

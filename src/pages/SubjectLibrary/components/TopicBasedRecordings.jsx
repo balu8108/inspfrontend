@@ -34,7 +34,7 @@ const TopicBasedRecordings = () => {
   const navigate = useNavigate();
 
   const handleViewRecording = (recording) => {
-    navigate(`/view-recording?type=solo_specific&id=${recording.id}`);
+    navigate(`/view-recording?type=solo_topic&id=${recording.id}`);
   };
   useEffect(() => {
     const fetchtopic = async () => {
