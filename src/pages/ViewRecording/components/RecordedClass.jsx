@@ -2,7 +2,7 @@ import { Box, HStack, Text, Flex, Icon, Image, Card } from "@chakra-ui/react";
 
 import { FaCircle } from "react-icons/fa";
 import defaultImageUrl from "../../../assets/images/image1.png";
-
+import scrollbar from "../../../constants/scrollbar/style.css";
 import FileBoxComponent from "../../../components/filebox/FileBoxComponent";
 import { fileTypes } from "../../../constants/staticvariables";
 import { boxShadowStyles, capitalize } from "../../../utils";
@@ -20,7 +20,7 @@ const RecordedClass = ({
         {files && files.length > 0 ? (
           <FileBoxComponent data={files} type={fileTypes.solo} />
         ) : (
-          <Text fontSize={"0.8rem"}>No Files</Text>
+          <Text fontSize={"0.8rem"} color={"#2C332978"}  >No Files</Text>
         )}
       </>
     );
@@ -110,10 +110,10 @@ const RecordedClass = ({
           Description
         </Text>
 
-        <Text color={"#2C332978"} fontSize={"12px"} lineHeight={"20px"}>
+        <Text color={"#2C332978"} fontSize={"12px"} lineHeight={"20px"} mt={"6px"}>
           {type === "live" || type === "live_specific"
-            ? recordingDetail?.LiveClassRoomDetail?.description
-            : recordingDetail?.description}
+            ? recordingDetail?.LiveClassRoomDetail?.description || "No Data"
+            : recordingDetail?.description || "No Data"}
         </Text>
       </Box>
 
@@ -125,12 +125,13 @@ const RecordedClass = ({
           : renderFiles(recordingDetail?.SoloClassRoomFiles)}
       </Box>
 
-      <Box>
-        <Box>
-          <Box mt="13px" fontSize={"12px"}>
-            <Text fontSize="16px" lineHeight={"19px"}>
-              Agenda
-            </Text>
+      
+        <Box mt="26px" fontSize={"12px"}>
+          <Text fontSize="16px" lineHeight={"19px"}>
+            Agenda
+          </Text>
+          {recordingDetail?.LiveClassRoomDetail?.agenda ||
+          recordingDetail?.agenda ? (
             <Box>
               <Box mt={"16px"}>
                 <Box mt={"10px"}>
@@ -141,15 +142,26 @@ const RecordedClass = ({
                     mr={"10px"}
                   />
                   {type === "live" || type === "live_specific"
-                    ? recordingDetail?.LiveClassRoomDetail?.agenda
-                    : recordingDetail?.agenda}
+                    ? recordingDetail?.LiveClassRoomDetail?.agenda || "No Data"
+                    : recordingDetail?.agenda || "No Data"}
                 </Box>
               </Box>
             </Box>
-          </Box>
+          ) : (
+            <Text color={"#2C332978"} mt={2} >No Data</Text>
+          )}
         </Box>
-        <Box mt={"10px"} overflowX={"auto"}>
-          <Text>Recordings</Text>
+     
+      <Box mt={"16px"}>
+        <Text>Recordings</Text>
+        <Flex
+          direction={"row"}
+          mt={"10px"}
+          overflowX={"auto"}
+          w={"full"}
+          gap={"24px"}
+          className="example"
+        >
           {type === "live" || type === "live_specific"
             ? renderRecordings(
                 recordingDetail?.LiveClassRoomRecordings,
@@ -159,7 +171,7 @@ const RecordedClass = ({
                 recordingDetail?.SoloClassRoomRecordings,
                 activeRecording
               )}
-        </Box>
+        </Flex>
       </Box>
     </Box>
   );

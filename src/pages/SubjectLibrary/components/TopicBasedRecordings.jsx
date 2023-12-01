@@ -1,3 +1,4 @@
+//This is the library for topic based recording - Solo Recordings
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -18,25 +19,30 @@ import { fetchAllTopicsWithoutChapterIdApi } from "../../../api/inspexternalapis
 import { SearchIcon } from "@chakra-ui/icons";
 import topicDescriptionConstants from "../../../constants/topicDescriptionConstants";
 import { boxShadowStyles, capitalize } from "../../../utils";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 const TopicBasedRecordings = () => {
   const [topic, setTopic] = useState(null);
-  const [filteredTopic, setFilteredTopic] = useState(null); // New state for filtered topics
+  const [filteredTopic, setFilteredTopic] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { subjectName } = useParams();
 
+  const navigate = useNavigate();
+
+  const handleViewRecording = (recording) => {
+    navigate(`/view-recording?type=solo_specific&id=${recording.id}`);
+  };
   useEffect(() => {
     const fetchtopic = async () => {
       try {
         const response = await fetchAllTopicsWithoutChapterIdApi();
         if (response?.result) {
           setTopic(response.result);
-          setFilteredTopic(response.result); // Initialize filtered list with all topics
+          setFilteredTopic(response.result);
         } else {
           setTopic([]);
-          setFilteredTopic([]); // Initialize filtered list with an empty array
+          setFilteredTopic([]);
         }
       } catch (err) {
         setError(err);
@@ -164,6 +170,7 @@ const TopicBasedRecordings = () => {
                     fontSize={"14px"}
                     lineHeight={"16px"}
                     fontWeight={"600"}
+                    onClick={handleViewRecording}
                   >
                     View Details
                   </Button>

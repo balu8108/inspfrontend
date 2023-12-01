@@ -1,3 +1,4 @@
+//This is the page where all the live class recording will come.
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -16,7 +17,7 @@ import {
   Center,
   useTheme,
 } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { useParams , useNavigate } from "react-router-dom";
 import { SearchIcon } from "@chakra-ui/icons";
 import { fetchAllTopicsForSubjectApi } from "../../../api/inspexternalapis";
 import topicDescriptionConstants from "../../../constants/topicDescriptionConstants";
@@ -34,6 +35,12 @@ const SubjectLibrary = () => {
   const { outerBackground, innerBackground, innerBoxShadow } =
     useTheme().colors.pallete;
 
+  const navigate = useNavigate();
+
+  const handleViewRecording = (recording) => {
+    navigate(`/view-recording?type=live_specific&id=${recording.id}`);
+  };
+
   useEffect(() => {
     const handleFetchTopics = async () => {
       try {
@@ -41,10 +48,10 @@ const SubjectLibrary = () => {
         if (response) {
           if (response.result) {
             setAllTopicList(response.result);
-            setFilteredTopicList(response.result); // Initialize filtered list with all topics
+            setFilteredTopicList(response.result);
           } else {
             setAllTopicList([]);
-            setFilteredTopicList([]); // Initialize filtered list with an empty array
+            setFilteredTopicList([]);
           }
         }
       } catch (err) {
@@ -80,7 +87,6 @@ const SubjectLibrary = () => {
   return (
     <Box
       width={"100%"}
-      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       bg={outerBackground}
       borderRadius={"26px"}
     >
@@ -174,6 +180,7 @@ const SubjectLibrary = () => {
                     fontSize={"14px"}
                     lineHeight={"16px"}
                     fontWeight={"600"}
+                    onClick={handleViewRecording}
                   >
                     View Details
                   </Button>
