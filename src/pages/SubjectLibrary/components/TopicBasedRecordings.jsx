@@ -14,6 +14,7 @@ import {
   Button,
   Spinner,
   Center,
+  useTheme,
 } from "@chakra-ui/react";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../api/inspexternalapis";
 import { SearchIcon } from "@chakra-ui/icons";
@@ -27,6 +28,8 @@ const TopicBasedRecordings = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { subjectName } = useParams();
+  const { outerBackground, innerBackground, innerBoxShadow } =
+    useTheme().colors.pallete;
 
   const navigate = useNavigate();
 
@@ -79,6 +82,7 @@ const TopicBasedRecordings = () => {
     <Box
       width={"100%"}
       boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      bg={outerBackground}
       borderRadius={"26px"}
     >
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
@@ -100,6 +104,7 @@ const TopicBasedRecordings = () => {
             placeholder="Search..."
             border="1px solid #ccc"
             borderRadius="md"
+            bg={innerBackground}
           />
           <InputLeftElement pointerEvents="none">
             <SearchIcon />
@@ -115,8 +120,8 @@ const TopicBasedRecordings = () => {
                   key={libraryData.id}
                   w="30%"
                   h={"204px"}
-                  blendMode={"multiply"}
-                  bg={"#F1F5F8"}
+                  boxShadow={innerBoxShadow}
+                  bg={innerBackground}
                   borderRadius={"18px"}
                   display="flex"
                   flexDirection="column"

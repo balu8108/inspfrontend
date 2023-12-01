@@ -174,7 +174,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                       color={"#2C332978"}
                       fontSize={"13px"}
                       w={"120px"}
-                      onClick={(recording) => handleViewRecording(recording)}
+                      onClick={() => handleViewRecording(recording)}
                     >
                       <Image
                         src={recording.imageUrl || defaultImageUrl}
