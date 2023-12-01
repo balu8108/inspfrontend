@@ -1,11 +1,21 @@
 stages:
   - deploy_dev
+  - deploy_prod
 deploy_dev_job:
   stage: deploy_dev
   script:
-    - echo "Starting Deploying to Dev ..."
+    - echo "Starting Frontend Deploying to Dev ..."
     - echo "${INSP_PEM_FILE}" > ssh_key.pem
     - chmod 400 ssh_key.pem
     - ssh -o StrictHostKeyChecking=no -i ssh_key.pem -A "${INSP_DEV_USER}"@"${INSP_DEV_SERVER_IP}" "./script_frontend.sh"
   only:
     - dev
+deploy_prod_job:
+  stage: deploy_prod
+  script:
+    - echo "Starting Frontend Deploying to Prod ..."
+    - echo "${INSP_PEM_FILE}" > ssh_key.pem
+    - chmod 400 ssh_key.pem
+    - ssh -o StrictHostKeyChecking=no -i ssh_key.pem -A "${INSP_PROD_USER}"@"${INSP_PROD_SERVER_IP}" "./script_frontend.sh"
+  only:
+    - master
