@@ -82,9 +82,10 @@ const VideoPlayer = ({ type, activeRecording }) => {
       setPlayerConfiguration(activeRecording);
     }
 
-    return () => {
-      if (player) player.dispose();
-    };
+    // return () => {
+    //   console.log("unmounting and disposing player...");
+    //   if (player) player.dispose();
+    // };
   }, [activeRecording]);
 
   useEffect(() => {
