@@ -27,7 +27,6 @@ const Library = () => {
     <Box
       w={"full"}
       bg={outerBackground}
-      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       borderRadius={"26px"}
     >
       <HStack spacing={"10px"}>
@@ -128,6 +127,7 @@ const Library = () => {
                 fontSize={"14px"}
                 lineHeight={"16px"}
                 fontWeight={"600"}
+                _hover={ { bg:"white"} }
               >
                 View Details
               </Button>

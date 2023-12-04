@@ -21,7 +21,6 @@ const SoloClasses = () => {
     useTheme().colors.pallete;
 
   const handleSeeAllClick = () => {
-    // Use navigate to navigate to the specified URL
     navigate("/mentor/solo-recordings/topic/36/ALTERNATING%20CURRENT");
   };
 
@@ -144,6 +143,7 @@ const SoloClasses = () => {
                   fontWeight={"600"}
                   fontSize={"14px"}
                   lineHeight={"16px"}
+                  _hover={ { bg:"white"} }
                 >
                   View Details
                 </Button>

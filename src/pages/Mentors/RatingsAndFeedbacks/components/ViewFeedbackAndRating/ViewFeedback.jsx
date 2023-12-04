@@ -36,7 +36,6 @@ const ViewMentorsRatingAndFeedback = () => {
 
         if (response.status) {
           setAllTopicList(response.result);
-          // Initially, display the first three topics
           setDisplayedChapters(response.result.slice(0, 3));
         }
       } catch (error) {
@@ -56,17 +55,11 @@ const ViewMentorsRatingAndFeedback = () => {
     const filteredChapters = allTopicList.filter((chapter) =>
       chapter.name.toLowerCase().includes(query.toLowerCase())
     );
-    // Update the displayed chapters with the filtered results
     setDisplayedChapters(filteredChapters.slice(0, 3));
   };
 
   return (
-    <Box
-      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
-      mt={"24px"}
-      borderRadius={"26px"}
-      bg={outerBackground}
-    >
+    <Box mt={"24px"} borderRadius={"26px"} bg={outerBackground}>
       <Flex>
         <HStack spacing={"10px"} ml="27px">
           <Box
@@ -140,7 +133,11 @@ const ViewMentorsRatingAndFeedback = () => {
                 to={`/mentor/view/rating&feedback/${chapter.id}/${chapter.name}`}
                 style={{ display: "flex", justifyContent: "center" }}
               >
-                <Button variant={"ghost"} color={"#3C8DBC"}>
+                <Button
+                  variant={"ghost"}
+                  color={"#3C8DBC"}
+                  _hover={{ bg: "white" }}
+                >
                   View Details
                 </Button>
               </Link>

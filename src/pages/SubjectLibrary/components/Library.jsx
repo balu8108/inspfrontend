@@ -181,6 +181,7 @@ const SubjectLibrary = () => {
                     fontSize={"14px"}
                     lineHeight={"16px"}
                     fontWeight={"600"}
+                    _hover={ { bg:"white"} }
                    onClick={()=>handleViewRecording(libraryData)}
                   >
                     View Details

@@ -121,6 +121,7 @@ const Assignment = () => {
               lineHeight="1.5"
               p={6}
               mt={4}
+              _hover={ { bg:"white"} }
               onClick={handleViewDetail}
             >
               View Details

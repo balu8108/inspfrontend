@@ -145,6 +145,7 @@ const MentorsUploads = () => {
                 mb={"15px"}
                 mt={"auto"}
                 onClick={handleViewDetail}
+                _hover={ { bg:"white"} }
               >
                 View Details
               </Button>

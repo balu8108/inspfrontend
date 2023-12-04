@@ -55,7 +55,6 @@ const Improvement = () => {
       h={"313px"}
       borderRadius={"26px"}
       bg={outerBackground}
-      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
     >
       <HStack spacing={"10px"}>
         <Box

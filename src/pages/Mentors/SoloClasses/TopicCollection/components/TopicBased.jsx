@@ -160,6 +160,7 @@ const TopicsBased = () => {
                   size={"14px"}
                   lineHeight={"16px"}
                   p={6}
+                  _hover={ { bg:"white"} }
                 >
                   View Details
                 </Button>

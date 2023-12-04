@@ -149,6 +149,7 @@ const Header = () => {
                   fontSize={"14px"}
                   lineHeight={"16px"}
                   mt={"20px"}
+                  _hover={ { bg:"white"} }
                 >
                   View Details
                 </Button>

@@ -51,7 +51,7 @@ const AllUploadedLecture = () => {
       h={"100%"}
       borderRadius={"26px"}
       bg={outerBackground}
-      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+     
     >
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
         <Box
@@ -143,7 +143,6 @@ const AllUploadedLecture = () => {
                   word-wrap={"break-word"}
                   color={"#2C332978"}
                   border={"1px solid rgba(149, 151, 146, 0.49)"}
-                  // boxShadow={" 0px 1px 6px 0px #00000029 "}
                   justifyContent={"space-between"}
                   alignItems={"center"}
                   bg="white"
