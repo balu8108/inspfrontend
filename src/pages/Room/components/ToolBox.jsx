@@ -115,7 +115,6 @@ const ToolBox = ({
             await producerScreenShare.replaceTrack({ track: track });
             setScreenShareStream(stream);
             setIsScreenShare(true);
-
             return;
           }
 

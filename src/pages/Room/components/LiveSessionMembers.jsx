@@ -118,6 +118,7 @@ const LiveSessionMembers = ({
         muteMicCommandByMentor(false, peer?.socketId, peer?.id);
       }
     };
+
     return (
       <>
         {peers.map((peer) => (

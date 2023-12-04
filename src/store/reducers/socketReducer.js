@@ -225,6 +225,7 @@ const socketReducer = (state = initialState, action) => {
             copiedConsumer,
             ...state.audioConsumers.splice(audioConsumerIdx + 1),
           ];
+          console.log("modified consumer", modifiedConsummers);
           return {
             ...state,
             audioConsumers: modifiedConsummers,
@@ -265,12 +266,37 @@ const socketReducer = (state = initialState, action) => {
       };
     case SET_AUDIO_STREAM_ENABLED_OR_DISABLED:
       const { value, peerId } = action.payload;
+      // const updatedPeers = state.peers
+      //   .map((peer) =>
+      //     peer.id === peerId ? { ...peer, isAudioEnabled: value } : peer
+      //   )
+      //   .sort((peerA, peerB) => {
+      //     return peerB.isAudioEnabled - peerA.isAudioEnabled;
+      //   });
+      const updatedPeers = state.peers
+        .map((peer) =>
+          peer.id === peerId ? { ...peer, isAudioEnabled: value } : peer
+        )
+        .sort((peerA, peerB) => {
+          // If selfDetails.id matches peer.id, move it to the front
+          if (peerA.id === state.selfDetails?.id) {
+            return -1;
+          } else if (peerB.id === state.selfDetails?.id) {
+            return 1;
+          }
 
+          // Sort by isAudioEnabled in descending order for other peers
+          return peerB.isAudioEnabled - peerA.isAudioEnabled;
+        });
+      // return {
+      //   ...state,
+      //   peers: state.peers.map((peer) =>
+      //     peer.id === peerId ? { ...peer, isAudioEnabled: value } : peer
+      //   ),
+      // };
       return {
         ...state,
-        peers: state.peers.map((peer) =>
-          peer.id === peerId ? { ...peer, isAudioEnabled: value } : peer
-        ),
+        peers: updatedPeers,
       };
     case SET_IS_KICKED_OUT:
       return {

@@ -24,6 +24,7 @@ const RecordedClass = ({
   const isSolo = type && (type === "solo" || type === "solo_specific");
   const isLiveTopic = type && type === "live_topic";
   const isSoloTopic = type && type === "solo_topic";
+  const { outerBackground } = useTheme().colors.pallete;
 
   const renderFiles = (data) => {
     let filesData = [];
@@ -135,6 +136,7 @@ const RecordedClass = ({
                     color={"#2C332978"}
                     fontSize={"13px"}
                     w={"150px"}
+                    _hover={{ cursor: "pointer" }}
                     onClick={() => setActiveRecording(lr)}
                   >
                     <Image src={defaultImageUrl} alt="Default Image" />
@@ -152,7 +154,7 @@ const RecordedClass = ({
       height={"full"}
       ml={"24px"}
       borderRadius={"26px"}
-      bg={"white"}
+      bg={outerBackground}
       boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       p={5}
     >

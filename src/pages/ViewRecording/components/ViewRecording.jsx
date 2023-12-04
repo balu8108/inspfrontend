@@ -1,10 +1,11 @@
 import React from "react";
-import { Box } from "@chakra-ui/react";
+import { Box, useTheme } from "@chakra-ui/react";
 import VideoPlayer from "../../../components/videoplayer/VideoPlayer";
 
 const ViewRecording = ({ type, activeRecording }) => {
+  const { outerBackground } = useTheme().colors.pallete;
   return (
-    <Box bg={"#F1F5F8"} borderRadius={"26px"} p={5} w={"100%"} h={"80vh"}>
+    <Box bg={outerBackground} borderRadius={"26px"} p={5} w={"100%"} h={"80vh"}>
       <VideoPlayer type={type} activeRecording={activeRecording} />
     </Box>
   );
