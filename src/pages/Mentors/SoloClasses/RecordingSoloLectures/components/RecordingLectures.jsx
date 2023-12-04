@@ -196,9 +196,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
       };
 
       mediaRecorderRef.current.onstop = () => {
-        toggleMicrophone();
         setElapsedTime(0);
-        setIsScreenSharing();
 
         recordedChunksRef.current = [];
       };
