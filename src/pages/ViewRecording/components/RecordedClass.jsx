@@ -1,7 +1,16 @@
-import { Box, HStack, Text, Flex, Icon, Image, Card } from "@chakra-ui/react";
+import {
+  Box,
+  HStack,
+  Text,
+  Flex,
+  Icon,
+  Image,
+  Card,
+  useTheme,
+} from "@chakra-ui/react";
 import { FaCircle } from "react-icons/fa";
 import defaultImageUrl from "../../../assets/images/image1.png";
-import  "../../../constants/scrollbar/style.css";
+import "../../../constants/scrollbar/style.css";
 import FileBoxComponent from "../../../components/filebox/FileBoxComponent";
 import { fileTypes } from "../../../constants/staticvariables";
 import { boxShadowStyles, capitalize } from "../../../utils";
@@ -11,13 +20,34 @@ const RecordedClass = ({
   activeRecording,
   setActiveRecording,
 }) => {
-  console.log(type, recordingDetail, activeRecording);
+  const isLive = type && (type === "live" || type === "live_specific");
+  const isSolo = type && (type === "solo" || type === "solo_specific");
+  const isLiveTopic = type && type === "live_topic";
+  const isSoloTopic = type && type === "solo_topic";
 
-  const renderFiles = (files) => {
+  const renderFiles = (data) => {
+    let filesData = [];
+    if (isLive) {
+      filesData = data?.LiveClassRoomFiles;
+    } else if (isSolo) {
+      filesData = data?.SoloClassRoomFiles;
+    } else if (isLiveTopic) {
+      filesData =
+        data?.responseData?.flatMap((obj) => obj?.LiveClassRoomFiles) ?? [];
+    } else if (isSoloTopic) {
+      filesData =
+        data?.responseData?.flatMap((obj) => obj?.SoloClassRoomFiles) ?? [];
+    } else {
+      filesData = [];
+    }
+
     return (
       <>
-        {files && files.length > 0 ? (
-          <FileBoxComponent data={files} type={fileTypes.solo} />
+        {filesData && filesData.length > 0 ? (
+          <FileBoxComponent
+            data={filesData}
+            type={isLive || isLiveTopic ? fileTypes.live : fileTypes.solo}
+          />
         ) : (
           <Text fontSize={"0.8rem"} color={"#2C332978"}>
             No Files
@@ -27,7 +57,72 @@ const RecordedClass = ({
     );
   };
 
-  const renderRecordings = (recordings, activeRecording) => {
+  const renderAgenda = (data) => {
+    let agenda = "";
+    if (isLive) {
+      agenda = data?.LiveClassRoomDetail.agenda;
+    } else if (isSolo) {
+      agenda = data?.agenda;
+    } else if (isLiveTopic) {
+      agenda = data?.responseData?.[0]?.LiveClassRoomDetail.agenda;
+    } else if (isSoloTopic) {
+      agenda = data?.responseData?.[0]?.agenda;
+    } else {
+      agenda = "";
+    }
+
+    return (
+      <>
+        {agenda ? (
+          <Box>
+            <Box mt={"16px"}>
+              <Box mt={"10px"}>
+                {agenda
+                  .split("\r\n")
+                  .slice(0, 4) // Take only the first 4 items
+                  .map((ag, index) => (
+                    <HStack key={index} pt={1}>
+                      <Box
+                        width={"13px"}
+                        height={"13px"}
+                        bg={"gray.200"}
+                        borderRadius={"100%"}
+                      />
+                      <Text color={"rgba(44, 51, 41, 0.47)"} fontSize={"12px"}>
+                        {ag}
+                      </Text>
+                    </HStack>
+                  ))}
+              </Box>
+            </Box>
+          </Box>
+        ) : (
+          <Text color={"#2C332978"} mt={2}>
+            No Data
+          </Text>
+        )}
+      </>
+    );
+  };
+
+  const renderRecordings = (data, activeRecording) => {
+    let recordings = [];
+    if (isLive) {
+      recordings = data?.LiveClassRoomRecordings;
+    } else if (isSolo) {
+      recordings = data?.SoloClassRoomRecordings;
+    } else if (isLiveTopic) {
+      recordings =
+        data?.responseData?.flatMap((obj) => obj?.LiveClassRoomRecordings) ??
+        [];
+    } else if (isSoloTopic) {
+      recordings =
+        data?.responseData?.flatMap((obj) => obj?.SoloClassRoomRecordings) ??
+        [];
+    } else {
+      recordings = [];
+    }
+
     return (
       <>
         {recordings?.map(
@@ -88,11 +183,18 @@ const RecordedClass = ({
             color={"rgba(44, 51, 41, 1)"}
             mt={"28px"}
           >
-            {capitalize(
-              type === "live" || type === "live_specific" || type === "live_topic" 
-                ? recordingDetail?.LiveClassRoomDetail?.topicName
-                : recordingDetail?.topic
-            )}
+            {isLive
+              ? capitalize(recordingDetail?.LiveClassRoomDetail?.topicName)
+              : isLiveTopic
+              ? capitalize(
+                  recordingDetail?.responseData?.[0]?.LiveClassRoomDetail
+                    .topicName
+                )
+              : isSolo
+              ? capitalize(recordingDetail?.topic)
+              : isSoloTopic
+              ? capitalize(recordingDetail?.responseData?.[0]?.topic)
+              : capitalize("No Data")}
           </Text>
 
           <Text
@@ -101,7 +203,11 @@ const RecordedClass = ({
             lineHeight={"14px"}
             color={"rgba(44, 51, 41, 0.47)"}
           >
-            {recordingDetail?.mentorName}
+            {isLive || isSolo
+              ? recordingDetail?.mentorName
+              : isLiveTopic || isSoloTopic
+              ? recordingDetail?.responseData?.[0]?.mentorName
+              : "No data"}
           </Text>
         </Box>
       </Box>
@@ -117,41 +223,28 @@ const RecordedClass = ({
           lineHeight={"20px"}
           mt={"6px"}
         >
-          {type === "live" || type === "live_specific"
-            ? recordingDetail?.LiveClassRoomDetail?.description || "No Data"
-            : recordingDetail?.description || "No Data"}
+          {isLive
+            ? recordingDetail?.LiveClassRoomDetail?.description
+            : isSolo
+            ? recordingDetail?.description
+            : isLiveTopic
+            ? recordingDetail?.responseData?.[0]?.LiveClassRoomDetail
+                .description
+            : isSoloTopic
+            ? recordingDetail?.responseData?.[0]?.description
+            : "No Data"}
         </Text>
       </Box>
 
       <Text mt={"26px"}>Files</Text>
 
-      <Box my={4}>
-        {type === "live" || type === "live_specific"
-          ? renderFiles(recordingDetail?.LiveClassRoomFiles)
-          : renderFiles(recordingDetail?.SoloClassRoomFiles)}
-      </Box>
+      <Box my={4}>{renderFiles(recordingDetail)}</Box>
 
       <Box mt="26px" fontSize={"12px"}>
         <Text fontSize="16px" lineHeight={"19px"}>
           Agenda
         </Text>
-        {recordingDetail?.LiveClassRoomDetail?.agenda ||
-        recordingDetail?.agenda ? (
-          <Box>
-            <Box mt={"16px"}>
-              <Box mt={"10px"}>
-                <Icon boxSize={3} color={"#E0E0E0"} as={FaCircle} mr={"10px"} />
-                {type === "live" || type === "live_specific"
-                  ? recordingDetail?.LiveClassRoomDetail?.agenda || "No Data"
-                  : recordingDetail?.agenda || "No Data"}
-              </Box>
-            </Box>
-          </Box>
-        ) : (
-          <Text color={"#2C332978"} mt={2}>
-            No Data
-          </Text>
-        )}
+        {renderAgenda(recordingDetail)}
       </Box>
 
       <Box mt={"16px"}>
@@ -164,7 +257,8 @@ const RecordedClass = ({
           gap={"24px"}
           className="example"
         >
-          {type === "live" || type === "live_specific"
+          {renderRecordings(recordingDetail, activeRecording)}
+          {/* {type === "live" || type === "live_specific"
             ? renderRecordings(
                 recordingDetail?.LiveClassRoomRecordings,
                 activeRecording
@@ -172,10 +266,9 @@ const RecordedClass = ({
             : renderRecordings(
                 recordingDetail?.SoloClassRoomRecordings,
                 activeRecording
-              )}
+              )} */}
         </Flex>
       </Box>
-      
     </Box>
   );
 };
