@@ -1,7 +1,7 @@
 import { Box, HStack, Text, Flex, Icon, Image, Card } from "@chakra-ui/react";
 import { FaCircle } from "react-icons/fa";
 import defaultImageUrl from "../../../assets/images/image1.png";
-import  "../../../constants/scrollbar/style.css";
+import "../../../constants/scrollbar/style.css";
 import FileBoxComponent from "../../../components/filebox/FileBoxComponent";
 import { fileTypes } from "../../../constants/staticvariables";
 import { boxShadowStyles, capitalize } from "../../../utils";
@@ -89,7 +89,9 @@ const RecordedClass = ({
             mt={"28px"}
           >
             {capitalize(
-              type === "live" || type === "live_specific" || type === "live_topic" 
+              type === "live" ||
+                type === "live_specific" ||
+                type === "live_topic"
                 ? recordingDetail?.LiveClassRoomDetail?.topicName
                 : recordingDetail?.topic
             )}
@@ -175,7 +177,6 @@ const RecordedClass = ({
               )}
         </Flex>
       </Box>
-      
     </Box>
   );
 };

@@ -143,7 +143,7 @@ const ViewAllRecordingsRelatedToOneChapter = ({
                 size={"14px"}
                 lineHeight={"16px"}
                 m={"20px"}
-                _hover={ { bg:"white"} }
+                _hover={{ bg: "white" }}
                 onClick={() => {
                   setViewTopic(topic.id);
                   setTopicName(topic.name);

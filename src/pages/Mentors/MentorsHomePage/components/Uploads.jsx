@@ -73,7 +73,6 @@ const MentorsUploads = () => {
           mr={"10px"}
           color={"#3C8DBC"}
           onClick={openUploadAssignmentModal}
-          _hover={{ bg: "#FFFFFF" }}
         >
           <Icon as={IoIosAdd} mr={2} boxSize={7} /> Add Assignment
         </Button>
@@ -145,7 +144,7 @@ const MentorsUploads = () => {
                 mb={"15px"}
                 mt={"auto"}
                 onClick={handleViewDetail}
-                _hover={ { bg:"white"} }
+                _hover={{ bg: "white" }}
               >
                 View Details
               </Button>

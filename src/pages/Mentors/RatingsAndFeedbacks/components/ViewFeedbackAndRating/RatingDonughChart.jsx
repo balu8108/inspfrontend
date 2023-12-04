@@ -138,7 +138,6 @@ const RatingAndFeedBackChart = () => {
         h={"full"}
         borderRadius={"26px"}
         bg={outerBackground}
-        // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       >
         <Center>
           <Text fontSize={"20px"} textAlign="center" mt={5}>

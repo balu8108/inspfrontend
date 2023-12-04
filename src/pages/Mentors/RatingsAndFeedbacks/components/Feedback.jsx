@@ -160,7 +160,7 @@ const AllUploadedLecture = () => {
                   <Button
                     variant={"ghost"}
                     color={"#3C8DBC"}
-                    _hover={ { bg:"white"} }
+                    _hover={{ bg: "white" }}
                     onClick={() => handleViewDetails(chapter.id, chapter.name)}
                   >
                     View Details

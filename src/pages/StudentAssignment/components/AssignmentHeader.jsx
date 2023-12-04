@@ -146,7 +146,7 @@ const AssignmentHeader = () => {
                   fontSize={"14px"}
                   lineHeight={"16px"}
                   p={["10px", "21px"]}
-                  _hover={ { bg:"white"} }
+                  _hover={{ bg: "white" }}
                 >
                   View Details
                 </Button>
