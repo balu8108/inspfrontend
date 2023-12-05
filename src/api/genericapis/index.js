@@ -5,15 +5,14 @@ const API = axios.create({ baseURL: BASE_URL });
 
 export const getAllSubjectsApi = () => API.get("/generic/get-all-subjects");
 export const imageToDocApi = (body) => API.post("/generic/image-to-doc", body);
+export const createLiveClassNotes = (body) =>
+  API.post("/generic/create-live-class-notes", body);
 export const getPresignedUrlDocApi = (docId, docType) =>
   API.get(`/generic/open-file/?docId=${docId}&docType=${docType}`);
-
-
 
 export const getPresignedUrlApi = (body) =>
   API.post("/generic/generate-get-presigned-url", body);
 
-  
 export const createFeedbackApi = (body) => {
   const tokenStorage = getStorageType();
   let secretToken = null;

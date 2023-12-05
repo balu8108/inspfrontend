@@ -137,11 +137,24 @@ const VideoPlayer = ({ type, activeRecording }) => {
 
   return (
     <>
-      <div style={{ position: "relative" }} data-vjs-player>
+      <div
+        style={{
+          position: "relative",
+          background: "green",
+          height: "73vh",
+          width: "100%",
+        }}
+        data-vjs-player
+      >
         <video
           ref={videoRef}
           className="vidPlayer video-js vjs-default-skin vjs-big-play-centered"
-          style={{ borderRadius: "10px", height: "73vh", width: "100%" }}
+          style={{
+            borderRadius: "10px",
+            width: "100%",
+            height: "100%",
+            objectFit: "contain",
+          }}
         ></video>
 
         {userRoleType === userType.student && (

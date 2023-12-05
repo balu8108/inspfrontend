@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { liveSessionMemberViewType } from "../../../constants/staticvariables";
 import { useToastContext } from "../../../components/toastNotificationProvider/ToastNotificationProvider";
 import { useNavigate, useParams } from "react-router-dom";
-import { checkUserType } from "../../../utils";
+import { checkUserType, screenshotHandler } from "../../../utils";
 import LiveSessionInteraction from "../components/LiveSessionInteraction";
 import LeaveOrEndClassPopup from "../../../components/popups/LeaveOrEndClassPopup";
 import KickFromClassPopup from "../../../components/popups/KickFromClassPopup";
@@ -23,6 +23,7 @@ import {
   resetChatMessages,
   resetQuestionMessags,
 } from "../../../store/actions/socketActions";
+import { createLiveClassNotes } from "../../../api/genericapis";
 
 const Room = () => {
   const [isScreenShare, setIsScreenShare] = useState(false);
@@ -180,6 +181,38 @@ const Room = () => {
   useEffect(() => {
     return () => {
       stopMediaStream(screenShareStream);
+    };
+  }, [screenShareStream]);
+
+  useEffect(() => {
+    console.log("screenshare stream changed", screenShareStream);
+    const ssId = setInterval(async () => {
+      try {
+        if (screenShareStream) {
+          const videoTracks = screenShareStream.getVideoTracks();
+          if (videoTracks.length > 0) {
+            const track = videoTracks[0];
+            if (track.enabled) {
+              const screenshot = await screenshotHandler(screenShareStream);
+              const formData = new FormData();
+              formData.append("screenshot", screenshot);
+              formData.append("roomId", roomId);
+
+              if (screenshot) {
+                await createLiveClassNotes(formData); // send screenshot to backend
+              }
+            }
+          }
+        } else {
+          console.log("No screen share available");
+        }
+      } catch (err) {
+        console.log("error in screenshot", err);
+      }
+    }, 10000);
+    return () => {
+      console.log("clearing up stream", ssId);
+      clearInterval(ssId);
     };
   }, [screenShareStream]);
 
