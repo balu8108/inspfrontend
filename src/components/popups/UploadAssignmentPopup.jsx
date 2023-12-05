@@ -23,7 +23,7 @@ import {
 } from "../../api/inspexternalapis";
 import axios from "axios";
 import { BASE_URL } from "../../constants/staticurls";
-
+import { useToastContext } from "../toastNotificationProvider/ToastNotificationProvider";
 const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
   const [isLoadingSubjects, setIsLoadingSubjects] = useState(true);
   const [isLoadingTopics, setIsLoadingTopics] = useState(false);
@@ -37,10 +37,11 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
   const [topicError, setTopicError] = useState("");
   const [description, setDescription] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
+  const [fileError, setFileError] = useState("");
   const [files, setFiles] = useState([]);
   const { primaryBlueLight } = useTheme().colors.pallete;
   const fileInputRef = useRef(null);
-
+  const { addNotification } = useToastContext();
   const resetFormFields = () => {
     setSelectedSubject("");
     setSelectedChapters("");
@@ -50,6 +51,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
     setSubjectError("");
     setTopicError("");
     setDescriptionError("");
+    setFileError("");
   };
 
   const handleSubjectChange = (e) => {
@@ -70,6 +72,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
     setFiles((prevFiles) => [...prevFiles, ...selectedFiles]);
+    setFileError("");
   };
 
   const handleSubmit = async () => {
@@ -86,6 +89,11 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
 
       if (!description.trim()) {
         setDescriptionError("Please enter a description");
+        return;
+      }
+
+      if (files.length === 0) {
+        setFileError("Please select at least one file to upload");
         return;
       }
 
@@ -125,6 +133,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
 
       if (response.status === 201) {
         setAssignment((prev) => [response?.data?.assignment, ...prev]);
+        addNotification("Assignment uploaded successfully!", "success", 1500);
       } else {
         console.error("Error submitting assignment:", response.data.error);
       }
@@ -249,7 +258,8 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
             />
             <FormErrorMessage>{descriptionError}</FormErrorMessage>
           </FormControl>
-          <FormControl mt={4}>
+
+          <FormControl mt={4} isInvalid={fileError !== ""}>
             <Input
               type="file"
               accept=".pdf,.doc,.docx"
@@ -281,6 +291,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
                 Upload
               </Button>
             </Flex>
+            <FormErrorMessage>{fileError}</FormErrorMessage>
           </FormControl>
         </ModalBody>
         <ModalFooter>
