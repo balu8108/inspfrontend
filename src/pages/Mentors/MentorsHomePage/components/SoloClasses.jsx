@@ -143,7 +143,7 @@ const SoloClasses = () => {
                   fontWeight={"600"}
                   fontSize={"14px"}
                   lineHeight={"16px"}
-                  _hover={ { bg:"white"} }
+                  _hover={{ bg: "white" }}
                 >
                   View Details
                 </Button>

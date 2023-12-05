@@ -10,6 +10,8 @@ import {
   Icon,
   Card,
   useTheme,
+  UnorderedList,
+  ListItem,
 } from "@chakra-ui/react";
 import defaultImageUrl from "../../../../../assets/images/image1.png";
 import { BsDownload, BsPlayFill } from "react-icons/bs";
@@ -18,20 +20,18 @@ import { useNavigate } from "react-router";
 import { FaCircle } from "react-icons/fa";
 import { BASE_URL } from "../../../../../constants/staticurls";
 import { useParams } from "react-router-dom";
-import {
-  boxShadowStyles,
-  capitalize,
-  extractFileNameFromS3URL,
-} from "../../../../../utils";
+import { capitalize, extractFileNameFromS3URL } from "../../../../../utils";
 
 import "../../../../../constants/scrollbar/style.css";
+import detailsCoveredData from "../data/detailsCoveredData";
+import topicDescriptionConstants from "../../../../../constants/topicDescriptionConstants";
 const DetailsCoveredFiles = () => {
   const [topicDetails, setTopicDetails] = useState(null);
   const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
   const { topicId, topic_name } = useParams();
+  const topicDescription = topicDescriptionConstants[topicId];
   const { outerBackground } = useTheme().colors.pallete;
   const navigate = useNavigate();
-  // Function to fetch topic details
 
   useEffect(() => {
     const fetchTopicDetails = async () => {
@@ -40,7 +40,6 @@ const DetailsCoveredFiles = () => {
           `${BASE_URL}/solo-lecture/get-topic-details/${topicId}`
         );
         const topicDetailsData = response.data;
-        // Update the state with the received topic details
         setTopicDetails(topicDetailsData);
       } catch (error) {
         console.error("Error fetching topic details:", error);
@@ -55,12 +54,7 @@ const DetailsCoveredFiles = () => {
   };
 
   return (
-    <Box
-      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
-      borderRadius={"26px"}
-      w={"100%"}
-      bg={outerBackground}
-    >
+    <Box borderRadius={"26px"} w={"100%"} bg={outerBackground}>
       <HStack spacing={"10px"} p={6}>
         <Box
           width={"12px"}
@@ -73,63 +67,40 @@ const DetailsCoveredFiles = () => {
         </Text>
       </HStack>
 
-      {topicDetails && topicDetails.length > 0 ? (
-        topicDetails.map((topicInfo, index) => (
-          <Box ml={"20px"} key={topicInfo.id}>
-            <HStack>
-              <Box flex={1}>
-                {index === 0 && <Text p={"13px"}>Description</Text>}
-                {topicInfo.description &&
-                  topicInfo.description.split("\n").map((item, i) => (
-                    <HStack key={i} spacing={"5px"}>
-                      <Icon
-                        as={FaCircle}
-                        boxSize={2}
-                        color="#C3C3C3"
-                        blendMode={"multiply"}
-                      />
-                      <Text fontSize={"12px"} color={"#2C332978"}>
-                        {item}
-                      </Text>
-                    </HStack>
-                  ))}
-              </Box>
-              <Spacer />
-              <Box flex={1} ml={"24px"}>
-                {index === 0 && <Text p={"13px"}>Agenda</Text>}
-                {topicInfo?.agenda?.split("\n").map((item, i) => (
-                  <HStack key={i} spacing={"5px"}>
-                    <Icon
-                      as={FaCircle}
-                      boxSize={2}
-                      color="#C3C3C3"
-                      blendMode={"multiply"}
-                    />
-                    <Text
-                      fontSize={"12px"}
-                      color={"#2C332978"}
-                      lineHeight={"21px"}
-                    >
-                      {item}
-                    </Text>
-                  </HStack>
-                ))}
-              </Box>
-            </HStack>
-          </Box>
-        ))
-      ) : (
-        <Box p={4} mx={8} fontSize={"14px"}>
-          <Text>No details available for this topic.</Text>
+      <Flex mt={"37px"}>
+        <Box w={"50%"} ml={"20px"}>
+          <Text>Description</Text>
+          <Text
+            fontSize="12px"
+            lineHeight={"21px"}
+            color={"#2C332978"}
+            mt={"15px"}
+          >
+            {topicDescription || "No description available for this topic."}
+          </Text>
         </Box>
-      )}
+        <Box flex={1} ml={"24px"}>
+          <Text fontSize="md">Agenda</Text>
+          <UnorderedList
+            fontSize={"12px"}
+            color={"#2C332978"}
+            spacing={"10px"}
+            mt={"16px"}
+          >
+            {detailsCoveredData[0].agenda.map((topic, index) => (
+              <ListItem key={index}>{topic}</ListItem>
+            ))}
+          </UnorderedList>
+        </Box>
+      </Flex>
 
       <Box ml={"20px"} mt="20px" mr={"21px"}>
         <Text p={"13px"}>Recordings</Text>
-        <Box ml={"13px"}>
-          {topicDetails && topicDetails.length > 0 ? (
+        <HStack ml={"13px"} overflowX={"auto"} spacing={"24px"}>
+          {topicDetails &&
+            topicDetails.length > 0 &&
             topicDetails.map((topicInfo, index) => (
-              <Flex gap={"24px"} key={index} overflowX={"auto"}>
+              <HStack gap={"24px"} key={index}>
                 {topicInfo.SoloClassRoomRecordings &&
                 topicInfo.SoloClassRoomRecordings.length > 0 ? (
                   topicInfo.SoloClassRoomRecordings.map(
@@ -143,7 +114,6 @@ const DetailsCoveredFiles = () => {
                         onMouseEnter={() => setHoveredCardIndex(index)}
                         onMouseLeave={() => setHoveredCardIndex(null)}
                         onClick={() => handleViewRecording(recording)}
-                        flexShrink={0}
                       >
                         <Flex alignItems="center">
                           <Image src={defaultImageUrl} alt="Video Thumbnail" />
@@ -168,14 +138,9 @@ const DetailsCoveredFiles = () => {
                     </Text>
                   </Box>
                 )}
-              </Flex>
-            ))
-          ) : (
-            <Box p={4} fontSize={"14px"}>
-              <Text>No details available for this topic.</Text>
-            </Box>
-          )}
-        </Box>
+              </HStack>
+            ))}
+        </HStack>
       </Box>
 
       <Box mt={"31px"} display="flex" flexWrap="wrap">

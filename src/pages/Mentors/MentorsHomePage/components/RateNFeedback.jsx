@@ -32,7 +32,6 @@ const FeedBack = () => {
 
   return (
     <Box
-     
       mt={"23px"}
       borderRadius={"25px"}
       w={"58%"}
@@ -132,7 +131,7 @@ const FeedBack = () => {
                   fontSize={"14px"}
                   lineHeight={"16px"}
                   mt={"17px"}
-                  _hover={ { bg:"white"} }
+                  _hover={{ bg: "white" }}
                 >
                   View Details
                 </Button>

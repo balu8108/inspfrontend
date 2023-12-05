@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Box, Flex, Stack, useDisclosure, useTheme } from "@chakra-ui/react";
 import ViewMentorsRatingAndFeedback from "../components/ViewFeedbackAndRating/ViewFeedback";
 import RatingAndFeedBackChart from "../components/ViewFeedbackAndRating/RatingDonughChart";
-import MentorSchedulingClass from "../../SchedulingClass/components/MentorSchedule";
 import ScheduleClassList from "../../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
-import { boxShadowStyles } from "../../../../utils";
 import { useDispatch } from "react-redux";
 import { getAllLiveClassesSchedule } from "../../../../store/actions/scheduleClassActions";
 import ScheduleClassPopup from "../../../../components/popups/ScheduleClassPopup";
@@ -19,7 +17,7 @@ const ViewRatingAndFeedback = () => {
   } = useDisclosure();
   const { outerBackground } = useTheme().colors.pallete;
 
-  const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
+  const [selectedDate, setSelectedDate] = useState("");
   const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
   useEffect(() => {
     dispatch(getAllLiveClassesSchedule());
@@ -47,8 +45,6 @@ const ViewRatingAndFeedback = () => {
               maxHeight: "85vh",
               borderRadius: "26px",
               background: outerBackground,
-
-              // boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
             }}
           >
             <Box p={4}>

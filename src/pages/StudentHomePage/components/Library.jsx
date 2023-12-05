@@ -24,11 +24,7 @@ const Library = () => {
   const isDetailView = window.location.pathname.includes("/library/");
 
   return (
-    <Box
-      w={"full"}
-      bg={outerBackground}
-      borderRadius={"26px"}
-    >
+    <Box w={"full"} bg={outerBackground} borderRadius={"26px"}>
       <HStack spacing={"10px"}>
         <Box
           bg={primaryBlue}
@@ -127,7 +123,7 @@ const Library = () => {
                 fontSize={"14px"}
                 lineHeight={"16px"}
                 fontWeight={"600"}
-                _hover={ { bg:"white"} }
+                _hover={{ bg: "white" }}
               >
                 View Details
               </Button>

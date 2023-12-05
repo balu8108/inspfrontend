@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../api/inspexternalapis/index";
 import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
 import VectorImage from "../../../../assets/images/Line/Vector.svg";
-import { boxShadowStyles, capitalize } from "../../../../utils";
+import {  capitalize } from "../../../../utils";
 
 const AllUploadedLecture = () => {
   const navigate = useNavigate();
@@ -64,7 +64,6 @@ const AllUploadedLecture = () => {
   return (
     <Box
       w={"full"}
-      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       h={"full"}
       mt={"24px"}
       borderRadius={"26px"}
@@ -160,7 +159,7 @@ const AllUploadedLecture = () => {
                   <Button
                     variant={"ghost"}
                     color={"#3C8DBC"}
-                    _hover={ { bg:"white"} }
+                    _hover={{ bg: "white" }}
                     onClick={() => handleViewDetails(chapter.id, chapter.name)}
                   >
                     View Details

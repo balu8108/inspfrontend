@@ -20,7 +20,7 @@ import { fetchAllTopicsWithoutChapterIdApi } from "../../../../../api/inspextern
 import { Link } from "react-router-dom";
 import { SearchIcon } from "@chakra-ui/icons";
 import topicDescriptionConstants from "../../../../../constants/topicDescriptionConstants";
-import { boxShadowStyles, capitalize } from "../../../../../utils";
+import { capitalize } from "../../../../../utils";
 const ViewMentorsRatingAndFeedback = () => {
   const [allTopicList, setAllTopicList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -51,7 +51,7 @@ const ViewMentorsRatingAndFeedback = () => {
   const handleSearchChange = (event) => {
     const query = event.target.value;
     setSearchQuery(query);
-    // Filter topics based on the search query
+   
     const filteredChapters = allTopicList.filter((chapter) =>
       chapter.name.toLowerCase().includes(query.toLowerCase())
     );
@@ -131,7 +131,12 @@ const ViewMentorsRatingAndFeedback = () => {
               </Text>
               <Link
                 to={`/mentor/view/rating&feedback/${chapter.id}/${chapter.name}`}
-                style={{ display: "flex", justifyContent: "center" }}
+                style={{
+                  position: "absolute",
+                  bottom: "1px",
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                }}
               >
                 <Button
                   variant={"ghost"}

@@ -17,7 +17,7 @@ import {
   Center,
   useTheme,
 } from "@chakra-ui/react";
-import { useParams , useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { SearchIcon } from "@chakra-ui/icons";
 import { fetchAllTopicsForSubjectApi } from "../../../api/inspexternalapis";
 import topicDescriptionConstants from "../../../constants/topicDescriptionConstants";
@@ -38,7 +38,6 @@ const SubjectLibrary = () => {
   const navigate = useNavigate();
 
   const handleViewRecording = (data) => {
-   
     navigate(`/view-recording?type=live_topic&id=${data?.id}`);
   };
 
@@ -86,11 +85,7 @@ const SubjectLibrary = () => {
   }
 
   return (
-    <Box
-      width={"100%"}
-      bg={outerBackground}
-      borderRadius={"26px"}
-    >
+    <Box width={"100%"} bg={outerBackground} borderRadius={"26px"}>
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
         <Box
           width={"12px"}
@@ -181,8 +176,8 @@ const SubjectLibrary = () => {
                     fontSize={"14px"}
                     lineHeight={"16px"}
                     fontWeight={"600"}
-                    _hover={ { bg:"white"} }
-                   onClick={()=>handleViewRecording(libraryData)}
+                    _hover={{ bg: "white" }}
+                    onClick={() => handleViewRecording(libraryData)}
                   >
                     View Details
                   </Button>

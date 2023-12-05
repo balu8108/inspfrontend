@@ -95,7 +95,6 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
     return (
       <Box
         w={"100%"}
-        // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
         height={"full"}
         borderRadius={"26px"}
         bg={outerBackground}
@@ -109,13 +108,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
   }
 
   return (
-    <Box
-      w={"100%"}
-      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
-      height={"full"}
-      borderRadius={"26px"}
-      bg={outerBackground}
-    >
+    <Box w={"100%"} height={"full"} borderRadius={"26px"} bg={outerBackground}>
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
         <Box
           width={"12px"}
