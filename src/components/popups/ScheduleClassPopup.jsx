@@ -116,7 +116,7 @@ const ScheduleClassPopup = ({
   const handleSelectChange = (object, event) => {
     if (event.name === "subject") {
       // getting subject
-      console.log("subject object", object);
+
       if (object?.label === "PHYSICS") {
         // On selecting physics get all chpters
         getChaptersByFetch();
@@ -183,7 +183,7 @@ const ScheduleClassPopup = ({
       [e.target.name]: e.target.checked,
     }));
   };
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setIsSubmitLoading(true);
     // check if all fields are filled
     let errors = {};
@@ -232,13 +232,16 @@ const ScheduleClassPopup = ({
     });
 
     if (Object.keys(errors).length > 0) {
-      console.log("error data", errors);
       setScheduleClassFormErrorData(errors);
       setIsSubmitLoading(false);
       return;
     }
+    try {
+      await dispatch(setAddClassSchedule(formData));
+    } catch (err) {
+      console.log("err", err);
+    }
 
-    dispatch(setAddClassSchedule(formData));
     setScheduleClassFormData({});
     onClose();
     setIsSubmitLoading(false);

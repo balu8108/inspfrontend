@@ -246,6 +246,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
 
   const uploadVideoToAWS = async (recordedVideo, soloClassRoomId) => {
     const fileName = `sololecture_${soloClassRoomId}.webm`;
+    console.log("recorded video", recordedVideo);
 
     const file = new File([recordedVideo], fileName, {
       type: "video/webm",
@@ -254,6 +255,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
 
     formData.append("files", file);
     formData.append("soloClassRoomId", soloClassRoomId);
+    console.log("file", file);
 
     try {
       const response = await fetch(
