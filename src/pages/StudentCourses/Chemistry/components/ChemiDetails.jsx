@@ -11,19 +11,16 @@ import {
   useTheme,
 } from "@chakra-ui/react";
 import ChemistryImage from "../../../../assets/images/undraw_science_re_mnnr 1.svg";
-import { boxShadowStyles } from "../../../../utils";
-
 const ChemDetails = () => {
   const { outerBackground } = useTheme().colors.pallete;
   return (
     <Box
       width={"100%"}
-      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       height={"full"}
       borderRadius={"26px"}
       bg={outerBackground}
     >
-      <Flex mt={"17px"}>
+      <Flex mt={"19px"}>
         <HStack spacing={"10px"} alignItems="center" ml={"33px"}>
           <Box
             width={"12px"}
