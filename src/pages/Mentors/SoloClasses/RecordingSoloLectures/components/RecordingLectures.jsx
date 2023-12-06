@@ -23,13 +23,13 @@ import { useToastContext } from "../../../../../components/toastNotificationProv
 import { boxShadowStyles } from "../../../../../utils";
 import { BASE_URL } from "../../../../../constants/staticurls";
 const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
-  const [isCameraOn, setIsCameraOn] = useState(false);
+  const [mentorStream, setMentorStream] = useState(null);
   const [isMicrophoneOn, setIsMicrophoneOn] = useState(false);
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [screenSharingStream, setScreenSharingStream] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
-  const cameraVideoRef = useRef(null);
+  const mentorVideoRef = useRef(null);
   const audioStreamRef = useRef(null);
   const screenSharingVideoRef = useRef(null);
   const mediaRecorderRef = useRef(null);
@@ -63,27 +63,30 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
     };
   }, [isRecording]);
 
-  const toggleCamera = async () => {
-    if (!isCameraOn) {
+  const toggleMentorStream = async () => {
+    if (!mentorStream) {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({
+        const mentorStream = await navigator.mediaDevices.getUserMedia({
           video: true,
         });
-        cameraVideoRef.current.srcObject = stream;
-        setIsCameraOn(true);
+
+        mentorVideoRef.current.srcObject = mentorStream;
+        setMentorStream(mentorStream);
       } catch (error) {
-        console.error("Error accessing camera:", error);
+        console.error("Error accessing mentor stream:", error);
       }
     } else {
-      const stream = cameraVideoRef.current.srcObject;
-      if (stream) {
-        const tracks = stream.getTracks();
+      const currentMentorStream = mentorStream;
+      if (currentMentorStream) {
+        const tracks = currentMentorStream.getTracks();
         tracks.forEach((track) => track.stop());
       }
-      cameraVideoRef.current.srcObject = null;
-      setIsCameraOn(false);
+
+      mentorVideoRef.current.srcObject = null;
+      setMentorStream(null);
     }
   };
+
   const toggleMicrophone = async () => {
     if (!isMicrophoneOn) {
       try {
@@ -131,7 +134,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
 
   const startRecording = async () => {
     try {
-      const videoStream = isCameraOn
+      const videoStream = mentorStream
         ? await navigator.mediaDevices.getUserMedia({ video: true })
         : null;
 
@@ -175,34 +178,6 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
     }
   };
 
-  const stopRecording = async () => {
-    if (mediaRecorderRef.current) {
-      mediaRecorderRef.current.stop();
-      setIsRecording(false);
-
-      mediaRecorderRef.current.ondataavailable = async (event) => {
-        if (event.data.size > 0) {
-          recordedChunksRef.current.push(event.data);
-          const blob = new Blob(recordedChunksRef.current, {
-            type: "video/webm",
-          });
-
-          if (soloClassRoomId) {
-            await uploadVideoToAWS(blob, soloClassRoomId);
-          } else {
-            console.error("Solo classroom ID not found in the URL");
-          }
-        }
-      };
-
-      mediaRecorderRef.current.onstop = () => {
-        setElapsedTime(0);
-
-        recordedChunksRef.current = [];
-      };
-    }
-  };
-
   const toggleRecording = () => {
     if (isRecording) {
       stopRecording();
@@ -216,6 +191,36 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
           1800
         );
       }
+    }
+  };
+
+  const stopRecording = async () => {
+    if (mediaRecorderRef.current) {
+      mediaRecorderRef.current.stop();
+
+      mediaRecorderRef.current.ondataavailable = async (event) => {
+        if (event.data.size > 0) {
+          recordedChunksRef.current.push(event.data);
+        }
+      };
+
+      mediaRecorderRef.current.onstop = async () => {
+        setElapsedTime(0);
+
+        setIsRecording(false);
+
+        const blob = new Blob(recordedChunksRef.current, {
+          type: "video/webm",
+        });
+        if (blob.size > 0) {
+          if (soloClassRoomId) {
+            await uploadVideoToAWS(blob, soloClassRoomId);
+          } else {
+            console.error("Solo classroom ID not found in the URL");
+          }
+        }
+        recordedChunksRef.current = [];
+      };
     }
   };
 
@@ -275,6 +280,38 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
       console.error("Error uploading video to AWS:", error);
     }
   };
+
+  const stopStream = (stream) => {
+    if (stream) {
+      const tracks = stream.getTracks();
+      tracks.forEach((track) => track.stop());
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (isMicrophoneOn) {
+        const audioStream = audioStreamRef.current;
+        if (audioStream) {
+          stopStream(audioStream);
+        }
+      }
+    };
+  }, [isMicrophoneOn]);
+
+  useEffect(() => {
+    return () => {
+      stopStream(mentorStream);
+    };
+  }, [mentorStream]);
+
+  useEffect(() => {
+    return () => {
+      if (screenSharingStream) {
+        stopStream(screenSharingStream);
+      }
+    };
+  }, [screenSharingStream]);
 
   return (
     <Box
@@ -339,18 +376,18 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
 
           <Stack>
             <Tooltip
-              label={isCameraOn ? "Turn Off Camera" : "Turn On Camera"}
+              label={mentorStream ? "Turn Off Camera" : "Turn On Camera"}
               placement="right"
             >
               <IconButton
                 isRound={true}
                 variant="solid"
-                colorScheme={isCameraOn ? "gray" : "red"}
+                colorScheme={mentorStream ? "gray" : "red"}
                 aria-label="Toggle Camera"
                 fontSize="20px"
                 mt={"20px"}
-                icon={isCameraOn ? <FiVideo /> : <FiVideoOff />}
-                onClick={toggleCamera}
+                icon={mentorStream ? <FiVideo /> : <FiVideoOff />}
+                onClick={toggleMentorStream}
               />
             </Tooltip>
             <Tooltip
@@ -441,7 +478,8 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
           height="120px"
         >
           <video
-            ref={cameraVideoRef}
+            // ref={cameraVideoRef}
+            ref={mentorVideoRef}
             style={{
               width: "100%",
               height: "100%",
@@ -449,7 +487,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
               overflow: "hidden",
               borderRadius: "10px",
               background: "black",
-              visibility: isCameraOn ? "visible" : "hidden",
+              visibility: mentorStream ? "visible" : "hidden",
             }}
             autoPlay
           />
