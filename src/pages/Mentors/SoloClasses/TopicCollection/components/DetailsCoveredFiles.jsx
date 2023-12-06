@@ -133,7 +133,9 @@ const DetailsCoveredFiles = () => {
                   )
                 ) : (
                   <Box p={4} fontSize={"14px"}>
-                    <Text>No recordings available for this topic.</Text>
+                    <Text>
+                      No video recordings are available for this topic.
+                    </Text>
                   </Box>
                 )}
               </HStack>

@@ -154,19 +154,18 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
 
       <Box p={"13px"} ml={"21px"} overflowX={"auto"}>
         <Text>Recordings</Text>
-        <Flex>
-          {liveClassRoomData && liveClassRoomData.data.length > 0 ? (
-            liveClassRoomData.data.map((liveClassData) =>
-              liveClassData.LiveClassRoomRecordings.length > 0 ? (
-                <Flex gap={"24px"} key={liveClassData.id}>
-                  {liveClassData.LiveClassRoomRecordings.map(
+        {liveClassRoomData && liveClassRoomData.data.length > 0 ? (
+          <Flex gap={"24px"}>
+            {liveClassRoomData.data.map((liveClassData) =>
+              liveClassData.LiveClassRoomRecordings.length > 0
+                ? liveClassData.LiveClassRoomRecordings.map(
                     (recording, index) => (
                       <Card
                         key={recording.id}
                         mt={"15px"}
                         color={"#2C332978"}
                         fontSize={"13px"}
-                        w={"120px"}
+                        w={"150px"}
                         onClick={() => handleViewRecording(recording)}
                       >
                         <Image
@@ -175,42 +174,46 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                         />
                       </Card>
                     )
-                  )}
-                </Flex>
-              ) : (
-                <Text key={liveClassData.id} fontSize="12px" p={3}>
-                  No recordings available for the topic.
-                </Text>
-              )
-            )
-          ) : (
-            <Text fontSize="12px" p={3}>
-              No data available for the topic.
-            </Text>
-          )}
-        </Flex>
+                  )
+                : null
+            )}
+            {liveClassRoomData.data.every(
+              (data) => data.LiveClassRoomRecordings.length === 0
+            ) && (
+              <Text fontSize="12px" p={3}>
+                No recordings available for the topic.
+              </Text>
+            )}
+          </Flex>
+        ) : (
+          <Text fontSize="12px" p={3}>
+            No data available for the topic.
+          </Text>
+        )}
       </Box>
 
       <Box ml={"21px"} mt={"30px"}>
         <Text p={"12px"}>Files/Notes</Text>
         {liveClassRoomData && liveClassRoomData.data.length > 0 ? (
           <Flex flexWrap="wrap" gap={4} ml={"10px"}>
-            {liveClassRoomData.data.map((liveClassData) =>
-              liveClassData.LiveClassRoomFiles.length > 0 ? (
-                liveClassData.LiveClassRoomFiles.map((fileData, index) => (
+            {liveClassRoomData.data.map(
+              (liveClassData) =>
+                liveClassData.LiveClassRoomFiles.length > 0 && (
                   <Flex
-                    key={fileData.id}
+                    key={liveClassData.id}
                     mt={"10px"}
                     color={"#2C332978"}
                     p={"9px"}
                     borderRadius={"6px"}
-                    border={" 1px solid #9597927D "}
-                    boxShadow={" 0px 1px 6px 0px #00000029 "}
+                    border={"1px solid #9597927D "}
+                    boxShadow={"0px 1px 6px 0px #00000029 "}
                     w={"170px"}
                     h={"49px"}
                     fontSize={"11px"}
                   >
-                    {extractFileNameFromS3URL(fileData.key)}
+                    {extractFileNameFromS3URL(
+                      liveClassData.LiveClassRoomFiles[0].key
+                    )}
                     <Spacer />
                     <Button
                       rightIcon={<BsDownload />}
@@ -220,8 +223,8 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                       onClick={() =>
                         dispatch(
                           setIsDocModalOpen(
-                            fileData.id,
-                            fileData.key,
+                            liveClassData.LiveClassRoomFiles[0].id,
+                            liveClassData.LiveClassRoomFiles[0].key,
                             "live",
                             true
                           )
@@ -229,12 +232,14 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                       }
                     ></Button>
                   </Flex>
-                ))
-              ) : (
-                <Text key={liveClassData.id} fontSize="12px" p={3}>
-                  No files available for the topic.
-                </Text>
-              )
+                )
+            )}
+            {liveClassRoomData.data.every(
+              (data) => data.LiveClassRoomFiles.length === 0
+            ) && (
+              <Text fontSize="12px" p={3}>
+                No files available for the topic.
+              </Text>
             )}
           </Flex>
         ) : (
@@ -292,12 +297,6 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                       ></Button>
                     </Flex>
                   </Flex>
-                );
-              } else {
-                return (
-                  <Text key={liveClassData.id} fontSize="12px" p={3}>
-                    No polls are conducted for this topic.
-                  </Text>
                 );
               }
             })}
@@ -388,7 +387,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
             ))}
           </SimpleGrid>
         ) : (
-          <Text fontSize={"12px"}  mx={"20px"}>
+          <Text fontSize={"12px"} mx={"20px"}>
             No assignments for this topic.
           </Text>
         )}
