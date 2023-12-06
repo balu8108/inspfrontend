@@ -103,7 +103,7 @@ const TopicBasedRecordings = () => {
             onChange={handleSearchInputChange}
             placeholder="Search..."
             border="1px solid #ccc"
-            borderRadius="md"
+            borderRadius="14px"
             bg={innerBackground}
           />
           <InputLeftElement pointerEvents="none">
