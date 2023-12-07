@@ -12,16 +12,15 @@ import {
   useTheme,
   UnorderedList,
   ListItem,
+  Stack,
 } from "@chakra-ui/react";
 import defaultImageUrl from "../../../../../assets/images/image1.png";
 import { BsDownload, BsPlayFill } from "react-icons/bs";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import { FaCircle } from "react-icons/fa";
 import { BASE_URL } from "../../../../../constants/staticurls";
 import { useParams } from "react-router-dom";
 import { capitalize, extractFileNameFromS3URL } from "../../../../../utils";
-
 import "../../../../../constants/scrollbar/style.css";
 import detailsCoveredData from "../data/detailsCoveredData";
 import topicDescriptionConstants from "../../../../../constants/topicDescriptionConstants";
@@ -94,25 +93,21 @@ const DetailsCoveredFiles = () => {
         </Box>
       </Flex>
 
-      <Box ml={"20px"} mt="20px" mr={"21px"}>
-        <Text p={"13px"}>Recordings</Text>
-        <HStack ml={"13px"} overflowX={"auto"} spacing={"24px"}>
-          {topicDetails &&
-            topicDetails.length > 0 &&
-            topicDetails.map((topicInfo, index) => (
-              <HStack gap={"24px"} key={index}>
-                {topicInfo.SoloClassRoomRecordings &&
-                topicInfo.SoloClassRoomRecordings.length > 0 ? (
-                  topicInfo.SoloClassRoomRecordings.map(
+      <Stack mt={"31px"}>
+        <Text ml={"20px"} p={"13px"}>
+          Recording
+        </Text>
+        <Box ml={"13px"} overflowX={"auto"} className="example">
+          {topicDetails && topicDetails.length > 0 ? (
+            <Flex  >
+              {topicDetails.map((topicInfo, index) => (
+                <Flex key={index}  >
+                  {topicInfo.SoloClassRoomRecordings.map(
                     (recording, recordingIndex) => (
                       <Card
                         key={recording.id}
-                        borderRadius={6}
-                        w={"150px"}
-                        boxShadow="md"
-                        position="relative"
-                        onMouseEnter={() => setHoveredCardIndex(index)}
-                        onMouseLeave={() => setHoveredCardIndex(null)}
+                        w={"160px"}
+                        ml={"20px"}
                         onClick={() => handleViewRecording(recording)}
                       >
                         <Flex alignItems="center">
@@ -130,18 +125,17 @@ const DetailsCoveredFiles = () => {
                         </Flex>
                       </Card>
                     )
-                  )
-                ) : (
-                  <Box p={4} fontSize={"14px"}>
-                    <Text>
-                      No video recordings are available for this topic.
-                    </Text>
-                  </Box>
-                )}
-              </HStack>
-            ))}
-        </HStack>
-      </Box>
+                  )}
+                </Flex>
+              ))}
+            </Flex>
+          ) : (
+            <Box p={4} fontSize={"14px"} ml={5}>
+              <Text>No recording are available for this topic.</Text>
+            </Box>
+          )}
+        </Box>
+      </Stack>
 
       <Box mt={"31px"} display="flex" flexWrap="wrap">
         <Text ml={"20px"} p={"13px"}>
