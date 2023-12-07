@@ -2,9 +2,10 @@ import React, { useState, useRef, useEffect } from "react";
 import videojs from "video.js";
 import "video.js/dist/video-js.css";
 import "videojs-contrib-quality-levels";
-import "videojs-quality-selector-hls";
+// import "videojs-quality-selector-hls";
 import "videojs-contrib-eme";
-import "videojs-contrib-dash";
+import "videojs-http-quality-selector";
+// import "videojs-contrib-dash";
 import "dashjs";
 
 import { playRecordingApi } from "../../api/recordingapi";
@@ -47,6 +48,7 @@ const VideoPlayer = ({ type, activeRecording }) => {
 
   const userRoleType = checkUserType();
   const { data: inspUserProfile } = getStorageData("insp_user_profile");
+  console.log("player", player);
 
   const setPlayerConfiguration = async (activeRecording) => {
     try {
@@ -90,9 +92,10 @@ const VideoPlayer = ({ type, activeRecording }) => {
 
   useEffect(() => {
     if (player) {
-      player.qualitySelectorHls({
-        displayCurrentQuality: true,
-      });
+      // player.qualitySelectorHls({
+      //   displayCurrentQuality: true,
+      // });
+      player.httpQualitySelector();
     }
   }, [player]);
 
