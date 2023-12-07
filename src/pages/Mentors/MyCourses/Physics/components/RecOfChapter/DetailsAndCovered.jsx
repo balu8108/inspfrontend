@@ -120,7 +120,6 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
           {capitalize(viewtopicName)}
         </Text>
       </HStack>
-
       <Stack ml={"20px"} mt={"50px"}>
         <Flex p={4}>
           <Box flex={1}>
@@ -155,109 +154,67 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
 
       <Box p={"13px"} ml={"21px"} overflowX={"auto"}>
         <Text>Recordings</Text>
-        <Flex>
-          {liveClassRoomData ? (
-            liveClassRoomData?.data.map((liveClassData) => (
-              <Flex gap={"24px"} key={liveClassData.id}>
-                {liveClassData?.LiveClassRoomRecordings.map(
-                  (recording, index) => (
-                    <Card
-                      key={recording.id}
-                      mt={"15px"}
-                      color={"#2C332978"}
-                      fontSize={"13px"}
-                      w={"120px"}
-                      onClick={() => handleViewRecording(recording)}
-                    >
-                      <Image
-                        src={recording.imageUrl || defaultImageUrl}
-                        alt="Recording Image"
-                      />
-                    </Card>
+        {liveClassRoomData && liveClassRoomData.data.length > 0 ? (
+          <Flex gap={"24px"}>
+            {liveClassRoomData.data.map((liveClassData) =>
+              liveClassData.LiveClassRoomRecordings.length > 0
+                ? liveClassData.LiveClassRoomRecordings.map(
+                    (recording, index) => (
+                      <Card
+                        key={recording.id}
+                        mt={"15px"}
+                        color={"#2C332978"}
+                        fontSize={"13px"}
+                        w={"150px"}
+                        onClick={() => handleViewRecording(recording)}
+                      >
+                        <Image
+                          src={recording.imageUrl || defaultImageUrl}
+                          alt="Recording Image"
+                        />
+                      </Card>
+                    )
                   )
-                )}
-              </Flex>
-            ))
-          ) : (
-            <Text fontSize="12px" p={4}>
-              No recordings available for the topic.
-            </Text>
-          )}
-        </Flex>
-      </Box>
-
-      <Box ml={"21px"} mt={"30px"}>
-        <Text p={"12px"}>Files/Notes</Text>
-        {liveClassRoomData ? (
-          <Flex flexWrap="wrap" gap={4} ml={"10px"}>
-            {liveClassRoomData?.data.map((liveClassData) =>
-              liveClassData?.LiveClassRoomFiles.map((fileData, index) => (
-                <Flex
-                  key={fileData?.id}
-                  mt={"10px"}
-                  color={"#2C332978"}
-                  p={"9px"}
-                  borderRadius={"6px"}
-                  border={" 1px solid #9597927D "}
-                  boxShadow={" 0px 1px 6px 0px #00000029 "}
-                  w={"170px"}
-                  h={"49px"}
-                  fontSize={"11px"}
-                >
-                  {extractFileNameFromS3URL(fileData.key)}
-                  <Spacer />
-                  <Button
-                    rightIcon={<BsDownload />}
-                    variant={"ghost"}
-                    color={"black"}
-                    ml={2}
-                    onClick={() =>
-                      dispatch(
-                        setIsDocModalOpen(
-                          fileData?.id,
-                          fileData?.key,
-                          "live",
-                          true
-                        )
-                      )
-                    }
-                  ></Button>
-                </Flex>
-              ))
+                : null
+            )}
+            {liveClassRoomData.data.every(
+              (data) => data.LiveClassRoomRecordings.length === 0
+            ) && (
+              <Text fontSize="12px" p={3}>
+                No recordings available for the topic.
+              </Text>
             )}
           </Flex>
         ) : (
-          <Text fontSize="12px" p={4}>
-            No files available for the topic.
+          <Text fontSize="12px" p={3}>
+            No data available for the topic.
           </Text>
         )}
       </Box>
 
       <Box ml={"21px"} mt={"30px"}>
-        <Text p={"12px"}>Polls/QnA</Text>
-        {liveClassRoomData ? (
+        <Text p={"12px"}>Files/Notes</Text>
+        {liveClassRoomData && liveClassRoomData.data.length > 0 ? (
           <Flex flexWrap="wrap" gap={4} ml={"10px"}>
-            {liveClassRoomData.data.map((liveClassData) => (
-              <Flex key={liveClassData.id} mt={"12px"} flexWrap="wrap" gap={4}>
-                {liveClassData.LiveClassRoomQNANote !== null &&
-                typeof liveClassData.LiveClassRoomQNANote === "object" ? (
+            {liveClassRoomData.data.map(
+              (liveClassData) =>
+                liveClassData.LiveClassRoomFiles.length > 0 && (
                   <Flex
-                    key={liveClassData.LiveClassRoomQNANote.id}
+                    key={liveClassData.id}
+                    mt={"10px"}
                     color={"#2C332978"}
-                    p={"10px"}
+                    p={"9px"}
                     borderRadius={"6px"}
-                    border={" 1px solid #9597927D "}
-                    boxShadow={" 0px 1px 6px 0px #00000029 "}
-                    alignItems="center"
-                    w={"157px"}
+                    border={"1px solid #9597927D "}
+                    boxShadow={"0px 1px 6px 0px #00000029 "}
+                    w={"170px"}
                     h={"49px"}
-                    fontSize={"13px"}
+                    fontSize={"11px"}
                   >
-                    <Text flex="1">
-                      {pollsFileNameExtraction(
-                        liveClassData.LiveClassRoomQNANote.key
-                      )}
-                    </Text>
+                    {extractFileNameFromS3URL(
+                      liveClassData.LiveClassRoomFiles[0].key
+                    )}
+                    <Spacer />
                     <Button
                       rightIcon={<BsDownload />}
                       variant={"ghost"}
@@ -266,22 +223,87 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                       onClick={() =>
                         dispatch(
                           setIsDocModalOpen(
-                            liveClassData.LiveClassRoomQNANote?.id,
-                            liveClassData.LiveClassRoomQNANote?.key,
-                            "qna",
+                            liveClassData.LiveClassRoomFiles[0].id,
+                            liveClassData.LiveClassRoomFiles[0].key,
+                            "live",
                             true
                           )
                         )
                       }
                     ></Button>
                   </Flex>
-                ) : null}
-              </Flex>
-            ))}
+                )
+            )}
+            {liveClassRoomData.data.every(
+              (data) => data.LiveClassRoomFiles.length === 0
+            ) && (
+              <Text fontSize="12px" p={3}>
+                No files available for the topic.
+              </Text>
+            )}
           </Flex>
         ) : (
-          <Text fontSize={"12px"} p={4}>
-            No Polls are conducted for this topic.
+          <Text fontSize="12px" p={3}>
+            No data available for the topic.
+          </Text>
+        )}
+      </Box>
+
+      <Box ml="21px" mt="30px">
+        <Text p="12px">Polls/QnA</Text>
+        {liveClassRoomData?.data?.length > 0 ? (
+          <Flex flexWrap="wrap" gap={4} ml="10px">
+            {liveClassRoomData.data.map((liveClassData) => {
+              const qnaNote = liveClassData.LiveClassRoomQNANote;
+
+              if (qnaNote !== null && typeof qnaNote === "object") {
+                return (
+                  <Flex
+                    key={liveClassData.id}
+                    mt="12px"
+                    flexWrap="wrap"
+                    gap={4}
+                  >
+                    <Flex
+                      key={qnaNote.id}
+                      color="#2C332978"
+                      p="10px"
+                      borderRadius="6px"
+                      border="1px solid #9597927D"
+                      boxShadow="0px 1px 6px 0px #00000029"
+                      alignItems="center"
+                      w="157px"
+                      h="49px"
+                      fontSize="13px"
+                    >
+                      <Text flex="1">
+                        {pollsFileNameExtraction(qnaNote.key)}
+                      </Text>
+                      <Button
+                        rightIcon={<BsDownload />}
+                        variant="ghost"
+                        color="black"
+                        ml={2}
+                        onClick={() =>
+                          dispatch(
+                            setIsDocModalOpen(
+                              qnaNote.id,
+                              qnaNote.key,
+                              "qna",
+                              true
+                            )
+                          )
+                        }
+                      ></Button>
+                    </Flex>
+                  </Flex>
+                );
+              }
+            })}
+          </Flex>
+        ) : (
+          <Text fontSize="12px" p={3}>
+            No data available for the topic.
           </Text>
         )}
       </Box>
@@ -365,7 +387,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
             ))}
           </SimpleGrid>
         ) : (
-          <Text fontSize={"12px"} p={4}>
+          <Text fontSize={"12px"} mx={"20px"}>
             No assignments for this topic.
           </Text>
         )}

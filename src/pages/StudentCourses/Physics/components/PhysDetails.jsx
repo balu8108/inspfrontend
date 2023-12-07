@@ -15,7 +15,9 @@ import {
   useTheme,
 } from "@chakra-ui/react";
 import { fetchAllChaptersApi } from "../../../../api/inspexternalapis";
-import { boxShadowStyles, capitalize } from "../../../../utils";
+import {  capitalize } from "../../../../utils";
+import VectorImage from "../../../../assets/images/Line/Vector.svg";
+
 const PhysDetails = () => {
   const [chapters, setChapters] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -56,7 +58,6 @@ const PhysDetails = () => {
   return (
     <Box
       width={"full"}
-      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       h={"100%"}
       bg={outerBackground}
       borderRadius={"26px"}
@@ -82,11 +83,17 @@ const PhysDetails = () => {
           placeholder="Search..."
           w="30%"
           border="1px solid #ccc"
-          borderRadius="md"
+          borderRadius="14px"
           px="3"
           fontWeight={400}
           py="2"
           mx={"10"}
+          style={{
+            backgroundImage: `url(${VectorImage})`,
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "10px center",
+            paddingLeft: "40px",
+          }}
         />
       </Flex>
 

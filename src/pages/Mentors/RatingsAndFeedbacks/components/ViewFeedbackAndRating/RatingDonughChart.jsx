@@ -140,7 +140,7 @@ const RatingAndFeedBackChart = () => {
         bg={outerBackground}
       >
         <Center>
-          <Text fontSize={"20px"} textAlign="center" mt={5}>
+          <Text fontSize={"16px"} textAlign="center" mt={"5%"}>
             No feedback and ratings available.
           </Text>
         </Center>

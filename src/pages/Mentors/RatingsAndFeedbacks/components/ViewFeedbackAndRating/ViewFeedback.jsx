@@ -83,6 +83,7 @@ const ViewMentorsRatingAndFeedback = () => {
             onChange={handleSearchChange}
             placeholder="Search..."
             bg={innerBackground}
+            borderRadius={"14px"}
           />
           <InputLeftElement pointerEvents="none">
             <SearchIcon />

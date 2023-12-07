@@ -21,7 +21,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { SearchIcon } from "@chakra-ui/icons";
 import { fetchAllTopicsForSubjectApi } from "../../../api/inspexternalapis";
 import topicDescriptionConstants from "../../../constants/topicDescriptionConstants";
-import { boxShadowStyles, capitalize } from "../../../utils";
+import {  capitalize } from "../../../utils";
 import MathematicsImage from "../../../assets/images/undraw_mathematics_-4-otb 1.svg";
 import ChemistryImage from "../../../assets/images/undraw_science_re_mnnr 1.svg";
 import TopicBasedRecordings from "./TopicBasedRecordings";
@@ -103,7 +103,7 @@ const SubjectLibrary = () => {
             onChange={handleSearchInputChange}
             placeholder="Search..."
             border="1px solid #ccc"
-            borderRadius="md"
+            borderRadius="14px"
             bg={innerBackground}
           />
           <InputLeftElement pointerEvents="none">
