@@ -1,6 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Box, HStack, Text, Stack, useTheme } from "@chakra-ui/react";
-
+import {
+  Box,
+  HStack,
+  Text,
+  Stack,
+  Flex,
+  useTheme,
+  UnorderedList,
+  ListItem,
+  ListIcon,
+  List,
+} from "@chakra-ui/react";
+import { FaCircle } from "react-icons/fa6";
 import { BASE_URL } from "../../../../../constants/staticurls";
 import { boxShadowStyles, capitalize } from "../../../../../utils";
 import { fileTypes } from "../../../../../constants/staticvariables";
@@ -90,7 +101,7 @@ const DataForClass = () => {
             Agenda
           </Text>
 
-          <Box mt={"16px"}>
+          <Box mt={"14px"}>
             {data.agenda.split("\r\n").map((agendaItem, index) => (
               <Stack
                 key={index}
@@ -99,18 +110,28 @@ const DataForClass = () => {
                 alignItems="center"
                 mt={"10px"}
               >
-                <Box
-                  w={"15px"}
-                  h={"15px"}
-                  bg="#C3C3C3"
-                  borderRadius="20px"
-                  mr={2}
-                  blendMode={"multiply"}
-                  display={agendaItem ? "block" : "none"}
-                ></Box>
-                <Text fontSize={"12px"} lineHeight={"14px"} color={"#2C332978"}>
-                  {agendaItem ?  agendaItem :"No Data" }
-                </Text>
+                <List>
+                  <ListItem>
+                    <Flex>
+                      {agendaItem && (
+                        <ListIcon
+                          as={FaCircle}
+                          color={"#2C332978"}
+                          boxSize={"10px"}
+                          blendMode={"multiply"}
+                          mt={1}
+                        />
+                      )}
+                      <Text
+                        fontSize={"12px"}
+                        lineHeight={"14px"}
+                        color={"#2C332978"}
+                      >
+                        {agendaItem ? agendaItem : "No Data"}
+                      </Text>
+                    </Flex>
+                  </ListItem>
+                </List>
               </Stack>
             ))}
           </Box>
