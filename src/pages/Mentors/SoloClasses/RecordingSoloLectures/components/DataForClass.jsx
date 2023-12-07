@@ -6,7 +6,6 @@ import {
   Stack,
   Flex,
   useTheme,
-  UnorderedList,
   ListItem,
   ListIcon,
   List,
