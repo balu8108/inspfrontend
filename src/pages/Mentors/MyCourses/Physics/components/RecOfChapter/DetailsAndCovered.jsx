@@ -19,11 +19,7 @@ import {
 import { BsDownload } from "react-icons/bs";
 import chapterDetailsData from "../../data/chapterDetailsData";
 import defaultImageUrl from "../../../.././../../assets/images/image1.png";
-import {
-  boxShadowStyles,
-  capitalize,
-  extractFileNameFromS3URL,
-} from "../../../../../../utils";
+import { capitalize, extractFileNameFromS3URL } from "../../../../../../utils";
 import topicDescriptionConstants from "../../../../../../constants/topicDescriptionConstants";
 import { pollsFileNameExtraction } from "../../../../../../utils/pollsFileNameExtraction";
 import { BASE_URL } from "../../../../../../constants/staticurls";
@@ -293,7 +289,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                       boxShadow="0px 1px 6px 0px #00000029"
                       alignItems="center"
                       w="157px"
-                     h={"49px"}
+                      h={"49px"}
                       fontSize="12px"
                     >
                       <Text flex="1">
