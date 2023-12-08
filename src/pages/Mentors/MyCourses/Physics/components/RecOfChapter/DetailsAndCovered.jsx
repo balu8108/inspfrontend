@@ -330,19 +330,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
       </Box>
 
       <Box m={"20px"}>
-        <Flex>
-          <Text p={"13px"}>Assignments</Text>
-          <Spacer />
-          <Button
-            variant={"ghost"}
-            fontSize={"sm"}
-            fontWeight={400}
-            mt={"15px"}
-            mr={"10px"}
-            color={"#3C8DBC"}
-          ></Button>
-        </Flex>
-
+        <Text p={"13px"}>Assignments</Text>
         {assignmentDetails && assignmentDetails.length > 0 ? (
           <SimpleGrid gap={"24px"} mt={"16px"}>
             {assignmentDetails.map((assignment, index) => (
