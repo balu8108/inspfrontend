@@ -293,8 +293,8 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                       boxShadow="0px 1px 6px 0px #00000029"
                       alignItems="center"
                       w="157px"
-                      h="49px"
-                      fontSize="13px"
+                     h={"49px"}
+                      fontSize="12px"
                     >
                       <Text flex="1">
                         {pollsFileNameExtraction(qnaNote.key)}
