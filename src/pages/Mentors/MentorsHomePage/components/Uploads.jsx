@@ -16,6 +16,7 @@ import axios from "axios";
 import UploadAssignmentPopup from "../../../../components/popups/UploadAssignmentPopup";
 import { BASE_URL } from "../../../../constants/staticurls";
 import { capitalize } from "../../../../utils";
+import { getLatestAssignmentApi } from "../../../../api/assignments";
 const MentorsUploads = () => {
   const navigate = useNavigate();
   const [assignment, setAssignment] = useState([]);
@@ -35,10 +36,16 @@ const MentorsUploads = () => {
     navigate(`/mentor/allUploads`);
   };
   useEffect(() => {
-    axios.get(`${BASE_URL}/topic/latest-assignment`).then((response) => {
-      console.log("response is ", response.data.data);
-      setAssignment(response.data.data);
-    });
+    const fetchLatestAssignments = async () => {
+      try {
+        const response = await getLatestAssignmentApi();
+        if (response.status === 200) {
+          setAssignment(response?.data?.data);
+        }
+      } catch (err) {}
+    };
+
+    fetchLatestAssignments();
   }, []);
 
   return (

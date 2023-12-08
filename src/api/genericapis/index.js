@@ -3,6 +3,17 @@ import { BASE_URL } from "../../constants/staticurls";
 import { getStorageType } from "../../utils";
 const API = axios.create({ baseURL: BASE_URL });
 
+API.interceptors.request.use((req) => {
+  try {
+    const tokenStorage = getStorageType();
+    if (tokenStorage.getItem("secret_token")) {
+      const secretToken = tokenStorage.getItem("secret_token");
+      req.headers.Authorization = `Token ${secretToken}`;
+    }
+    return req;
+  } catch (err) {}
+});
+
 export const getAllSubjectsApi = () => API.get("/generic/get-all-subjects");
 export const imageToDocApi = (body) => API.post("/generic/image-to-doc", body);
 export const createLiveClassNotes = (body) =>
@@ -13,18 +24,27 @@ export const getPresignedUrlDocApi = (docId, docType) =>
 export const getPresignedUrlApi = (body) =>
   API.post("/generic/generate-get-presigned-url", body);
 
-export const createFeedbackApi = (body) => {
-  const tokenStorage = getStorageType();
-  let secretToken = null;
-  if (tokenStorage.getItem("secret_token")) {
-    secretToken = tokenStorage.getItem("secret_token");
-  }
+// export const createFeedbackApi = (body) => {
+//   const tokenStorage = getStorageType();
+//   let secretToken = null;
+//   if (tokenStorage.getItem("secret_token")) {
+//     secretToken = tokenStorage.getItem("secret_token");
+//   }
 
-  const config = {
-    headers: {
-      Authorization: `Token ${secretToken}`,
-    },
-  };
+//   const config = {
+//     headers: {
+//       Authorization: `Token ${secretToken}`,
+//     },
+//   };
 
-  return API.post("/generic/create-feedback", body, config);
-};
+//   return API.post("/generic/create-feedback", body, config);
+// };
+
+export const createFeedbackApi = (body) =>
+  API.post("/generic/create-feedback", body);
+
+export const getLatestCompletedLiveClassApi = () =>
+  API.get("/generic/latest-completed-live-classroom");
+
+export const getRatingDetailsByTopicIdApi = (topic_id) =>
+  API.get(`/generic/topic-feedback-rating-details/${topic_id}`);

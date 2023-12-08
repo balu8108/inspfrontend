@@ -16,6 +16,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../../../../../constants/staticurls";
 import { boxShadowStyles, capitalize } from "../../../../../utils";
+import { getRatingDetailsByTopicIdApi } from "../../../../../api/genericapis";
 Chart.register(ArcElement);
 
 const RatingAndFeedBackChart = () => {
@@ -25,14 +26,25 @@ const RatingAndFeedBackChart = () => {
   const [feedbackData, setFeedbackData] = useState(); // State to store feedback data
   const { outerBackground } = useTheme().colors.pallete;
   useEffect(() => {
-    axios
-      .get(`${BASE_URL}/generic/topic-feedback-rating-details/${topic_id}`)
-      .then((response) => {
-        setFeedbackData(response.data.topicDetails);
-      })
-      .catch((error) => {
-        console.error("Error fetching feedback data:", error);
-      });
+    // axios
+    // .get(`${BASE_URL}/generic/topic-feedback-rating-details/${topic_id}`)
+    // .then((response) => {
+    //   setFeedbackData(response.data.topicDetails);
+    // })
+    // .catch((error) => {
+    //   console.error("Error fetching feedback data:", error);
+    // });
+
+    const fetchFeedbackDetailsByTopic = async (topic_id) => {
+      try {
+        const res = await getRatingDetailsByTopicIdApi(topic_id);
+        if (res.status === 200) {
+          setFeedbackData(res?.data?.topicDetails);
+        }
+      } catch (err) {}
+    };
+
+    fetchFeedbackDetailsByTopic(topic_id);
   }, [topic_id]);
 
   if (!feedbackData) {
@@ -133,12 +145,7 @@ const RatingAndFeedBackChart = () => {
   };
   if (!feedbackData || feedbackData.length === 0) {
     return (
-      <Box
-        w={"100%"}
-        h={"full"}
-        borderRadius={"26px"}
-        bg={outerBackground}
-      >
+      <Box w={"100%"} h={"full"} borderRadius={"26px"} bg={outerBackground}>
         <Center>
           <Text fontSize={"16px"} textAlign="center" mt={"5%"}>
             No feedback and ratings available.
@@ -209,7 +216,7 @@ const RatingAndFeedBackChart = () => {
         </Stack>
         <Stack spacing={"19px"} p={"20px"} ml={"85px"}>
           {feedbackData.map((feedback) => (
-            <Box key={feedback.feedbackId} alignItems="center" mb={2}>
+            <Box key={feedback?.id} alignItems="center" mb={2}>
               <HStack>
                 <Avatar bg={"#3C8DBC"} boxSize="1.6em" mr={2} />
                 <Text fontSize={"15px"}>{feedback.raterName}</Text>

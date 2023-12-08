@@ -25,6 +25,7 @@ import {
 } from "../../../../../api/inspexternalapis";
 import { BASE_URL } from "../../../../../constants/staticurls";
 import axios from "axios";
+import { createSoloLectureRoomApi } from "../../../../../api/soloclassrooms";
 
 const SoloRecordModal = ({ isOpen, onClose }) => {
   const [isLoadingSubjects, setIsLoadingSubjects] = useState(true);
@@ -80,16 +81,18 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
         formData.append("files", file);
       });
 
-      const response = await axios.post(
-        `${BASE_URL}/solo-lecture/create-room`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Token ${"U5Ga0Z1aaNlYHp0MjdEdXJ1aKVVVB1TP"}`,
-          },
-        }
-      );
+      const response = await createSoloLectureRoomApi(formData);
+
+      // const response = await axios.post(
+      //   `${BASE_URL}/solo-lecture/create-room`,
+      //   formData,
+      //   {
+      //     headers: {
+      //       "Content-Type": "multipart/form-data",
+      //       Authorization: `Token ${"U5Ga0Z1aaNlYHp0MjdEdXJ1aKVVVB1TP"}`,
+      //     },
+      //   }
+      // );
 
       if (response.status === 201) {
         setSuccessMessage("SoloCLassRoom");

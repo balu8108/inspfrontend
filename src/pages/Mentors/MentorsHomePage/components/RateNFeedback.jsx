@@ -14,20 +14,33 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { BASE_URL } from "../../../../constants/staticurls";
 import { capitalize } from "../../../../utils";
+import { getLatestCompletedLiveClassApi } from "../../../../api/genericapis";
 const FeedBack = () => {
   const [feedbackData, setFeedbackData] = useState([]);
   const { outerBackground, innerBackground, innerBoxShadow } =
     useTheme().colors.pallete;
 
   useEffect(() => {
-    axios
-      .get(`${BASE_URL}/generic/latest-completed-live-classroom`)
-      .then((response) => {
-        setFeedbackData(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching feedback data:", error);
-      });
+    // axios
+    //   .get(`${BASE_URL}/generic/latest-completed-live-classroom`)
+    //   .then((response) => {
+    //     setFeedbackData(response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching feedback data:", error);
+    //   });
+    async function fetchLatestCompletedLiveClass() {
+      try {
+        const res = await getLatestCompletedLiveClassApi();
+        if (res.status === 200) {
+          setFeedbackData(res?.data);
+        }
+      } catch (err) {
+        console.log("Error in getting latest classes", err);
+      }
+    }
+
+    fetchLatestCompletedLiveClass();
   }, [BASE_URL]);
 
   return (

@@ -4,12 +4,14 @@ import { getStorageType } from "../../utils";
 
 const API = axios.create({ baseURL: BASE_URL });
 API.interceptors.request.use((req) => {
-  const tokenStorage = getStorageType();
-  if (tokenStorage.getItem("secret_token")) {
-    const secretToken = tokenStorage.getItem("secret_token");
-    req.headers.Authorization = `Token ${secretToken}`;
-  }
-  return req;
+  try {
+    const tokenStorage = getStorageType();
+    if (tokenStorage.getItem("secret_token")) {
+      const secretToken = tokenStorage.getItem("secret_token");
+      req.headers.Authorization = `Token ${secretToken}`;
+    }
+    return req;
+  } catch (err) {}
 });
 
 const config = {

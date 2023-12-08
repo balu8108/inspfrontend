@@ -10,9 +10,9 @@ import {
 } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { boxShadowStyles, capitalize } from "../../../utils";
-
 import { BASE_URL } from "../../../constants/staticurls";
 import axios from "axios";
+import { getRecentAssignmentApi } from "../../../api/assignments";
 const Assignment = () => {
   const navigate = useNavigate();
   const [recentAssignments, setRecentAssignments] = useState([]);
@@ -22,14 +22,24 @@ const Assignment = () => {
     navigate(`/student/assignments/PHYSICS`);
   };
   useEffect(() => {
-    axios
-      .get(BASE_URL + "/topic/recent-assignment")
-      .then((response) => {
-        setRecentAssignments(response.data.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching recent assignments:", error);
-      });
+    // axios
+    //   .get(BASE_URL + "/topic/recent-assignment")
+    //   .then((response) => {
+    //     setRecentAssignments(response.data.data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching recent assignments:", error);
+    //   });
+
+    const fetchRecentAssignment = async () => {
+      try {
+        const response = await getRecentAssignmentApi();
+        if (response.status === 200) {
+          setRecentAssignments(response?.data?.data);
+        }
+      } catch (err) {}
+    };
+    fetchRecentAssignment();
   }, []);
 
   return (

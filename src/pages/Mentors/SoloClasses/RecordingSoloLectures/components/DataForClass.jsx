@@ -17,7 +17,7 @@ import { fileTypes } from "../../../../../constants/staticvariables";
 import FileBoxComponent from "../../../../../components/filebox/FileBoxComponent";
 import axios from "axios";
 import { useParams } from "react-router";
-
+import { getSoloClassDetailsApi } from "../../../../../api/soloclassrooms";
 const DataForClass = () => {
   const [data, setData] = useState({
     topic: "",
@@ -30,26 +30,47 @@ const DataForClass = () => {
   const { soloClassRoomId } = useParams();
 
   useEffect(() => {
-    axios
-      .get(
-        `${BASE_URL}/solo-lecture/get-details-data-for-class/${soloClassRoomId}`
-      )
-      .then((response) => {
-        const { topic, description, agenda } =
-          response.data.soloClassroomDetails;
-        const soloClassRoomFile = response.data.soloClassRoomFile;
+    const fetchSoloClassDetails = async (soloClassRoomId) => {
+      try {
+        const response = await getSoloClassDetailsApi(soloClassRoomId);
+        if (response.status === 200) {
+          const { topic, description, agenda } =
+            response.data.soloClassroomDetails;
+          const soloClassRoomFile = response.data.soloClassRoomFile;
 
-        setData({
-          topic,
-          description,
-          agenda,
-          soloClassRoomFile,
-        });
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
+          setData({
+            topic,
+            description,
+            agenda,
+            soloClassRoomFile,
+          });
+        }
+      } catch {
         setData({ topic: "", description: "", agenda: "", files: [] });
-      });
+      }
+    };
+    // axios
+    //   .get(
+    //     `${BASE_URL}/solo-lecture/get-details-data-for-class/${soloClassRoomId}`
+    //   )
+    //   .then((response) => {
+    //     const { topic, description, agenda } =
+    //       response.data.soloClassroomDetails;
+    //     const soloClassRoomFile = response.data.soloClassRoomFile;
+
+    //     setData({
+    //       topic,
+    //       description,
+    //       agenda,
+    //       soloClassRoomFile,
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching data:", error);
+    //     setData({ topic: "", description: "", agenda: "", files: [] });
+    //   });
+
+    fetchSoloClassDetails(soloClassRoomId);
   }, [soloClassRoomId]);
 
   return (
@@ -101,7 +122,7 @@ const DataForClass = () => {
           </Text>
 
           <Box mt={"14px"}>
-            {data.agenda.split("\r\n").map((agendaItem, index) => (
+            {data?.agenda.split("\r\n").map((agendaItem, index) => (
               <Stack
                 key={index}
                 spacing={1}

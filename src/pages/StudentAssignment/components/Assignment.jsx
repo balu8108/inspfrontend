@@ -30,6 +30,7 @@ import { useDispatch } from "react-redux";
 import { setIsDocModalOpen } from "../../../store/actions/genericActions";
 import ChemistryImage from "../../../assets/images/undraw_science_re_mnnr 1.svg";
 import MathematicsImage from "../../../assets/images/undraw_mathematics_-4-otb 1.svg";
+import { getAssignmentBySubjectNameApi } from "../../../api/assignments";
 
 const AssignmentDetails = () => {
   const [assignmentData, setAssignmentData] = useState([]);
@@ -48,14 +49,24 @@ const AssignmentDetails = () => {
     : [];
 
   useEffect(() => {
-    axios
-      .get(BASE_URL + `/topic/get-assignment-by-subject-name/${subjectName}`)
-      .then((response) => {
-        setAssignmentData(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching assignments:", error);
-      });
+    // axios
+    //   .get(BASE_URL + `/topic/get-assignment-by-subject-name/${subjectName}`)
+    //   .then((response) => {
+    //     setAssignmentData(response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching assignments:", error);
+    //   });
+    const fetchAssignmentBySubject = async (subjectName) => {
+      try {
+        const response = await getAssignmentBySubjectNameApi(subjectName);
+        if (response?.status === 200) {
+          setAssignmentData(response?.data);
+        }
+      } catch (err) {}
+    };
+
+    fetchAssignmentBySubject(subjectName);
   }, [subjectName]);
 
   return (

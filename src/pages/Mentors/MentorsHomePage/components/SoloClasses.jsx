@@ -14,6 +14,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../../../../constants/staticurls";
 import { capitalize } from "../../../../utils";
+import { getLatestSoloClassApi } from "../../../../api/soloclassrooms";
 const SoloClasses = () => {
   const [latestSoloClassroom, setLatestSoloClassroom] = useState([]);
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ const SoloClasses = () => {
 
   const getSoloLatestClassroom = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/solo-lecture/latest-room`);
+      const response = await getLatestSoloClassApi();
 
       if (response.status === 200) {
         setLatestSoloClassroom(response.data.data);

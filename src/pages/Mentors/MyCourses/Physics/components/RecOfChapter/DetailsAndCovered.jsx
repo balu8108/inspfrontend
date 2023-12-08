@@ -30,6 +30,9 @@ import axios from "axios";
 import { setIsDocModalOpen } from "../../../../../../store/actions/genericActions";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { allLiveRecordingDetailsApi } from "../../../../../../api/recordingapi";
+import { getAllAssignmentByTopicApi } from "../../../../../../api/assignments";
+
 const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
   const [liveClassRoomData, setLiveClassRoomData] = useState(null);
 
@@ -49,13 +52,11 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
 
   const fetchLiveClassData = async (topicId) => {
     try {
-      const response = await axios.get(
-        `${BASE_URL}/recording/all-live-recordings?type=topic&id=${topicId}`
-      );
+      const response = await allLiveRecordingDetailsApi(topicId);
 
-      const liveRecordingsData = response.data;
-
-      setLiveClassRoomData(liveRecordingsData);
+      if (response?.status === 200) {
+        setLiveClassRoomData(response?.data);
+      }
     } catch (error) {
       console.error("Error fetching live class room", error);
     }
@@ -69,13 +70,14 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
 
   const fetchAssignmentDetails = async (topicId) => {
     try {
-      const response = await axios.get(
-        `${BASE_URL}/topic/get-all-assignments-topic-id?topicId=${topicId}`
-      );
-
-      const topicDetailsData = response.data;
-
-      setAssignmentDetails(topicDetailsData);
+      // const response = await axios.get(
+      //   `${BASE_URL}/topic/get-all-assignments-topic-id?topicId=${topicId}`
+      // );
+      const response = await getAllAssignmentByTopicApi(topicId);
+      if (response?.status === 200) {
+        const topicDetailsData = response.data;
+        setAssignmentDetails(topicDetailsData);
+      }
     } catch (error) {
       console.error("Error fetching topic details:", error);
     }

@@ -22,6 +22,7 @@ import { extractFileNameFromS3URL, capitalize } from "../../../../utils";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setIsDocModalOpen } from "../../../../store/actions/genericActions";
+import { getAssignmentWithFilesApi } from "../../../../api/assignments";
 const AllUploadedLecture = () => {
   const [assignments, setAssignments] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -35,14 +36,24 @@ const AllUploadedLecture = () => {
   );
 
   useEffect(() => {
-    axios
-      .get(`${BASE_URL}/topic/all-assignment-with-files`)
-      .then((response) => {
-        setAssignments(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching assignments:", error);
-      });
+    const fetchAssignmentWithFiles = async () => {
+      try {
+        const response = await getAssignmentWithFilesApi();
+        if (response?.status === 200) {
+          setAssignments(response?.data);
+        }
+      } catch (err) {}
+    };
+
+    fetchAssignmentWithFiles();
+    // axios
+    //   .get(`${BASE_URL}/topic/all-assignment-with-files`)
+    //   .then((response) => {
+    //     setAssignments(response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching assignments:", error);
+    //   });
   }, []);
 
   return (

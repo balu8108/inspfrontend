@@ -22,6 +22,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useToastContext } from "../../../../../components/toastNotificationProvider/ToastNotificationProvider";
 import { boxShadowStyles } from "../../../../../utils";
 import { BASE_URL } from "../../../../../constants/staticurls";
+import { uploadSoloClassRoomRecordingApi } from "../../../../../api/soloclassrooms";
 const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
   const [mentorStream, setMentorStream] = useState(null);
   const [isMicrophoneOn, setIsMicrophoneOn] = useState(false);
@@ -261,15 +262,19 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
     console.log("file", file);
 
     try {
-      const response = await fetch(
-        `${BASE_URL}/solo-lecture/solo-classroom-recording/${soloClassRoomId}`,
-        {
-          method: "POST",
-          body: formData,
-        }
+      const response = await uploadSoloClassRoomRecordingApi(
+        soloClassRoomId,
+        formData
       );
+      // const response = await fetch(
+      //   `${BASE_URL}/solo-lecture/solo-classroom-recording/${soloClassRoomId}`,
+      //   {
+      //     method: "POST",
+      //     body: formData,
+      //   }
+      // );
 
-      if (response.ok) {
+      if (response.status === 201) {
         addNotification("Lecture is uploaded successfully", "success", 3000);
         navigate("/homepage");
         window.history.replaceState(null, null, `/homepage`);

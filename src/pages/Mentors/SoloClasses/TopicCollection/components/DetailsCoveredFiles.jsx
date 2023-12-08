@@ -24,6 +24,7 @@ import { capitalize, extractFileNameFromS3URL } from "../../../../../utils";
 import "../../../../../constants/scrollbar/style.css";
 import detailsCoveredData from "../data/detailsCoveredData";
 import topicDescriptionConstants from "../../../../../constants/topicDescriptionConstants";
+import { getTopicDetailsForSoloClassApi } from "../../../../../api/soloclassrooms";
 const DetailsCoveredFiles = () => {
   const [topicDetails, setTopicDetails] = useState(null);
   const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
@@ -33,19 +34,22 @@ const DetailsCoveredFiles = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchTopicDetails = async () => {
+    const fetchTopicDetails = async (topicId) => {
       try {
-        const response = await axios.get(
-          `${BASE_URL}/solo-lecture/get-topic-details/${topicId}`
-        );
-        const topicDetailsData = response.data;
-        setTopicDetails(topicDetailsData);
+        const response = await getTopicDetailsForSoloClassApi(topicId);
+        // const response = await axios.get(
+        //   `${BASE_URL}/solo-lecture/get-topic-details/${topicId}`
+        // );
+        if (response.status === 200) {
+          const topicDetailsData = response.data;
+          setTopicDetails(topicDetailsData);
+        }
       } catch (error) {
         console.error("Error fetching topic details:", error);
       }
     };
 
-    fetchTopicDetails();
+    fetchTopicDetails(topicId);
   }, [topicId]);
 
   const handleViewRecording = (recording) => {
@@ -99,9 +103,9 @@ const DetailsCoveredFiles = () => {
         </Text>
         <Box ml={"13px"} overflowX={"auto"} className="example">
           {topicDetails && topicDetails.length > 0 ? (
-            <Flex  >
+            <Flex>
               {topicDetails.map((topicInfo, index) => (
-                <Flex key={index}  >
+                <Flex key={index}>
                   {topicInfo.SoloClassRoomRecordings.map(
                     (recording, recordingIndex) => (
                       <Card
