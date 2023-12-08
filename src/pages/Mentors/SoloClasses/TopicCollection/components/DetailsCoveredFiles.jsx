@@ -13,6 +13,7 @@ import {
   UnorderedList,
   ListItem,
   Stack,
+  Tooltip
 } from "@chakra-ui/react";
 import defaultImageUrl from "../../../../../assets/images/image1.png";
 import { BsDownload, BsPlayFill } from "react-icons/bs";
@@ -153,7 +154,7 @@ const DetailsCoveredFiles = () => {
                 {topicInfo.SoloClassRoomFiles.map((file, fileIndex) => (
                   <Box
                     key={fileIndex}
-                    w={"170px"}
+                    w={"160px"}
                     h={"49px"}
                     ml={"20px"}
                     borderRadius={6}
@@ -162,15 +163,40 @@ const DetailsCoveredFiles = () => {
                     mb={"25px"}
                   >
                     <Flex align="center" m={"5px"}>
-                      <Text fontSize={"11px"} color={"#2C332978"}>
+                      {/* <Text
+                        fontSize={"11px"}
+                        color={"#2C332978"}
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                        whiteSpace="nowrap"
+                      >
                         {extractFileNameFromS3URL(file.key)}
-                      </Text>
+                      </Text> */}
+
+                      <Tooltip
+                        label={extractFileNameFromS3URL(file.key)}
+                        placement="bottom"
+                        hasArrow
+                        arrowSize={8}
+                        fontSize={"11px"}
+                      >
+                        <Text
+                          fontSize={"12px"}
+                          color={"#2C332978"}
+                          overflow="hidden"
+                          textOverflow="ellipsis"
+                          whiteSpace="nowrap"
+                        >
+                          {extractFileNameFromS3URL(file.key)}
+                        </Text>
+                      </Tooltip>
                       <Spacer />
                       <Button
                         rightIcon={<BsDownload />}
                         variant={"ghost"}
                         color={"black"}
                         ml={2}
+                        _hover={{bg:"none"}}
                       />
                     </Flex>
                   </Box>

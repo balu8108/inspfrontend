@@ -13,6 +13,7 @@ import {
   InputLeftElement,
   Spacer,
   useTheme,
+  Tooltip,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import { BsDownload } from "react-icons/bs";
@@ -143,7 +144,7 @@ const AllUploadedLecture = () => {
               {assignmentScreen.AssignmentFiles.map((file, index) => (
                 <Flex
                   key={index}
-                  w={"180px"}
+                  w={"160px"}
                   h={"49px"}
                   word-wrap={"break-word"}
                   color={"#2C332978"}
@@ -156,9 +157,31 @@ const AllUploadedLecture = () => {
                   px={2}
                   py={5}
                 >
-                  <Text mt={2} fontSize={"12px"}>
+                  {/* <Text
+                    fontSize={"12px"}
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                    whiteSpace="nowrap"
+                  >
                     {extractFileNameFromS3URL(file.key)}
-                  </Text>
+                  </Text> */}
+                  <Tooltip
+                    label={extractFileNameFromS3URL(file.key)}
+                    placement="bottom"
+                    hasArrow
+                    arrowSize={8}
+                    fontSize={"11px"}
+                  >
+                    <Text
+                      fontSize={"12px"}
+                      overflow="hidden"
+                      textOverflow="ellipsis"
+                      whiteSpace="nowrap"
+                    >
+                      {extractFileNameFromS3URL(file.key)}
+                    </Text>
+                  </Tooltip>
+
                   <Spacer />
                   <Button
                     rightIcon={<BsDownload />}
@@ -166,6 +189,7 @@ const AllUploadedLecture = () => {
                     size="sm"
                     color={"black"}
                     ml={2}
+                    _hover={{ bg: "white" }}
                     onClick={() =>
                       dispatch(
                         setIsDocModalOpen(

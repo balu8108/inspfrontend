@@ -70,6 +70,7 @@ const SoloClasses = () => {
           fontWeight={400}
           mt={"15px"}
           p={6}
+          _hover={{bg:"none"}}
           onClick={handleSeeAllClick}
         >
           See All

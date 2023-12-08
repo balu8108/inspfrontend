@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../api/inspexternalapis/index";
 import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
 import VectorImage from "../../../../assets/images/Line/Vector.svg";
-import {  capitalize } from "../../../../utils";
+import { capitalize } from "../../../../utils";
 
 const AllUploadedLecture = () => {
   const navigate = useNavigate();
@@ -91,7 +91,7 @@ const AllUploadedLecture = () => {
           placeholder="Search..."
           w="30%"
           border="1px solid #ccc"
-          borderRadius="md"
+          borderRadius="14px"
           px="3"
           bg={innerBackground}
           py="2"

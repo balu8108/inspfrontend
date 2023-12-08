@@ -14,15 +14,12 @@ import {
   ListItem,
   UnorderedList,
   useTheme,
+  Tooltip,
 } from "@chakra-ui/react";
 import { BsDownload } from "react-icons/bs";
 import chapterDetailsData from "../../data/chapterDetailsData";
 import defaultImageUrl from "../../../.././../../assets/images/image1.png";
-import {
-  boxShadowStyles,
-  capitalize,
-  extractFileNameFromS3URL,
-} from "../../../../../../utils";
+import { capitalize, extractFileNameFromS3URL } from "../../../../../../utils";
 import topicDescriptionConstants from "../../../../../../constants/topicDescriptionConstants";
 import { pollsFileNameExtraction } from "../../../../../../utils/pollsFileNameExtraction";
 import { BASE_URL } from "../../../../../../constants/staticurls";
@@ -201,39 +198,58 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
             {liveClassRoomData.data.map(
               (liveClassData) =>
                 liveClassData.LiveClassRoomFiles.length > 0 && (
-                  <Flex
+                  <Box
                     key={liveClassData.id}
-                    mt={"10px"}
-                    color={"#2C332978"}
-                    p={"9px"}
-                    borderRadius={"6px"}
-                    border={"1px solid #9597927D "}
-                    boxShadow={"0px 1px 6px 0px #00000029 "}
                     w={"170px"}
                     h={"49px"}
-                    fontSize={"11px"}
+                    borderRadius={6}
+                    border={" 1px solid #9597927D "}
+                    boxShadow={" 0px 1px 6px 0px #00000029 "}
+                    mb={"25px"}
                   >
-                    {extractFileNameFromS3URL(
-                      liveClassData.LiveClassRoomFiles[0].key
-                    )}
-                    <Spacer />
-                    <Button
-                      rightIcon={<BsDownload />}
-                      variant={"ghost"}
-                      color={"black"}
-                      ml={2}
-                      onClick={() =>
-                        dispatch(
-                          setIsDocModalOpen(
-                            liveClassData.LiveClassRoomFiles[0].id,
-                            liveClassData.LiveClassRoomFiles[0].key,
-                            "live",
-                            true
+                    <Flex align="center" m={"5px"}>
+                      <Tooltip
+                        label={extractFileNameFromS3URL(
+                          liveClassData.LiveClassRoomFiles[0].key
+                        )}
+                        placement="bottom"
+                        hasArrow
+                        arrowSize={8}
+                        fontSize={"11px"}
+                      >
+                        <Text
+                          fontSize={"12px"}
+                          color={"#2C332978"}
+                          overflow="hidden"
+                          textOverflow="ellipsis"
+                          whiteSpace="nowrap"
+                        >
+                          {extractFileNameFromS3URL(
+                            liveClassData.LiveClassRoomFiles[0].key
+                          )}
+                        </Text>
+                      </Tooltip>
+
+                      <Spacer />
+                      <Button
+                        rightIcon={<BsDownload />}
+                        variant={"ghost"}
+                        color={"black"}
+                        ml={2}
+                        _hover={{ bg: "none" }}
+                        onClick={() =>
+                          dispatch(
+                            setIsDocModalOpen(
+                              liveClassData.LiveClassRoomFiles[0].id,
+                              liveClassData.LiveClassRoomFiles[0].key,
+                              "live",
+                              true
+                            )
                           )
-                        )
-                      }
-                    ></Button>
-                  </Flex>
+                        }
+                      ></Button>
+                    </Flex>
+                  </Box>
                 )
             )}
             {liveClassRoomData.data.every(
@@ -275,8 +291,8 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                       boxShadow="0px 1px 6px 0px #00000029"
                       alignItems="center"
                       w="157px"
-                      h="49px"
-                      fontSize="13px"
+                      h={"49px"}
+                      fontSize="12px"
                     >
                       <Text flex="1">
                         {pollsFileNameExtraction(qnaNote.key)}
@@ -286,6 +302,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                         variant="ghost"
                         color="black"
                         ml={2}
+                        _hover={{ bg: "none" }}
                         onClick={() =>
                           dispatch(
                             setIsDocModalOpen(
@@ -311,19 +328,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
       </Box>
 
       <Box m={"20px"}>
-        <Flex>
-          <Text p={"13px"}>Assignments</Text>
-          <Spacer />
-          <Button
-            variant={"ghost"}
-            fontSize={"sm"}
-            fontWeight={400}
-            mt={"15px"}
-            mr={"10px"}
-            color={"#3C8DBC"}
-          ></Button>
-        </Flex>
-
+        <Text p={"13px"}>Assignments</Text>
         {assignmentDetails && assignmentDetails.length > 0 ? (
           <SimpleGrid gap={"24px"} mt={"16px"}>
             {assignmentDetails.map((assignment, index) => (
@@ -352,7 +357,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                     <Flex
                       key={fileIndex}
                       mt={"5px"}
-                      w={"175px"}
+                      w={"157px"}
                       h={"49px"}
                       color={"#2C332978"}
                       bg={"#FFFFFF"}
@@ -360,9 +365,32 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                       borderRadius={"6px"}
                       border={"1px solid #9597927D"}
                       boxShadow={"0px 1px 6px 0px #00000029"}
-                      fontSize={"11px"}
                     >
-                      {extractFileNameFromS3URL(file.key)}
+                      {/* <Text
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                        whiteSpace="nowrap"
+                        mt={2}
+                      >
+                        {extractFileNameFromS3URL(file.key)}
+                      </Text> */}
+                      <Tooltip
+                        label={extractFileNameFromS3URL(file.key)}
+                        placement="bottom"
+                        hasArrow
+                        arrowSize={8}
+                        fontSize={"11px"}
+                      >
+                        <Text
+                          overflow="hidden"
+                          textOverflow="ellipsis"
+                          whiteSpace="nowrap"
+                          mt={2}
+                          fontSize={"12px"}
+                        >
+                          {extractFileNameFromS3URL(file.key)}
+                        </Text>
+                      </Tooltip>
 
                       <Spacer />
                       <Button
@@ -370,6 +398,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                         rightIcon={<BsDownload />}
                         variant={"ghost"}
                         color={"black"}
+                        _hover={{ bg: "none" }}
                         ml={2}
                         onClick={() =>
                           dispatch(
