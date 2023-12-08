@@ -13,6 +13,7 @@ import {
   InputLeftElement,
   Spacer,
   useTheme,
+  Tooltip,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import { BsDownload } from "react-icons/bs";
@@ -145,14 +146,31 @@ const AllUploadedLecture = () => {
                   px={2}
                   py={5}
                 >
-                  <Text
+                  {/* <Text
                     fontSize={"12px"}
                     overflow="hidden"
                     textOverflow="ellipsis"
                     whiteSpace="nowrap"
                   >
                     {extractFileNameFromS3URL(file.key)}
-                  </Text>
+                  </Text> */}
+                  <Tooltip
+                    label={extractFileNameFromS3URL(file.key)}
+                    placement="bottom"
+                    hasArrow
+                    arrowSize={8}
+                    fontSize={"11px"}
+                  >
+                    <Text
+                      fontSize={"12px"}
+                      overflow="hidden"
+                      textOverflow="ellipsis"
+                      whiteSpace="nowrap"
+                    >
+                      {extractFileNameFromS3URL(file.key)}
+                    </Text>
+                  </Tooltip>
+
                   <Spacer />
                   <Button
                     rightIcon={<BsDownload />}
