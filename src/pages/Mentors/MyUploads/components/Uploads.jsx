@@ -160,6 +160,7 @@ const AllUploadedLecture = () => {
                     size="sm"
                     color={"black"}
                     ml={2}
+                    _hover={{ bg: "white" }}
                     onClick={() =>
                       dispatch(
                         setIsDocModalOpen(
