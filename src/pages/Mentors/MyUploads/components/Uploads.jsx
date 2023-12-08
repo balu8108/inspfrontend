@@ -132,7 +132,7 @@ const AllUploadedLecture = () => {
               {assignmentScreen.AssignmentFiles.map((file, index) => (
                 <Flex
                   key={index}
-                  w={"180px"}
+                  w={"160px"}
                   h={"49px"}
                   word-wrap={"break-word"}
                   color={"#2C332978"}
@@ -145,7 +145,12 @@ const AllUploadedLecture = () => {
                   px={2}
                   py={5}
                 >
-                  <Text mt={2} fontSize={"12px"} noOfLines={2}>
+                  <Text
+                    fontSize={"12px"}
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                    whiteSpace="nowrap"
+                  >
                     {extractFileNameFromS3URL(file.key)}
                   </Text>
                   <Spacer />

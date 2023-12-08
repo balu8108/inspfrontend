@@ -99,9 +99,9 @@ const DetailsCoveredFiles = () => {
         </Text>
         <Box ml={"13px"} overflowX={"auto"} className="example">
           {topicDetails && topicDetails.length > 0 ? (
-            <Flex  >
+            <Flex>
               {topicDetails.map((topicInfo, index) => (
-                <Flex key={index}  >
+                <Flex key={index}>
                   {topicInfo.SoloClassRoomRecordings.map(
                     (recording, recordingIndex) => (
                       <Card
@@ -149,7 +149,7 @@ const DetailsCoveredFiles = () => {
                 {topicInfo.SoloClassRoomFiles.map((file, fileIndex) => (
                   <Box
                     key={fileIndex}
-                    w={"170px"}
+                    w={"160px"}
                     h={"49px"}
                     ml={"20px"}
                     borderRadius={6}
@@ -158,7 +158,13 @@ const DetailsCoveredFiles = () => {
                     mb={"25px"}
                   >
                     <Flex align="center" m={"5px"}>
-                      <Text fontSize={"11px"} color={"#2C332978"} noOfLines={2} >
+                      <Text
+                        fontSize={"11px"}
+                        color={"#2C332978"}
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                        whiteSpace="nowrap"
+                      >
                         {extractFileNameFromS3URL(file.key)}
                       </Text>
                       <Spacer />

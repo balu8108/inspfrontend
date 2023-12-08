@@ -203,14 +203,19 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                     key={liveClassData.id}
                     w={"170px"}
                     h={"49px"}
-                   
                     borderRadius={6}
                     border={" 1px solid #9597927D "}
                     boxShadow={" 0px 1px 6px 0px #00000029 "}
                     mb={"25px"}
                   >
-                    <Flex  align="center" m={"5px"}>
-                      <Text fontSize={"11px"} color={"#2C332978"} noOfLines={2}>
+                    <Flex align="center" m={"5px"}>
+                      <Text
+                        fontSize={"11px"}
+                        color={"#2C332978"}
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                        whiteSpace="nowrap"
+                      >
                         {extractFileNameFromS3URL(
                           liveClassData.LiveClassRoomFiles[0].key
                         )}
@@ -352,7 +357,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                     <Flex
                       key={fileIndex}
                       mt={"5px"}
-                      w={"175px"}
+                      w={"157px"}
                       h={"49px"}
                       color={"#2C332978"}
                       bg={"#FFFFFF"}
@@ -362,7 +367,14 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                       boxShadow={"0px 1px 6px 0px #00000029"}
                       fontSize={"11px"}
                     >
-                      {extractFileNameFromS3URL(file.key)}
+                      <Text
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                        whiteSpace="nowrap"
+                        mt={2}
+                      >
+                        {extractFileNameFromS3URL(file.key)}
+                      </Text>
 
                       <Spacer />
                       <Button

@@ -102,7 +102,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
           files: files.map((file) => file.name).join(", "),
         };
 
-        const formDataToSave = JSON.stringify(formValues);
+        // const formDataToSave = JSON.stringify(formValues);
         //localStorage.setItem("formData", formDataToSave);
 
         navigate(`/mentor/solo-lectures/${response?.data?.soloClassRoomId}`);
