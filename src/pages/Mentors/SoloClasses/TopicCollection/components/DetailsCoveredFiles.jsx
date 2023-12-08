@@ -177,7 +177,7 @@ const DetailsCoveredFiles = () => {
                         fontSize={"11px"}
                       >
                         <Text
-                          fontSize={"11px"}
+                          fontSize={"12px"}
                           color={"#2C332978"}
                           overflow="hidden"
                           textOverflow="ellipsis"

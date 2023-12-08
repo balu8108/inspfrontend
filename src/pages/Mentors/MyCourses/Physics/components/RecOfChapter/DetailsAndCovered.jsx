@@ -220,7 +220,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                         fontSize={"11px"}
                       >
                         <Text
-                          fontSize={"11px"}
+                          fontSize={"12px"}
                           color={"#2C332978"}
                           overflow="hidden"
                           textOverflow="ellipsis"
@@ -238,7 +238,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                         variant={"ghost"}
                         color={"black"}
                         ml={2}
-                        _hover={{bg:"none"}}
+                        _hover={{ bg: "none" }}
                         onClick={() =>
                           dispatch(
                             setIsDocModalOpen(
@@ -304,7 +304,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                         variant="ghost"
                         color="black"
                         ml={2}
-                        _hover={{bg:"none"}}
+                        _hover={{ bg: "none" }}
                         onClick={() =>
                           dispatch(
                             setIsDocModalOpen(
@@ -379,7 +379,6 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                       borderRadius={"6px"}
                       border={"1px solid #9597927D"}
                       boxShadow={"0px 1px 6px 0px #00000029"}
-                      fontSize={"11px"}
                     >
                       {/* <Text
                         overflow="hidden"
@@ -401,6 +400,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                           textOverflow="ellipsis"
                           whiteSpace="nowrap"
                           mt={2}
+                          fontSize={"12px"}
                         >
                           {extractFileNameFromS3URL(file.key)}
                         </Text>
@@ -412,7 +412,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                         rightIcon={<BsDownload />}
                         variant={"ghost"}
                         color={"black"}
-                        _hover={{bg:"none"}}
+                        _hover={{ bg: "none" }}
                         ml={2}
                         onClick={() =>
                           dispatch(
