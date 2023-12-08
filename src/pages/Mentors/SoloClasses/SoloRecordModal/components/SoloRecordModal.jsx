@@ -103,7 +103,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
         };
 
         const formDataToSave = JSON.stringify(formValues);
-        localStorage.setItem("formData", formDataToSave);
+        //localStorage.setItem("formData", formDataToSave);
 
         navigate(`/mentor/solo-lectures/${response?.data?.soloClassRoomId}`);
       } else {
@@ -162,7 +162,6 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
     }
   }, [selectedSubject]);
 
-  const noTopicsMessage = "No topics available for the selected subject";
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"xl"}>
       <ModalOverlay />

@@ -158,7 +158,7 @@ const DetailsCoveredFiles = () => {
                     mb={"25px"}
                   >
                     <Flex align="center" m={"5px"}>
-                      <Text fontSize={"11px"} color={"#2C332978"}>
+                      <Text fontSize={"11px"} color={"#2C332978"} noOfLines={2} >
                         {extractFileNameFromS3URL(file.key)}
                       </Text>
                       <Spacer />

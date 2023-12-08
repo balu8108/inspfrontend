@@ -199,39 +199,41 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
             {liveClassRoomData.data.map(
               (liveClassData) =>
                 liveClassData.LiveClassRoomFiles.length > 0 && (
-                  <Flex
+                  <Box
                     key={liveClassData.id}
-                    mt={"10px"}
-                    color={"#2C332978"}
-                    p={"9px"}
-                    borderRadius={"6px"}
-                    border={"1px solid #9597927D "}
-                    boxShadow={"0px 1px 6px 0px #00000029 "}
                     w={"170px"}
                     h={"49px"}
-                    fontSize={"11px"}
+                   
+                    borderRadius={6}
+                    border={" 1px solid #9597927D "}
+                    boxShadow={" 0px 1px 6px 0px #00000029 "}
+                    mb={"25px"}
                   >
-                    {extractFileNameFromS3URL(
-                      liveClassData.LiveClassRoomFiles[0].key
-                    )}
-                    <Spacer />
-                    <Button
-                      rightIcon={<BsDownload />}
-                      variant={"ghost"}
-                      color={"black"}
-                      ml={2}
-                      onClick={() =>
-                        dispatch(
-                          setIsDocModalOpen(
-                            liveClassData.LiveClassRoomFiles[0].id,
-                            liveClassData.LiveClassRoomFiles[0].key,
-                            "live",
-                            true
+                    <Flex  align="center" m={"5px"}>
+                      <Text fontSize={"11px"} color={"#2C332978"} noOfLines={2}>
+                        {extractFileNameFromS3URL(
+                          liveClassData.LiveClassRoomFiles[0].key
+                        )}
+                      </Text>
+                      <Spacer />
+                      <Button
+                        rightIcon={<BsDownload />}
+                        variant={"ghost"}
+                        color={"black"}
+                        ml={2}
+                        onClick={() =>
+                          dispatch(
+                            setIsDocModalOpen(
+                              liveClassData.LiveClassRoomFiles[0].id,
+                              liveClassData.LiveClassRoomFiles[0].key,
+                              "live",
+                              true
+                            )
                           )
-                        )
-                      }
-                    ></Button>
-                  </Flex>
+                        }
+                      ></Button>
+                    </Flex>
+                  </Box>
                 )
             )}
             {liveClassRoomData.data.every(

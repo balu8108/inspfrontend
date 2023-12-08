@@ -145,7 +145,7 @@ const AllUploadedLecture = () => {
                   px={2}
                   py={5}
                 >
-                  <Text mt={2} fontSize={"12px"}>
+                  <Text mt={2} fontSize={"12px"} noOfLines={2}>
                     {extractFileNameFromS3URL(file.key)}
                   </Text>
                   <Spacer />
