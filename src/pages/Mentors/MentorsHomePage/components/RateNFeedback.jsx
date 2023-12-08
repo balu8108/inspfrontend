@@ -60,6 +60,7 @@ const FeedBack = () => {
             fontWeight={400}
             mt={"15px"}
             p={6}
+            _hover={{bg:"none"}}
           >
             See All
           </Button>

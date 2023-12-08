@@ -14,6 +14,7 @@ import {
   ListItem,
   UnorderedList,
   useTheme,
+  Tooltip,
 } from "@chakra-ui/react";
 import { BsDownload } from "react-icons/bs";
 import chapterDetailsData from "../../data/chapterDetailsData";
@@ -209,23 +210,35 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                     mb={"25px"}
                   >
                     <Flex align="center" m={"5px"}>
-                      <Text
-                        fontSize={"11px"}
-                        color={"#2C332978"}
-                        overflow="hidden"
-                        textOverflow="ellipsis"
-                        whiteSpace="nowrap"
-                      >
-                        {extractFileNameFromS3URL(
+                      <Tooltip
+                        label={extractFileNameFromS3URL(
                           liveClassData.LiveClassRoomFiles[0].key
                         )}
-                      </Text>
+                        placement="bottom"
+                        hasArrow
+                        arrowSize={8}
+                        fontSize={"11px"}
+                      >
+                        <Text
+                          fontSize={"11px"}
+                          color={"#2C332978"}
+                          overflow="hidden"
+                          textOverflow="ellipsis"
+                          whiteSpace="nowrap"
+                        >
+                          {extractFileNameFromS3URL(
+                            liveClassData.LiveClassRoomFiles[0].key
+                          )}
+                        </Text>
+                      </Tooltip>
+
                       <Spacer />
                       <Button
                         rightIcon={<BsDownload />}
                         variant={"ghost"}
                         color={"black"}
                         ml={2}
+                        _hover={{bg:"none"}}
                         onClick={() =>
                           dispatch(
                             setIsDocModalOpen(
@@ -291,6 +304,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                         variant="ghost"
                         color="black"
                         ml={2}
+                        _hover={{bg:"none"}}
                         onClick={() =>
                           dispatch(
                             setIsDocModalOpen(
@@ -367,14 +381,30 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                       boxShadow={"0px 1px 6px 0px #00000029"}
                       fontSize={"11px"}
                     >
-                      <Text
+                      {/* <Text
                         overflow="hidden"
                         textOverflow="ellipsis"
                         whiteSpace="nowrap"
                         mt={2}
                       >
                         {extractFileNameFromS3URL(file.key)}
-                      </Text>
+                      </Text> */}
+                      <Tooltip
+                        label={extractFileNameFromS3URL(file.key)}
+                        placement="bottom"
+                        hasArrow
+                        arrowSize={8}
+                        fontSize={"11px"}
+                      >
+                        <Text
+                          overflow="hidden"
+                          textOverflow="ellipsis"
+                          whiteSpace="nowrap"
+                          mt={2}
+                        >
+                          {extractFileNameFromS3URL(file.key)}
+                        </Text>
+                      </Tooltip>
 
                       <Spacer />
                       <Button
@@ -382,6 +412,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                         rightIcon={<BsDownload />}
                         variant={"ghost"}
                         color={"black"}
+                        _hover={{bg:"none"}}
                         ml={2}
                         onClick={() =>
                           dispatch(

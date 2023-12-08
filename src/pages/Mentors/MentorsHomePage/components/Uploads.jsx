@@ -73,8 +73,9 @@ const MentorsUploads = () => {
           mr={"10px"}
           color={"#3C8DBC"}
           onClick={openUploadAssignmentModal}
+          _hover={{bg:"none"}}
         >
-          <Icon as={IoIosAdd} mr={2} boxSize={7} /> Add Assignment
+          <Icon as={IoIosAdd} mr={2} boxSize={7}  /> Add Assignment
         </Button>
       </Flex>
 

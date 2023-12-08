@@ -13,6 +13,7 @@ import {
   UnorderedList,
   ListItem,
   Stack,
+  Tooltip
 } from "@chakra-ui/react";
 import defaultImageUrl from "../../../../../assets/images/image1.png";
 import { BsDownload, BsPlayFill } from "react-icons/bs";
@@ -158,7 +159,7 @@ const DetailsCoveredFiles = () => {
                     mb={"25px"}
                   >
                     <Flex align="center" m={"5px"}>
-                      <Text
+                      {/* <Text
                         fontSize={"11px"}
                         color={"#2C332978"}
                         overflow="hidden"
@@ -166,13 +167,32 @@ const DetailsCoveredFiles = () => {
                         whiteSpace="nowrap"
                       >
                         {extractFileNameFromS3URL(file.key)}
-                      </Text>
+                      </Text> */}
+
+                      <Tooltip
+                        label={extractFileNameFromS3URL(file.key)}
+                        placement="bottom"
+                        hasArrow
+                        arrowSize={8}
+                        fontSize={"11px"}
+                      >
+                        <Text
+                          fontSize={"11px"}
+                          color={"#2C332978"}
+                          overflow="hidden"
+                          textOverflow="ellipsis"
+                          whiteSpace="nowrap"
+                        >
+                          {extractFileNameFromS3URL(file.key)}
+                        </Text>
+                      </Tooltip>
                       <Spacer />
                       <Button
                         rightIcon={<BsDownload />}
                         variant={"ghost"}
                         color={"black"}
                         ml={2}
+                        _hover={{bg:"none"}}
                       />
                     </Flex>
                   </Box>

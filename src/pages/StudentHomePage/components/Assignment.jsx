@@ -60,6 +60,7 @@ const Assignment = () => {
             mt={5}
             ml={12}
             fontWeight={400}
+            _hover={{bg:"none"}}
           >
             See All
           </Button>
