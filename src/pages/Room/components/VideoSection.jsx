@@ -18,7 +18,6 @@ const VideoSection = ({ mentorVideoRef }) => {
   };
   useEffect(() => {
     if (mentorVideoShareConsumer) {
-      // renderMentorVideoStream();
       if (mentorVideoShareConsumer.paused) {
         removeMentorVideoStream(); // Pause triggered, remove stream
       } else {

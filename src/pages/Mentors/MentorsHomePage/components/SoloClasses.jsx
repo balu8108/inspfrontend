@@ -7,17 +7,27 @@ import {
   HStack,
   Spacer,
   Text,
+  useTheme,
 } from "@chakra-ui/react";
-import soloclasses from "../data/soloclass";
-import { Link } from "react-router-dom";
+
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../../../../constants/staticurls";
+import { capitalize } from "../../../../utils";
+import { getLatestSoloClassApi } from "../../../../api/soloclassrooms";
 const SoloClasses = () => {
   const [latestSoloClassroom, setLatestSoloClassroom] = useState([]);
+  const navigate = useNavigate();
+  const { outerBackground, innerBackground, innerBoxShadow } =
+    useTheme().colors.pallete;
+
+  const handleSeeAllClick = () => {
+    navigate("/mentor/solo-recordings/topic/36/ALTERNATING%20CURRENT");
+  };
 
   const getSoloLatestClassroom = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/solo-lecture/latest-room`);
+      const response = await getLatestSoloClassApi();
 
       if (response.status === 200) {
         setLatestSoloClassroom(response.data.data);
@@ -30,7 +40,14 @@ const SoloClasses = () => {
     getSoloLatestClassroom();
   }, []);
   return (
-    <Box bg={"#F1F5F8"} mt={"23px"} borderRadius={"25px"} w={"95%"}>
+    <Box
+      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      bg={outerBackground}
+      mt={"23px"}
+      borderRadius={"25px"}
+      w={"95%"}
+      h={"full"}
+    >
       <Flex>
         <HStack spacing={"10px"}>
           <Box
@@ -46,17 +63,18 @@ const SoloClasses = () => {
           </Text>
         </HStack>
         <Spacer />
-        <Link to={`/mentor/solo-recordings/topic`}>
-          <Button
-            variant={"ghost"}
-            fontSize={"sm"}
-            fontWeight={400}
-            mt={"15px"}
-            p={6}
-          >
-            See All
-          </Button>
-        </Link>
+
+        <Button
+          variant={"ghost"}
+          fontSize={"sm"}
+          fontWeight={400}
+          mt={"15px"}
+          p={6}
+          _hover={{bg:"none"}}
+          onClick={handleSeeAllClick}
+        >
+          See All
+        </Button>
       </Flex>
       <Flex mt={"34px"} flexWrap="wrap">
         {latestSoloClassroom.map((soloclassInfo) => (
@@ -65,11 +83,11 @@ const SoloClasses = () => {
               h={"175px"}
               w={"50"}
               borderRadius={"18px"}
-              bg={"#F1F5F8"}
+              bg={innerBackground}
+              boxShadow={innerBoxShadow}
               ml={"20px"}
               mb={"20px"}
               mr={"20px"}
-              blendMode={"multiply"}
             >
               <Text
                 fontSize={"16px"}
@@ -80,7 +98,7 @@ const SoloClasses = () => {
                 mt={"13px"}
                 noOfLines={1}
               >
-                {soloclassInfo.topic}
+                {capitalize(soloclassInfo.topic)}
               </Text>
               <Text
                 fontSize={"11px"}
@@ -113,7 +131,7 @@ const SoloClasses = () => {
                 {soloclassInfo.description}
               </Text>
               <Link
-                to={`/mentor/solo-recordings/topic`}
+                to={`/mentor/solo-recordings/topic/${soloclassInfo.topicId}/${soloclassInfo.topic}`}
                 style={{
                   position: "absolute",
                   bottom: "10px",
@@ -127,6 +145,7 @@ const SoloClasses = () => {
                   fontWeight={"600"}
                   fontSize={"14px"}
                   lineHeight={"16px"}
+                  _hover={{ bg: "white" }}
                 >
                   View Details
                 </Button>

@@ -3,68 +3,62 @@ import {
   Box,
   HStack,
   Text,
-  Stack,
   Flex,
   Button,
   Spacer,
   Image,
   Icon,
   Card,
+  useTheme,
+  UnorderedList,
+  ListItem,
+  Stack,
+  Tooltip
 } from "@chakra-ui/react";
 import defaultImageUrl from "../../../../../assets/images/image1.png";
-import { BsDownload } from "react-icons/bs";
+import { BsDownload, BsPlayFill } from "react-icons/bs";
 import axios from "axios";
-import { BsPlayFill } from "react-icons/bs";
 import { useNavigate } from "react-router";
-import { FaCircle } from "react-icons/fa";
-import { getPresignedUrlApi } from "../../../../../api/genericapis";
 import { BASE_URL } from "../../../../../constants/staticurls";
-import { SimpleGrid } from "@chakra-ui/layout";
-const DetailsCoveredFiles = ({ viewTopic, viewtopicName }) => {
+import { useParams } from "react-router-dom";
+import { capitalize, extractFileNameFromS3URL } from "../../../../../utils";
+import "../../../../../constants/scrollbar/style.css";
+import detailsCoveredData from "../data/detailsCoveredData";
+import topicDescriptionConstants from "../../../../../constants/topicDescriptionConstants";
+import { getTopicDetailsForSoloClassApi } from "../../../../../api/soloclassrooms";
+const DetailsCoveredFiles = () => {
   const [topicDetails, setTopicDetails] = useState(null);
   const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
-  const [showVideo, setShowVideo] = useState(false);
-  const [videoUrl, setVideoUrl] = useState(null);
+  const { topicId, topic_name } = useParams();
+  const topicDescription = topicDescriptionConstants[topicId];
+  const { outerBackground } = useTheme().colors.pallete;
   const navigate = useNavigate();
-  // Function to fetch topic details
-  const fetchTopicDetails = async (topicId) => {
-    try {
-      const response = await axios.get(
-        `${BASE_URL}/solo-lecture/get-topic-details/${topicId}`
-      );
-
-      const topicDetailsData = response.data;
-
-      // Update the state with the received topic details
-      setTopicDetails(topicDetailsData);
-    } catch (error) {
-      console.error("Error fetching topic details:", error);
-    }
-  };
 
   useEffect(() => {
-    if (viewTopic !== null) {
-      fetchTopicDetails(viewTopic);
-    }
-  }, [viewTopic]);
+    const fetchTopicDetails = async (topicId) => {
+      try {
+        const response = await getTopicDetailsForSoloClassApi(topicId);
+        // const response = await axios.get(
+        //   `${BASE_URL}/solo-lecture/get-topic-details/${topicId}`
+        // );
+        if (response.status === 200) {
+          const topicDetailsData = response.data;
+          setTopicDetails(topicDetailsData);
+        }
+      } catch (error) {
+        console.error("Error fetching topic details:", error);
+      }
+    };
 
-  const handleCardClick = async (videoUrl) => {
-    try {
-      const response = await getPresignedUrlApi({ s3_key: videoUrl });
+    fetchTopicDetails(topicId);
+  }, [topicId]);
 
-      const presignedUrl = response.data.data.getUrl;
-
-      // Open the video in a new tab or window using the generated URL
-
-      navigate(`/view-recording?videoUrl=${presignedUrl}`);
-    } catch (error) {
-      console.error("Error generating pre-signed URL:", error);
-      // Handle errors as needed
-    }
+  const handleViewRecording = (recording) => {
+    navigate(`/view-recording?type=solo_specific&id=${recording.id}`);
   };
 
   return (
-    <Box bg={"#F1F5F8"} borderRadius={"26px"} w={"100%"}>
+    <Box borderRadius={"26px"} w={"100%"} bg={outerBackground}>
       <HStack spacing={"10px"} p={6}>
         <Box
           width={"12px"}
@@ -73,154 +67,148 @@ const DetailsCoveredFiles = ({ viewTopic, viewtopicName }) => {
           bg={"#3C8DBC"}
         />
         <Text fontSize={"19px"} lineHeight={"24px"}>
-          Details( {viewtopicName} )
+          {capitalize(topic_name)}
         </Text>
       </HStack>
 
-      {topicDetails && topicDetails.length > 0 ? (
-        topicDetails.map((topicInfo, index) => (
-          <Box ml={"20px"} key={topicInfo.id}>
-            <HStack>
-              <Box flex={1}>
-                {index === 0 && <Text p={"13px"}>Description</Text>}
-                {topicInfo.description.split("\n").map((item, i) => (
-                  <HStack key={i} spacing={"5px"}>
-                    <Icon
-                      as={FaCircle}
-                      boxSize={2}
-                      color="#C3C3C3"
-                      blendMode={"multiply"}
-                    />
-                    <Text fontSize={"12px"} color={"#2C332978"}>
-                      {item}
-                    </Text>
-                  </HStack>
-                ))}
-              </Box>
-              <Spacer />
-              <Box flex={1} ml={"24px"}>
-                {index === 0 && <Text p={"13px"}>Agenda</Text>}
-                {topicInfo.agenda.split("\n").map((item, i) => (
-                  <HStack key={i} spacing={"5px"}>
-                    <Icon
-                      as={FaCircle}
-                      boxSize={2}
-                      color="#C3C3C3"
-                      blendMode={"multiply"}
-                    />
-                    <Text
-                      fontSize={"12px"}
-                      color={"#2C332978"}
-                      lineHeight={"21px"}
-                    >
-                      {item}
-                    </Text>
-                  </HStack>
-                ))}
-              </Box>
-            </HStack>
-          </Box>
-        ))
-      ) : (
-        <Box p={4} mx={5}>
-          <Text>No details available for this topic.</Text>
+      <Flex mt={"37px"}>
+        <Box w={"50%"} ml={"20px"}>
+          <Text>Description</Text>
+          <Text
+            fontSize="12px"
+            lineHeight={"21px"}
+            color={"#2C332978"}
+            mt={"15px"}
+          >
+            {topicDescription || "No description available for this topic."}
+          </Text>
         </Box>
-      )}
+        <Box flex={1} ml={"24px"}>
+          <Text fontSize="md">Agenda</Text>
+          <UnorderedList
+            fontSize={"12px"}
+            color={"#2C332978"}
+            spacing={"10px"}
+            mt={"16px"}
+          >
+            {detailsCoveredData[0].agenda.map((topic, index) => (
+              <ListItem key={index}>{topic}</ListItem>
+            ))}
+          </UnorderedList>
+        </Box>
+      </Flex>
 
-      <Box ml={"20px"} mt="20px">
-        <Text p={"13px"}>Recordings</Text>
-        <Flex gap={"24px"} overflowX={"auto"}>
+      <Stack mt={"31px"}>
+        <Text ml={"20px"} p={"13px"}>
+          Recording
+        </Text>
+        <Box ml={"13px"} overflowX={"auto"} className="example">
           {topicDetails && topicDetails.length > 0 ? (
-            topicDetails.map((topicInfo, index) => (
-              <HStack key={index}>
-                {topicInfo.SoloClassRoomRecordings.map(
-                  (recording, recordingIndex) => (
-                    <Card
-                      key={recordingIndex}
-                      borderRadius={6}
-                      bg={"#F1F5F8"}
-                      blendMode={"multiply"}
-                      w={"150px"}
-                      boxShadow="md"
-                      position="relative"
-                      m={"20px"}
-                      onMouseEnter={() => setHoveredCardIndex(index)}
-                      onMouseLeave={() => setHoveredCardIndex(null)}
-                      onClick={() => handleCardClick(recording.key)}
-                    >
-                      <Flex alignItems="center">
-                        <Image src={defaultImageUrl} alt="Video Thumbnail" />
-                        <Icon
-                          as={BsPlayFill}
-                          color="#2C332978"
-                          fontSize="24px"
-                          position="absolute"
-                          top="50%"
-                          left="50%"
-                          transform="translate(-50%, -50%)"
-                          opacity={hoveredCardIndex === index ? 1 : 0}
-                        />
-                      </Flex>
-                    </Card>
-                  )
-                )}
-              </HStack>
-            ))
+            <Flex>
+              {topicDetails.map((topicInfo, index) => (
+                <Flex key={index}>
+                  {topicInfo.SoloClassRoomRecordings.map(
+                    (recording, recordingIndex) => (
+                      <Card
+                        key={recording.id}
+                        w={"160px"}
+                        ml={"20px"}
+                        onClick={() => handleViewRecording(recording)}
+                      >
+                        <Flex alignItems="center">
+                          <Image src={defaultImageUrl} alt="Video Thumbnail" />
+                          <Icon
+                            as={BsPlayFill}
+                            color="#2C332978"
+                            fontSize="24px"
+                            position="absolute"
+                            top="50%"
+                            left="50%"
+                            transform="translate(-50%, -50%)"
+                            opacity={hoveredCardIndex === index ? 1 : 0}
+                          />
+                        </Flex>
+                      </Card>
+                    )
+                  )}
+                </Flex>
+              ))}
+            </Flex>
           ) : (
-            <Box p={4}>
-              <Text>No video recordings are available for this topic.</Text>
+            <Box p={4} fontSize={"14px"} ml={5}>
+              <Text>No recording are available for this topic.</Text>
             </Box>
           )}
-        </Flex>
-      </Box>
+        </Box>
+      </Stack>
 
-      <Box mt={"31px"} overflowX="auto">
+      <Box mt={"31px"} display="flex" flexWrap="wrap">
         <Text ml={"20px"} p={"13px"}>
           Files/Notes
         </Text>
-        <HStack ml={"20px"}>
+
+        <Box w={"100%"} ml={"13px"} display="flex" flexWrap="wrap">
           {topicDetails && topicDetails.length > 0 ? (
             topicDetails.map((topicInfo, index) => (
-              <Box key={topicInfo.id}>
+              <Box key={topicInfo.id} display="flex" flexWrap="wrap">
                 {topicInfo.SoloClassRoomFiles.map((file, fileIndex) => (
                   <Box
                     key={fileIndex}
-                    mr="10px"
+                    w={"160px"}
+                    h={"49px"}
+                    ml={"20px"}
                     borderRadius={6}
-                    bg={"#F1F5F8"}
-                    blendMode={"multiply"}
-                    p={1}
-                    border={1}
-                    boxShadow={"md"}
+                    border={" 1px solid #9597927D "}
+                    boxShadow={" 0px 1px 6px 0px #00000029 "}
                     mb={"25px"}
                   >
-                    <Flex>
-                      <Text fontSize={"12px"} mt={3} color={"#2C332978"}>
-                        {file.key}
-                      </Text>
-                      <a
-                        href={file.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                    <Flex align="center" m={"5px"}>
+                      {/* <Text
+                        fontSize={"11px"}
+                        color={"#2C332978"}
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                        whiteSpace="nowrap"
                       >
-                        <Button
-                          rightIcon={<BsDownload />}
-                          variant={"ghost"}
-                          color={"black"}
-                          ml={2}
-                        />
-                      </a>
+                        {extractFileNameFromS3URL(file.key)}
+                      </Text> */}
+
+                      <Tooltip
+                        label={extractFileNameFromS3URL(file.key)}
+                        placement="bottom"
+                        hasArrow
+                        arrowSize={8}
+                        fontSize={"11px"}
+                      >
+                        <Text
+                          fontSize={"12px"}
+                          color={"#2C332978"}
+                          overflow="hidden"
+                          textOverflow="ellipsis"
+                          whiteSpace="nowrap"
+                        >
+                          {extractFileNameFromS3URL(file.key)}
+                        </Text>
+                      </Tooltip>
+                      <Spacer />
+                      <Button
+                        rightIcon={<BsDownload />}
+                        variant={"ghost"}
+                        color={"black"}
+                        ml={2}
+                        _hover={{bg:"none"}}
+                      />
                     </Flex>
                   </Box>
                 ))}
               </Box>
             ))
           ) : (
-            <Box p={4}>
+            <Box p={4} fontSize={"14px"} ml={5}>
               <Text>No files/notes are available for this topic.</Text>
             </Box>
           )}
-        </HStack>
+        </Box>
       </Box>
     </Box>
   );

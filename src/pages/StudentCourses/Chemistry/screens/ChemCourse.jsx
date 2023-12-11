@@ -1,41 +1,60 @@
-import React, { useEffect } from "react";
-// import Header from "../../../MyCourses/components/Header";
+import React, { useState, useEffect } from "react";
 import Header from "../../../Mentors/Header/components/HeaderInAllScreen";
 import ChemDetails from "../components/ChemiDetails";
-import ScheduledMeetings from "../../../MeetingViewer/components/ScheduledMeetings";
-import { Flex, Stack, Box, useDisclosure } from "@chakra-ui/react";
+import { Flex, Stack, Box, useDisclosure, useTheme } from "@chakra-ui/react";
 import ScheduleClassList from "../../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
 import { boxShadowStyles } from "../../../../utils";
 import { useDispatch } from "react-redux";
 import { getAllLiveClassesSchedule } from "../../../../store/actions/scheduleClassActions";
+import ScheduleClassPopup from "../../../../components/popups/ScheduleClassPopup";
 
 const ChemScreen = () => {
   const dispatch = useDispatch();
-  const { onOpen: onSchedulePopupOpen } = useDisclosure();
+  const {
+    isOpen: isSchedulePopupOpen,
+    onOpen: onSchedulePopupOpen,
+    onClose: onScheduleClosePopupOpen,
+  } = useDisclosure();
+  const { outerBackground } = useTheme().colors.pallete;
+  const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
+  const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
   useEffect(() => {
     dispatch(getAllLiveClassesSchedule());
   }, [dispatch]);
   return (
-    <Flex gap={"24px"} m={"52px"}>
-      <Stack spacing={6} w={"full"}>
-        <Header />
-        <ChemDetails />
-      </Stack>
-      <Box w={"33%"}>
-        <SimpleBar
-          style={{
-            maxHeight: "85vh", 
-            borderRadius: "10px",
-            boxShadow: boxShadowStyles.shadowOneStyle.boxShadow,
-          }}
-        >
-          <Box p={4}>
-            <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
-          </Box>
-        </SimpleBar>
-      </Box>
-    </Flex>
+    <>
+      {isSchedulePopupOpen && (
+        <ScheduleClassPopup
+          isOpen={isSchedulePopupOpen}
+          onClose={onScheduleClosePopupOpen}
+          selectedDate={selectedDate}
+          classTiming={classTiming}
+          setSelectedDate={setSelectedDate}
+          setClassTiming={setClassTiming}
+        />
+      )}
+      <Flex gap={"24px"} m={"52px"}>
+        <Stack spacing={6} w={"full"}>
+          <Header />
+          <ChemDetails />
+        </Stack>
+        <Box w={"33%"}>
+          <SimpleBar
+            style={{
+              maxHeight: "85vh",
+              borderRadius: "26px",
+              background: outerBackground,
+              // boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
+            }}
+          >
+            <Box p={4}>
+              <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
+            </Box>
+          </SimpleBar>
+        </Box>
+      </Flex>
+    </>
   );
 };
 export default ChemScreen;

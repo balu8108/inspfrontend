@@ -15,18 +15,21 @@ const ScheduleClassList = ({ onSchedulePopupOpen }) => {
   };
   return (
     <>
-      <Flex direction={"column"}>
-        {checkUserType() === userType.teacher && (
-          <MainBtn
-            isLoading={false}
-            text={scheduleClassData.scheduleClass}
-            backColor={primaryBlue}
-            textColor={"white"}
-            onClickHandler={scheduleClassClickHandler}
-            hoverColor={primaryBlueLight}
-          />
-        )}
-
+      {checkUserType() === userType.teacher && (
+        <MainBtn
+          isLoading={false}
+          text={scheduleClassData.scheduleClass}
+          backColor={primaryBlue}
+          textColor={"white"}
+          onClickHandler={scheduleClassClickHandler}
+          hoverColor={primaryBlueLight}
+        />
+      )}
+      <Flex
+        direction={"column"}
+        justifyContent={"space-between"}
+        height={"100%"}
+      >
         {scheduleClassCategory.classCategories.map((category) => (
           <Box key={category.id} my={4}>
             <HStack>

@@ -12,9 +12,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { setIsDocModalOpen } from "../../store/actions/genericActions";
 import { getPresignedUrlDocApi } from "../../api/genericapis";
-import { checkUserType, getStorageData } from "../../utils";
-// import GoogleDocsViewer from "react-google-docs-viewer";
-// import { fileConverter } from "../../utils";
+import { getStorageData } from "../../utils";
 
 const PSDDocumentViewer = ({ doc }) => {
   const docRef = useRef(null);
@@ -27,7 +25,7 @@ const PSDDocumentViewer = ({ doc }) => {
       const printButton = iframeDoc.querySelector(
         ".PSPDFKit-Toolbar-Button-Print"
       );
-      console.log("print button", printButton);
+
       const exportButton = iframeDoc.querySelector(
         ".PSPDFKit-Toolbar-Button-Export-PDF"
       );

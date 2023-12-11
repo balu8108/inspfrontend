@@ -1,15 +1,14 @@
-import { Grid, GridItem, Box, useTheme, useDisclosure } from "@chakra-ui/react";
+import { Grid, GridItem, Box, useDisclosure, useTheme } from "@chakra-ui/react";
 
 import ScheduleCalendar from "../components/ScheduleCalendar";
 import ScheduleClassPopup from "../../../components/popups/ScheduleClassPopup";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassActions";
-import SimpleBar from "simplebar-react";
-import "simplebar-react/dist/simplebar.min.css";
-import { boxShadowStyles } from "../../../utils";
-import ScheduleClassList from "../components/ScheduleClassList";
 
+import ScheduleClassList from "../components/ScheduleClassList";
+import { Scrollbars } from "rc-scrollbars";
+import { boxShadowStyles } from "../../../utils";
 const ScheduleClass = () => {
   const {
     isOpen: isSchedulePopupOpen,
@@ -17,10 +16,10 @@ const ScheduleClass = () => {
     onClose: onScheduleClosePopupOpen,
   } = useDisclosure();
 
-  const { lightGrey } = useTheme().colors.pallete;
   const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
   const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
   const dispatch = useDispatch();
+  const { outerBackground } = useTheme().colors.pallete;
 
   useEffect(() => {
     dispatch(getAllLiveClassesSchedule());
@@ -40,20 +39,32 @@ const ScheduleClass = () => {
       )}
 
       <Box px={20} pt={4} pb={4}>
-        <Grid templateColumns={"20% 80%"} gap={4} alignItems={"start"}>
-          <SimpleBar
+        <Grid templateColumns={"20% 80%"} gap={6} alignItems={"start"}>
+          {/* <SimpleBar
             style={{
-              maxHeight: "85vh",
+              maxHeight: "90vh",
               borderRadius: "10px",
               boxShadow: boxShadowStyles.shadowOneStyle.boxShadow,
             }}
+          > */}
+
+          <Scrollbars
+            style={{
+              height: "100%",
+              // boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
+              borderRadius: "10px",
+              background: outerBackground,
+            }}
+            autoHide={true}
           >
-            <GridItem p={4}>
+            <GridItem p={4} height={"100%"}>
               <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
             </GridItem>
-          </SimpleBar>
+          </Scrollbars>
 
-          <GridItem bg={lightGrey} borderRadius={"md"}>
+          {/* </SimpleBar> */}
+
+          <GridItem borderRadius={"md"}>
             <ScheduleCalendar
               onSchedulePopupOpen={onSchedulePopupOpen}
               setSelectedDate={setSelectedDate}

@@ -7,6 +7,7 @@ import {
   Stack,
   Text,
   Center,
+  useTheme,
 } from "@chakra-ui/react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart, ArcElement } from "chart.js";
@@ -14,6 +15,8 @@ import { FaCircle } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../../../../../constants/staticurls";
+import { boxShadowStyles, capitalize } from "../../../../../utils";
+import { getRatingDetailsByTopicIdApi } from "../../../../../api/genericapis";
 Chart.register(ArcElement);
 
 const RatingAndFeedBackChart = () => {
@@ -21,18 +24,27 @@ const RatingAndFeedBackChart = () => {
   const { topic_id, topic_name } = useParams();
 
   const [feedbackData, setFeedbackData] = useState(); // State to store feedback data
-
+  const { outerBackground } = useTheme().colors.pallete;
   useEffect(() => {
-    // Fetch feedback data from your API
-    axios
-      .get(`${BASE_URL}/generic/topic-feedback-rating-details/${topic_id}`)
-      .then((response) => {
-        console.log("API Response:", response.data);
-        setFeedbackData(response.data.topicDetails);
-      })
-      .catch((error) => {
-        console.error("Error fetching feedback data:", error);
-      });
+    // axios
+    // .get(`${BASE_URL}/generic/topic-feedback-rating-details/${topic_id}`)
+    // .then((response) => {
+    //   setFeedbackData(response.data.topicDetails);
+    // })
+    // .catch((error) => {
+    //   console.error("Error fetching feedback data:", error);
+    // });
+
+    const fetchFeedbackDetailsByTopic = async (topic_id) => {
+      try {
+        const res = await getRatingDetailsByTopicIdApi(topic_id);
+        if (res.status === 200) {
+          setFeedbackData(res?.data?.topicDetails);
+        }
+      } catch (err) {}
+    };
+
+    fetchFeedbackDetailsByTopic(topic_id);
   }, [topic_id]);
 
   if (!feedbackData) {
@@ -58,7 +70,7 @@ const RatingAndFeedBackChart = () => {
     0
   );
   averageRating = totalStars / feedbackData.length;
-  console.log("Average Rating is", averageRating.toFixed(1));
+
   const starPercentages = {
     1: (starCounts[1] / totalFeedbackCount) * 100,
     2: (starCounts[2] / totalFeedbackCount) * 100,
@@ -133,9 +145,9 @@ const RatingAndFeedBackChart = () => {
   };
   if (!feedbackData || feedbackData.length === 0) {
     return (
-      <Box w={"100%"} h={"full"} bg={"#F1F5F8"} borderRadius={"26px"}>
+      <Box w={"100%"} h={"full"} borderRadius={"26px"} bg={outerBackground}>
         <Center>
-          <Text fontSize={"20px"} textAlign="center" mt={5}>
+          <Text fontSize={"16px"} textAlign="center" mt={"5%"}>
             No feedback and ratings available.
           </Text>
         </Center>
@@ -143,7 +155,13 @@ const RatingAndFeedBackChart = () => {
     );
   }
   return (
-    <Box w={"100%"} h={"full"} bg={"#F1F5F8"} borderRadius={"26px"}>
+    <Box
+      w={"100%"}
+      h={"full"}
+      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      borderRadius={"26px"}
+      bg={outerBackground}
+    >
       <HStack spacing={"10px"} mx="27px" mt={"25px"}>
         <Box
           width={"12px"}
@@ -152,7 +170,7 @@ const RatingAndFeedBackChart = () => {
           bg={"#3C8DBC"}
         ></Box>
         <Text fontSize={"20px"} lineHeight={"24px"}>
-          {topic_name}
+          {capitalize(topic_name)}
         </Text>
       </HStack>
 
@@ -198,7 +216,7 @@ const RatingAndFeedBackChart = () => {
         </Stack>
         <Stack spacing={"19px"} p={"20px"} ml={"85px"}>
           {feedbackData.map((feedback) => (
-            <Box key={feedback.feedbackId} alignItems="center" mb={2}>
+            <Box key={feedback?.id} alignItems="center" mb={2}>
               <HStack>
                 <Avatar bg={"#3C8DBC"} boxSize="1.6em" mr={2} />
                 <Text fontSize={"15px"}>{feedback.raterName}</Text>

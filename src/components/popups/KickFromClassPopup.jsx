@@ -9,11 +9,11 @@ import {
   Flex,
   useTheme,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useRef } from "react";
 import { kickOutFromClass } from "../../socketconnections/socketconnections";
 
 const KickFromClassPopup = ({ isOpen, onClose, kickedPersonDetails }) => {
-  const cancelRef = React.useRef();
+  const cancelRef = useRef();
   const { primaryBlue, primaryBlueLight } = useTheme().colors.pallete;
 
   const handleKickFromClass = () => {
@@ -25,59 +25,57 @@ const KickFromClassPopup = ({ isOpen, onClose, kickedPersonDetails }) => {
     onClose();
   };
   return (
-    <>
-      <AlertDialog
-        motionPreset="slideInBottom"
-        leastDestructiveRef={cancelRef}
-        onClose={onClose}
-        isOpen={isOpen}
-        size={"sm"}
-        isCentered
-      >
-        <AlertDialogOverlay />
+    <AlertDialog
+      motionPreset="slideInBottom"
+      leastDestructiveRef={cancelRef}
+      onClose={onClose}
+      isOpen={isOpen}
+      size={"sm"}
+      isCentered
+    >
+      <AlertDialogOverlay />
 
-        <AlertDialogContent>
-          <AlertDialogHeader></AlertDialogHeader>
+      <AlertDialogContent>
+        <AlertDialogHeader></AlertDialogHeader>
 
-          <AlertDialogCloseButton />
+        <AlertDialogCloseButton />
 
-          <AlertDialogBody
-            textAlign={"center"}
-            fontWeight={600}
-            fontSize="1.1rem"
+        <AlertDialogBody
+          textAlign={"center"}
+          fontWeight={600}
+          fontSize="1.1rem"
+        >
+          Are you sure you want to kick this student out of the class?
+        </AlertDialogBody>
+        <Flex
+          flexWrap={"wrap"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          p={6}
+        >
+          <Button
+            ref={cancelRef}
+            fontWeight={500}
+            color={primaryBlue}
+            onClick={onClose}
+            flex={0.5}
           >
-            Are you sure you want to kick this student out of the class?
-          </AlertDialogBody>
-          <Flex
-            flexWrap={"wrap"}
-            justifyContent={"center"}
-            alignItems={"center"}
-            p={6}
+            No
+          </Button>
+          <Button
+            ml={3}
+            fontWeight={500}
+            color="white"
+            flex={0.5}
+            bg={primaryBlue}
+            onClick={handleKickFromClass}
+            _hover={{ bg: primaryBlueLight }}
           >
-            <Button
-              ref={cancelRef}
-              fontWeight={500}
-              color={primaryBlue}
-              onClick={onClose}
-              flex={0.5}
-            >
-              No
-            </Button>
-            <Button
-              ml={3}
-              fontWeight={500}
-              color="white"
-              flex={0.5}
-              bg={primaryBlue}
-              onClick={handleKickFromClass}
-              _hover={{ bg: primaryBlueLight }}
-            >
-              Yes
-            </Button>
-          </Flex>
-        </AlertDialogContent>
-      </AlertDialog>
-    </>
+            Yes
+          </Button>
+        </Flex>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
 

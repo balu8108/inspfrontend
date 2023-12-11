@@ -1,21 +1,17 @@
 import RoomPreview from "./pages/RoomPreview/screens/RoomPreview";
 import Room from "./pages/Room/screens/Room";
 import ScheduleClass from "./pages/ScheduleClasses/screens/ScheduleClass";
-import StudentHomePage from "./pages/StudentHomePage/screens/StudentHomePage";
 import StudentMathsCourse from "./pages/StudentCourses/Mathematics/screens/MathsCourse";
 import StudentChemCourse from "./pages/StudentCourses/Chemistry/screens/ChemCourse";
 import StudentPhyCourse from "./pages/StudentCourses/Physics/screens/PhysicsCourse";
 import Viewrecording from "./pages/ViewRecording/screen/Recordings";
 import StudentAssignment from "./pages/StudentAssignment/screen/StudentAssignment";
-import PhyLibrary from "./pages/StudentLibrary/PhysicsLibrary/screen/PhyLibrary";
-import PhyRecording from "./pages/StudentLibrary/PhysicsLibrary/screen/ViewLectures";
-// import ViewChapterRecording from "./pages/StudentCourses/Physics/screens/ViewChapRec";
+import LibraryScreen from "./pages/SubjectLibrary/screen/LibraryScreen";
 import Home from "./components/home/Home";
 import AuthLoading from "./components/loaders/AuthLoading";
 
 //Mentor Routes
-import MentorHomePage from "./pages/Mentors/MentorsHomePage/screen/MentorHomePage";
-import MentorMyCoursesPhysics from "./pages/Mentors/MyCourses/Physics/screen/Physics";
+
 import AllRecordingsForAChapter from "./pages/Mentors/MyCourses/Physics/screen/ChapterRecording";
 import MentorAllUploadedLectures from "./pages/Mentors/MyUploads/screen/UploadScreen";
 import RateNFeedback from "./pages/Mentors/RatingsAndFeedbacks/screen/RateNFeedback";
@@ -63,15 +59,8 @@ const privateRoutes = [
     component: <ScheduleClass />,
   },
 
-  // {
-  //   name: "Student Homepage",
-  //   path: "/student/homepage",
-  //   component: <StudentHomePage />,
-  // },
-
   {
     name: "Student MathsCourse",
-    // path: "/student/myCourses/mathematics",
     path: "/myCourses/mathematics",
     component: <StudentMathsCourse />,
   },
@@ -99,32 +88,9 @@ const privateRoutes = [
 
   {
     name: "Student Library",
-    path: "/student/library/:subjectName",
-    component: <PhyLibrary />,
+    path: "/library/:subjectName/:subject_id",
+    component: <LibraryScreen />,
   },
-
-  // {
-  //   name: "Student Physics Videos",
-  //   path: "/student/physics-library/:chapterName",
-  //   component: <PhyRecording />,
-  // },
-
-  // {
-  //   name: "Chapter Recording",
-  //   path: "/student/chapter",
-  //   component: <ViewChapterRecording />,
-  // },
-  // {
-  //   name: "Mentor HomePage",
-  //   path: "/mentor/homepage",
-  //   component: <MentorHomePage />,
-  // },
-
-  // {
-  //   name: "Mentor MyCourses Physics",
-  //   path: "/mentor/mycourses/physics",
-  //   component: <MentorMyCoursesPhysics />,
-  // },
 
   {
     name: "Mentor All Recording Related To A Particular Chapter",
@@ -149,7 +115,7 @@ const privateRoutes = [
   },
   {
     name: "Solo Recording Detailed And Covered ",
-    path: "/mentor/solo-recordings/topic",
+    path: "/mentor/solo-recordings/topic/:topicId/:topic_name",
     component: <SoloRecordedTopicsDetails />,
   },
 

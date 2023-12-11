@@ -8,27 +8,49 @@ import {
   HStack,
   Spacer,
   Text,
+  useTheme,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { BASE_URL } from "../../../../constants/staticurls";
+import { capitalize } from "../../../../utils";
+import { getLatestCompletedLiveClassApi } from "../../../../api/genericapis";
 const FeedBack = () => {
- 
   const [feedbackData, setFeedbackData] = useState([]);
+  const { outerBackground, innerBackground, innerBoxShadow } =
+    useTheme().colors.pallete;
 
   useEffect(() => {
-    axios
-      .get(`${BASE_URL}/generic/latest-completed-live-classroom`)
-      .then((response) => {
-        setFeedbackData(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching feedback data:", error);
-      });
+    // axios
+    //   .get(`${BASE_URL}/generic/latest-completed-live-classroom`)
+    //   .then((response) => {
+    //     setFeedbackData(response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching feedback data:", error);
+    //   });
+    async function fetchLatestCompletedLiveClass() {
+      try {
+        const res = await getLatestCompletedLiveClassApi();
+        if (res.status === 200) {
+          setFeedbackData(res?.data);
+        }
+      } catch (err) {
+        console.log("Error in getting latest classes", err);
+      }
+    }
+
+    fetchLatestCompletedLiveClass();
   }, [BASE_URL]);
 
   return (
-    <Box bg={"#F1F5F8"} mt={"23px"} borderRadius={"25px"} w={"58%"} h={"30%"}>
+    <Box
+      mt={"23px"}
+      borderRadius={"25px"}
+      w={"58%"}
+      h={"30%"}
+      bg={outerBackground}
+    >
       <Flex>
         <HStack spacing={"10px"}>
           <Box
@@ -51,6 +73,7 @@ const FeedBack = () => {
             fontWeight={400}
             mt={"15px"}
             p={6}
+            _hover={{bg:"none"}}
           >
             See All
           </Button>
@@ -62,11 +85,11 @@ const FeedBack = () => {
             <Card
               h={"175px"}
               borderRadius={"18px"}
-              bg={"#F1F5F8"}
+              bg={innerBackground}
+              boxShadow={innerBoxShadow}
               ml={"20px"}
               mb={"20px"}
               mr={"20px"}
-              blendMode={"multiply"}
             >
               <Text
                 fontSize={"16px"}
@@ -77,7 +100,9 @@ const FeedBack = () => {
                 mt={"13px"}
                 noOfLines={1}
               >
-                {rateNfeedebackOfAChapter.LiveClassRoomDetail.topicName}
+                {capitalize(
+                  rateNfeedebackOfAChapter?.LiveClassRoomDetail?.topicName
+                )}
               </Text>
               <Text
                 fontSize={"12px"}
@@ -120,6 +145,7 @@ const FeedBack = () => {
                   fontSize={"14px"}
                   lineHeight={"16px"}
                   mt={"17px"}
+                  _hover={{ bg: "white" }}
                 >
                   View Details
                 </Button>

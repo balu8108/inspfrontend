@@ -1,19 +1,10 @@
 import React from "react";
-import {
-  Box,
-  Text,
-  Flex,
-  HStack,
-  useTheme,
-  Button,
-  Image,
-} from "@chakra-ui/react";
+import { Box, Text, Flex, HStack, useTheme, Image } from "@chakra-ui/react";
 import { roomData } from "../data/roomData";
-import { GrRefresh } from "react-icons/gr";
 import leaderboardRankingIcons from "../data/leaderboardRankingIcons";
 import { shallowEqual, useSelector } from "react-redux";
 import { formatSeconds } from "../../../utils";
-import SimpleBar from "simplebar-react";
+
 import PollTimer from "./PollTimer";
 import { Scrollbars } from "rc-scrollbars";
 const Leaderboard = ({ isLeaderBoardOpen, timer, setTimer }) => {
@@ -38,7 +29,7 @@ const Leaderboard = ({ isLeaderBoardOpen, timer, setTimer }) => {
                   {roomData.leaderBoardText}
                 </Text>
               </HStack>
-              <Button
+              {/* <Button
                 fontWeight={400}
                 fontSize={"10px"}
                 bg="none"
@@ -46,7 +37,7 @@ const Leaderboard = ({ isLeaderBoardOpen, timer, setTimer }) => {
                 p={0}
               >
                 {roomData.refreshText}
-              </Button>
+              </Button> */}
             </Flex>
             <Box>
               {leaderBoard.length === 0 ? (

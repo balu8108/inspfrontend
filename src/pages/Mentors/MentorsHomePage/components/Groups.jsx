@@ -34,7 +34,7 @@ const MentorGroups = () => {
           </Text>
         </HStack>
         <Spacer />
-        <Button variant={"ghost"} fontWeight={400} mt={4} mr={1}>
+        <Button variant={"ghost"} fontWeight={400} mt={4} mr={1}   _hover={{bg:"none"}}>
           See All
         </Button>
       </Flex>

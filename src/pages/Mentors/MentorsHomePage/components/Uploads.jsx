@@ -8,34 +8,53 @@ import {
   Spacer,
   Text,
   Icon,
+  useTheme,
 } from "@chakra-ui/react";
-import upload from "../data/uploads";
 import { IoIosAdd } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import UploadAssignmentPopup from "../../../../components/popups/UploadAssignmentPopup";
 import { BASE_URL } from "../../../../constants/staticurls";
+import { capitalize } from "../../../../utils";
+import { getLatestAssignmentApi } from "../../../../api/assignments";
 const MentorsUploads = () => {
-  const apiUrl = "http://localhost:5000";
-  const [latestAssignment, setLatestAssignment] = useState([]);
-  const [isUploadAssignmentModalOpen, setUploadAssignmentModalOpen] =
+  const navigate = useNavigate();
+  const [assignment, setAssignment] = useState([]);
+  const [isUploadAssignmentModalOpen, setIsUploadAssignmentModalOpen] =
     useState(false);
+  const { outerBackground, innerBackground, innerBoxShadow } =
+    useTheme().colors.pallete;
   const openUploadAssignmentModal = () => {
-    // Function to open the UploadAssignmentModal
-    setUploadAssignmentModalOpen(true);
+    setIsUploadAssignmentModalOpen(true);
   };
 
   const closeUploadAssignmentModal = () => {
-    // Function to close the UploadAssignmentModal
-    setUploadAssignmentModalOpen(false);
+    setIsUploadAssignmentModalOpen(false);
+  };
+
+  const handleViewDetail = () => {
+    navigate(`/mentor/allUploads`);
   };
   useEffect(() => {
-    axios.get(`${BASE_URL}/topic/latest-assignment`).then((response) => {
-      setLatestAssignment(response.data.data);
-    });
+    const fetchLatestAssignments = async () => {
+      try {
+        const response = await getLatestAssignmentApi();
+        if (response.status === 200) {
+          setAssignment(response?.data?.data);
+        }
+      } catch (err) {}
+    };
+
+    fetchLatestAssignments();
   }, []);
+
   return (
-    <Box bg={"#F1F5F8"} w={"95%"}  borderRadius={"26px"}>
+    <Box
+      w={"95%"}
+      borderRadius={"26px"}
+      bg={outerBackground}
+      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+    >
       <Flex>
         <HStack spacing={"10px"}>
           <Box
@@ -46,11 +65,10 @@ const MentorsUploads = () => {
             mt={"27px"}
             ml={"27px"}
           ></Box>
-          <Link to={`/mentor/alluploads`}>
-            <Text fontSize={"20px"} lineHeight={"24px"} mt={"26px"}>
-              My Uploads
-            </Text>
-          </Link>
+
+          <Text fontSize={"20px"} lineHeight={"24px"} mt={"26px"}>
+            My Uploads
+          </Text>
         </HStack>
         <Spacer />
 
@@ -62,24 +80,25 @@ const MentorsUploads = () => {
           mr={"10px"}
           color={"#3C8DBC"}
           onClick={openUploadAssignmentModal}
+          _hover={{ bg: "none" }}
         >
           <Icon as={IoIosAdd} mr={2} boxSize={7} /> Add Assignment
         </Button>
       </Flex>
-      <Flex mt={"34px"} flexWrap="wrap">
-        {latestAssignment.map((mentorUploadDetails) => (
-          <Box
-            flexBasis="50%" // Two cards per line
-            key={mentorUploadDetails.id}
-          >
+
+      <Flex mt={"34px"} flexWrap="wrap" position="relative">
+        {assignment?.slice(0, 2)?.map((mentorUploadDetails) => (
+          <Box flexBasis="50%" key={mentorUploadDetails.id}>
             <Card
               h={"170px"}
               borderRadius={"18px"}
-              bg={"#F1F5F8"}
+              bg={innerBackground}
+              boxShadow={innerBoxShadow}
               ml={"20px"}
               mb={"20px"}
               mr={"20px"}
-              blendMode={"multiply"}
+              display="flex"
+              flexDirection="column"
             >
               <Text
                 fontSize={"16px"}
@@ -90,7 +109,7 @@ const MentorsUploads = () => {
                 mt={"13px"}
                 noOfLines={1}
               >
-                {mentorUploadDetails.topicName}
+                {capitalize(mentorUploadDetails?.topicName)}
               </Text>
               <Text
                 fontSize={"11px"}
@@ -122,7 +141,7 @@ const MentorsUploads = () => {
               >
                 {mentorUploadDetails.description}
               </Text>
-              <Link to={`/mentor/alluploads`} style={{display:"flex",justifyContent:"center"}}>
+
               <Button
                 variant={"ghost"}
                 color={"#3C8DBC"}
@@ -130,17 +149,19 @@ const MentorsUploads = () => {
                 size={"12px"}
                 fontSize={"14px"}
                 lineHeight={"16px"}
-                mt={"24px"}
-                mb={"10px"}
+                mb={"15px"}
+                mt={"auto"}
+                onClick={handleViewDetail}
+                _hover={{ bg: "white" }}
               >
                 View Details
               </Button>
-              </Link>
             </Card>
           </Box>
         ))}
       </Flex>
       <UploadAssignmentPopup
+        setAssignment={setAssignment}
         isOpen={isUploadAssignmentModalOpen}
         onClose={closeUploadAssignmentModal}
       />

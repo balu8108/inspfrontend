@@ -5,16 +5,16 @@ import {
   boxShadowStyles,
   checkUserType,
   extractFileNameFromS3URL,
-  generateUniqueKey,
+  downloadFile,
 } from "../../utils";
 import { userType } from "../../constants/staticvariables";
 import { useDispatch } from "react-redux";
 import { setIsDocModalOpen } from "../../store/actions/genericActions";
 const FileBoxComponent = ({ data, type }) => {
-  const { secondaryTextColor } = useTheme().colors.pallete;
+  const { secondaryTextColor, innerBackground } = useTheme().colors.pallete;
   const userRoleType = checkUserType();
   const dispatch = useDispatch();
-console.log("data and type", data,type)
+
   return (
     <SimpleBar
       style={{
@@ -24,16 +24,17 @@ console.log("data and type", data,type)
     >
       {data.map((item) => (
         <Flex
-          key={generateUniqueKey()}
+          key={item?.id}
           justifyContent={"space-between"}
           alignItems={"center"}
-          bg="white"
           mb={2}
           onClick={() =>
             dispatch(setIsDocModalOpen(item?.id, item?.key, type, true))
           }
-          boxShadow={boxShadowStyles.shadowFileBoxStyle.boxShadow}
           borderRadius={"md"}
+          border={"1px solid rgba(149, 151, 146, 0.49)"}
+          bg={innerBackground}
+          // boxShadow={boxShadowStyles.shadowFileBoxStyle.boxShadow}
           px={2}
           py={3}
         >
@@ -47,8 +48,10 @@ console.log("data and type", data,type)
           {(item.isDownloadable || userRoleType === userType.teacher) && (
             <Icon
               as={FiDownload}
-              onClick={() => {
-                /*downloadFile(item)*/
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                downloadFile(item);
               }}
               _hover={{ bg: "none", cursor: "pointer" }}
             />

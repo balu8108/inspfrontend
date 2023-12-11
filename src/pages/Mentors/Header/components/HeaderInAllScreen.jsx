@@ -8,14 +8,17 @@ import {
   Text,
   Spinner,
   Center,
+  useTheme,
 } from "@chakra-ui/react";
 import { fetchAllSubjectsApi } from "../../../../api/inspexternalapis/index";
-import headerDataInAllScreen from "../data/headerData";
 import { Link } from "react-router-dom";
+import { capitalize } from "../../../../utils";
 
 const Header = () => {
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { outerBackground, innerBackground, innerBoxShadow } =
+    useTheme().colors.pallete;
 
   const dummyDescriptions = [
     " Explore the world of chemical reactions, elements, and compounds in this foundational science subject. Learn about the periodic table, bonding, and the fascinating properties of matter.",
@@ -26,20 +29,24 @@ const Header = () => {
   const subjectStatus = ["Upcoming", "Upcoming", "In Progress"];
 
   useEffect(() => {
-    // Fetch subjects when the component mounts
     async function fetchSubjects() {
       try {
-        const response = await fetchAllSubjectsApi(); // Call your API function
+        const response = await fetchAllSubjectsApi();
 
         if (response.status) {
-          
           const subjectsFromAPI = response.result;
-          setSubjects(subjectsFromAPI); 
+
+          const sortedSubjects = subjectsFromAPI.sort((a, b) => {
+            return a.name.localeCompare(b.name);
+          });
+
+          const reversedSubjects = sortedSubjects.reverse();
+
+          setSubjects(reversedSubjects);
         }
       } catch (error) {
         console.error("Error fetching subjects:", error);
       } finally {
-        
         setLoading(false);
       }
     }
@@ -48,7 +55,12 @@ const Header = () => {
   }, []);
 
   return (
-    <Box bg={"#F1F5F8"} borderRadius={"25px"} w={"100%"}>
+    <Box
+      borderRadius={"25px"}
+      w={"100%"}
+      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      bg={outerBackground}
+    >
       <HStack spacing={"10px"}>
         <Box
           width={"12px"}
@@ -63,7 +75,7 @@ const Header = () => {
         </Text>
       </HStack>
 
-      {loading ? ( // Display spinner while loading
+      {loading ? (
         <Center>
           <Spinner mt={"5%"} />
         </Center>
@@ -73,13 +85,13 @@ const Header = () => {
             <Card
               w={"30%"}
               h={"200px"}
-              borderRadius={"18px"}
-              bg={"#F1F5F8"}
+              borderRadius={"16px"}
+              bg={innerBackground}
               ml={"20px"}
               mb={"20px"}
               mr={"20px"}
-              blendMode={"multiply"}
               key={subject.id}
+              boxShadow={innerBoxShadow}
             >
               <Text
                 fontSize={"16px"}
@@ -89,11 +101,11 @@ const Header = () => {
                 ml={"13px"}
                 mt={"13px"}
               >
-                {subject.name}
+                {capitalize(subject?.name)}
               </Text>
               <Text
+                mt={"3px"}
                 fontSize={"12px"}
-               
                 color={
                   subjectStatus[3 - subject.id] === "In Progress"
                     ? "#3DE302"
@@ -136,7 +148,8 @@ const Header = () => {
                   size={"12px"}
                   fontSize={"14px"}
                   lineHeight={"16px"}
-                  p={["10px", "21px"]}
+                  mt={"20px"}
+                  _hover={ { bg:"white"} }
                 >
                   View Details
                 </Button>

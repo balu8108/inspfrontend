@@ -1,23 +1,40 @@
 import React from "react";
-import { Box, Text, HStack, Image, Center, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  HStack,
+  Image,
+  Center,
+  VStack,
+  Flex,
+  Spacer,
+  useTheme,
+} from "@chakra-ui/react";
 import MathematicsImage from "../../../../assets/images/undraw_mathematics_-4-otb 1.svg";
 
 const MathsDetails = () => {
+  const { outerBackground } = useTheme().colors.pallete;
   return (
-    <Box width={"100%"} height={"full"} bg={"#F1F5F8"} borderRadius={"26px"}>
-      <HStack spacing={"10px"}>
-        <Box
-          width={"12px"}
-          height={"25px"}
-          borderRadius={"20px"}
-          bg={"#3C8DBC"}
-          mt={"33px"}
-          ml={"27px"}
-        ></Box>
-        <Text fontSize={"19px"} lineHeight={"24px"} mt={"26px"}>
-          My Courses (Mathematics)
-        </Text>
-      </HStack>
+    <Box
+      width={"100%"}
+      height={"full"}
+      borderRadius={"26px"}
+      bg={outerBackground}
+    >
+      <Flex mt={"19px"}>
+        <HStack spacing={"10px"} alignItems="center" ml={"33px"}>
+          <Box
+            width={"12px"}
+            height={"25px"}
+            borderRadius={"20px"}
+            bg={"#3C8DBC"}
+          ></Box>
+          <Text fontSize={"19px"} lineHeight={"24px"}>
+            My Courses (Mathematics)
+          </Text>
+        </HStack>
+        <Spacer />
+      </Flex>
       <VStack gap={"24px"}>
         <Center>
           <Image
@@ -30,7 +47,6 @@ const MathsDetails = () => {
         <Center>
           <Text
             fontSize={"25px"}
-           
             lineHeight={"37px"}
             p={"44px"}
             color={"#2C3329"}

@@ -15,6 +15,8 @@ import { fetchAllTopicsApi } from "../../../../../../api/inspexternalapis/index"
 import { useParams } from "react-router-dom";
 import "../../../../../../constants/scrollbar/style.css";
 import topicDescriptionConstants from "../../../../../../constants/topicDescriptionConstants";
+import { boxShadowStyles, capitalize } from "../../../../../../utils";
+import { useTheme } from "@emotion/react";
 const ViewAllRecordingsRelatedToOneChapter = ({
   setViewTopic,
   setTopicName,
@@ -22,6 +24,8 @@ const ViewAllRecordingsRelatedToOneChapter = ({
   const { chapter_id, chapter_name } = useParams();
   const [topics, setTopics] = useState([]);
   const [isLoading, setLoading] = useState(true);
+  const { outerBackground, innerBackground, innerBoxShadow } =
+    useTheme().colors.pallete;
 
   useEffect(() => {
     async function fetchTopics() {
@@ -45,11 +49,10 @@ const ViewAllRecordingsRelatedToOneChapter = ({
     <Box
       w={"100%"}
       h={"100%"}
-      bg={"#F1F5F8"}
+      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       borderRadius={"2xl"}
       mt={6}
-      overflowX="auto"
-      className="example"
+      bg={outerBackground}
     >
       <HStack spacing={"10px"} ml="27px">
         <Box
@@ -65,7 +68,7 @@ const ViewAllRecordingsRelatedToOneChapter = ({
           fontFamily={400}
           mt={"26px"}
         >
-          {chapter_name}
+          {capitalize(chapter_name)}
         </Text>
       </HStack>
       {isLoading ? (
@@ -77,14 +80,21 @@ const ViewAllRecordingsRelatedToOneChapter = ({
           No topics for this chapter.
         </Text>
       ) : (
-        <Flex m={"20px"} gap={"24px"} p={1}>
+        <Flex
+          ml={"20px"}
+          my={"20px"}
+          gap={"24px"}
+          p={1}
+          overflowX="auto"
+          className="example"
+        >
           {topics.map((topic) => (
             <Card
               key={topic.id}
               h={"204px"}
               minW={"30%"}
-              bg={"#F1F5F8"}
-              blendMode={"multiply"}
+              bg={innerBackground}
+              boxShadow={innerBoxShadow}
               borderRadius={"26px"}
             >
               <Text
@@ -94,7 +104,7 @@ const ViewAllRecordingsRelatedToOneChapter = ({
                 lineHeight={"19px"}
                 noOfLines={1}
               >
-                {topic.name}
+                {capitalize(topic?.name)}
               </Text>
               <Text
                 fontWeight={400}
@@ -133,10 +143,10 @@ const ViewAllRecordingsRelatedToOneChapter = ({
                 size={"14px"}
                 lineHeight={"16px"}
                 m={"20px"}
-                // onClick={() => setViewTopic(topic.id) }
+                _hover={{ bg: "white" }}
                 onClick={() => {
                   setViewTopic(topic.id);
-                  setTopicName(topic.name); // Call setTopicName with the topic name
+                  setTopicName(topic.name);
                 }}
               >
                 View Details

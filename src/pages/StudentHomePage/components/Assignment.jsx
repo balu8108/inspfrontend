@@ -4,28 +4,42 @@ import {
   Button,
   Text,
   HStack,
-  useTheme,
   Flex,
   Card,
+  useTheme,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
-import newAddedAssignment from "../data/newAddedAssignment";
+import { Link, useNavigate } from "react-router-dom";
+import { boxShadowStyles, capitalize } from "../../../utils";
 import { BASE_URL } from "../../../constants/staticurls";
 import axios from "axios";
+import { getRecentAssignmentApi } from "../../../api/assignments";
 const Assignment = () => {
-  const theme = useTheme();
+  const navigate = useNavigate();
   const [recentAssignments, setRecentAssignments] = useState([]);
+  const { outerBackground, innerBackground, innerBoxShadow } =
+    useTheme().colors.pallete;
+  const handleViewDetail = () => {
+    navigate(`/student/assignments/PHYSICS`);
+  };
   useEffect(() => {
-    // Inside a useEffect to make the API call when the component mounts
-    axios
-      .get(BASE_URL + "/topic/recent-assignment")
-      .then((response) => {
-        setRecentAssignments(response.data.data);
-      })
-      .catch((error) => {
-        // Handle any errors here
-        console.error("Error fetching recent assignments:", error);
-      });
+    // axios
+    //   .get(BASE_URL + "/topic/recent-assignment")
+    //   .then((response) => {
+    //     setRecentAssignments(response.data.data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching recent assignments:", error);
+    //   });
+
+    const fetchRecentAssignment = async () => {
+      try {
+        const response = await getRecentAssignmentApi();
+        if (response.status === 200) {
+          setRecentAssignments(response?.data?.data);
+        }
+      } catch (err) {}
+    };
+    fetchRecentAssignment();
   }, []);
 
   return (
@@ -33,8 +47,9 @@ const Assignment = () => {
       w={"50%"}
       h="313px"
       mt="24px"
-      backgroundColor="#F1F5F8"
+      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       borderRadius="26px"
+      background={outerBackground}
     >
       <HStack spacing="10px">
         <Box
@@ -55,6 +70,7 @@ const Assignment = () => {
             mt={5}
             ml={12}
             fontWeight={400}
+            _hover={{bg:"none"}}
           >
             See All
           </Button>
@@ -68,7 +84,8 @@ const Assignment = () => {
             borderRadius="18px"
             w={"100%"}
             h={"200px"}
-            bg="#F1F5F8"
+            bg={innerBackground}
+            boxShadow={innerBoxShadow}
             ml="26px"
             mr="20px"
           >
@@ -80,7 +97,7 @@ const Assignment = () => {
               mt="13px"
               noOfLines={1}
             >
-              {homepageAssignment.topicName}
+              {capitalize(homepageAssignment?.topicName)}
             </Text>
             <Text fontSize="12px" fontWeight="400" color="gray" ml="13px">
               {homepageAssignment.instructorName}
@@ -102,6 +119,7 @@ const Assignment = () => {
               ml="13px"
               mt="6px"
               color="rgba(44, 51, 41, 0.47)"
+              noOfLines={2}
             >
               {homepageAssignment.description}
             </Text>
@@ -113,7 +131,9 @@ const Assignment = () => {
               size="sm"
               lineHeight="1.5"
               p={6}
-              mt={8}
+              mt={4}
+              _hover={{ bg: "white" }}
+              onClick={handleViewDetail}
             >
               View Details
             </Button>

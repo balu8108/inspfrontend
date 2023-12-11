@@ -9,7 +9,7 @@ import {
   checkUserType,
   formatTime,
   timeDifference,
-  generateUniqueKey,
+  capitalize,
 } from "../../../utils";
 import {
   classStatus,
@@ -18,7 +18,7 @@ import {
 } from "../../../constants/staticvariables";
 
 const ScheduleClassInformation = ({ scheduledClassesData, type }) => {
-  const { lightGrey, primaryBlue, secondaryTextColor } =
+  const { lightGrey, primaryBlue, secondaryTextColor, innerBackground } =
     useTheme().colors.pallete;
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -49,12 +49,11 @@ const ScheduleClassInformation = ({ scheduledClassesData, type }) => {
       {scheduledClassesData[type].map((info) => {
         return (
           <Box
-            key={generateUniqueKey()}
-            bg={lightGrey}
+            key={info?.id}
+            bg={innerBackground}
             my={2}
             px={2}
             py={4}
-            boxShadow={"md"}
             borderRadius={"md"}
           >
             <Flex justifyContent={"space-between"} alignItems={"center"}>
@@ -64,7 +63,7 @@ const ScheduleClassInformation = ({ scheduledClassesData, type }) => {
                 color={"rgba(44, 51, 41, 1)"}
                 mb={1}
               >
-                {info?.LiveClassRoomDetail?.topicName}
+                {capitalize(info?.LiveClassRoomDetail?.topicName)}
               </Text>
               <Text
                 fontSize={"10px"}

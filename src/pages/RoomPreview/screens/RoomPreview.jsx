@@ -17,8 +17,12 @@ const RoomPreview = () => {
     dispatch(getLiveClassDetails(roomId));
   }, [roomId, dispatch]);
   return (
-    <Box py={8} px={20}>
-      <Flex justifyContent={"space-between"} gap={10} alignItems="flex-start">
+    <Box py={8} px={[6, 8, 10, 20]}>
+      <Flex
+        justifyContent={"space-between"}
+        gap={[8, 8, 8, 10]}
+        wrap={["wrap", "wrap", "nowrap", "nowrap"]}
+      >
         <RoomPreviewVideo />
         <RoomPreviewJoinDescription roomId={roomId} />
       </Flex>

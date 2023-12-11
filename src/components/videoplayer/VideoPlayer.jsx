@@ -2,9 +2,10 @@ import React, { useState, useRef, useEffect } from "react";
 import videojs from "video.js";
 import "video.js/dist/video-js.css";
 import "videojs-contrib-quality-levels";
-import "videojs-quality-selector-hls";
+// import "videojs-quality-selector-hls";
 import "videojs-contrib-eme";
-import "videojs-contrib-dash";
+import "videojs-http-quality-selector";
+// import "videojs-contrib-dash";
 import "dashjs";
 
 import { playRecordingApi } from "../../api/recordingapi";
@@ -17,8 +18,6 @@ const getVideoJsOptions = (url, drmToken) => {
     preload: "metadata",
     controls: true,
     poster: "",
-    // width: "800", // Added new width and height.
-    // height: "450",
 
     sources: [
       {
@@ -47,36 +46,27 @@ const VideoPlayer = ({ type, activeRecording }) => {
   const videoRef = useRef(null);
   const [player, setPlayer] = useState(undefined);
 
-  console.log("player", player);
-
   const userRoleType = checkUserType();
   const { data: inspUserProfile } = getStorageData("insp_user_profile");
+  console.log("player", player);
 
   const setPlayerConfiguration = async (activeRecording) => {
     try {
       // Update the player's source when the src prop changes
 
-      const url = activeRecording?.url;
-      console.log("url player", url);
-      console.log("type ", type);
       const res = await playRecordingApi({
         type: type,
         recordId: activeRecording?.id,
       });
 
       const { data } = res;
-      console.log("data", data);
+
       const drmToken = data?.data?.DRMjwtToken;
-      console.log("drm toke", drmToken);
 
       const videoOptions = getVideoJsOptions(activeRecording?.url, drmToken);
 
       if (!player) {
         const p = videojs(videoRef.current, videoOptions);
-
-        console.log("videojs", videojs);
-        console.log("p", p);
-        console.log("vide option", videoOptions.sources);
 
         p.eme();
 
@@ -94,16 +84,18 @@ const VideoPlayer = ({ type, activeRecording }) => {
       setPlayerConfiguration(activeRecording);
     }
 
-    return () => {
-      if (player) player.dispose();
-    };
+    // return () => {
+    //   console.log("unmounting and disposing player...");
+    //   if (player) player.dispose();
+    // };
   }, [activeRecording]);
 
   useEffect(() => {
     if (player) {
-      player.qualitySelectorHls({
-        displayCurrentQuality: true,
-      });
+      // player.qualitySelectorHls({
+      //   displayCurrentQuality: true,
+      // });
+      player.httpQualitySelector();
     }
   }, [player]);
 
@@ -116,8 +108,7 @@ const VideoPlayer = ({ type, activeRecording }) => {
         const watermarkUserEmail = document.getElementById(
           "watermark-user-email"
         );
-        console.log("water makr", watermarkUserName);
-        console.log("water mark", watermarkUserEmail);
+
         let isWaterMark = true;
         if (!watermarkUserName || !watermarkUserEmail) {
           isWaterMark = false;
@@ -149,11 +140,24 @@ const VideoPlayer = ({ type, activeRecording }) => {
 
   return (
     <>
-      <div style={{ position: "relative" }} data-vjs-player>
+      <div
+        style={{
+          position: "relative",
+          background: "green",
+          height: "73vh",
+          width: "100%",
+        }}
+        data-vjs-player
+      >
         <video
           ref={videoRef}
           className="vidPlayer video-js vjs-default-skin vjs-big-play-centered"
-          style={{ borderRadius: "10px" , height:"73vh", width:"100%" }}
+          style={{
+            borderRadius: "10px",
+            width: "100%",
+            height: "100%",
+            objectFit: "contain",
+          }}
         ></video>
 
         {userRoleType === userType.student && (

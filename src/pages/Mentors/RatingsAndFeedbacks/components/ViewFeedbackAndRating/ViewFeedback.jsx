@@ -13,25 +13,29 @@ import {
   Card,
   Spinner,
   Center,
+  useTheme,
 } from "@chakra-ui/react";
-import rateNFeedbackDetails from "../../data/feedbackData";
+
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../../api/inspexternalapis/index";
 import { Link } from "react-router-dom";
 import { SearchIcon } from "@chakra-ui/icons";
+import topicDescriptionConstants from "../../../../../constants/topicDescriptionConstants";
+import { capitalize } from "../../../../../utils";
 const ViewMentorsRatingAndFeedback = () => {
   const [allTopicList, setAllTopicList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [displayedChapters, setDisplayedChapters] = useState([]);
+  const { outerBackground, innerBackground, innerBoxShadow } =
+    useTheme().colors.pallete;
 
   useEffect(() => {
     async function fetchAllTopicsWithoutChapterId() {
       try {
         const response = await fetchAllTopicsWithoutChapterIdApi();
-        console.log("Topics Api Without the Chapter Id", response);
+
         if (response.status) {
           setAllTopicList(response.result);
-          // Initially, display the first three topics
           setDisplayedChapters(response.result.slice(0, 3));
         }
       } catch (error) {
@@ -47,16 +51,15 @@ const ViewMentorsRatingAndFeedback = () => {
   const handleSearchChange = (event) => {
     const query = event.target.value;
     setSearchQuery(query);
-    // Filter topics based on the search query
+   
     const filteredChapters = allTopicList.filter((chapter) =>
       chapter.name.toLowerCase().includes(query.toLowerCase())
     );
-    // Update the displayed chapters with the filtered results
     setDisplayedChapters(filteredChapters.slice(0, 3));
   };
 
   return (
-    <Box bg={"#F1F5F8"} mt={"24px"} borderRadius={"26px"}>
+    <Box mt={"24px"} borderRadius={"26px"} bg={outerBackground}>
       <Flex>
         <HStack spacing={"10px"} ml="27px">
           <Box
@@ -79,6 +82,8 @@ const ViewMentorsRatingAndFeedback = () => {
             value={searchQuery}
             onChange={handleSearchChange}
             placeholder="Search..."
+            bg={innerBackground}
+            borderRadius={"14px"}
           />
           <InputLeftElement pointerEvents="none">
             <SearchIcon />
@@ -102,29 +107,43 @@ const ViewMentorsRatingAndFeedback = () => {
               w={"100%"}
               h={"204px"}
               key={chapter.id}
-              bg={"#F1F5F8"}
-              blendMode={"multiply"}
+              bg={innerBackground}
+              boxShadow={innerBoxShadow}
               borderRadius={"26px"}
               p={4}
               ml={"2"}
             >
               <Text fontSize="16px" noOfLines={1}>
-                {chapter.name}
+                {capitalize(chapter?.name)}
               </Text>
               <Text fontSize="12px" color={"#2C332978"}>
-                {chapter.instructorName} No Data
+                Nitin Sachan
               </Text>
               <Text fontSize={"12px"} mt={"18px"}>
                 Description
               </Text>
-              <Text fontSize="11px" color="#2C332978" noOfLines={2} mb={2}>
-                {chapter.description} No Data
+              <Text
+                fontSize="11px"
+                color="#2C332978"
+                noOfLines={3}
+                lineHeight={"21px"}
+              >
+                {topicDescriptionConstants[chapter.id]}
               </Text>
               <Link
                 to={`/mentor/view/rating&feedback/${chapter.id}/${chapter.name}`}
-                style={{ display: "flex", justifyContent: "center" }}
+                style={{
+                  position: "absolute",
+                  bottom: "1px",
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                }}
               >
-                <Button variant={"ghost"} color={"#3C8DBC"} mt={"4"}>
+                <Button
+                  variant={"ghost"}
+                  color={"#3C8DBC"}
+                  _hover={{ bg: "white" }}
+                >
                   View Details
                 </Button>
               </Link>

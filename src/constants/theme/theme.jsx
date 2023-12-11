@@ -26,6 +26,9 @@ const scheme = {
       scheduledBtnColor: "#3C8DBC",
       finishedBtnColor: "rgba(232, 232, 232, 1)",
       notConductedBtnColor: "rgba(196, 196, 196, 1)",
+      outerBackground: "rgba(232, 242, 249, 1)",
+      innerBackground: "white",
+      innerBoxShadow: "none",
     },
   },
 };

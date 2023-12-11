@@ -3,7 +3,7 @@ import {
   GET_ALL_LIVE_CLASSES_SCHEDULE,
   IS_SCHEDULE_CLASS_LOADING,
 } from "../constants";
-import { categoriseClass, extractDateInYYYMMDD } from "../../utils";
+import { capitalize, categoriseClass, extractDateInYYYMMDD } from "../../utils";
 
 // scheduled Classes is to put events in calendar as classes
 // scheduled classes Data is to put scheduled classes data in left side of the screen view
@@ -18,7 +18,7 @@ const scheduleClassReducer = (state = initialState, action) => {
     case ADD_CLASS_SCHEDULE:
       const obj = action.payload?.data;
       const createEventForCalendar = {
-        title: obj.LiveClassRoomDetail.topicName,
+        title: capitalize(obj?.LiveClassRoomDetail?.topicName),
         start: `${extractDateInYYYMMDD(obj.scheduledDate)}T${
           obj.scheduledStartTime
         }`,
@@ -55,7 +55,7 @@ const scheduleClassReducer = (state = initialState, action) => {
 
       action.payload.data.forEach((obj) => {
         const calendarEventObj = {
-          title: obj.LiveClassRoomDetail.topicName,
+          title: capitalize(obj?.LiveClassRoomDetail?.topicName),
           start: `${extractDateInYYYMMDD(obj.scheduledDate)}T${
             obj.scheduledStartTime
           }`,

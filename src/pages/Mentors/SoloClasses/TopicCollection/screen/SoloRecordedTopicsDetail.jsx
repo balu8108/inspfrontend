@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Box, Stack, Flex, useDisclosure } from "@chakra-ui/react";
+import { Box, Stack, Flex, useDisclosure, useTheme } from "@chakra-ui/react";
 import TopicsBased from "../components/TopicBased";
 import DetailsCoveredFiles from "../components/DetailsCoveredFiles";
 import ScheduleClassList from "../../../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
-import { boxShadowStyles } from "../../../../../utils";
 import { useDispatch } from "react-redux";
 import { getAllLiveClassesSchedule } from "../../../../../store/actions/scheduleClassActions";
 import ScheduleClassPopup from "../../../../../components/popups/ScheduleClassPopup";
 const SoloRecordedTopicsDetails = () => {
-  const [viewTopic, setViewTopic] = useState(null);
-  const [viewtopicName, setTopicName] = useState(null);
   const dispatch = useDispatch();
   const {
     isOpen: isSchedulePopupOpen,
@@ -18,7 +15,8 @@ const SoloRecordedTopicsDetails = () => {
     onClose: onScheduleClosePopupOpen,
   } = useDisclosure();
 
-  const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
+  const { outerBackground } = useTheme().colors.pallete;
+  const [selectedDate, setSelectedDate] = useState("");
 
   const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
 
@@ -39,14 +37,8 @@ const SoloRecordedTopicsDetails = () => {
       )}
       <Flex gap={"24px"}>
         <Stack w={"73%"} spacing={"24px"}>
-          <TopicsBased
-            setViewTopic={setViewTopic}
-            setTopicName={setTopicName}
-          />
-          <DetailsCoveredFiles
-            viewTopic={viewTopic}
-            viewtopicName={viewtopicName}
-          />
+          <TopicsBased />
+          <DetailsCoveredFiles />
         </Stack>
 
         <Box w={"25%"}>
@@ -54,9 +46,8 @@ const SoloRecordedTopicsDetails = () => {
             style={{
               maxHeight: "85vh",
               borderRadius: "26px",
-              bg: "#F1F5F8",
-              backgroundBlendMode: "multiply",
-              boxShadow: boxShadowStyles.shadowOneStyle.boxShadow,
+              background: outerBackground,
+              // boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
             }}
           >
             <Box p={4}>

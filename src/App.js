@@ -7,7 +7,7 @@ import { isAuthenticated } from "./utils";
 import { useSelector } from "react-redux";
 import DocumentViewer from "./components/popups/DocumentViewer";
 import FeedBackAndRating from "./components/popups/FeedBackAndRating";
-
+import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 const ProtectedRoutes = () => {
   const isAuth = isAuthenticated();
   if (!isAuth) {
@@ -39,7 +39,7 @@ function App() {
         isOpen={isFeedbackModalOpen}
         onClose={onFeedBackClose}
       />
-
+      <ScrollToTop />
       <Routes>
         <Route element={<ProtectedRoutes />}>
           {privateRoutes.map((route) => {

@@ -1,5 +1,5 @@
 export const scheduleClassData = {
-  scheduleClass: "SCHEDULE CLASS",
+  scheduleClass: "Schedule Class",
   fileData: [
     { id: 1, name: "ABCD PDF", identity: "CD1245879" },
     { id: 2, name: "ABCD PDF", identity: "CD1245879" },

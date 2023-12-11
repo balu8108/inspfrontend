@@ -12,56 +12,53 @@ import {
   InputGroup,
   InputLeftElement,
   Spacer,
+  useTheme,
+  Tooltip,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import { BsDownload } from "react-icons/bs";
-import uploadedChapterDetails from "../data/uploadingDetails";
-import DocumentViewer from "../../../../components/popups/DocumentViewer";
+
 import { BASE_URL } from "../../../../constants/staticurls";
-import { extractFileNameFromS3URL } from "../../../../utils";
+import { extractFileNameFromS3URL, capitalize } from "../../../../utils";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setIsDocModalOpen } from "../../../../store/actions/genericActions";
+import { getAssignmentWithFilesApi } from "../../../../api/assignments";
 const AllUploadedLecture = () => {
-  const [selectedAssignment, setSelectedAssignment] = useState(null);
   const [assignments, setAssignments] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [selectedFileUrl, setSelectedFileUrl] = useState("");
-  const [loading, setLoading] = useState(false);
+
   const dispatch = useDispatch();
-
-  const handleViewDetails = (assignmentId) => {
-    setSelectedAssignment(assignmentId);
-  };
-
-  const clearSelection = () => {
-    setSelectedAssignment(null);
-  };
-
-  const handleCloseDocumentViewer = () => {
-    setModalIsOpen(false);
-    setSelectedFileUrl("");
-  };
+  const { outerBackground, innerBackground, innerBoxShadow } =
+    useTheme().colors.pallete;
 
   const filteredAssignments = assignments.filter((assignment) =>
     assignment.topicName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   useEffect(() => {
-    // Make an API request to fetch assignments with files
-    axios
-      .get(`${BASE_URL}/topic/all-assignment-with-files`)
-      .then((response) => {
-        setAssignments(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching assignments:", error);
-      });
+    const fetchAssignmentWithFiles = async () => {
+      try {
+        const response = await getAssignmentWithFilesApi();
+        if (response?.status === 200) {
+          setAssignments(response?.data);
+        }
+      } catch (err) {}
+    };
+
+    fetchAssignmentWithFiles();
+    // axios
+    //   .get(`${BASE_URL}/topic/all-assignment-with-files`)
+    //   .then((response) => {
+    //     setAssignments(response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching assignments:", error);
+    //   });
   }, []);
 
   return (
-    <Box width={"100%"} h={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
+    <Box width={"100%"} h={"100%"} borderRadius={"26px"} bg={outerBackground}>
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
         <Box
           width={"12px"}
@@ -69,7 +66,7 @@ const AllUploadedLecture = () => {
           borderRadius={"20px"}
           bg={"#3C8DBC"}
         ></Box>
-        <Text fontSize={"19px"} lineHeight={"24px"}>
+        <Text fontSize={"20px"} lineHeight={"24px"}>
           My Uploads
         </Text>
 
@@ -80,8 +77,8 @@ const AllUploadedLecture = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search..."
-            border="1px solid #ccc"
-            borderRadius="md"
+            borderRadius="14PX"
+            bg={innerBackground}
           />
           <InputLeftElement pointerEvents="none">
             <SearchIcon />
@@ -97,13 +94,13 @@ const AllUploadedLecture = () => {
         {filteredAssignments.map((assignmentScreen) => (
           <Card
             w="100%"
-            blendMode={"multiply"}
-            bg={"#F1F5F8"}
+            bg={innerBackground}
+            boxShadow={innerBoxShadow}
             borderRadius={"18px"}
             key={assignmentScreen.id}
           >
             <Text fontSize={"15px"} lineHeight={"18px"} ml={"13px"} mt={"16px"}>
-              {assignmentScreen.topicName}
+              {capitalize(assignmentScreen?.topicName)}
             </Text>
             <Text
               fontWeight={400}
@@ -139,28 +136,52 @@ const AllUploadedLecture = () => {
             <Box
               flex={1}
               display="flex"
-              justifyContent="flex-end"
+              flexWrap={"wrap"}
               gap={4}
               my={"13px"}
-              mx={"25px"}
+              mx={"13px"}
             >
               {assignmentScreen.AssignmentFiles.map((file, index) => (
                 <Flex
                   key={index}
-                  flex={1}
-                  bg={"blackAlpha.100"}
-                  mt={"12px"}
-                  color={"#2C332978"}
-                  p={"9px"}
-                  borderRadius={"6px"}
-                  border={"1px"}
-                  borderColor={"#9597927D"}
-                  boxShadow={"md"}
+                  w={"160px"}
                   h={"49px"}
-                  fontSize={"11px"}
+                  word-wrap={"break-word"}
+                  color={"#2C332978"}
+                  border={"1px solid rgba(149, 151, 146, 0.49)"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                  bg="white"
+                  mb={2}
+                  borderRadius={"md"}
+                  px={2}
+                  py={5}
                 >
-                  {/* Display file information here */}
-                  <Text mt={2}>{extractFileNameFromS3URL(file.key)}</Text>
+                  {/* <Text
+                    fontSize={"12px"}
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                    whiteSpace="nowrap"
+                  >
+                    {extractFileNameFromS3URL(file.key)}
+                  </Text> */}
+                  <Tooltip
+                    label={extractFileNameFromS3URL(file.key)}
+                    placement="bottom"
+                    hasArrow
+                    arrowSize={8}
+                    fontSize={"11px"}
+                  >
+                    <Text
+                      fontSize={"12px"}
+                      overflow="hidden"
+                      textOverflow="ellipsis"
+                      whiteSpace="nowrap"
+                    >
+                      {extractFileNameFromS3URL(file.key)}
+                    </Text>
+                  </Tooltip>
+
                   <Spacer />
                   <Button
                     rightIcon={<BsDownload />}
@@ -168,6 +189,7 @@ const AllUploadedLecture = () => {
                     size="sm"
                     color={"black"}
                     ml={2}
+                    _hover={{ bg: "white" }}
                     onClick={() =>
                       dispatch(
                         setIsDocModalOpen(
@@ -185,13 +207,6 @@ const AllUploadedLecture = () => {
           </Card>
         ))}
       </SimpleGrid>
-      {/* {modalIsOpen && (
-        <DocumentViewer
-          isOpen={modalIsOpen}
-          onClose={handleCloseDocumentViewer}
-          docUrl={selectedFileUrl}
-        />
-      )} */}
     </Box>
   );
 };

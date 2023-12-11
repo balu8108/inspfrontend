@@ -12,13 +12,18 @@ import {
   Center,
   Spacer,
   Input,
+  useTheme,
 } from "@chakra-ui/react";
-import physDetailsData from "../data/physicsDetails";
 import { fetchAllChaptersApi } from "../../../../api/inspexternalapis";
+import {  capitalize } from "../../../../utils";
+import VectorImage from "../../../../assets/images/Line/Vector.svg";
+
 const PhysDetails = () => {
   const [chapters, setChapters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const { outerBackground, innerBackground, innerBoxShadow } =
+    useTheme().colors.pallete;
 
   const dummyDescriptions = [
     "This chapter covers the basics of electromagnetism, including its principles and applications.",
@@ -51,7 +56,12 @@ const PhysDetails = () => {
   );
 
   return (
-    <Box width={"full"} h={"100%"} bg={"#F1F5F8"} borderRadius={"26px"}>
+    <Box
+      width={"full"}
+      h={"100%"}
+      bg={outerBackground}
+      borderRadius={"26px"}
+    >
       <Flex mt={"17px"}>
         <HStack spacing={"10px"} alignItems="center" ml={"33px"}>
           <Box
@@ -68,14 +78,22 @@ const PhysDetails = () => {
         <Input
           type="text"
           value={searchTerm}
+          bg={innerBackground}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search..."
           w="30%"
           border="1px solid #ccc"
-          borderRadius="md"
+          borderRadius="14px"
           px="3"
+          fontWeight={400}
           py="2"
           mx={"10"}
+          style={{
+            backgroundImage: `url(${VectorImage})`,
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "10px center",
+            paddingLeft: "40px",
+          }}
         />
       </Flex>
 
@@ -88,11 +106,11 @@ const PhysDetails = () => {
           <Flex flexWrap="wrap" p={6} gap={"24px"}>
             {filteredTopics.map((chapter, index) => (
               <Card
+                bg={innerBackground}
+                boxShadow={innerBoxShadow}
                 key={chapter.id}
                 w="30%"
                 h={"204px"}
-                blendMode={"multiply"}
-                bg={"#F1F5F8"}
                 borderRadius={"18px"}
               >
                 <Text
@@ -103,7 +121,7 @@ const PhysDetails = () => {
                   lineHeight={"19px"}
                   noOfLines={1}
                 >
-                  {chapter.name}
+                  {capitalize(chapter?.name)}
                 </Text>
                 <Text
                   fontWeight={400}
@@ -148,6 +166,7 @@ const PhysDetails = () => {
                     lineHeight={"16px"}
                     p={6}
                     mt={"5"}
+                    _hover={{ bg: "white" }}
                   >
                     View Details
                   </Button>

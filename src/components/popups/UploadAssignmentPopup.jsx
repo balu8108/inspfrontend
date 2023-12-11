@@ -9,62 +9,97 @@ import {
   ModalCloseButton,
   Button,
   FormControl,
-  FormLabel,
   Select,
   Input,
-  Box,
-  InputGroup,
-  InputRightAddon,
-  Center,
   Flex,
-  Text,
   Spinner,
   Textarea,
+  useTheme,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import {
-  fetchAllChaptersApi,
+  fetchAllTopicsForSubjectApi,
   fetchAllSubjectsApi,
-  fetchAllTopicsApi,
 } from "../../api/inspexternalapis";
 import axios from "axios";
 import { BASE_URL } from "../../constants/staticurls";
-const UploadAssignmentPopup = ({ isOpen, onClose }) => {
+import { useToastContext } from "../toastNotificationProvider/ToastNotificationProvider";
+import { uploadAssignmentsApi } from "../../api/assignments";
+const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
   const [isLoadingSubjects, setIsLoadingSubjects] = useState(true);
-  const [isLoadingChapters, setIsLoadingChapters] = useState(false);
   const [isLoadingTopics, setIsLoadingTopics] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [subjects, setSubjects] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState("");
-  const [chapters, setChapters] = useState([]);
+  const [subjectError, setSubjectError] = useState("");
   const [selectedChapters, setSelectedChapters] = useState("");
   const [topics, setTopics] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState("");
+  const [topicError, setTopicError] = useState("");
   const [description, setDescription] = useState("");
+  const [descriptionError, setDescriptionError] = useState("");
+  const [fileError, setFileError] = useState("");
   const [files, setFiles] = useState([]);
-
-  const apiUrl = "http://localhost:5000";
-
-  // Create a ref for the file input
+  const { primaryBlueLight } = useTheme().colors.pallete;
   const fileInputRef = useRef(null);
-
+  const { addNotification } = useToastContext();
   const resetFormFields = () => {
     setSelectedSubject("");
     setSelectedChapters("");
     setSelectedTopic("");
     setDescription("");
     setFiles([]);
+    setSubjectError("");
+    setTopicError("");
+    setDescriptionError("");
+    setFileError("");
+  };
+
+  const handleSubjectChange = (e) => {
+    setSelectedSubject(e.target.value);
+    setSubjectError("");
+  };
+
+  const handleTopicChange = (e) => {
+    setSelectedTopic(e.target.value);
+    setTopicError("");
+  };
+
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+    setDescriptionError("");
   };
 
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
     setFiles((prevFiles) => [...prevFiles, ...selectedFiles]);
-    console.log("Selected Files:", selectedFiles);
+    setFileError("");
   };
 
   const handleSubmit = async () => {
     try {
+      if (!selectedSubject) {
+        setSubjectError("Please select a subject");
+        return;
+      }
+
+      if (!selectedTopic) {
+        setTopicError("Please select a topic");
+        return;
+      }
+
+      if (!description.trim()) {
+        setDescriptionError("Please enter a description");
+        return;
+      }
+
+      if (files.length === 0) {
+        setFileError("Please select at least one file to upload");
+        return;
+      }
+
       setIsSending(true);
-      // Create a FormData object to send files along with other data
+
       const formData = new FormData();
       formData.append("subjectId", selectedSubject);
 
@@ -78,36 +113,35 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
       const selectedTopicName =
         topics.find((topic) => topic.id === selectedTopic)?.name || "";
 
-      formData.append("topicName", selectedTopicName); // Use the topic name
+      formData.append("topicName", selectedTopicName);
       formData.append("topicId", selectedTopic);
       formData.append("description", description);
 
       files.forEach((file) => {
         formData.append("files", file);
       });
-      const response = await axios.post(
-        `${BASE_URL}/topic/upload-assignments`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data", // Set the content type to multipart/form-data for file uploads
-            Authorization: `Token ${"U5Ga0Z1aaNlYHp0MjdEdXJ1aKVVVB1TP"}`,
-          },
-        }
-      );
+      const response = await uploadAssignmentsApi(formData);
+      // const response = await axios.post(
+      //   `${BASE_URL}/topic/upload-assignments`,
+      //   formData,
+      //   {
+      //     headers: {
+      //       "Content-Type": "multipart/form-data",
+      //       Authorization: `Token ${"U5Ga0Z1aaNlYHp0MjdEdXJ1aKVVVB1TP"}`,
+      //     },
+      //   }
+      // );
 
       if (response.status === 201) {
-        console.log("Assignment submitted successfully");
-        // Handle any success actions (e.g., showing a success message)
+        setAssignment((prev) => [response?.data?.assignment, ...prev]);
+        addNotification("Assignment uploaded successfully!", "success", 1500);
       } else {
         console.error("Error submitting assignment:", response.data.error);
-        // Handle the error response from the backend
       }
 
-      onClose(); // Close the modal
+      onClose();
     } catch (error) {
       console.error("Error submitting assignment:", error);
-      // Handle any network or other errors that may occur during the request
     } finally {
       setIsSending(false);
     }
@@ -118,7 +152,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
       setIsLoadingSubjects(true);
       try {
         const response = await fetchAllSubjectsApi();
-        console.log("Subject Api", response);
+
         if (response.status) {
           setSubjects(response.result);
         }
@@ -133,49 +167,31 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
   }, []);
 
   useEffect(() => {
-    async function fetchChapters() {
-      setIsLoadingChapters(true);
-      try {
-        const response = await fetchAllChaptersApi();
-        console.log("Chapter Api", response);
-        if (response.status) {
-          setChapters(response.result);
-        }
-      } catch (error) {
-        console.error("Error fetching chapters:", error);
-      } finally {
-        setIsLoadingChapters(false);
-      }
-    }
-
-    fetchChapters();
-  }, []);
-
-  useEffect(() => {
-    async function fetchtopics(chapter_id) {
+    async function fetchAllTopicsForSubject() {
       setIsLoadingTopics(true);
       try {
-        const response = await fetchAllTopicsApi(chapter_id);
-        console.log("Topic Api", response);
+        const response = await fetchAllTopicsForSubjectApi(selectedSubject);
         if (response.status) {
           setTopics(response.result);
+          setSelectedTopic("");
         }
       } catch (error) {
-        console.error("Error fetching topics:", error);
+        console.error("Error fetching topics data:", error);
       } finally {
         setIsLoadingTopics(false);
       }
     }
 
-    if (selectedChapters) {
-      fetchtopics(selectedChapters);
+    setTopics([]);
+    if (selectedSubject) {
+      fetchAllTopicsForSubject();
     } else {
       setTopics([]);
+      setSelectedTopic("");
     }
-  }, [selectedChapters]);
+  }, [selectedSubject]);
 
   useEffect(() => {
-    // Reset form fields when the modal is closed
     if (!isOpen) {
       resetFormFields();
     }
@@ -194,13 +210,13 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <FormControl>
+          <FormControl mt={4} isInvalid={subjectError !== ""}>
             <Select
               placeholder={
                 isLoadingSubjects ? <Spinner size="sm" /> : "Select Subject"
               }
               value={selectedSubject}
-              onChange={(e) => setSelectedSubject(e.target.value)}
+              onChange={handleSubjectChange}
               isDisabled={isLoadingSubjects}
             >
               {isLoadingSubjects
@@ -211,33 +227,17 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
                     </option>
                   ))}
             </Select>
+            <FormErrorMessage>{subjectError}</FormErrorMessage>
           </FormControl>
-          <FormControl mt={4}>
-            <Select
-              placeholder={
-                isLoadingChapters ? <Spinner size="sm" /> : "Select Chapter"
-              }
-              value={selectedChapters}
-              onChange={(e) => setSelectedChapters(e.target.value)}
-              isDisabled={isLoadingChapters}
-            >
-              {isLoadingChapters
-                ? null
-                : chapters.map((chapter) => (
-                    <option key={chapter.id} value={chapter.id}>
-                      {chapter.name}
-                    </option>
-                  ))}
-            </Select>
-          </FormControl>
-          <FormControl mt={4}>
+
+          <FormControl mt={4} isInvalid={topicError !== ""}>
             <Select
               placeholder={
                 isLoadingTopics ? <Spinner size="sm" /> : "Select Topic"
               }
               value={selectedTopic}
-              onChange={(e) => setSelectedTopic(e.target.value)}
-              isDisabled={isLoadingTopics}
+              onChange={handleTopicChange}
+              isDisabled={isLoadingTopics || topics.length === 0}
             >
               {isLoadingTopics
                 ? null
@@ -247,21 +247,25 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
                     </option>
                   ))}
             </Select>
+
+            <FormErrorMessage>{topicError}</FormErrorMessage>
           </FormControl>
-          <FormControl mt={4}>
+          <FormControl mt={4} isInvalid={descriptionError !== ""}>
             <Textarea
               placeholder=" Description"
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={handleDescriptionChange}
               resize={"none"}
             />
+            <FormErrorMessage>{descriptionError}</FormErrorMessage>
           </FormControl>
-          <FormControl mt={4}>
+
+          <FormControl mt={4} isInvalid={fileError !== ""}>
             <Input
               type="file"
               accept=".pdf,.doc,.docx"
               style={{ display: "none" }}
-              ref={fileInputRef} // Attach the ref to the input element
+              ref={fileInputRef}
               onChange={handleFileChange}
               multiple
             />
@@ -278,35 +282,22 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
               <Button
                 w={"40%"}
                 bg={"#3C8DBC"}
+                _hover={{ bg: primaryBlueLight }}
                 color={"#FFFFFF"}
                 fontWeight={500}
                 onClick={() => {
-                  // Trigger the file input click event using the ref
                   fileInputRef.current.click();
                 }}
               >
                 Upload
               </Button>
             </Flex>
+            <FormErrorMessage>{fileError}</FormErrorMessage>
           </FormControl>
         </ModalBody>
-        {/* <ModalFooter>
-          <Flex w={"full"} justifyContent={"center"}>
-            <Button
-              type="submit"
-              w={"30%"}
-              bg={"#3C8DBC"}
-              color={"#FFFFFF"}
-              fontWeight={500}
-              onClick={handleSubmit}
-            >
-              Send
-            </Button>
-          </Flex>
-        </ModalFooter> */}
         <ModalFooter>
           <Flex w={"full"} justifyContent={"center"}>
-            {isSending ? ( // Render the spinner inside the button
+            {isSending ? (
               <Button
                 type="submit"
                 w={"30%"}
@@ -325,6 +316,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose }) => {
                 color={"#FFFFFF"}
                 fontWeight={500}
                 onClick={handleSubmit}
+                _hover={{ bg: primaryBlueLight }}
               >
                 Send
               </Button>

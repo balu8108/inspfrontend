@@ -3,6 +3,7 @@ import videojs from "video.js";
 import "video.js/dist/video-js.css";
 import "videojs-contrib-quality-levels";
 import "videojs-quality-selector-hls";
+
 const getVideoJsOptions = (url) => {
   const videoOptions = {
     autoplay: false,
@@ -62,15 +63,13 @@ const SampleVideoPlayer = ({ videoUrl }) => {
   }, [player]);
 
   return (
-    <>
-      <div data-vjs-player>
-        <video
-          ref={videoRef}
-          className="vidPlayer video-js vjs-default-skin vjs-big-play-centered"
-          style={{ borderRadius: "10px" }}
-        ></video>
-      </div>
-    </>
+    <div data-vjs-player>
+      <video
+        ref={videoRef}
+        className="vidPlayer video-js vjs-default-skin vjs-big-play-centered"
+        style={{ borderRadius: "10px" }}
+      ></video>
+    </div>
   );
 };
 

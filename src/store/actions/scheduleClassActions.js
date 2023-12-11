@@ -24,12 +24,16 @@ export const getAllLiveClassesSchedule = () => async (dispatch) => {
 export const setAddClassSchedule =
   (scheduleClassFormData) => async (dispatch) => {
     try {
-      const { data } = await createLiveClassApi(scheduleClassFormData);
+      const { data, status } = await createLiveClassApi(scheduleClassFormData);
+
       dispatch({
         type: ADD_CLASS_SCHEDULE,
         payload: data,
       });
+
+      return { data, status };
     } catch (err) {
       console.log(err);
+      return err;
     }
   };

@@ -16,14 +16,17 @@ import {
   Spinner,
   Textarea,
   Text,
+  useTheme,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import {
   fetchAllSubjectsApi,
-  fetchAllTopicsWithoutChapterIdApi,
+  fetchAllTopicsForSubjectApi,
 } from "../../../../../api/inspexternalapis";
-import DataForClass from "../../RecordingSoloLectures/components/DataForClass";
 import { BASE_URL } from "../../../../../constants/staticurls";
 import axios from "axios";
+import { createSoloLectureRoomApi } from "../../../../../api/soloclassrooms";
+
 const SoloRecordModal = ({ isOpen, onClose }) => {
   const [isLoadingSubjects, setIsLoadingSubjects] = useState(true);
   const [isLoadingTopics, setIsLoadingTopics] = useState(true);
@@ -37,9 +40,12 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
   const [selectedTopicId, setSelectedTopicId] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const { primaryBlueLight } = useTheme().colors.pallete;
   const navigate = useNavigate();
 
   const fileInputRef = useRef(null);
+  const [subjectError, setSubjectError] = useState(false);
+  const [topicError, setTopicError] = useState(false);
 
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
@@ -48,7 +54,22 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
+
     try {
+      // Validate subject and topic fields
+      if (!selectedSubject) {
+        setSubjectError(true);
+      }
+
+      if (!selectedTopic) {
+        setTopicError(true);
+      }
+
+      if (!selectedSubject || !selectedTopic) {
+        console.error("Please select both subject and topic.");
+        return;
+      }
+
       const formData = new FormData();
       formData.append("subjectId", selectedSubject);
       formData.append("topic", selectedTopic);
@@ -59,16 +80,19 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
       files.forEach((file) => {
         formData.append("files", file);
       });
-      const response = await axios.post(
-        `${BASE_URL}/solo-lecture/create-room`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Token ${"U5Ga0Z1aaNlYHp0MjdEdXJ1aKVVVB1TP"}`,
-          },
-        }
-      );
+
+      const response = await createSoloLectureRoomApi(formData);
+
+      // const response = await axios.post(
+      //   `${BASE_URL}/solo-lecture/create-room`,
+      //   formData,
+      //   {
+      //     headers: {
+      //       "Content-Type": "multipart/form-data",
+      //       Authorization: `Token ${"U5Ga0Z1aaNlYHp0MjdEdXJ1aKVVVB1TP"}`,
+      //     },
+      //   }
+      // );
 
       if (response.status === 201) {
         setSuccessMessage("SoloCLassRoom");
@@ -78,11 +102,11 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
           topicId: selectedTopicId,
           agenda: agenda,
           description: description,
-          files: files.map((file) => file.name).join(", "), // Add this line
+          files: files.map((file) => file.name).join(", "),
         };
 
-        const formDataToSave = JSON.stringify(formValues);
-        localStorage.setItem("formData", formDataToSave);
+        // const formDataToSave = JSON.stringify(formValues);
+        //localStorage.setItem("formData", formDataToSave);
 
         navigate(`/mentor/solo-lectures/${response?.data?.soloClassRoomId}`);
       } else {
@@ -117,11 +141,11 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
   }, []);
 
   useEffect(() => {
-    async function fetchAllTopicsWithoutChapterId() {
+    async function fetchAllTopicsForSubject() {
       setIsLoadingTopics(true);
       try {
-        const response = await fetchAllTopicsWithoutChapterIdApi();
-        console.log("Topics Api Without the Chapter Id", response);
+        const response = await fetchAllTopicsForSubjectApi(selectedSubject);
+
         if (response.status) {
           setAllTopicList(response.result);
         }
@@ -132,8 +156,14 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
       }
     }
 
-    fetchAllTopicsWithoutChapterId();
-  }, []);
+    setAllTopicList([]);
+
+    if (selectedSubject) {
+      fetchAllTopicsForSubject();
+    } else {
+      setAllTopicList([]);
+    }
+  }, [selectedSubject]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"xl"}>
@@ -148,13 +178,18 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <FormControl>
+          <FormControl isInvalid={subjectError}>
             <Select
               placeholder={
                 isLoadingSubjects ? <Spinner size="sm" /> : "Select Subject"
               }
               value={selectedSubject}
-              onChange={(e) => setSelectedSubject(e.target.value)}
+              onChange={(e) => {
+                setSelectedSubject(e.target.value);
+                setSubjectError(false);
+                setSelectedTopic("");
+                setAllTopicList([]);
+              }}
               isDisabled={isLoadingSubjects}
             >
               {isLoadingSubjects
@@ -165,9 +200,11 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
                     </option>
                   ))}
             </Select>
+
+            <FormErrorMessage>Select subject is required.</FormErrorMessage>
           </FormControl>
 
-          <FormControl mt={4}>
+          <FormControl mt={4} isInvalid={topicError}>
             <Select
               placeholder={
                 isLoadingTopics ? <Spinner size="sm" /> : "Select Topic"
@@ -176,34 +213,35 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
               onChange={(e) => {
                 const selectedTopicValue = e.target.value;
                 setSelectedTopic(selectedTopicValue);
-
-                // Find the topic object based on the selectedTopicValue
                 const selectedTopicObject = allTopicList.find(
                   (topic) => topic.name === selectedTopicValue
                 );
-
-                // Extract the topicId from the selected topic object and store it in state
                 if (selectedTopicObject) {
-                  const selectedTopicId = selectedTopicObject.id;
-                  setSelectedTopicId(selectedTopicId);
+                  setSelectedTopicId(selectedTopicObject.id);
                 }
+                setTopicError(false);
               }}
-              isDisabled={isLoadingTopics}
+              isDisabled={isLoadingTopics || allTopicList.length === 0}
             >
-              {isLoadingTopics
-                ? null
-                : allTopicList.map((topic) => (
-                    <option key={topic.id} value={topic.name}>
-                      {topic.name}
-                    </option>
-                  ))}
+              {allTopicList.map((topic) => (
+                <option key={topic.id} value={topic.name}>
+                  {topic.name}
+                </option>
+              ))}
+              {allTopicList.length === 0 && (
+                <option value="" disabled>
+                  No topics available
+                </option>
+              )}
             </Select>
+            <FormErrorMessage>Select topic is required.</FormErrorMessage>
           </FormControl>
 
           <FormControl mt={4}>
             <Textarea
               placeholder="Agenda"
               value={agenda}
+              resize={"none"}
               onChange={(e) => setAgenda(e.target.value)}
             ></Textarea>
           </FormControl>
@@ -228,6 +266,8 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
             <Flex gap={"16px"}>
               <Input
                 placeholder="Files To Upload"
+                fontSize={"11px"}
+                color={"gray"}
                 readOnly
                 value={
                   files.length > 0
@@ -238,6 +278,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
               <Button
                 w={"40%"}
                 bg={"#3C8DBC"}
+                _hover={{ bg: primaryBlueLight }}
                 color={"#FFFFFF"}
                 fontWeight={500}
                 onClick={() => {
@@ -254,6 +295,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
             <Button
               type="submit"
               w={"30%"}
+              _hover={{ bg: primaryBlueLight }}
               bg={"#3C8DBC"}
               color={"#FFFFFF"}
               fontWeight={500}

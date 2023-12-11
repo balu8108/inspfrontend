@@ -6,44 +6,39 @@ import {
   Card,
   Flex,
   Button,
-  Stack,
   SimpleGrid,
   Input,
   InputGroup,
   InputLeftElement,
-  Icon,
   Spacer,
+  Center,
+  Image,
+  VStack,
+  useTheme,
 } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
 import { BsDownload } from "react-icons/bs";
 import axios from "axios";
 import { BASE_URL } from "../../../constants/staticurls";
-import { extractFileNameFromS3URL } from "../../../utils";
+import {
+  boxShadowStyles,
+  capitalize,
+  extractFileNameFromS3URL,
+} from "../../../utils";
 import { useParams } from "react-router";
 import { useDispatch } from "react-redux";
 import { setIsDocModalOpen } from "../../../store/actions/genericActions";
+import ChemistryImage from "../../../assets/images/undraw_science_re_mnnr 1.svg";
+import MathematicsImage from "../../../assets/images/undraw_mathematics_-4-otb 1.svg";
+import { getAssignmentBySubjectNameApi } from "../../../api/assignments";
 
 const AssignmentDetails = () => {
   const [assignmentData, setAssignmentData] = useState([]);
-  const [selectedAssignment, setSelectedAssignment] = useState(null);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [selectedFileUrl, setSelectedFileUrl] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const { subjectName } = useParams();
+  const { outerBackground, innerBackground, innerBoxShadow } =
+    useTheme().colors.pallete;
   const dispatch = useDispatch();
-
-  const handleViewDetails = (assignmentId) => {
-    setSelectedAssignment(assignmentId);
-  };
-
-  const clearSelection = () => {
-    setSelectedAssignment(null);
-  };
-
-  const handleCloseDocumentViewer = () => {
-    setModalIsOpen(false);
-    setSelectedFileUrl("");
-  };
 
   const filteredData = Array.isArray(assignmentData)
     ? assignmentData.filter((assignment) => {
@@ -54,19 +49,34 @@ const AssignmentDetails = () => {
     : [];
 
   useEffect(() => {
-    axios
-      .get(BASE_URL + `/topic/get-assignment-by-subject-name/${subjectName}`)
-      .then((response) => {
-        setAssignmentData(response.data);
-        console.log("data for assignment", response);
-      })
-      .catch((error) => {
-        console.error("Error fetching assignments:", error);
-      });
+    // axios
+    //   .get(BASE_URL + `/topic/get-assignment-by-subject-name/${subjectName}`)
+    //   .then((response) => {
+    //     setAssignmentData(response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching assignments:", error);
+    //   });
+    const fetchAssignmentBySubject = async (subjectName) => {
+      try {
+        const response = await getAssignmentBySubjectNameApi(subjectName);
+        if (response?.status === 200) {
+          setAssignmentData(response?.data);
+        }
+      } catch (err) {}
+    };
+
+    fetchAssignmentBySubject(subjectName);
   }, [subjectName]);
 
   return (
-    <Box width={"full"} h={"full"} bg={"#F1F5F8"} borderRadius={"26px"}>
+    <Box
+      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      width={"full"}
+      h={"full"}
+      bg={outerBackground}
+      borderRadius={"26px"}
+    >
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
         <Box
           width={"12px"}
@@ -75,7 +85,7 @@ const AssignmentDetails = () => {
           bg={"#3C8DBC"}
         ></Box>
         <Text fontSize={"19px"} lineHeight={"24px"}>
-          Assignments({subjectName})
+          Assignments ({capitalize(subjectName)})
         </Text>
         <Spacer />
         <InputGroup m={4} w={"220px"}>
@@ -87,6 +97,7 @@ const AssignmentDetails = () => {
             w={"240px"}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            bg={innerBackground}
           />
         </InputGroup>
       </HStack>
@@ -100,19 +111,18 @@ const AssignmentDetails = () => {
           {filteredData.map((assignment) => (
             <Card
               w="100%"
-              blendMode={"multiply"}
-              bg={"#F1F5F8"}
+              bg={innerBackground}
+              boxShadow={innerBoxShadow}
               borderRadius={"18px"}
               key={assignment.id}
             >
-              {/* ... (existing code for displaying assignment details) */}
               <Text
                 fontSize={"15px"}
                 lineHeight={"18px"}
                 ml={"13px"}
                 mt={"16px"}
               >
-                {assignment.topicName}
+                {capitalize(assignment?.topicName)}
               </Text>
               <Text
                 fontWeight={400}
@@ -148,27 +158,31 @@ const AssignmentDetails = () => {
               <Box
                 flex={1}
                 display="flex"
-                justifyContent="flex-end"
+                flexWrap={"wrap"}
                 gap={4}
-                my={"13px"}
-                mx={"25px"}
+                mx={"14px"}
+                my={"7px"}
               >
-                {assignment.AssignmentFiles.map((files, index) => (
+                {assignment?.AssignmentFiles.map((files, index) => (
                   <Flex
                     key={index}
-                    flex={1}
-                    bg={"blackAlpha.100"}
-                    mt={"12px"}
-                    color={"#2C332978"}
-                    p={"9px"}
-                    borderRadius={"6px"}
-                    border={"1px"}
-                    borderColor={"#9597927D"}
-                    boxShadow={"md"}
+                    w={"175px"}
                     h={"49px"}
-                    fontSize={"11px"}
+                    word-wrap={"break-word"}
+                    color={"#2C332978"}
+                    borderColor={"#9597927D"}
+                    boxShadow={" 0px 1px 6px 0px #00000029 "}
+                    justifyContent={"space-between"}
+                    alignItems={"center"}
+                    bg="white"
+                    mb={2}
+                    borderRadius={"md"}
+                    px={2}
+                    py={5}
                   >
-                    <Text mt={2}>{extractFileNameFromS3URL(files.key)}</Text>
+                    <Text mt={2} fontSize={"11px"}>
+                      {extractFileNameFromS3URL(files.key)}
+                    </Text>
                     <Spacer />
                     <Button
                       rightIcon={<BsDownload />}
@@ -194,8 +208,50 @@ const AssignmentDetails = () => {
           ))}
         </SimpleGrid>
       ) : (
-        <Box textAlign="center" mt={4}>
-          <Text>No assignments for {subjectName}.</Text>
+        <Box mt={4}>
+          {subjectName === "CHEMISTRY" && (
+            <Center>
+              <VStack>
+                <Image
+                  boxSize="200px"
+                  objectFit="cover"
+                  src={ChemistryImage}
+                  alt="Chemistry"
+                />
+                <Text
+                  fontSize={"25px"}
+                  fontWeight={"500"}
+                  lineHeight={"37px"}
+                  color={"#2C3329"}
+                  p={"44px"}
+                >
+                  Coming Soon
+                </Text>
+              </VStack>
+            </Center>
+          )}
+
+          {subjectName === "MATHEMATICS" && (
+            <Center>
+              <VStack>
+                <Image
+                  boxSize="200px"
+                  objectFit="cover"
+                  src={MathematicsImage}
+                  alt="MATHEMATICS"
+                />
+                <Text
+                  fontSize={"25px"}
+                  fontWeight={"500"}
+                  lineHeight={"37px"}
+                  color={"#2C3329"}
+                  p={"44px"}
+                >
+                  Coming Soon
+                </Text>
+              </VStack>
+            </Center>
+          )}
         </Box>
       )}
     </Box>

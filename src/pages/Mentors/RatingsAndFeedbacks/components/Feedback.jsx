@@ -10,24 +10,32 @@ import {
   Button,
   Card,
   Spinner,
-  Icon,
+  Center,
+  useTheme,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../api/inspexternalapis/index";
-import { SearchIcon } from "@chakra-ui/icons";
-import rateNFeedbackDetails from "../data/feedbackData";
+import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
 import VectorImage from "../../../../assets/images/Line/Vector.svg";
+import { capitalize } from "../../../../utils";
+
 const AllUploadedLecture = () => {
+  const navigate = useNavigate();
   const [allTopicList, setAllTopicList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredTopics, setFilteredTopics] = useState([]); // Add filteredTopics state
+  const [filteredTopics, setFilteredTopics] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { outerBackground, innerBackground, innerBoxShadow } =
+    useTheme().colors.pallete;
+
+  const handleViewDetails = (chapterId, chapterName) => {
+    navigate(`/mentor/view/rating&feedback/${chapterId}/${chapterName}`);
+  };
 
   const handleSearchChange = (event) => {
     const query = event.target.value;
     setSearchQuery(query);
 
-    // Filter topics based on the search query
     const filtered = allTopicList.filter((topic) =>
       topic.name.toLowerCase().includes(query.toLowerCase())
     );
@@ -39,7 +47,7 @@ const AllUploadedLecture = () => {
     async function fetchAllTopicsWithoutChapterId() {
       try {
         const response = await fetchAllTopicsWithoutChapterIdApi();
-        console.log("Topics Api Without the Chapter Id", response);
+
         if (response.status) {
           setAllTopicList(response.result);
         }
@@ -54,7 +62,13 @@ const AllUploadedLecture = () => {
   }, []);
 
   return (
-    <Box bg={"#F1F5F8"} w={"full"} h={"full"} mt={"24px"} borderRadius={"26px"}>
+    <Box
+      w={"full"}
+      h={"full"}
+      mt={"24px"}
+      borderRadius={"26px"}
+      bg={outerBackground}
+    >
       <Flex>
         <HStack spacing={"10px"} ml="27px">
           <Box
@@ -77,8 +91,9 @@ const AllUploadedLecture = () => {
           placeholder="Search..."
           w="30%"
           border="1px solid #ccc"
-          borderRadius="md"
+          borderRadius="14px"
           px="3"
+          bg={innerBackground}
           py="2"
           mx={12}
           my={"17"}
@@ -107,32 +122,50 @@ const AllUploadedLecture = () => {
               w={"100%"}
               h={"204px"}
               key={chapter.id}
-              bg={"#F1F5F8"}
-              blendMode={"multiply"}
+              bg={innerBackground}
+              boxShadow={innerBoxShadow}
               borderRadius={"26px"}
               p={4}
               ml={"2"}
             >
-              <Text fontSize="16px" noOfLines={1}>
-                {chapter.name}
-              </Text>
-              <Text fontSize="12px" color={"#2C332978"}>
-                {chapter.instructorName} No Data
-              </Text>
-              <Text fontSize={"12px"} mt={"18px"}>
-                Description
-              </Text>
-              <Text fontSize="11px" color="#2C332978" noOfLines={2} mb={2}>
-                {chapter.description} No Data
-              </Text>
-              <Link
-                to={`/mentor/view/rating&feedback/${chapter.id}/${chapter.name}`}
-                style={{ display: "flex", justifyContent: "center" }}
+              <Flex
+                direction="column"
+                justifyContent="space-between"
+                height="100%"
               >
-                <Button variant={"ghost"} color={"#3C8DBC"} mt={"4"}>
-                  View Details
-                </Button>
-              </Link>
+                <Box>
+                  <Text fontSize="16px" noOfLines={1}>
+                    {capitalize(chapter?.name)}
+                  </Text>
+                  <Text fontSize="12px" color={"#2C332978"}>
+                    Nitin Sachan
+                  </Text>
+                </Box>
+
+                <Box mt={"16px"}>
+                  <Text fontSize={"12px"}>Description</Text>
+                  <Text
+                    fontSize="11px"
+                    color="#2C332978"
+                    noOfLines={3}
+                    lineHeight={"21px"}
+                  >
+                    {topicDescriptionConstants[chapter.id]}
+                  </Text>
+                </Box>
+              </Flex>
+              <Box mt={"5px"}>
+                <Center>
+                  <Button
+                    variant={"ghost"}
+                    color={"#3C8DBC"}
+                    _hover={{ bg: "white" }}
+                    onClick={() => handleViewDetails(chapter.id, chapter.name)}
+                  >
+                    View Details
+                  </Button>
+                </Center>
+              </Box>
             </Card>
           ))}
         </SimpleGrid>

@@ -6,16 +6,14 @@ import {
   useDisclosure,
   Stack,
   HStack,
+  useTheme,
 } from "@chakra-ui/react";
 import Header from "../../Header/components/HeaderInAllScreen";
 import MentorsUploads from "../components/Uploads";
 import FeedBack from "../components/RateNFeedback";
-import MentorSchedulingClass from "../../SchedulingClass/components/MentorSchedule";
 import SoloClasses from "../components/SoloClasses";
-import MentorGroups from "../components/Groups";
 import ScheduleClassList from "../../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
-import { boxShadowStyles } from "../../../../utils";
 import { useDispatch } from "react-redux";
 import { getAllLiveClassesSchedule } from "../../../../store/actions/scheduleClassActions";
 import ScheduleClassPopup from "../../../../components/popups/ScheduleClassPopup";
@@ -26,6 +24,7 @@ const MentorHomePage = () => {
     onOpen: onSchedulePopupOpen,
     onClose: onScheduleClosePopupOpen,
   } = useDisclosure();
+  const { outerBackground } = useTheme().colors.pallete;
 
   const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
   const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
@@ -58,27 +57,19 @@ const MentorHomePage = () => {
             </Flex>
           </Box>
 
-          <Box>
-            <VStack gap={"24px"}>
-              <MentorGroups />
-              <Box w="90%" ml={5}>
-                <SimpleBar
-                  style={{
-                    maxHeight: "85vh",
-                    borderRadius: "26px",
-                    bg: "#F1F5F8",
-                    backgroundBlendMode: "multiply",
-                    boxShadow: boxShadowStyles.shadowOneStyle.boxShadow,
-                  }}
-                >
-                  <Box p={4}>
-                    <ScheduleClassList
-                      onSchedulePopupOpen={onSchedulePopupOpen}
-                    />
-                  </Box>
-                </SimpleBar>
+          <Box w="35%" ml={5}>
+            <SimpleBar
+              style={{
+                maxHeight: "85vh",
+                borderRadius: "26px",
+                background: outerBackground,
+                // boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
+              }}
+            >
+              <Box p={4}>
+                <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
               </Box>
-            </VStack>
+            </SimpleBar>
           </Box>
         </Flex>
       </Box>

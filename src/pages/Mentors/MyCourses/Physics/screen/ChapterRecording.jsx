@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Box, Flex, Stack, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, Stack, useDisclosure, useTheme } from "@chakra-ui/react";
 import ViewAllRecordingsRelatedToOneChapter from "../components/RecOfChapter/RecordingRelatedToChapter";
 import ChapterDetailsAndCoveredPart from "../components/RecOfChapter/DetailsAndCovered";
-import MentorSchedulingClass from "../../../SchedulingClass/components/MentorSchedule";
 import ScheduleClassList from "../../../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
-import { boxShadowStyles } from "../../../../../utils";
 import { useDispatch } from "react-redux";
 import { getAllLiveClassesSchedule } from "../../../../../store/actions/scheduleClassActions";
 import ScheduleClassPopup from "../../../../../components/popups/ScheduleClassPopup";
 const ChapterRecordings = () => {
   const [viewTopic, setViewTopic] = useState(null);
   const [viewtopicName, setTopicName] = useState(null);
+  const { outerBackground } = useTheme().colors.pallete;
+
   const dispatch = useDispatch();
   const {
     isOpen: isSchedulePopupOpen,
@@ -52,9 +52,9 @@ const ChapterRecordings = () => {
             style={{
               maxHeight: "85vh",
               borderRadius: "26px",
-              bg: "#F1F5F8",
-              backgroundBlendMode: "multiply",
-              boxShadow: boxShadowStyles.shadowOneStyle.boxShadow,
+              background: outerBackground,
+
+              // boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
             }}
           >
             <Box p={4}>

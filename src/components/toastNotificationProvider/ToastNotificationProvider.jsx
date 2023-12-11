@@ -22,20 +22,18 @@ export function ToastNotificationProvider({ children }) {
   };
 
   return (
-    <>
-      <ToastContext.Provider value={{ addNotification, removeNotification }}>
-        {children}
-        {notifications.map((notification) => (
-          <ToastNotification
-            key={notification.id}
-            message={notification.message}
-            status={notification.status}
-            duration={notification.duration}
-            onClose={() => removeNotification(notification.id)}
-          />
-        ))}
-      </ToastContext.Provider>
-    </>
+    <ToastContext.Provider value={{ addNotification, removeNotification }}>
+      {children}
+      {notifications.map((notification) => (
+        <ToastNotification
+          key={notification.id}
+          message={notification.message}
+          status={notification.status}
+          duration={notification.duration}
+          onClose={() => removeNotification(notification.id)}
+        />
+      ))}
+    </ToastContext.Provider>
   );
 }
 export function useToastContext() {

@@ -1,12 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  Box,
-  Grid,
-  GridItem,
-  Text,
-  useDisclosure,
-  useTheme,
-} from "@chakra-ui/react";
+import { Box, Grid, GridItem, useDisclosure, useTheme } from "@chakra-ui/react";
 
 import LiveSessionDescription from "../components/LiveSessionDescription";
 import LiveSessionStream from "../components/LiveSessionStream";
@@ -21,8 +14,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { liveSessionMemberViewType } from "../../../constants/staticvariables";
 import { useToastContext } from "../../../components/toastNotificationProvider/ToastNotificationProvider";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { checkUserType } from "../../../utils";
+import { useNavigate, useParams } from "react-router-dom";
+import { checkUserType, screenshotHandler } from "../../../utils";
 import LiveSessionInteraction from "../components/LiveSessionInteraction";
 import LeaveOrEndClassPopup from "../../../components/popups/LeaveOrEndClassPopup";
 import KickFromClassPopup from "../../../components/popups/KickFromClassPopup";
@@ -30,6 +23,7 @@ import {
   resetChatMessages,
   resetQuestionMessags,
 } from "../../../store/actions/socketActions";
+import { createLiveClassNotes } from "../../../api/genericapis";
 
 const Room = () => {
   const [isScreenShare, setIsScreenShare] = useState(false);
@@ -67,10 +61,7 @@ const Room = () => {
   const dispatch = useDispatch();
 
   const theme = useTheme();
-  const { primaryBlue, backgroundLightBlue } = theme.colors.pallete;
-
-  console.log("mic stream of my auidio", micStream);
-  console.log("mentor video stream", mentorVideoStream);
+  const { primaryBlue, outerBackground } = theme.colors.pallete;
 
   const stopScreenShare = () => {
     setIsScreenShare(false);
@@ -168,28 +159,6 @@ const Room = () => {
     };
   }, [dispatch]);
 
-  // const stopEveryEnabledStreams = (
-  //   micStream,
-  //   mentorVideoStream,
-  //   screenShareStream
-  // ) => {
-  //   // Stop mic stream if it was there
-  //   if (micStream) {
-  //     const tracks = micStream.getTracks();
-  //     tracks.forEach((track) => track.stop());
-  //   }
-  //   // stop video stream if it was there
-  //   if (mentorVideoStream) {
-  //     const tracks = mentorVideoStream.getTracks();
-  //     tracks.forEach((track) => track.stop());
-  //   }
-  //   // stop screenshare stream if it was there
-  //   if (screenShareStream) {
-  //     const tracks = screenShareStream.getTracks();
-  //     tracks.forEach((track) => track.stop());
-  //   }
-  // };
-
   const stopMediaStream = (stream) => {
     if (stream) {
       const tracks = stream.getTracks();
@@ -199,25 +168,51 @@ const Room = () => {
 
   // This useEffect will clear all the mic,video,screenshare stream if component is unmounting
   useEffect(() => {
-    console.log("use effect of micstream");
     return () => {
-      console.log("unmoundt function clear stream runs...");
       stopMediaStream(micStream);
     };
   }, [micStream]);
 
   useEffect(() => {
-    console.log("use effect of micstream");
     return () => {
-      console.log("unmoundt function clear stream runs...");
       stopMediaStream(mentorVideoStream);
     };
   }, [mentorVideoStream]);
   useEffect(() => {
-    console.log("use effect of micstream");
     return () => {
-      console.log("unmoundt function clear stream runs...");
       stopMediaStream(screenShareStream);
+    };
+  }, [screenShareStream]);
+
+  useEffect(() => {
+    console.log("screenshare stream changed", screenShareStream);
+    const ssId = setInterval(async () => {
+      try {
+        if (screenShareStream) {
+          const videoTracks = screenShareStream.getVideoTracks();
+          if (videoTracks.length > 0) {
+            const track = videoTracks[0];
+            if (track.enabled) {
+              const screenshot = await screenshotHandler(screenShareStream);
+              const formData = new FormData();
+              formData.append("screenshot", screenshot);
+              formData.append("roomId", roomId);
+
+              if (screenshot) {
+                await createLiveClassNotes(formData); // send screenshot to backend
+              }
+            }
+          }
+        } else {
+          console.log("No screen share available");
+        }
+      } catch (err) {
+        console.log("error in screenshot", err);
+      }
+    }, 10000);
+    return () => {
+      console.log("clearing up stream", ssId);
+      clearInterval(ssId);
     };
   }, [screenShareStream]);
 
@@ -245,13 +240,13 @@ const Room = () => {
           templateRows="repeat(6, 1fr)"
           h="85vh"
           columnGap={4}
-          rowGap={2}
+          rowGap={4}
           className="scrollbar-parent"
         >
           {!isEnlarged && (
             <GridItem
               rowSpan={2}
-              bg={backgroundLightBlue}
+              bg={outerBackground}
               borderRadius={"md"}
               className="scrollbar-primary"
               overflowY={"scroll"}
@@ -260,7 +255,7 @@ const Room = () => {
             </GridItem>
           )}
 
-          <GridItem rowSpan={6} bg={backgroundLightBlue} p={4}>
+          <GridItem rowSpan={6} bg={outerBackground} p={4} borderRadius={"md"}>
             <LiveSessionStream
               primaryBlue={primaryBlue}
               isScreenShare={isScreenShare}
@@ -300,6 +295,7 @@ const Room = () => {
             >
               <LiveSessionMembers
                 primaryBlue={primaryBlue}
+                outerBackground={outerBackground}
                 viewType={peersViewType}
                 onOpenKickFromClass={onOpenKickFromClass}
                 setKickedPersonDetails={setKickedPersonDetails}
@@ -308,7 +304,7 @@ const Room = () => {
           )}
 
           {!isEnlarged && (
-            <GridItem rowSpan={4} bg={backgroundLightBlue} borderRadius={"md"}>
+            <GridItem rowSpan={4} bg={outerBackground} borderRadius={"md"}>
               <LiveSessionInteraction />
             </GridItem>
           )}

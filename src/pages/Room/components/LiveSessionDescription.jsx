@@ -9,7 +9,7 @@ import {
   getLiveClassDetails,
   getUpcomingClassDetails,
 } from "../../../store/actions/socketActions";
-import { checkUserType, formatTime } from "../../../utils";
+import { capitalize, checkUserType, formatTime } from "../../../utils";
 import { userType, fileTypes } from "../../../constants/staticvariables";
 
 const RoomContent = ({ mainTextColor, secondaryTextColor, type }) => {
@@ -29,7 +29,8 @@ const RoomContent = ({ mainTextColor, secondaryTextColor, type }) => {
     <>
       <Box pt={6}>
         <Text fontSize={"14px"} color={mainTextColor}>
-          {renderContent()?.LiveClassRoomDetail?.topicName || roomData.noData}
+          {capitalize(renderContent()?.LiveClassRoomDetail?.topicName) ||
+            roomData.noData}
         </Text>
         <Text color={secondaryTextColor} fontSize={"12px"}>
           {formatTime(renderContent()?.scheduledStartTime)} -
@@ -76,26 +77,24 @@ const LiveSessionDescription = () => {
     }
   }, [roomId, dispatch]);
   return (
-    <>
-      <Box p={4}>
-        <HStack>
-          <Box
-            bg={primaryBlue}
-            width="12px"
-            height="25px"
-            borderRadius={"20px"}
-          ></Box>
-          <Text fontWeight={"400"}>{roomData.liveSessionText}</Text>
-        </HStack>
-        <Box>
-          <RoomContent
-            mainTextColor={mainTextColor}
-            secondaryTextColor={secondaryTextColor}
-            type={"active"}
-          />
-        </Box>
+    <Box p={4}>
+      <HStack>
+        <Box
+          bg={primaryBlue}
+          width="12px"
+          height="25px"
+          borderRadius={"20px"}
+        ></Box>
+        <Text fontWeight={"400"}>{roomData.liveSessionText}</Text>
+      </HStack>
+      <Box>
+        <RoomContent
+          mainTextColor={mainTextColor}
+          secondaryTextColor={secondaryTextColor}
+          type={"active"}
+        />
       </Box>
-    </>
+    </Box>
   );
 };
 
