@@ -261,7 +261,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
             )}
           </Flex>
         ) : (
-          <Text fontSize="12px"   mx={"20px"} >
+          <Text fontSize="12px" mx={"20px"}>
             No data available for the topic.
           </Text>
         )}
@@ -366,7 +366,6 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                       border={"1px solid #9597927D"}
                       boxShadow={"0px 1px 6px 0px #00000029"}
                     >
-                     
                       <Tooltip
                         label={extractFileNameFromS3URL(file.key)}
                         placement="bottom"
