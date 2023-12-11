@@ -231,22 +231,13 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                       color={"black"}
                       ml={2}
                       _hover={{ bg: "none" }}
-                      // onClick={() =>
-                      //   dispatch(
-                      //     setIsDocModalOpen(file.id, file.key, "live", true)
-                      //   )
-                      // }
-
                       onClick={() =>
                         dispatch(
-                          setIsDocModalOpen(
-                            liveClassData.LiveClassRoomFiles[0].id,
-                            liveClassData.LiveClassRoomFiles[0].key,
-                            "live",
-                            true
-                          )
+                          setIsDocModalOpen(file.id, file.key, "live", true)
                         )
                       }
+
+                      
                     ></Button>
                   </Flex>
                 </Box>
