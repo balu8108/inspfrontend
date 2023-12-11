@@ -195,62 +195,62 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
         <Text p={"12px"}>Files/Notes</Text>
         {liveClassRoomData && liveClassRoomData.data.length > 0 ? (
           <Flex flexWrap="wrap" gap={4} ml={"10px"}>
-            {liveClassRoomData.data.map(
-              (liveClassData) =>
-                liveClassData.LiveClassRoomFiles.length > 0 && (
-                  <Box
-                    key={liveClassData.id}
-                    w={"170px"}
-                    h={"49px"}
-                    borderRadius={6}
-                    border={" 1px solid #9597927D "}
-                    boxShadow={" 0px 1px 6px 0px #00000029 "}
-                    mb={"25px"}
-                  >
-                    <Flex align="center" m={"5px"}>
-                      <Tooltip
-                        label={extractFileNameFromS3URL(
-                          liveClassData.LiveClassRoomFiles[0].key
-                        )}
-                        placement="bottom"
-                        hasArrow
-                        arrowSize={8}
-                        fontSize={"11px"}
+            {liveClassRoomData.data.map((liveClassData) =>
+              liveClassData.LiveClassRoomFiles.map((file) => (
+                <Box
+                  key={file.id}
+                  w={"170px"}
+                  h={"49px"}
+                  borderRadius={6}
+                  border={" 1px solid #9597927D "}
+                  boxShadow={" 0px 1px 6px 0px #00000029 "}
+                  mb={"25px"}
+                >
+                  <Flex align="center" m={"5px"}>
+                    <Tooltip
+                      label={extractFileNameFromS3URL(file.key)}
+                      placement="bottom"
+                      hasArrow
+                      arrowSize={8}
+                      fontSize={"11px"}
+                    >
+                      <Text
+                        fontSize={"12px"}
+                        color={"#2C332978"}
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                        whiteSpace="nowrap"
                       >
-                        <Text
-                          fontSize={"12px"}
-                          color={"#2C332978"}
-                          overflow="hidden"
-                          textOverflow="ellipsis"
-                          whiteSpace="nowrap"
-                        >
-                          {extractFileNameFromS3URL(
-                            liveClassData.LiveClassRoomFiles[0].key
-                          )}
-                        </Text>
-                      </Tooltip>
+                        {extractFileNameFromS3URL(file.key)}
+                      </Text>
+                    </Tooltip>
+                    <Spacer />
+                    <Button
+                      rightIcon={<BsDownload />}
+                      variant={"ghost"}
+                      color={"black"}
+                      ml={2}
+                      _hover={{ bg: "none" }}
+                      // onClick={() =>
+                      //   dispatch(
+                      //     setIsDocModalOpen(file.id, file.key, "live", true)
+                      //   )
+                      // }
 
-                      <Spacer />
-                      <Button
-                        rightIcon={<BsDownload />}
-                        variant={"ghost"}
-                        color={"black"}
-                        ml={2}
-                        _hover={{ bg: "none" }}
-                        onClick={() =>
-                          dispatch(
-                            setIsDocModalOpen(
-                              liveClassData.LiveClassRoomFiles[0].id,
-                              liveClassData.LiveClassRoomFiles[0].key,
-                              "live",
-                              true
-                            )
+                      onClick={() =>
+                        dispatch(
+                          setIsDocModalOpen(
+                            liveClassData.LiveClassRoomFiles[0].id,
+                            liveClassData.LiveClassRoomFiles[0].key,
+                            "live",
+                            true
                           )
-                        }
-                      ></Button>
-                    </Flex>
-                  </Box>
-                )
+                        )
+                      }
+                    ></Button>
+                  </Flex>
+                </Box>
+              ))
             )}
             {liveClassRoomData.data.every(
               (data) => data.LiveClassRoomFiles.length === 0
