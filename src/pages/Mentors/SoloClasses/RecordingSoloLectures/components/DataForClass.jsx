@@ -111,6 +111,7 @@ const DataForClass = () => {
             lineHeight={"21px"}
             color={"#2C332978"}
             ml={"12px"}
+            noOfLines={3}
           >
             {data.description ? data.description : "No Data"}
           </Text>
@@ -146,6 +147,9 @@ const DataForClass = () => {
                         fontSize={"12px"}
                         lineHeight={"14px"}
                         color={"#2C332978"}
+                        className="example"
+                        overflowX={"auto"}
+                        noOfLines={2}
                       >
                         {agendaItem ? agendaItem : "No Data"}
                       </Text>
