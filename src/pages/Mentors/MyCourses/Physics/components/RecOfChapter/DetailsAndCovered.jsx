@@ -179,7 +179,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
             {liveClassRoomData.data.every(
               (data) => data.LiveClassRoomRecordings.length === 0
             ) && (
-              <Text fontSize="12px" p={3}>
+              <Text fontSize="12px" m={5}>
                 No recordings available for the topic.
               </Text>
             )}
@@ -199,7 +199,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
               liveClassData.LiveClassRoomFiles.map((file) => (
                 <Box
                   key={file.id}
-                  w={"170px"}
+                  w={"157px"}
                   h={"49px"}
                   borderRadius={6}
                   border={" 1px solid #9597927D "}
@@ -261,7 +261,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
             )}
           </Flex>
         ) : (
-          <Text fontSize="12px" p={3}>
+          <Text fontSize="12px"   mx={"20px"} >
             No data available for the topic.
           </Text>
         )}
@@ -321,7 +321,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
             })}
           </Flex>
         ) : (
-          <Text fontSize="12px" p={3}>
+          <Text fontSize="12px" mx={"20px"}>
             No data available for the topic.
           </Text>
         )}
@@ -366,14 +366,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                       border={"1px solid #9597927D"}
                       boxShadow={"0px 1px 6px 0px #00000029"}
                     >
-                      {/* <Text
-                        overflow="hidden"
-                        textOverflow="ellipsis"
-                        whiteSpace="nowrap"
-                        mt={2}
-                      >
-                        {extractFileNameFromS3URL(file.key)}
-                      </Text> */}
+                     
                       <Tooltip
                         label={extractFileNameFromS3URL(file.key)}
                         placement="bottom"

@@ -26,7 +26,7 @@ import "../../../../../constants/scrollbar/style.css";
 import detailsCoveredData from "../data/detailsCoveredData";
 import topicDescriptionConstants from "../../../../../constants/topicDescriptionConstants";
 import { getTopicDetailsForSoloClassApi } from "../../../../../api/soloclassrooms";
-import "../../../../../constants/scrollbar/style.css"
+import "../../../../../constants/scrollbar/style.css";
 const DetailsCoveredFiles = () => {
   const [topicDetails, setTopicDetails] = useState(null);
   const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
@@ -147,12 +147,11 @@ const DetailsCoveredFiles = () => {
         <Text ml={"20px"} p={"13px"}>
           Files/Notes
         </Text>
-        
 
-        <Flex ml={"13px"} className="example" overflowX={"auto"}>
+        <Flex ml={"13px"} className="example" overflowX={"auto"} mr={"13px"}>
           {topicDetails && topicDetails.length > 0 ? (
             topicDetails.map((topicInfo, index) => (
-              <Flex key={topicInfo.id}   >
+              <Flex key={topicInfo.id}>
                 {topicInfo.SoloClassRoomFiles.map((file, fileIndex) => (
                   <Box
                     key={fileIndex}
