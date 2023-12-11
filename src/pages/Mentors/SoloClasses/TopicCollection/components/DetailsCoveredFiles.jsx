@@ -13,7 +13,7 @@ import {
   UnorderedList,
   ListItem,
   Stack,
-  Tooltip
+  Tooltip,
 } from "@chakra-ui/react";
 import defaultImageUrl from "../../../../../assets/images/image1.png";
 import { BsDownload, BsPlayFill } from "react-icons/bs";
@@ -26,6 +26,7 @@ import "../../../../../constants/scrollbar/style.css";
 import detailsCoveredData from "../data/detailsCoveredData";
 import topicDescriptionConstants from "../../../../../constants/topicDescriptionConstants";
 import { getTopicDetailsForSoloClassApi } from "../../../../../api/soloclassrooms";
+import "../../../../../constants/scrollbar/style.css"
 const DetailsCoveredFiles = () => {
   const [topicDetails, setTopicDetails] = useState(null);
   const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
@@ -142,15 +143,16 @@ const DetailsCoveredFiles = () => {
         </Box>
       </Stack>
 
-      <Box mt={"31px"} display="flex" flexWrap="wrap">
+      <Box mt={"31px"}>
         <Text ml={"20px"} p={"13px"}>
           Files/Notes
         </Text>
+        
 
-        <Box w={"100%"} ml={"13px"} display="flex" flexWrap="wrap">
+        <Flex ml={"13px"} className="example" overflowX={"auto"}>
           {topicDetails && topicDetails.length > 0 ? (
             topicDetails.map((topicInfo, index) => (
-              <Box key={topicInfo.id} display="flex" flexWrap="wrap">
+              <Flex key={topicInfo.id}   >
                 {topicInfo.SoloClassRoomFiles.map((file, fileIndex) => (
                   <Box
                     key={fileIndex}
@@ -163,16 +165,6 @@ const DetailsCoveredFiles = () => {
                     mb={"25px"}
                   >
                     <Flex align="center" m={"5px"}>
-                      {/* <Text
-                        fontSize={"11px"}
-                        color={"#2C332978"}
-                        overflow="hidden"
-                        textOverflow="ellipsis"
-                        whiteSpace="nowrap"
-                      >
-                        {extractFileNameFromS3URL(file.key)}
-                      </Text> */}
-
                       <Tooltip
                         label={extractFileNameFromS3URL(file.key)}
                         placement="bottom"
@@ -196,19 +188,19 @@ const DetailsCoveredFiles = () => {
                         variant={"ghost"}
                         color={"black"}
                         ml={2}
-                        _hover={{bg:"none"}}
+                        _hover={{ bg: "none" }}
                       />
                     </Flex>
                   </Box>
                 ))}
-              </Box>
+              </Flex>
             ))
           ) : (
             <Box p={4} fontSize={"14px"} ml={5}>
               <Text>No files/notes are available for this topic.</Text>
             </Box>
           )}
-        </Box>
+        </Flex>
       </Box>
     </Box>
   );
