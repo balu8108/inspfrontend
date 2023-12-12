@@ -6,50 +6,30 @@ import {
   HStack,
   Card,
   Flex,
-  Button,
   Stack,
-  Spacer,
   Image,
   SimpleGrid,
   ListItem,
   UnorderedList,
   useTheme,
-  Tooltip,
-  Icon,
 } from "@chakra-ui/react";
-import { BsDownload } from "react-icons/bs";
 import chapterDetailsData from "../../data/chapterDetailsData";
 import defaultImageUrl from "../../../.././../../assets/images/image1.png";
-import { capitalize, extractFileNameFromS3URL } from "../../../../../../utils";
+import { capitalize } from "../../../../../../utils";
 import topicDescriptionConstants from "../../../../../../constants/topicDescriptionConstants";
-import { pollsFileNameExtraction } from "../../../../../../utils/pollsFileNameExtraction";
-import { BASE_URL } from "../../../../../../constants/staticurls";
-import axios from "axios";
-import { setIsDocModalOpen } from "../../../../../../store/actions/genericActions";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { allLiveRecordingDetailsApi } from "../../../../../../api/recordingapi";
 import { getAllAssignmentByTopicApi } from "../../../../../../api/assignments";
-import { FiDownload } from "react-icons/fi";
 import SingleFileComponent from "../../../../../../components/filebox/SingleFileComponent";
 
 const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
   const [liveClassRoomData, setLiveClassRoomData] = useState(null);
 
   const [assignmentDetails, setAssignmentDetails] = useState(null);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [selectedFileUrl, setSelectedFileUrl] = useState("");
 
-  const { outerBackground, innerBackground, secondaryTextColor } =
-    useTheme().colors.pallete;
+  const { outerBackground, innerBackground } = useTheme().colors.pallete;
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const handleCloseDocumentViewer = () => {
-    setModalIsOpen(false);
-    setSelectedFileUrl("");
-  };
 
   const fetchLiveClassData = async (topicId) => {
     try {
@@ -71,9 +51,6 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
 
   const fetchAssignmentDetails = async (topicId) => {
     try {
-      // const response = await axios.get(
-      //   `${BASE_URL}/topic/get-all-assignments-topic-id?topicId=${topicId}`
-      // );
       const response = await getAllAssignmentByTopicApi(topicId);
       if (response?.status === 200) {
         const topicDetailsData = response.data;
@@ -149,7 +126,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
             <Text fontSize="md">Agenda</Text>
             <UnorderedList fontSize={"12px"} color={"#2C332978"} pt={2}>
               {chapterDetailsData[0].covered.map((topic, index) => (
-                <ListItem key={index} my={2}>
+                <ListItem key={topic?.id} my={2}>
                   {topic}
                 </ListItem>
               ))}
@@ -201,13 +178,14 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
           <Flex mt={4} flexWrap="wrap" gap={2}>
             {liveClassRoomData?.data?.map((ld) =>
               ld?.LiveClassRoomFiles?.map((file) => (
-                <SingleFileComponent file={file} type={"live"} />
+                <SingleFileComponent key={file?.id} file={file} type={"live"} />
               ))
             )}
             {liveClassRoomData?.data?.map(
               (ld) =>
                 ld?.LiveClassRoomNote !== null && (
                   <SingleFileComponent
+                    key={ld?.LiveClassRoomNote?.id}
                     file={ld?.LiveClassRoomNote}
                     type="note"
                   />
@@ -215,11 +193,10 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
             )}
 
             {liveClassRoomData?.data?.every(
-              (ld) => !ld?.LiveClassRoomFiles?.length
-            ) &&
-              liveClassRoomData?.data?.LiveClassRoomNote === null && (
-                <Text fontSize="12px">No Files for this topic</Text>
-              )}
+              (ld) =>
+                !ld?.LiveClassRoomFiles?.length &&
+                ld?.LiveClassRoomNote === null
+            ) && <Text fontSize="12px">No Files for this topic</Text>}
           </Flex>
         ) : (
           <Text fontSize="12px">No Data for this topic</Text>
@@ -230,16 +207,20 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
         <Text>Polls/QnA</Text>
         {liveClassRoomData?.data?.length > 0 ? (
           <Flex mt={4} flexWrap="wrap" gap={2}>
-            {liveClassRoomData?.data?.map((ld) =>
-              ld?.LiveClassRoomQNANote !== null ? (
-                <SingleFileComponent
-                  file={ld?.LiveClassRoomQNANote}
-                  type="qna"
-                />
-              ) : (
-                <Text fontSize="12px">No Qna for this topic</Text>
-              )
+            {liveClassRoomData?.data?.map(
+              (ld) =>
+                ld?.LiveClassRoomQNANote !== null && (
+                  <SingleFileComponent
+                    key={ld?.LiveClassRoomQNANote?.id}
+                    file={ld?.LiveClassRoomQNANote}
+                    type="qna"
+                  />
+                )
             )}
+
+            {liveClassRoomData?.data?.every(
+              (ld) => ld?.LiveClassRoomQNANote === null
+            ) && <Text fontSize="12px">No QNA for this topic</Text>}
           </Flex>
         ) : (
           <Text fontSize="12px">No Data for this topic</Text>
@@ -252,7 +233,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
           <SimpleGrid style={{ marginTop: "16px" }}>
             {assignmentDetails.map((assignment, index) => (
               <Card
-                key={index}
+                key={assignment?.id}
                 h={"100%"}
                 flex={1}
                 borderRadius={"18px"}
@@ -265,7 +246,11 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                 </Text>
                 <HStack mt={4}>
                   {assignment.AssignmentFiles.map((file, fileIndex) => (
-                    <SingleFileComponent file={file} type="assignment" />
+                    <SingleFileComponent
+                      key={file?.id}
+                      file={file}
+                      type="assignment"
+                    />
                   ))}
                 </HStack>
               </Card>
