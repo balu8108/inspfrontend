@@ -5,30 +5,22 @@ import {
   Text,
   HStack,
   Card,
-  Flex,
-  Button,
   SimpleGrid,
   Input,
   InputGroup,
   InputLeftElement,
   Spacer,
   useTheme,
-  Tooltip,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
-import { BsDownload } from "react-icons/bs";
-
-import { BASE_URL } from "../../../../constants/staticurls";
-import { extractFileNameFromS3URL, capitalize } from "../../../../utils";
-import axios from "axios";
+import { capitalize } from "../../../../utils";
 import { useDispatch } from "react-redux";
-import { setIsDocModalOpen } from "../../../../store/actions/genericActions";
 import { getAssignmentWithFilesApi } from "../../../../api/assignments";
+import SingleFileComponent from "../../../../components/filebox/SingleFileComponent";
 const AllUploadedLecture = () => {
   const [assignments, setAssignments] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const dispatch = useDispatch();
   const { outerBackground, innerBackground, innerBoxShadow } =
     useTheme().colors.pallete;
 
@@ -58,8 +50,14 @@ const AllUploadedLecture = () => {
   }, []);
 
   return (
-    <Box width={"100%"} h={"100%"} borderRadius={"26px"} bg={outerBackground}>
-      <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
+    <Box
+      width={"100%"}
+      h={"100%"}
+      borderRadius={"26px"}
+      p={6}
+      bg={outerBackground}
+    >
+      <HStack spacing={"10px"} alignItems="center">
         <Box
           width={"12px"}
           height={"25px"}
@@ -71,7 +69,7 @@ const AllUploadedLecture = () => {
         </Text>
 
         <Spacer />
-        <InputGroup w="30%" mx={12} my={17}>
+        <InputGroup w="30%">
           <Input
             type="text"
             value={searchTerm}
@@ -85,128 +83,59 @@ const AllUploadedLecture = () => {
           </InputLeftElement>
         </InputGroup>
       </HStack>
-      <SimpleGrid
-        columns={{ base: 1, md: 1, lg: 1 }}
-        spacing={"6"}
-        p={4}
-        mr={"20px"}
-      >
-        {filteredAssignments.map((assignmentScreen) => (
-          <Card
-            w="100%"
-            bg={innerBackground}
-            boxShadow={innerBoxShadow}
-            borderRadius={"18px"}
-            key={assignmentScreen.id}
-          >
-            <Text fontSize={"15px"} lineHeight={"18px"} ml={"13px"} mt={"16px"}>
-              {capitalize(assignmentScreen?.topicName)}
-            </Text>
-            <Text
-              fontWeight={400}
-              fontSize={"12px"}
-              lineHeight={"14px"}
-              ml={"13px"}
-              mt={"3px"}
-              color={"#2C332978"}
+      <Box pt={10}>
+        <SimpleGrid columns={{ base: 1, md: 1, lg: 1 }} spacing={4}>
+          {filteredAssignments.map((assignmentScreen) => (
+            <Card
+              w="100%"
+              bg={innerBackground}
+              p={6}
+              boxShadow={innerBoxShadow}
+              borderRadius={"18px"}
+              key={assignmentScreen.id}
             >
-              {assignmentScreen.instructorName}
-            </Text>
-            <Text
-              fontSize={"12px"}
-              lineHeight={"13px"}
-              ml={"13px"}
-              fontWeight={400}
-              color={"rgba(44, 51, 41, 1)"}
-              mt={"18px"}
-            >
-              Description
-            </Text>
-            <Text
-              fontSize={"12px"}
-              lineHeight={"21px"}
-              fontWeight={400}
-              ml={13}
-              mt={"5px"}
-              color={"#2C332978"}
-              noOfLines={2}
-            >
-              {assignmentScreen.description}
-            </Text>
-            <Box
-              flex={1}
-              display="flex"
-              flexWrap={"wrap"}
-              gap={4}
-              my={"13px"}
-              mx={"13px"}
-            >
-              {assignmentScreen.AssignmentFiles.map((file, index) => (
-                <Flex
-                  key={index}
-                  w={"160px"}
-                  h={"49px"}
-                  word-wrap={"break-word"}
-                  color={"#2C332978"}
-                  border={"1px solid rgba(149, 151, 146, 0.49)"}
-                  justifyContent={"space-between"}
-                  alignItems={"center"}
-                  bg="white"
-                  mb={2}
-                  borderRadius={"md"}
-                  px={2}
-                  py={5}
-                >
-                  {/* <Text
-                    fontSize={"12px"}
-                    overflow="hidden"
-                    textOverflow="ellipsis"
-                    whiteSpace="nowrap"
-                  >
-                    {extractFileNameFromS3URL(file.key)}
-                  </Text> */}
-                  <Tooltip
-                    label={extractFileNameFromS3URL(file.key)}
-                    placement="bottom"
-                    hasArrow
-                    arrowSize={8}
-                    fontSize={"11px"}
-                  >
-                    <Text
-                      fontSize={"12px"}
-                      overflow="hidden"
-                      textOverflow="ellipsis"
-                      whiteSpace="nowrap"
-                    >
-                      {extractFileNameFromS3URL(file.key)}
-                    </Text>
-                  </Tooltip>
-
-                  <Spacer />
-                  <Button
-                    rightIcon={<BsDownload />}
-                    variant={"ghost"}
-                    size="sm"
-                    color={"black"}
-                    ml={2}
-                    _hover={{ bg: "white" }}
-                    onClick={() =>
-                      dispatch(
-                        setIsDocModalOpen(
-                          file?.id,
-                          file?.key,
-                          "assignment",
-                          true
-                        )
-                      )
-                    }
-                  ></Button>
-                </Flex>
-              ))}
-            </Box>
-          </Card>
-        ))}
-      </SimpleGrid>
+              <Text fontSize={"15px"} lineHeight={"18px"}>
+                {capitalize(assignmentScreen?.topicName)}
+              </Text>
+              <Text
+                fontWeight={400}
+                fontSize={"12px"}
+                lineHeight={"14px"}
+                color={"#2C332978"}
+              >
+                {assignmentScreen.instructorName}
+              </Text>
+              <Text
+                fontSize={"12px"}
+                lineHeight={"13px"}
+                fontWeight={400}
+                color={"rgba(44, 51, 41, 1)"}
+                mt={4}
+              >
+                Description
+              </Text>
+              <Text
+                fontSize={"12px"}
+                lineHeight={"21px"}
+                fontWeight={400}
+                color={"#2C332978"}
+                noOfLines={2}
+              >
+                {assignmentScreen.description}
+              </Text>
+              <Box flex={1} display="flex" flexWrap={"wrap"} gap={4} mt={4}>
+                {assignmentScreen?.AssignmentFiles?.map((file, index) => (
+                  <SingleFileComponent
+                    key={file?.id}
+                    file={file}
+                    type="assignment"
+                  />
+                ))}
+              </Box>
+            </Card>
+          ))}
+        </SimpleGrid>
+      </Box>
     </Box>
   );
 };

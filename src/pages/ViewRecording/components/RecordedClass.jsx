@@ -155,7 +155,7 @@ const RecordedClass = ({
       ml={"24px"}
       borderRadius={"26px"}
       bg={outerBackground}
-      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
+      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       p={5}
     >
       <HStack spacing={"10px"}>

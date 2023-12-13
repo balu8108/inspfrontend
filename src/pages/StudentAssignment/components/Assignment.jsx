@@ -31,6 +31,7 @@ import { setIsDocModalOpen } from "../../../store/actions/genericActions";
 import ChemistryImage from "../../../assets/images/undraw_science_re_mnnr 1.svg";
 import MathematicsImage from "../../../assets/images/undraw_mathematics_-4-otb 1.svg";
 import { getAssignmentBySubjectNameApi } from "../../../api/assignments";
+import SingleFileComponent from "../../../components/filebox/SingleFileComponent";
 
 const AssignmentDetails = () => {
   const [assignmentData, setAssignmentData] = useState([]);
@@ -73,11 +74,11 @@ const AssignmentDetails = () => {
     <Box
       // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       width={"full"}
-      h={"full"}
       bg={outerBackground}
       borderRadius={"26px"}
+      p={6}
     >
-      <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
+      <HStack spacing={"10px"} alignItems="center">
         <Box
           width={"12px"}
           height={"25px"}
@@ -88,7 +89,7 @@ const AssignmentDetails = () => {
           Assignments ({capitalize(subjectName)})
         </Text>
         <Spacer />
-        <InputGroup m={4} w={"220px"}>
+        <InputGroup w={"220px"}>
           <InputLeftElement pointerEvents="none">
             <FaSearch color="#000000" />
           </InputLeftElement>
@@ -102,116 +103,64 @@ const AssignmentDetails = () => {
         </InputGroup>
       </HStack>
       {filteredData.length > 0 ? (
-        <SimpleGrid
-          columns={{ base: 1, md: 1, lg: 1 }}
-          spacing={"6"}
-          p={4}
-          mr={"20px"}
-        >
-          {filteredData.map((assignment) => (
-            <Card
-              w="100%"
-              bg={innerBackground}
-              boxShadow={innerBoxShadow}
-              borderRadius={"18px"}
-              key={assignment.id}
-            >
-              <Text
-                fontSize={"15px"}
-                lineHeight={"18px"}
-                ml={"13px"}
-                mt={"16px"}
+        <Box pt={10}>
+          <SimpleGrid columns={{ base: 1, md: 1, lg: 1 }} spacing={4}>
+            {filteredData.map((assignment) => (
+              <Card
+                w="100%"
+                bg={innerBackground}
+                boxShadow={innerBoxShadow}
+                borderRadius={"18px"}
+                p={6}
+                key={assignment.id}
               >
-                {capitalize(assignment?.topicName)}
-              </Text>
-              <Text
-                fontWeight={400}
-                fontSize={"12px"}
-                lineHeight={"14px"}
-                ml={"13px"}
-                mt={"3px"}
-                color={"#2C332978"}
-              >
-                {assignment.instructorName}
-              </Text>
-              <Text
-                fontSize={"12px"}
-                lineHeight={"13px"}
-                ml={"13px"}
-                fontWeight={400}
-                color={"rgba(44, 51, 41, 1)"}
-                mt={"18px"}
-              >
-                Description
-              </Text>
-              <Text
-                fontSize={"12px"}
-                lineHeight={"21px"}
-                fontWeight={400}
-                ml={13}
-                mt={"5px"}
-                color={"#2C332978"}
-                noOfLines={2}
-              >
-                {assignment.description}
-              </Text>
-              <Box
-                flex={1}
-                display="flex"
-                flexWrap={"wrap"}
-                gap={4}
-                mx={"14px"}
-                my={"7px"}
-              >
-                {assignment?.AssignmentFiles.map((files, index) => (
-                  <Flex
-                    key={index}
-                    w={"175px"}
-                    h={"49px"}
-                    word-wrap={"break-word"}
-                    color={"#2C332978"}
-                    borderColor={"#9597927D"}
-                    boxShadow={" 0px 1px 6px 0px #00000029 "}
-                    justifyContent={"space-between"}
-                    alignItems={"center"}
-                    bg="white"
-                    mb={2}
-                    borderRadius={"md"}
-                    px={2}
-                    py={5}
-                  >
-                    <Text mt={2} fontSize={"11px"}>
-                      {extractFileNameFromS3URL(files.key)}
-                    </Text>
-                    <Spacer />
-                    <Button
-                      rightIcon={<BsDownload />}
-                      variant={"ghost"}
-                      size="sm"
-                      color={"black"}
-                      ml={2}
-                      onClick={() =>
-                        dispatch(
-                          setIsDocModalOpen(
-                            files?.id,
-                            files?.key,
-                            "assignment",
-                            true
-                          )
-                        )
-                      }
-                    ></Button>
-                  </Flex>
-                ))}
-              </Box>
-            </Card>
-          ))}
-        </SimpleGrid>
+                <Text fontSize={"15px"} lineHeight={"18px"}>
+                  {capitalize(assignment?.topicName)}
+                </Text>
+                <Text
+                  fontWeight={400}
+                  fontSize={"12px"}
+                  lineHeight={"14px"}
+                  color={"#2C332978"}
+                >
+                  {assignment.instructorName}
+                </Text>
+                <Text
+                  fontSize={"12px"}
+                  lineHeight={"13px"}
+                  fontWeight={400}
+                  color={"rgba(44, 51, 41, 1)"}
+                  mt={4}
+                >
+                  Description
+                </Text>
+                <Text
+                  fontSize={"12px"}
+                  lineHeight={"21px"}
+                  fontWeight={400}
+                  color={"#2C332978"}
+                  noOfLines={2}
+                >
+                  {assignment.description}
+                </Text>
+                <Box flex={1} display="flex" flexWrap={"wrap"} gap={4} mt={4}>
+                  {assignment?.AssignmentFiles.map((file, index) => (
+                    <SingleFileComponent
+                      key={file?.id}
+                      file={file}
+                      type="assignment"
+                    />
+                  ))}
+                </Box>
+              </Card>
+            ))}
+          </SimpleGrid>
+        </Box>
       ) : (
-        <Box mt={4}>
+        <Box>
           {subjectName === "CHEMISTRY" && (
             <Center>
-              <VStack>
+              <VStack my={6}>
                 <Image
                   boxSize="200px"
                   objectFit="cover"
@@ -223,7 +172,6 @@ const AssignmentDetails = () => {
                   fontWeight={"500"}
                   lineHeight={"37px"}
                   color={"#2C3329"}
-                  p={"44px"}
                 >
                   Coming Soon
                 </Text>
@@ -233,7 +181,7 @@ const AssignmentDetails = () => {
 
           {subjectName === "MATHEMATICS" && (
             <Center>
-              <VStack>
+              <VStack my={6}>
                 <Image
                   boxSize="200px"
                   objectFit="cover"
@@ -245,7 +193,6 @@ const AssignmentDetails = () => {
                   fontWeight={"500"}
                   lineHeight={"37px"}
                   color={"#2C3329"}
-                  p={"44px"}
                 >
                   Coming Soon
                 </Text>

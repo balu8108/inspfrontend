@@ -13,7 +13,7 @@ import {
   UnorderedList,
   ListItem,
   Stack,
-  Tooltip
+  Tooltip,
 } from "@chakra-ui/react";
 import defaultImageUrl from "../../../../../assets/images/image1.png";
 import { BsDownload, BsPlayFill } from "react-icons/bs";
@@ -26,6 +26,7 @@ import "../../../../../constants/scrollbar/style.css";
 import detailsCoveredData from "../data/detailsCoveredData";
 import topicDescriptionConstants from "../../../../../constants/topicDescriptionConstants";
 import { getTopicDetailsForSoloClassApi } from "../../../../../api/soloclassrooms";
+import SingleFileComponent from "../../../../../components/filebox/SingleFileComponent";
 const DetailsCoveredFiles = () => {
   const [topicDetails, setTopicDetails] = useState(null);
   const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
@@ -36,6 +37,7 @@ const DetailsCoveredFiles = () => {
 
   useEffect(() => {
     const fetchTopicDetails = async (topicId) => {
+      setTopicDetails(null);
       try {
         const response = await getTopicDetailsForSoloClassApi(topicId);
         // const response = await axios.get(
@@ -58,8 +60,8 @@ const DetailsCoveredFiles = () => {
   };
 
   return (
-    <Box borderRadius={"26px"} w={"100%"} bg={outerBackground}>
-      <HStack spacing={"10px"} p={6}>
+    <Box p={8} borderRadius={"26px"} w={"100%"} bg={outerBackground}>
+      <HStack spacing={"10px"}>
         <Box
           width={"12px"}
           height={"25px"}
@@ -71,48 +73,37 @@ const DetailsCoveredFiles = () => {
         </Text>
       </HStack>
 
-      <Flex mt={"37px"}>
-        <Box w={"50%"} ml={"20px"}>
+      <Flex gap={4} mt={10}>
+        <Box flex={1} w={"50%"}>
           <Text>Description</Text>
-          <Text
-            fontSize="12px"
-            lineHeight={"21px"}
-            color={"#2C332978"}
-            mt={"15px"}
-          >
+          <Text mt={4} fontSize="12px" lineHeight={"21px"} color={"#2C332978"}>
             {topicDescription || "No description available for this topic."}
           </Text>
         </Box>
-        <Box flex={1} ml={"24px"}>
+        <Box flex={1}>
           <Text fontSize="md">Agenda</Text>
-          <UnorderedList
-            fontSize={"12px"}
-            color={"#2C332978"}
-            spacing={"10px"}
-            mt={"16px"}
-          >
+          <UnorderedList fontSize={"12px"} color={"#2C332978"} pt={2}>
             {detailsCoveredData[0].agenda.map((topic, index) => (
-              <ListItem key={index}>{topic}</ListItem>
+              <ListItem key={index} my={2}>
+                {topic}
+              </ListItem>
             ))}
           </UnorderedList>
         </Box>
       </Flex>
 
-      <Stack mt={"31px"}>
-        <Text ml={"20px"} p={"13px"}>
-          Recording
-        </Text>
-        <Box ml={"13px"} overflowX={"auto"} className="example">
+      <Box mt={8}>
+        <Text>Recording</Text>
+        <Box>
           {topicDetails && topicDetails.length > 0 ? (
             <Flex>
               {topicDetails.map((topicInfo, index) => (
                 <Flex key={index}>
-                  {topicInfo.SoloClassRoomRecordings.map(
+                  {topicInfo?.SoloClassRoomRecordings.map(
                     (recording, recordingIndex) => (
                       <Card
                         key={recording.id}
                         w={"160px"}
-                        ml={"20px"}
                         onClick={() => handleViewRecording(recording)}
                       >
                         <Flex alignItems="center">
@@ -131,84 +122,41 @@ const DetailsCoveredFiles = () => {
                       </Card>
                     )
                   )}
+                  {topicDetails?.every(
+                    (data) => data.SoloClassRoomRecordings.length === 0
+                  ) && (
+                    <Text fontSize="12px">
+                      No recordings available for the topic.
+                    </Text>
+                  )}
                 </Flex>
               ))}
             </Flex>
           ) : (
-            <Box p={4} fontSize={"14px"} ml={5}>
-              <Text>No recording are available for this topic.</Text>
-            </Box>
+            <Text fontSize={"12px"}>
+              No recording are available for this topic.
+            </Text>
           )}
         </Box>
-      </Stack>
+      </Box>
 
-      <Box mt={"31px"} display="flex" flexWrap="wrap">
-        <Text ml={"20px"} p={"13px"}>
-          Files/Notes
-        </Text>
+      <Box mt={8}>
+        <Text>Files/Notes</Text>
+        {topicDetails?.length > 0 ? (
+          <Flex mt={4} flexWrap="wrap" gap={2}>
+            {topicDetails?.map((ld) =>
+              ld?.SoloClassRoomFiles?.map((file) => (
+                <SingleFileComponent key={file?.id} file={file} type={"solo"} />
+              ))
+            )}
 
-        <Box w={"100%"} ml={"13px"} display="flex" flexWrap="wrap">
-          {topicDetails && topicDetails.length > 0 ? (
-            topicDetails.map((topicInfo, index) => (
-              <Box key={topicInfo.id} display="flex" flexWrap="wrap">
-                {topicInfo.SoloClassRoomFiles.map((file, fileIndex) => (
-                  <Box
-                    key={fileIndex}
-                    w={"160px"}
-                    h={"49px"}
-                    ml={"20px"}
-                    borderRadius={6}
-                    border={" 1px solid #9597927D "}
-                    boxShadow={" 0px 1px 6px 0px #00000029 "}
-                    mb={"25px"}
-                  >
-                    <Flex align="center" m={"5px"}>
-                      {/* <Text
-                        fontSize={"11px"}
-                        color={"#2C332978"}
-                        overflow="hidden"
-                        textOverflow="ellipsis"
-                        whiteSpace="nowrap"
-                      >
-                        {extractFileNameFromS3URL(file.key)}
-                      </Text> */}
-
-                      <Tooltip
-                        label={extractFileNameFromS3URL(file.key)}
-                        placement="bottom"
-                        hasArrow
-                        arrowSize={8}
-                        fontSize={"11px"}
-                      >
-                        <Text
-                          fontSize={"12px"}
-                          color={"#2C332978"}
-                          overflow="hidden"
-                          textOverflow="ellipsis"
-                          whiteSpace="nowrap"
-                        >
-                          {extractFileNameFromS3URL(file.key)}
-                        </Text>
-                      </Tooltip>
-                      <Spacer />
-                      <Button
-                        rightIcon={<BsDownload />}
-                        variant={"ghost"}
-                        color={"black"}
-                        ml={2}
-                        _hover={{bg:"none"}}
-                      />
-                    </Flex>
-                  </Box>
-                ))}
-              </Box>
-            ))
-          ) : (
-            <Box p={4} fontSize={"14px"} ml={5}>
-              <Text>No files/notes are available for this topic.</Text>
-            </Box>
-          )}
-        </Box>
+            {topicDetails?.every((ld) => !ld?.SoloClassRoomFiles?.length) && (
+              <Text fontSize="12px">No Files for this topic</Text>
+            )}
+          </Flex>
+        ) : (
+          <Text fontSize="12px">No Data for this topic</Text>
+        )}
       </Box>
     </Box>
   );
