@@ -15,7 +15,7 @@ const SingleFileComponent = ({ file, type }) => {
   const dispatch = useDispatch();
 
   return (
-    <Box key={file.id} w={"157px"} borderRadius={6} mb={"25px"}>
+    <Box key={file.id} w={"157px"} borderRadius={6}>
       <Flex
         borderRadius={"md"}
         justifyContent="space-between"

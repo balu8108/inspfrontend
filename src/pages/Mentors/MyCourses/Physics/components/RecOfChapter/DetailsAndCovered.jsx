@@ -257,9 +257,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
             ))}
           </SimpleGrid>
         ) : (
-          <Text fontSize={"12px"} mt={4}>
-            No assignments for this topic.
-          </Text>
+          <Text fontSize={"12px"}>No assignments for this topic.</Text>
         )}
       </Box>
     </Box>
