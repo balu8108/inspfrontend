@@ -19,7 +19,6 @@ import defaultImageUrl from "../../../../../assets/images/image1.png";
 import { BsDownload, BsPlayFill } from "react-icons/bs";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import { BASE_URL } from "../../../../../constants/staticurls";
 import { useParams } from "react-router-dom";
 import { capitalize, extractFileNameFromS3URL } from "../../../../../utils";
 import detailsCoveredData from "../data/detailsCoveredData";
@@ -53,10 +52,8 @@ const DetailsCoveredFiles = () => {
   //   fetchTopicDetails(topicId);
   // }, [topicId]);
 
-
   useEffect(() => {
-    setTopicDetails(null); 
-  
+    setTopicDetails(null);
     const fetchTopicDetails = async (topicId) => {
       try {
         const response = await getTopicDetailsForSoloClassApi(topicId);
@@ -68,10 +65,9 @@ const DetailsCoveredFiles = () => {
         console.error("Error fetching topic details:", error);
       }
     };
-  
+
     fetchTopicDetails(topicId);
   }, [topicId]);
-  
 
   const handleViewRecording = (recording) => {
     navigate(`/view-recording?type=solo_specific&id=${recording.id}`);
