@@ -22,7 +22,6 @@ import { useNavigate } from "react-router";
 import { BASE_URL } from "../../../../../constants/staticurls";
 import { useParams } from "react-router-dom";
 import { capitalize, extractFileNameFromS3URL } from "../../../../../utils";
-import "../../../../../constants/scrollbar/style.css";
 import detailsCoveredData from "../data/detailsCoveredData";
 import topicDescriptionConstants from "../../../../../constants/topicDescriptionConstants";
 import { getTopicDetailsForSoloClassApi } from "../../../../../api/soloclassrooms";
@@ -35,13 +34,32 @@ const DetailsCoveredFiles = () => {
   const { outerBackground } = useTheme().colors.pallete;
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   const fetchTopicDetails = async (topicId) => {
+  //     try {
+  //       const response = await getTopicDetailsForSoloClassApi(topicId);
+  //       // const response = await axios.get(
+  //       //   `${BASE_URL}/solo-lecture/get-topic-details/${topicId}`
+  //       // );
+  //       if (response.status === 200) {
+  //         const topicDetailsData = response.data;
+  //         setTopicDetails(topicDetailsData);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching topic details:", error);
+  //     }
+  //   };
+
+  //   fetchTopicDetails(topicId);
+  // }, [topicId]);
+
+
   useEffect(() => {
+    setTopicDetails(null); 
+  
     const fetchTopicDetails = async (topicId) => {
       try {
         const response = await getTopicDetailsForSoloClassApi(topicId);
-        // const response = await axios.get(
-        //   `${BASE_URL}/solo-lecture/get-topic-details/${topicId}`
-        // );
         if (response.status === 200) {
           const topicDetailsData = response.data;
           setTopicDetails(topicDetailsData);
@@ -50,9 +68,10 @@ const DetailsCoveredFiles = () => {
         console.error("Error fetching topic details:", error);
       }
     };
-
+  
     fetchTopicDetails(topicId);
   }, [topicId]);
+  
 
   const handleViewRecording = (recording) => {
     navigate(`/view-recording?type=solo_specific&id=${recording.id}`);
