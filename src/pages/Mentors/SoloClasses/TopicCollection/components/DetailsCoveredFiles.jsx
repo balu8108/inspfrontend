@@ -33,25 +33,6 @@ const DetailsCoveredFiles = () => {
   const { outerBackground } = useTheme().colors.pallete;
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const fetchTopicDetails = async (topicId) => {
-  //     try {
-  //       const response = await getTopicDetailsForSoloClassApi(topicId);
-  //       // const response = await axios.get(
-  //       //   `${BASE_URL}/solo-lecture/get-topic-details/${topicId}`
-  //       // );
-  //       if (response.status === 200) {
-  //         const topicDetailsData = response.data;
-  //         setTopicDetails(topicDetailsData);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching topic details:", error);
-  //     }
-  //   };
-
-  //   fetchTopicDetails(topicId);
-  // }, [topicId]);
-
   useEffect(() => {
     setTopicDetails(null);
     const fetchTopicDetails = async (topicId) => {
