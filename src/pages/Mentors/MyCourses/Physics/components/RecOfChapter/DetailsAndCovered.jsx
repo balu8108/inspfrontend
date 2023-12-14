@@ -230,7 +230,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
       <Box mt={8}>
         <Text>Assignments</Text>
         {assignmentDetails && assignmentDetails.length > 0 ? (
-          <SimpleGrid style={{ marginTop: "16px" }}>
+          <SimpleGrid style={{ marginTop: "16px" }} spacing={6}>
             {assignmentDetails.map((assignment, index) => (
               <Card
                 key={assignment?.id}

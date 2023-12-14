@@ -15,9 +15,10 @@ import {
   Image,
   VStack,
   useTheme,
+  Tooltip,
 } from "@chakra-ui/react";
-import { FaSearch } from "react-icons/fa";
-import { BsDownload } from "react-icons/bs";
+import { SearchIcon } from "@chakra-ui/icons";
+
 import axios from "axios";
 import { BASE_URL } from "../../../constants/staticurls";
 import {
@@ -85,21 +86,23 @@ const AssignmentDetails = () => {
           borderRadius={"20px"}
           bg={"#3C8DBC"}
         ></Box>
-        <Text fontSize={"19px"} lineHeight={"24px"}>
+        <Text fontSize={"20px"} lineHeight={"24px"}>
           Assignments ({capitalize(subjectName)})
         </Text>
+
         <Spacer />
-        <InputGroup w={"220px"}>
-          <InputLeftElement pointerEvents="none">
-            <FaSearch color="#000000" />
-          </InputLeftElement>
+        <InputGroup w="30%" mx={12} my={17}>
           <Input
-            placeholder="Search"
-            w={"240px"}
+            type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search..."
+            borderRadius="14PX"
             bg={innerBackground}
           />
+          <InputLeftElement pointerEvents="none">
+            <SearchIcon />
+          </InputLeftElement>
         </InputGroup>
       </HStack>
       {filteredData.length > 0 ? (

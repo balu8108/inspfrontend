@@ -19,10 +19,8 @@ import defaultImageUrl from "../../../../../assets/images/image1.png";
 import { BsDownload, BsPlayFill } from "react-icons/bs";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import { BASE_URL } from "../../../../../constants/staticurls";
 import { useParams } from "react-router-dom";
 import { capitalize, extractFileNameFromS3URL } from "../../../../../utils";
-import "../../../../../constants/scrollbar/style.css";
 import detailsCoveredData from "../data/detailsCoveredData";
 import topicDescriptionConstants from "../../../../../constants/topicDescriptionConstants";
 import { getTopicDetailsForSoloClassApi } from "../../../../../api/soloclassrooms";
@@ -36,13 +34,11 @@ const DetailsCoveredFiles = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    setTopicDetails(null);
     const fetchTopicDetails = async (topicId) => {
       setTopicDetails(null);
       try {
         const response = await getTopicDetailsForSoloClassApi(topicId);
-        // const response = await axios.get(
-        //   `${BASE_URL}/solo-lecture/get-topic-details/${topicId}`
-        // );
         if (response.status === 200) {
           const topicDetailsData = response.data;
           setTopicDetails(topicDetailsData);
