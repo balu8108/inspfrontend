@@ -71,13 +71,7 @@ const AssignmentDetails = () => {
   }, [subjectName]);
 
   return (
-    <Box
-      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
-      width={"full"}
-      h={"full"}
-      bg={outerBackground}
-      borderRadius={"26px"}
-    >
+    <Box width={"full"} h={"full"} bg={outerBackground} borderRadius={"26px"}>
       <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
         <Box
           width={"12px"}
@@ -85,21 +79,23 @@ const AssignmentDetails = () => {
           borderRadius={"20px"}
           bg={"#3C8DBC"}
         ></Box>
-        <Text fontSize={"19px"} lineHeight={"24px"}>
+        <Text fontSize={"20px"} lineHeight={"24px"}>
           Assignments ({capitalize(subjectName)})
         </Text>
+
         <Spacer />
-        <InputGroup m={4} w={"30%"}>
+        <InputGroup w="30%" mx={12} my={17}>
+          <Input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search..."
+            borderRadius="14PX"
+            bg={innerBackground}
+          />
           <InputLeftElement pointerEvents="none">
             <SearchIcon />
           </InputLeftElement>
-          <Input
-            placeholder="Search..."
-            borderRadius={"14px"}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            bg={innerBackground}
-          />
         </InputGroup>
       </HStack>
       {filteredData.length > 0 ? (
@@ -170,8 +166,8 @@ const AssignmentDetails = () => {
                     w={"160px"}
                     h={"49px"}
                     color={"#2C332978"}
-                    borderColor={"#9597927D"}
-                    boxShadow={" 0px 1px 6px 0px #00000029 "}
+                    border={"1px solid rgba(149, 151, 146, 0.49)"}
+                   
                     alignItems={"center"}
                     bg="white"
                     mb={2}
