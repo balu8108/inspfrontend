@@ -17,7 +17,8 @@ import {
   useTheme,
   Tooltip,
 } from "@chakra-ui/react";
-import { FaSearch } from "react-icons/fa";
+import { SearchIcon } from "@chakra-ui/icons";
+
 import axios from "axios";
 import { BASE_URL } from "../../../constants/staticurls";
 import {
@@ -88,13 +89,13 @@ const AssignmentDetails = () => {
           Assignments ({capitalize(subjectName)})
         </Text>
         <Spacer />
-        <InputGroup m={4} w={"220px"}>
+        <InputGroup m={4} w={"30%"}>
           <InputLeftElement pointerEvents="none">
-            <FaSearch color="#000000" />
+            <SearchIcon />
           </InputLeftElement>
           <Input
-            placeholder="Search"
-            w={"240px"}
+            placeholder="Search..."
+            borderRadius={"14px"}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             bg={innerBackground}
