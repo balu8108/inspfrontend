@@ -111,6 +111,7 @@ const DataForClass = () => {
             lineHeight={"21px"}
             color={"#2C332978"}
             ml={"12px"}
+            noOfLines={3}
           >
             {data.description ? data.description : "No Data"}
           </Text>
@@ -121,7 +122,7 @@ const DataForClass = () => {
             Agenda
           </Text>
 
-          <Box mt={"14px"}>
+          <Box mt={"14px"} className="example" overflowX={"auto"} maxH={"150px"}>
             {data?.agenda.split("\r\n").map((agendaItem, index) => (
               <Stack
                 key={index}
@@ -146,6 +147,7 @@ const DataForClass = () => {
                         fontSize={"12px"}
                         lineHeight={"14px"}
                         color={"#2C332978"}
+                        noOfLines={3}
                       >
                         {agendaItem ? agendaItem : "No Data"}
                       </Text>
