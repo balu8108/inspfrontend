@@ -15,9 +15,9 @@ import {
   Image,
   VStack,
   useTheme,
+  Tooltip,
 } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
-import { BsDownload } from "react-icons/bs";
 import axios from "axios";
 import { BASE_URL } from "../../../constants/staticurls";
 import {
@@ -166,41 +166,45 @@ const AssignmentDetails = () => {
                 {assignment?.AssignmentFiles.map((files, index) => (
                   <Flex
                     key={index}
-                    w={"175px"}
+                    w={"160px"}
                     h={"49px"}
-                    word-wrap={"break-word"}
                     color={"#2C332978"}
                     borderColor={"#9597927D"}
                     boxShadow={" 0px 1px 6px 0px #00000029 "}
-                    justifyContent={"space-between"}
                     alignItems={"center"}
                     bg="white"
                     mb={2}
                     borderRadius={"md"}
                     px={2}
                     py={5}
-                  >
-                    <Text mt={2} fontSize={"11px"}>
-                      {extractFileNameFromS3URL(files.key)}
-                    </Text>
-                    <Spacer />
-                    <Button
-                      rightIcon={<BsDownload />}
-                      variant={"ghost"}
-                      size="sm"
-                      color={"black"}
-                      ml={2}
-                      onClick={() =>
-                        dispatch(
-                          setIsDocModalOpen(
-                            files?.id,
-                            files?.key,
-                            "assignment",
-                            true
-                          )
+                    onClick={() =>
+                      dispatch(
+                        setIsDocModalOpen(
+                          files?.id,
+                          files?.key,
+                          "assignment",
+                          true
                         )
-                      }
-                    ></Button>
+                      )
+                    }
+                  >
+                    <Tooltip
+                      label={extractFileNameFromS3URL(files.key)}
+                      placement="bottom"
+                      hasArrow
+                      arrowSize={8}
+                      fontSize={"11px"}
+                    >
+                      <Text
+                        mt={2}
+                        fontSize={"11px"}
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                        whiteSpace="nowrap"
+                      >
+                        {extractFileNameFromS3URL(files.key)}
+                      </Text>
+                    </Tooltip>
                   </Flex>
                 ))}
               </Box>

@@ -15,7 +15,6 @@ import { fetchAllTopicsWithoutChapterIdApi } from "../../../../../api/inspextern
 import topicDescriptionConstants from "../../../../../constants/topicDescriptionConstants";
 import "../../../../../constants/scrollbar/style.css";
 import { Link } from "react-router-dom";
-
 import { capitalize } from "../../../../../utils";
 
 const TopicsBased = () => {
