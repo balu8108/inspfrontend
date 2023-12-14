@@ -55,7 +55,7 @@ const Library = () => {
                 fontSize={"13px"}
                 fontWeight={"400"}
                 mt={"40%"}
-                _hover={{bg:"none"}}
+                _hover={{ bg: "none" }}
                 // onClick={handleSeeAllClick}
               >
                 See All
