@@ -57,6 +57,36 @@ const RecordedClass = ({
       </>
     );
   };
+  const renderNotes = (data) => {
+    return (
+      <>
+        {isLive && data ? (
+          <>
+            <FileBoxComponent
+              data={[data?.LiveClassRoomQNANote]}
+              type={"qna"}
+            />
+            <FileBoxComponent data={[data?.LiveClassRoomNote]} type={"note"} />
+          </>
+        ) : isLiveTopic && data ? (
+          data?.responseData?.map((item) => (
+            <>
+              <FileBoxComponent
+                data={[item?.LiveClassRoomQNANote]}
+                type={"qna"}
+              />
+              <FileBoxComponent
+                data={[item?.LiveClassRoomNote]}
+                type={"note"}
+              />
+            </>
+          ))
+        ) : (
+          <Text>No notes/qna available...</Text>
+        )}
+      </>
+    );
+  };
 
   const renderAgenda = (data) => {
     let agenda = "";
@@ -76,8 +106,8 @@ const RecordedClass = ({
       <>
         {agenda ? (
           <Box>
-            <Box mt={"16px"}>
-              <Box mt={"10px"}>
+            <Box>
+              <Box>
                 {agenda
                   .split("\r\n")
                   .slice(0, 4) // Take only the first 4 items
@@ -145,6 +175,12 @@ const RecordedClass = ({
               </Flex>
             )
         )}
+        {recordings?.length === 1 &&
+          activeRecording?.id === recordings[0]?.id && (
+            <Text color={"rgba(44, 51, 41, 0.47)"} fontSize={"12px"}>
+              No other recordings..
+            </Text>
+          )}
       </>
     );
   };
@@ -152,11 +188,10 @@ const RecordedClass = ({
     <Box
       width={"400px"}
       height={"full"}
-      ml={"24px"}
       borderRadius={"26px"}
+      p={6}
       bg={outerBackground}
       // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
-      p={5}
     >
       <HStack spacing={"10px"}>
         <Box
@@ -164,26 +199,19 @@ const RecordedClass = ({
           height={"25px"}
           borderRadius={"20px"}
           bg={"#3C8DBC"}
-          mt={"27px"}
         ></Box>
-        <Text
-          fontSize={"20px"}
-          lineHeight={"26px"}
-          fontWeight={"400"}
-          mt={"26px"}
-        >
+        <Text fontSize={"20px"} lineHeight={"26px"} fontWeight={"400"}>
           Recorded Class
         </Text>
       </HStack>
 
-      <Box>
+      <Box mt={6}>
         <Box>
           <Text
             fontSize={"15px"}
             lineHeight={"18px"}
             fontWeight={400}
             color={"rgba(44, 51, 41, 1)"}
-            mt={"28px"}
           >
             {isLive
               ? capitalize(recordingDetail?.LiveClassRoomDetail?.topicName)
@@ -204,6 +232,7 @@ const RecordedClass = ({
             fontWeight={400}
             lineHeight={"14px"}
             color={"rgba(44, 51, 41, 0.47)"}
+            mt={1}
           >
             {isLive || isSolo
               ? recordingDetail?.mentorName
@@ -214,17 +243,12 @@ const RecordedClass = ({
         </Box>
       </Box>
 
-      <Box>
-        <Text mt={"29px"} fontSize={"15px"} lineHeight={"19px"}>
+      <Box mt={6}>
+        <Text fontSize={"15px"} lineHeight={"19px"}>
           Description
         </Text>
 
-        <Text
-          color={"#2C332978"}
-          fontSize={"12px"}
-          lineHeight={"20px"}
-          mt={"6px"}
-        >
+        <Text mt={1} color={"#2C332978"} fontSize={"12px"} lineHeight={"20px"}>
           {isLive
             ? recordingDetail?.LiveClassRoomDetail?.description
             : isSolo
@@ -237,40 +261,34 @@ const RecordedClass = ({
             : "No Data"}
         </Text>
       </Box>
-
-      <Text mt={"26px"}>Files</Text>
-
-      <Box my={4}>{renderFiles(recordingDetail)}</Box>
-
-      <Box mt="26px" fontSize={"12px"}>
-        <Text fontSize="16px" lineHeight={"19px"}>
+      <Box mt={6}>
+        <Text>Files</Text>
+        <Box mt={1}>{renderFiles(recordingDetail)}</Box>
+      </Box>
+      <Box mt={6}>
+        <Text fontSize="15px" lineHeight={"19px"}>
           Agenda
         </Text>
-        {renderAgenda(recordingDetail)}
+        <Box mt={1}>{renderAgenda(recordingDetail)}</Box>
       </Box>
 
-      <Box mt={"16px"}>
+      <Box mt={6}>
         <Text>Recordings</Text>
         <Flex
           direction={"row"}
-          mt={"10px"}
           overflowX={"auto"}
           w={"full"}
-          gap={"24px"}
           className="example"
         >
           {renderRecordings(recordingDetail, activeRecording)}
-          {/* {type === "live" || type === "live_specific"
-            ? renderRecordings(
-                recordingDetail?.LiveClassRoomRecordings,
-                activeRecording
-              )
-            : renderRecordings(
-                recordingDetail?.SoloClassRoomRecordings,
-                activeRecording
-              )} */}
         </Flex>
       </Box>
+      {(isLive || isLiveTopic) && (
+        <Box mt={6}>
+          <Text>Notes</Text>
+          <Box mt={1}>{renderNotes(recordingDetail)}</Box>
+        </Box>
+      )}
     </Box>
   );
 };
