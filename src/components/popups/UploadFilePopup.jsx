@@ -19,7 +19,7 @@ import { generateUniqueKey, openFileDialog } from "../../utils";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { sendFileHandler } from "../../socketconnections/socketconnections";
-
+import { Scrollbars } from "rc-scrollbars";
 const UploadFilePopup = ({ type, roomId }) => {
   const [files, setFiles] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -93,6 +93,7 @@ const UploadFilePopup = ({ type, roomId }) => {
             _hover={{ bg: "none" }}
           />
         </Flex>
+
         <Flex
           borderWidth={"1px"}
           borderStyle={"solid"}
@@ -104,10 +105,13 @@ const UploadFilePopup = ({ type, roomId }) => {
           onClick={(e) => handleUploadFileClick(e)}
           cursor={"pointer"}
           zIndex={1000}
+          overflowY="auto"
         >
           {files ? (
             Object.keys(files).map((file) => (
-              <Text key={generateUniqueKey()}>{files[file].name}</Text>
+              <Text key={generateUniqueKey()} fontSize="10px">
+                {files[file].name}
+              </Text>
             ))
           ) : (
             <Text fontWeight={600} fontSize={"0.8rem"} color={lightBorderColor}>
@@ -115,6 +119,7 @@ const UploadFilePopup = ({ type, roomId }) => {
             </Text>
           )}
         </Flex>
+
         <HStack my={2}>
           <Checkbox />
           <Text fontSize={"0.85rem"} fontWeight={500} color={lightBorderColor}>

@@ -34,7 +34,7 @@ const Recording = () => {
     getViewRecordingData();
   }, [id, type]);
   return (
-    <Flex m={"52px"} h={"full"}>
+    <Flex m={"52px"} h={"full"} gap={6}>
       <ViewRecording type={type} activeRecording={activeRecording} />
       <RecordedClass
         type={type}
