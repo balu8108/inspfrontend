@@ -92,9 +92,9 @@ const DetailsCoveredFiles = () => {
         <Text>Recording</Text>
         <Box>
           {topicDetails && topicDetails.length > 0 ? (
-            <Flex gap={"24px"}>
+            <Flex gap={"24px"} flexWrap={"wrap"}>
               {topicDetails.map((topicInfo, index) => (
-                <Flex key={index}>
+                <Flex key={index} >
                   {topicInfo?.SoloClassRoomRecordings.map(
                     (recording, recordingIndex) => (
                       <Card
