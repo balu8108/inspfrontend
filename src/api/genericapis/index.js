@@ -24,22 +24,6 @@ export const getPresignedUrlDocApi = (docId, docType) =>
 export const getPresignedUrlApi = (body) =>
   API.post("/generic/generate-get-presigned-url", body);
 
-// export const createFeedbackApi = (body) => {
-//   const tokenStorage = getStorageType();
-//   let secretToken = null;
-//   if (tokenStorage.getItem("secret_token")) {
-//     secretToken = tokenStorage.getItem("secret_token");
-//   }
-
-//   const config = {
-//     headers: {
-//       Authorization: `Token ${secretToken}`,
-//     },
-//   };
-
-//   return API.post("/generic/create-feedback", body, config);
-// };
-
 export const createFeedbackApi = (body) =>
   API.post("/generic/create-feedback", body);
 

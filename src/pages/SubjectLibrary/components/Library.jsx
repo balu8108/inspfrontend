@@ -21,7 +21,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { SearchIcon } from "@chakra-ui/icons";
 import { fetchAllTopicsForSubjectApi } from "../../../api/inspexternalapis";
 import topicDescriptionConstants from "../../../constants/topicDescriptionConstants";
-import {  capitalize } from "../../../utils";
+import { capitalize } from "../../../utils";
 import MathematicsImage from "../../../assets/images/undraw_mathematics_-4-otb 1.svg";
 import ChemistryImage from "../../../assets/images/undraw_science_re_mnnr 1.svg";
 import TopicBasedRecordings from "./TopicBasedRecordings";
@@ -31,7 +31,6 @@ const SubjectLibrary = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [allTopicList, setAllTopicList] = useState([]);
   const [filteredTopicList, setFilteredTopicList] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const { outerBackground, innerBackground, innerBoxShadow } =
     useTheme().colors.pallete;
 
@@ -56,8 +55,6 @@ const SubjectLibrary = () => {
         }
       } catch (err) {
         console.log("Error fetching topics data:", err);
-      } finally {
-        setIsLoading(false);
       }
     };
 

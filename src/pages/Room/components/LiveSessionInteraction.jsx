@@ -84,7 +84,6 @@ const QuestionContainer = () => {
       autoHide={true}
       onScroll={handleScroll}
     >
-      {/* <SimpleBar style={{ maxHeight: "250px" }} autoHide={false} color="white"> */}
       {questionMessages.length === 0 ? (
         <Text textAlign={"center"} fontSize={"14px"}>
           No Questions
@@ -110,7 +109,6 @@ const QuestionContainer = () => {
           );
         })
       )}
-      {/* </SimpleBar> */}
     </Scrollbars>
   );
 };

@@ -9,9 +9,7 @@ import {
   useTheme,
 } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
-import { boxShadowStyles, capitalize } from "../../../utils";
-import { BASE_URL } from "../../../constants/staticurls";
-import axios from "axios";
+import { capitalize } from "../../../utils";
 import { getRecentAssignmentApi } from "../../../api/assignments";
 const Assignment = () => {
   const navigate = useNavigate();
@@ -22,15 +20,6 @@ const Assignment = () => {
     navigate(`/student/assignments/PHYSICS`);
   };
   useEffect(() => {
-    // axios
-    //   .get(BASE_URL + "/topic/recent-assignment")
-    //   .then((response) => {
-    //     setRecentAssignments(response.data.data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching recent assignments:", error);
-    //   });
-
     const fetchRecentAssignment = async () => {
       try {
         const response = await getRecentAssignmentApi();
@@ -47,7 +36,6 @@ const Assignment = () => {
       w={"50%"}
       h="313px"
       mt="24px"
-      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       borderRadius="26px"
       background={outerBackground}
     >
@@ -70,7 +58,7 @@ const Assignment = () => {
             mt={5}
             ml={12}
             fontWeight={400}
-            _hover={{bg:"none"}}
+            _hover={{ bg: "none" }}
           >
             See All
           </Button>

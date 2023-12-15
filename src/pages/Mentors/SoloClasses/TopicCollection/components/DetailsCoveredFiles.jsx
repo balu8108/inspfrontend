@@ -4,23 +4,18 @@ import {
   HStack,
   Text,
   Flex,
-  Button,
-  Spacer,
   Image,
   Icon,
   Card,
   useTheme,
   UnorderedList,
   ListItem,
-  Stack,
-  Tooltip,
 } from "@chakra-ui/react";
 import defaultImageUrl from "../../../../../assets/images/image1.png";
-import { BsDownload, BsPlayFill } from "react-icons/bs";
-import axios from "axios";
+import { BsPlayFill } from "react-icons/bs";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
-import { capitalize, extractFileNameFromS3URL } from "../../../../../utils";
+import { capitalize } from "../../../../../utils";
 import detailsCoveredData from "../data/detailsCoveredData";
 import topicDescriptionConstants from "../../../../../constants/topicDescriptionConstants";
 import { getTopicDetailsForSoloClassApi } from "../../../../../api/soloclassrooms";

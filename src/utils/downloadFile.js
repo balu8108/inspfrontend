@@ -1,5 +1,4 @@
 const downloadFile = (item) => {
-  console.log("hello item", item);
   if (!item) {
     return;
   }

@@ -24,7 +24,7 @@ const SoloRecordedTopicsDetails = () => {
     dispatch(getAllLiveClassesSchedule());
   }, [dispatch]);
   return (
-    <Box m={"52px"} >
+    <Box m={"52px"}>
       {isSchedulePopupOpen && (
         <ScheduleClassPopup
           isOpen={isSchedulePopupOpen}
@@ -36,7 +36,7 @@ const SoloRecordedTopicsDetails = () => {
         />
       )}
       <Flex gap={"24px"}>
-        <Stack w={"73%"} spacing={"24px"} >
+        <Stack w={"73%"} spacing={"24px"}>
           <TopicsBased />
           <DetailsCoveredFiles />
         </Stack>
@@ -47,7 +47,6 @@ const SoloRecordedTopicsDetails = () => {
               maxHeight: "85vh",
               borderRadius: "26px",
               background: outerBackground,
-              // boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
             }}
           >
             <Box p={4}>

@@ -142,7 +142,7 @@ const DrawerComponent = ({
 
 export default function Navbar() {
   const theme = useTheme();
-  const { backgroundLightBlue, outerBackground } = theme.colors.pallete;
+  const { outerBackground } = theme.colors.pallete;
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();

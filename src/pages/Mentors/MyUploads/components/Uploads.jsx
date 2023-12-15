@@ -14,7 +14,6 @@ import {
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import { capitalize } from "../../../../utils";
-import { useDispatch } from "react-redux";
 import { getAssignmentWithFilesApi } from "../../../../api/assignments";
 import SingleFileComponent from "../../../../components/filebox/SingleFileComponent";
 const AllUploadedLecture = () => {
@@ -39,14 +38,6 @@ const AllUploadedLecture = () => {
     };
 
     fetchAssignmentWithFiles();
-    // axios
-    //   .get(`${BASE_URL}/topic/all-assignment-with-files`)
-    //   .then((response) => {
-    //     setAssignments(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching assignments:", error);
-    //   });
   }, []);
 
   return (

@@ -72,7 +72,6 @@ const Room = () => {
     if (isEnlarged) {
       return "1fr";
     } else if (peersViewType === liveSessionMemberViewType.compact) {
-      // return "15% 80% 5%";
       return "0.9fr 4fr 0.25fr";
     } else if (peersViewType === liveSessionMemberViewType.expanded) {
       return "1.2fr 6fr 1fr";
@@ -122,7 +121,6 @@ const Room = () => {
   useEffect(() => {
     if (isMeetEnd) {
       addNotification("Class Ended", "success", 3000);
-      // navigate(`/room-preview/${roomId}`);
       navigate("/homepage");
     }
   }, [isMeetEnd, roomId, addNotification, navigate]);
@@ -134,7 +132,6 @@ const Room = () => {
       if (socket) {
         addNotification("Class leaved", "info", 3000);
         await leaveRoomHandler();
-        // navigate(`/room-preview/${roomId}`);
       }
     };
   }, [roomId, userRoleType, addNotification, navigate]);
@@ -185,7 +182,6 @@ const Room = () => {
   }, [screenShareStream]);
 
   useEffect(() => {
-    console.log("screenshare stream changed", screenShareStream);
     const ssId = setInterval(async () => {
       try {
         if (screenShareStream) {
@@ -236,7 +232,6 @@ const Room = () => {
       <Box pt={4} pb={4} px={10}>
         <Grid
           templateColumns={renderColumns(peersViewType, isEnlarged)}
-          // templateColumns="1fr 4fr 0.25fr"
           templateRows="repeat(6, 1fr)"
           h="85vh"
           columnGap={4}

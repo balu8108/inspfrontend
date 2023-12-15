@@ -21,7 +21,6 @@ import { LuMonitorOff, LuCircleOff } from "react-icons/lu";
 import { useParams, useNavigate } from "react-router-dom";
 import { useToastContext } from "../../../../../components/toastNotificationProvider/ToastNotificationProvider";
 import { boxShadowStyles } from "../../../../../utils";
-import { BASE_URL } from "../../../../../constants/staticurls";
 import { uploadSoloClassRoomRecordingApi } from "../../../../../api/soloclassrooms";
 const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
   const [mentorStream, setMentorStream] = useState(null);
@@ -266,14 +265,6 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
         soloClassRoomId,
         formData
       );
-      // const response = await fetch(
-      //   `${BASE_URL}/solo-lecture/solo-classroom-recording/${soloClassRoomId}`,
-      //   {
-      //     method: "POST",
-      //     body: formData,
-      //   }
-      // );
-
       if (response.status === 201) {
         addNotification("Lecture is uploaded successfully", "success", 3000);
         navigate("/homepage");
@@ -483,7 +474,6 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
           height="120px"
         >
           <video
-            // ref={cameraVideoRef}
             ref={mentorVideoRef}
             style={{
               width: "100%",

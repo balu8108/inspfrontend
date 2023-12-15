@@ -3,17 +3,16 @@ import {
   HStack,
   Text,
   Flex,
-  Icon,
   Image,
   Card,
   useTheme,
 } from "@chakra-ui/react";
-import { FaCircle } from "react-icons/fa";
+
 import defaultImageUrl from "../../../assets/images/image1.png";
 import "../../../constants/scrollbar/style.css";
 import FileBoxComponent from "../../../components/filebox/FileBoxComponent";
 import { fileTypes } from "../../../constants/staticvariables";
-import { boxShadowStyles, capitalize } from "../../../utils";
+import { capitalize } from "../../../utils";
 const RecordedClass = ({
   type,
   recordingDetail,
@@ -198,7 +197,6 @@ const RecordedClass = ({
       borderRadius={"26px"}
       p={6}
       bg={outerBackground}
-      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
     >
       <HStack spacing={"10px"}>
         <Box

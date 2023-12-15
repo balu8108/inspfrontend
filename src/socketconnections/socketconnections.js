@@ -298,23 +298,6 @@ const uploadFileResponseHandler = (res) => {
   if (success) {
     store.dispatch(setUploadFilesInRoom(data));
   }
-  // let allNewFiles = [];
-
-  // console.log("file response by server", res);
-  // if (res.success) {
-  //   res?.data?.files.forEach((fileData) => {
-  //     const convFile = new File([fileData.file], fileData.fileName);
-  //     allNewFiles.push(convFile);
-  //   });
-  // }
-
-  // store.dispatch(setUploadFiles(allNewFiles));
-
-  // res.forEach((fileData) => {
-  //   const convFile = new File([fileData.file], fileData.fileName);
-  //   allNewFiles.push(convFile);
-  // });
-  // store.dispatch(setUploadFiles(allNewFiles));
 };
 
 const questionResponseHandler = (res) => {

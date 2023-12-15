@@ -10,7 +10,6 @@ import {
   Text,
   useTheme,
 } from "@chakra-ui/react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { BASE_URL } from "../../../../constants/staticurls";
 import { capitalize } from "../../../../utils";
@@ -21,14 +20,6 @@ const FeedBack = () => {
     useTheme().colors.pallete;
 
   useEffect(() => {
-    // axios
-    //   .get(`${BASE_URL}/generic/latest-completed-live-classroom`)
-    //   .then((response) => {
-    //     setFeedbackData(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching feedback data:", error);
-    //   });
     async function fetchLatestCompletedLiveClass() {
       try {
         const res = await getLatestCompletedLiveClassApi();
@@ -73,7 +64,7 @@ const FeedBack = () => {
             fontWeight={400}
             mt={"15px"}
             p={6}
-            _hover={{bg:"none"}}
+            _hover={{ bg: "none" }}
           >
             See All
           </Button>

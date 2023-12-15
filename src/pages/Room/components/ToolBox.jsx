@@ -90,10 +90,6 @@ const ToolBox = ({
       action: "select",
       success: (data) => {
         window.open(data?.viewLink, "_blank");
-        // dispatch(
-        //   setMiroBoardData({ boardId: data.id, mode: miroViewMode.edit })
-        // );
-        // sendMiroBoardData({ boardId: data.id, mode: miroViewMode.view }); // Broadcast to all as view mode for miro board
       },
     });
   };
@@ -142,7 +138,6 @@ const ToolBox = ({
       if (screenShareStream) {
         const tracks = screenShareStream.getTracks();
         tracks.forEach((track) => (track.enabled = false));
-        // tracks.forEach((track) => track.stop());
       }
       setIsScreenShare(false);
     } else {
@@ -279,16 +274,6 @@ const ToolBox = ({
     }
   };
 
-  const handRaisedHandler = () => {
-    if (isRaiseHand) {
-      setIsRaiseHand(false);
-      raiseHandHandler(false);
-    } else {
-      setIsRaiseHand(true);
-      raiseHandHandler(true);
-    }
-  };
-
   const triggerStartRecording = () => {
     if (socket) {
       startRecordingHandler({ producerScreenShare, producerAudioShare });
@@ -318,13 +303,6 @@ const ToolBox = ({
   const leaveRoomOrEndMeetHandler = async () => {
     setIsLeaveLoading(true);
     onOpenLeaveOrEndClass();
-    // if (userRoleType === userType.teacher) {
-    //   await endMeetHandler();
-    // } else {
-    //   await leaveRoomHandler();
-    //   navigate(`/room-preview/${roomId}`);
-    // }
-
     setIsLeaveLoading(false);
   };
 

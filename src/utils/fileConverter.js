@@ -38,8 +38,6 @@ const fileConverter = async (fileUrl, docKey) => {
     return localUrl;
 
     // Add the File to your state or handle it as needed
-
-    // setDocs((prev) => [...prev, file]);
   } catch (error) {
     console.error("Error fetching and reading document:", error);
   }

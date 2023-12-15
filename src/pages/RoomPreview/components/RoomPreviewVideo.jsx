@@ -17,7 +17,7 @@ import {
   setAudioControl,
   setVideoControl,
 } from "../../../store/actions/streamControlActions";
-import { boxShadowStyles, checkUserType } from "../../../utils";
+import { checkUserType } from "../../../utils";
 import { toolTipMsgs, userType } from "../../../constants/staticvariables";
 
 const RoomPreviewVideo = () => {
@@ -95,7 +95,6 @@ const RoomPreviewVideo = () => {
   return (
     <Box
       bg={outerBackground}
-      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       width={["100%", "100%", "60%", "70%"]}
       borderRadius={"2xl"}
       p={6}

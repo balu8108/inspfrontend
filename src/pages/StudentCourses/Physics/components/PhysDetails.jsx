@@ -15,7 +15,7 @@ import {
   useTheme,
 } from "@chakra-ui/react";
 import { fetchAllChaptersApi } from "../../../../api/inspexternalapis";
-import {  capitalize } from "../../../../utils";
+import { capitalize } from "../../../../utils";
 import VectorImage from "../../../../assets/images/Line/Vector.svg";
 
 const PhysDetails = () => {
@@ -56,12 +56,7 @@ const PhysDetails = () => {
   );
 
   return (
-    <Box
-      width={"full"}
-      h={"100%"}
-      bg={outerBackground}
-      borderRadius={"26px"}
-    >
+    <Box width={"full"} h={"100%"} bg={outerBackground} borderRadius={"26px"}>
       <Flex mt={"17px"}>
         <HStack spacing={"10px"} alignItems="center" ml={"33px"}>
           <Box
@@ -130,7 +125,6 @@ const PhysDetails = () => {
                   ml={"13px"}
                   color={"rgba(44, 51, 41, 0.47)"}
                 >
-                  {/* {physScreen.instructorName} */}
                   Nitin Sachan
                 </Text>
                 <Text

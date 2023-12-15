@@ -51,13 +51,7 @@ const TopicsBased = () => {
   }, []);
 
   return (
-    <Box
-      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
-      borderRadius={"26px"}
-      w={"100%"}
-      h={"full"}
-      bg={outerBackground}
-    >
+    <Box borderRadius={"26px"} w={"100%"} h={"full"} bg={outerBackground}>
       <Flex p={5}>
         <HStack spacing={"10px"}>
           <Box
