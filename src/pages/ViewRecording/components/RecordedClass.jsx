@@ -60,7 +60,7 @@ const RecordedClass = ({
   const renderNotes = (data) => {
     return (
       <>
-        {isLive && data ? (
+        {isLive && data && data?.LiveClassRoomQNANote ? (
           <>
             <FileBoxComponent
               data={[data?.LiveClassRoomQNANote]}
@@ -76,13 +76,15 @@ const RecordedClass = ({
                 type={"qna"}
               />
               <FileBoxComponent
-                data={[item?.LiveClassRoomNote]}
+                data={[[item?.LiveClassRoomQNANote]]}
                 type={"note"}
               />
             </>
           ))
         ) : (
-          <Text>No notes/qna available...</Text>
+          <Text color={"rgba(44, 51, 41, 0.47)"} fontSize={"12px"}>
+            No notes/qna available...
+          </Text>
         )}
       </>
     );
@@ -174,6 +176,11 @@ const RecordedClass = ({
                 </Flex>
               </Flex>
             )
+        )}
+        {recordings?.length === 0 && (
+          <Text color={"rgba(44, 51, 41, 0.47)"} fontSize={"12px"}>
+            No recordings available...
+          </Text>
         )}
         {recordings?.length === 1 &&
           activeRecording?.id === recordings[0]?.id && (

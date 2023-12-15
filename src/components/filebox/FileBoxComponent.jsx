@@ -14,6 +14,7 @@ const FileBoxComponent = ({ data, type }) => {
   const { secondaryTextColor, innerBackground } = useTheme().colors.pallete;
   const userRoleType = checkUserType();
   const dispatch = useDispatch();
+  console.log("data", data);
 
   return (
     <>
@@ -53,7 +54,7 @@ const FileBoxComponent = ({ data, type }) => {
               </Text>
             </Tooltip>
 
-            {(item.isDownloadable || userRoleType === userType.teacher) && (
+            {(item?.isDownloadable || userRoleType === userType.teacher) && (
               <Icon
                 as={FiDownload}
                 onClick={(e) => {
