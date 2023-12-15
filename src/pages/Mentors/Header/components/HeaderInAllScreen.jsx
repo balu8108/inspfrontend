@@ -55,12 +55,7 @@ const Header = () => {
   }, []);
 
   return (
-    <Box
-      borderRadius={"25px"}
-      w={"100%"}
-      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
-      bg={outerBackground}
-    >
+    <Box borderRadius={"25px"} w={"100%"} bg={outerBackground}>
       <HStack spacing={"10px"}>
         <Box
           width={"12px"}
@@ -149,7 +144,7 @@ const Header = () => {
                   fontSize={"14px"}
                   lineHeight={"16px"}
                   mt={"20px"}
-                  _hover={ { bg:"white"} }
+                  _hover={{ bg: "white" }}
                 >
                   View Details
                 </Button>

@@ -12,9 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { IoIosAdd } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import UploadAssignmentPopup from "../../../../components/popups/UploadAssignmentPopup";
-import { BASE_URL } from "../../../../constants/staticurls";
 import { capitalize } from "../../../../utils";
 import { getLatestAssignmentApi } from "../../../../api/assignments";
 const MentorsUploads = () => {
@@ -49,12 +47,7 @@ const MentorsUploads = () => {
   }, []);
 
   return (
-    <Box
-      w={"95%"}
-      borderRadius={"26px"}
-      bg={outerBackground}
-      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
-    >
+    <Box w={"95%"} borderRadius={"26px"} bg={outerBackground}>
       <Flex>
         <HStack spacing={"10px"}>
           <Box

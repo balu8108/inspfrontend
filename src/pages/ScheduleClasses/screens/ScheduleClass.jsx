@@ -8,7 +8,7 @@ import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassA
 
 import ScheduleClassList from "../components/ScheduleClassList";
 import { Scrollbars } from "rc-scrollbars";
-import { boxShadowStyles } from "../../../utils";
+
 const ScheduleClass = () => {
   const {
     isOpen: isSchedulePopupOpen,
@@ -37,21 +37,12 @@ const ScheduleClass = () => {
           setClassTiming={setClassTiming}
         />
       )}
-
       <Box px={20} pt={4} pb={4}>
         <Grid templateColumns={"20% 80%"} gap={6} alignItems={"start"}>
-          {/* <SimpleBar
-            style={{
-              maxHeight: "90vh",
-              borderRadius: "10px",
-              boxShadow: boxShadowStyles.shadowOneStyle.boxShadow,
-            }}
-          > */}
-
           <Scrollbars
             style={{
               height: "100%",
-              // boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
+
               borderRadius: "10px",
               background: outerBackground,
             }}
@@ -61,9 +52,6 @@ const ScheduleClass = () => {
               <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
             </GridItem>
           </Scrollbars>
-
-          {/* </SimpleBar> */}
-
           <GridItem borderRadius={"md"}>
             <ScheduleCalendar
               onSchedulePopupOpen={onSchedulePopupOpen}

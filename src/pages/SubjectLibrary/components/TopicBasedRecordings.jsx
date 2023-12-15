@@ -26,7 +26,6 @@ const TopicBasedRecordings = () => {
   const [filteredTopic, setFilteredTopic] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
   const { subjectName } = useParams();
   const { outerBackground, innerBackground, innerBoxShadow } =
     useTheme().colors.pallete;
@@ -48,7 +47,7 @@ const TopicBasedRecordings = () => {
           setFilteredTopic([]);
         }
       } catch (err) {
-        setError(err);
+        console.log("err", err);
       } finally {
         setIsLoading(false);
       }
@@ -175,8 +174,8 @@ const TopicBasedRecordings = () => {
                     fontSize={"14px"}
                     lineHeight={"16px"}
                     fontWeight={600}
-                    _hover={ { bg:"white"} }
-                    onClick={()=>handleViewRecording(libraryData)}
+                    _hover={{ bg: "white" }}
+                    onClick={() => handleViewRecording(libraryData)}
                   >
                     View Details
                   </Button>

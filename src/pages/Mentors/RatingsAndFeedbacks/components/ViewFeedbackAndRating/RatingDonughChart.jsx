@@ -13,9 +13,7 @@ import { Doughnut } from "react-chartjs-2";
 import { Chart, ArcElement } from "chart.js";
 import { FaCircle } from "react-icons/fa";
 import { useParams } from "react-router-dom";
-import axios from "axios";
-import { BASE_URL } from "../../../../../constants/staticurls";
-import { boxShadowStyles, capitalize } from "../../../../../utils";
+import { capitalize } from "../../../../../utils";
 import { getRatingDetailsByTopicIdApi } from "../../../../../api/genericapis";
 Chart.register(ArcElement);
 
@@ -26,15 +24,6 @@ const RatingAndFeedBackChart = () => {
   const [feedbackData, setFeedbackData] = useState(); // State to store feedback data
   const { outerBackground } = useTheme().colors.pallete;
   useEffect(() => {
-    // axios
-    // .get(`${BASE_URL}/generic/topic-feedback-rating-details/${topic_id}`)
-    // .then((response) => {
-    //   setFeedbackData(response.data.topicDetails);
-    // })
-    // .catch((error) => {
-    //   console.error("Error fetching feedback data:", error);
-    // });
-
     const fetchFeedbackDetailsByTopic = async (topic_id) => {
       try {
         const res = await getRatingDetailsByTopicIdApi(topic_id);
@@ -155,13 +144,7 @@ const RatingAndFeedBackChart = () => {
     );
   }
   return (
-    <Box
-      w={"100%"}
-      h={"full"}
-      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
-      borderRadius={"26px"}
-      bg={outerBackground}
-    >
+    <Box w={"100%"} h={"full"} borderRadius={"26px"} bg={outerBackground}>
       <HStack spacing={"10px"} mx="27px" mt={"25px"}>
         <Box
           width={"12px"}
@@ -186,13 +169,6 @@ const RatingAndFeedBackChart = () => {
                   <Text fontSize={"12px"} ml={2}>
                     {row.stars === 1 ? "1 Star" : `${row.stars} Stars`}
                   </Text>
-                  {/* <Box
-                    width={`${(row.percentage / 100) * 100}%`} // Use percentage to calculate the width
-                    height="8px"
-                    backgroundColor={row.color}
-                    borderRadius="10px"
-                  ></Box> */}
-
                   <Box
                     width="39%"
                     height="8px"

@@ -11,8 +11,6 @@ import {
 } from "@chakra-ui/react";
 
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { BASE_URL } from "../../../../constants/staticurls";
 import { capitalize } from "../../../../utils";
 import { getLatestSoloClassApi } from "../../../../api/soloclassrooms";
 const SoloClasses = () => {
@@ -41,7 +39,6 @@ const SoloClasses = () => {
   }, []);
   return (
     <Box
-      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       bg={outerBackground}
       mt={"23px"}
       borderRadius={"25px"}
@@ -70,7 +67,7 @@ const SoloClasses = () => {
           fontWeight={400}
           mt={"15px"}
           p={6}
-          _hover={{bg:"none"}}
+          _hover={{ bg: "none" }}
           onClick={handleSeeAllClick}
         >
           See All

@@ -12,7 +12,6 @@ import {
   useTheme,
 } from "@chakra-ui/react";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { boxShadowStyles } from "../../../utils";
 import "../Styling/progress.css";
 ChartJS.register(ArcElement, Tooltip, Legend);
 

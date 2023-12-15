@@ -53,8 +53,6 @@ const ChapterRecordings = () => {
               maxHeight: "85vh",
               borderRadius: "26px",
               background: outerBackground,
-
-              // boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
             }}
           >
             <Box p={4}>

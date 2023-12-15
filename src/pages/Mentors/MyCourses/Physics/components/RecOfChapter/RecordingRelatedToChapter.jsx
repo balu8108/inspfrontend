@@ -15,7 +15,7 @@ import { fetchAllTopicsApi } from "../../../../../../api/inspexternalapis/index"
 import { useParams } from "react-router-dom";
 import "../../../../../../constants/scrollbar/style.css";
 import topicDescriptionConstants from "../../../../../../constants/topicDescriptionConstants";
-import { boxShadowStyles, capitalize } from "../../../../../../utils";
+import { capitalize } from "../../../../../../utils";
 import { useTheme } from "@emotion/react";
 const ViewAllRecordingsRelatedToOneChapter = ({
   setViewTopic,
@@ -46,14 +46,7 @@ const ViewAllRecordingsRelatedToOneChapter = ({
   }, [chapter_id]);
 
   return (
-    <Box
-      w={"100%"}
-      h={"100%"}
-      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
-      borderRadius={"2xl"}
-      mt={6}
-      bg={outerBackground}
-    >
+    <Box w={"100%"} h={"100%"} borderRadius={"2xl"} mt={6} bg={outerBackground}>
       <HStack spacing={"10px"} ml="27px">
         <Box
           width={"12px"}

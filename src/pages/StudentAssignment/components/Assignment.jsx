@@ -4,8 +4,6 @@ import {
   Text,
   HStack,
   Card,
-  Flex,
-  Button,
   SimpleGrid,
   Input,
   InputGroup,
@@ -15,20 +13,10 @@ import {
   Image,
   VStack,
   useTheme,
-  Tooltip,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
-
-import axios from "axios";
-import { BASE_URL } from "../../../constants/staticurls";
-import {
-  boxShadowStyles,
-  capitalize,
-  extractFileNameFromS3URL,
-} from "../../../utils";
+import { capitalize } from "../../../utils";
 import { useParams } from "react-router";
-import { useDispatch } from "react-redux";
-import { setIsDocModalOpen } from "../../../store/actions/genericActions";
 import ChemistryImage from "../../../assets/images/undraw_science_re_mnnr 1.svg";
 import MathematicsImage from "../../../assets/images/undraw_mathematics_-4-otb 1.svg";
 import { getAssignmentBySubjectNameApi } from "../../../api/assignments";
@@ -40,7 +28,6 @@ const AssignmentDetails = () => {
   const { subjectName } = useParams();
   const { outerBackground, innerBackground, innerBoxShadow } =
     useTheme().colors.pallete;
-  const dispatch = useDispatch();
 
   const filteredData = Array.isArray(assignmentData)
     ? assignmentData.filter((assignment) => {
@@ -51,14 +38,6 @@ const AssignmentDetails = () => {
     : [];
 
   useEffect(() => {
-    // axios
-    //   .get(BASE_URL + `/topic/get-assignment-by-subject-name/${subjectName}`)
-    //   .then((response) => {
-    //     setAssignmentData(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching assignments:", error);
-    //   });
     const fetchAssignmentBySubject = async (subjectName) => {
       try {
         const response = await getAssignmentBySubjectNameApi(subjectName);
@@ -72,13 +51,7 @@ const AssignmentDetails = () => {
   }, [subjectName]);
 
   return (
-    <Box
-      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
-      width={"full"}
-      bg={outerBackground}
-      borderRadius={"26px"}
-      p={6}
-    >
+    <Box width={"full"} bg={outerBackground} borderRadius={"26px"} p={6}>
       <HStack spacing={"10px"} alignItems="center">
         <Box
           width={"12px"}

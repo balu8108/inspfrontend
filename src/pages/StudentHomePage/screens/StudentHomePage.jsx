@@ -8,7 +8,6 @@ import Assignment from "../components/Assignment";
 import Library from "../components/Library";
 import ScheduleClassList from "../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
-import { boxShadowStyles } from "../../../utils";
 import { useDispatch } from "react-redux";
 import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassActions";
 
@@ -39,7 +38,6 @@ const StudentHomePage = () => {
             maxHeight: "85vh",
             borderRadius: "10px",
             background: outerBackground,
-            // boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
           }}
         >
           <Box p={4}>

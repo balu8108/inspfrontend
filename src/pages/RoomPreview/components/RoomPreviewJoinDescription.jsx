@@ -19,12 +19,7 @@ import {
   setRtpCapabilities,
   setSelfDetails,
 } from "../../../store/actions/socketActions";
-import {
-  boxShadowStyles,
-  capitalize,
-  formatTime,
-  renderLeftMembersCount,
-} from "../../../utils";
+import { capitalize, formatTime, renderLeftMembersCount } from "../../../utils";
 import { useToastContext } from "../../../components/toastNotificationProvider/ToastNotificationProvider";
 
 const PeerList = ({ peers, type }) => {
@@ -129,7 +124,6 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
 
   return (
     <Box
-      // boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
       bg={outerBackground}
       width={["100%", "100%", "40%", "30%"]}
       borderRadius={"2xl"}
@@ -214,9 +208,6 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
               <Text fontSize={"14px"} color={mainTextColor}>
                 {liveSessionData.mentorsJoined}
               </Text>
-              {/* <Flex gap={2}>
-                <Text fontSize={"12px"}>No Mentors joined</Text>
-              </Flex> */}
               <Flex gap={2}>
                 {renderPeerData(
                   isPeerLoading,

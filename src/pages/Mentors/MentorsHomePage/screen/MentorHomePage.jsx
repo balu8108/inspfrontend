@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Flex,
-  VStack,
-  useDisclosure,
-  Stack,
-  HStack,
-  useTheme,
-} from "@chakra-ui/react";
+import { Box, Flex, useDisclosure, Stack, useTheme } from "@chakra-ui/react";
 import Header from "../../Header/components/HeaderInAllScreen";
 import MentorsUploads from "../components/Uploads";
 import FeedBack from "../components/RateNFeedback";
@@ -63,7 +55,6 @@ const MentorHomePage = () => {
                 maxHeight: "85vh",
                 borderRadius: "26px",
                 background: outerBackground,
-                // boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
               }}
             >
               <Box p={4}>

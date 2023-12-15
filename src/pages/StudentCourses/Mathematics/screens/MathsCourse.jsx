@@ -5,7 +5,6 @@ import Details from "../components/Detailing";
 import { Flex, Stack, Box, useDisclosure, useTheme } from "@chakra-ui/react";
 import ScheduleClassList from "../../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
-import { boxShadowStyles } from "../../../../utils";
 import { useDispatch } from "react-redux";
 import { getAllLiveClassesSchedule } from "../../../../store/actions/scheduleClassActions";
 import ScheduleClassPopup from "../../../../components/popups/ScheduleClassPopup";
@@ -47,7 +46,6 @@ const MathsScreen = () => {
               maxHeight: "85vh",
               borderRadius: "26px",
               background: outerBackground,
-              // boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
             }}
           >
             <Box p={4}>

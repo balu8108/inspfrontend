@@ -18,7 +18,7 @@ import {
 } from "../../../constants/staticvariables";
 
 const ScheduleClassInformation = ({ scheduledClassesData, type }) => {
-  const { lightGrey, primaryBlue, secondaryTextColor, innerBackground } =
+  const { primaryBlue, secondaryTextColor, innerBackground } =
     useTheme().colors.pallete;
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();

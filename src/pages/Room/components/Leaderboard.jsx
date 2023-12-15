@@ -29,15 +29,6 @@ const Leaderboard = ({ isLeaderBoardOpen, timer, setTimer }) => {
                   {roomData.leaderBoardText}
                 </Text>
               </HStack>
-              {/* <Button
-                fontWeight={400}
-                fontSize={"10px"}
-                bg="none"
-                leftIcon={<GrRefresh />}
-                p={0}
-              >
-                {roomData.refreshText}
-              </Button> */}
             </Flex>
             <Box>
               {leaderBoard.length === 0 ? (

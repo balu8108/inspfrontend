@@ -17,14 +17,14 @@ import { roomData } from "../../pages/Room/data/roomData";
 import { MainBtn } from "../button";
 import { generateUniqueKey, openFileDialog } from "../../utils";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+
 import { sendFileHandler } from "../../socketconnections/socketconnections";
-import { Scrollbars } from "rc-scrollbars";
+
 const UploadFilePopup = ({ type, roomId }) => {
   const [files, setFiles] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { onOpen, onClose, isOpen } = useDisclosure();
-  const dispatch = useDispatch();
+
   const { lightBorderColor, primaryBlue } = useTheme().colors.pallete;
   const handleUploadFileClick = async (e) => {
     e.preventDefault();
@@ -55,8 +55,6 @@ const UploadFilePopup = ({ type, roomId }) => {
       }
 
       sendFileHandler(fileObj); // sending type of room description whether active one or upcoming one
-      // dispatch(setUploadFilesInRoom(files));
-      // dispatch(setUploadFiles(files));
     }
 
     setIsLoading(false);

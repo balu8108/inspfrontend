@@ -131,7 +131,6 @@ const DocumentViewer = ({ isOpen, onClose }) => {
         <ModalBody>
           <Box>
             <PSDDocumentViewer doc={doc} />
-            {/* <GoogleDocsViewer width="100%" height="85vh" fileUrl={doc} /> */}
           </Box>
         </ModalBody>
       </ModalContent>

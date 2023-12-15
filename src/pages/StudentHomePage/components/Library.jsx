@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import "../../../constants/scrollbar/style.css";
-import { boxShadowStyles, capitalize } from "../../../utils";
+import { capitalize } from "../../../utils";
 import libraryData from "../data/library";
 
 const Library = () => {
@@ -55,8 +55,7 @@ const Library = () => {
                 fontSize={"13px"}
                 fontWeight={"400"}
                 mt={"40%"}
-                _hover={{bg:"none"}}
-                // onClick={handleSeeAllClick}
+                _hover={{ bg: "none" }}
               >
                 See All
               </Button>

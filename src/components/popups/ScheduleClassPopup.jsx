@@ -554,15 +554,6 @@ const ScheduleClassPopup = ({
                     {scheduleClassData.muteAll}
                   </Text>
                 </HStack>
-                {/* <HStack>
-                    <Checkbox
-                      onChange={handleCheckBoxChange}
-                      name="blockStudentsCamera"
-                    />
-                    <Text fontSize={"14px"} color={"#718096"}>
-                      {scheduleClassData.blockCamera}
-                    </Text>
-                  </HStack> */}
               </Flex>
             </Box>
           </FormControl>

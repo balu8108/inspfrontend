@@ -21,8 +21,6 @@ import {
   fetchAllTopicsForSubjectApi,
   fetchAllSubjectsApi,
 } from "../../api/inspexternalapis";
-import axios from "axios";
-import { BASE_URL } from "../../constants/staticurls";
 import { useToastContext } from "../toastNotificationProvider/ToastNotificationProvider";
 import { uploadAssignmentsApi } from "../../api/assignments";
 const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
@@ -121,16 +119,6 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
         formData.append("files", file);
       });
       const response = await uploadAssignmentsApi(formData);
-      // const response = await axios.post(
-      //   `${BASE_URL}/topic/upload-assignments`,
-      //   formData,
-      //   {
-      //     headers: {
-      //       "Content-Type": "multipart/form-data",
-      //       Authorization: `Token ${"U5Ga0Z1aaNlYHp0MjdEdXJ1aKVVVB1TP"}`,
-      //     },
-      //   }
-      // );
 
       if (response.status === 201) {
         setAssignment((prev) => [response?.data?.assignment, ...prev]);

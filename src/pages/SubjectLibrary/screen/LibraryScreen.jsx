@@ -4,7 +4,6 @@ import Library from "../../StudentHomePage/components/Library";
 import SubjectLibrary from "../components/Library";
 import ScheduleClassList from "../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
-import { boxShadowStyles } from "../../../utils";
 import { useDispatch } from "react-redux";
 import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassActions";
 const LibraryScreen = () => {
@@ -29,7 +28,6 @@ const LibraryScreen = () => {
               maxHeight: "85vh",
               borderRadius: "10px",
               background: outerBackground,
-              // boxShadow: boxShadowStyles.mainBoxShadow.boxShadow,
             }}
           >
             <Box p={4}>
