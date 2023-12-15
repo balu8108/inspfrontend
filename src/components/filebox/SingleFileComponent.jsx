@@ -44,7 +44,7 @@ const SingleFileComponent = ({ file, type }) => {
             {extractFileNameFromS3URL(file?.key)}
           </Text>
         </Tooltip>
-        {(file.isDownloadable || userRoleType === userType.teacher) && (
+        {(file?.isDownloadable || userRoleType === userType.teacher) && (
           <Icon
             as={FiDownload}
             onClick={(e) => {
