@@ -89,16 +89,22 @@ const DetailsCoveredFiles = () => {
           {topicDetails && topicDetails.length > 0 ? (
             <Flex>
               {topicDetails.map((topicInfo, index) => (
-                <Flex key={index}>
+                <Flex key={index} mt={4}>
                   {topicInfo?.SoloClassRoomRecordings.map(
                     (recording, recordingIndex) => (
                       <Card
                         key={recording.id}
                         w={"160px"}
                         onClick={() => handleViewRecording(recording)}
+                        mr={2}
                       >
                         <Flex alignItems="center">
-                          <Image src={defaultImageUrl} alt="Video Thumbnail" />
+                          <Image
+                            src={defaultImageUrl}
+                            alt="Video Thumbnail"
+                            width={"100%"}
+                            height={"100%"}
+                          />
                           <Icon
                             as={BsPlayFill}
                             color="#2C332978"
