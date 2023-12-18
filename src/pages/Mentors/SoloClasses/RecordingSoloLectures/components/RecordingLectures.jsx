@@ -18,10 +18,10 @@ import {
   FiMonitor,
 } from "react-icons/fi";
 import { LuMonitorOff, LuCircleOff } from "react-icons/lu";
+import { CiPause1 } from "react-icons/ci";
 import { useParams, useNavigate } from "react-router-dom";
 import { useToastContext } from "../../../../../components/toastNotificationProvider/ToastNotificationProvider";
 import { boxShadowStyles } from "../../../../../utils";
-import { BASE_URL } from "../../../../../constants/staticurls";
 import { uploadSoloClassRoomRecordingApi } from "../../../../../api/soloclassrooms";
 const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
   const [mentorStream, setMentorStream] = useState(null);
@@ -29,6 +29,9 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [screenSharingStream, setScreenSharingStream] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const [startTime, setStartTime] = useState(0);
+  const [pausedTime, setPausedTime] = useState(0);
   const [elapsedTime, setElapsedTime] = useState(0);
   const mentorVideoRef = useRef(null);
   const audioStreamRef = useRef(null);
@@ -38,31 +41,70 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
   const { soloClassRoomId } = useParams();
   const { addNotification } = useToastContext();
   const navigate = useNavigate();
+
   const formatTime = (seconds) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
-    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
-      2,
-      "0"
-    )}:${String(secs).padStart(2, "0")}`;
+    const remainingSeconds = seconds % 60;
+
+    const formatNumber = (num) => (num < 10 ? `0${num}` : `${num}`);
+
+    return `${formatNumber(hours)}:${formatNumber(minutes)}:${formatNumber(
+      remainingSeconds
+    )}`;
   };
 
   useEffect(() => {
     let timerInterval;
 
-    if (isRecording) {
+    if (isRecording && !isPaused) {
+      if (!startTime) {
+        setStartTime(Date.now() - pausedTime);
+      }
+
       timerInterval = setInterval(() => {
-        setElapsedTime((prevTime) => prevTime + 1);
+        setElapsedTime(Math.floor((Date.now() - startTime) / 1000));
       }, 1000);
     } else {
       clearInterval(timerInterval);
+
+      if (isPaused) {
+        setPausedTime(Date.now() - startTime);
+      } else {
+        setStartTime(0);
+        setElapsedTime(0);
+        setPausedTime(0);
+      }
     }
 
     return () => {
       clearInterval(timerInterval);
     };
-  }, [isRecording]);
+  }, [isRecording, isPaused, startTime, pausedTime]);
+
+  const pauseRecording = () => {
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state === "recording"
+    ) {
+      mediaRecorderRef.current.pause();
+      setIsPaused(true);
+      setPausedTime(Date.now() - startTime);
+    }
+  };
+
+  const resumeRecording = () => {
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state === "paused"
+    ) {
+      mediaRecorderRef.current.resume();
+      setIsPaused(false);
+      setStartTime(Date.now() - elapsedTime * 1000);
+    } else {
+      startRecording();
+    }
+  };
 
   const toggleMentorStream = async () => {
     if (!mentorStream) {
@@ -174,6 +216,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
 
       mediaRecorderRef.current.start();
       setIsRecording(true);
+      setIsPaused(false);
     } catch (error) {
       console.error("Error accessing the audio or video stream:", error);
     }
@@ -266,13 +309,6 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
         soloClassRoomId,
         formData
       );
-      // const response = await fetch(
-      //   `${BASE_URL}/solo-lecture/solo-classroom-recording/${soloClassRoomId}`,
-      //   {
-      //     method: "POST",
-      //     body: formData,
-      //   }
-      // );
 
       if (response.status === 201) {
         addNotification("Lecture is uploaded successfully", "success", 3000);
@@ -429,6 +465,21 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
             </Tooltip>
 
             <Tooltip
+              label={isPaused ? "Resume Recording" : "Pause Recording"}
+              placement="right"
+            >
+              <IconButton
+                isRound={true}
+                variant="solid"
+                colorScheme={"red"}
+                aria-label="Done"
+                fontSize="20px"
+                icon={<CiPause1 />}
+                onClick={isPaused ? resumeRecording : pauseRecording}
+              />
+            </Tooltip>
+
+            <Tooltip
               label={isScreenSharing ? "Stop Presenting" : "Present Now"}
               placement="right"
             >
@@ -453,7 +504,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
             fontWeight={500}
             size="sm"
             mb={"25px"}
-            _hover={"#F63F4A"}
+            _hover={{ bg: "#F63F4A" }}
             onClick={endClass}
           >
             End
@@ -483,7 +534,6 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
           height="120px"
         >
           <video
-            // ref={cameraVideoRef}
             ref={mentorVideoRef}
             style={{
               width: "100%",
