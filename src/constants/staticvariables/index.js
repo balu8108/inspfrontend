@@ -73,5 +73,5 @@ export const fileTypes = {
 export const toolTipMsgs = {
   videoNotAvailable: "Video feature not available to students",
   screenShareNotAvailable: "Screen share feature not available to students",
-  audioNotAvailable: "Mentor has disabled the audio for students",
+  audioNotAvailable: "Mentor has disabled the audio",
 };

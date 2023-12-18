@@ -376,8 +376,7 @@ const ToolBox = ({
         <Stack>
           <Tooltip
             label={
-              userRoleType !== userType.teacher &&
-              roomPreviewData?.muteAllStudents
+              userRoleType !== userType.teacher && selfDetails?.isAudioBlocked
                 ? toolTipMsgs.audioNotAvailable
                 : roomData.mic
             }
