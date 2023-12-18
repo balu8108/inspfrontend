@@ -386,9 +386,7 @@ const ToolBox = ({
             <IconButton
               isRound={true}
               isDisabled={
-                userRoleType !== userType.teacher &&
-                (roomPreviewData?.muteAllStudents ||
-                  selfDetails?.isAudioBlocked)
+                userRoleType !== userType.teacher && selfDetails?.isAudioBlocked
               }
               bg={isMicOn ? "gray.200" : "red"}
               onClick={(e) => handleMicrophone(e)}
