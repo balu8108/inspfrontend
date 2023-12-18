@@ -87,7 +87,7 @@ const DetailsCoveredFiles = () => {
         <Text>Recording</Text>
         <Box>
           {topicDetails && topicDetails.length > 0 ? (
-            <Flex>
+            <Flex gap={"24px"} flexWrap={"wrap"}>
               {topicDetails.map((topicInfo, index) => (
                 <Flex key={index} mt={4}>
                   {topicInfo?.SoloClassRoomRecordings.map(
@@ -95,6 +95,7 @@ const DetailsCoveredFiles = () => {
                       <Card
                         key={recording.id}
                         w={"160px"}
+                        mt={"16px"}
                         onClick={() => handleViewRecording(recording)}
                         mr={2}
                       >

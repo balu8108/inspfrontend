@@ -1,8 +1,20 @@
-.example::-webkit-scrollbar {
-    display: none;
+.example {
+  overflow: hidden;
+  -ms-overflow-style: none; 
+  scrollbar-width: none;
 }
 
-.example {
-  -ms-overflow-style: none;  
-  scrollbar-width: none; 
+.example::-webkit-scrollbar {
+  width: 10px; 
+  background-color: transparent; 
+}
+
+.example::-webkit-scrollbar-thumb {
+  background-color: #ccc; 
+  border-radius: 8px;
+}
+
+
+.example::-webkit-scrollbar {
+  height: 8px;
 }
