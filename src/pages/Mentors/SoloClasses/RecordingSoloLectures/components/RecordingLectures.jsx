@@ -307,6 +307,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
     console.log("file", file);
 
     try {
+      addNotification("Uploading lecture video.Please wait ...", "info", 3000);
       const response = await uploadSoloClassRoomRecordingApi(
         soloClassRoomId,
         formData
