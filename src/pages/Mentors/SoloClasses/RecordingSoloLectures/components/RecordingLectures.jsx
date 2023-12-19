@@ -478,7 +478,9 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
                 onClick={isPaused ? resumeRecording : pauseRecording}
               />
             </Tooltip>
+          </Stack>
 
+          <Stack>
             <Tooltip
               label={isScreenSharing ? "Stop Presenting" : "Present Now"}
               placement="right"
