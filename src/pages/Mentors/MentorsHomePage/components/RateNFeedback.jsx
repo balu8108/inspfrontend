@@ -1,4 +1,4 @@
-// this component functionality is that latest three  finished lecture will come here
+// this component functionality is that latest three  finished lecture will come.
 import React, { useState, useEffect } from "react";
 import {
   Box,

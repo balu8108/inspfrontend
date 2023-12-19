@@ -1,3 +1,4 @@
+//This is the component latest two solo -lecture will come.
 import React, { useState, useEffect } from "react";
 import {
   Box,

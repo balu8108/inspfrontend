@@ -1,3 +1,4 @@
+//This component is for the displaying 4 cards(Physics,Chem,Maths,Topic Based Recording) on student homepage
 import React from "react";
 import {
   Box,

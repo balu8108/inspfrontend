@@ -1,4 +1,4 @@
-// this is the screen where all the assignmemts will apppear for the topics..
+// this is the screen where all the assignmemts will come.
 import React, { useState, useEffect } from "react";
 import {
   Box,

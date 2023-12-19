@@ -1,3 +1,4 @@
+//In this component where mentor will record the solo-lecture and video will be uploaded to aws.
 import React, { useState, useEffect, useRef } from "react";
 import {
   Box,

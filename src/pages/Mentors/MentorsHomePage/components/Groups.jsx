@@ -1,3 +1,4 @@
+//This is the component where group of students will be there right now it's not functional
 import {
   Avatar,
   Box,
@@ -34,7 +35,13 @@ const MentorGroups = () => {
           </Text>
         </HStack>
         <Spacer />
-        <Button variant={"ghost"} fontWeight={400} mt={4} mr={1}   _hover={{bg:"none"}}>
+        <Button
+          variant={"ghost"}
+          fontWeight={400}
+          mt={4}
+          mr={1}
+          _hover={{ bg: "none" }}
+        >
           See All
         </Button>
       </Flex>

@@ -1,4 +1,5 @@
-// this is the screen where  all the description , agenda , files , all assignments , recordings..
+// this is the screen where  all the description , agenda , files , all assignments ,
+// recordings will come related to the particular topic
 import React, { useEffect, useState } from "react";
 import {
   Box,

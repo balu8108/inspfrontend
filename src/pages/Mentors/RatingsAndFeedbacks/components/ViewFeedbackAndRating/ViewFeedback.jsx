@@ -1,3 +1,4 @@
+//In this component where 3 cards will come from topic and from search we can search all topic.
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -51,7 +52,7 @@ const ViewMentorsRatingAndFeedback = () => {
   const handleSearchChange = (event) => {
     const query = event.target.value;
     setSearchQuery(query);
-   
+
     const filteredChapters = allTopicList.filter((chapter) =>
       chapter.name.toLowerCase().includes(query.toLowerCase())
     );

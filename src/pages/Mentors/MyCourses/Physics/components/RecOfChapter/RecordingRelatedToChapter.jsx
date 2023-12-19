@@ -1,4 +1,4 @@
-// // here in this screen we will have all the topics  related to that particular chapter
+// here in this screen we will have all the topics  related to that particular chapter.
 import React, { useEffect, useState } from "react";
 import {
   Box,
