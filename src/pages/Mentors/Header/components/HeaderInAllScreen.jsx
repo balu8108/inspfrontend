@@ -1,3 +1,4 @@
+//This is the header used in most of screen it will display subjects-PHYSICS,CHEMISTRY,MATHEMATICS.
 import React, { useEffect, useState } from "react";
 import {
   Button,

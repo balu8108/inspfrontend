@@ -1,3 +1,4 @@
+//This component will show chapters for mathematics but there is no data for mathematics.
 import React from "react";
 import {
   Box,

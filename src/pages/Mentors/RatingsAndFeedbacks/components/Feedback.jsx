@@ -1,3 +1,4 @@
+//This is component where all the topics will be in the forms of cards.
 import React, { useState, useEffect } from "react";
 import {
   Box,

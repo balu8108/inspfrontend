@@ -1,3 +1,5 @@
+//This is the component all the info like topicname,agemda,description,files will come 
+//when solo class is created.
 import React, { useState, useEffect } from "react";
 import {
   Box,

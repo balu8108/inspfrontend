@@ -1,3 +1,4 @@
+//This is the component where donough chart and rater's feedback will come along with name.
 import React, { useEffect, useState } from "react";
 import {
   Avatar,

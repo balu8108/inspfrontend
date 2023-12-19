@@ -1,3 +1,4 @@
+//This is header for displaying three subjects -PHYSICS,CHEMISTRY,MATHEMATICS.
 import React, { useEffect, useState } from "react";
 import {
   Button,
@@ -67,7 +68,7 @@ const AssignmentHeader = () => {
         </Text>
       </HStack>
 
-      {loading ? ( // Display spinner while loading
+      {loading ? (
         <Center>
           <Spinner mt={"5%"} />
         </Center>

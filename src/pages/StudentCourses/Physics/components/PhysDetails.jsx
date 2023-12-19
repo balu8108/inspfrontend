@@ -1,3 +1,4 @@
+//This component will show all the chapters related to subjects.
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {

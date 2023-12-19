@@ -10,10 +10,8 @@ const Recording = () => {
 
   const location = useLocation();
 
-  // Parse the query string to get the query parameters
   const queryParams = new URLSearchParams(location.search);
 
-  // Access the query parameters by their names
   const id = queryParams.get("id");
   const type = queryParams.get("type");
   const topicId = queryParams.get("topicId");

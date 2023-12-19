@@ -1,3 +1,4 @@
+//This component is for the displaying attendance on student homepage
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
 import improvementMarks from "../data/improvement";

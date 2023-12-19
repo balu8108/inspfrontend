@@ -1,3 +1,4 @@
+//In this componnet all the topics will come with solo record button.
 import React, { useState, useEffect } from "react";
 import {
   Box,
