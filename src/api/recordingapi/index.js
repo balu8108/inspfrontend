@@ -13,8 +13,8 @@ API.interceptors.request.use((req) => {
     return req;
   } catch (err) {}
 });
-export const viewRecordingApi = (type, id) =>
-  API.get(`/recording/view-recording?type=${type}&id=${id}`);
+export const viewRecordingApi = (type, id, topicId) =>
+  API.get(`/recording/view-recording?type=${type}&id=${id}&topicId=${topicId}`);
 
 export const playRecordingApi = (body) =>
   API.post(`/recording/play-recording`, body);

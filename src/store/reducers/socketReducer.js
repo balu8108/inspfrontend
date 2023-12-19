@@ -225,7 +225,7 @@ const socketReducer = (state = initialState, action) => {
             copiedConsumer,
             ...state.audioConsumers.splice(audioConsumerIdx + 1),
           ];
-          console.log("modified consumer", modifiedConsummers);
+
           return {
             ...state,
             audioConsumers: modifiedConsummers,

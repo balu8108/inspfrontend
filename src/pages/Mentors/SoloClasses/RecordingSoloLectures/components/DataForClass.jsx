@@ -51,13 +51,7 @@ const DataForClass = () => {
   }, [soloClassRoomId]);
 
   return (
-    <Box
-      w="25%"
-      h={"full"}
-      borderRadius={"12px"}
-      boxShadow={boxShadowStyles.mainBoxShadow.boxShadow}
-      bg={outerBackground}
-    >
+    <Box w="25%" h={"full"} borderRadius={"12px"} bg={outerBackground}>
       <HStack spacing={"10px"}>
         <Box
           width={"12px"}
@@ -131,7 +125,7 @@ const DataForClass = () => {
                         color={"#2C332978"}
                         noOfLines={3}
                       >
-                        {agendaItem ? agendaItem : "No Data"}
+                        {agendaItem ?? "No Data"}
                       </Text>
                     </Flex>
                   </ListItem>

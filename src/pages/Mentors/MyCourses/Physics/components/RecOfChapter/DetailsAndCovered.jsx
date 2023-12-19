@@ -61,8 +61,11 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
     }
   };
 
-  const handleViewRecording = (recording) => {
-    navigate(`/view-recording?type=live_specific&id=${recording.id}`);
+  const handleViewRecording = (recording, liveClassData) => {
+    console.log(liveClassData);
+    navigate(
+      `/view-recording?type=live_specific&id=${recording?.id}&topicId=${liveClassData?.LiveClassRoomDetail?.topicId}`
+    );
   };
 
   useEffect(() => {
@@ -149,7 +152,9 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
                         fontSize={"13px"}
                         w={"150px"}
                         mr={2}
-                        onClick={() => handleViewRecording(recording)}
+                        onClick={() =>
+                          handleViewRecording(recording, liveClassData)
+                        }
                       >
                         <Image
                           src={recording.imageUrl || defaultImageUrl}

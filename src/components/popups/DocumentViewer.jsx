@@ -105,9 +105,7 @@ const DocumentViewer = ({ isOpen, onClose }) => {
       if (status) {
         setDoc(data?.data?.getUrl);
       }
-    } catch (err) {
-      console.log("Error in opening doc");
-    }
+    } catch (err) {}
   };
 
   useEffect(() => {

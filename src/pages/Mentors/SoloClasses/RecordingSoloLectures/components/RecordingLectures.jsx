@@ -260,7 +260,6 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
           if (soloClassRoomId) {
             await uploadVideoToAWS(blob, soloClassRoomId);
           } else {
-            console.error("Solo classroom ID not found in the URL");
           }
         }
         recordedChunksRef.current = [];
@@ -293,7 +292,6 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
 
   const uploadVideoToAWS = async (recordedVideo, soloClassRoomId) => {
     const fileName = `sololecture_${soloClassRoomId}.webm`;
-    console.log("recorded video", recordedVideo);
 
     const file = new File([recordedVideo], fileName, {
       type: "video/webm",
@@ -302,7 +300,6 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
 
     formData.append("files", file);
     formData.append("soloClassRoomId", soloClassRoomId);
-    console.log("file", file);
 
     try {
       const response = await uploadSoloClassRoomRecordingApi(

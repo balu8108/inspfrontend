@@ -200,14 +200,12 @@ const Room = () => {
             }
           }
         } else {
-          console.log("No screen share available");
         }
       } catch (err) {
         console.log("error in screenshot", err);
       }
     }, 10000);
     return () => {
-      console.log("clearing up stream", ssId);
       clearInterval(ssId);
     };
   }, [screenShareStream]);

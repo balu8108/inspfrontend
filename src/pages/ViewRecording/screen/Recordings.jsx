@@ -16,10 +16,11 @@ const Recording = () => {
   // Access the query parameters by their names
   const id = queryParams.get("id");
   const type = queryParams.get("type");
+  const topicId = queryParams.get("topicId");
 
   const getViewRecordingData = async () => {
     try {
-      const res = await viewRecordingApi(type, id);
+      const res = await viewRecordingApi(type, id, topicId);
       if (res.status === 200) {
         const { data } = res;
 
@@ -32,7 +33,7 @@ const Recording = () => {
   };
   useEffect(() => {
     getViewRecordingData();
-  }, [id, type]);
+  }, [id, type, topicId]);
   return (
     <Flex m={"52px"} h={"full"} gap={6}>
       <ViewRecording type={type} activeRecording={activeRecording} />

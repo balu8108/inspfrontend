@@ -19,8 +19,10 @@ const RecordedClass = ({
   activeRecording,
   setActiveRecording,
 }) => {
-  const isLive = type && (type === "live" || type === "live_specific");
-  const isSolo = type && (type === "solo" || type === "solo_specific");
+  const isLive = type && type === "live";
+  const isSolo = type && type === "solo";
+  const isLiveSpecific = type && type === "live_specific";
+  const isSoloSpecific = type && type === "solo_specific";
   const isLiveTopic = type && type === "live_topic";
   const isSoloTopic = type && type === "solo_topic";
   const { outerBackground } = useTheme().colors.pallete;
@@ -29,8 +31,14 @@ const RecordedClass = ({
     let filesData = [];
     if (isLive) {
       filesData = data?.LiveClassRoomFiles;
+    } else if (isLiveSpecific) {
+      filesData =
+        data?.responseData?.flatMap((obj) => obj?.LiveClassRoomFiles) ?? [];
     } else if (isSolo) {
       filesData = data?.SoloClassRoomFiles;
+    } else if (isSoloSpecific) {
+      filesData =
+        data?.responseData?.flatMap((obj) => obj?.SoloClassRoomFiles) ?? [];
     } else if (isLiveTopic) {
       filesData =
         data?.responseData?.flatMap((obj) => obj?.LiveClassRoomFiles) ?? [];
@@ -67,17 +75,38 @@ const RecordedClass = ({
             />
             <FileBoxComponent data={[data?.LiveClassRoomNote]} type={"note"} />
           </>
+        ) : isLiveSpecific && data ? (
+          data?.responseData?.map((item) => (
+            <>
+              {item?.LiveClassRoomQNANote !== null && (
+                <FileBoxComponent
+                  data={[item?.LiveClassRoomQNANote]}
+                  type={"qna"}
+                />
+              )}
+              {item?.LiveClassRoomNote !== null && (
+                <FileBoxComponent
+                  data={[item?.LiveClassRoomNote]}
+                  type={"note"}
+                />
+              )}
+            </>
+          ))
         ) : isLiveTopic && data ? (
           data?.responseData?.map((item) => (
             <>
-              <FileBoxComponent
-                data={[item?.LiveClassRoomQNANote]}
-                type={"qna"}
-              />
-              <FileBoxComponent
-                data={[[item?.LiveClassRoomQNANote]]}
-                type={"note"}
-              />
+              {item?.LiveClassRoomQNANote !== null && (
+                <FileBoxComponent
+                  data={[item?.LiveClassRoomQNANote]}
+                  type={"qna"}
+                />
+              )}
+              {item?.LiveClassRoomNote !== null && (
+                <FileBoxComponent
+                  data={[item?.LiveClassRoomNote]}
+                  type={"note"}
+                />
+              )}
             </>
           ))
         ) : (
@@ -93,8 +122,12 @@ const RecordedClass = ({
     let agenda = "";
     if (isLive) {
       agenda = data?.LiveClassRoomDetail.agenda;
+    } else if (isLiveSpecific) {
+      agenda = data?.responseData?.[0]?.LiveClassRoomDetail.agenda;
     } else if (isSolo) {
       agenda = data?.agenda;
+    } else if (isSoloSpecific) {
+      agenda = data?.responseData?.[0]?.agenda;
     } else if (isLiveTopic) {
       agenda = data?.responseData?.[0]?.LiveClassRoomDetail.agenda;
     } else if (isSoloTopic) {
@@ -129,7 +162,7 @@ const RecordedClass = ({
             </Box>
           </Box>
         ) : (
-          <Text color={"#2C332978"} mt={2}>
+          <Text color={"#2C332978"} mt={2} fontSize={"12px"}>
             No Data
           </Text>
         )}
@@ -141,8 +174,16 @@ const RecordedClass = ({
     let recordings = [];
     if (isLive) {
       recordings = data?.LiveClassRoomRecordings;
+    } else if (isLiveSpecific) {
+      recordings =
+        data?.responseData?.flatMap((obj) => obj?.LiveClassRoomRecordings) ??
+        [];
     } else if (isSolo) {
       recordings = data?.SoloClassRoomRecordings;
+    } else if (isSoloSpecific) {
+      recordings =
+        data?.responseData?.flatMap((obj) => obj?.SoloClassRoomRecordings) ??
+        [];
     } else if (isLiveTopic) {
       recordings =
         data?.responseData?.flatMap((obj) => obj?.LiveClassRoomRecordings) ??
@@ -161,12 +202,13 @@ const RecordedClass = ({
           (lr) =>
             lr.id !== activeRecording?.id && (
               <Flex key={lr.id}>
-                <Flex gap={"24px"}>
+                <Flex>
                   <Card
                     mt={"15px"}
                     color={"#2C332978"}
                     fontSize={"13px"}
                     w={"150px"}
+                    mr={2}
                     _hover={{ cursor: "pointer" }}
                     onClick={() => setActiveRecording(lr)}
                   >
@@ -220,6 +262,11 @@ const RecordedClass = ({
           >
             {isLive
               ? capitalize(recordingDetail?.LiveClassRoomDetail?.topicName)
+              : isLiveSpecific
+              ? capitalize(
+                  recordingDetail?.responseData?.[0]?.LiveClassRoomDetail
+                    .topicName
+                )
               : isLiveTopic
               ? capitalize(
                   recordingDetail?.responseData?.[0]?.LiveClassRoomDetail
@@ -227,6 +274,8 @@ const RecordedClass = ({
                 )
               : isSolo
               ? capitalize(recordingDetail?.topic)
+              : isSoloSpecific
+              ? capitalize(recordingDetail?.responseData?.[0]?.topic)
               : isSoloTopic
               ? capitalize(recordingDetail?.responseData?.[0]?.topic)
               : capitalize("No Data")}
@@ -241,7 +290,7 @@ const RecordedClass = ({
           >
             {isLive || isSolo
               ? recordingDetail?.mentorName
-              : isLiveTopic || isSoloTopic
+              : isLiveSpecific || isSoloSpecific || isLiveTopic || isSoloTopic
               ? recordingDetail?.responseData?.[0]?.mentorName
               : "No data"}
           </Text>
@@ -256,8 +305,13 @@ const RecordedClass = ({
         <Text mt={1} color={"#2C332978"} fontSize={"12px"} lineHeight={"20px"}>
           {isLive
             ? recordingDetail?.LiveClassRoomDetail?.description
+            : isLiveSpecific
+            ? recordingDetail?.responseData?.[0]?.LiveClassRoomDetail
+                .description
             : isSolo
             ? recordingDetail?.description
+            : isSoloSpecific
+            ? recordingDetail?.responseData?.[0]?.description
             : isLiveTopic
             ? recordingDetail?.responseData?.[0]?.LiveClassRoomDetail
                 .description
@@ -288,7 +342,7 @@ const RecordedClass = ({
           {renderRecordings(recordingDetail, activeRecording)}
         </Flex>
       </Box>
-      {(isLive || isLiveTopic) && (
+      {(isLive || isLiveSpecific || isLiveTopic) && (
         <Box mt={6}>
           <Text>Notes</Text>
           <Box mt={1}>{renderNotes(recordingDetail)}</Box>

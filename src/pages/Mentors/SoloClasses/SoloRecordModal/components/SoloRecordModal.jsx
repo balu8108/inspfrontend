@@ -64,7 +64,6 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
       }
 
       if (!selectedSubject || !selectedTopic) {
-        console.error("Please select both subject and topic.");
         return;
       }
 

@@ -46,8 +46,10 @@ const DetailsCoveredFiles = () => {
     fetchTopicDetails(topicId);
   }, [topicId]);
 
-  const handleViewRecording = (recording) => {
-    navigate(`/view-recording?type=solo_specific&id=${recording.id}`);
+  const handleViewRecording = (recording, topicInfo) => {
+    navigate(
+      `/view-recording?type=solo_specific&id=${recording.id}&topicId=${topicInfo?.topicId}`
+    );
   };
 
   return (
@@ -96,7 +98,9 @@ const DetailsCoveredFiles = () => {
                         key={recording.id}
                         w={"160px"}
                         mt={"16px"}
-                        onClick={() => handleViewRecording(recording)}
+                        onClick={() =>
+                          handleViewRecording(recording, topicInfo)
+                        }
                         mr={2}
                       >
                         <Flex alignItems="center">

@@ -13,7 +13,7 @@ const FileBoxComponent = ({ data, type }) => {
   const { innerBackground } = useTheme().colors.pallete;
   const userRoleType = checkUserType();
   const dispatch = useDispatch();
-  console.log("data", data);
+  console.log("box", data);
 
   return (
     <>
