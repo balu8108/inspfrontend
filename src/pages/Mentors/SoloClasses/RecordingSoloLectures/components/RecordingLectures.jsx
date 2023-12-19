@@ -20,6 +20,7 @@ import {
 } from "react-icons/fi";
 import { LuMonitorOff, LuCircleOff } from "react-icons/lu";
 import { CiPause1 } from "react-icons/ci";
+import { FaPlay } from "react-icons/fa";
 import { useParams, useNavigate } from "react-router-dom";
 import { useToastContext } from "../../../../../components/toastNotificationProvider/ToastNotificationProvider";
 import { boxShadowStyles } from "../../../../../utils";
@@ -471,7 +472,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
               <IconButton
                 isRound={true}
                 variant="solid"
-                colorScheme={"red"}
+                colorScheme={isPaused ? "gray" : "red"}
                 aria-label="Done"
                 fontSize="20px"
                 icon={<CiPause1 />}
