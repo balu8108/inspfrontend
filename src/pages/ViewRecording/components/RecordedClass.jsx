@@ -284,6 +284,7 @@ const RecordedClass = ({
           overflowX={"auto"}
           w={"full"}
           className="example"
+          gap={"10px"}
         >
           {renderRecordings(recordingDetail, activeRecording)}
         </Flex>
