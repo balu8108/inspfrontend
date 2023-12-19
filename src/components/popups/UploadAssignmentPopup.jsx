@@ -292,7 +292,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
                 bg={"#3C8DBC"}
                 color={"#FFFFFF"}
                 fontWeight={500}
-                isDisabled
+                _hover={{ bg: primaryBlueLight }}
               >
                 <Spinner size="sm" color="white" />
               </Button>
