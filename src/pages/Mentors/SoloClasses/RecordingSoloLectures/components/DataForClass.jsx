@@ -101,9 +101,9 @@ const DataForClass = () => {
             overflowX={"auto"}
             maxH={"150px"}
           >
-            {data?.agenda.split("\r\n").map((agendaItem, index) => (
+            {data?.agenda.split("\r\n").map((agendaItem) => (
               <Stack
-                key={index}
+                key={agendaItem.id}
                 spacing={1}
                 direction="row"
                 alignItems="center"
