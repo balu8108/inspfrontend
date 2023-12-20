@@ -6,8 +6,6 @@ import {
   Text,
   Flex,
   Image,
-  Icon,
-  Card,
   useTheme,
   UnorderedList,
   ListItem,
@@ -24,7 +22,6 @@ import { getTopicDetailsForSoloClassApi } from "../../../../../api/soloclassroom
 import SingleFileComponent from "../../../../../components/filebox/SingleFileComponent";
 const DetailsCoveredFiles = () => {
   const [topicDetails, setTopicDetails] = useState(null);
-  const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
   const { topicId, topic_name } = useParams();
   const topicDescription = topicDescriptionConstants[topicId];
   const { outerBackground } = useTheme().colors.pallete;
