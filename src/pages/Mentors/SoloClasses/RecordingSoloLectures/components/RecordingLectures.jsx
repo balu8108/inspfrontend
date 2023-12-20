@@ -20,7 +20,6 @@ import {
 } from "react-icons/fi";
 import { LuMonitorOff, LuCircleOff } from "react-icons/lu";
 import { CiPause1 } from "react-icons/ci";
-import { FaPlay } from "react-icons/fa";
 import { useParams, useNavigate } from "react-router-dom";
 import { useToastContext } from "../../../../../components/toastNotificationProvider/ToastNotificationProvider";
 import { boxShadowStyles } from "../../../../../utils";

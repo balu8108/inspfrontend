@@ -13,6 +13,7 @@ import {
   ListItem,
   UnorderedList,
   useTheme,
+  IconButton,
 } from "@chakra-ui/react";
 import chapterDetailsData from "../../data/chapterDetailsData";
 import defaultImageUrl from "../../../.././../../assets/images/image1.png";
@@ -22,7 +23,7 @@ import { useNavigate } from "react-router-dom";
 import { allLiveRecordingDetailsApi } from "../../../../../../api/recordingapi";
 import { getAllAssignmentByTopicApi } from "../../../../../../api/assignments";
 import SingleFileComponent from "../../../../../../components/filebox/SingleFileComponent";
-
+import { BsPlayFill } from "react-icons/bs";
 const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
   const [liveClassRoomData, setLiveClassRoomData] = useState(null);
 
@@ -141,7 +142,56 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
 
       <Box overflowX={"auto"} mt={8}>
         <Text>Recordings</Text>
-        {liveClassRoomData && liveClassRoomData.data.length > 0 ? (
+        <Flex gap={"24px"} overflowX="auto">
+          {liveClassRoomData && liveClassRoomData?.data.length > 0 ? (
+            <Flex gap={4} mt={4}>
+              {liveClassRoomData?.data.map((liveClassData) =>
+                liveClassData?.LiveClassRoomRecordings.map(
+                  (recording, index) => (
+                    <Flex
+                      alignItems="center"
+                      w={"160px"}
+                      key={recording?.id}
+                      onClick={() =>
+                        handleViewRecording(recording, liveClassData)
+                      }
+                      position={"relative"}
+                      cursor={"pointer"}
+                    >
+                      <Image
+                        src={defaultImageUrl}
+                        alt="Video Thumbnail"
+                        width={"100%"}
+                        height={"100%"}
+                      />
+                      <IconButton
+                        icon={<BsPlayFill />}
+                        fontSize="24px"
+                        position="absolute"
+                        top="50%"
+                        left="50%"
+                        borderRadius={"100%"}
+                        transform="translate(-50%, -50%)"
+                      />
+                    </Flex>
+                  )
+                )
+              )}
+              {liveClassRoomData?.data.every(
+                (data) => data.LiveClassRoomRecordings.length === 0
+              ) && (
+                <Text fontSize="12px">
+                  No recordings available for the topic.
+                </Text>
+              )}
+            </Flex>
+          ) : (
+            <Text fontSize={"12px"} mt={4}>
+              No recording are available for this topic.
+            </Text>
+          )}
+        </Flex>
+        {/* {liveClassRoomData && liveClassRoomData.data.length > 0 ? (
           <Flex gap={"24px"} mt={4}>
             {liveClassRoomData.data.map((liveClassData) =>
               liveClassData.LiveClassRoomRecordings.length > 0
@@ -176,7 +226,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
           </Flex>
         ) : (
           <Text fontSize="12px">No data available for the topic.</Text>
-        )}
+        )} */}
       </Box>
 
       <Box mt={8}>
@@ -206,7 +256,9 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
             ) && <Text fontSize="12px">No Files for this topic</Text>}
           </Flex>
         ) : (
-          <Text fontSize="12px">No Data for this topic</Text>
+          <Text fontSize="12px" mt={4}>
+            No Data for this topic
+          </Text>
         )}
       </Box>
 
@@ -230,7 +282,9 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
             ) && <Text fontSize="12px">No QNA for this topic</Text>}
           </Flex>
         ) : (
-          <Text fontSize="12px">No Data for this topic</Text>
+          <Text fontSize="12px" mt={4}>
+            No Data for this topic
+          </Text>
         )}
       </Box>
 
@@ -264,7 +318,9 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
             ))}
           </SimpleGrid>
         ) : (
-          <Text fontSize={"12px"}>No assignments for this topic.</Text>
+          <Text fontSize={"12px"} mt={4}>
+            No assignments for this topic.
+          </Text>
         )}
       </Box>
     </Box>

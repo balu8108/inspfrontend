@@ -26,6 +26,7 @@ const RecordedClass = ({
   const isLiveTopic = type && type === "live_topic";
   const isSoloTopic = type && type === "solo_topic";
   const { outerBackground } = useTheme().colors.pallete;
+  console.log("Recordin details", recordingDetail);
 
   const renderFiles = (data) => {
     let filesData = [];
@@ -65,15 +66,23 @@ const RecordedClass = ({
     );
   };
   const renderNotes = (data) => {
+    console.log("rendering ntoes", data);
     return (
       <>
-        {isLive && data && data?.LiveClassRoomQNANote ? (
+        {isLive && data ? (
           <>
-            <FileBoxComponent
-              data={[data?.LiveClassRoomQNANote]}
-              type={"qna"}
-            />
-            <FileBoxComponent data={[data?.LiveClassRoomNote]} type={"note"} />
+            {data?.LiveClassRoomQNANote && (
+              <FileBoxComponent
+                data={[data?.LiveClassRoomQNANote]}
+                type={"qna"}
+              />
+            )}
+            {data?.LiveClassRoomNote && (
+              <FileBoxComponent
+                data={[data?.LiveClassRoomNote]}
+                type={"note"}
+              />
+            )}
           </>
         ) : isLiveSpecific && data ? (
           data?.responseData?.map((item) => (

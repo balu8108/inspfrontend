@@ -146,7 +146,7 @@ const socketReducer = (state = initialState, action) => {
         uploadedFiles: [...state.uploadedFiles, ...action.payload],
       };
     case SET_FILE_UPLOAD_IN_ROOM:
-      const { roomType, roomId, files } = action.payload;
+      const { roomType, files } = action.payload;
       if (roomType === "active" && state.roomPreviewData) {
         return {
           ...state,

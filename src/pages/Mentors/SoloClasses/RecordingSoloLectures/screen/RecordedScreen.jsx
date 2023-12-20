@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import { Flex } from "@chakra-ui/react";
 import DataForClass from "../components/DataForClass";
 import RecordingLectures from "../components/RecordingLectures";

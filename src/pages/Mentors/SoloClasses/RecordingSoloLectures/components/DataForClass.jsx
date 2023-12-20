@@ -1,4 +1,4 @@
-//This is the component all the info like topicname,agemda,description,files will come 
+//This is the component all the info like topicname,agemda,description,files will come
 //when solo class is created.
 import React, { useState, useEffect } from "react";
 import {
@@ -13,7 +13,7 @@ import {
   List,
 } from "@chakra-ui/react";
 import { FaCircle } from "react-icons/fa6";
-import { boxShadowStyles, capitalize } from "../../../../../utils";
+import { capitalize } from "../../../../../utils";
 import { fileTypes } from "../../../../../constants/staticvariables";
 import FileBoxComponent from "../../../../../components/filebox/FileBoxComponent";
 import { useParams } from "react-router";
