@@ -95,7 +95,7 @@ const DataForClass = () => {
             Agenda
           </Text>
 
-          <Box mt={"14px"} className="example" overflowY={"auto"} maxH={"30vh"}>
+          <Box mt={"14px"} className="example" overflowY={"auto"} maxH={"20vh"}>
             {data?.agenda &&
               data.agenda.split("\r\n").map(
                 (agendaItem) =>
@@ -117,7 +117,6 @@ const DataForClass = () => {
                                 boxSize={"10px"}
                                 blendMode={"multiply"}
                                 mt={"2px"}
-                               
                               />
                             )}
                             <Text
