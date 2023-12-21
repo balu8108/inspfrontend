@@ -101,39 +101,42 @@ const DataForClass = () => {
             overflowX={"auto"}
             maxH={"150px"}
           >
-            {data?.agenda.split("\r\n").map((agendaItem) => (
-              <Stack
-                key={agendaItem.id}
-                spacing={1}
-                direction="row"
-                alignItems="center"
-                mt={"10px"}
-              >
-                <List>
-                  <ListItem>
-                    <Flex>
-                      {agendaItem && (
-                        <ListIcon
-                          as={FaCircle}
-                          color={"#2C332978"}
-                          boxSize={"10px"}
-                          blendMode={"multiply"}
-                          mt={1}
-                        />
-                      )}
-                      <Text
-                        fontSize={"12px"}
-                        lineHeight={"14px"}
-                        color={"#2C332978"}
-                        noOfLines={3}
-                      >
-                        {agendaItem ?? "No Data"}
-                      </Text>
-                    </Flex>
-                  </ListItem>
-                </List>
-              </Stack>
-            ))}
+            {data?.agenda.split("\r\n").map(
+              (agendaItem) =>
+                agendaItem.trim() !== "" && ( 
+                  <Stack
+                    key={agendaItem.id}
+                    spacing={1}
+                    direction="row"
+                    alignItems="center"
+                    mt={"10px"}
+                  >
+                    <List>
+                      <ListItem>
+                        <Flex>
+                          {agendaItem && (
+                            <ListIcon
+                              as={FaCircle}
+                              color={"#2C332978"}
+                              boxSize={"10px"}
+                              blendMode={"multiply"}
+                              mt={1}
+                            />
+                          )}
+                          <Text
+                            fontSize={"12px"}
+                            lineHeight={"14px"}
+                            color={"#2C332978"}
+                            noOfLines={3}
+                          >
+                            {agendaItem ?? "No Data"}
+                          </Text>
+                        </Flex>
+                      </ListItem>
+                    </List>
+                  </Stack>
+                )
+            )}
           </Box>
         </Box>
 
