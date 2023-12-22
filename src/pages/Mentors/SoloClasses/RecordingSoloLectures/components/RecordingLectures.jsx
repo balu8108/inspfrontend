@@ -8,6 +8,15 @@ import {
   Tooltip,
   Stack,
   HStack,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  AlertDialogCloseButton,
+  useDisclosure,
+  useTheme,
 } from "@chakra-ui/react";
 import { RiFullscreenLine, RiFullscreenExitFill } from "react-icons/ri";
 import {
@@ -42,6 +51,9 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
   const { soloClassRoomId } = useParams();
   const { addNotification } = useToastContext();
   const navigate = useNavigate();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = React.useRef();
+  const { primaryBlue, primaryBlueLight } = useTheme().colors.pallete;
 
   const formatTime = (seconds) => {
     const hours = Math.floor(seconds / 3600);
@@ -494,21 +506,60 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
               />
             </Tooltip>
           </Stack>
-
-          <Button
-            bg="#F63F4A"
-            w="80px"
-            h="40px"
-            borderRadius="27px"
-            color="white"
-            fontWeight={500}
-            size="sm"
-            mb={"25px"}
-            _hover={{ bg: "#F63F4A" }}
-            onClick={endClass}
-          >
-            End
-          </Button>
+          <Stack>
+            <Button
+              bg="#F63F4A"
+              w="80px"
+              h="40px"
+              borderRadius="27px"
+              color="white"
+              fontWeight={500}
+              size="sm"
+              mb={"25px"}
+              _hover={{ bg: "#F63F4A" }}
+              onClick={onOpen}
+            >
+              End
+            </Button>
+            <AlertDialog
+              motionPreset="scale"
+              leastDestructiveRef={cancelRef}
+              onClose={onClose}
+              isOpen={isOpen}
+              isCentered
+            >
+              <AlertDialogOverlay />
+              <AlertDialogContent>
+                <AlertDialogHeader></AlertDialogHeader>
+                <AlertDialogCloseButton />
+                <AlertDialogBody>
+                  Are you sure you want to end the lecture?
+                </AlertDialogBody>
+                <AlertDialogFooter>
+                  <Button
+                    ref={cancelRef}
+                    fontWeight={500}
+                    color={primaryBlue}
+                    onClick={onClose}
+                    flex={0.5}
+                  >
+                    No
+                  </Button>
+                  <Button
+                    ml={3}
+                    fontWeight={500}
+                    color="white"
+                    flex={0.5}
+                    bg={primaryBlue}
+                    onClick={endClass}
+                    _hover={{ bg: primaryBlueLight }}
+                  >
+                    Yes
+                  </Button>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </Stack>
         </Flex>
 
         <Box position="absolute" top="0" right="0" width="100%" height="100%">
