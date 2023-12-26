@@ -86,8 +86,7 @@ const TopicsBased = () => {
           <Spinner size="lg" color="blue.500" />
         </Flex>
       ) : (
-        // Render topics when loading is complete
-        <Flex overflowX={"auto"} className="example">
+        <Flex overflowX={"auto"} className="example" gap={"24px"} mx={5}>
           {topics.map((topic) => (
             <Card
               key={topic.id}
@@ -95,7 +94,6 @@ const TopicsBased = () => {
               minW={"28%"}
               bg={innerBackground}
               boxShadow={innerBoxShadow}
-              mx={6}
               mb={"16px"}
               borderRadius={"26px"}
             >
