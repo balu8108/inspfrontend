@@ -91,7 +91,7 @@ const TopicsBased = () => {
             <Card
               key={topic.id}
               h={"204px"}
-              minW={"28%"}
+              minW={"30%"}
               bg={innerBackground}
               boxShadow={innerBoxShadow}
               mb={"16px"}
