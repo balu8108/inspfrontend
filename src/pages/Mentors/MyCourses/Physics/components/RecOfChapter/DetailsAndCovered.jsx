@@ -64,7 +64,6 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
   };
 
   const handleViewRecording = (recording, liveClassData) => {
-    console.log(liveClassData);
     navigate(
       `/view-recording?type=live_specific&id=${recording?.id}&topicId=${liveClassData?.LiveClassRoomDetail?.topicId}`
     );
@@ -191,42 +190,6 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
             </Text>
           )}
         </Flex>
-        {/* {liveClassRoomData && liveClassRoomData.data.length > 0 ? (
-          <Flex gap={"24px"} mt={4}>
-            {liveClassRoomData.data.map((liveClassData) =>
-              liveClassData.LiveClassRoomRecordings.length > 0
-                ? liveClassData.LiveClassRoomRecordings.map(
-                    (recording, index) => (
-                      <Card
-                        key={recording.id}
-                        color={"#2C332978"}
-                        fontSize={"13px"}
-                        w={"150px"}
-                        mr={2}
-                        onClick={() =>
-                          handleViewRecording(recording, liveClassData)
-                        }
-                      >
-                        <Image
-                          src={recording.imageUrl || defaultImageUrl}
-                          alt="Recording Image"
-                        />
-                      </Card>
-                    )
-                  )
-                : null
-            )}
-            {liveClassRoomData.data.every(
-              (data) => data.LiveClassRoomRecordings.length === 0
-            ) && (
-              <Text fontSize="12px">
-                No recordings available for the topic.
-              </Text>
-            )}
-          </Flex>
-        ) : (
-          <Text fontSize="12px">No data available for the topic.</Text>
-        )} */}
       </Box>
 
       <Box mt={8}>

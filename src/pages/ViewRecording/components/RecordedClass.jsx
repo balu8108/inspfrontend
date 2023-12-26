@@ -26,7 +26,6 @@ const RecordedClass = ({
   const isLiveTopic = type && type === "live_topic";
   const isSoloTopic = type && type === "solo_topic";
   const { outerBackground } = useTheme().colors.pallete;
-  console.log("Recordin details", recordingDetail);
 
   const renderFiles = (data) => {
     let filesData = [];
@@ -66,7 +65,6 @@ const RecordedClass = ({
     );
   };
   const renderNotes = (data) => {
-    console.log("rendering ntoes", data);
     return (
       <>
         {isLive && data ? (
