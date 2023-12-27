@@ -101,7 +101,6 @@ const DocumentViewer = ({ isOpen, onClose }) => {
   const fetchAndSetDoc = async (docId) => {
     try {
       const { status, data } = await getPresignedUrlDocApi(docId, docType);
-
       if (status) {
         setDoc(data?.data?.getUrl);
       }
