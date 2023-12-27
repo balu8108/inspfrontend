@@ -141,7 +141,6 @@ const consumeMediaFromProducer = async (
     },
     async ({ params }) => {
       if (params.err) {
-        console.log("Error in getting consume params", params.err);
         return;
       }
 
@@ -489,15 +488,10 @@ export const initializeSocketConnections = (roomId) => {
     );
     socket.on(SOCKET_EVENTS.END_MEET_FROM_SERVER, endMeetReponseHandler);
     socket.on(SOCKET_EVENTS.DISCONNECT, () => {
-      console.log("socket disconnected with id", socket.id);
-
       producerTransport = null;
       consumerTransport = null;
     });
-    socket.on(SOCKET_EVENTS.CONNECT_ERROR, (err) => {
-      console.log(err instanceof Error);
-      console.log(err.message);
-    });
+    socket.on(SOCKET_EVENTS.CONNECT_ERROR, (err) => {});
   }
 };
 
