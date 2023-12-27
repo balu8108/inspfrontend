@@ -17,7 +17,6 @@ import { roomData } from "../../pages/Room/data/roomData";
 import { MainBtn } from "../button";
 import { generateUniqueKey, openFileDialog } from "../../utils";
 import { useState } from "react";
-
 import { sendFileHandler } from "../../socketconnections/socketconnections";
 
 const UploadFilePopup = ({ type, roomId }) => {
