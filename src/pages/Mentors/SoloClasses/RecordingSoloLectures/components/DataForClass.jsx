@@ -95,45 +95,53 @@ const DataForClass = () => {
             Agenda
           </Text>
 
-          <Box
-            mt={"14px"}
-            className="example"
-            overflowX={"auto"}
-            maxH={"150px"}
-          >
-            {data?.agenda.split("\r\n").map((agendaItem) => (
-              <Stack
-                key={agendaItem.id}
-                spacing={1}
-                direction="row"
-                alignItems="center"
-                mt={"10px"}
+          <Box mt={"14px"} className="example" overflowY={"auto"} maxH={"20vh"}>
+            {data?.agenda &&
+              data.agenda.split("\r\n").map(
+                (agendaItem) =>
+                  agendaItem.trim() !== "" && (
+                    <Stack
+                      key={agendaItem.id}
+                      spacing={1}
+                      direction="row"
+                      alignItems="center"
+                      mt={"10px"}
+                    >
+                      <List>
+                        <ListItem>
+                          <Flex>
+                            {agendaItem && (
+                              <ListIcon
+                                as={FaCircle}
+                                color={"#2C332978"}
+                                boxSize={"10px"}
+                                blendMode={"multiply"}
+                                mt={"2px"}
+                              />
+                            )}
+                            <Text
+                              fontSize={"12px"}
+                              lineHeight={"14px"}
+                              color={"#2C332978"}
+                            >
+                              {agendaItem ?? "No Data"}
+                            </Text>
+                          </Flex>
+                        </ListItem>
+                      </List>
+                    </Stack>
+                  )
+              )}
+            {!data.agenda && (
+              <Text
+                fontSize={"12px"}
+                lineHeight={"14px"}
+                color={"#2C332978"}
+                mt={2}
               >
-                <List>
-                  <ListItem>
-                    <Flex>
-                      {agendaItem && (
-                        <ListIcon
-                          as={FaCircle}
-                          color={"#2C332978"}
-                          boxSize={"10px"}
-                          blendMode={"multiply"}
-                          mt={1}
-                        />
-                      )}
-                      <Text
-                        fontSize={"12px"}
-                        lineHeight={"14px"}
-                        color={"#2C332978"}
-                        noOfLines={3}
-                      >
-                        {agendaItem ?? "No Data"}
-                      </Text>
-                    </Flex>
-                  </ListItem>
-                </List>
-              </Stack>
-            ))}
+                No Data
+              </Text>
+            )}
           </Box>
         </Box>
 
@@ -152,7 +160,7 @@ const DataForClass = () => {
               color={"#2C332978"}
               mt={3}
             >
-              No Data.
+              No Data
             </Text>
           )}
         </Box>
