@@ -192,7 +192,7 @@ const LiveSessionMembers = ({
           <Flex
             justifyContent={"center"}
             key={peer.id}
-            p={2}
+            p={[1, 1, 2, 2]}
             borderRadius={"md"}
             bg={outerBackground}
             alignItems={"center"}
@@ -201,7 +201,7 @@ const LiveSessionMembers = ({
               color={"white"}
               name={peer.name}
               bg={primaryBlue}
-              size={"md"}
+              size={["sm", "sm", "md", "md"]}
               borderRadius={"md"}
             />
           </Flex>
@@ -230,7 +230,9 @@ const LiveSessionMembers = ({
   return (
     <>
       {viewType === liveSessionMemberViewType.compact ? (
-        <Stack gap={"15px"}>{renderCompactPeers()}</Stack>
+        <Flex gap={"15px"} direction={["row", "row", "column", "column"]}>
+          {renderCompactPeers()}
+        </Flex>
       ) : (
         <>
           <Scrollbars autoHeight={true} autoHeightMin={"85vh"}>
