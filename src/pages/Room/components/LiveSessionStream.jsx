@@ -47,7 +47,7 @@ const LiveSessionStream = (props) => {
 
   const renderMentorScreenShare = () => {
     const getMentorScreenShare = mentorScreenShareConsumer;
-    const { track } = getMentorScreenShare;
+    const { track, appData } = getMentorScreenShare;
     const stream = new MediaStream([track]);
     screenShareRef.current.srcObject = stream;
   };
