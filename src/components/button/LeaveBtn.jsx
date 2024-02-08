@@ -15,11 +15,12 @@ const LeaveBtn = ({
       fontSize={fontSize}
       isLoading={isLoading}
       bg={backColor}
-      px={px}
-      py={py}
       color={textColor}
       _hover={{ bg: backColor }}
       borderRadius={"full"}
+      px={px}
+      py={py}
+      size={"sm"}
       onClick={onClickHandler}
     >
       {text}

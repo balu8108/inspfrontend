@@ -32,8 +32,8 @@ const VideoSection = ({ mentorVideoRef }) => {
     <>
       <Box
         position={"relative"}
-        width={"150px"}
-        height={"120px"}
+        width={["60px", "60px", "75px", "150px"]}
+        height={["60px", "60px", "75px", "120px"]}
         borderRadius={"10px"}
         bg="transparent"
       >

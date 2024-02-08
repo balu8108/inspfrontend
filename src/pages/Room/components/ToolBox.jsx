@@ -44,6 +44,27 @@ import { LeaveBtn } from "../../../components/button";
 import { shallowEqual, useSelector } from "react-redux";
 import { checkUserType } from "../../../utils";
 
+export const TheatreModeBtn = ({ isEnlarged, setIsEnlarged }) => {
+  console.log("isEnlarged", isEnlarged);
+  console.log("setIsEnlarged", setIsEnlarged);
+  const { primaryBlue } = useTheme().colors.pallete;
+  return (
+    <Tooltip label={roomData.theatreMode} placement={"right"}>
+      <IconButton
+        isRound={true}
+        bg={isEnlarged ? primaryBlue : "gray.200"}
+        _hover={{ bg: isEnlarged ? primaryBlue : "gray.200" }}
+        icon={
+          <RiFullscreenFill size={20} color={isEnlarged ? "white" : "black"} />
+        }
+        onClick={(e) => {
+          setIsEnlarged(!isEnlarged);
+        }}
+      />
+    </Tooltip>
+  );
+};
+
 const ToolBox = ({
   primaryBlue,
   isScreenShare,
@@ -364,25 +385,11 @@ const ToolBox = ({
         justifyContent={"space-between"}
         alignItems={"flex-start"}
       >
-        <Stack>
-          <Tooltip label={roomData.theatreMode} placement={"right"}>
-            <IconButton
-              isRound={true}
-              bg={isEnlarged ? primaryBlue : "gray.200"}
-              _hover={{ bg: isEnlarged ? primaryBlue : "gray.200" }}
-              icon={
-                <RiFullscreenFill
-                  size={20}
-                  color={isEnlarged ? "white" : "black"}
-                />
-              }
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setIsEnlarged(!isEnlarged);
-              }}
-            />
-          </Tooltip>
+        <Stack visibility={isLargerThan768 ? "visible" : "hidden"}>
+          <TheatreModeBtn
+            isEnlarged={isEnlarged}
+            setIsEnlarged={setIsEnlarged}
+          />
         </Stack>
         <Flex direction={["row", "row", "column", "column"]} gap={2}>
           <Tooltip

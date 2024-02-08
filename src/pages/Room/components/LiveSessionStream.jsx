@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { Box } from "@chakra-ui/react";
+import { Box, useMediaQuery } from "@chakra-ui/react";
 
 import { useSelector } from "react-redux";
-import ToolBox from "./ToolBox";
+import ToolBox, { TheatreModeBtn } from "./ToolBox";
 import ChatToolBox from "./ChatToolBox";
 import StudentPollsMCQBox from "./StudentPollsMCQBox";
 import RaiseHand from "./RaiseHand";
@@ -38,6 +38,10 @@ const LiveSessionStream = (props) => {
   } = props;
 
   const { question } = useSelector((state) => state.socket);
+  const [isLargerThan480, isLargerThan768] = useMediaQuery([
+    "(min-width: 480px)",
+    "(min-width: 768px)",
+  ]);
 
   const { mentorScreenShareConsumer, audioConsumers, raiseHands } = useSelector(
     (state) => state.socket
@@ -120,6 +124,15 @@ const LiveSessionStream = (props) => {
         borderRadius={"10px"}
         position={"relative"}
       >
+        {!isLargerThan768 && (
+          <Box position={"absolute"} zIndex={4} top={2} left={2}>
+            <TheatreModeBtn
+              isEnlarged={isEnlarged}
+              setIsEnlarged={setIsEnlarged}
+            />
+          </Box>
+        )}
+
         {question && <StudentPollsMCQBox question={question} />}
         {raiseHands.map((peer) => (
           <RaiseHand key={peer.id} peer={peer} />
@@ -176,6 +189,7 @@ const LiveSessionStream = (props) => {
           setIsRecordOn={setIsRecordOn}
           onOpenLeaveOrEndClass={onOpenLeaveOrEndClass}
         />
+        {/*below is mentor video Share */}
         <ChatToolBox
           isScreenShare={isScreenShare}
           mentorVideoRef={mentorVideoRef}
