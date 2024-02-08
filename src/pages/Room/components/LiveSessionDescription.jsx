@@ -55,6 +55,7 @@ const RoomContent = ({
       <Flex
         direction={["row", "row", "column", "column"]}
         justifyContent={"space-between"}
+        alignItems={["center", "center", "flex-start", "flex-start"]}
       >
         <Box pt={[0, 0, 0, 6]}>
           <Text fontSize={"14px"} color={mainTextColor}>

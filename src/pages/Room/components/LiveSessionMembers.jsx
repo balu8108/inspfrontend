@@ -11,6 +11,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  useMediaQuery,
 } from "@chakra-ui/react";
 
 import { useSelector } from "react-redux";
@@ -87,8 +88,12 @@ const LiveSessionMembers = ({
   setKickedPersonDetails,
 }) => {
   const { peers, selfDetails } = useSelector((state) => state.socket);
-  const [maxBoxesPerRow, setMaxBoxesPerRow] = useState(3);
+  const [maxBoxesPerRow, setMaxBoxesPerRow] = useState(4);
   const userRoleType = checkUserType();
+  const [isLargerThan480, isLargerThan768] = useMediaQuery([
+    "(min-width: 480px)",
+    "(min-width: 768px)",
+  ]);
 
   useEffect(() => {
     const calculateMaxBoxesPerRow = () => {
@@ -182,10 +187,12 @@ const LiveSessionMembers = ({
   };
 
   const renderCompactPeers = () => {
+    // const peersToDisplay =
+    //   viewType === liveSessionMemberViewType.compact
+    //     ? peers.slice(0, maxBoxesPerRow)
+    //     : peers;
     const peersToDisplay =
-      viewType === liveSessionMemberViewType.compact
-        ? peers.slice(0, maxBoxesPerRow)
-        : peers;
+      viewType === liveSessionMemberViewType.compact ? peers : peers;
     return (
       <>
         {peersToDisplay.map((peer) => (
@@ -201,28 +208,28 @@ const LiveSessionMembers = ({
               color={"white"}
               name={peer.name}
               bg={primaryBlue}
-              size={["sm", "sm", "md", "md"]}
+              size={["sm", "sm", "sm", "md"]}
               borderRadius={"md"}
             />
           </Flex>
         ))}
 
-        {peers.length > maxBoxesPerRow && (
+        {/* {peers.length > maxBoxesPerRow && (
           <Center px={"10px"} py={2} borderRadius={"md"} bg={"gray.200"}>
             <Flex
               borderRadius={"md"}
               w={"100%"}
-              height={"50px"}
               bg={primaryBlue}
+              height={"50px"}
               justifyContent={"center"}
               alignItems={"center"}
             >
-              <Text color={"white"} fontWeight={600} fontSize={"14px"}>
+              <Text color={"white"} fontWeight={600} fontSize={"10px"}>
                 +{renderLeftMembersCount(peers.length, maxBoxesPerRow)}
               </Text>
             </Flex>
           </Center>
-        )}
+        )} */}
       </>
     );
   };
@@ -230,16 +237,24 @@ const LiveSessionMembers = ({
   return (
     <>
       {viewType === liveSessionMemberViewType.compact ? (
-        <Flex gap={"15px"} direction={["row", "row", "column", "column"]}>
-          {renderCompactPeers()}
-        </Flex>
+        <Scrollbars autoHide="true">
+          <Flex gap={"15px"} direction={["row", "row", "column", "column"]}>
+            {renderCompactPeers()}
+          </Flex>
+        </Scrollbars>
       ) : (
         <>
-          <Scrollbars autoHeight={true} autoHeightMin={"85vh"}>
-            <Stack gap={4} maxHeight={"85vh"}>
-              {renderExpandedPeers()}
-            </Stack>
-          </Scrollbars>
+          {isLargerThan768 ? (
+            <Scrollbars autoHeight={true} autoHeightMin={"85vh"}>
+              <Stack gap={4} maxHeight={"85vh"}>
+                {renderExpandedPeers()}
+              </Stack>
+            </Scrollbars>
+          ) : (
+            <Scrollbars>
+              <Flex gap={4}>{renderExpandedPeers()}</Flex>
+            </Scrollbars>
+          )}
         </>
       )}
     </>

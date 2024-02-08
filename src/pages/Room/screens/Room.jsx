@@ -1,5 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { Box, Grid, GridItem, useDisclosure, useTheme } from "@chakra-ui/react";
+import {
+  Box,
+  Grid,
+  GridItem,
+  useDisclosure,
+  useMediaQuery,
+  useTheme,
+} from "@chakra-ui/react";
 
 import LiveSessionDescription from "../components/LiveSessionDescription";
 import LiveSessionStream from "../components/LiveSessionStream";
@@ -63,6 +70,11 @@ const Room = () => {
   const theme = useTheme();
   const { primaryBlue, outerBackground } = theme.colors.pallete;
 
+  const [isLargerThan480, isLargerThan768] = useMediaQuery([
+    "(min-width: 480px)",
+    "(min-width: 768px)",
+  ]);
+
   const stopScreenShare = () => {
     setIsScreenShare(false);
     setScreenShareStream(null);
@@ -80,7 +92,8 @@ const Room = () => {
       // ];
       return ["1fr", "1fr", "1.5fr 3.5fr 0.25fr", "0.9fr 4fr 0.25fr"];
     } else if (peersViewType === liveSessionMemberViewType.expanded) {
-      return "1.2fr 6fr 1fr";
+      // return "1.2fr 6fr 1fr";
+      return ["1fr", "1fr", "1.5fr 3.5fr 0.25fr", "1.2fr 6fr 1fr"];
     }
   };
 
@@ -243,7 +256,7 @@ const Room = () => {
             "repeat(6,1fr)",
           ]}
           gap={[2, 2, 2, 4]}
-          height={"85vh"}
+          h={[isLargerThan768 ? "85vh" : isEnlarged ? "85vh" : "100%"]}
           className="scrollbar-parent"
         >
           {!isEnlarged && (
@@ -261,7 +274,7 @@ const Room = () => {
           )}
 
           <GridItem
-            rowSpan={[6, 6, 6, 6]}
+            rowSpan={[isEnlarged ? 12 : 5, isEnlarged ? 12 : 5, 6, 6]}
             bg={outerBackground}
             p={[2, 2, 2, 4]}
             borderRadius={"md"}
@@ -315,7 +328,7 @@ const Room = () => {
 
           {!isEnlarged && (
             <GridItem
-              rowSpan={[6, 6, 4, 4]}
+              rowSpan={[5, 5, 4, 4]}
               bg={outerBackground}
               borderRadius={"md"}
             >

@@ -6,9 +6,9 @@ const LeaveBtn = ({
   backColor,
   textColor,
   onClickHandler,
-  px = 8,
-  py = 6,
-  fontSize = "1rem",
+  px = 7,
+  py = 5,
+  fontSize = "0.8rem",
 }) => {
   return (
     <Button

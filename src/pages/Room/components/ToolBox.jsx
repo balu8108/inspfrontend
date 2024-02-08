@@ -391,6 +391,7 @@ const ToolBox = ({
             setIsEnlarged={setIsEnlarged}
           />
         </Stack>
+
         <Flex direction={["row", "row", "column", "column"]} gap={2}>
           <Tooltip
             label={
