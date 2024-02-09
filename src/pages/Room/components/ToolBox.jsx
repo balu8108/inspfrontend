@@ -228,7 +228,7 @@ const ToolBox = ({
           // noiseSuppression: true,
           autoGainControl: true,
           noiseSuppression: true,
-          echoCancellation: false,
+          echoCancellation: true,
         },
         video: false,
       });
