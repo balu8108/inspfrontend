@@ -19,7 +19,8 @@ import {
 import { capitalize, checkUserType, formatTime } from "../../../utils";
 import { userType, fileTypes } from "../../../constants/staticvariables";
 import { LeaveBtn } from "../../../components/button";
-
+import SingleFileComponent from "../../../components/filebox/SingleFileComponent";
+import Scrollbars from "rc-scrollbars";
 const RoomContent = ({
   mainTextColor,
   secondaryTextColor,
@@ -55,7 +56,7 @@ const RoomContent = ({
       <Flex
         direction={["row", "row", "column", "column"]}
         justifyContent={"space-between"}
-        alignItems={["center", "center", "flex-start", "flex-start"]}
+        alignItems={["center", "center", "stretch", "stretch"]}
       >
         <Box pt={[0, 0, 0, 6]}>
           <Text fontSize={"14px"} color={mainTextColor}>
@@ -144,6 +145,40 @@ const LiveSessionDescription = ({ onOpenLeaveOrEndClass }) => {
         />
       </Box>
     </Box>
+  );
+};
+
+export const FilesForSmallerScreen = () => {
+  const { roomId } = useParams();
+  const dispatch = useDispatch();
+
+  const { roomPreviewData } = useSelector((state) => state.socket);
+
+  useEffect(() => {
+    if (roomId) {
+      dispatch(getLiveClassDetails(roomId));
+    }
+  }, [roomId, dispatch]);
+  return (
+    <>
+      <Scrollbars>
+        <Flex
+          px={2}
+          height={"100%"}
+          overflowY="scroll"
+          alignItems={"center"}
+          gap={2}
+        >
+          {roomPreviewData?.LiveClassRoomFiles.length > 0 ? (
+            roomPreviewData.LiveClassRoomFiles.map((data) => (
+              <SingleFileComponent key={data.id} file={data} type="live" />
+            ))
+          ) : (
+            <Text fontSize={"12px"}>No Files</Text>
+          )}
+        </Flex>
+      </Scrollbars>
+    </>
   );
 };
 

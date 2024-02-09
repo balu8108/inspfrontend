@@ -45,8 +45,6 @@ import { shallowEqual, useSelector } from "react-redux";
 import { checkUserType } from "../../../utils";
 
 export const TheatreModeBtn = ({ isEnlarged, setIsEnlarged }) => {
-  console.log("isEnlarged", isEnlarged);
-  console.log("setIsEnlarged", setIsEnlarged);
   const { primaryBlue } = useTheme().colors.pallete;
   return (
     <Tooltip label={roomData.theatreMode} placement={"right"}>
@@ -226,9 +224,13 @@ const ToolBox = ({
       }
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: {
-          echoCancellation: true,
+          // echoCancellation: true,
+          // noiseSuppression: true,
+          autoGainControl: true,
           noiseSuppression: true,
+          echoCancellation: false,
         },
+        video: false,
       });
       if (micRef.current) {
         micRef.current.srcObject = stream;

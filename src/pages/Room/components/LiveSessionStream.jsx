@@ -151,6 +151,7 @@ const LiveSessionStream = (props) => {
             objectFit: "contain", // Reset the objectFit property
             borderRadius: "10px",
           }}
+          muted={true}
         />
         {userRoleType === userType.student && (
           <WaterMark inspUserProfile={inspUserProfile} />

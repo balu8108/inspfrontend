@@ -8,7 +8,9 @@ import {
   useTheme,
 } from "@chakra-ui/react";
 
-import LiveSessionDescription from "../components/LiveSessionDescription";
+import LiveSessionDescription, {
+  FilesForSmallerScreen,
+} from "../components/LiveSessionDescription";
 import LiveSessionStream from "../components/LiveSessionStream";
 import LiveSessionMembers from "../components/LiveSessionMembers";
 import {
@@ -19,7 +21,10 @@ import {
   socket,
 } from "../../../socketconnections/socketconnections";
 import { useDispatch, useSelector } from "react-redux";
-import { liveSessionMemberViewType } from "../../../constants/staticvariables";
+import {
+  fileTypes,
+  liveSessionMemberViewType,
+} from "../../../constants/staticvariables";
 import { useToastContext } from "../../../components/toastNotificationProvider/ToastNotificationProvider";
 import { useNavigate, useParams } from "react-router-dom";
 import { checkUserType, screenshotHandler } from "../../../utils";
@@ -31,6 +36,7 @@ import {
   resetQuestionMessags,
 } from "../../../store/actions/socketActions";
 import { createLiveClassNotes } from "../../../api/genericapis";
+import FileBoxComponent from "../../../components/filebox/FileBoxComponent";
 
 const Room = () => {
   const [isScreenShare, setIsScreenShare] = useState(false);
@@ -323,6 +329,12 @@ const Room = () => {
                 onOpenKickFromClass={onOpenKickFromClass}
                 setKickedPersonDetails={setKickedPersonDetails}
               />
+            </GridItem>
+          )}
+
+          {!isLargerThan768 && (
+            <GridItem rowSpan={1} bg={outerBackground} borderRadius={"md"}>
+              <FilesForSmallerScreen />
             </GridItem>
           )}
 
