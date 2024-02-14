@@ -49,6 +49,7 @@ const VideoSection = ({ mentorVideoRef }) => {
             overflow: "hidden",
             borderRadius: "10px",
           }}
+          muted={false}
         />
       </Box>
     </>

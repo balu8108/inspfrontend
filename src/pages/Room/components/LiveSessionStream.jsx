@@ -156,7 +156,7 @@ const LiveSessionStream = (props) => {
         {userRoleType === userType.student && (
           <WaterMark inspUserProfile={inspUserProfile} />
         )}
-        <audio ref={micRef} autoPlay playsInline hidden muted />
+        <audio ref={micRef} hidden muted />
         <Box id="remote_audios">
           {audioConsumers.length > 0 &&
             audioConsumers.map((consumer) => (

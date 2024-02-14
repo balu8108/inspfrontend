@@ -14,11 +14,13 @@ const WebAudioPlayer = ({ mediaStreamTrack }) => {
     );
 
     // Connect audio source to destination (speakers/headphones)
+    audioSource.connect(audioContext.createGain());
     audioSource.connect(audioContext.destination);
 
     // Set the audio context and start playing
     audioContextRef.current = audioContext;
     audioRef.current.srcObject = audioSource.mediaStream;
+    audioRef.current.volume = 0;
     audioRef.current.play();
 
     // Clean up on unmount
