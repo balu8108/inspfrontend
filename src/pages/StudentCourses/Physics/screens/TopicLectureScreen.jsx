@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import LectureDetailsPage from "../components/LectureDetailsPage";
+import LectureListPage from "../components/LectureListPage";
 import { Flex, Stack, Box, useDisclosure, useTheme } from "@chakra-ui/react";
 import ScheduleClassList from "../../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { getAllLiveClassesSchedule } from "../../../../store/actions/scheduleClassActions";
 import ScheduleClassPopup from "../../../../components/popups/ScheduleClassPopup";
 
-const LectureDetailScreen = () => {
+const TopicLectureScreen = () => {
   const dispatch = useDispatch();
   const {
     isOpen: isSchedulePopupOpen,
@@ -34,7 +34,7 @@ const LectureDetailScreen = () => {
       )}
       <Flex gap={"23px"} m={"52px"} >
         <Stack spacing={6} w={"75%"}>
-          <LectureDetailsPage />
+          <LectureListPage />
         </Stack>
         <Box w={"25%"}>
           <SimpleBar
@@ -53,4 +53,4 @@ const LectureDetailScreen = () => {
     </>
   );
 };
-export default LectureDetailScreen;
+export default TopicLectureScreen;

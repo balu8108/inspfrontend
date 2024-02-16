@@ -21,7 +21,7 @@ import { capitalize } from "../../../../utils";
 import VectorImage from "../../../../assets/images/Line/Vector.svg";
 import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
 
-const ChapterDetailsPage = () => {
+const ChaptersTopicPage = () => {
   const navigate = useNavigate();
   const [chapters, setChapters] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -321,4 +321,4 @@ const ChapterDetailsPage = () => {
   );
 };
 
-export default ChapterDetailsPage;
+export default ChaptersTopicPage;

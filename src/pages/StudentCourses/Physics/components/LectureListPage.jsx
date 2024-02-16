@@ -11,15 +11,16 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation,useNavigate } from "react-router-dom";
 import { capitalize } from "../../../../utils";
 import VectorImage from "../../../../assets/images/Line/Vector.svg";
 
 import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
 import lecturesData from "../data/lectureData";
 
-const LectureDetailsPage = () => {
+const LectureListPage = () => {
   const location = useLocation();
+  const navigate=useNavigate();
   const topics = location.state?.topics || [];
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -34,6 +35,9 @@ const LectureDetailsPage = () => {
     setSelectedTopic(topic);
   };
 
+  const handleView=()=>{
+    navigate(`'/:topicname/lecture/:lecture_name/'`)
+  }
   return (
     <Box width={"100%"}>
       <Box bg={outerBackground} borderRadius={"26px"} className="example">
@@ -175,10 +179,7 @@ const LectureDetailsPage = () => {
                 justifyContent="space-between"
                 mb={index === lectures.length - 1 ? "20px" : "0"}
               >
-                <Flex
-                  justifyContent={"space-between"}
-                 
-                >
+                <Flex justifyContent={"space-between"}>
                   <Box>
                     <Text
                       fontSize={"15px"}
@@ -186,7 +187,6 @@ const LectureDetailsPage = () => {
                       lineHeight={"19px"}
                       noOfLines={1}
                       mt={"16px"}
-
                     >
                       {capitalize(lecture.name)}
                     </Text>
@@ -195,6 +195,7 @@ const LectureDetailsPage = () => {
                       fontSize={"11px"}
                       ml={"13px"}
                       color={"rgba(44, 51, 41, 0.47)"}
+                      noOfLines={1}
                     >
                       {capitalize(selectedTopic.name)}
                     </Text>
@@ -270,4 +271,4 @@ const LectureDetailsPage = () => {
   );
 };
 
-export default LectureDetailsPage;
+export default LectureListPage;

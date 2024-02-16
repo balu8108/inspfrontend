@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Flex, Stack, Box, useDisclosure, useTheme } from "@chakra-ui/react";
-import ChapterDetailsPage from "../components/ChaptersDetailsPage";
+import ChaptersTopicPage from "../components/ChaptersTopicsPage";
 import ScheduleClassList from "../../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
 import { useDispatch } from "react-redux";
@@ -23,7 +23,7 @@ const ChapterDetailsScreen = () => {
     <>
       <Flex gap={"23px"} m={"52px"}>
         <Stack w={"100%"}>
-          <ChapterDetailsPage />
+          <ChaptersTopicPage />
         </Stack>
         {isSchedulePopupOpen && (
           <ScheduleClassPopup

@@ -19,7 +19,7 @@ import { fetchAllChaptersApi } from "../../../../api/inspexternalapis";
 import { capitalize } from "../../../../utils";
 import VectorImage from "../../../../assets/images/Line/Vector.svg";
 
-const PhysDetails = () => {
+const SubjectChapterSelector = () => {
   const navigate = useNavigate();
   const [chapters, setChapters] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -174,4 +174,4 @@ const PhysDetails = () => {
   );
 };
 
-export default PhysDetails;
+export default SubjectChapterSelector;

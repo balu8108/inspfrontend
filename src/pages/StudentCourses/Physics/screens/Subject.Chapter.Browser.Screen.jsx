@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import PhysDetails from "../components/PhysDetails";
+import SubjectChapterSelector from "../components/Subject.Chapter.Selector";
 import Header from "../../../Mentors/Header/components/HeaderInAllScreen";
 import { Flex, Stack, Box, useDisclosure, useTheme } from "@chakra-ui/react";
 import ScheduleClassList from "../../../ScheduleClasses/components/ScheduleClassList";
@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { getAllLiveClassesSchedule } from "../../../../store/actions/scheduleClassActions";
 import ScheduleClassPopup from "../../../../components/popups/ScheduleClassPopup";
 
-const PhyScreen = () => {
+const SubjectChapterBrowser = () => {
   const dispatch = useDispatch();
   const {
     isOpen: isSchedulePopupOpen,
@@ -36,7 +36,7 @@ const PhyScreen = () => {
       <Flex gap={"23px"} m={"52px"}>
         <Stack spacing={6} w={"100%"}>
           <Header />
-          <PhysDetails />
+          <SubjectChapterSelector />
         </Stack>
         <Box w={"33%"}>
           <SimpleBar
@@ -55,4 +55,4 @@ const PhyScreen = () => {
     </>
   );
 };
-export default PhyScreen;
+export default SubjectChapterBrowser;
