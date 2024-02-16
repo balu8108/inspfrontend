@@ -7,6 +7,8 @@ import StudentPhyCourse from "./pages/StudentCourses/Physics/screens/PhysicsCour
 import Viewrecording from "./pages/ViewRecording/screen/Recordings";
 import StudentAssignment from "./pages/StudentAssignment/screen/StudentAssignment";
 import LibraryScreen from "./pages/SubjectLibrary/screen/LibraryScreen";
+import ChapterDetailsScreen from "./pages/StudentCourses/Physics/screens/ChapterDetailsScreen";
+import LectureDetailScreen from "./pages/StudentCourses/Physics/screens/LectureDetailsScreen";
 import Home from "./components/home/Home";
 import AuthLoading from "./components/loaders/AuthLoading";
 
@@ -74,6 +76,19 @@ const privateRoutes = [
     path: "/myCourses/physics",
     component: <StudentPhyCourse />,
   },
+
+  {
+    name: "Chapter Page",
+    path: "/chapter-details",
+    component: <ChapterDetailsScreen />,
+  },
+
+  {
+    name:"Lecture Page",
+    path:'/topic/lecture/details',
+    component:<LectureDetailScreen/>
+  },
+
   {
     name: "Student View Recording",
     path: "/view-recording",
