@@ -11,7 +11,7 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { useLocation,useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { capitalize } from "../../../../utils";
 import VectorImage from "../../../../assets/images/Line/Vector.svg";
 
@@ -20,7 +20,7 @@ import lecturesData from "../data/lectureData";
 
 const LectureListPage = () => {
   const location = useLocation();
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const topics = location.state?.topics || [];
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -35,9 +35,12 @@ const LectureListPage = () => {
     setSelectedTopic(topic);
   };
 
-  const handleView=()=>{
-    navigate(`'/:topicname/lecture/:lecture_name/'`)
-  }
+  const handleView = (lectureNumber) => {
+    if (selectedTopic && lectures.length > 0) {
+      navigate(`/${selectedTopic.name}/${lectureNumber}`);
+    }
+  };
+
   return (
     <Box width={"100%"}>
       <Box bg={outerBackground} borderRadius={"26px"} className="example">
@@ -188,7 +191,7 @@ const LectureListPage = () => {
                       noOfLines={1}
                       mt={"16px"}
                     >
-                      {capitalize(lecture.name)}
+                      {capitalize(lecture.lectureNumber)}
                     </Text>
                     <Text
                       fontWeight={400}
@@ -242,6 +245,7 @@ const LectureListPage = () => {
                   lineHeight={"16px"}
                   m={"20px"}
                   _hover={{ bg: "white" }}
+                  onClick={() => handleView(lecture.lectureNumber)}
                 >
                   View Details
                 </Button>

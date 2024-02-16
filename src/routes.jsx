@@ -85,15 +85,15 @@ const privateRoutes = [
   },
 
   {
-    name:"Lecture Page",
-    path:'/topic/lecture/details',
-    component:<TopicLectureScreen/>
+    name: "Lecture Page",
+    path: "/topic/lecture/details",
+    component: <TopicLectureScreen />,
   },
 
   {
-    name:"Single Lecture Description Covered",
-    path:'/:topicname/lecture/:lecture_name/',
-    component:<SingleLectureDetailsScreen/>
+    name: "Single Lecture Description Covered",
+    path: "/:topicname/:lecturNumber",
+    component: <SingleLectureDetailsScreen />,
   },
 
   {

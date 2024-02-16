@@ -3,14 +3,14 @@
 const lecturesData = [
   {
     id: 1,
-    name: "Lecture 1",
+    lectureNumber: "Lecture1",
     date: "2024-02-20",
     mentor: "John Doe",
     description: "An overview of the basic concepts of physics.An overview of the basic concepts of physics.An overview of the basic concepts of physics.An overview of the basic concepts of physics.An overview of the basic concepts of physics.",
   },
   {
     id: 2,
-    name: "Lecture 2",
+    lectureNumber: "Lecture2",
     date: "2024-02-22",
     mentor: "Jane Smith",
     description: "Understanding the principles of motion in physics.",
@@ -18,14 +18,14 @@ const lecturesData = [
 
   {
     id: 3,
-    name: "Lecture 3",
+    lectureNumber: "Lecture3",
     date: "2024-02-20",
     mentor: "John Doe",
     description: "An overview of the basic concepts of physics.",
   },
   {
     id: 4,
-    name: "Lecture 4",
+    lectureNumber: "Lecture4",
     date: "2024-02-22",
     mentor: "Jane Smith",
     description: "Understanding the principles of motion in physics.",
