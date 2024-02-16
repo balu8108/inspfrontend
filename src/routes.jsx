@@ -9,6 +9,7 @@ import StudentAssignment from "./pages/StudentAssignment/screen/StudentAssignmen
 import LibraryScreen from "./pages/SubjectLibrary/screen/LibraryScreen";
 import Home from "./components/home/Home";
 import AuthLoading from "./components/loaders/AuthLoading";
+import StudentCrashCourse from "./pages/StudentCourses/CrashCourse/screens/CrashCourse";
 
 //Mentor Routes
 
@@ -73,6 +74,11 @@ const privateRoutes = [
     name: "Student PhysicsCourse",
     path: "/myCourses/physics",
     component: <StudentPhyCourse />,
+  },
+  {
+    name: "Student CrashCourse",
+    path: "/myCourses/crash-course",
+    component: <StudentCrashCourse />,
   },
   {
     name: "Student View Recording",

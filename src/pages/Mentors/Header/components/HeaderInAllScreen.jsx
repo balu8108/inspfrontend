@@ -22,12 +22,13 @@ const Header = () => {
     useTheme().colors.pallete;
 
   const dummyDescriptions = [
+    "Lorem ipsum dolor sit amet consectetur. Id egestas egestas ut amet arcu. Ultrices sit odio at sapien mauris amet pretium arcu. Lorem ipsum dolor sit amet consectetur. Id egestas egestas ut amet arcu. Ultrices sit odio at sapien mauris amet pretium arcu. ",
     " Explore the world of chemical reactions, elements, and compounds in this foundational science subject. Learn about the periodic table, bonding, and the fascinating properties of matter.",
     "  Delve into the world of numbers, equations, and mathematical concepts. From algebra to calculus, discover the fundamental principles that underlie a wide range of scientific and practical applications.",
     " Physics is the study of the fundamental principles that govern the behavior of the physical universe. It encompasses a wide range of topics, including classical mechanics, electromagnetism, thermodynamics, and quantum mechanics.",
   ];
 
-  const subjectStatus = ["Upcoming", "Upcoming", "In Progress"];
+  const subjectStatus = ["In Progress", "Upcoming", "Upcoming", "In Progress"];
 
   useEffect(() => {
     async function fetchSubjects() {
@@ -43,7 +44,25 @@ const Header = () => {
 
           const reversedSubjects = sortedSubjects.reverse();
 
-          setSubjects(reversedSubjects);
+          const updatedSubjects = reversedSubjects.map((item) => {
+            return {
+              id: item.id,
+              name: item.name,
+              value: item.name,
+            };
+          });
+
+          // adding a crash course in array of data
+
+          setSubjects([
+            {
+              id: "4",
+              name: "INSP Champ Crash Course",
+              value: "crash-course",
+            },
+            ...updatedSubjects,
+          ]);
+          console.log({ reversedSubjects });
         }
       } catch (error) {
         console.error("Error fetching subjects:", error);
@@ -76,10 +95,10 @@ const Header = () => {
           <Spinner mt={"5%"} />
         </Center>
       ) : (
-        <Flex mt={"24px"}>
+        <Flex mt={"24px"} overflowY={"auto"}>
           {subjects.map((subject) => (
             <Card
-              w={"30%"}
+              minW={"265px"}
               h={"200px"}
               borderRadius={"16px"}
               bg={innerBackground}
@@ -103,14 +122,14 @@ const Header = () => {
                 mt={"3px"}
                 fontSize={"12px"}
                 color={
-                  subjectStatus[3 - subject.id] === "In Progress"
+                  subjectStatus[4 - subject.id] === "In Progress"
                     ? "#3DE302"
                     : "#2C332978"
                 }
                 lineHeight={"18px"}
                 ml={"13px"}
               >
-                {subjectStatus[3 - subject.id] || "Status not found"}
+                {subjectStatus[4 - subject.id] || "Status not found"}
               </Text>
               <Text
                 fontSize={"12px"}
@@ -131,10 +150,10 @@ const Header = () => {
                 color={"rgba(44, 51, 41, 0.47)"}
                 noOfLines={3}
               >
-                {dummyDescriptions[3 - subject.id] || "Description not found"}
+                {dummyDescriptions[4 - subject.id] || "Description not found"}
               </Text>
               <Link
-                to={`/myCourses/${subject.name}`}
+                to={`/myCourses/${subject.value}`}
                 style={{ display: "flex", justifyContent: "center" }}
               >
                 <Button
