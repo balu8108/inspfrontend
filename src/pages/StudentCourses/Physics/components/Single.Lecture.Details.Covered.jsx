@@ -3,7 +3,9 @@ import { Box, Text } from "@chakra-ui/react";
 const SingleLectureDetailsCovered = () => {
   return (
     <Box>
-      <Text>Hello</Text>
+      <Box  backgroundColor={"yellow"} width={"100%"} borderRadius={"26px"} h={"full"}>
+        <Text>Hello</Text>
+      </Box>
     </Box>
   );
 };
