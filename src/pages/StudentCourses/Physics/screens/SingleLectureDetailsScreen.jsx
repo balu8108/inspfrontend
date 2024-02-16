@@ -23,7 +23,7 @@ const SingleLectureDetailsScreen = () => {
 
   return (
     <Flex gap={"23px"} m={"52px"}>
-      <Box backgroundColor={"red"} width={"100%"}>
+      <Box  width={"100%"}>
         <SingleLectureDetailsCovered />
       </Box>
 
