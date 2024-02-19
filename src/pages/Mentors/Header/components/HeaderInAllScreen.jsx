@@ -22,7 +22,7 @@ const Header = () => {
     useTheme().colors.pallete;
 
   const dummyDescriptions = [
-    "Lorem ipsum dolor sit amet consectetur. Id egestas egestas ut amet arcu. Ultrices sit odio at sapien mauris amet pretium arcu. Lorem ipsum dolor sit amet consectetur. Id egestas egestas ut amet arcu. Ultrices sit odio at sapien mauris amet pretium arcu. ",
+    "Embark on a transformative learning journey with our Insp_Champ_Crash Course. Designed for those seeking an accelerated and focused learning experience, this crash course is your gateway to mastering key concepts in a short span of time.",
     " Explore the world of chemical reactions, elements, and compounds in this foundational science subject. Learn about the periodic table, bonding, and the fascinating properties of matter.",
     "  Delve into the world of numbers, equations, and mathematical concepts. From algebra to calculus, discover the fundamental principles that underlie a wide range of scientific and practical applications.",
     " Physics is the study of the fundamental principles that govern the behavior of the physical universe. It encompasses a wide range of topics, including classical mechanics, electromagnetism, thermodynamics, and quantum mechanics.",
@@ -62,7 +62,6 @@ const Header = () => {
             },
             ...updatedSubjects,
           ]);
-          console.log({ reversedSubjects });
         }
       } catch (error) {
         console.error("Error fetching subjects:", error);
@@ -98,7 +97,7 @@ const Header = () => {
         <Flex mt={"24px"} overflowY={"auto"}>
           {subjects.map((subject) => (
             <Card
-              minW={"265px"}
+              minW={`calc(100%/3.5)`}
               h={"200px"}
               borderRadius={"16px"}
               bg={innerBackground}

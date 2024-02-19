@@ -11,10 +11,12 @@ API.interceptors.request.use((req) => {
       req.headers.Authorization = `Token ${secretToken}`;
     }
     return req;
-  } catch (err) {}
+  } catch (err) { }
 });
-
 
 
 export const getAllCrashCourseLecture = () =>
   API.get("/crash-course/get-all-lecture");
+
+export const getAllLectureDetails = (roomId) =>
+  API.get(`/crash-course/get-lecture-by-id/${roomId}`);

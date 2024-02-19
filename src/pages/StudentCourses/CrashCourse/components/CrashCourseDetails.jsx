@@ -19,9 +19,10 @@ import { capitalize } from "../../../../utils";
 import VectorImage from "../../../../assets/images/Line/Vector.svg";
 import { getAllCrashCourseLecture } from "../../../../api/crashCourse";
 import moment from "moment";
+import { BiTrophy } from "react-icons/bi";
 
 const CrashCourseDetails = () => {
-  // const [chapters, setChapters] = useState([]);
+  
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [lecture, setLecture] = useState([]);
@@ -31,9 +32,9 @@ const CrashCourseDetails = () => {
   const getAllCrashCourse = async () => {
     try {
       const response = await getAllCrashCourseLecture();
-      // console.log({response})
+      
       const { data } = response.data;
-      // console.log({ data, response: response.data.data });
+      
       setLecture(data);
       setLoading(false);
     } catch (err) {
@@ -44,9 +45,12 @@ const CrashCourseDetails = () => {
   useEffect(() => {
     getAllCrashCourse();
   }, []);
- 
+
+  
   const filteredTopics = lecture.filter((item) =>
-    item?.LiveClassRoomDetail?.chapterName?.toLowerCase().includes(searchTerm.toLowerCase())
+    item?.LiveClassRoomDetail?.chapterName
+      ?.toLowerCase()
+      .includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -94,10 +98,7 @@ const CrashCourseDetails = () => {
         <Stack>
           <Flex flexWrap="wrap" p={6} gap={"24px"}>
             {filteredTopics?.map(
-              (
-                { subjectName, LiveClassRoomDetail, scheduledDate, id },
-                index
-              ) => (
+              ({ roomId, LiveClassRoomDetail, scheduledDate, id }, index) => (
                 <Card
                   bg={innerBackground}
                   boxShadow={innerBoxShadow}
@@ -159,9 +160,7 @@ const CrashCourseDetails = () => {
                     {LiveClassRoomDetail?.description}
                   </Text>
                   <Link
-                    to={`/details/${subjectName}/topics/${encodeURIComponent(
-                      subjectName
-                    )}`}
+                    to={`/myCourses/crash-course/${roomId}`}
                     style={{ display: "flex", justifyContent: "center" }}
                   >
                     <Button
