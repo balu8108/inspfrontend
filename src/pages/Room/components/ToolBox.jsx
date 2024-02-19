@@ -197,7 +197,7 @@ const ToolBox = ({
 
             return;
           }
-
+          console.log("Before ", producerTransport);
           const producerMentorVideoShareRec = await producerTransport.produce({
             track: track,
             appData: {
@@ -205,11 +205,12 @@ const ToolBox = ({
               isTeacher: true,
             },
           });
+          console.log("producer Mentor video", producerMentorVideoShareRec);
           setProducerMentorVideoShare(producerMentorVideoShareRec);
         }
       }
     } catch (err) {
-      console.log("Screen share feed error = ", err);
+      console.log("Video feed error = ", err);
     }
   };
 
