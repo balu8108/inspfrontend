@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { getAllLiveClassesSchedule } from "../../../../store/actions/scheduleClassActions";
 import ScheduleClassPopup from "../../../../components/popups/ScheduleClassPopup";
 import CrashCourseDetails from "../components/CrashCourseDetails";
+import LectureDetailsById from "./lectureDetailsById";
 
 const CrashCourseScreen = () => {
   const dispatch = useDispatch();
@@ -37,7 +38,8 @@ const CrashCourseScreen = () => {
       <Flex gap={"23px"} m={"52px"}>
         <Stack spacing={6} w={"75%"}>
           <Header />
-          <CrashCourseDetails />
+          {/* <CrashCourseDetails /> */}
+          <LectureDetailsById />
         </Stack>
         <Box w={"25%"}>
           <SimpleBar

@@ -17,42 +17,36 @@ import {
 import { fetchAllChaptersApi } from "../../../../api/inspexternalapis";
 import { capitalize } from "../../../../utils";
 import VectorImage from "../../../../assets/images/Line/Vector.svg";
+import { getAllCrashCourseLecture } from "../../../../api/crashCourse";
+import moment from "moment";
 
 const CrashCourseDetails = () => {
-  const [chapters, setChapters] = useState([]);
+  // const [chapters, setChapters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [lecture, setLecture] = useState([]);
   const { outerBackground, innerBackground, innerBoxShadow } =
     useTheme().colors.pallete;
 
-  const dummyDescriptions = [
-    "This chapter covers the basics of electromagnetism, including its principles and applications.",
-    "Learn about geometrical and wave optics in this chapter.",
-    "Explore the fundamental principles of heat transfer and thermodynamics.",
-    "Get a deep understanding of mechanics in this chapter.",
-    "Discover modern physics in this comprehensive chapter.",
-  ];
-
-  useEffect(() => {
-    async function fetchChapters() {
-      try {
-        const response = await fetchAllChaptersApi();
-
-        if (response.status) {
-          setChapters(response.result);
-        }
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching chapters:", error);
-        setLoading(false);
-      }
+  const getAllCrashCourse = async () => {
+    try {
+      const response = await getAllCrashCourseLecture();
+      // console.log({response})
+      const { data } = response.data;
+      // console.log({ data, response: response.data.data });
+      setLecture(data);
+      setLoading(false);
+    } catch (err) {
+      console.error("Error fetching all crash course lectures:", err);
+      setLoading(false);
     }
-
-    fetchChapters();
+  };
+  useEffect(() => {
+    getAllCrashCourse();
   }, []);
-
-  const filteredTopics = chapters.filter((physScreen) =>
-    physScreen.name.toLowerCase().includes(searchTerm.toLowerCase())
+ 
+  const filteredTopics = lecture.filter((item) =>
+    item?.LiveClassRoomDetail?.chapterName?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -99,74 +93,92 @@ const CrashCourseDetails = () => {
       ) : (
         <Stack>
           <Flex flexWrap="wrap" p={6} gap={"24px"}>
-            {filteredTopics.map((chapter, index) => (
-              <Card
-                bg={innerBackground}
-                boxShadow={innerBoxShadow}
-                key={chapter.id}
-                w="30%"
-                h={"204px"}
-                borderRadius={"18px"}
-              >
-                <Text
-                  fontSize={"16px"}
-                  fontWeight={400}
-                  ml={"13px"}
-                  mt={"16px"}
-                  lineHeight={"19px"}
-                  noOfLines={1}
+            {filteredTopics?.map(
+              (
+                { subjectName, LiveClassRoomDetail, scheduledDate, id },
+                index
+              ) => (
+                <Card
+                  bg={innerBackground}
+                  boxShadow={innerBoxShadow}
+                  key={id}
+                  w="30%"
+                  h={"204px"}
+                  borderRadius={"18px"}
                 >
-                  {capitalize(chapter?.name)}
-                </Text>
-                <Text
-                  fontWeight={400}
-                  fontSize={"12px"}
-                  lineHeight={"15px"}
-                  ml={"13px"}
-                  color={"rgba(44, 51, 41, 0.47)"}
-                >
-                  Nitin Sachan
-                </Text>
-                <Text
-                  fontSize={"12px"}
-                  lineHeight={"13px"}
-                  ml={"13px"}
-                  fontWeight={400}
-                  color={"rgba(44, 51, 41, 1)"}
-                  mt={"18px"}
-                >
-                  Description
-                </Text>
-                <Text
-                  fontSize={"12px"}
-                  lineHeight={"21px"}
-                  fontWeight={400}
-                  ml={13}
-                  color={"rgba(44, 51, 41, 0.47)"}
-                  noOfLines={2}
-                >
-                  {dummyDescriptions[index]}
-                </Text>
-                <Link
-                  to={`/details/${chapter.id}/topics/${encodeURIComponent(
-                    chapter.name
-                  )}`}
-                  style={{ display: "flex", justifyContent: "center" }}
-                >
-                  <Button
-                    variant={"ghost"}
-                    color={"#3C8DBC"}
-                    size={"14px"}
-                    lineHeight={"16px"}
-                    p={6}
-                    mt={"5"}
-                    _hover={{ bg: "white" }}
+                  <div className="flex justify-between">
+                    <Text
+                      fontSize={"16px"}
+                      fontWeight={400}
+                      ml={"13px"}
+                      mt={"16px"}
+                      lineHeight={"19px"}
+                      noOfLines={1}
+                    >
+                      Lecture {LiveClassRoomDetail?.lectureNo}
+                    </Text>
+                    <Text
+                      fontSize={"12px"}
+                      fontWeight={400}
+                      mr={"13px"}
+                      mt={"16px"}
+                      lineHeight={"19px"}
+                      noOfLines={1}
+                      color={"rgba(44, 51, 41, 0.47)"}
+                    >
+                      {moment(scheduledDate).format("L")}
+                    </Text>
+                  </div>
+                  <Text
+                    fontWeight={400}
+                    fontSize={"12px"}
+                    lineHeight={"15px"}
+                    ml={"13px"}
+                    color={"rgba(44, 51, 41, 0.47)"}
                   >
-                    View Details
-                  </Button>
-                </Link>
-              </Card>
-            ))}
+                    {LiveClassRoomDetail?.chapterName}
+                  </Text>
+                  <Text
+                    fontSize={"12px"}
+                    lineHeight={"13px"}
+                    ml={"13px"}
+                    fontWeight={400}
+                    color={"rgba(44, 51, 41, 1)"}
+                    mt={"18px"}
+                  >
+                    Description
+                  </Text>
+                  <Text
+                    fontSize={"12px"}
+                    lineHeight={"21px"}
+                    fontWeight={400}
+                    ml={13}
+                    color={"rgba(44, 51, 41, 0.47)"}
+                    noOfLines={2}
+                  >
+                    {LiveClassRoomDetail?.description}
+                  </Text>
+                  <Link
+                    to={`/details/${subjectName}/topics/${encodeURIComponent(
+                      subjectName
+                    )}`}
+                    style={{ display: "flex", justifyContent: "center" }}
+                  >
+                    <Button
+                      variant={"ghost"}
+                      color={"#3C8DBC"}
+                      size={"14px"}
+                      lineHeight={"16px"}
+                      p={6}
+                      mt={"5"}
+                      _hover={{ bg: "white" }}
+                    >
+                      View Details
+                    </Button>
+                  </Link>
+                </Card>
+              )
+            )}
           </Flex>
         </Stack>
       )}
