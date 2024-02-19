@@ -300,6 +300,7 @@ const uploadFileResponseHandler = (res) => {
 };
 
 const questionResponseHandler = (res) => {
+  console.log("res inques", res);
   const { data } = res;
   store.dispatch(setQuestion(data));
 };
