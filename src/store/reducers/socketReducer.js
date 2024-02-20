@@ -118,12 +118,15 @@ const socketReducer = (state = initialState, action) => {
     case SET_CHAT_MESSAGE:
       return {
         ...state,
-        chatMessages: [...state.chatMessages, action.payload],
+        chatMessages: [...state.chatMessages.slice(-50), action.payload],
       };
     case SET_QUESTION_MSG:
       return {
         ...state,
-        questionMessages: [...state.questionMessages, action.payload],
+        questionMessages: [
+          ...state.questionMessages.slice(-50),
+          action.payload,
+        ],
       };
     case SET_RAISE_HAND:
       const { isHandRaised, peerDetails } = action.payload;
