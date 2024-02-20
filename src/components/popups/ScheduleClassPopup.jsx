@@ -35,7 +35,7 @@ import {
   fetchAllSubjectsApi,
   fetchAllTopicsApi,
 } from "../../api/inspexternalapis";
-
+import { getLectureNo } from "../../api/scheduleliveclass";
 import "./timepickerdefaultstyles.css";
 
 // At the moment we will add some dummy data for chapter, topic
@@ -45,6 +45,7 @@ const dataKey = [
   "chapter",
   "scheduledDate",
   "topic",
+  "classType",
   "agenda",
   "description",
   "scheduledStartTime",
@@ -75,7 +76,8 @@ const ScheduleClassPopup = ({
   const [isTopicsLoading, setIsTopicsLoading] = useState(false);
   const [isTopicsDisabled, setIsTopicsDisabled] = useState(true);
   const [topicsData, setTopicsData] = useState([]);
-
+  const [selectedClassType, setSelectedClassType] = useState(null);
+  const [lectureNo, setLectureNo] = useState(null);
   const [selectedFiles, setSelectedFiles] = useState(null); // for file upload
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const [startTime, setStartTime] = useState(classTiming[0]);
@@ -141,6 +143,8 @@ const ScheduleClassPopup = ({
       fetchAllTopics(object.value);
     } else if (event.name === "topic") {
       setSelectedTopic(object);
+    } else if (event.name === "classType") {
+      setSelectedClassType(object);
     }
     setScheduleClassFormData((prev) => ({ ...prev, [event.name]: object }));
     setScheduleClassFormErrorData((prev) => ({ ...prev, [event.name]: "" }));
@@ -200,6 +204,10 @@ const ScheduleClassPopup = ({
     formData.append("subject", JSON.stringify(scheduleClassFormData.subject));
     formData.append("chapter", JSON.stringify(scheduleClassFormData.chapter));
     formData.append("topic", JSON.stringify(scheduleClassFormData.topic));
+    formData.append(
+      "classType",
+      JSON.stringify(scheduleClassFormData.classType)
+    );
     formData.append("scheduledDate", scheduleClassFormData.scheduledDate);
     formData.append(
       "scheduledStartTime",
@@ -207,6 +215,7 @@ const ScheduleClassPopup = ({
     );
     formData.append("scheduledEndTime", scheduleClassFormData.scheduledEndTime);
     formData.append("agenda", scheduleClassFormData.agenda);
+    formData.append("lectureNo", lectureNo);
     formData.append("description", scheduleClassFormData.description);
     formData.append(
       "muteAllStudents",
@@ -297,6 +306,32 @@ const ScheduleClassPopup = ({
   useEffect(() => {
     getSubjectsByFetch();
   }, []);
+  const fetchLectureNo = async (data) => {
+    try {
+      const response = await getLectureNo(data);
+      const { data: lectureNo } = response.data;
+
+      setLectureNo(+lectureNo + 1);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (
+      selectedClassType &&
+      selectedChapter &&
+      selectedChapter &&
+      selectedTopic
+    ) {
+      const data = {
+        subjectName: scheduleClassFormData["subject"].label,
+        classType: scheduleClassFormData["classType"].value,
+        chapterName: scheduleClassFormData["chapter"].label,
+        topicName: scheduleClassFormData["topic"].label,
+      };
+      fetchLectureNo(data);
+    }
+  }, [selectedClassType, selectedChapter, selectedChapter, selectedTopic]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"xl"}>
@@ -470,6 +505,59 @@ const ScheduleClassPopup = ({
                 </FormControl>
               </Box>
               <Box my={3}>
+                <FormControl
+                  isInvalid={scheduleClassFormErrorData["classType"]}
+                >
+                  <Select
+                    placeholder={
+                      scheduleClassData.scheduleClassFormPlaceholder
+                        .selectClassType
+                    }
+                    onChange={handleSelectChange}
+                    isDisabled={false}
+                    isLoading={isTopicsLoading}
+                    value={selectedClassType}
+                    name="classType"
+                    chakraStyles={chakraStyles}
+                    options={[
+                      {
+                        value: "CRASHCOURSE",
+                        label: "Crash Course",
+                      },
+                      {
+                        value: "REGULARCLASS",
+                        label: "Regular Classes",
+                      },
+                    ]}
+                    useBasicStyles
+                  />
+                  {scheduleClassFormErrorData["classType"] && (
+                    <FormErrorMessage>
+                      {scheduleClassFormErrorData["classType"]}
+                    </FormErrorMessage>
+                  )}
+                </FormControl>
+              </Box>
+              <Box my={3}>
+                <FormControl
+                  isInvalid={scheduleClassFormErrorData["lectureNo"]}
+                >
+                  <Input
+                    name={"lectureNo"}
+                    onChange={handleInputChange}
+                    value={lectureNo != null ? `Lecture ${lectureNo}` : ""}
+                    disabled={true}
+                    type="text"
+                    placeholder={
+                      scheduleClassData.scheduleClassFormPlaceholder.lectureNo
+                    }
+                  />
+                  {scheduleClassFormErrorData["lectureNo"] && (
+                    <FormErrorMessage>Please enter a lecture</FormErrorMessage>
+                  )}
+                </FormControl>
+              </Box>
+              <Box my={3}>
                 <FormControl isInvalid={scheduleClassFormErrorData["agenda"]}>
                   <Textarea
                     name={"agenda"}
@@ -480,7 +568,7 @@ const ScheduleClassPopup = ({
                     }
                   />
                   {scheduleClassFormErrorData["agenda"] && (
-                    <FormErrorMessage>Please select an agenda</FormErrorMessage>
+                    <FormErrorMessage>Please enter an agenda</FormErrorMessage>
                   )}
                 </FormControl>
               </Box>
@@ -499,7 +587,7 @@ const ScheduleClassPopup = ({
                   />
                   {scheduleClassFormErrorData["description"] && (
                     <FormErrorMessage>
-                      Please select a description
+                      Please enter a description
                     </FormErrorMessage>
                   )}
                 </FormControl>

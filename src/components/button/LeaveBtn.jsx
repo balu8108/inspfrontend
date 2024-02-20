@@ -6,16 +6,21 @@ const LeaveBtn = ({
   backColor,
   textColor,
   onClickHandler,
+  px = 7,
+  py = 5,
+  fontSize = "0.8rem",
 }) => {
   return (
     <Button
+      fontSize={fontSize}
       isLoading={isLoading}
       bg={backColor}
-      px={8}
-      py={6}
       color={textColor}
       _hover={{ bg: backColor }}
       borderRadius={"full"}
+      px={px}
+      py={py}
+      size={"sm"}
       onClick={onClickHandler}
     >
       {text}

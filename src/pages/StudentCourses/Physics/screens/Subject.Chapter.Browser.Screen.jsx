@@ -34,11 +34,11 @@ const SubjectChapterBrowser = () => {
         />
       )}
       <Flex gap={"23px"} m={"52px"}>
-        <Stack spacing={6} w={"100%"}>
+        <Stack spacing={6} w={"75%"}>
           <Header />
           <SubjectChapterSelector />
         </Stack>
-        <Box w={"33%"}>
+        <Box w={"25%"}>
           <SimpleBar
             style={{
               maxHeight: "85vh",

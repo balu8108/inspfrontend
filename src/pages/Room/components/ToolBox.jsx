@@ -7,6 +7,7 @@ import {
   Flex,
   HStack,
   useTheme,
+  useMediaQuery,
 } from "@chakra-ui/react";
 
 import {
@@ -43,6 +44,25 @@ import { LeaveBtn } from "../../../components/button";
 import { shallowEqual, useSelector } from "react-redux";
 import { checkUserType } from "../../../utils";
 
+export const TheatreModeBtn = ({ isEnlarged, setIsEnlarged }) => {
+  const { primaryBlue } = useTheme().colors.pallete;
+  return (
+    <Tooltip label={roomData.theatreMode} placement={"right"}>
+      <IconButton
+        isRound={true}
+        bg={isEnlarged ? primaryBlue : "gray.200"}
+        _hover={{ bg: isEnlarged ? primaryBlue : "gray.200" }}
+        icon={
+          <RiFullscreenFill size={20} color={isEnlarged ? "white" : "black"} />
+        }
+        onClick={(e) => {
+          setIsEnlarged(!isEnlarged);
+        }}
+      />
+    </Tooltip>
+  );
+};
+
 const ToolBox = ({
   primaryBlue,
   isScreenShare,
@@ -66,7 +86,10 @@ const ToolBox = ({
   setIsRecordOn,
   onOpenLeaveOrEndClass,
 }) => {
-  const [isRaiseHand, setIsRaiseHand] = useState(false);
+  const [isLargerThan480, isLargerThan768] = useMediaQuery([
+    "(min-width: 480px)",
+    "(min-width: 768px)",
+  ]);
   const [isLeaveLoading, setIsLeaveLoading] = useState(false); // for leave button loading state
   const [isRecordingLoading, setIsRecordingLoading] = useState(false);
   const [producerScreenShare, setProducerScreenShare] = useState(null);
@@ -182,11 +205,12 @@ const ToolBox = ({
               isTeacher: true,
             },
           });
+
           setProducerMentorVideoShare(producerMentorVideoShareRec);
         }
       }
     } catch (err) {
-      console.log("Screen share feed error = ", err);
+      console.log("Video feed error = ", err);
     }
   };
 
@@ -203,7 +227,9 @@ const ToolBox = ({
         audio: {
           echoCancellation: true,
           noiseSuppression: true,
+          autoGainControl: true,
         },
+        video: false,
       });
       if (micRef.current) {
         micRef.current.srcObject = stream;
@@ -346,34 +372,28 @@ const ToolBox = ({
   }, [isPreviewAudioOn]);
 
   return (
-    <Box position={"absolute"} height={"100%"} p={4} zIndex={4}>
+    <Box
+      height={["auto", "auto", "100%", "100%"]}
+      width={["100%", "100%", "auto", "auto"]}
+      position={"absolute"}
+      p={4}
+      zIndex={4}
+      bottom={0}
+    >
       <Flex
-        height={"100%"}
-        direction={"column"}
+        height={["auto", "auto", "100%", "100%"]}
+        direction={["row", "row", "column", "column"]}
         justifyContent={"space-between"}
         alignItems={"flex-start"}
       >
-        <Stack>
-          <Tooltip label={roomData.theatreMode} placement={"right"}>
-            <IconButton
-              isRound={true}
-              bg={isEnlarged ? primaryBlue : "gray.200"}
-              _hover={{ bg: isEnlarged ? primaryBlue : "gray.200" }}
-              icon={
-                <RiFullscreenFill
-                  size={20}
-                  color={isEnlarged ? "white" : "black"}
-                />
-              }
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setIsEnlarged(!isEnlarged);
-              }}
-            />
-          </Tooltip>
+        <Stack visibility={isLargerThan768 ? "visible" : "hidden"}>
+          <TheatreModeBtn
+            isEnlarged={isEnlarged}
+            setIsEnlarged={setIsEnlarged}
+          />
         </Stack>
-        <Stack>
+
+        <Flex direction={["row", "row", "column", "column"]} gap={2}>
           <Tooltip
             label={
               userRoleType !== userType.teacher && selfDetails?.isAudioBlocked
@@ -443,8 +463,8 @@ const ToolBox = ({
               />
             </Tooltip>
           )}
-        </Stack>
-        <Stack>
+        </Flex>
+        <Flex direction={["row", "row", "column", "column"]} gap={2}>
           <Tooltip
             label={
               userRoleType !== userType.teacher
@@ -480,21 +500,25 @@ const ToolBox = ({
           {userRoleType === userType.teacher && (
             <PostPoll screenShareStream={screenShareStream} />
           )}
-        </Stack>
+        </Flex>
 
         <HStack>
           <Tooltip label={roomData.settings} placement="right">
             <IconButton isRound={true} icon={<LuSettings size={20} />} />
           </Tooltip>
-          <LeaveBtn
-            isLoading={isLeaveLoading}
-            text={
-              userRoleType === userType.teacher ? roomData.end : roomData.leave
-            }
-            backColor={redBtnColor}
-            textColor="white"
-            onClickHandler={leaveRoomOrEndMeetHandler}
-          />
+          {isLargerThan768 && (
+            <LeaveBtn
+              isLoading={isLeaveLoading}
+              text={
+                userRoleType === userType.teacher
+                  ? roomData.end
+                  : roomData.leave
+              }
+              backColor={redBtnColor}
+              textColor="white"
+              onClickHandler={leaveRoomOrEndMeetHandler}
+            />
+          )}
         </HStack>
       </Flex>
     </Box>

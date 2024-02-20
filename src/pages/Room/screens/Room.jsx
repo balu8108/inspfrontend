@@ -1,7 +1,16 @@
 import { useEffect, useRef, useState } from "react";
-import { Box, Grid, GridItem, useDisclosure, useTheme } from "@chakra-ui/react";
+import {
+  Box,
+  Grid,
+  GridItem,
+  useDisclosure,
+  useMediaQuery,
+  useTheme,
+} from "@chakra-ui/react";
 
-import LiveSessionDescription from "../components/LiveSessionDescription";
+import LiveSessionDescription, {
+  FilesForSmallerScreen,
+} from "../components/LiveSessionDescription";
 import LiveSessionStream from "../components/LiveSessionStream";
 import LiveSessionMembers from "../components/LiveSessionMembers";
 import {
@@ -12,7 +21,10 @@ import {
   socket,
 } from "../../../socketconnections/socketconnections";
 import { useDispatch, useSelector } from "react-redux";
-import { liveSessionMemberViewType } from "../../../constants/staticvariables";
+import {
+  fileTypes,
+  liveSessionMemberViewType,
+} from "../../../constants/staticvariables";
 import { useToastContext } from "../../../components/toastNotificationProvider/ToastNotificationProvider";
 import { useNavigate, useParams } from "react-router-dom";
 import { checkUserType, screenshotHandler } from "../../../utils";
@@ -24,6 +36,7 @@ import {
   resetQuestionMessags,
 } from "../../../store/actions/socketActions";
 import { createLiveClassNotes } from "../../../api/genericapis";
+import FileBoxComponent from "../../../components/filebox/FileBoxComponent";
 
 const Room = () => {
   const [isScreenShare, setIsScreenShare] = useState(false);
@@ -63,6 +76,11 @@ const Room = () => {
   const theme = useTheme();
   const { primaryBlue, outerBackground } = theme.colors.pallete;
 
+  const [isLargerThan480, isLargerThan768] = useMediaQuery([
+    "(min-width: 480px)",
+    "(min-width: 768px)",
+  ]);
+
   const stopScreenShare = () => {
     setIsScreenShare(false);
     setScreenShareStream(null);
@@ -72,9 +90,16 @@ const Room = () => {
     if (isEnlarged) {
       return "1fr";
     } else if (peersViewType === liveSessionMemberViewType.compact) {
-      return "0.9fr 4fr 0.25fr";
+      // return [
+      //   "1.5fr 3.5fr 0.25fr",
+      //   "1.5fr 3.5fr 0.25fr",
+      //   "1.5fr 3.5fr 0.25fr",
+      //   "0.9fr 4fr 0.25fr",
+      // ];
+      return ["1fr", "1fr", "1.5fr 3.5fr 0.25fr", "0.9fr 4fr 0.25fr"];
     } else if (peersViewType === liveSessionMemberViewType.expanded) {
-      return "1.2fr 6fr 1fr";
+      // return "1.2fr 6fr 1fr";
+      return ["1fr", "1fr", "1.5fr 3.5fr 0.25fr", "1.2fr 6fr 1fr"];
     }
   };
 
@@ -227,28 +252,39 @@ const Room = () => {
         />
       )}
 
-      <Box pt={4} pb={4} px={10}>
+      <Box py={4} px={[2, 4, 4, 10]}>
         <Grid
           templateColumns={renderColumns(peersViewType, isEnlarged)}
-          templateRows="repeat(6, 1fr)"
-          h="85vh"
-          columnGap={4}
-          rowGap={4}
+          templateRows={[
+            "repeat(12,1fr)",
+            "repeat(12,1fr)",
+            "repeat(6,1fr)",
+            "repeat(6,1fr)",
+          ]}
+          gap={[2, 2, 2, 4]}
+          h={[isLargerThan768 ? "85vh" : isEnlarged ? "85vh" : "100%"]}
           className="scrollbar-parent"
         >
           {!isEnlarged && (
             <GridItem
-              rowSpan={2}
+              rowSpan={[1, 1, 2, 2]}
               bg={outerBackground}
               borderRadius={"md"}
               className="scrollbar-primary"
-              overflowY={"scroll"}
+              overflowY={["hidden", "hidden", "scroll", "scroll"]}
             >
-              <LiveSessionDescription />
+              <LiveSessionDescription
+                onOpenLeaveOrEndClass={onOpenLeaveOrEndClass}
+              />
             </GridItem>
           )}
 
-          <GridItem rowSpan={6} bg={outerBackground} p={4} borderRadius={"md"}>
+          <GridItem
+            rowSpan={[isEnlarged ? 12 : 5, isEnlarged ? 12 : 5, 6, 6]}
+            bg={outerBackground}
+            p={[2, 2, 2, 4]}
+            borderRadius={"md"}
+          >
             <LiveSessionStream
               primaryBlue={primaryBlue}
               isScreenShare={isScreenShare}
@@ -276,7 +312,7 @@ const Room = () => {
 
           {!isEnlarged && (
             <GridItem
-              rowSpan={6}
+              rowSpan={[1, 1, 6, 6]}
               cursor={"pointer"}
               onClick={() => {
                 if (peersViewType === liveSessionMemberViewType.compact) {
@@ -296,8 +332,18 @@ const Room = () => {
             </GridItem>
           )}
 
+          {!isLargerThan768 && (
+            <GridItem rowSpan={1} bg={outerBackground} borderRadius={"md"}>
+              <FilesForSmallerScreen />
+            </GridItem>
+          )}
+
           {!isEnlarged && (
-            <GridItem rowSpan={4} bg={outerBackground} borderRadius={"md"}>
+            <GridItem
+              rowSpan={[5, 5, 4, 4]}
+              bg={outerBackground}
+              borderRadius={"md"}
+            >
               <LiveSessionInteraction />
             </GridItem>
           )}

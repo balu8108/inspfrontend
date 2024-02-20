@@ -12,7 +12,8 @@ import TopicLectureScreen from "./pages/StudentCourses/Physics/screens/TopicLect
 import SingleLectureDetailsScreen from "./pages/StudentCourses/Physics/screens/SingleLectureDetailsScreen";
 import Home from "./components/home/Home";
 import AuthLoading from "./components/loaders/AuthLoading";
-
+import StudentCrashCourse from "./pages/StudentCourses/CrashCourse/screens/CrashCourse";
+import LectureDetailsById from "./pages/StudentCourses/CrashCourse/screens/lectureDetailsById";
 //Mentor Routes
 
 import AllRecordingsForAChapter from "./pages/Mentors/MyCourses/Physics/screen/ChapterRecording";
@@ -22,6 +23,7 @@ import ViewRatingAndFeedback from "./pages/Mentors/RatingsAndFeedbacks/screen/Vi
 import SoloRecordedTopicsDetails from "./pages/Mentors/SoloClasses/TopicCollection/screen/SoloRecordedTopicsDetail";
 import RecordedScreen from "./pages/Mentors/SoloClasses/RecordingSoloLectures/screen/RecordedScreen";
 import HomePage from "./pages/homepage/screens/HomePage";
+
 const publicRoutes = [
   {
     name: "Home",
@@ -96,6 +98,16 @@ const privateRoutes = [
     component: <SingleLectureDetailsScreen />,
   },
 
+  {
+    name: "Student CrashCourse",
+    path: "/myCourses/crash-course",
+    component: <StudentCrashCourse />,
+  },
+  {
+    name: "Student CrashCourse",
+    path: "/myCourses/crash-course/:roomId",
+    component: <LectureDetailsById />,
+  },
   {
     name: "Student View Recording",
     path: "/view-recording",
