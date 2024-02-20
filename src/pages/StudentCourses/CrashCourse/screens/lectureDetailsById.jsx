@@ -114,12 +114,15 @@ export default function LectureDetailsById() {
                   bg={"#3C8DBC"}
                 ></Box>
                 <Text fontSize={"19px"} lineHeight={"24px"}>
-                  Details
+                  Details :{" "}
+                  <span className="text-base">
+                    ({lectureDetails?.LiveClassRoomDetail?.topicName})
+                  </span>
                 </Text>
               </HStack>
               <Spacer />
             </Flex>
-            <Flex mt={"10px"}>
+            <Flex mt={"20px"}>
               <Box width={"50%"}>
                 <Box>
                   <Text
@@ -150,7 +153,7 @@ export default function LectureDetailsById() {
                       .map((agenda, index) => (
                         <HStack key={index} pt={1}>
                           <Box
-                            width={"7px"}
+                            minWidth={"7px"}
                             height={"7px"}
                             bg={"gray.400"}
                             borderRadius={"100%"}

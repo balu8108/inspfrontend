@@ -135,9 +135,11 @@ const CrashCourseDetails = () => {
                     fontSize={"12px"}
                     lineHeight={"15px"}
                     ml={"13px"}
+                    mt={'3px'}
                     color={"rgba(44, 51, 41, 0.47)"}
+                    noOfLines={1}
                   >
-                    {LiveClassRoomDetail?.chapterName}
+                    {LiveClassRoomDetail?.topicName}
                   </Text>
                   <Text
                     fontSize={"12px"}
@@ -184,5 +186,6 @@ const CrashCourseDetails = () => {
     </Box>
   );
 };
+ 
 
 export default CrashCourseDetails;
