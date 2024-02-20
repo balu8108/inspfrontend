@@ -19,7 +19,6 @@ import SimpleBar from "simplebar-react";
 import { useDispatch } from "react-redux";
 import { getAllLiveClassesSchedule } from "../../../../store/actions/scheduleClassActions";
 import ScheduleClassPopup from "../../../../components/popups/ScheduleClassPopup";
-import CrashCourseDetails from "../components/CrashCourseDetails";
 import { useParams } from "react-router-dom";
 import { getAllLectureDetails } from "../../../../api/crashCourse";
 import SingleFileComponent from "../../../../components/filebox/SingleFileComponent";
@@ -140,7 +139,6 @@ export default function LectureDetailsById() {
                     {lectureDetails?.LiveClassRoomDetail?.description}
                   </Text>
                 </Box>
-
                 <Box pt={6}>
                   <Text fontSize={"16px"} textColor={"#2C3329"} mb={2}>
                     Agenda
