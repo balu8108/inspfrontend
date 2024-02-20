@@ -140,23 +140,38 @@ export default function LectureDetailsById() {
                     {lectureDetails?.LiveClassRoomDetail?.description}
                   </Text>
                 </Box>
-                <Box className="my-4">
-                  <Text
-                    fontWeight={"400"}
-                    fontSize={"16px"}
-                    textColor={"#2C3329"}
-                    lineHeight={"20px"}
-                  >
+
+                <Box pt={6}>
+                  <Text fontSize={"14px"} textColor={"#2C3329"} mb={2}>
                     Agenda
                   </Text>
-                  <Text
-                    textColor={"#2C332978"}
-                    fontSize={"12px"}
-                    mt={"4px"}
-                    lineHeight={"21px"}
-                  >
-                    {lectureDetails?.LiveClassRoomDetail?.agenda}
-                  </Text>
+                  {lectureDetails?.LiveClassRoomDetail?.agenda ? (
+                    lectureDetails.LiveClassRoomDetail.agenda
+                      .split("\r\n")
+                      .slice(0, 4) // Take only the first 4 items
+                      .map((agenda, index) => (
+                        <HStack key={index} pt={1}>
+                          <Box
+                            width={"7px"}
+                            height={"7px"}
+                            bg={"gray.400"}
+                            borderRadius={"100%"}
+                          />
+                          <Text
+                            textColor={"#2C332978"}
+                            fontSize={"12px"}
+                            mt={"4px"}
+                            lineHeight={"21px"}
+                          >
+                            {agenda}
+                          </Text>
+                        </HStack>
+                      ))
+                  ) : (
+                    <Text color={"#2C332978"} fontSize={"12px"} noOfLines={2}>
+                      No Data
+                    </Text>
+                  )}
                 </Box>
               </Box>
               <Box width={"50%"} pl={"20px"}>
