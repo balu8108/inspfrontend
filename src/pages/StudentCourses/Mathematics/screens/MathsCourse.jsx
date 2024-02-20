@@ -36,11 +36,11 @@ const MathsScreen = () => {
       )}
 
       <Flex gap={"24px"} m={"52px"}>
-        <Stack spacing={6} w={"full"}>
+        <Stack spacing={6} w={"75%"}>
           <Header />
           <Details />
         </Stack>
-        <Box w={"33%"}>
+        <Box w={"25%"}>
           <SimpleBar
             style={{
               maxHeight: "85vh",

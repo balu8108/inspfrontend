@@ -27,3 +27,5 @@ export const getLiveClassDetailsApi = (roomId) =>
   API.get(`/schedule-live-class/get-details/${roomId}`);
 export const getUpcomingClassApi = (roomId) =>
   API.get(`/schedule-live-class/get-upcoming-class/${roomId}`);
+
+export const getLectureNo = (data) => API.post("/schedule-live-class/get-lecture-no",data);  
