@@ -142,7 +142,7 @@ export default function LectureDetailsById() {
                 </Box>
 
                 <Box pt={6}>
-                  <Text fontSize={"14px"} textColor={"#2C3329"} mb={2}>
+                  <Text fontSize={"16px"} textColor={"#2C3329"} mb={2}>
                     Agenda
                   </Text>
                   {lectureDetails?.LiveClassRoomDetail?.agenda ? (
