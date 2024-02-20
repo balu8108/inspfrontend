@@ -246,7 +246,6 @@ const ScheduleClassPopup = ({
       return;
     }
     try {
-      console.log("line---248", { scheduleClassFormData });
       await dispatch(setAddClassSchedule(formData));
     } catch (err) {
       console.log("err", err);
@@ -310,8 +309,8 @@ const ScheduleClassPopup = ({
   const fetchLectureNo = async (data) => {
     try {
       const response = await getLectureNo(data);
-      const {  data:lectureNo } = response.data;
-      console.log({ lectureNo, response });
+      const { data: lectureNo } = response.data;
+
       setLectureNo(+lectureNo + 1);
     } catch (error) {
       console.log(error);
