@@ -23,10 +23,9 @@ const SingleLectureDetailsScreen = () => {
 
   return (
     <Flex gap={"23px"} m={"52px"}>
-      <Box  width={"100%"}>
+      <Box  width={"75%"}>
         <SingleLectureDetailsCovered />
       </Box>
-
       {isSchedulePopupOpen && (
         <ScheduleClassPopup
           isOpen={isSchedulePopupOpen}
@@ -37,7 +36,7 @@ const SingleLectureDetailsScreen = () => {
           setClassTiming={setClassTiming}
         />
       )}
-      <Box w={"33%"}>
+      <Box w={"25%"}>
         <SimpleBar
           style={{
             maxHeight: "85vh",

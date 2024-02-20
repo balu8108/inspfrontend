@@ -10,13 +10,16 @@ import {
   Spacer,
   Stack,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { capitalize } from "../../../../utils";
 import VectorImage from "../../../../assets/images/Line/Vector.svg";
 
 import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
-import lecturesData from "../data/lectureData";
+// import lecturesData from "../data/lectureData";
+import { getAllLectureByTopicName } from "../../../../api/regularclasses";
+import { BsBox2Fill } from "react-icons/bs";
+import moment from "moment";
 
 const LectureListPage = () => {
   const location = useLocation();
@@ -24,6 +27,7 @@ const LectureListPage = () => {
   const topics = location.state?.topics || [];
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [lecturesData, setLecturesData] = useState([]);
   const { outerBackground, innerBackground, innerBoxShadow } =
     useTheme().colors.pallete;
 
@@ -40,6 +44,24 @@ const LectureListPage = () => {
       navigate(`/${selectedTopic.name}/${lectureNumber}`);
     }
   };
+
+  const getAllLecture = async () => {
+    try {
+      const response = await getAllLectureByTopicName(selectedTopic);
+      const { data } = response.data;
+      console.log(data);
+      setLecturesData(data);
+    } catch (err) {
+      console.error("Error fetching all crash course lectures:", err);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedTopic) {
+      getAllLecture();
+      console.log("selectedTopic", selectedTopic);
+    }
+  }, [selectedTopic]);
 
   return (
     <Box width={"100%"}>
@@ -191,7 +213,7 @@ const LectureListPage = () => {
                       noOfLines={1}
                       mt={"16px"}
                     >
-                      {capitalize(lecture.lectureNumber)}
+                      Lecture {lecture?.LiveClassRoomDetail?.lectureNo}
                     </Text>
                     <Text
                       fontWeight={400}
@@ -212,7 +234,7 @@ const LectureListPage = () => {
                     mr={"13px"}
                     mt={"16px"}
                   >
-                    {lecture.date}
+                    {moment(lecture.scheduledDate).format("L")}
                   </Text>
                 </Flex>
 
@@ -234,7 +256,7 @@ const LectureListPage = () => {
                   noOfLines={"3"}
                   color={"rgba(44, 51, 41, 0.47)"}
                 >
-                  {lecture.description}
+                  {lecture?.LiveClassRoomDetail?.description}
                 </Text>
 
                 <Button
@@ -245,12 +267,25 @@ const LectureListPage = () => {
                   lineHeight={"16px"}
                   m={"20px"}
                   _hover={{ bg: "white" }}
-                  onClick={() => handleView(lecture.lectureNumber)}
+                  onClick={() =>
+                    handleView(lecture?.roomId)
+                  }
                 >
                   View Details
                 </Button>
               </Card>
             ))}
+            {lectures.length === 0 && (
+              <Box
+                h={"204px"}
+                width={"100%"}
+                justifyContent={"center"}
+                alignItems={"center"}
+                display={"flex"}
+              >
+                No Lecture for this topic
+              </Box>
+            )}
           </Flex>
         </Box>
       ) : (

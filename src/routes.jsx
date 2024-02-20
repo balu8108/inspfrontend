@@ -94,7 +94,7 @@ const privateRoutes = [
 
   {
     name: "Single Lecture Description Covered",
-    path: "/:topicname/:lecturNumber",
+    path: "/:topicname/:roomId",
     component: <SingleLectureDetailsScreen />,
   },
 

@@ -17,6 +17,9 @@ const TopicLectureScreen = () => {
   const { outerBackground } = useTheme().colors.pallete;
   const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
   const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
+
+  
+
   useEffect(() => {
     dispatch(getAllLiveClassesSchedule());
   }, [dispatch]);
@@ -32,7 +35,7 @@ const TopicLectureScreen = () => {
           setClassTiming={setClassTiming}
         />
       )}
-      <Flex gap={"23px"} m={"52px"} >
+      <Flex gap={"23px"} m={"52px"}>
         <Stack spacing={6} w={"75%"}>
           <LectureListPage />
         </Stack>
