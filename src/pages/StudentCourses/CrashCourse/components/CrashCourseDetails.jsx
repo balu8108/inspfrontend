@@ -186,5 +186,6 @@ const CrashCourseDetails = () => {
     </Box>
   );
 };
+ 
 
 export default CrashCourseDetails;
