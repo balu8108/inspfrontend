@@ -37,6 +37,8 @@ export const scheduleClassData = {
     selectSubject: "Select subject...",
     selectChapter: "Select chapter...",
     selectTopic: "Select topic...",
+    selectClassType: "Select course type...",
+    lectureNo: "Lecture",
     topic: "Topic",
     agenda: "Agenda",
     description: "Description",

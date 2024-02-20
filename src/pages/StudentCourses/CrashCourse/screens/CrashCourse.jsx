@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Header from "../../../Mentors/Header/components/HeaderInAllScreen";
-import ChemDetails from "../components/ChemiDetails";
 import { Flex, Stack, Box, useDisclosure, useTheme } from "@chakra-ui/react";
 import ScheduleClassList from "../../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
 import { useDispatch } from "react-redux";
 import { getAllLiveClassesSchedule } from "../../../../store/actions/scheduleClassActions";
 import ScheduleClassPopup from "../../../../components/popups/ScheduleClassPopup";
+import CrashCourseDetails from "../components/CrashCourseDetails";
+import LectureDetailsById from "./lectureDetailsById";
 
-const ChemScreen = () => {
+const CrashCourseScreen = () => {
   const dispatch = useDispatch();
   const {
     isOpen: isSchedulePopupOpen,
@@ -21,6 +22,7 @@ const ChemScreen = () => {
   useEffect(() => {
     dispatch(getAllLiveClassesSchedule());
   }, [dispatch]);
+
   return (
     <>
       {isSchedulePopupOpen && (
@@ -33,10 +35,10 @@ const ChemScreen = () => {
           setClassTiming={setClassTiming}
         />
       )}
-      <Flex gap={"24px"} m={"52px"}>
+      <Flex gap={"23px"} m={"52px"}>
         <Stack spacing={6} w={"75%"}>
           <Header />
-          <ChemDetails />
+          <CrashCourseDetails />
         </Stack>
         <Box w={"25%"}>
           <SimpleBar
@@ -55,4 +57,5 @@ const ChemScreen = () => {
     </>
   );
 };
-export default ChemScreen;
+
+export default CrashCourseScreen;

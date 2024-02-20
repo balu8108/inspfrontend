@@ -38,7 +38,7 @@ const MentorHomePage = () => {
 
       <Box m={"50px"}>
         <Flex>
-          <Box w={"full"}>
+          <Box w={"75%"}>
             <Header />
             <Flex w={"full"}>
               <Stack spacing={"20px"} w={"full"} h={"full"}>
@@ -49,7 +49,7 @@ const MentorHomePage = () => {
             </Flex>
           </Box>
 
-          <Box w="35%" ml={5}>
+          <Box w="25%" ml={5}>
             <SimpleBar
               style={{
                 maxHeight: "85vh",
