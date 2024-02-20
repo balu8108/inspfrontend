@@ -259,13 +259,13 @@ export default function LectureDetailsById() {
                     />
                   ))}
 
-                  {lectureDetails?.LiveClassRoomNote !== null && (
+                  {/*lectureDetails?.LiveClassRoomNote !== null && (
                     <SingleFileComponent
                       key={lectureDetails?.LiveClassRoomNote?.id}
                       file={lectureDetails?.LiveClassRoomNote}
                       type="note"
                     />
-                  )}
+                  )*/}
                 </Flex>
               ) : (
                 <Text fontSize="12px" mt={4}>
