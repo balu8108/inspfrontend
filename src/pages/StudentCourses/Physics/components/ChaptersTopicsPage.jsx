@@ -132,6 +132,7 @@ const ChaptersTopicPage = () => {
             <Card
               key={chapter.id}
               w={"31%"}
+              h={"204px"}
               bg={innerBackground}
               boxShadow={innerBoxShadow}
               borderRadius={"18px"}
