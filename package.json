@@ -37,6 +37,7 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.8.0",
     "react-chartjs-2": "^5.2.0",
+    "react-custom-scroll": "^5.0.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
     "react-media-recorder": "^1.6.6",

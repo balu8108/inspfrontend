@@ -14,7 +14,7 @@ import {
 import { fetchAllSubjectsApi } from "../../../../api/inspexternalapis/index";
 import { Link } from "react-router-dom";
 import { capitalize } from "../../../../utils";
-
+import "../../../../constants/scrollbar/style.css";
 const Header = () => {
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -94,80 +94,82 @@ const Header = () => {
           <Spinner mt={"5%"} />
         </Center>
       ) : (
-        <Flex mx={"5"} gap={"24px"} overflowX={"auto"}>
-          {subjects.map((subject) => (
-            <Card
-              minW={"30%"}
-              h={"204px"}
-              borderRadius={"16px"}
-              bg={innerBackground}
-              key={subject.id}
-              boxShadow={innerBoxShadow}
-              my={5}
-            >
-              <Text
-                fontSize={"16px"}
-                fontWeight={"400"}
-                lineHeight={"18px"}
-                color={"#2C3329"}
-                ml={"13px"}
-                mt={"13px"}
+        
+          <Flex mx={"5"} gap={"24px"} overflowX={"auto"} className="example">
+            {subjects.map((subject) => (
+              <Card
+                minW={"30%"}
+                h={"204px"}
+                borderRadius={"16px"}
+                bg={innerBackground}
+                key={subject.id}
+                boxShadow={innerBoxShadow}
+                my={5}
               >
-                {capitalize(subject?.name)}
-              </Text>
-              <Text
-                mt={"3px"}
-                fontSize={"12px"}
-                color={
-                  subjectStatus[4 - subject.id] === "In Progress"
-                    ? "#3DE302"
-                    : "#2C332978"
-                }
-                lineHeight={"18px"}
-                ml={"13px"}
-              >
-                {subjectStatus[4 - subject.id] || "Status not found"}
-              </Text>
-              <Text
-                fontSize={"12px"}
-                lineHeight={"14px"}
-                fontWeight={"400px"}
-                color={"#2C3329"}
-                mt={"14px"}
-                ml={"14px"}
-              >
-                Description
-              </Text>
-              <Text
-                fontSize={"11px"}
-                lineHeight={"21px"}
-                fontWeight={"400px"}
-                ml={"13px"}
-                mt={"6px"}
-                color={"rgba(44, 51, 41, 0.47)"}
-                noOfLines={3}
-              >
-                {dummyDescriptions[4 - subject.id] || "Description not found"}
-              </Text>
+                <Text
+                  fontSize={"16px"}
+                  fontWeight={"400"}
+                  lineHeight={"18px"}
+                  color={"#2C3329"}
+                  ml={"13px"}
+                  mt={"13px"}
+                >
+                  {capitalize(subject?.name)}
+                </Text>
+                <Text
+                  mt={"3px"}
+                  fontSize={"12px"}
+                  color={
+                    subjectStatus[4 - subject.id] === "In Progress"
+                      ? "#3DE302"
+                      : "#2C332978"
+                  }
+                  lineHeight={"18px"}
+                  ml={"13px"}
+                >
+                  {subjectStatus[4 - subject.id] || "Status not found"}
+                </Text>
+                <Text
+                  fontSize={"12px"}
+                  lineHeight={"14px"}
+                  fontWeight={"400px"}
+                  color={"#2C3329"}
+                  mt={"14px"}
+                  ml={"14px"}
+                >
+                  Description
+                </Text>
+                <Text
+                  fontSize={"11px"}
+                  lineHeight={"21px"}
+                  fontWeight={"400px"}
+                  ml={"13px"}
+                  mt={"6px"}
+                  color={"rgba(44, 51, 41, 0.47)"}
+                  noOfLines={3}
+                >
+                  {dummyDescriptions[4 - subject.id] || "Description not found"}
+                </Text>
 
-              <Box mt="auto">
-                <Link to={`/myCourses/${subject.value}`}>
-                  <Button
-                    variant={"ghost"}
-                    color={"#3C8DBC"}
-                    fontWeight={"600"}
-                    fontSize={"14px"}
-                    lineHeight={"16px"}
-                    _hover={{ bg: "white" }}
-                    width="100%"
-                  >
-                    View Details
-                  </Button>
-                </Link>
-              </Box>
-            </Card>
-          ))}
-        </Flex>
+                <Box mt="auto">
+                  <Link to={`/myCourses/${subject.value}`}>
+                    <Button
+                      variant={"ghost"}
+                      color={"#3C8DBC"}
+                      fontWeight={"600"}
+                      fontSize={"14px"}
+                      lineHeight={"16px"}
+                      _hover={{ bg: "white" }}
+                      width="100%"
+                    >
+                      View Details
+                    </Button>
+                  </Link>
+                </Box>
+              </Card>
+            ))}
+          </Flex>
+      
       )}
     </Box>
   );
