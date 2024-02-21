@@ -24,7 +24,7 @@ import { allLiveRecordingDetailsApi } from "../../../../../../api/recordingapi";
 import { getAllAssignmentByTopicApi } from "../../../../../../api/assignments";
 import SingleFileComponent from "../../../../../../components/filebox/SingleFileComponent";
 import { BsPlayFill } from "react-icons/bs";
-const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
+const ChapterDetailsAndCoveredPart = ({ viewTopic,  }) => {
   const [liveClassRoomData, setLiveClassRoomData] = useState(null);
 
   const [assignmentDetails, setAssignmentDetails] = useState(null);
@@ -107,7 +107,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic, viewtopicName }) => {
           bg={"#3C8DBC"}
         ></Box>
         <Text fontSize={"19px"} lineHeight={"24px"} fontWeight={400}>
-          {capitalize(viewtopicName)}
+          {capitalize()}
         </Text>
       </HStack>
       <Stack mt={10}>
