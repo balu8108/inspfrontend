@@ -23,6 +23,7 @@ import SingleFileComponent from "../../../../components/filebox/SingleFileCompon
 import leaderBoardImage from "../../../../assets/images/leaderBoard.svg";
 import defaultImageUrl from "../../../../assets/images/image1.png";
 import { BsPlayFill } from "react-icons/bs";
+import moment from "moment";
 
 const SingleLectureDetailsCovered = (selectedTopic) => {
   const { outerBackground, innerBackground, innerBoxShadow } =
@@ -42,9 +43,9 @@ const SingleLectureDetailsCovered = (selectedTopic) => {
       console.error("Error fetching all crash course lectures:", err);
     }
   };
-  const handleView = (lectureNumber) => {
+  const handleView = (roomId) => {
     if (topicname) {
-      navigate(`/${topicname}/${lectureNumber}`);
+      navigate(`/${topicname}/${roomId}`);
     }
   };
   const getLectureDetails = async () => {
@@ -93,34 +94,38 @@ const SingleLectureDetailsCovered = (selectedTopic) => {
         width={"100%"}
         borderRadius={"25px"}
       >
-        <Box pt={5} marginLeft={"33px"}>
-          <HStack spacing={"10px"} alignItems="center">
-            <Box
-              width={"12px"}
-              height={"25px"}
-              borderRadius={"20px"}
-              bg={"#3C8DBC"}
-            ></Box>
-            <Text fontSize={"19px"} lineHeight={"24px"}>
-              Physics({topicname})
-            </Text>
-          </HStack>
-          <Flex mt={"24px"} overflowY={"auto"}>
+        <Box width={"full"}>
+          <Box p={"20px"} mt={"10px"}>
+            <HStack spacing={"10px"} alignItems="center">
+              <Box
+                width={"12px"}
+                height={"25px"}
+                borderRadius={"20px"}
+                bg={"#3C8DBC"}
+              ></Box>
+              <Text fontSize={"19px"} lineHeight={"24px"}>
+                Physics({topicname})
+              </Text>
+            </HStack>
+          </Box>
+
+          <Flex
+            gap={"24px"}
+            overflowX="auto"
+            className="example"
+            mx={"20px"}
+            my={"20px"}
+          >
             {lecturesData.map((lecture, index) => (
               <Card
-                w={`250px`}
+                minW={"30%"}
                 h={"200px"}
                 borderRadius={"16px"}
                 bg={innerBackground}
-                mb={"20px"}
-                mr={"20px"}
                 key={lecture.id}
                 boxShadow={innerBoxShadow}
-                display="flex"
-                flexDirection="column"
-                justifyContent="space-between"
               >
-                <Flex justifyContent={"space-between"}>
+                <Flex>
                   <Box>
                     <Text
                       fontSize={"15px"}
@@ -141,6 +146,7 @@ const SingleLectureDetailsCovered = (selectedTopic) => {
                       {capitalize(topicname)}
                     </Text>
                   </Box>
+                  <Spacer />
 
                   <Text
                     fontWeight={400}
@@ -150,7 +156,7 @@ const SingleLectureDetailsCovered = (selectedTopic) => {
                     mr={"13px"}
                     mt={"16px"}
                   >
-                    {lecture.date}
+                    {moment(lecture.scheduledDate).format("L")}
                   </Text>
                 </Flex>
 
@@ -184,6 +190,7 @@ const SingleLectureDetailsCovered = (selectedTopic) => {
                   m={"20px"}
                   _hover={{ bg: "white" }}
                   onClick={() => handleView(lecture?.roomId)}
+                  mt={"auto"}
                 >
                   View Details
                 </Button>
@@ -192,18 +199,19 @@ const SingleLectureDetailsCovered = (selectedTopic) => {
           </Flex>
         </Box>
       </Box>
+
       <Box
         backgroundColor={outerBackground}
         width={"100%"}
         borderRadius={"26px"}
+        p={"20px"}
       >
-        <Stack spacing={6} w={"75%"}>
+        <Stack spacing={6} w={"85%"}>
           <Box
             width={"full"}
             h={"100%"}
             bg={outerBackground}
             borderRadius={"26px"}
-            p={"20px"}
           >
             <Flex mt={"17px"}>
               <HStack spacing={"10px"} alignItems="center">
@@ -222,9 +230,9 @@ const SingleLectureDetailsCovered = (selectedTopic) => {
               </HStack>
               <Spacer />
             </Flex>
-            <Flex mt={"20px"}>
-              <Box width={"50%"}>
-                <Box>
+            <Flex mt={"37px"}>
+              <Box width={"100%"}>
+                <Flex flexDirection={"column"} gap={"16px"}>
                   <Text
                     fontWeight={"400"}
                     fontSize={"16px"}
@@ -236,12 +244,11 @@ const SingleLectureDetailsCovered = (selectedTopic) => {
                   <Text
                     textColor={"#2C332978"}
                     fontSize={"12px"}
-                    mt={"4px"}
                     lineHeight={"21px"}
                   >
                     {lectureDetails?.LiveClassRoomDetail?.description}
                   </Text>
-                </Box>
+                </Flex>
                 <Box pt={6}>
                   <Text fontSize={"16px"} textColor={"#2C3329"} mb={2}>
                     Agenda
@@ -249,7 +256,7 @@ const SingleLectureDetailsCovered = (selectedTopic) => {
                   {lectureDetails?.LiveClassRoomDetail?.agenda ? (
                     lectureDetails.LiveClassRoomDetail.agenda
                       .split("\r\n")
-                      .slice(0, 4) // Take only the first 4 items
+
                       .map((agenda, index) => (
                         <HStack key={index} pt={1}>
                           <Box
@@ -291,142 +298,136 @@ const SingleLectureDetailsCovered = (selectedTopic) => {
                 />
               </Box>
             </Flex>
-
-            <Box overflowX={"auto"} mt={8}>
-              <Text
-                fontWeight={"400"}
-                fontSize={"16px"}
-                textColor={"#2C3329"}
-                lineHeight={"20px"}
-              >
-                Recordings
-              </Text>
-              <Flex gap={"24px"} overflowX="auto">
-                {lectureDetails?.LiveClassRoomRecordings?.length > 0 ? (
-                  <Flex gap={4} mt={4}>
-                    {lectureDetails?.LiveClassRoomRecordings.map(
-                      (recording, index) => (
-                        <Flex
-                          alignItems="center"
-                          w={"160px"}
-                          key={recording?.id}
-                          onClick={() =>
-                            handleViewRecording(recording, lectureDetails)
-                          }
-                          position={"relative"}
-                          cursor={"pointer"}
-                        >
-                          <Image
-                            src={defaultImageUrl}
-                            alt="Video Thumbnail"
-                            width={"100%"}
-                            height={"100%"}
-                          />
-                          <IconButton
-                            icon={<BsPlayFill />}
-                            fontSize="24px"
-                            position="absolute"
-                            top="50%"
-                            left="50%"
-                            borderRadius={"100%"}
-                            transform="translate(-50%, -50%)"
-                          />
-                        </Flex>
-                      )
-                    )}
-                  </Flex>
-                ) : (
-                  <Text fontSize={"12px"} mt={4}>
-                    No recording are available for this topic.
-                  </Text>
-                )}
-              </Flex>
-            </Box>
-
-            <Box mt={8}>
-              <Text
-                fontWeight={"400"}
-                fontSize={"16px"}
-                textColor={"#2C3329"}
-                lineHeight={"20px"}
-              >
-                Files/Notes
-              </Text>
-              {lectureDetails?.LiveClassRoomFiles?.length > 0 ? (
-                <Flex mt={4} flexWrap="wrap" gap={2}>
-                  {lectureDetails?.LiveClassRoomFiles?.map((file) => (
-                    <SingleFileComponent
-                      key={file?.id}
-                      file={file}
-                      type={"live"}
-                    />
-                  ))}
-
-                  {lectureDetails?.LiveClassRoomNote !== null && (
-                    <SingleFileComponent
-                      key={lectureDetails?.LiveClassRoomNote?.id}
-                      file={lectureDetails?.LiveClassRoomNote}
-                      type="note"
-                    />
-                  )}
-                </Flex>
-              ) : (
-                <Text fontSize="12px" mt={4}>
-                  No Data for this topic
-                </Text>
-              )}
-            </Box>
-
-            <Box mt={8}>
-              <Text
-                fontWeight={"400"}
-                fontSize={"16px"}
-                textColor={"#2C3329"}
-                lineHeight={"20px"}
-              >
-                Assignments
-              </Text>
-              {assignmentDetails && assignmentDetails.length > 0 ? (
-                <SimpleGrid style={{ marginTop: "16px" }} spacing={6}>
-                  {assignmentDetails.map((assignment, index) => (
-                    <Card
-                      key={assignment?.id}
-                      h={"100%"}
-                      width={"100%"}
-                      flex={1}
-                      borderRadius={"18px"}
-                      bg={innerBackground}
-                      p={4}
-                    >
-                      <Text fontSize={"xs"}>Description</Text>
-                      <Text
-                        fontSize={"xs"}
-                        color={"#2C332978"}
-                        noOfLines={2}
-                        mt={2}
-                      >
-                        {assignment.description}
-                      </Text>
-                      <HStack mt={4}>
-                        {assignment.AssignmentFiles.map((file, fileIndex) => (
-                          <SingleFileComponent
-                            key={file?.id}
-                            file={file}
-                            type="assignment"
-                          />
-                        ))}
-                      </HStack>
-                    </Card>
-                  ))}
-                </SimpleGrid>
-              ) : (
-                <Text fontSize={"12px"} mt={4}>
-                  No assignments for this topic.
-                </Text>
-              )}
-            </Box>
           </Box>
         </Stack>
+
+        <Box overflowX={"auto"} mt={8} width={"100%"}>
+          <Text
+            fontWeight={"400"}
+            fontSize={"16px"}
+            textColor={"#2C3329"}
+            lineHeight={"20px"}
+          >
+            Recordings
+          </Text>
+          <Flex gap={"24px"} overflowX="auto">
+            {lectureDetails?.LiveClassRoomRecordings?.length > 0 ? (
+              <Flex gap={4} mt={4}>
+                {lectureDetails?.LiveClassRoomRecordings.map(
+                  (recording, index) => (
+                    <Flex
+                      alignItems="center"
+                      w={"160px"}
+                      key={recording?.id}
+                      onClick={() =>
+                        handleViewRecording(recording, lectureDetails)
+                      }
+                      position={"relative"}
+                      cursor={"pointer"}
+                    >
+                      <Image
+                        src={defaultImageUrl}
+                        alt="Video Thumbnail"
+                        width={"100%"}
+                        height={"100%"}
+                      />
+                      <IconButton
+                        icon={<BsPlayFill />}
+                        fontSize="24px"
+                        position="absolute"
+                        top="50%"
+                        left="50%"
+                        borderRadius={"100%"}
+                        transform="translate(-50%, -50%)"
+                      />
+                    </Flex>
+                  )
+                )}
+              </Flex>
+            ) : (
+              <Text fontSize={"12px"} mt={4}>
+                No recording are available for this topic.
+              </Text>
+            )}
+          </Flex>
+        </Box>
+        <Box mt={8}>
+          <Text
+            fontWeight={"400"}
+            fontSize={"16px"}
+            textColor={"#2C3329"}
+            lineHeight={"20px"}
+          >
+            Files/Notes
+          </Text>
+          {lectureDetails?.LiveClassRoomFiles?.length > 0 ? (
+            <Flex mt={4} flexWrap="wrap" gap={2}>
+              {lectureDetails?.LiveClassRoomFiles?.map((file) => (
+                <SingleFileComponent key={file?.id} file={file} type={"live"} />
+              ))}
+
+              {lectureDetails?.LiveClassRoomNote !== null && (
+                <SingleFileComponent
+                  key={lectureDetails?.LiveClassRoomNote?.id}
+                  file={lectureDetails?.LiveClassRoomNote}
+                  type="note"
+                />
+              )}
+            </Flex>
+          ) : (
+            <Text fontSize="12px" mt={4}>
+              No Data for this topic
+            </Text>
+          )}
+        </Box>
+        <Box mt={8}>
+          <Text
+            fontWeight={"400"}
+            fontSize={"16px"}
+            textColor={"#2C3329"}
+            lineHeight={"20px"}
+          >
+            Assignments
+          </Text>
+          {assignmentDetails && assignmentDetails.length > 0 ? (
+            <SimpleGrid style={{ marginTop: "16px" }} spacing={6}>
+              {assignmentDetails.map((assignment, index) => (
+                <Card
+                  key={assignment?.id}
+                  h={"100%"}
+                  width={"100%"}
+                  flex={1}
+                  borderRadius={"18px"}
+                  bg={innerBackground}
+                  p={4}
+                >
+                  <Text fontSize={"xs"}>Description</Text>
+                  <Text
+                    fontSize={"xs"}
+                    color={"#2C332978"}
+                    noOfLines={2}
+                    mt={2}
+                  >
+                    {assignment.description}
+                  </Text>
+                  <HStack mt={4}>
+                    {assignment.AssignmentFiles.map((file, fileIndex) => (
+                      <SingleFileComponent
+                        key={file?.id}
+                        file={file}
+                        type="assignment"
+                      />
+                    ))}
+                  </HStack>
+                </Card>
+              ))}
+            </SimpleGrid>
+          ) : (
+            <Text fontSize={"12px"} mt={4}>
+              No assignments for this topic.
+            </Text>
+          )}
+        </Box>
       </Box>
     </Stack>
   );

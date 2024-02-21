@@ -39,9 +39,9 @@ const LectureListPage = () => {
     setSelectedTopic(topic);
   };
 
-  const handleView = (lectureNumber) => {
+  const handleView = (roomId) => {
     if (selectedTopic && lectures.length > 0) {
-      navigate(`/${selectedTopic.name}/${lectureNumber}`);
+      navigate(`/${selectedTopic.name}/${roomId}`);
     }
   };
 
@@ -267,9 +267,7 @@ const LectureListPage = () => {
                   lineHeight={"16px"}
                   m={"20px"}
                   _hover={{ bg: "white" }}
-                  onClick={() =>
-                    handleView(lecture?.roomId)
-                  }
+                  onClick={() => handleView(lecture?.roomId)}
                 >
                   View Details
                 </Button>
