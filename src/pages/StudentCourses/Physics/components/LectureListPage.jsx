@@ -98,7 +98,6 @@ const LectureListPage = () => {
               flexShrink={"0"}
               display="flex"
               flexDirection="column"
-              justifyContent="space-between"
             >
               <Text
                 fontSize={"15px"}
@@ -194,7 +193,7 @@ const LectureListPage = () => {
             />
           </Flex>
 
-          <Flex m={"24px"} gap={"24px"} flexWrap={"wrap"}>
+          <Flex p={6} gap={"24px"} flexWrap={"wrap"}>
             {lectures.filter(filterLectures).map((lecture, index) => (
               <Card
                 key={lecture.id}
@@ -202,7 +201,7 @@ const LectureListPage = () => {
                 h={"204px"}
                 boxShadow={innerBoxShadow}
                 borderRadius={"18px"}
-                mb={index === lectures.length - 1 ? "20px" : "0"}
+               
               >
                 <Flex justifyContent={"space-between"}>
                   <Box>
