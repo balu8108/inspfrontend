@@ -88,123 +88,110 @@ const SingleLectureDetailsCovered = (selectedTopic) => {
   }, [topicname]);
 
   return (
-    <Stack>
-      <Box
-        backgroundColor={outerBackground}
-        width={"100%"}
-        borderRadius={"25px"}
-      >
-        <Box width={"full"}>
-          <Box p={"20px"} mt={"10px"}>
-            <HStack spacing={"10px"} alignItems="center">
-              <Box
-                width={"12px"}
-                height={"25px"}
-                borderRadius={"20px"}
-                bg={"#3C8DBC"}
-              ></Box>
-              <Text fontSize={"19px"} lineHeight={"24px"}>
-                Physics({topicname})
-              </Text>
-            </HStack>
-          </Box>
+    <Box>
+      <Box borderRadius={"25px"} backgroundColor={outerBackground}>
+        <HStack spacing={"10px"} alignItems="center" p={"20px"}>
+          <Box
+            width={"12px"}
+            height={"25px"}
+            borderRadius={"20px"}
+            bg={"#3C8DBC"}
+          ></Box>
+          <Text fontSize={"19px"} lineHeight={"24px"}>
+            Physics({topicname})
+          </Text>
+        </HStack>
 
-          <Flex
-            gap={"24px"}
-            overflowX="auto"
-            className="example"
-            mx={"20px"}
-            my={"20px"}
-          >
-            {lecturesData.map((lecture, index) => (
-              <Card
-                minW={"30%"}
-                h={"200px"}
-                borderRadius={"16px"}
-                bg={innerBackground}
-                key={lecture.id}
-                boxShadow={innerBoxShadow}
-              >
-                <Flex>
-                  <Box>
-                    <Text
-                      fontSize={"15px"}
-                      ml={"13px"}
-                      lineHeight={"19px"}
-                      noOfLines={1}
-                      mt={"16px"}
-                    >
-                      Lecture {lecture?.LiveClassRoomDetail?.lectureNo}
-                    </Text>
-                    <Text
-                      fontWeight={400}
-                      fontSize={"11px"}
-                      ml={"13px"}
-                      color={"rgba(44, 51, 41, 0.47)"}
-                      noOfLines={1}
-                    >
-                      {capitalize(topicname)}
-                    </Text>
-                  </Box>
-                  <Spacer />
-
+        <Flex gap={"24px"} overflowX="auto" className="example" mx={5}>
+          {lecturesData.map((lecture, index) => (
+            <Card
+              minW={"30%"}
+              h={"200px"}
+              borderRadius={"16px"}
+              bg={innerBackground}
+              key={lecture.id}
+              boxShadow={innerBoxShadow}
+              mb={5}
+            >
+              <Flex>
+                <Box>
+                  <Text
+                    fontSize={"15px"}
+                    ml={"13px"}
+                    lineHeight={"19px"}
+                    noOfLines={1}
+                    mt={"16px"}
+                  >
+                    Lecture {lecture?.LiveClassRoomDetail?.lectureNo}
+                  </Text>
                   <Text
                     fontWeight={400}
                     fontSize={"11px"}
-                    lineHeight={"15px"}
-                    color={"#2C332978"}
-                    mr={"13px"}
-                    mt={"16px"}
+                    ml={"13px"}
+                    color={"rgba(44, 51, 41, 0.47)"}
+                    noOfLines={1}
                   >
-                    {moment(lecture.scheduledDate).format("L")}
+                    {capitalize(topicname)}
                   </Text>
-                </Flex>
+                </Box>
+                <Spacer />
 
                 <Text
-                  fontSize={"12px"}
-                  lineHeight={"13px"}
-                  ml={"13px"}
                   fontWeight={400}
-                  color={"rgba(44, 51, 41, 1)"}
-                  mt={"18px"}
-                >
-                  Description
-                </Text>
-                <Text
                   fontSize={"11px"}
-                  lineHeight={"21px"}
-                  fontWeight={400}
-                  ml={13}
-                  noOfLines={"3"}
-                  color={"rgba(44, 51, 41, 0.47)"}
+                  lineHeight={"15px"}
+                  color={"#2C332978"}
+                  mr={"13px"}
+                  mt={"16px"}
                 >
-                  {lecture?.LiveClassRoomDetail?.description}
+                  {moment(lecture.scheduledDate).format("L")}
                 </Text>
+              </Flex>
 
-                <Button
-                  variant={"ghost"}
-                  color={"#3C8DBC"}
-                  fontWeight={"600"}
-                  size={"14px"}
-                  lineHeight={"16px"}
-                  m={"20px"}
-                  _hover={{ bg: "white" }}
-                  onClick={() => handleView(lecture?.roomId)}
-                  mt={"auto"}
-                >
-                  View Details
-                </Button>
-              </Card>
-            ))}
-          </Flex>
-        </Box>
+              <Text
+                fontSize={"12px"}
+                lineHeight={"13px"}
+                ml={"13px"}
+                fontWeight={400}
+                color={"rgba(44, 51, 41, 1)"}
+                mt={"18px"}
+              >
+                Description
+              </Text>
+              <Text
+                fontSize={"11px"}
+                lineHeight={"21px"}
+                fontWeight={400}
+                ml={13}
+                noOfLines={"3"}
+                color={"rgba(44, 51, 41, 0.47)"}
+              >
+                {lecture?.LiveClassRoomDetail?.description}
+              </Text>
+
+              <Button
+                variant={"ghost"}
+                color={"#3C8DBC"}
+                fontWeight={"600"}
+                size={"14px"}
+                lineHeight={"16px"}
+                m={"20px"}
+                _hover={{ bg: "white" }}
+                onClick={() => handleView(lecture?.roomId)}
+                mt={"auto"}
+              >
+                View Details
+              </Button>
+            </Card>
+          ))}
+        </Flex>
       </Box>
-
       <Box
         backgroundColor={outerBackground}
         width={"100%"}
         borderRadius={"26px"}
         p={"20px"}
+        mt={"24px"}
       >
         <Stack spacing={6} w={"85%"}>
           <Box
@@ -223,7 +210,7 @@ const SingleLectureDetailsCovered = (selectedTopic) => {
                 ></Box>
                 <Text fontSize={"19px"} lineHeight={"24px"}>
                   Details :{" "}
-                  <span className="text-base">
+                  <span>
                     ({lectureDetails?.LiveClassRoomDetail?.topicName})
                   </span>
                 </Text>
@@ -429,7 +416,7 @@ const SingleLectureDetailsCovered = (selectedTopic) => {
           )}
         </Box>
       </Box>
-    </Stack>
+    </Box>
   );
 };
 export default SingleLectureDetailsCovered;

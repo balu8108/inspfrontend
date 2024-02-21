@@ -8,17 +8,13 @@ import {
   HStack,
   Input,
   Spacer,
-  Stack,
 } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { capitalize } from "../../../../utils";
 import VectorImage from "../../../../assets/images/Line/Vector.svg";
-
 import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
-// import lecturesData from "../data/lectureData";
 import { getAllLectureByTopicName } from "../../../../api/regularclasses";
-import { BsBox2Fill } from "react-icons/bs";
 import moment from "moment";
 
 const LectureListPage = () => {
@@ -35,6 +31,7 @@ const LectureListPage = () => {
     location.state?.selectedChapterName || "Select a Chapter";
 
   const lectures = selectedTopic ? lecturesData : [];
+
   const handleTopicClick = (topic) => {
     setSelectedTopic(topic);
   };
@@ -44,12 +41,19 @@ const LectureListPage = () => {
       navigate(`/${selectedTopic.name}/${roomId}`);
     }
   };
+  const filterLectures = (lecture) => {
+    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+    const lectureNumber = lecture?.LiveClassRoomDetail?.lectureNo
+      ?.toString()
+      .toLowerCase();
+
+    return lectureNumber.includes(lowerCaseSearchTerm);
+  };
 
   const getAllLecture = async () => {
     try {
       const response = await getAllLectureByTopicName(selectedTopic);
       const { data } = response.data;
-      console.log(data);
       setLecturesData(data);
     } catch (err) {
       console.error("Error fetching all crash course lectures:", err);
@@ -59,7 +63,6 @@ const LectureListPage = () => {
   useEffect(() => {
     if (selectedTopic) {
       getAllLecture();
-      console.log("selectedTopic", selectedTopic);
     }
   }, [selectedTopic]);
 
@@ -192,16 +195,13 @@ const LectureListPage = () => {
           </Flex>
 
           <Flex m={"24px"} gap={"24px"} flexWrap={"wrap"}>
-            {lectures.map((lecture, index) => (
+            {lectures.filter(filterLectures).map((lecture, index) => (
               <Card
                 key={lecture.id}
                 w={"30%"}
                 h={"204px"}
                 boxShadow={innerBoxShadow}
                 borderRadius={"18px"}
-                display="flex"
-                flexDirection="column"
-                justifyContent="space-between"
                 mb={index === lectures.length - 1 ? "20px" : "0"}
               >
                 <Flex justifyContent={"space-between"}>
@@ -267,6 +267,7 @@ const LectureListPage = () => {
                   lineHeight={"16px"}
                   m={"20px"}
                   _hover={{ bg: "white" }}
+                  mt={"auto"}
                   onClick={() => handleView(lecture?.roomId)}
                 >
                   View Details

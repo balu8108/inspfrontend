@@ -23,7 +23,7 @@ const SingleLectureDetailsScreen = () => {
 
   return (
     <Flex gap={"23px"} m={"52px"}>
-      <Box  width={"75%"}>
+      <Box  w={"75%"}>
         <SingleLectureDetailsCovered />
       </Box>
       {isSchedulePopupOpen && (
