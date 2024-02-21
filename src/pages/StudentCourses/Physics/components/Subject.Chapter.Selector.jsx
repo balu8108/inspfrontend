@@ -112,6 +112,7 @@ const SubjectChapterSelector = () => {
                 w="30%"
                 h={"204px"}
                 borderRadius={"18px"}
+                flexDirection={"column"}
               >
                 <Text
                   fontSize={"16px"}
@@ -148,18 +149,20 @@ const SubjectChapterSelector = () => {
                   fontWeight={400}
                   ml={13}
                   color={"rgba(44, 51, 41, 0.47)"}
-                  noOfLines={2}
+                  noOfLines={3}
+                  mt={"6px"}
                 >
                   {dummyDescriptions[index]}
                 </Text>
 
                 <Button
+                  fontWeight={600}
                   variant={"ghost"}
                   color={"#3C8DBC"}
-                  size={"14px"}
+                  fontSize={"14px"}
                   lineHeight={"16px"}
-                  p={6}
-                  mt={"5"}
+                  mt={"auto"}
+                  
                   _hover={{ bg: "white" }}
                   onClick={handleViewDetails}
                 >

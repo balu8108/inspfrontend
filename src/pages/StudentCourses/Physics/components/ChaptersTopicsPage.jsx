@@ -187,9 +187,10 @@ const ChaptersTopicPage = () => {
                 color={"#3C8DBC"}
                 fontSize={"14px"}
                 lineHeight={"16px"}
-                fontWeight={"600"}
+                fontWeight={600}
                 _hover={{ bg: "white" }}
                 onClick={() => handleChapterClick(chapter.id)}
+                mt={"auto"}
               >
                 View Details
               </Button>
