@@ -17,7 +17,6 @@ import {
   ListItem,
   ListIcon,
 } from "@chakra-ui/react";
-import learderboard from "../../../../assets/images/learderboard.png";
 import { getAllLectureByTopicName } from "../../../../api/regularclasses";
 import { capitalize } from "../../../../utils";
 import { getAllAssignmentByTopicApi } from "../../../../api/assignments";
@@ -300,7 +299,6 @@ const SingleLectureDetailsCovered = (selectedTopic) => {
                                         boxSize={"6px"}
                                         blendMode={"multiply"}
                                         mt={"2px"}
-                                       
                                       />
                                     )}
                                     <Text
@@ -333,11 +331,32 @@ const SingleLectureDetailsCovered = (selectedTopic) => {
                 >
                   Leader Board
                 </Text>
-                <img
-                  className="h-[250px] ml-10"
-                  src={leaderBoardImage}
-                  alt="Leader Board"
-                />
+                <Flex>
+                  <img
+                    className="h-[250px] ml-10"
+                    src={leaderBoardImage}
+                    alt="Leader Board"
+                  />
+                  <Box ml={"15px"}>
+                    {lectureDetails?.LeaderBoards?.map((leaderBoard, index) => (
+                      <Box
+                        key={leaderBoard?.id}
+                        justifyContent={"space-between"}
+                        alignItems={"center"}
+                        mt={"3px"}
+                        noOfLines={1}
+                      >
+                        <Text
+                          fontSize={"14px"}
+                          fontWeight={"400"}
+                          textColor={"#2C332978"}
+                        >
+                          {index + 1}. {leaderBoard?.peerName}
+                        </Text>
+                      </Box>
+                    ))}
+                  </Box>
+                </Flex>
               </Box>
             </Flex>
           </Box>
