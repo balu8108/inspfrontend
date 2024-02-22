@@ -20,6 +20,8 @@ import ViewRatingAndFeedback from "./pages/Mentors/RatingsAndFeedbacks/screen/Vi
 import SoloRecordedTopicsDetails from "./pages/Mentors/SoloClasses/TopicCollection/screen/SoloRecordedTopicsDetail";
 import RecordedScreen from "./pages/Mentors/SoloClasses/RecordingSoloLectures/screen/RecordedScreen";
 import HomePage from "./pages/homepage/screens/HomePage";
+import StudentFeedBack from "./components/popups/studentFeedbackPopup";
+import StudentFeedbackDetails from "./pages/Mentors/StudentFeedback/screen/studentFeedback";
 
 const publicRoutes = [
   {
@@ -135,6 +137,16 @@ const privateRoutes = [
     name: "Solo Recording Screen ",
     path: "/mentor/solo-lectures/:soloClassRoomId",
     component: <RecordedScreen />,
+  },
+  {
+    name: "Feedback ",
+    path: "/feedback",
+    component: <StudentFeedBack />,
+  },
+  {
+    name: "Feedback Mentor Screen",
+    path: "/feedback-mentor",
+    component: <StudentFeedbackDetails />,
   },
 ];
 
