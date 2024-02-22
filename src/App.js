@@ -35,6 +35,35 @@ function App() {
     localStorage.removeItem("insp_user_profile");
   }, []);
 
+  useEffect(() => {
+    // Check if the environment is production
+    if (process.env.NODE_ENV === "production") {
+      function ctrlShiftKey(e, keyCode) {
+        return e.ctrlKey && e.shiftKey && e.keyCode === keyCode.charCodeAt(0);
+      }
+      const disableContext = (e) => {
+        e.preventDefault();
+      };
+      const disableDevToolsShortcut = (e) => {
+        if (
+          e.keyCode === 123 ||
+          ctrlShiftKey(e, "I") ||
+          ctrlShiftKey(e, "J") ||
+          ctrlShiftKey(e, "C") ||
+          (e.ctrlKey && e.keyCode === "U".charCodeAt(0))
+        )
+          e.preventDefault();
+      };
+      window.addEventListener("contextmenu", disableContext);
+      window.addEventListener("keydown", disableDevToolsShortcut);
+      // Remove the event listeners when the component unmounts
+      return () => {
+        window.removeEventListener("contextmenu", disableContext);
+        window.removeEventListener("keydown", disableDevToolsShortcut);
+      };
+    }
+  }, []);
+
   return (
     <>
       {!isNavbarDisabled && <Navbar />}
