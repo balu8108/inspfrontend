@@ -13,6 +13,9 @@ import {
   IconButton,
   Spacer,
   SimpleGrid,
+  List,
+  ListItem,
+  ListIcon,
 } from "@chakra-ui/react";
 import learderboard from "../../../../assets/images/learderboard.png";
 import { getAllLectureByTopicName } from "../../../../api/regularclasses";
@@ -24,6 +27,7 @@ import leaderBoardImage from "../../../../assets/images/leaderBoard.svg";
 import defaultImageUrl from "../../../../assets/images/image1.png";
 import { BsPlayFill } from "react-icons/bs";
 import moment from "moment";
+import { FaCircle } from "react-icons/fa6";
 
 const SingleLectureDetailsCovered = (selectedTopic) => {
   const { outerBackground, innerBackground, innerBoxShadow } =
@@ -236,7 +240,7 @@ const SingleLectureDetailsCovered = (selectedTopic) => {
                     {lectureDetails?.LiveClassRoomDetail?.description}
                   </Text>
                 </Flex>
-                <Box pt={6}>
+                {/* <Box pt={6}>
                   <Text fontSize={"16px"} textColor={"#2C3329"} mb={2}>
                     Agenda
                   </Text>
@@ -262,6 +266,57 @@ const SingleLectureDetailsCovered = (selectedTopic) => {
                           </Text>
                         </HStack>
                       ))
+                  ) : (
+                    <Text color={"#2C332978"} fontSize={"12px"} noOfLines={2}>
+                      No Data
+                    </Text>
+                  )}
+                </Box> */}
+
+                <Box pt={6}>
+                  <Text fontSize={"16px"} textColor={"#2C3329"} mb={2}>
+                    Agenda
+                  </Text>
+                  {lectureDetails?.LiveClassRoomDetail?.agenda ? (
+                    <Box>
+                      {lectureDetails.LiveClassRoomDetail.agenda
+                        .split("\r\n")
+                        .map((agenda, index) =>
+                          agenda.trim() !== "" ? (
+                            <Stack
+                              key={index}
+                              spacing={1}
+                              direction="row"
+                              alignItems="center"
+                              mt={"10px"}
+                            >
+                              <List>
+                                <ListItem>
+                                  <Flex>
+                                    {agenda && (
+                                      <ListIcon
+                                        as={FaCircle}
+                                        color={"#2C332978"}
+                                        boxSize={"6px"}
+                                        blendMode={"multiply"}
+                                        mt={"2px"}
+                                       
+                                      />
+                                    )}
+                                    <Text
+                                      fontSize={"12px"}
+                                      lineHeight={"14px"}
+                                      color={"#2C332978"}
+                                    >
+                                      {agenda ?? "No Data"}
+                                    </Text>
+                                  </Flex>
+                                </ListItem>
+                              </List>
+                            </Stack>
+                          ) : null
+                        )}
+                    </Box>
                   ) : (
                     <Text color={"#2C332978"} fontSize={"12px"} noOfLines={2}>
                       No Data
