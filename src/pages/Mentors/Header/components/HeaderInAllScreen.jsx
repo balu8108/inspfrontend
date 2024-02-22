@@ -15,6 +15,8 @@ import { fetchAllSubjectsApi } from "../../../../api/inspexternalapis/index";
 import { Link } from "react-router-dom";
 import { capitalize } from "../../../../utils";
 import "../../../../constants/scrollbar/style.css";
+import Scrollbars from "rc-scrollbars";
+import SimpleBar from "simplebar-react";
 const Header = () => {
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -94,8 +96,14 @@ const Header = () => {
           <Spinner mt={"5%"} />
         </Center>
       ) : (
-        
-          <Flex mx={"5"} gap={"24px"} overflowX={"auto"} className="example">
+        <Scrollbars
+          style={{ height: "45vh" }}
+          autoHide
+          autoHideTimeout={1000}
+          autoHideDuration={200}
+          universal={true}
+        >
+          <Flex mx={"5"} gap={"24px"}>
             {subjects.map((subject) => (
               <Card
                 minW={"30%"}
@@ -169,7 +177,7 @@ const Header = () => {
               </Card>
             ))}
           </Flex>
-      
+        </Scrollbars>
       )}
     </Box>
   );
