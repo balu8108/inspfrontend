@@ -48,7 +48,7 @@ const CrashCourseDetails = () => {
 
   
   const filteredTopics = lecture.filter((item) =>
-    item?.LiveClassRoomDetail?.chapterName
+    item?.LiveClassRoomDetail?.topicName
       ?.toLowerCase()
       .includes(searchTerm.toLowerCase())
   );
