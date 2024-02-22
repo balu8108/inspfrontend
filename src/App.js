@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import DocumentViewer from "./components/popups/DocumentViewer";
 import FeedBackAndRating from "./components/popups/FeedBackAndRating";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
+import { useEffect } from "react";
 const ProtectedRoutes = () => {
   const isAuth = isAuthenticated();
   if (!isAuth) {
@@ -27,6 +28,12 @@ function App() {
 
   const isNavbarDisabled =
     location.pathname === "/" || location.pathname.startsWith("/auth");
+
+  useEffect(() => {
+    // On loading the app remove the below key values if existed somehow in local storage, May be later on we can remove this Line of codes
+    localStorage.removeItem("secret_token");
+    localStorage.removeItem("insp_user_profile");
+  }, []);
 
   return (
     <>
