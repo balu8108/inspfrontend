@@ -7,7 +7,7 @@ import {
   Card,
   useTheme,
 } from "@chakra-ui/react";
-
+import { getAllLectureByTopicName } from "../../../api/regularclasses";
 import defaultImageUrl from "../../../assets/images/image1.png";
 import "../../../constants/scrollbar/style.css";
 import FileBoxComponent from "../../../components/filebox/FileBoxComponent";
@@ -19,6 +19,7 @@ const RecordedClass = ({
   activeRecording,
   setActiveRecording,
 }) => {
+  console.log("recording detail", recordingDetail)
   const isLive = type && type === "live";
   const isSolo = type && type === "solo";
   const isLiveSpecific = type && type === "live_specific";
@@ -26,6 +27,8 @@ const RecordedClass = ({
   const isLiveTopic = type && type === "live_topic";
   const isSoloTopic = type && type === "solo_topic";
   const { outerBackground } = useTheme().colors.pallete;
+
+  
 
   const renderFiles = (data) => {
     let filesData = [];

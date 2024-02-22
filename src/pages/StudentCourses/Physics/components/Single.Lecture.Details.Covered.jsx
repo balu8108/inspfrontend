@@ -17,7 +17,7 @@ import {
   ListItem,
   ListIcon,
 } from "@chakra-ui/react";
-import { getAllLectureByTopicName } from "../../../../api/regularclasses";
+import { getAllLectureByTopicName } from "../../../../api/regularclasses"; //This api is for getting the number of lectures
 import { capitalize } from "../../../../utils";
 import { getAllAssignmentByTopicApi } from "../../../../api/assignments";
 import { getAllLectureDetails } from "../../../../api/crashCourse";
@@ -27,8 +27,9 @@ import defaultImageUrl from "../../../../assets/images/image1.png";
 import { BsPlayFill } from "react-icons/bs";
 import moment from "moment";
 import { FaCircle } from "react-icons/fa6";
+import { getLectureDetails } from "../../../../api/regularclasses";
 
-const SingleLectureDetailsCovered = (selectedTopic) => {
+const SingleLectureDetailsCovered = () => {
   const { outerBackground, innerBackground, innerBoxShadow } =
     useTheme().colors.pallete;
   const navigate = useNavigate();
@@ -51,15 +52,14 @@ const SingleLectureDetailsCovered = (selectedTopic) => {
       navigate(`/${topicname}/${roomId}`);
     }
   };
-  const getLectureDetails = async () => {
+  const getDetails = async () => {
     try {
-      const response = await getAllLectureDetails(roomId);
+      const response = await getLectureDetails(roomId);
       const { data } = response.data;
-      console.log("line--nu--54-", { data });
       fetchAssignmentDetails(data?.LiveClassRoomDetail?.topicId);
       setLectureDetails(data);
     } catch (err) {
-      console.error("Error fetching all crash course lectures:", err);
+      console.error("Error fetching course lectures:", err);
     }
   };
   const fetchAssignmentDetails = async (topicId) => {
@@ -75,13 +75,14 @@ const SingleLectureDetailsCovered = (selectedTopic) => {
   };
 
   const handleViewRecording = (recording, liveClassData) => {
+    console.log("Room id", roomId);
     navigate(
-      `/view-recording?type=live_specific&id=${recording?.id}&topicId=${liveClassData?.LiveClassRoomDetail?.topicId}`
+      `/view-recording?type=live_specific&id=${recording?.id}&roomId=${liveClassData?.roomId}`
     );
   };
 
   useEffect(() => {
-    getLectureDetails();
+    getDetails();
   }, [roomId]);
 
   useEffect(() => {

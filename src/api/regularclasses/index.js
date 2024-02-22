@@ -11,8 +11,13 @@ API.interceptors.request.use((req) => {
       req.headers.Authorization = `Token ${secretToken}`;
     }
     return req;
-  } catch (err) { }
+  } catch (err) {}
 });
 
 export const getAllLectureByTopicName = (topicDetails) =>
-  API.get(`regular-classes/get-lecture-by-topic-name/${JSON.stringify(topicDetails)}`);
+  API.get(
+    `regular-classes/get-lecture-by-topic-name/${JSON.stringify(topicDetails)}`
+  );
+
+export const getLectureDetails = (roomId) =>
+  API.get(`/regular-classes/get-single-lecture-detail/${roomId}`);
