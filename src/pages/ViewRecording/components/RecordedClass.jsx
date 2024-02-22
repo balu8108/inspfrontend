@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   Box,
   HStack,
@@ -7,7 +8,8 @@ import {
   Card,
   useTheme,
 } from "@chakra-ui/react";
-import { getAllLectureByTopicName } from "../../../api/regularclasses";
+import { useLocation } from "react-router-dom";
+import { getLectureDetails } from "../../../api/regularclasses";
 import defaultImageUrl from "../../../assets/images/image1.png";
 import "../../../constants/scrollbar/style.css";
 import FileBoxComponent from "../../../components/filebox/FileBoxComponent";
@@ -19,7 +21,6 @@ const RecordedClass = ({
   activeRecording,
   setActiveRecording,
 }) => {
-  console.log("recording detail", recordingDetail)
   const isLive = type && type === "live";
   const isSolo = type && type === "solo";
   const isLiveSpecific = type && type === "live_specific";
@@ -27,8 +28,26 @@ const RecordedClass = ({
   const isLiveTopic = type && type === "live_topic";
   const isSoloTopic = type && type === "solo_topic";
   const { outerBackground } = useTheme().colors.pallete;
+  const [lectureDetails, setLectureDetails] = useState({});
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const roomId = queryParams.get("roomId");
+  const getDetails = async () => {
+    try {
+      const response = await getLectureDetails(roomId);
+      
+      const { data } = response.data;
+      console.log("API Data:", data); 
+      setLectureDetails(data);
+    } catch (err) {
+      console.error("Error fetching course lectures:", err);
+    }
+  };
 
-  
+  useEffect(() => {
+    getDetails();
+    console.log("details",getDetails)
+  }, [roomId]);
 
   const renderFiles = (data) => {
     let filesData = [];

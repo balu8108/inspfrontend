@@ -197,133 +197,95 @@ const SingleLectureDetailsCovered = () => {
         p={"20px"}
         mt={"24px"}
       >
-        <Stack spacing={6} w={"85%"}>
-          <Box
-            width={"full"}
-            h={"100%"}
-            bg={outerBackground}
-            borderRadius={"26px"}
-          >
-            <Flex mt={"17px"}>
-              <HStack spacing={"10px"} alignItems="center">
-                <Box
-                  width={"12px"}
-                  height={"25px"}
-                  borderRadius={"20px"}
-                  bg={"#3C8DBC"}
-                ></Box>
-                <Text fontSize={"19px"} lineHeight={"24px"}>
-                  Details :{" "}
-                  <span>
-                    ({lectureDetails?.LiveClassRoomDetail?.topicName})
-                  </span>
+        <Stack spacing={6}>
+          <Flex mt={"17px"}>
+            <HStack spacing={"10px"} alignItems="center">
+              <Box
+                width={"12px"}
+                height={"25px"}
+                borderRadius={"20px"}
+                bg={"#3C8DBC"}
+              ></Box>
+              <Text fontSize={"19px"} lineHeight={"24px"}>
+                Details :{" "}
+                <span>({lectureDetails?.LiveClassRoomDetail?.topicName})</span>
+              </Text>
+            </HStack>
+            <Spacer />
+          </Flex>
+          <Flex mt={"37px"} gap={"18px"}>
+            <Box width={"50%"}>
+              <Flex flexDirection={"column"} gap={"16px"}>
+                <Text
+                  fontWeight={"400"}
+                  fontSize={"16px"}
+                  textColor={"#2C3329"}
+                  lineHeight={"20px"}
+                >
+                  Description
                 </Text>
-              </HStack>
-              <Spacer />
-            </Flex>
-            <Flex mt={"37px"}>
-              <Box width={"100%"}>
-                <Flex flexDirection={"column"} gap={"16px"}>
-                  <Text
-                    fontWeight={"400"}
-                    fontSize={"16px"}
-                    textColor={"#2C3329"}
-                    lineHeight={"20px"}
-                  >
-                    Description
-                  </Text>
-                  <Text
-                    textColor={"#2C332978"}
-                    fontSize={"12px"}
-                    lineHeight={"21px"}
-                  >
-                    {lectureDetails?.LiveClassRoomDetail?.description}
-                  </Text>
-                </Flex>
-                {/* <Box pt={6}>
-                  <Text fontSize={"16px"} textColor={"#2C3329"} mb={2}>
-                    Agenda
-                  </Text>
-                  {lectureDetails?.LiveClassRoomDetail?.agenda ? (
-                    lectureDetails.LiveClassRoomDetail.agenda
+                <Text
+                  textColor={"#2C332978"}
+                  fontSize={"12px"}
+                  lineHeight={"21px"}
+                >
+                  {lectureDetails?.LiveClassRoomDetail?.description}
+                </Text>
+              </Flex>
+
+              <Box pt={6}>
+                <Text fontSize={"16px"} textColor={"#2C3329"} mb={2}>
+                  Agenda
+                </Text>
+                {lectureDetails?.LiveClassRoomDetail?.agenda ? (
+                  <Box>
+                    {lectureDetails.LiveClassRoomDetail.agenda
                       .split("\r\n")
-
-                      .map((agenda, index) => (
-                        <HStack key={index} pt={1}>
-                          <Box
-                            minWidth={"7px"}
-                            height={"7px"}
-                            bg={"gray.400"}
-                            borderRadius={"100%"}
-                          />
-                          <Text
-                            textColor={"#2C332978"}
-                            fontSize={"12px"}
-                            mt={"4px"}
-                            lineHeight={"21px"}
+                      .slice(0, 5)
+                      .map((agenda, index) =>
+                        agenda.trim() !== "" ? (
+                          <Stack
+                            key={index}
+                            spacing={1}
+                            direction="row"
+                            alignItems="center"
+                            mt={"10px"}
                           >
-                            {agenda}
-                          </Text>
-                        </HStack>
-                      ))
-                  ) : (
-                    <Text color={"#2C332978"} fontSize={"12px"} noOfLines={2}>
-                      No Data
-                    </Text>
-                  )}
-                </Box> */}
-
-                <Box pt={6}>
-                  <Text fontSize={"16px"} textColor={"#2C3329"} mb={2}>
-                    Agenda
-                  </Text>
-                  {lectureDetails?.LiveClassRoomDetail?.agenda ? (
-                    <Box>
-                      {lectureDetails.LiveClassRoomDetail.agenda
-                        .split("\r\n")
-                        .map((agenda, index) =>
-                          agenda.trim() !== "" ? (
-                            <Stack
-                              key={index}
-                              spacing={1}
-                              direction="row"
-                              alignItems="center"
-                              mt={"10px"}
-                            >
-                              <List>
-                                <ListItem>
-                                  <Flex>
-                                    {agenda && (
-                                      <ListIcon
-                                        as={FaCircle}
-                                        color={"#2C332978"}
-                                        boxSize={"6px"}
-                                        blendMode={"multiply"}
-                                        mt={"2px"}
-                                      />
-                                    )}
-                                    <Text
-                                      fontSize={"12px"}
-                                      lineHeight={"14px"}
+                            <List>
+                              <ListItem>
+                                <Flex>
+                                  {agenda && (
+                                    <ListIcon
+                                      as={FaCircle}
                                       color={"#2C332978"}
-                                    >
-                                      {agenda ?? "No Data"}
-                                    </Text>
-                                  </Flex>
-                                </ListItem>
-                              </List>
-                            </Stack>
-                          ) : null
-                        )}
-                    </Box>
-                  ) : (
-                    <Text color={"#2C332978"} fontSize={"12px"} noOfLines={2}>
-                      No Data
-                    </Text>
-                  )}
-                </Box>
+                                      boxSize={"6px"}
+                                      blendMode={"multiply"}
+                                      mt={"2px"}
+                                    />
+                                  )}
+                                  <Text
+                                    fontSize={"12px"}
+                                    lineHeight={"14px"}
+                                    color={"#2C332978"}
+                                  >
+                                    {agenda ?? "No Data"}
+                                  </Text>
+                                </Flex>
+                              </ListItem>
+                            </List>
+                          </Stack>
+                        ) : null
+                      )}
+                  </Box>
+                ) : (
+                  <Text color={"#2C332978"} fontSize={"12px"} noOfLines={2}>
+                    No Data
+                  </Text>
+                )}
               </Box>
-              <Box width={"50%"} pl={"20px"}>
+            </Box>
+            <Box>
+              <Stack spacing={"16px"}>
                 <Text
                   fontWeight={"400"}
                   fontSize={"16px"}
@@ -332,35 +294,30 @@ const SingleLectureDetailsCovered = () => {
                 >
                   Leader Board
                 </Text>
-                <Flex>
-                  <img
-                    className="h-[250px] ml-10"
-                    src={leaderBoardImage}
-                    alt="Leader Board"
-                  />
-                  <Box ml={"15px"}>
-                    {lectureDetails?.LeaderBoards?.map((leaderBoard, index) => (
-                      <Box
-                        key={leaderBoard?.id}
-                        justifyContent={"space-between"}
-                        alignItems={"center"}
-                        mt={"3px"}
-                        noOfLines={1}
+                <Flex p={10}>
+                  <Image src={leaderBoardImage} alt="Leader Board" />
+
+                  {lectureDetails?.LeaderBoards?.map((leaderBoard, index) => (
+                    <Flex
+                      key={leaderBoard?.id}
+                      justifyContent={"space-between"}
+                      alignItems={"center"}
+                      mt={"3px"}
+                      flexDirection={"column"}
+                    >
+                      <Text
+                        fontSize={"14px"}
+                        fontWeight={"400"}
+                        textColor={"#2C332978"}
                       >
-                        <Text
-                          fontSize={"14px"}
-                          fontWeight={"400"}
-                          textColor={"#2C332978"}
-                        >
-                          {index + 1}. {leaderBoard?.peerName}
-                        </Text>
-                      </Box>
-                    ))}
-                  </Box>
+                        {index + 1}. {leaderBoard?.peerName}
+                      </Text>
+                    </Flex>
+                  ))}
                 </Flex>
-              </Box>
-            </Flex>
-          </Box>
+              </Stack>
+            </Box>
+          </Flex>
         </Stack>
 
         <Box overflowX={"auto"} mt={8} width={"100%"}>
