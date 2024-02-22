@@ -49,7 +49,7 @@ export default function StudentFeedbackDetails() {
   const [limit, setLimit] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
+
   const [feedbackData, setFeedbackData] = useState([]);
   const navigate = useNavigate();
 
@@ -88,7 +88,6 @@ export default function StudentFeedbackDetails() {
 
   const getFeedbackData = async (body) => {
     try {
-      setIsLoading(true);
       const response = await getAllStudentFeedback(body);
       const { data, page, totalPages } = response.data;
       setFeedbackData(data);
@@ -98,9 +97,7 @@ export default function StudentFeedbackDetails() {
         setCurrentPage(page);
       }
       setTotalPages(totalPages);
-      setIsLoading(false);
     } catch (err) {
-      setIsLoading(false);
       console.log("get student feedback", err);
     }
   };
@@ -188,7 +185,7 @@ export default function StudentFeedbackDetails() {
               {feedbackData.length > 0 ? (
                 feedbackData.map((item, index) => (
                   <Tr key={item.id}>
-                    <Td>{index + 1}</Td>
+                    <Td>{(currentPage - 1) * limit + index + 1}</Td>
                     <Td>{moment(item.createdAt).format("L")}</Td>
                     <Td>{item.studentName}</Td>
                     <Td w={"50%"}>{item.feedback}</Td>
