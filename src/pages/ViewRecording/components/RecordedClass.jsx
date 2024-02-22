@@ -352,8 +352,8 @@ const RecordedClass = ({
       </Box>
       {(isLive || isLiveSpecific || isLiveTopic) && (
         <Box mt={6}>
-          <Text>Notes</Text>
-          <Box mt={1}>{renderNotes(recordingDetail)}</Box>
+          {/* <Text>Notes</Text>
+          <Box mt={1}>{renderNotes(recordingDetail)}</Box> */}
         </Box>
       )}
     </Box>
