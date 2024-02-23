@@ -41,7 +41,7 @@ export default function LectureDetailsById() {
 
   const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
   const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
-  const [lectureDetails, setLectureDetails] = useState({});
+  const [lectureDetails, setLectureDetails] = useState(null);
   const [assignmentDetails, setAssignmentDetails] = useState(null);
 
   const navigate = useNavigate();
@@ -54,6 +54,7 @@ export default function LectureDetailsById() {
       fetchAssignmentDetails(data?.LiveClassRoomDetail?.topicId);
       setLectureDetails(data);
     } catch (err) {
+      setLectureDetails(null);
       console.error("Error fetching all crash course lectures:", err);
     }
   };
@@ -95,233 +96,274 @@ export default function LectureDetailsById() {
           setClassTiming={setClassTiming}
         />
       )}
+
       <Flex gap={"23px"} m={"52px"}>
         <Stack spacing={6} w={"75%"}>
           <Header />
-          <Box
-            width={"full"}
-            h={"100%"}
-            bg={outerBackground}
-            borderRadius={"26px"}
-            p={"20px"}
-          >
-            <Flex mt={"17px"}>
-              <HStack spacing={"10px"} alignItems="center">
-                <Box
-                  width={"12px"}
-                  height={"25px"}
-                  borderRadius={"20px"}
-                  bg={"#3C8DBC"}
-                ></Box>
-                <Text fontSize={"19px"} lineHeight={"24px"}>
-                  Details
-                </Text>
-              </HStack>
-              <Spacer />
-            </Flex>
-            <Flex mt={"10px"}>
-              <Box width={"50%"}>
-                <Box>
+          {lectureDetails ? (
+            <Box
+              width={"full"}
+              h={"100%"}
+              bg={outerBackground}
+              borderRadius={"26px"}
+              p={"20px"}
+            >
+              <Flex mt={"17px"}>
+                <HStack spacing={"10px"} alignItems="center">
+                  <Box
+                    width={"12px"}
+                    height={"25px"}
+                    borderRadius={"20px"}
+                    bg={"#3C8DBC"}
+                  ></Box>
+                  <Text fontSize={"19px"} lineHeight={"24px"}>
+                    Details :{" "}
+                    <span className="text-base">
+                      ({lectureDetails?.LiveClassRoomDetail?.topicName})
+                    </span>
+                  </Text>
+                </HStack>
+                <Spacer />
+              </Flex>
+              <Flex mt={"20px"}>
+                <Box width={"50%"}>
+                  <Box>
+                    <Text
+                      fontWeight={"400"}
+                      fontSize={"16px"}
+                      textColor={"#2C3329"}
+                      lineHeight={"20px"}
+                    >
+                      Description
+                    </Text>
+                    <Text
+                      textColor={"#2C332978"}
+                      fontSize={"12px"}
+                      mt={"4px"}
+                      lineHeight={"21px"}
+                    >
+                      {lectureDetails?.LiveClassRoomDetail?.description}
+                    </Text>
+                  </Box>
+                  <Box pt={6}>
+                    <Text fontSize={"16px"} textColor={"#2C3329"} mb={2}>
+                      Agenda
+                    </Text>
+                    {lectureDetails?.LiveClassRoomDetail?.agenda ? (
+                      lectureDetails.LiveClassRoomDetail.agenda
+                        .split("\r\n")
+                        .slice(0, 4) // Take only the first 4 items
+                        .map((agenda, index) => (
+                          <HStack key={index} pt={1}>
+                            <Box
+                              minWidth={"7px"}
+                              height={"7px"}
+                              bg={"gray.400"}
+                              borderRadius={"100%"}
+                            />
+                            <Text
+                              textColor={"#2C332978"}
+                              fontSize={"12px"}
+                              mt={"4px"}
+                              lineHeight={"21px"}
+                            >
+                              {agenda}
+                            </Text>
+                          </HStack>
+                        ))
+                    ) : (
+                      <Text color={"#2C332978"} fontSize={"12px"} noOfLines={2}>
+                        No Data
+                      </Text>
+                    )}
+                  </Box>
+                </Box>
+                <Box width={"50%"} pl={"20px"}>
                   <Text
                     fontWeight={"400"}
                     fontSize={"16px"}
                     textColor={"#2C3329"}
-                    lineHeight={"20px"}
+                    mb={"5px"}
                   >
-                    Description
+                    Leader Board
                   </Text>
-                  <Text
-                    textColor={"#2C332978"}
-                    fontSize={"12px"}
-                    mt={"4px"}
-                    lineHeight={"21px"}
-                  >
-                    {lectureDetails?.LiveClassRoomDetail?.description}
-                  </Text>
-                </Box>
-                <Box pt={6}>
-                  <Text fontSize={"16px"} textColor={"#2C3329"} mb={2}>
-                    Agenda
-                  </Text>
-                  {lectureDetails?.LiveClassRoomDetail?.agenda ? (
-                    lectureDetails.LiveClassRoomDetail.agenda
-                      .split("\r\n")
-                      .slice(0, 4) // Take only the first 4 items
-                      .map((agenda, index) => (
-                        <HStack key={index} pt={1}>
+                  <Flex>
+                    <img
+                      className="h-[250px] ml-10"
+                      src={leaderBoard}
+                      alt="Leader Board"
+                    />
+                    <Box ml={"15px"}>
+                      {lectureDetails?.LeaderBoards?.map(
+                        (leaderBoard, index) => (
                           <Box
-                            width={"7px"}
-                            height={"7px"}
-                            bg={"gray.400"}
-                            borderRadius={"100%"}
-                          />
-                          <Text
-                            textColor={"#2C332978"}
-                            fontSize={"12px"}
-                            mt={"4px"}
-                            lineHeight={"21px"}
+                            key={leaderBoard?.id}
+                            justifyContent={"space-between"}
+                            alignItems={"center"}
+                            mt={"3px"}
+                            noOfLines={1}
                           >
-                            {agenda}
-                          </Text>
-                        </HStack>
-                      ))
-                  ) : (
-                    <Text color={"#2C332978"} fontSize={"12px"} noOfLines={2}>
-                      No Data
-                    </Text>
-                  )}
+                            <Text
+                              fontSize={"14px"}
+                              fontWeight={"400"}
+                              textColor={"#2C332978"}
+                            >
+                              {index + 1}. {leaderBoard?.peerName}
+                            </Text>
+                          </Box>
+                        )
+                      )}
+                    </Box>
+                  </Flex>
                 </Box>
-              </Box>
-              <Box width={"50%"} pl={"20px"}>
+              </Flex>
+              <Box overflowX={"auto"} mt={8}>
                 <Text
                   fontWeight={"400"}
                   fontSize={"16px"}
                   textColor={"#2C3329"}
-                  mb={"5px"}
+                  lineHeight={"20px"}
                 >
-                  Leader Board
+                  Recordings
                 </Text>
-                <img
-                  className="h-[250px] ml-10"
-                  src={leaderBoard}
-                  alt="Leader Board"
-                />
+                <Flex gap={"24px"} overflowX="auto">
+                  {lectureDetails?.LiveClassRoomRecordings?.length > 0 ? (
+                    <Flex gap={4} mt={4}>
+                      {lectureDetails?.LiveClassRoomRecordings.map(
+                        (recording, index) => (
+                          <Flex
+                            alignItems="center"
+                            w={"160px"}
+                            key={recording?.id}
+                            onClick={() =>
+                              handleViewRecording(recording, lectureDetails)
+                            }
+                            position={"relative"}
+                            cursor={"pointer"}
+                          >
+                            <Image
+                              src={defaultImageUrl}
+                              alt="Video Thumbnail"
+                              width={"100%"}
+                              height={"100%"}
+                            />
+                            <IconButton
+                              icon={<BsPlayFill />}
+                              fontSize="24px"
+                              position="absolute"
+                              top="50%"
+                              left="50%"
+                              borderRadius={"100%"}
+                              transform="translate(-50%, -50%)"
+                            />
+                          </Flex>
+                        )
+                      )}
+                    </Flex>
+                  ) : (
+                    <Text fontSize={"12px"} mt={4}>
+                      No recording are available for this topic.
+                    </Text>
+                  )}
+                </Flex>
               </Box>
-            </Flex>
 
-            <Box overflowX={"auto"} mt={8}>
-              <Text
-                fontWeight={"400"}
-                fontSize={"16px"}
-                textColor={"#2C3329"}
-                lineHeight={"20px"}
-              >
-                Recordings
-              </Text>
-              <Flex gap={"24px"} overflowX="auto">
-                {lectureDetails?.LiveClassRoomRecordings?.length > 0 ? (
-                  <Flex gap={4} mt={4}>
-                    {lectureDetails?.LiveClassRoomRecordings.map(
-                      (recording, index) => (
-                        <Flex
-                          alignItems="center"
-                          w={"160px"}
-                          key={recording?.id}
-                          onClick={() =>
-                            handleViewRecording(recording, lectureDetails)
-                          }
-                          position={"relative"}
-                          cursor={"pointer"}
-                        >
-                          <Image
-                            src={defaultImageUrl}
-                            alt="Video Thumbnail"
-                            width={"100%"}
-                            height={"100%"}
-                          />
-                          <IconButton
-                            icon={<BsPlayFill />}
-                            fontSize="24px"
-                            position="absolute"
-                            top="50%"
-                            left="50%"
-                            borderRadius={"100%"}
-                            transform="translate(-50%, -50%)"
-                          />
-                        </Flex>
-                      )
+              <Box mt={8}>
+                <Text
+                  fontWeight={"400"}
+                  fontSize={"16px"}
+                  textColor={"#2C3329"}
+                  lineHeight={"20px"}
+                >
+                  Files/Notes
+                </Text>
+                {lectureDetails?.LiveClassRoomFiles?.length > 0 ? (
+                  <Flex mt={4} flexWrap="wrap" gap={2}>
+                    {lectureDetails?.LiveClassRoomFiles?.map((file) => (
+                      <SingleFileComponent
+                        key={file?.id}
+                        file={file}
+                        type={"live"}
+                      />
+                    ))}
+
+                    {lectureDetails?.LiveClassRoomNote !== null && (
+                      <SingleFileComponent
+                        key={lectureDetails?.LiveClassRoomNote?.id}
+                        file={lectureDetails?.LiveClassRoomNote}
+                        type="note"
+                      />
                     )}
                   </Flex>
                 ) : (
-                  <Text fontSize={"12px"} mt={4}>
-                    No recording are available for this topic.
+                  <Text fontSize="12px" mt={4}>
+                    No Data for this topic
                   </Text>
                 )}
-              </Flex>
-            </Box>
+              </Box>
 
-            <Box mt={8}>
-              <Text
-                fontWeight={"400"}
-                fontSize={"16px"}
-                textColor={"#2C3329"}
-                lineHeight={"20px"}
-              >
-                Files/Notes
-              </Text>
-              {lectureDetails?.LiveClassRoomFiles?.length > 0 ? (
-                <Flex mt={4} flexWrap="wrap" gap={2}>
-                  {lectureDetails?.LiveClassRoomFiles?.map((file) => (
-                    <SingleFileComponent
-                      key={file?.id}
-                      file={file}
-                      type={"live"}
-                    />
-                  ))}
-
-                  {lectureDetails?.LiveClassRoomNote !== null && (
-                    <SingleFileComponent
-                      key={lectureDetails?.LiveClassRoomNote?.id}
-                      file={lectureDetails?.LiveClassRoomNote}
-                      type="note"
-                    />
-                  )}
-                </Flex>
-              ) : (
-                <Text fontSize="12px" mt={4}>
-                  No Data for this topic
+              <Box mt={8}>
+                <Text
+                  fontWeight={"400"}
+                  fontSize={"16px"}
+                  textColor={"#2C3329"}
+                  lineHeight={"20px"}
+                >
+                  Assignments
                 </Text>
-              )}
-            </Box>
-
-            <Box mt={8}>
-              <Text
-                fontWeight={"400"}
-                fontSize={"16px"}
-                textColor={"#2C3329"}
-                lineHeight={"20px"}
-              >
-                Assignments
-              </Text>
-              {assignmentDetails && assignmentDetails.length > 0 ? (
-                <SimpleGrid style={{ marginTop: "16px" }} spacing={6}>
-                  {assignmentDetails.map((assignment, index) => (
-                    <Card
-                      key={assignment?.id}
-                      h={"100%"}
-                      flex={1}
-                      borderRadius={"18px"}
-                      bg={innerBackground}
-                      p={4}
-                    >
-                      <Text fontSize={"xs"}>Description</Text>
-                      <Text
-                        fontSize={"xs"}
-                        color={"#2C332978"}
-                        noOfLines={2}
-                        mt={2}
+                {assignmentDetails && assignmentDetails.length > 0 ? (
+                  <SimpleGrid style={{ marginTop: "16px" }} spacing={6}>
+                    {assignmentDetails.map((assignment, index) => (
+                      <Card
+                        key={assignment?.id}
+                        h={"100%"}
+                        flex={1}
+                        borderRadius={"18px"}
+                        bg={innerBackground}
+                        p={4}
                       >
-                        {assignment.description}
-                      </Text>
-                      <HStack mt={4}>
-                        {assignment.AssignmentFiles.map((file, fileIndex) => (
-                          <SingleFileComponent
-                            key={file?.id}
-                            file={file}
-                            type="assignment"
-                          />
-                        ))}
-                      </HStack>
-                    </Card>
-                  ))}
-                </SimpleGrid>
-              ) : (
-                <Text fontSize={"12px"} mt={4}>
-                  No assignments for this topic.
-                </Text>
-              )}
+                        <Text fontSize={"xs"}>Description</Text>
+                        <Text
+                          fontSize={"xs"}
+                          color={"#2C332978"}
+                          noOfLines={2}
+                          mt={2}
+                        >
+                          {assignment.description}
+                        </Text>
+                        <HStack mt={4}>
+                          {assignment.AssignmentFiles.map((file, fileIndex) => (
+                            <SingleFileComponent
+                              key={file?.id}
+                              file={file}
+                              type="assignment"
+                            />
+                          ))}
+                        </HStack>
+                      </Card>
+                    ))}
+                  </SimpleGrid>
+                ) : (
+                  <Text fontSize={"12px"} mt={4}>
+                    No assignments for this topic.
+                  </Text>
+                )}
+              </Box>
             </Box>
-          </Box>
+          ) : (
+            <Flex
+              width={"full"}
+              h={"300px"}
+              bg={outerBackground}
+              borderRadius={"26px"}
+              p={"20px"}
+              display={"flex"}
+              justifyContent={"center"}
+              alignContent={"center"}
+            >
+              <Text >No Data Found</Text>
+            </Flex>
+          )}
         </Stack>
         <Box w={"25%"}>
           <SimpleBar

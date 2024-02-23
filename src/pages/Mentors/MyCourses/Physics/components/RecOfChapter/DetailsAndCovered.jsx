@@ -201,7 +201,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic,  }) => {
                 <SingleFileComponent key={file?.id} file={file} type={"live"} />
               ))
             )}
-            {liveClassRoomData?.data?.map(
+            {/* liveClassRoomData?.data?.map(
               (ld) =>
                 ld?.LiveClassRoomNote !== null && (
                   <SingleFileComponent
@@ -210,7 +210,7 @@ const ChapterDetailsAndCoveredPart = ({ viewTopic,  }) => {
                     type="note"
                   />
                 )
-            )}
+            )*/}
 
             {liveClassRoomData?.data?.every(
               (ld) =>

@@ -8,6 +8,9 @@ import { useSelector } from "react-redux";
 import DocumentViewer from "./components/popups/DocumentViewer";
 import FeedBackAndRating from "./components/popups/FeedBackAndRating";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
+import { useEffect } from "react";
+import StudentFeedBackPopup from "./components/popups/studentFeedbackPopup";
+
 const ProtectedRoutes = () => {
   const isAuth = isAuthenticated();
   if (!isAuth) {
@@ -24,9 +27,45 @@ function App() {
   const { isDocModalOpen, isFeedbackModalOpen } = useSelector(
     (state) => state.generic
   );
+  const { isStudentFeedbackModalOpen } = useSelector((state) => state.studentFeedback);
 
   const isNavbarDisabled =
     location.pathname === "/" || location.pathname.startsWith("/auth");
+
+  useEffect(() => {
+    // On loading the app remove the below key values if existed somehow in local storage, May be later on we can remove this Line of codes
+    localStorage.removeItem("secret_token");
+    localStorage.removeItem("insp_user_profile");
+  }, []);
+
+  useEffect(() => {
+    // Check if the environment is production
+    if (process.env.NODE_ENV === "production") {
+      function ctrlShiftKey(e, keyCode) {
+        return e.ctrlKey && e.shiftKey && e.keyCode === keyCode.charCodeAt(0);
+      }
+      const disableContext = (e) => {
+        e.preventDefault();
+      };
+      const disableDevToolsShortcut = (e) => {
+        if (
+          e.keyCode === 123 ||
+          ctrlShiftKey(e, "I") ||
+          ctrlShiftKey(e, "J") ||
+          ctrlShiftKey(e, "C") ||
+          (e.ctrlKey && e.keyCode === "U".charCodeAt(0))
+        )
+          e.preventDefault();
+      };
+      window.addEventListener("contextmenu", disableContext);
+      window.addEventListener("keydown", disableDevToolsShortcut);
+      // Remove the event listeners when the component unmounts
+      return () => {
+        window.removeEventListener("contextmenu", disableContext);
+        window.removeEventListener("keydown", disableDevToolsShortcut);
+      };
+    }
+  }, []);
 
   return (
     <>
@@ -37,6 +76,10 @@ function App() {
       )}
       <FeedBackAndRating
         isOpen={isFeedbackModalOpen}
+        onClose={onFeedBackClose}
+      />
+      <StudentFeedBackPopup
+        isOpen={isStudentFeedbackModalOpen}
         onClose={onFeedBackClose}
       />
       <ScrollToTop />
