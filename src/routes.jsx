@@ -34,7 +34,7 @@ const publicRoutes = [
   },
   {
     name: "Auth Loading",
-    path: "/auth/:secret_token",
+    path: "/auth",
     component: <AuthLoading message={"Logging you in..."} />,
   },
 ];
