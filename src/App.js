@@ -16,6 +16,8 @@ import DocumentViewer from "./components/popups/DocumentViewer";
 import FeedBackAndRating from "./components/popups/FeedBackAndRating";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import { useEffect } from "react";
+import StudentFeedBackPopup from "./components/popups/studentFeedbackPopup";
+
 const ProtectedRoutes = () => {
   const isAuth = isAuthenticated();
   if (!isAuth) {
@@ -33,6 +35,7 @@ function App() {
   const { isDocModalOpen, isFeedbackModalOpen } = useSelector(
     (state) => state.generic
   );
+  const { isStudentFeedbackModalOpen } = useSelector((state) => state.studentFeedback);
 
   const isNavbarDisabled =
     location.pathname === "/" || location.pathname.startsWith("/auth");
@@ -104,6 +107,10 @@ function App() {
       )}
       <FeedBackAndRating
         isOpen={isFeedbackModalOpen}
+        onClose={onFeedBackClose}
+      />
+      <StudentFeedBackPopup
+        isOpen={isStudentFeedbackModalOpen}
         onClose={onFeedBackClose}
       />
       <ScrollToTop />
