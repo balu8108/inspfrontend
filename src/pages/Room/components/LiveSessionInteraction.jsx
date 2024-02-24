@@ -174,12 +174,13 @@ const EmojiContainer = ({ isEmojiOpen, setIsEmojiOpen }) => {
 
 const ChatContainer = () => {
   const [autoScroll, setAutoScroll] = useState(true);
+  console.log("chat reendered");
 
   const theme = useTheme();
   const { primaryBlue } = theme.colors.pallete;
   const { chatMessages } = useSelector((state) => state.socket);
   const chatContainerRef = useRef(null);
-
+  console.log("chat messages", chatMessages);
   // Function to scroll to the latest message
   const scrollToLatestMessage = () => {
     const chatScroll = chatContainerRef.current;

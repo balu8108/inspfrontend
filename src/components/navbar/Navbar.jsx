@@ -27,32 +27,71 @@ import insplogo from "../../assets/images/insplogo.png";
 import { clearStorageData, getStorageData } from "../../utils";
 import { useNavigate, NavLink, useLocation } from "react-router-dom";
 import { FaBars } from "react-icons/fa6";
-
+import { setStudentFeedbackOpen } from "../../store/actions/studentFeedbackActions";
+import { useSelector, useDispatch } from "react-redux";
 // In below links the available To is the user type
 // if the same link is available to both type of user then we add 0,1
 // or if for specific then it will be 0 or 1
 // for example Assignments is available to students only not for teacher
 // Similary Courses is available to teacher only not for student
 const links = [
-  { path: "/homepage", label: "Home", availableTo: [0, 1] },
-  { path: "/schedule-class", label: "Calendar", availableTo: [0, 1] },
-  { path: "/myCourses/PHYSICS", label: "Courses", availableTo: [1] },
-  { path: "/mentor/alluploads", label: "Uploads", availableTo: [1] },
+  { path: "/homepage", label: "Home", availableTo: [0, 1], type: "route" },
+  {
+    path: "/schedule-class",
+    label: "Calendar",
+    availableTo: [0, 1],
+    type: "route",
+  },
+  {
+    path: "/myCourses/PHYSICS",
+    label: "Courses",
+    availableTo: [1],
+    type: "route",
+  },
+  {
+    path: "/mentor/alluploads",
+    label: "Uploads",
+    availableTo: [1],
+    type: "route",
+  },
 
   {
     path: "/student/assignments/PHYSICS",
     label: "Assignments",
     availableTo: [0],
+    type: "route",
   },
   {
     path: "/library/PHYSICS/1",
     label: "Library",
     availableTo: [0],
+    type: "route",
   },
-  { path: "/insp-website", label: "INSP Portal", availableTo: [0, 1] },
+  {
+    path: "/feedback-student", // student to give feedback
+    label: "Feedback",
+    availableTo: [0],
+    type: "button",
+  },
+  {
+    path: "/feedback-mentor", // mentor to see feedback
+    label: "Feedback",
+    availableTo: [1],
+    type: "route",
+  },
+  {
+    path: "/insp-website",
+    label: "INSP Portal",
+    availableTo: [0, 1],
+    type: "route",
+  },
 ];
 const NavLinks = ({ userData, type }) => {
   const location = useLocation();
+  const dispatch = useDispatch();
+  const openStudentFeedback = () => {
+    dispatch(setStudentFeedbackOpen(true, null));
+  };
 
   return (
     <>
@@ -69,7 +108,7 @@ const NavLinks = ({ userData, type }) => {
                   >
                     {link.label}
                   </a>
-                ) : (
+                ) : link.type === "route" ? (
                   <NavLink
                     to={link.path}
                     style={({ isActive, isPending }) => ({
@@ -78,6 +117,8 @@ const NavLinks = ({ userData, type }) => {
                   >
                     {link.label}
                   </NavLink>
+                ) : (
+                  <Text onClick={openStudentFeedback}>{link.label}</Text>
                 )}
               </Box>
               {type === "normal" && (
