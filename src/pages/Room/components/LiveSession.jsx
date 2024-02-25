@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import {
-  GridItem,
-  useDisclosure
+  GridItem
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -17,7 +16,7 @@ import { useToastContext } from "../../../components/toastNotificationProvider/T
 import { checkUserType, screenshotHandler } from "../../../utils";
 import { createLiveClassNotes } from "../../../api/genericapis";
 
-const LiveSession = ({outerBackground, roomId, isEnlarged, setIsEnlarged}) => {
+const LiveSession = ({outerBackground, roomId, isEnlarged, setIsEnlarged, onOpenLeaveOrEndClass}) => {
   const [isScreenShare, setIsScreenShare] = useState(false);
   const [mentorVideoStream, setMentorVideoStream] = useState(null);
   const [screenShareStream, setScreenShareStream] = useState(null);
@@ -35,9 +34,6 @@ const LiveSession = ({outerBackground, roomId, isEnlarged, setIsEnlarged}) => {
   const { addNotification } = useToastContext();
   const userRoleType = checkUserType();
   const navigate = useNavigate();
-  const {
-    onOpen: onOpenLeaveOrEndClass,
-  } = useDisclosure();
 
   const stopScreenShare = () => {
     setIsScreenShare(false);

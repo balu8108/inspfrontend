@@ -117,6 +117,7 @@ const Room = () => {
             roomId={roomId} 
             isEnlarged={isEnlarged} 
             setIsEnlarged={setIsEnlarged} 
+            onOpenLeaveOrEndClass={onOpenLeaveOrEndClass}
           />
 
           {/* member sidebar */}
