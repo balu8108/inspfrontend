@@ -17,7 +17,7 @@ import { PiPaperPlaneTiltBold } from "react-icons/pi";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import data from "@emoji-mart/data";
 import { init, SearchIndex } from "emoji-mart";
-
+import { v4 as uuidv4 } from 'uuid';
 import {
   setChatMessage,
   setSendPollResponse,
@@ -133,7 +133,7 @@ const EmojiContainer = ({ isEmojiOpen, setIsEmojiOpen }) => {
     dispatch(
       setChatMessage({
         msg: emoji.native,
-        peerDetails: { name: "You", id: Math.random() },
+        peerDetails: { name: "You", id: uuidv4() },
       })
     );
     // send the chat msg to the server
@@ -201,26 +201,24 @@ const ChatContainer = () => {
     }
   };
   useEffect(() => {
-    if (autoScroll) {
-      scrollToLatestMessage();
-    }
-  }, [chatMessages, autoScroll]);
+    scrollToLatestMessage();
+  }, [chatMessages]);
 
   return (
     <Scrollbars
       ref={chatContainerRef}
       style={{ height: "100%" }}
-      onScroll={handleScroll}
+      //onScroll={handleScroll}
       autoHide={true}
     >
-      {chatMessages.length === 0 ? (
+    {chatMessages.length === 0 ? (
         <Text textAlign={"center"} fontSize={"14px"}>
           No Chats
         </Text>
       ) : (
         chatMessages?.map((chat) => {
           return (
-            <Box key={chat.peerDetails?.id} mb={4}>
+            <Box key={uuidv4()} mb={4}>
               <HStack>
                 <Avatar
                   bg={primaryBlue}
@@ -247,38 +245,28 @@ const ChatContainer = () => {
 };
 
 const ChatBox = ({ chatMsg, setChatMsg }) => {
-  const [isSentBtnDisabled, setIsSentBtnDisabled] = useState(true);
+  const inputRef = useRef('');
   const [isChatSentLoading, setIsChatSentLoading] = useState(false);
   const [isEmojiOpen, setIsEmojiOpen] = useState(false);
   const dispatch = useDispatch();
 
-  const handleChatMsgChange = (e) => {
-    const value = e.target.value;
-    if (value.trim().length > 0) {
-      setChatMsg(value);
-      setIsSentBtnDisabled(false);
-    } else {
-      setChatMsg("");
-      setIsSentBtnDisabled(true);
-    }
-  };
-
   const sendChatMsg = (e) => {
+    console.log(inputRef.current.value);
     e.preventDefault();
     e.stopPropagation();
-    if (chatMsg) {
+    if (inputRef.current?.value.length > 0) {
       setIsChatSentLoading(true);
       dispatch(
         setChatMessage({
-          msg: chatMsg,
-          peerDetails: { name: "You", id: Math.random() },
+          msg: inputRef.current.value,
+          peerDetails: { name: "You", id: uuidv4() },
         })
       );
       // send the chat msg to the server
-      sendChatMessage(chatMsg);
-      setIsSentBtnDisabled(true);
+      sendChatMessage(inputRef.current.value);
       setChatMsg("");
       setIsChatSentLoading(false);
+      inputRef.current.value = "";
     }
   };
   return (
@@ -299,13 +287,12 @@ const ChatBox = ({ chatMsg, setChatMsg }) => {
           icon={<BsEmojiSmile size={16} />}
         />
         <Input
+          ref={inputRef}
           type="text"
           placeholder={"Type something..."}
           borderRadius="full"
           border={"none"}
           fontSize={"12px"}
-          value={chatMsg}
-          onChange={(e) => handleChatMsgChange(e)}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               sendChatMsg(e);
@@ -326,7 +313,6 @@ const ChatBox = ({ chatMsg, setChatMsg }) => {
           transition={"all 0.3 ease"}
           borderRadius={"full"}
           isLoading={isChatSentLoading}
-          isDisabled={isSentBtnDisabled}
           onClick={(e) => sendChatMsg(e)}
           icon={<PiPaperPlaneTiltBold size={16} />}
         />

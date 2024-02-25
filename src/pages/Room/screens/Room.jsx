@@ -39,6 +39,7 @@ import { createLiveClassNotes } from "../../../api/genericapis";
 import FileBoxComponent from "../../../components/filebox/FileBoxComponent";
 
 const Room = () => {
+  console.log('re');
   const [isScreenShare, setIsScreenShare] = useState(false);
   const [screenShareStream, setScreenShareStream] = useState(null);
   const [isEnlarged, setIsEnlarged] = useState(false); // for enlarging screen
