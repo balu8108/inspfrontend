@@ -228,7 +228,7 @@ const LiveSessionMembers = ({ primaryBlue, outerBackground }) => {
 
   return (
     <div
-      style={{ backgroundColor: "#fff", padding: 5 }}
+      style={{ padding: 5, height: isLargerThan768 ? '100%' : '30%' }}
       onClick={() => {
         if (viewType === liveSessionMemberViewType.compact) {
           setViewType(liveSessionMemberViewType.expanded);
@@ -238,7 +238,7 @@ const LiveSessionMembers = ({ primaryBlue, outerBackground }) => {
       }}
     >
       {viewType === liveSessionMemberViewType.compact ? (
-        <Scrollbars autoHide="true" style={{ width: 60 }}>
+        <Scrollbars autoHide="true" style={{ width: isLargerThan768 ? 60: '100%' }}>
           <Flex gap={"15px"} direction={["row", "row", "column", "column"]}>
             {renderCompactPeers()}
           </Flex>
@@ -256,7 +256,7 @@ const LiveSessionMembers = ({ primaryBlue, outerBackground }) => {
               </Stack>
             </Scrollbars>
           ) : (
-            <Scrollbars style={{ width: 100 }}>
+            <Scrollbars maxHeight={"85vh"} style={{ width: isLargerThan768 ? 100: '100%' }}>
               <Flex gap={4}>{renderExpandedPeers()}</Flex>
             </Scrollbars>
           )}
