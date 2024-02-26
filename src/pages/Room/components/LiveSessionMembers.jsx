@@ -6,13 +6,14 @@ import {
   HStack,
   Text,
   IconButton,
-  Center,
+  useDisclosure,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
   useMediaQuery,
 } from "@chakra-ui/react";
+import KickFromClassPopup from "../../../components/popups/KickFromClassPopup";
 
 import { useSelector } from "react-redux";
 import {
@@ -32,8 +33,6 @@ import {
 import Scrollbars from "rc-scrollbars";
 const Actions = ({ peer, onOpenKickFromClass, setKickedPersonDetails }) => {
   const [isMicBlocked, setIsMicBlocked] = useState(peer?.isAudioBlocked);
-
-  console.log("LIVE SESSION Member")
 
   const changeMicAccess = (e) => {
     e.stopPropagation();
@@ -85,10 +84,9 @@ const Actions = ({ peer, onOpenKickFromClass, setKickedPersonDetails }) => {
 const LiveSessionMembers = ({
   primaryBlue,
   outerBackground,
-  viewType,
-  onOpenKickFromClass,
-  setKickedPersonDetails,
+  viewType
 }) => {
+  const [kickedPersonDetails, setKickedPersonDetails] = useState(null);
   const { peers } = useSelector((state) => state.member);
   const { selfDetails } = useSelector((state) => state.stream);
   const [maxBoxesPerRow, setMaxBoxesPerRow] = useState(4);
@@ -97,6 +95,12 @@ const LiveSessionMembers = ({
     "(min-width: 480px)",
     "(min-width: 768px)",
   ]);
+
+  const {
+    isOpen: isOpenKickFromClass,
+    onOpen: onOpenKickFromClass,
+    onClose: onCloseKickFromClass,
+  } = useDisclosure();
 
   useEffect(() => {
     const calculateMaxBoxesPerRow = () => {
@@ -127,10 +131,18 @@ const LiveSessionMembers = ({
       }
     };
 
+    console.log("MEMBER List")
+
     return (
       <>
+      {isOpenKickFromClass && (
+        <KickFromClassPopup
+          isOpen={isOpenKickFromClass}
+          onClose={onCloseKickFromClass}
+          kickedPersonDetails={kickedPersonDetails}
+        />
+      )}
         {peers.map((peer) => {
-          console.log(peer);
           return(
             <Flex justifyContent={"space-between"} key={peer.id}>
               <HStack mr={4}>
@@ -187,7 +199,6 @@ const LiveSessionMembers = ({
               </HStack>
             </Flex>
           )
-
         }
         )}
       </>

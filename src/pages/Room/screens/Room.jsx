@@ -18,12 +18,11 @@ import {
 } from "../../../constants/staticvariables";
 import { useParams } from "react-router-dom";
 import LiveSessionInteraction from "../components/LiveSessionInteraction";
-import LeaveOrEndClassPopup from "../../../components/popups/LeaveOrEndClassPopup";
-import KickFromClassPopup from "../../../components/popups/KickFromClassPopup";
 import {
   resetChatMessages,
   resetQuestionMessags,
 } from "../../../store/actions/socketActions";
+import LeaveOrEndClassPopup from "../../../components/popups/LeaveOrEndClassPopup"
 
 const Room = () => {
   console.log("ROOM")
@@ -31,7 +30,6 @@ const Room = () => {
   const [peersViewType, setPeersViewType] = useState(
     liveSessionMemberViewType.compact
   );
-  const [kickedPersonDetails, setKickedPersonDetails] = useState(null);
 
   const { roomId } = useParams();
   const dispatch = useDispatch();
@@ -41,11 +39,6 @@ const Room = () => {
     isOpen: isOpenLeaveOrEndClass,
     onOpen: onOpenLeaveOrEndClass,
     onClose: onCloseLeaveOrEndClass,
-  } = useDisclosure();
-  const {
-    isOpen: isOpenKickFromClass,
-    onOpen: onOpenKickFromClass,
-    onClose: onCloseKickFromClass,
   } = useDisclosure();
   
   const { primaryBlue, outerBackground } = theme.colors.pallete;
@@ -75,20 +68,12 @@ const Room = () => {
 
   return (
     <>
-      {isOpenLeaveOrEndClass && (
+     {isOpenLeaveOrEndClass && (
         <LeaveOrEndClassPopup
           isOpen={isOpenLeaveOrEndClass}
           onClose={onCloseLeaveOrEndClass}
         />
       )}
-      {isOpenKickFromClass && (
-        <KickFromClassPopup
-          isOpen={isOpenKickFromClass}
-          onClose={onCloseKickFromClass}
-          kickedPersonDetails={kickedPersonDetails}
-        />
-      )}
-
       <Box py={4} px={[2, 4, 4, 10]}>
         <Grid
           templateColumns={renderColumns(peersViewType, isEnlarged)}
@@ -141,8 +126,6 @@ const Room = () => {
                 primaryBlue={primaryBlue}
                 outerBackground={outerBackground}
                 viewType={peersViewType}
-                onOpenKickFromClass={onOpenKickFromClass}
-                setKickedPersonDetails={setKickedPersonDetails}
               />
             </GridItem>
           )}
