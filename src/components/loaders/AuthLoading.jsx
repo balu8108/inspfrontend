@@ -6,7 +6,7 @@ import { getStorageType } from "../../utils";
 import { useToastContext } from "../toastNotificationProvider/ToastNotificationProvider";
 const AuthLoading = ({ message }) => {
   const { addNotification } = useToastContext();
-  // const { secret_token } = useParams(); // later on remove this as no secret token will be passed
+  const { secret_token } = useParams(); // later on remove this as no secret token will be passed
   const { unique_id } = useParams();
   const navigate = useNavigate();
 

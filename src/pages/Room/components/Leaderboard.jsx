@@ -8,7 +8,7 @@ import { formatSeconds } from "../../../utils";
 import PollTimer from "./PollTimer";
 import { Scrollbars } from "rc-scrollbars";
 const Leaderboard = ({ isLeaderBoardOpen, timer, setTimer }) => {
-  const { leaderBoard } = useSelector((state) => state.socket, shallowEqual);
+  const { leaderBoard } = useSelector((state) => state.chat, shallowEqual);
 
   const { primaryBlue } = useTheme().colors.pallete;
   return (

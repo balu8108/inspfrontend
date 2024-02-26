@@ -15,6 +15,7 @@ const RoomPreview = () => {
   useEffect(() => {
     initializeSocketConnections(roomId);
   }, [roomId]);
+
   useEffect(() => {
     dispatch(getLiveClassDetails(roomId));
   }, [roomId, dispatch]);
