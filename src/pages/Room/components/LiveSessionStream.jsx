@@ -26,7 +26,6 @@ const LiveSessionStream = (props) => {
     setMicStream,
     onOpenLeaveOrEndClass,
   } = props;
-  console.log("LIVE SESSION stream")
   const micRef = useRef();
   const screenShareRef = useRef();
   const mentorVideoRef = useRef();

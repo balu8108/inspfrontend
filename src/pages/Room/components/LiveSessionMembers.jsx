@@ -128,8 +128,6 @@ const LiveSessionMembers = ({ primaryBlue, outerBackground }) => {
       }
     };
 
-    console.log("MEMBER List");
-
     return (
       <>
         {isOpenKickFromClass && (
