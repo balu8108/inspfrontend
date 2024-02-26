@@ -31,12 +31,12 @@ const publicRoutes = [
   },
   {
     name: "Auth Loading",
-    path: "/auth",
+    path: "/auth/:unique_id",
     component: <AuthLoading message={"Trying to Logging you in..."} />,
   },
   {
     name: "Auth Loading",
-    path: "/auth/:secret_token",
+    path: "/auth",
     component: <AuthLoading message={"Logging you in..."} />,
   },
 ];

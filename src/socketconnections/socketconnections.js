@@ -422,7 +422,7 @@ const peerMicBlockedOrUnblockedResponseHandler = (res) => {
   store.dispatch(setUpdatePeerDetails(res));
 };
 
-/** REPSONSE HANDLER ENDS HERE **/
+/** RESPONSE HANDLER ENDS HERE **/
 
 // SOCKET EVENT LISTENERS AND EVENT EMITTERS:-
 export const initializeSocketConnections = (roomId) => {

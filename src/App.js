@@ -1,9 +1,16 @@
 import "./App.css";
 import Navbar from "./components/navbar/Navbar";
 import { useDisclosure } from "@chakra-ui/react";
-import { Routes, Route, useLocation, Outlet, Navigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  useLocation,
+  Outlet,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
 import { publicRoutes, privateRoutes } from "./routes";
-import { isAuthenticated } from "./utils";
+import { clearStorageData, getStorageData, isAuthenticated } from "./utils";
 import { useSelector } from "react-redux";
 import DocumentViewer from "./components/popups/DocumentViewer";
 import FeedBackAndRating from "./components/popups/FeedBackAndRating";
@@ -23,6 +30,7 @@ function App() {
   const location = useLocation();
   const { onClose: onDocModalClose } = useDisclosure();
   const { onClose: onFeedBackClose } = useDisclosure();
+  const navigate = useNavigate();
 
   const { isDocModalOpen, isFeedbackModalOpen } = useSelector(
     (state) => state.generic
@@ -65,6 +73,29 @@ function App() {
         window.removeEventListener("keydown", disableDevToolsShortcut);
       };
     }
+  }, []);
+
+  useEffect(() => {
+    const handleBeforeUnload = async (event) => {
+      try {
+        const data = getStorageData("secret_token");
+
+        if (data && data.status) {
+          await clearStorageData();
+          navigate("/");
+        } else {
+          console.log("Videoportal loaded");
+        }
+
+        // Handle errors if needed
+      } catch (err) {}
+      // Custom logic to handle the refresh
+      // Display a confirmation message or perform necessary actions
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
   }, []);
 
   return (
