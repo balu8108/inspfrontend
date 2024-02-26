@@ -144,7 +144,6 @@ const LiveSession = ({outerBackground, roomId, isEnlarged, setIsEnlarged, onOpen
   }, [screenShareStream]);
 
   return (
-    <div style={{backgroundColor: outerBackground, padding:'2px', borderRadius:'10px'}}>
       <LiveSessionStream
           isScreenShare={isScreenShare}
           setIsScreenShare={setIsScreenShare}
@@ -158,7 +157,6 @@ const LiveSession = ({outerBackground, roomId, isEnlarged, setIsEnlarged, onOpen
           setMicStream={setMicStream}
           onOpenLeaveOrEndClass={onOpenLeaveOrEndClass}
       />
-      </div>
   );
 };
 

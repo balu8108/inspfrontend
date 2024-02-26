@@ -19,10 +19,10 @@ import {
   resetChatMessages,
   resetQuestionMessags,
 } from "../../../store/actions/socketActions";
-import LeaveOrEndClassPopup from "../../../components/popups/LeaveOrEndClassPopup"
+import LeaveOrEndClassPopup from "../../../components/popups/LeaveOrEndClassPopup";
 
 const Room = () => {
-  console.log("ROOM")
+  console.log("ROOM");
   const [isEnlarged, setIsEnlarged] = useState(false); // for enlarging screen
   const { roomId } = useParams();
   const dispatch = useDispatch();
@@ -33,10 +33,10 @@ const Room = () => {
     onOpen: onOpenLeaveOrEndClass,
     onClose: onCloseLeaveOrEndClass,
   } = useDisclosure();
-  
+
   const { primaryBlue, outerBackground } = theme.colors.pallete;
 
-  const [ isLargerThan768] = useMediaQuery([
+  const [isLargerThan768] = useMediaQuery([
     "(min-width: 480px)",
     "(min-width: 768px)",
   ]);
@@ -44,9 +44,8 @@ const Room = () => {
   const renderColumns = (isEnlarged) => {
     if (isEnlarged) {
       return "1fr";
-    }
-    else{
-      return ["1fr", "1fr", "1.5fr 3.5fr", "1.2fr 6fr"]
+    } else {
+      return ["1fr", "1fr", "1.5fr 3.5fr", "1.2fr 6fr"];
     }
   };
 
@@ -60,7 +59,7 @@ const Room = () => {
 
   return (
     <>
-     {isOpenLeaveOrEndClass && (
+      {isOpenLeaveOrEndClass && (
         <LeaveOrEndClassPopup
           isOpen={isOpenLeaveOrEndClass}
           onClose={onCloseLeaveOrEndClass}
@@ -94,36 +93,39 @@ const Room = () => {
           )}
 
           <GridItem
-              rowSpan={[isEnlarged ? 12 : 5, isEnlarged ? 12 : 5, 6, 6]}
-              // bg={outerBackground}
-              // p={[2, 2, 2, 4]}
-              // borderRadius={"md"}
-              style={{display:'flex'}}
-              gap={10}
-              >
-              {/* member sidebar */}
+            rowSpan={[isEnlarged ? 12 : 5, isEnlarged ? 12 : 5, 6, 6]}
+            // bg={outerBackground}
+            // p={[2, 2, 2, 4]}
+            // borderRadius={"md"}
+            style={{
+              display: "flex",
+              flexDirection: "row",
+            }}
+            
+            gap={5}
+          >
+            {/* member sidebar */}
 
-              <LiveSession 
+            <LiveSession
+              outerBackground={outerBackground}
+              roomId={roomId}
+              isEnlarged={isEnlarged}
+              setIsEnlarged={setIsEnlarged}
+              onOpenLeaveOrEndClass={onOpenLeaveOrEndClass}
+            />
+
+            {/* member sidebar */}
+
+            {!isEnlarged && (
+              <LiveSessionMembers
+                primaryBlue={primaryBlue}
                 outerBackground={outerBackground}
-                roomId={roomId} 
-                isEnlarged={isEnlarged} 
-                setIsEnlarged={setIsEnlarged} 
-                onOpenLeaveOrEndClass={onOpenLeaveOrEndClass}
               />
-
-              {/* member sidebar */}
-
-              {!isEnlarged && (
-                <LiveSessionMembers
-                  primaryBlue={primaryBlue}
-                  outerBackground={outerBackground}
-                />
-              )}
-
+            )}
           </GridItem>
 
           {!isLargerThan768 && (
-            <GridItem rowSpan={1} bg={"red"} borderRadius={"md"}>
+            <GridItem rowSpan={1} bg={outerBackground} borderRadius={"md"}>
               <FilesForSmallerScreen />
             </GridItem>
           )}
@@ -135,7 +137,7 @@ const Room = () => {
               bg={outerBackground}
               borderRadius={"md"}
             >
-              <LiveSessionInteraction />              
+              <LiveSessionInteraction />
             </GridItem>
           )}
         </Grid>

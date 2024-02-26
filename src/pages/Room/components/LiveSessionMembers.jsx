@@ -81,10 +81,7 @@ const Actions = ({ peer, onOpenKickFromClass, setKickedPersonDetails }) => {
   );
 };
 
-const LiveSessionMembers = ({
-  primaryBlue,
-  outerBackground
-}) => {
+const LiveSessionMembers = ({ primaryBlue, outerBackground }) => {
   const [viewType, setViewType] = useState("Compact");
   const [kickedPersonDetails, setKickedPersonDetails] = useState(null);
   const { peers } = useSelector((state) => state.member);
@@ -131,19 +128,19 @@ const LiveSessionMembers = ({
       }
     };
 
-    console.log("MEMBER List")
+    console.log("MEMBER List");
 
     return (
       <>
-      {isOpenKickFromClass && (
-        <KickFromClassPopup
-          isOpen={isOpenKickFromClass}
-          onClose={onCloseKickFromClass}
-          kickedPersonDetails={kickedPersonDetails}
-        />
-      )}
+        {isOpenKickFromClass && (
+          <KickFromClassPopup
+            isOpen={isOpenKickFromClass}
+            onClose={onCloseKickFromClass}
+            kickedPersonDetails={kickedPersonDetails}
+          />
+        )}
         {peers.map((peer) => {
-          return(
+          return (
             <Flex justifyContent={"space-between"} key={peer.id}>
               <HStack mr={4}>
                 <Box
@@ -198,9 +195,8 @@ const LiveSessionMembers = ({
                 )}
               </HStack>
             </Flex>
-          )
-        }
-        )}
+          );
+        })}
       </>
     );
   };
@@ -233,16 +229,18 @@ const LiveSessionMembers = ({
   };
 
   return (
-    <div style={{backgroundColor:'#fff', padding: 20}} 
-    onClick={() => {
-      if (viewType === liveSessionMemberViewType.compact) {
-        setViewType(liveSessionMemberViewType.expanded);
-      } else {
-        setViewType(liveSessionMemberViewType.compact);
-      }
-    }}>
+    <div
+      style={{ backgroundColor: "#fff", padding: 5 }}
+      onClick={() => {
+        if (viewType === liveSessionMemberViewType.compact) {
+          setViewType(liveSessionMemberViewType.expanded);
+        } else {
+          setViewType(liveSessionMemberViewType.compact);
+        }
+      }}
+    >
       {viewType === liveSessionMemberViewType.compact ? (
-        <Scrollbars autoHide="true" style={{ width: 100}}>
+        <Scrollbars autoHide="true" style={{ width: 60 }}>
           <Flex gap={"15px"} direction={["row", "row", "column", "column"]}>
             {renderCompactPeers()}
           </Flex>
@@ -250,13 +248,17 @@ const LiveSessionMembers = ({
       ) : (
         <>
           {isLargerThan768 ? (
-            <Scrollbars autoHeight={true} autoHeightMin={"85vh"} style={{ width: 300}}>
+            <Scrollbars
+              autoHeight={true}
+              autoHeightMin={"85vh"}
+              style={{ width: 250 }}
+            >
               <Stack gap={4} maxHeight={"85vh"}>
                 {renderExpandedPeers()}
               </Stack>
             </Scrollbars>
           ) : (
-            <Scrollbars style={{ width: 100}}>
+            <Scrollbars style={{ width: 100 }}>
               <Flex gap={4}>{renderExpandedPeers()}</Flex>
             </Scrollbars>
           )}
