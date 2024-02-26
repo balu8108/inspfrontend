@@ -431,7 +431,6 @@ export const initializeSocketConnections = (roomId) => {
   if (status) {
     socket = io(BASE_URL, {
       auth: { secret_token: secret_token },
-      transports: ["websocket"],
     });
     // store the socket in redux also as we may need it later
 
