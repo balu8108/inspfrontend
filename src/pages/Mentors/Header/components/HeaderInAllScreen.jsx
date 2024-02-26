@@ -106,7 +106,7 @@ const Header = () => {
           <Flex mx={"5"} gap={"24px"}>
             {subjects.map((subject) => (
               <Card
-                minW={"30%"}
+                minW={"31%"}
                 h={"204px"}
                 borderRadius={"16px"}
                 bg={innerBackground}
