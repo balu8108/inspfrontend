@@ -21,7 +21,7 @@ import {
 } from "../../../constants/staticvariables";
 import { useState, useEffect } from "react";
 import { FiMic, FiMicOff, FiVideoOff } from "react-icons/fi";
-import { checkUserType, renderLeftMembersCount } from "../../../utils";
+import { checkUserType } from "../../../utils";
 import { IoIosRemoveCircleOutline } from "react-icons/io";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { BsMicMute } from "react-icons/bs";
@@ -32,6 +32,8 @@ import {
 import Scrollbars from "rc-scrollbars";
 const Actions = ({ peer, onOpenKickFromClass, setKickedPersonDetails }) => {
   const [isMicBlocked, setIsMicBlocked] = useState(peer?.isAudioBlocked);
+
+  console.log("LIVE SESSION Member")
 
   const changeMicAccess = (e) => {
     e.stopPropagation();
@@ -87,7 +89,8 @@ const LiveSessionMembers = ({
   onOpenKickFromClass,
   setKickedPersonDetails,
 }) => {
-  const { peers, selfDetails } = useSelector((state) => state.socket);
+  const { peers } = useSelector((state) => state.member);
+  const { selfDetails } = useSelector((state) => state.stream);
   const [maxBoxesPerRow, setMaxBoxesPerRow] = useState(4);
   const userRoleType = checkUserType();
   const [isLargerThan480, isLargerThan768] = useMediaQuery([

@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { miroViewMode } from "../../../constants/staticvariables";
 
 const MiroBoard = () => {
-  const { miroBoard } = useSelector((state) => state.socket);
+  const { miroBoard } = useSelector((state) => state.stream);
 
   const iframeRef = useRef(null);
 

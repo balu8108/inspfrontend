@@ -17,6 +17,7 @@ import { checkUserType, screenshotHandler } from "../../../utils";
 import { createLiveClassNotes } from "../../../api/genericapis";
 
 const LiveSession = ({outerBackground, roomId, isEnlarged, setIsEnlarged, onOpenLeaveOrEndClass}) => {
+  console.log("SESSION")
   const [isScreenShare, setIsScreenShare] = useState(false);
   const [mentorVideoStream, setMentorVideoStream] = useState(null);
   const [screenShareStream, setScreenShareStream] = useState(null);
@@ -29,8 +30,9 @@ const LiveSession = ({outerBackground, roomId, isEnlarged, setIsEnlarged, onOpen
   };
 
   const { rtpCapabilities, isMeetEnd, isKickedOut } = useSelector(
-    (state) => state.socket
+    (state) => state.stream
   );
+
   const { addNotification } = useToastContext();
   const userRoleType = checkUserType();
   const navigate = useNavigate();
@@ -100,7 +102,6 @@ const LiveSession = ({outerBackground, roomId, isEnlarged, setIsEnlarged, onOpen
       stopMediaStream(mentorVideoStream);
     };
   }, [mentorVideoStream]);
-
 
   useEffect(() => {
     const ssId = setInterval(async () => {

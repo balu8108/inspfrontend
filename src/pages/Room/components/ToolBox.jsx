@@ -79,6 +79,7 @@ const ToolBox = ({
   micRef,
   onOpenLeaveOrEndClass,
 }) => {
+  console.log("Tool box")
   const [isLargerThan480, isLargerThan768] = useMediaQuery([
     "(min-width: 480px)",
     "(min-width: 768px)",
@@ -98,8 +99,8 @@ const ToolBox = ({
   const { redBtnColor } = useTheme().colors.pallete;
   const userRoleType = checkUserType();
 
-  const { roomPreviewData, selfDetails } = useSelector(
-    (state) => state.socket,
+  const { selfDetails } = useSelector(
+    (state) => state.stream,
     shallowEqual
   );
 

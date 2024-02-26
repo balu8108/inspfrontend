@@ -14,7 +14,7 @@ import { BiBarChart } from "react-icons/bi";
 import { BsEmojiSmile } from "react-icons/bs";
 import { TfiMenuAlt } from "react-icons/tfi";
 import { PiPaperPlaneTiltBold } from "react-icons/pi";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import data from "@emoji-mart/data";
 import { init, SearchIndex } from "emoji-mart";
 import { v4 as uuidv4 } from 'uuid';
@@ -31,11 +31,6 @@ import { checkUserType, containsEmoji } from "../../../utils";
 import Leaderboard from "./Leaderboard";
 import { userType } from "../../../constants/staticvariables";
 
-// Active btns will be
-// 1 - Leaderboard
-// 2 - QnA
-// 3 - Chat
-
 const activeContentOptions = {
   Leaderboard: "Leaderboard",
   QnA: "Qna",
@@ -47,8 +42,7 @@ const QuestionContainer = () => {
   const theme = useTheme();
   const { primaryBlue } = theme.colors.pallete;
   const { questionMessages } = useSelector(
-    (state) => state.socket,
-    shallowEqual
+    (state) => state.chat
   );
 
   // Function to scroll to the latest message
@@ -77,6 +71,7 @@ const QuestionContainer = () => {
     }
   }, [questionMessages, autoScroll]);
 
+  console.log("Interaction")
   return (
     <Scrollbars
       ref={questionContainerRef}
@@ -178,7 +173,7 @@ const ChatContainer = () => {
 
   const theme = useTheme();
   const { primaryBlue } = theme.colors.pallete;
-  const { chatMessages } = useSelector((state) => state.socket);
+  const { chatMessages } = useSelector((state) => state.chat);
   const chatContainerRef = useRef(null);
   console.log("chat messages", chatMessages);
   // Function to scroll to the latest message
@@ -262,6 +257,7 @@ const ChatBox = ({ chatMsg, setChatMsg }) => {
           peerDetails: { name: "You", id: uuidv4() },
         })
       );
+      console.log("Chat message")
       // send the chat msg to the server
       sendChatMessage(inputRef.current.value);
       setChatMsg("");
@@ -406,7 +402,7 @@ const QuestionBox = () => {
 const ActiveContent = ({ activeContent }) => {
   const [chatMsg, setChatMsg] = useState("");
   const [timer, setTimer] = useState(0);
-  const { pollData } = useSelector((state) => state.socket);
+  const { pollData } = useSelector((state) => state.chat);
   const dispatch = useDispatch();
 
   useEffect(() => {

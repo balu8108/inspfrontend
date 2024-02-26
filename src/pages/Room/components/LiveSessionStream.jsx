@@ -26,17 +26,17 @@ const LiveSessionStream = (props) => {
     setMicStream,
     onOpenLeaveOrEndClass,
   } = props;
+  console.log("LIVE SESSION stream")
   const micRef = useRef();
   const screenShareRef = useRef();
   const mentorVideoRef = useRef();
-  const { question } = useSelector((state) => state.socket);
   const [isLargerThan480, isLargerThan768] = useMediaQuery([
     "(min-width: 480px)",
     "(min-width: 768px)",
   ]);
 
-  const { mentorScreenShareConsumer, audioConsumers, raiseHands } = useSelector(
-    (state) => state.socket
+  const { mentorScreenShareConsumer, audioConsumers, raiseHands, question} = useSelector(
+    (state) => state.stream
   );
   const userRoleType = checkUserType();
   const { data: inspUserProfile } = getStorageData("insp_user_profile");

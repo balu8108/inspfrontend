@@ -85,8 +85,11 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
     outerBackground,
   } = theme.colors.pallete;
 
-  const { isPeerLoading, peers, roomPreviewData } = useSelector(
+  const { roomPreviewData } = useSelector(
     (state) => state.socket
+  );
+  const { isPeerLoading, peers } = useSelector(
+    (state) => state.member
   );
 
   const { addNotification } = useToastContext();

@@ -26,14 +26,17 @@ import {
 } from "../../../store/actions/socketActions";
 
 const Room = () => {
+  console.log("ROOM")
   const [isEnlarged, setIsEnlarged] = useState(false); // for enlarging screen
   const [peersViewType, setPeersViewType] = useState(
     liveSessionMemberViewType.compact
   );
   const [kickedPersonDetails, setKickedPersonDetails] = useState(null);
+
   const { roomId } = useParams();
   const dispatch = useDispatch();
   const theme = useTheme();
+
   const {
     isOpen: isOpenLeaveOrEndClass,
     onOpen: onOpenLeaveOrEndClass,
@@ -44,6 +47,7 @@ const Room = () => {
     onOpen: onOpenKickFromClass,
     onClose: onCloseKickFromClass,
   } = useDisclosure();
+  
   const { primaryBlue, outerBackground } = theme.colors.pallete;
 
   const [ isLargerThan768] = useMediaQuery([

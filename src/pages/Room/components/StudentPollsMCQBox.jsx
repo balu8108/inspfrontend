@@ -25,7 +25,7 @@ const StudentPollsMCQBox = ({ question }) => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [selectedCheckBox, setSelectedCheckbox] = useState([]);
   const { primaryBlue, lightGrey } = useTheme().colors.pallete;
-  const { pollTimerIncrease } = useSelector((state) => state.socket);
+  const { pollTimerIncrease } = useSelector((state) => state.stream);
 
   const dispatch = useDispatch();
 
