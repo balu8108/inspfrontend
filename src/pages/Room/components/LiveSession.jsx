@@ -144,26 +144,21 @@ const LiveSession = ({outerBackground, roomId, isEnlarged, setIsEnlarged, onOpen
   }, [screenShareStream]);
 
   return (
-    <GridItem
-    rowSpan={[isEnlarged ? 12 : 5, isEnlarged ? 12 : 5, 6, 6]}
-    bg={outerBackground}
-    p={[2, 2, 2, 4]}
-    borderRadius={"md"}
-    >
-    <LiveSessionStream
-        isScreenShare={isScreenShare}
-        setIsScreenShare={setIsScreenShare}
-        screenShareStream={screenShareStream}
-        setScreenShareStream={setScreenShareStream}
-        isEnlarged={isEnlarged}
-        setIsEnlarged={setIsEnlarged}
-        mentorVideoStream={mentorVideoStream}
-        setMentorVideoStream={setMentorVideoStream}
-        micStream={micStream}
-        setMicStream={setMicStream}
-        onOpenLeaveOrEndClass={onOpenLeaveOrEndClass}
-    />
-    </GridItem>
+    <div style={{backgroundColor: outerBackground, padding:'2px', borderRadius:'10px'}}>
+      <LiveSessionStream
+          isScreenShare={isScreenShare}
+          setIsScreenShare={setIsScreenShare}
+          screenShareStream={screenShareStream}
+          setScreenShareStream={setScreenShareStream}
+          isEnlarged={isEnlarged}
+          setIsEnlarged={setIsEnlarged}
+          mentorVideoStream={mentorVideoStream}
+          setMentorVideoStream={setMentorVideoStream}
+          micStream={micStream}
+          setMicStream={setMicStream}
+          onOpenLeaveOrEndClass={onOpenLeaveOrEndClass}
+      />
+      </div>
   );
 };
 

@@ -83,9 +83,9 @@ const Actions = ({ peer, onOpenKickFromClass, setKickedPersonDetails }) => {
 
 const LiveSessionMembers = ({
   primaryBlue,
-  outerBackground,
-  viewType
+  outerBackground
 }) => {
+  const [viewType, setViewType] = useState("Compact");
   const [kickedPersonDetails, setKickedPersonDetails] = useState(null);
   const { peers } = useSelector((state) => state.member);
   const { selfDetails } = useSelector((state) => state.stream);
@@ -106,7 +106,7 @@ const LiveSessionMembers = ({
     const calculateMaxBoxesPerRow = () => {
       const screenHeight = window.innerHeight;
       const rowHeight =
-        viewType === liveSessionMemberViewType.compact ? 80 : 120; // Adjust row height as needed
+        "Expand" === liveSessionMemberViewType.compact ? 80 : 120; // Adjust row height as needed
 
       const calculatedMaxBoxes = Math.floor(screenHeight / rowHeight) - 2;
       setMaxBoxesPerRow(calculatedMaxBoxes > 0 ? calculatedMaxBoxes : 1); // Ensure at least one box per row
@@ -206,10 +206,6 @@ const LiveSessionMembers = ({
   };
 
   const renderCompactPeers = () => {
-    // const peersToDisplay =
-    //   viewType === liveSessionMemberViewType.compact
-    //     ? peers.slice(0, maxBoxesPerRow)
-    //     : peers;
     const peersToDisplay =
       viewType === liveSessionMemberViewType.compact ? peers : peers;
     return (
@@ -232,31 +228,21 @@ const LiveSessionMembers = ({
             />
           </Flex>
         ))}
-
-        {/* {peers.length > maxBoxesPerRow && (
-          <Center px={"10px"} py={2} borderRadius={"md"} bg={"gray.200"}>
-            <Flex
-              borderRadius={"md"}
-              w={"100%"}
-              bg={primaryBlue}
-              height={"50px"}
-              justifyContent={"center"}
-              alignItems={"center"}
-            >
-              <Text color={"white"} fontWeight={600} fontSize={"10px"}>
-                +{renderLeftMembersCount(peers.length, maxBoxesPerRow)}
-              </Text>
-            </Flex>
-          </Center>
-        )} */}
       </>
     );
   };
 
   return (
-    <>
+    <div style={{backgroundColor:'#fff', padding: 20}} 
+    onClick={() => {
+      if (viewType === liveSessionMemberViewType.compact) {
+        setViewType(liveSessionMemberViewType.expanded);
+      } else {
+        setViewType(liveSessionMemberViewType.compact);
+      }
+    }}>
       {viewType === liveSessionMemberViewType.compact ? (
-        <Scrollbars autoHide="true">
+        <Scrollbars autoHide="true" style={{ width: 100}}>
           <Flex gap={"15px"} direction={["row", "row", "column", "column"]}>
             {renderCompactPeers()}
           </Flex>
@@ -264,19 +250,19 @@ const LiveSessionMembers = ({
       ) : (
         <>
           {isLargerThan768 ? (
-            <Scrollbars autoHeight={true} autoHeightMin={"85vh"}>
+            <Scrollbars autoHeight={true} autoHeightMin={"85vh"} style={{ width: 300}}>
               <Stack gap={4} maxHeight={"85vh"}>
                 {renderExpandedPeers()}
               </Stack>
             </Scrollbars>
           ) : (
-            <Scrollbars>
+            <Scrollbars style={{ width: 100}}>
               <Flex gap={4}>{renderExpandedPeers()}</Flex>
             </Scrollbars>
           )}
         </>
       )}
-    </>
+    </div>
   );
 };
 
