@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect,  useRef } from "react";
 import { Box, useMediaQuery } from "@chakra-ui/react";
 
 import { useSelector } from "react-redux";
@@ -14,37 +14,29 @@ import WaterMark from "../../../components/watermark/WaterMark";
 
 const LiveSessionStream = (props) => {
   const {
-    primaryBlue,
     isScreenShare,
     setIsScreenShare,
-    screenShareRef,
     screenShareStream,
     setScreenShareStream,
     isEnlarged,
     setIsEnlarged,
-    isMentorVideoOn,
-    setIsMentorVideoOn,
     mentorVideoStream,
     setMentorVideoStream,
-    mentorVideoRef,
-    isMicOn,
-    setIsMicOn,
     micStream,
     setMicStream,
-    micRef,
-    isRecordOn,
-    setIsRecordOn,
     onOpenLeaveOrEndClass,
   } = props;
-
-  const { question } = useSelector((state) => state.socket);
+  console.log("LIVE SESSION stream")
+  const micRef = useRef();
+  const screenShareRef = useRef();
+  const mentorVideoRef = useRef();
   const [isLargerThan480, isLargerThan768] = useMediaQuery([
     "(min-width: 480px)",
     "(min-width: 768px)",
   ]);
 
-  const { mentorScreenShareConsumer, audioConsumers, raiseHands } = useSelector(
-    (state) => state.socket
+  const { mentorScreenShareConsumer, audioConsumers, raiseHands, question} = useSelector(
+    (state) => state.stream
   );
   const userRoleType = checkUserType();
   const { data: inspUserProfile } = getStorageData("insp_user_profile");
@@ -168,7 +160,6 @@ const LiveSessionStream = (props) => {
         </Box>
 
         <ToolBox
-          primaryBlue={primaryBlue}
           isScreenShare={isScreenShare}
           setIsScreenShare={setIsScreenShare}
           screenShareRef={screenShareRef}
@@ -176,18 +167,12 @@ const LiveSessionStream = (props) => {
           setScreenShareStream={setScreenShareStream}
           isEnlarged={isEnlarged}
           setIsEnlarged={setIsEnlarged}
-          isMentorVideoOn={isMentorVideoOn}
-          setIsMentorVideoOn={setIsMentorVideoOn}
           mentorVideoStream={mentorVideoStream}
           setMentorVideoStream={setMentorVideoStream}
           mentorVideoRef={mentorVideoRef}
-          isMicOn={isMicOn}
-          setIsMicOn={setIsMicOn}
           micStream={micStream}
           setMicStream={setMicStream}
           micRef={micRef}
-          isRecordOn={isRecordOn}
-          setIsRecordOn={setIsRecordOn}
           onOpenLeaveOrEndClass={onOpenLeaveOrEndClass}
         />
         {/*below is mentor video Share */}

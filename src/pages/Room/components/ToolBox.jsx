@@ -64,7 +64,6 @@ export const TheatreModeBtn = ({ isEnlarged, setIsEnlarged }) => {
 };
 
 const ToolBox = ({
-  primaryBlue,
   isScreenShare,
   setIsScreenShare,
   screenShareRef,
@@ -72,24 +71,22 @@ const ToolBox = ({
   screenShareStream,
   isEnlarged,
   setIsEnlarged,
-  isMentorVideoOn,
-  setIsMentorVideoOn,
   mentorVideoStream,
   setMentorVideoStream,
   mentorVideoRef,
-  isMicOn,
-  setIsMicOn,
   micStream,
   setMicStream,
   micRef,
-  isRecordOn,
-  setIsRecordOn,
   onOpenLeaveOrEndClass,
 }) => {
+  console.log("Tool box")
   const [isLargerThan480, isLargerThan768] = useMediaQuery([
     "(min-width: 480px)",
     "(min-width: 768px)",
   ]);
+  const [isMicOn, setIsMicOn] = useState(false);
+  const [isMentorVideoOn, setIsMentorVideoOn] = useState(false);
+  const [isRecordOn, setIsRecordOn] = useState(false);
   const [isLeaveLoading, setIsLeaveLoading] = useState(false); // for leave button loading state
   const [isRecordingLoading, setIsRecordingLoading] = useState(false);
   const [producerScreenShare, setProducerScreenShare] = useState(null);
@@ -102,8 +99,8 @@ const ToolBox = ({
   const { redBtnColor } = useTheme().colors.pallete;
   const userRoleType = checkUserType();
 
-  const { roomPreviewData, selfDetails } = useSelector(
-    (state) => state.socket,
+  const { selfDetails } = useSelector(
+    (state) => state.stream,
     shallowEqual
   );
 

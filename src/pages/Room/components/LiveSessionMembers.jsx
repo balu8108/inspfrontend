@@ -21,7 +21,7 @@ import {
 } from "../../../constants/staticvariables";
 import { useState, useEffect } from "react";
 import { FiMic, FiMicOff, FiVideoOff } from "react-icons/fi";
-import { checkUserType, renderLeftMembersCount } from "../../../utils";
+import { checkUserType } from "../../../utils";
 import { IoIosRemoveCircleOutline } from "react-icons/io";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { BsMicMute } from "react-icons/bs";
@@ -32,6 +32,8 @@ import {
 import Scrollbars from "rc-scrollbars";
 const Actions = ({ peer, onOpenKickFromClass, setKickedPersonDetails }) => {
   const [isMicBlocked, setIsMicBlocked] = useState(peer?.isAudioBlocked);
+
+  console.log("LIVE SESSION Member")
 
   const changeMicAccess = (e) => {
     e.stopPropagation();
@@ -87,7 +89,8 @@ const LiveSessionMembers = ({
   onOpenKickFromClass,
   setKickedPersonDetails,
 }) => {
-  const { peers, selfDetails } = useSelector((state) => state.socket);
+  const { peers } = useSelector((state) => state.member);
+  const { selfDetails } = useSelector((state) => state.stream);
   const [maxBoxesPerRow, setMaxBoxesPerRow] = useState(4);
   const userRoleType = checkUserType();
   const [isLargerThan480, isLargerThan768] = useMediaQuery([
@@ -126,62 +129,67 @@ const LiveSessionMembers = ({
 
     return (
       <>
-        {peers.map((peer) => (
-          <Flex justifyContent={"space-between"} key={peer.id}>
-            <HStack mr={4}>
-              <Box
-                key={peer.id}
-                p={2}
-                borderRadius={"md"}
-                bg={outerBackground}
-                alignItems={"center"}
-              >
-                <Avatar
-                  color={"white"}
-                  name={peer.name}
-                  bg={primaryBlue}
-                  size={"xs"}
+        {peers.map((peer) => {
+          console.log(peer);
+          return(
+            <Flex justifyContent={"space-between"} key={peer.id}>
+              <HStack mr={4}>
+                <Box
+                  key={peer.id}
+                  p={2}
                   borderRadius={"md"}
+                  bg={outerBackground}
+                  alignItems={"center"}
+                >
+                  <Avatar
+                    color={"white"}
+                    name={peer.name}
+                    bg={primaryBlue}
+                    size={"xs"}
+                    borderRadius={"md"}
+                  />
+                </Box>
+                <Text fontSize={"0.9rem"}>
+                  {peer?.id === selfDetails?.id ? "You" : peer.name}
+                </Text>
+              </HStack>
+              <HStack>
+                <IconButton
+                  isRound={true}
+                  size={"sm"}
+                  onClick={(e) => audioEnabledHandler(e, peer)}
+                  isDisabled={userRoleType === userType.student}
+                  bg={peer?.isAudioEnabled ? "gray.200" : "red"}
+                  _hover={{ bg: peer?.isAudioEnabled ? "gray.200" : "red" }}
+                  icon={
+                    peer?.isAudioEnabled ? (
+                      <FiMic size={15} />
+                    ) : (
+                      <FiMicOff size={15} color="white" />
+                    )
+                  }
                 />
-              </Box>
-              <Text fontSize={"0.9rem"}>
-                {peer?.id === selfDetails?.id ? "You" : peer.name}
-              </Text>
-            </HStack>
-            <HStack>
-              <IconButton
-                isRound={true}
-                size={"sm"}
-                onClick={(e) => audioEnabledHandler(e, peer)}
-                isDisabled={userRoleType === userType.student}
-                bg={peer?.isAudioEnabled ? "gray.200" : "red"}
-                _hover={{ bg: peer?.isAudioEnabled ? "gray.200" : "red" }}
-                icon={
-                  peer?.isAudioEnabled ? (
-                    <FiMic size={15} />
-                  ) : (
-                    <FiMicOff size={15} color="white" />
-                  )
-                }
-              />
-              <IconButton
-                isRound={true}
-                isDisabled={userRoleType === userType.student}
-                size={"sm"}
-                bg={"red"}
-                _hover={{ bg: "red" }}
-                icon={<FiVideoOff size={15} color="white" />}
-              />
-              {userRoleType === userType.teacher && (
-                <Actions
-                  peer={peer}
-                  onOpenKickFromClass={onOpenKickFromClass}
-                  setKickedPersonDetails={setKickedPersonDetails}
+                <IconButton
+                  isRound={true}
+                  isDisabled={userRoleType === userType.student}
+                  size={"sm"}
+                  bg={"red"}
+                  _hover={{ bg: "red" }}
+                  icon={<FiVideoOff size={15} color="white" />}
                 />
-              )}
-            </HStack>
-          </Flex>
-        ))}
+                {userRoleType === userType.teacher && (
+                  <Actions
+                    peer={peer}
+                    onOpenKickFromClass={onOpenKickFromClass}
+                    setKickedPersonDetails={setKickedPersonDetails}
+                  />
+                )}
+              </HStack>
+            </Flex>
+          )
+
+        }
+        )}
       </>
     );
   };
