@@ -3,6 +3,7 @@ import {
   Box,
   Grid,
   GridItem,
+  Flex,
   useDisclosure,
   useMediaQuery,
   useTheme,
@@ -94,18 +95,15 @@ const Room = () => {
 
           <GridItem
             rowSpan={[isEnlarged ? 12 : 5, isEnlarged ? 12 : 5, 6, 6]}
-            // bg={outerBackground}
-            // p={[2, 2, 2, 4]}
-            // borderRadius={"md"}
             style={{
-              display: "flex",
-              flexDirection: "row",
+              display:'flex'
             }}
-            
             gap={5}
           >
             {/* member sidebar */}
-
+           {/* <Flex
+            direction="row"
+            > */}
             <LiveSession
               outerBackground={outerBackground}
               roomId={roomId}
@@ -122,6 +120,8 @@ const Room = () => {
                 outerBackground={outerBackground}
               />
             )}
+           {/* </Flex>
+             */}
           </GridItem>
 
           {!isLargerThan768 && (
