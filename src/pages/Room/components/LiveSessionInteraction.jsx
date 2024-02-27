@@ -71,7 +71,6 @@ const QuestionContainer = () => {
     }
   }, [questionMessages, autoScroll]);
 
-  console.log("Interaction")
   return (
     <Scrollbars
       ref={questionContainerRef}
@@ -169,13 +168,11 @@ const EmojiContainer = ({ isEmojiOpen, setIsEmojiOpen }) => {
 
 const ChatContainer = () => {
   const [autoScroll, setAutoScroll] = useState(true);
-  console.log("chat reendered");
 
   const theme = useTheme();
   const { primaryBlue } = theme.colors.pallete;
   const { chatMessages } = useSelector((state) => state.chat);
   const chatContainerRef = useRef(null);
-  console.log("chat messages", chatMessages);
   // Function to scroll to the latest message
   const scrollToLatestMessage = () => {
     const chatScroll = chatContainerRef.current;
@@ -246,25 +243,25 @@ const ChatBox = ({ chatMsg, setChatMsg }) => {
   const dispatch = useDispatch();
 
   const sendChatMsg = (e) => {
-    console.log(inputRef.current.value);
     e.preventDefault();
     e.stopPropagation();
-    if (inputRef.current?.value.length > 0) {
+    const userMessage = inputRef.current?.value?.trim();
+    if (userMessage.length > 0) {
       setIsChatSentLoading(true);
       dispatch(
         setChatMessage({
-          msg: inputRef.current.value,
+          msg: userMessage,
           peerDetails: { name: "You", id: uuidv4() },
         })
       );
-      console.log("Chat message")
       // send the chat msg to the server
-      sendChatMessage(inputRef.current.value);
+      sendChatMessage(userMessage);
       setChatMsg("");
       setIsChatSentLoading(false);
       inputRef.current.value = "";
     }
   };
+
   return (
     <Flex direction={"column"} height={"100%"} justifyContent={"space-between"}>
       <Box height={"100%"} position={"relative"}>

@@ -103,7 +103,7 @@ const LiveSessionMembers = ({ primaryBlue, outerBackground }) => {
     const calculateMaxBoxesPerRow = () => {
       const screenHeight = window.innerHeight;
       const rowHeight =
-        "Expand" === liveSessionMemberViewType.compact ? 80 : 120; // Adjust row height as needed
+        viewType === liveSessionMemberViewType.compact ? 80 : 120; // Adjust row height as needed
 
       const calculatedMaxBoxes = Math.floor(screenHeight / rowHeight) - 2;
       setMaxBoxesPerRow(calculatedMaxBoxes > 0 ? calculatedMaxBoxes : 1); // Ensure at least one box per row

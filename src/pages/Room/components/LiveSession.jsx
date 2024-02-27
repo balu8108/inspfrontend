@@ -16,8 +16,7 @@ import { useToastContext } from "../../../components/toastNotificationProvider/T
 import { checkUserType, screenshotHandler } from "../../../utils";
 import { createLiveClassNotes } from "../../../api/genericapis";
 
-const LiveSession = ({outerBackground, roomId, isEnlarged, setIsEnlarged, onOpenLeaveOrEndClass}) => {
-  console.log("SESSION")
+const LiveSession = ({ roomId, isEnlarged, setIsEnlarged, onOpenLeaveOrEndClass}) => {
   const [isScreenShare, setIsScreenShare] = useState(false);
   const [mentorVideoStream, setMentorVideoStream] = useState(null);
   const [screenShareStream, setScreenShareStream] = useState(null);
