@@ -24,10 +24,17 @@ const memberReducer = (state = initialState, action) => {
         peers: action.payload,
       };
     case SET_NEW_PEER_JOINED:
-      return {
-        ...state,
-        peers: [...state.peers, action.payload],
-      };
+      const existingPeer = state.peers.find(peer => peer.id === action.payload.id);
+      if (existingPeer) {
+        // If the id already exists, do not add action.payload
+        return state;
+      } else {
+        // If the id doesn't exist, add action.payload to peers array
+        return {
+          ...state,
+          peers: [...state.peers, action.payload],
+        };
+      }
     case SET_PEER_LEAVED:
       return {
         ...state,
