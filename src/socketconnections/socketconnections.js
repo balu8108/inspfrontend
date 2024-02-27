@@ -546,7 +546,6 @@ export const stopProducing = (producerId, producerAppData) => {
 };
 
 export const sendChatMessage = (msg) => {
-  console.log("send chat message")
   // send chat message that will receive at server side
   socket.emit(SOCKET_EVENTS.CHAT_MSG_TO_SERVER, { msg: msg });
 };
