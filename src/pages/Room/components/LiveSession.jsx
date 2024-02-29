@@ -103,44 +103,61 @@ const LiveSession = ({outerBackground, roomId, isEnlarged, setIsEnlarged, onOpen
   }, [mentorVideoStream]);
 
   useEffect(() => {
-    const ssId = setInterval(async () => {
-      try {
-        if (screenShareStream) {
-          const videoTracks = screenShareStream.getVideoTracks();
-          if (videoTracks.length > 0) {
-            const track = videoTracks[0];
-            if (track.enabled) {
-              const screenshot = await screenshotHandler(screenShareStream);
-              const formData = new FormData();
-              formData.append("screenshot", screenshot);
-              formData.append("roomId", roomId);
+    return () => {
+      stopMediaStream(screenShareStream);
+    };
+  }, [screenShareStream]);
 
-              if (screenshot) {
-                await createLiveClassNotes(formData); // send screenshot to backend
-              }
-            }
-          }
-        }
-      } catch (err) {
-        console.log("error in screenshot", err);
-      }
-    }, 10000);
-
+  useEffect(() => {
     if (screenShareStream) {
       const screenShareTrack = screenShareStream.getVideoTracks()[0];
       screenShareTrack.addEventListener("ended", stopScreenShare);
-
       return () => {
-        clearInterval(ssId);
         screenShareTrack.removeEventListener("ended", stopScreenShare);
-        stopMediaStream(screenShareStream);
       };
     }
-
-    return () => {
-      clearInterval(ssId);
-    };
   }, [screenShareStream]);
+
+
+  // useEffect(() => {
+  //   const ssId = setInterval(async () => {
+  //     try {
+  //       if (screenShareStream) {
+  //         const videoTracks = screenShareStream.getVideoTracks();
+  //         if (videoTracks.length > 0) {
+  //           const track = videoTracks[0];
+  //           if (track.enabled) {
+  //             const screenshot = await screenshotHandler(screenShareStream);
+  //             const formData = new FormData();
+  //             formData.append("screenshot", screenshot);
+  //             formData.append("roomId", roomId);
+
+  //             if (screenshot) {
+  //               await createLiveClassNotes(formData); // send screenshot to backend
+  //             }
+  //           }
+  //         }
+  //       }
+  //     } catch (err) {
+  //       console.log("error in screenshot", err);
+  //     }
+  //   }, 10000);
+
+  //   if (screenShareStream) {
+  //     const screenShareTrack = screenShareStream.getVideoTracks()[0];
+  //     screenShareTrack.addEventListener("ended", stopScreenShare);
+
+  //     return () => {
+  //       clearInterval(ssId);
+  //       screenShareTrack.removeEventListener("ended", stopScreenShare);
+  //       stopMediaStream(screenShareStream);
+  //     };
+  //   }
+
+  //   return () => {
+  //     clearInterval(ssId);
+  //   };
+  // }, [screenShareStream]);
 
   return (
       <LiveSessionStream
