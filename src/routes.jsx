@@ -23,6 +23,7 @@ import HomePage from "./pages/homepage/screens/HomePage";
 import StudentFeedBack from "./components/popups/studentFeedbackPopup";
 import StudentFeedbackDetails from "./pages/Mentors/StudentFeedback/screen/studentFeedback";
 
+console.log("A")
 const publicRoutes = [
   {
     name: "Home",
