@@ -20,15 +20,16 @@ const getVideoJsOptions = (url, drmToken) => {
     sources: [
       {
         src: url,
-        type: "application/dash+xml",
-        keySystems: {
-          "com.widevine.alpha": {
-            url: "https://drm-widevine-licensing.axprod.net/AcquireLicense",
-            licenseHeaders: {
-              "X-AxDRM-Message": drmToken,
-            },
-          },
-        },
+        // type: "application/dash+xml",
+        // keySystems: {
+        //   "com.widevine.alpha": {
+        //     url: "https://drm-widevine-licensing.axprod.net/AcquireLicense",
+        //     licenseHeaders: {
+        //       "X-AxDRM-Message": drmToken,
+        //     },
+        //   },
+        // },
+        type: "video/webm",
       },
     ],
     html5: {
@@ -65,7 +66,7 @@ const VideoPlayer = ({ type, activeRecording }) => {
       if (!player) {
         const p = videojs(videoRef.current, videoOptions);
 
-        p.eme();
+        // p.eme();
 
         setPlayer(p);
       } else {

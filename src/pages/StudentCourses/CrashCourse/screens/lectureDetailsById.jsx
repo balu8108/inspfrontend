@@ -71,8 +71,9 @@ export default function LectureDetailsById() {
   };
 
   const handleViewRecording = (recording, liveClassData) => {
+    
     navigate(
-      `/view-recording?type=live_specific&id=${recording?.id}&topicId=${liveClassData?.LiveClassRoomDetail?.topicId}`
+      `/view-recording?type=live&id=${liveClassData?.id}`
     );
   };
 
@@ -361,7 +362,7 @@ export default function LectureDetailsById() {
               justifyContent={"center"}
               alignContent={"center"}
             >
-              <Text >No Data Found</Text>
+              <Text>No Data Found</Text>
             </Flex>
           )}
         </Stack>
