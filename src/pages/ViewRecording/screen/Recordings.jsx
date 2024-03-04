@@ -5,6 +5,7 @@ import RecordedClass from "../components/RecordedClass";
 import { useLocation } from "react-router-dom";
 import { viewRecordingApi } from "../../../api/recordingapi";
 const Recording = () => {
+  const [isFileAdded , setIsFileAdded] = useState(false);
   const [recordingDetail, setRecordingDetail] = useState(null);
   const [activeRecording, setActiveRecording] = useState(null);
 
@@ -31,7 +32,8 @@ const Recording = () => {
   };
   useEffect(() => {
     getViewRecordingData();
-  }, [id, type, topicId]);
+  }, [id, type, topicId, isFileAdded]);
+
   return (
     <Flex m={"52px"} h={"full"} gap={6}>
       <ViewRecording type={type} activeRecording={activeRecording} />
@@ -40,6 +42,7 @@ const Recording = () => {
         recordingDetail={recordingDetail}
         activeRecording={activeRecording}
         setActiveRecording={setActiveRecording}
+        setIsFileAdded={setIsFileAdded}
       />
     </Flex>
   );

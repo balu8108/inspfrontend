@@ -4,20 +4,24 @@ import {
   Text,
   Flex,
   Image,
+  Icon,
   Card,
   useTheme,
+  useDisclosure
 } from "@chakra-ui/react";
-
+import UploadAssignmentToClass from "../../../components/popups/UploadAssignmentToClass";
 import defaultImageUrl from "../../../assets/images/image1.png";
 import "../../../constants/scrollbar/style.css";
 import FileBoxComponent from "../../../components/filebox/FileBoxComponent";
-import { fileTypes } from "../../../constants/staticvariables";
-import { capitalize } from "../../../utils";
+import { fileTypes, userType } from "../../../constants/staticvariables";
+import { capitalize, checkUserType } from "../../../utils";
+import { PiUploadSimpleBold } from "react-icons/pi";
 const RecordedClass = ({
   type,
   recordingDetail,
   activeRecording,
   setActiveRecording,
+  setIsFileAdded
 }) => {
   const isLive = type && type === "live";
   const isSolo = type && type === "solo";
@@ -26,6 +30,12 @@ const RecordedClass = ({
   const isLiveTopic = type && type === "live_topic";
   const isSoloTopic = type && type === "solo_topic";
   const { outerBackground } = useTheme().colors.pallete;
+  const userRoleType = checkUserType();
+  const {
+    isOpen: isSchedulePopupOpen,
+    onOpen: onSchedulePopupOpen,
+    onClose: onScheduleClosePopupOpen,
+  } = useDisclosure();
 
   const renderFiles = (data) => {
     let filesData = [];
@@ -59,66 +69,6 @@ const RecordedClass = ({
         ) : (
           <Text fontSize={"0.8rem"} color={"#2C332978"}>
             No Files
-          </Text>
-        )}
-      </>
-    );
-  };
-  const renderNotes = (data) => {
-    return (
-      <>
-        {isLive && data ? (
-          <>
-            {data?.LiveClassRoomQNANote && (
-              <FileBoxComponent
-                data={[data?.LiveClassRoomQNANote]}
-                type={"qna"}
-              />
-            )}
-            {data?.LiveClassRoomNote && (
-              <FileBoxComponent
-                data={[data?.LiveClassRoomNote]}
-                type={"note"}
-              />
-            )}
-          </>
-        ) : isLiveSpecific && data ? (
-          data?.responseData?.map((item) => (
-            <>
-              {item?.LiveClassRoomQNANote !== null && (
-                <FileBoxComponent
-                  data={[item?.LiveClassRoomQNANote]}
-                  type={"qna"}
-                />
-              )}
-              {item?.LiveClassRoomNote !== null && (
-                <FileBoxComponent
-                  data={[item?.LiveClassRoomNote]}
-                  type={"note"}
-                />
-              )}
-            </>
-          ))
-        ) : isLiveTopic && data ? (
-          data?.responseData?.map((item) => (
-            <>
-              {item?.LiveClassRoomQNANote !== null && (
-                <FileBoxComponent
-                  data={[item?.LiveClassRoomQNANote]}
-                  type={"qna"}
-                />
-              )}
-              {item?.LiveClassRoomNote !== null && (
-                <FileBoxComponent
-                  data={[item?.LiveClassRoomNote]}
-                  type={"note"}
-                />
-              )}
-            </>
-          ))
-        ) : (
-          <Text color={"rgba(44, 51, 41, 0.47)"} fontSize={"12px"}>
-            No notes/qna available...
           </Text>
         )}
       </>
@@ -240,6 +190,15 @@ const RecordedClass = ({
     );
   };
   return (
+    <>
+      {isSchedulePopupOpen && (
+        <UploadAssignmentToClass
+          isOpen={isSchedulePopupOpen}
+          onClose={onScheduleClosePopupOpen}
+          classId={recordingDetail?.id}
+          setIsFileAdded={setIsFileAdded}
+        />
+      )}
     <Box
       width={"400px"}
       height={"full"}
@@ -328,7 +287,24 @@ const RecordedClass = ({
         </Text>
       </Box>
       <Box mt={6}>
+        <Flex
+          direction={"row"}
+          gap={8}
+          mb={2}
+        >
         <Text>Files</Text>
+        {
+          userRoleType === userType.teacher &&
+          <Icon
+            as={PiUploadSimpleBold}
+            mt={1}
+            onClick={(e) => {
+              onSchedulePopupOpen()
+            }}
+            _hover={{ bg: "none", cursor: "pointer" }}
+          />
+        }
+        </Flex>
         <Box mt={1}>{renderFiles(recordingDetail)}</Box>
       </Box>
       <Box mt={6}>
@@ -357,6 +333,7 @@ const RecordedClass = ({
         </Box>
       )}
     </Box>
+    </>
   );
 };
 export default RecordedClass;

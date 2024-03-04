@@ -1,6 +1,7 @@
 import {
   createLiveClassApi,
   getAllLiveClassesApi,
+  addClassAssignmentApi
 } from "../../api/scheduleliveclass";
 import {
   ADD_CLASS_SCHEDULE,
@@ -31,6 +32,17 @@ export const setAddClassSchedule =
         payload: data,
       });
 
+      return { data, status };
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };
+
+export const AddClassAssignment =
+  (classId, classFormData) => async (dispatch) => {
+    try {
+      const { data, status } = await addClassAssignmentApi(classId, classFormData);
       return { data, status };
     } catch (err) {
       console.log(err);
