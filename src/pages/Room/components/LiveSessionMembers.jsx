@@ -12,7 +12,14 @@ import {
   MenuList,
   MenuItem,
   useMediaQuery,
+  InputLeftElement,
+  InputRightElement,
+  InputGroup,
+  Input,
+  Button,
 } from "@chakra-ui/react";
+import { IoSearch } from "react-icons/io5";
+import { RxCross2 } from "react-icons/rx";
 import KickFromClassPopup from "../../../components/popups/KickFromClassPopup";
 
 import { useSelector } from "react-redux";
@@ -86,6 +93,7 @@ const LiveSessionMembers = ({ primaryBlue, outerBackground }) => {
   const [kickedPersonDetails, setKickedPersonDetails] = useState(null);
   const { peers } = useSelector((state) => state.member);
   const { selfDetails } = useSelector((state) => state.stream);
+  const [search, setSearch] = useState("");
   const [maxBoxesPerRow, setMaxBoxesPerRow] = useState(4);
   const userRoleType = checkUserType();
   const [isLargerThan480, isLargerThan768] = useMediaQuery([
@@ -137,7 +145,8 @@ const LiveSessionMembers = ({ primaryBlue, outerBackground }) => {
             kickedPersonDetails={kickedPersonDetails}
           />
         )}
-        {peers.map((peer) => {
+
+        {filteredPeers.map((peer) => {
           return (
             <Flex justifyContent={"space-between"} key={peer.id}>
               <HStack mr={4}>
@@ -225,44 +234,101 @@ const LiveSessionMembers = ({ primaryBlue, outerBackground }) => {
       </>
     );
   };
-
+  const clearSearch = () => {
+    setSearch("");
+    setFilteredPeers(peers);
+  };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setSearch(value.trim());
+  };
+  const handleSearch = () => {
+    console.log("search");
+    const updatedPeers = peers.filter((peer) =>
+      peer.name.toLowerCase().includes(search.toLowerCase())
+    );
+    setFilteredPeers(updatedPeers);
+  };
+  const [filteredPeers, setFilteredPeers] = useState(peers);
   return (
-    <div
-      style={{ padding: 5, height: isLargerThan768 ? '100%' : '30%' }}
-      onClick={() => {
-        if (viewType === liveSessionMemberViewType.compact) {
-          setViewType(liveSessionMemberViewType.expanded);
-        } else {
-          setViewType(liveSessionMemberViewType.compact);
-        }
-      }}
-    >
-      {viewType === liveSessionMemberViewType.compact ? (
-        <Scrollbars autoHide="true" style={{ width: isLargerThan768 ? 60: '100%' }}>
-          <Flex gap={"15px"} direction={["row", "row", "column", "column"]}>
-            {renderCompactPeers()}
-          </Flex>
-        </Scrollbars>
-      ) : (
-        <>
-          {isLargerThan768 ? (
-            <Scrollbars
-              autoHeight={true}
-              autoHeightMin={"85vh"}
-              style={{ width: 250 }}
-            >
-              <Stack gap={4} maxHeight={"85vh"}>
-                {renderExpandedPeers()}
-              </Stack>
-            </Scrollbars>
-          ) : (
-            <Scrollbars maxHeight={"85vh"} style={{ width: isLargerThan768 ? 100: '100%' }}>
-              <Flex gap={4}>{renderExpandedPeers()}</Flex>
-            </Scrollbars>
-          )}
-        </>
+    <Flex flexDirection={"column"}>
+      {userRoleType === userType.teacher && (
+        <Flex
+          style={{
+            padding: 5,
+            display:
+              viewType === liveSessionMemberViewType.expanded ? "flex" : "none",
+          }}
+        >
+          <InputGroup>
+            <Input
+              type="text"
+              id="search"
+              name="search"
+              value={search}
+              onChange={handleChange}
+              placeholder="Search"
+            />
+            {search && (
+              <InputRightElement cursor={"pointer"} onClick={clearSearch}>
+                <RxCross2 />
+              </InputRightElement>
+            )}
+          </InputGroup>
+          <Button
+            isDisabled={!search}
+            type="button"
+            ml={1}
+            onClick={handleSearch}
+          >
+            <IoSearch />
+          </Button>
+        </Flex>
       )}
-    </div>
+      <div
+        style={{ padding: 5, height: isLargerThan768 ? "100%" : "30%" }}
+        onClick={() => {
+          if (viewType === liveSessionMemberViewType.compact) {
+            clearSearch();
+            setViewType(liveSessionMemberViewType.expanded);
+          } else {
+            setViewType(liveSessionMemberViewType.compact);
+          }
+        }}
+      >
+        {viewType === liveSessionMemberViewType.compact ? (
+          <Scrollbars
+            autoHide="true"
+            style={{ width: isLargerThan768 ? 60 : "100%" }}
+          >
+            <Flex gap={"15px"} direction={["row", "row", "column", "column"]}>
+              {renderCompactPeers()}
+            </Flex>
+          </Scrollbars>
+        ) : (
+          <>
+            {isLargerThan768 ? (
+              <Scrollbars
+                autoHeight={true}
+                autoHeightMin={"85vh"}
+                style={{ width: 250 }}
+              >
+                <Stack gap={4} maxHeight={"85vh"}>
+                  {renderExpandedPeers()}
+                </Stack>
+              </Scrollbars>
+            ) : (
+              <Scrollbars
+                maxHeight={"85vh"}
+                style={{ width: isLargerThan768 ? 100 : "100%" }}
+              >
+                <Flex gap={4}>{renderExpandedPeers()}</Flex>
+              </Scrollbars>
+            )}
+          </>
+        )}
+      </div>
+    </Flex>
   );
 };
 

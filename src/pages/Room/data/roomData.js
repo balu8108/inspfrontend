@@ -77,6 +77,7 @@ export const roomData = {
   recording: "Recording will automatically start or stop",
   settings: "Settings",
   theatreMode: "Theatre Mode",
+  fullScreenMode: "Full Screen",
   typeSomething: "Type something...",
   askSomething: "Ask question...",
   uploadFileTitle: "Upload file",
