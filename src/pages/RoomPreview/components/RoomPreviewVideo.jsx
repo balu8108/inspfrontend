@@ -47,6 +47,8 @@ const RoomPreviewVideo = () => {
     }
   };
 
+  
+
   const toggleVideo = (e) => {
     e.preventDefault();
     e.stopPropagation();

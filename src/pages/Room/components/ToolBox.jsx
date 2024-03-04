@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   Box,
   IconButton,
@@ -8,6 +8,7 @@ import {
   HStack,
   useTheme,
   useMediaQuery,
+  Button,
 } from "@chakra-ui/react";
 
 import {
@@ -21,7 +22,7 @@ import {
 
 import { LuSettings, LuMonitorOff, LuCircleOff } from "react-icons/lu";
 import { SiMiro } from "react-icons/si";
-import { RiFullscreenFill } from "react-icons/ri";
+import { RiFullscreenFill, RiFullscreenExitLine } from "react-icons/ri";
 import {
   socket,
   producerPauseHandler,
@@ -43,6 +44,8 @@ import { LeaveBtn } from "../../../components/button";
 
 import { shallowEqual, useSelector } from "react-redux";
 import { checkUserType } from "../../../utils";
+import FullScreenModeButton from "./FullScreenBtn";
+
 
 export const TheatreModeBtn = ({ isEnlarged, setIsEnlarged }) => {
   const { primaryBlue } = useTheme().colors.pallete;
@@ -63,6 +66,26 @@ export const TheatreModeBtn = ({ isEnlarged, setIsEnlarged }) => {
   );
 };
 
+//   const { primaryBlue } = useTheme().colors.pallete;
+//   return (
+//     <Tooltip label={roomData.fullScreenMode} placement={"right"}>
+//       <IconButton
+//         isRound={true}
+//         bg={fullScreen ? primaryBlue : "gray.200"}
+//         _hover={{ bg: fullScreen ? primaryBlue : "gray.200" }}
+//         icon={
+//           fullScreen ? (
+//             <RiFullscreenExitLine size={20} color={"white"} />
+//           ) : (
+//             <RiFullscreenFill size={20} color={"black"} />
+//           )
+//         }
+//         onClick={handleFullscreen}
+//       />
+//     </Tooltip>
+//   );
+// };
+
 const ToolBox = ({
   isScreenShare,
   setIsScreenShare,
@@ -78,6 +101,7 @@ const ToolBox = ({
   setMicStream,
   micRef,
   onOpenLeaveOrEndClass,
+  fullScreenRef,
 }) => {
   const [isLargerThan480, isLargerThan768] = useMediaQuery([
     "(min-width: 480px)",
@@ -98,10 +122,7 @@ const ToolBox = ({
   const { redBtnColor } = useTheme().colors.pallete;
   const userRoleType = checkUserType();
 
-  const { selfDetails } = useSelector(
-    (state) => state.stream,
-    shallowEqual
-  );
+  const { selfDetails } = useSelector((state) => state.stream, shallowEqual);
 
   const openMiroBoardAuth = () => {
     window.miroBoardsPicker.open({
@@ -367,6 +388,7 @@ const ToolBox = ({
     }
   }, [isPreviewAudioOn]);
 
+  
   return (
     <Box
       height={["auto", "auto", "100%", "100%"]}
@@ -383,10 +405,11 @@ const ToolBox = ({
         alignItems={"flex-start"}
       >
         <Stack visibility={isLargerThan768 ? "visible" : "hidden"}>
-          <TheatreModeBtn
+          {/* <TheatreModeBtn
             isEnlarged={isEnlarged}
             setIsEnlarged={setIsEnlarged}
-          />
+          /> */}
+          <FullScreenModeButton fullScreenRef={fullScreenRef} />
         </Stack>
 
         <Flex direction={["row", "row", "column", "column"]} gap={2}>

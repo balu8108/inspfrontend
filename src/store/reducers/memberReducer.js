@@ -50,27 +50,27 @@ const memberReducer = (state = initialState, action) => {
         peers: updatedPeerList,
       };
     case SET_AUDIO_STREAM_ENABLED_OR_DISABLED:
-        const { value, peerId } = action.payload;
-        const updatedPeers = state.peers
-          .map((peer) =>
-            peer.id === peerId ? { ...peer, isAudioEnabled: value } : peer
-          )
-          .sort((peerA, peerB) => {
-            // If selfDetails.id matches peer.id, move it to the front
-            if (peerA.id === state.selfDetails?.id) {
-              return -1;
-            } else if (peerB.id === state.selfDetails?.id) {
-              return 1;
-            }
-  
-            // Sort by isAudioEnabled in descending order for other peers
-            return peerB.isAudioEnabled - peerA.isAudioEnabled;
-          });
-        return {
-          ...state,
-          peers: updatedPeers,
-        };
-  
+      const { value, peerId } = action.payload;
+      const updatedPeers = state.peers
+        .map((peer) =>
+          peer.id === peerId ? { ...peer, isAudioEnabled: value } : peer
+        )
+        .sort((peerA, peerB) => {
+          // If selfDetails.id matches peer.id, move it to the front
+          if (peerA.id === state.selfDetails?.id) {
+            return -1;
+          } else if (peerB.id === state.selfDetails?.id) {
+            return 1;
+          }
+
+          // Sort by isAudioEnabled in descending order for other peers
+          return peerB.isAudioEnabled - peerA.isAudioEnabled;
+        });
+      return {
+        ...state,
+        peers: updatedPeers,
+      };
+
 
     default:
       return state;
