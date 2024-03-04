@@ -19,5 +19,8 @@ export const getAllLectureByTopicName = (topicDetails) =>
     `regular-classes/get-lecture-by-topic-name/${JSON.stringify(topicDetails)}`
   );
 
+export const getAllLectureByTopicId = (topicId) =>
+  API.get(`regular-classes/get-lecture-by-topic-name/${topicId}`);
+
 export const getLectureDetails = (roomId) =>
   API.get(`/regular-classes/get-single-lecture-detail/${roomId}`);

@@ -76,9 +76,8 @@ const SingleLectureDetailsCovered = () => {
 
   const handleViewRecording = (recording, liveClassData) => {
     console.log("Room id", roomId);
-    navigate(
-      `/view-recording?type=live_specific&id=${recording?.id}&roomId=${liveClassData?.roomId}`
-    );
+
+    navigate(`/view-recording?type=live&id=${liveClassData?.id}`);
   };
 
   useEffect(() => {
