@@ -22,7 +22,6 @@ import {
 import LeaveOrEndClassPopup from "../../../components/popups/LeaveOrEndClassPopup";
 
 const Room = () => {
-  console.log("ROOM");
   const [isEnlarged, setIsEnlarged] = useState(false); // for enlarging screen
   const { roomId } = useParams();
   const dispatch = useDispatch();

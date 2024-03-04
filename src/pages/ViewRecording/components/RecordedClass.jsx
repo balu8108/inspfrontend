@@ -5,9 +5,10 @@ import {
   Flex,
   Image,
   Card,
+  Link,
   useTheme,
 } from "@chakra-ui/react";
-
+import { Button } from "@chakra-ui/react";
 import defaultImageUrl from "../../../assets/images/image1.png";
 import "../../../constants/scrollbar/style.css";
 import FileBoxComponent from "../../../components/filebox/FileBoxComponent";
@@ -25,7 +26,7 @@ const RecordedClass = ({
   const isSoloSpecific = type && type === "solo_specific";
   const isLiveTopic = type && type === "live_topic";
   const isSoloTopic = type && type === "solo_topic";
-  const { outerBackground } = useTheme().colors.pallete;
+  const { primaryBlue, primaryBlueLight, outerBackground } = useTheme().colors.pallete;
 
   const renderFiles = (data) => {
     let filesData = [];
@@ -240,8 +241,14 @@ const RecordedClass = ({
     );
   };
   return (
+    <Flex
+      direction={"column"}
+      justifyContent={"space-between"}
+      height={"100%"}
+      gap={5}
+    >
     <Box
-      width={"400px"}
+      width={"310px"}
       height={"full"}
       borderRadius={"26px"}
       p={6}
@@ -357,6 +364,31 @@ const RecordedClass = ({
         </Box>
       )}
     </Box>
+    <Text
+        fontSize={"12px"}
+        lineHeight={"13px"}
+        fontWeight={400}
+        mt={4}
+        color={"rgba(44, 51, 41, 1)"}
+      >
+        If you fetching any issue in live classes ? click below
+    </Text>
+      <Link
+        isExternal={true}
+        href={"https://forms.gle/886JxieoWe3vPw7T9"}
+      >
+        <Button
+          w={"full"}
+          bg={primaryBlue}
+          color={"#fff"}
+          fontWeight={"500"}
+          fontSize={"14px"}
+          _hover={{ bg: primaryBlueLight }}
+        >
+          Feedback form
+        </Button>
+      </Link>
+    </Flex>
   );
 };
 export default RecordedClass;
