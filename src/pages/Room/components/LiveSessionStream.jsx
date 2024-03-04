@@ -1,4 +1,4 @@
-import { useEffect,  useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Box, useMediaQuery } from "@chakra-ui/react";
 
 import { useSelector } from "react-redux";
@@ -11,6 +11,7 @@ import MiroBoard from "./MiroBoard";
 import { checkUserType, getStorageData } from "../../../utils";
 import { userType } from "../../../constants/staticvariables";
 import WaterMark from "../../../components/watermark/WaterMark";
+import FullScreenModeButton from "./FullScreenBtn";
 
 const LiveSessionStream = (props) => {
   const {
@@ -34,9 +35,8 @@ const LiveSessionStream = (props) => {
     "(min-width: 768px)",
   ]);
 
-  const { mentorScreenShareConsumer, audioConsumers, raiseHands, question} = useSelector(
-    (state) => state.stream
-  );
+  const { mentorScreenShareConsumer, audioConsumers, raiseHands, question } =
+    useSelector((state) => state.stream);
   const userRoleType = checkUserType();
   const { data: inspUserProfile } = getStorageData("insp_user_profile");
 
@@ -106,6 +106,8 @@ const LiveSessionStream = (props) => {
     };
   }, []);
 
+  const fullScreenRef = useRef(null);
+
   return (
     <>
       <Box
@@ -114,13 +116,11 @@ const LiveSessionStream = (props) => {
         bg="black"
         borderRadius={"10px"}
         position={"relative"}
+        ref={fullScreenRef}
       >
         {!isLargerThan768 && (
           <Box position={"absolute"} zIndex={4} top={2} left={2}>
-            <TheatreModeBtn
-              isEnlarged={isEnlarged}
-              setIsEnlarged={setIsEnlarged}
-            />
+            <FullScreenModeButton fullScreenRef={fullScreenRef} />
           </Box>
         )}
 
@@ -159,6 +159,7 @@ const LiveSessionStream = (props) => {
         </Box>
 
         <ToolBox
+          fullScreenRef={fullScreenRef}
           isScreenShare={isScreenShare}
           setIsScreenShare={setIsScreenShare}
           screenShareRef={screenShareRef}
