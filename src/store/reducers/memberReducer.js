@@ -4,6 +4,7 @@ import {
   IS_PEER_LOADING,
   SET_PEER_LEAVED,
   SET_UPDATE_PEER_DETAILS,
+  SET_AUDIO_STREAM_ENABLED_OR_DISABLED
 } from "../constants";
 const initialState = {
   isPeerLoading: true,
@@ -23,10 +24,17 @@ const memberReducer = (state = initialState, action) => {
         peers: action.payload,
       };
     case SET_NEW_PEER_JOINED:
-      return {
-        ...state,
-        peers: [...state.peers, action.payload],
-      };
+      const existingPeer = state.peers.find(peer => peer.id === action.payload.id);
+      if (existingPeer) {
+        // If the id already exists, do not add action.payload
+        return state;
+      } else {
+        // If the id doesn't exist, add action.payload to peers array
+        return {
+          ...state,
+          peers: [...state.peers, action.payload],
+        };
+      }
     case SET_PEER_LEAVED:
       return {
         ...state,
@@ -41,6 +49,28 @@ const memberReducer = (state = initialState, action) => {
         ...state,
         peers: updatedPeerList,
       };
+    case SET_AUDIO_STREAM_ENABLED_OR_DISABLED:
+        const { value, peerId } = action.payload;
+        const updatedPeers = state.peers
+          .map((peer) =>
+            peer.id === peerId ? { ...peer, isAudioEnabled: value } : peer
+          )
+          .sort((peerA, peerB) => {
+            // If selfDetails.id matches peer.id, move it to the front
+            if (peerA.id === state.selfDetails?.id) {
+              return -1;
+            } else if (peerB.id === state.selfDetails?.id) {
+              return 1;
+            }
+  
+            // Sort by isAudioEnabled in descending order for other peers
+            return peerB.isAudioEnabled - peerA.isAudioEnabled;
+          });
+        return {
+          ...state,
+          peers: updatedPeers,
+        };
+  
 
     default:
       return state;

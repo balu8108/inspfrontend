@@ -79,7 +79,6 @@ const ToolBox = ({
   micRef,
   onOpenLeaveOrEndClass,
 }) => {
-  console.log("Tool box")
   const [isLargerThan480, isLargerThan768] = useMediaQuery([
     "(min-width: 480px)",
     "(min-width: 768px)",

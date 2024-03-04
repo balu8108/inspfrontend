@@ -13,26 +13,17 @@ import LiveSessionDescription, {
 import LiveSession from "../components/LiveSession";
 import LiveSessionMembers from "../components/LiveSessionMembers";
 import { useDispatch } from "react-redux";
-import {
-  liveSessionMemberViewType,
-} from "../../../constants/staticvariables";
 import { useParams } from "react-router-dom";
 import LiveSessionInteraction from "../components/LiveSessionInteraction";
-import LeaveOrEndClassPopup from "../../../components/popups/LeaveOrEndClassPopup";
-import KickFromClassPopup from "../../../components/popups/KickFromClassPopup";
 import {
   resetChatMessages,
   resetQuestionMessags,
 } from "../../../store/actions/socketActions";
+import LeaveOrEndClassPopup from "../../../components/popups/LeaveOrEndClassPopup";
 
 const Room = () => {
-  console.log("ROOM")
+  console.log("ROOM");
   const [isEnlarged, setIsEnlarged] = useState(false); // for enlarging screen
-  const [peersViewType, setPeersViewType] = useState(
-    liveSessionMemberViewType.compact
-  );
-  const [kickedPersonDetails, setKickedPersonDetails] = useState(null);
-
   const { roomId } = useParams();
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -42,26 +33,19 @@ const Room = () => {
     onOpen: onOpenLeaveOrEndClass,
     onClose: onCloseLeaveOrEndClass,
   } = useDisclosure();
-  const {
-    isOpen: isOpenKickFromClass,
-    onOpen: onOpenKickFromClass,
-    onClose: onCloseKickFromClass,
-  } = useDisclosure();
-  
+
   const { primaryBlue, outerBackground } = theme.colors.pallete;
 
-  const [ isLargerThan768] = useMediaQuery([
+  const [isLargerThan768] = useMediaQuery([
     "(min-width: 480px)",
     "(min-width: 768px)",
   ]);
 
-  const renderColumns = (peersViewType, isEnlarged) => {
+  const renderColumns = (isEnlarged) => {
     if (isEnlarged) {
       return "1fr";
-    } else if (peersViewType === liveSessionMemberViewType.compact) {
-      return ["1fr", "1fr", "1.5fr 3.5fr 0.25fr", "0.9fr 4fr 0.25fr"];
-    } else if (peersViewType === liveSessionMemberViewType.expanded) {
-      return ["1fr", "1fr", "1.5fr 3.5fr 0.25fr", "1.2fr 6fr 1fr"];
+    } else {
+      return ["1fr", "1fr", "1.5fr 3.5fr", "1.2fr 6fr"];
     }
   };
 
@@ -81,17 +65,9 @@ const Room = () => {
           onClose={onCloseLeaveOrEndClass}
         />
       )}
-      {isOpenKickFromClass && (
-        <KickFromClassPopup
-          isOpen={isOpenKickFromClass}
-          onClose={onCloseKickFromClass}
-          kickedPersonDetails={kickedPersonDetails}
-        />
-      )}
-
       <Box py={4} px={[2, 4, 4, 10]}>
         <Grid
-          templateColumns={renderColumns(peersViewType, isEnlarged)}
+          templateColumns={renderColumns(isEnlarged)}
           templateRows={[
             "repeat(12,1fr)",
             "repeat(12,1fr)",
@@ -116,36 +92,30 @@ const Room = () => {
             </GridItem>
           )}
 
-          <LiveSession 
-            outerBackground={outerBackground}
-            roomId={roomId} 
-            isEnlarged={isEnlarged} 
-            setIsEnlarged={setIsEnlarged} 
-            onOpenLeaveOrEndClass={onOpenLeaveOrEndClass}
-          />
+          <GridItem
+            rowSpan={[isEnlarged ? 12 : 6, isEnlarged ? 12 : 5, 6, 6]}
+            gap={5}
+            style={{display:'flex', flexDirection: isLargerThan768 ? 'row': 'column'}}
+          >
+            {/* member sidebar */}
+            <LiveSession
+              outerBackground={outerBackground}
+              roomId={roomId}
+              isEnlarged={isEnlarged}
+              setIsEnlarged={setIsEnlarged}
+              onOpenLeaveOrEndClass={onOpenLeaveOrEndClass}
+            />
 
-          {/* member sidebar */}
-          {!isEnlarged && (
-            <GridItem
-              rowSpan={[1, 1, 6, 6]}
-              cursor={"pointer"}
-              onClick={() => {
-                if (peersViewType === liveSessionMemberViewType.compact) {
-                  setPeersViewType(liveSessionMemberViewType.expanded);
-                } else {
-                  setPeersViewType(liveSessionMemberViewType.compact);
-                }
-              }}
-            >
+            {/* member sidebar */}
+
+            {!isEnlarged && (
               <LiveSessionMembers
                 primaryBlue={primaryBlue}
                 outerBackground={outerBackground}
-                viewType={peersViewType}
-                onOpenKickFromClass={onOpenKickFromClass}
-                setKickedPersonDetails={setKickedPersonDetails}
               />
-            </GridItem>
-          )}
+            )}
+           {/* </Flex> */}
+          </GridItem>
 
           {!isLargerThan768 && (
             <GridItem rowSpan={1} bg={outerBackground} borderRadius={"md"}>
@@ -160,7 +130,7 @@ const Room = () => {
               bg={outerBackground}
               borderRadius={"md"}
             >
-              <LiveSessionInteraction />              
+              <LiveSessionInteraction />
             </GridItem>
           )}
         </Grid>

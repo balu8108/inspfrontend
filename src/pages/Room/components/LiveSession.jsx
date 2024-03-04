@@ -16,8 +16,7 @@ import { useToastContext } from "../../../components/toastNotificationProvider/T
 import { checkUserType, screenshotHandler } from "../../../utils";
 import { createLiveClassNotes } from "../../../api/genericapis";
 
-const LiveSession = ({outerBackground, roomId, isEnlarged, setIsEnlarged, onOpenLeaveOrEndClass}) => {
-  console.log("SESSION")
+const LiveSession = ({ roomId, isEnlarged, setIsEnlarged, onOpenLeaveOrEndClass}) => {
   const [isScreenShare, setIsScreenShare] = useState(false);
   const [mentorVideoStream, setMentorVideoStream] = useState(null);
   const [screenShareStream, setScreenShareStream] = useState(null);
@@ -144,26 +143,19 @@ const LiveSession = ({outerBackground, roomId, isEnlarged, setIsEnlarged, onOpen
   }, [screenShareStream]);
 
   return (
-    <GridItem
-    rowSpan={[isEnlarged ? 12 : 5, isEnlarged ? 12 : 5, 6, 6]}
-    bg={outerBackground}
-    p={[2, 2, 2, 4]}
-    borderRadius={"md"}
-    >
-    <LiveSessionStream
-        isScreenShare={isScreenShare}
-        setIsScreenShare={setIsScreenShare}
-        screenShareStream={screenShareStream}
-        setScreenShareStream={setScreenShareStream}
-        isEnlarged={isEnlarged}
-        setIsEnlarged={setIsEnlarged}
-        mentorVideoStream={mentorVideoStream}
-        setMentorVideoStream={setMentorVideoStream}
-        micStream={micStream}
-        setMicStream={setMicStream}
-        onOpenLeaveOrEndClass={onOpenLeaveOrEndClass}
-    />
-    </GridItem>
+      <LiveSessionStream
+          isScreenShare={isScreenShare}
+          setIsScreenShare={setIsScreenShare}
+          screenShareStream={screenShareStream}
+          setScreenShareStream={setScreenShareStream}
+          isEnlarged={isEnlarged}
+          setIsEnlarged={setIsEnlarged}
+          mentorVideoStream={mentorVideoStream}
+          setMentorVideoStream={setMentorVideoStream}
+          micStream={micStream}
+          setMicStream={setMicStream}
+          onOpenLeaveOrEndClass={onOpenLeaveOrEndClass}
+      />
   );
 };
 

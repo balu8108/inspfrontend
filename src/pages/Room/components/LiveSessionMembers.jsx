@@ -6,13 +6,14 @@ import {
   HStack,
   Text,
   IconButton,
-  Center,
+  useDisclosure,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
   useMediaQuery,
 } from "@chakra-ui/react";
+import KickFromClassPopup from "../../../components/popups/KickFromClassPopup";
 
 import { useSelector } from "react-redux";
 import {
@@ -32,8 +33,6 @@ import {
 import Scrollbars from "rc-scrollbars";
 const Actions = ({ peer, onOpenKickFromClass, setKickedPersonDetails }) => {
   const [isMicBlocked, setIsMicBlocked] = useState(peer?.isAudioBlocked);
-
-  console.log("LIVE SESSION Member")
 
   const changeMicAccess = (e) => {
     e.stopPropagation();
@@ -82,13 +81,9 @@ const Actions = ({ peer, onOpenKickFromClass, setKickedPersonDetails }) => {
   );
 };
 
-const LiveSessionMembers = ({
-  primaryBlue,
-  outerBackground,
-  viewType,
-  onOpenKickFromClass,
-  setKickedPersonDetails,
-}) => {
+const LiveSessionMembers = ({ primaryBlue, outerBackground }) => {
+  const [viewType, setViewType] = useState("Compact");
+  const [kickedPersonDetails, setKickedPersonDetails] = useState(null);
   const { peers } = useSelector((state) => state.member);
   const { selfDetails } = useSelector((state) => state.stream);
   const [maxBoxesPerRow, setMaxBoxesPerRow] = useState(4);
@@ -97,6 +92,12 @@ const LiveSessionMembers = ({
     "(min-width: 480px)",
     "(min-width: 768px)",
   ]);
+
+  const {
+    isOpen: isOpenKickFromClass,
+    onOpen: onOpenKickFromClass,
+    onClose: onCloseKickFromClass,
+  } = useDisclosure();
 
   useEffect(() => {
     const calculateMaxBoxesPerRow = () => {
@@ -129,9 +130,15 @@ const LiveSessionMembers = ({
 
     return (
       <>
+        {isOpenKickFromClass && (
+          <KickFromClassPopup
+            isOpen={isOpenKickFromClass}
+            onClose={onCloseKickFromClass}
+            kickedPersonDetails={kickedPersonDetails}
+          />
+        )}
         {peers.map((peer) => {
-          console.log(peer);
-          return(
+          return (
             <Flex justifyContent={"space-between"} key={peer.id}>
               <HStack mr={4}>
                 <Box
@@ -186,19 +193,13 @@ const LiveSessionMembers = ({
                 )}
               </HStack>
             </Flex>
-          )
-
-        }
-        )}
+          );
+        })}
       </>
     );
   };
 
   const renderCompactPeers = () => {
-    // const peersToDisplay =
-    //   viewType === liveSessionMemberViewType.compact
-    //     ? peers.slice(0, maxBoxesPerRow)
-    //     : peers;
     const peersToDisplay =
       viewType === liveSessionMemberViewType.compact ? peers : peers;
     return (
@@ -221,31 +222,23 @@ const LiveSessionMembers = ({
             />
           </Flex>
         ))}
-
-        {/* {peers.length > maxBoxesPerRow && (
-          <Center px={"10px"} py={2} borderRadius={"md"} bg={"gray.200"}>
-            <Flex
-              borderRadius={"md"}
-              w={"100%"}
-              bg={primaryBlue}
-              height={"50px"}
-              justifyContent={"center"}
-              alignItems={"center"}
-            >
-              <Text color={"white"} fontWeight={600} fontSize={"10px"}>
-                +{renderLeftMembersCount(peers.length, maxBoxesPerRow)}
-              </Text>
-            </Flex>
-          </Center>
-        )} */}
       </>
     );
   };
 
   return (
-    <>
+    <div
+      style={{ padding: 5, height: isLargerThan768 ? '100%' : '30%' }}
+      onClick={() => {
+        if (viewType === liveSessionMemberViewType.compact) {
+          setViewType(liveSessionMemberViewType.expanded);
+        } else {
+          setViewType(liveSessionMemberViewType.compact);
+        }
+      }}
+    >
       {viewType === liveSessionMemberViewType.compact ? (
-        <Scrollbars autoHide="true">
+        <Scrollbars autoHide="true" style={{ width: isLargerThan768 ? 60: '100%' }}>
           <Flex gap={"15px"} direction={["row", "row", "column", "column"]}>
             {renderCompactPeers()}
           </Flex>
@@ -253,19 +246,23 @@ const LiveSessionMembers = ({
       ) : (
         <>
           {isLargerThan768 ? (
-            <Scrollbars autoHeight={true} autoHeightMin={"85vh"}>
+            <Scrollbars
+              autoHeight={true}
+              autoHeightMin={"85vh"}
+              style={{ width: 250 }}
+            >
               <Stack gap={4} maxHeight={"85vh"}>
                 {renderExpandedPeers()}
               </Stack>
             </Scrollbars>
           ) : (
-            <Scrollbars>
+            <Scrollbars maxHeight={"85vh"} style={{ width: isLargerThan768 ? 100: '100%' }}>
               <Flex gap={4}>{renderExpandedPeers()}</Flex>
             </Scrollbars>
           )}
         </>
       )}
-    </>
+    </div>
   );
 };
 
