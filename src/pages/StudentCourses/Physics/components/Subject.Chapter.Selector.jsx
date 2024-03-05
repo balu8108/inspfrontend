@@ -1,6 +1,6 @@
 //This component will show all the chapters related to subjects.
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Text,
@@ -19,7 +19,8 @@ import { fetchAllChaptersApi } from "../../../../api/inspexternalapis";
 import { capitalize } from "../../../../utils";
 import VectorImage from "../../../../assets/images/Line/Vector.svg";
 
-const PhysDetails = () => {
+const SubjectChapterSelector = () => {
+  const navigate = useNavigate();
   const [chapters, setChapters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -27,11 +28,11 @@ const PhysDetails = () => {
     useTheme().colors.pallete;
 
   const dummyDescriptions = [
-    "This chapter covers the basics of electromagnetism, including its principles and applications.",
-    "Learn about geometrical and wave optics in this chapter.",
-    "Explore the fundamental principles of heat transfer and thermodynamics.",
-    "Get a deep understanding of mechanics in this chapter.",
-    "Discover modern physics in this comprehensive chapter.",
+    "This chapter covers the basics of electromagnetism, including its principles and applications. Gain insights into the behavior of electric and magnetic fields.",
+    "Learn about geometrical and wave optics in this chapter. Explore the fascinating world of light propagation and wave phenomena.",
+    "Explore the fundamental principles of heat transfer and thermodynamics. Dive into the study of energy transfer and the laws governing thermal processes.",
+    "Get a deep understanding of mechanics in this chapter. Study the motion, forces, and interactions of objects in the physical world.",
+    "Discover modern physics in this comprehensive chapter. Uncover the latest advancements and theories shaping our understanding of the physical universe.",
   ];
 
   useEffect(() => {
@@ -56,6 +57,9 @@ const PhysDetails = () => {
     physScreen.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleViewDetails = () => {
+    navigate("/chapter-details");
+  };
   return (
     <Box width={"full"} h={"100%"} bg={outerBackground} borderRadius={"26px"}>
       <Flex mt={"17px"}>
@@ -108,6 +112,7 @@ const PhysDetails = () => {
                 w="30%"
                 h={"204px"}
                 borderRadius={"18px"}
+                flexDirection={"column"}
               >
                 <Text
                   fontSize={"16px"}
@@ -144,28 +149,25 @@ const PhysDetails = () => {
                   fontWeight={400}
                   ml={13}
                   color={"rgba(44, 51, 41, 0.47)"}
-                  noOfLines={2}
+                  noOfLines={3}
+                  mt={"6px"}
                 >
                   {dummyDescriptions[index]}
                 </Text>
-                <Link
-                  to={`/details/${chapter.id}/topics/${encodeURIComponent(
-                    chapter.name
-                  )}`}
-                  style={{ display: "flex", justifyContent: "center" }}
+
+                <Button
+                  fontWeight={600}
+                  variant={"ghost"}
+                  color={"#3C8DBC"}
+                  fontSize={"14px"}
+                  lineHeight={"16px"}
+                  mt={"auto"}
+                  
+                  _hover={{ bg: "white" }}
+                  onClick={handleViewDetails}
                 >
-                  <Button
-                    variant={"ghost"}
-                    color={"#3C8DBC"}
-                    size={"14px"}
-                    lineHeight={"16px"}
-                    p={6}
-                    mt={"5"}
-                    _hover={{ bg: "white" }}
-                  >
-                    View Details
-                  </Button>
-                </Link>
+                  View Details
+                </Button>
               </Card>
             ))}
           </Flex>
@@ -175,4 +177,4 @@ const PhysDetails = () => {
   );
 };
 
-export default PhysDetails;
+export default SubjectChapterSelector;

@@ -3,10 +3,13 @@ import Room from "./pages/Room/screens/Room";
 import ScheduleClass from "./pages/ScheduleClasses/screens/ScheduleClass";
 import StudentMathsCourse from "./pages/StudentCourses/Mathematics/screens/MathsCourse";
 import StudentChemCourse from "./pages/StudentCourses/Chemistry/screens/ChemCourse";
-import StudentPhyCourse from "./pages/StudentCourses/Physics/screens/PhysicsCourse";
+import SubjectChapterBrowser from "./pages/StudentCourses/Physics/screens/Subject.Chapter.Browser.Screen";
 import Viewrecording from "./pages/ViewRecording/screen/Recordings";
 import StudentAssignment from "./pages/StudentAssignment/screen/StudentAssignment";
 import LibraryScreen from "./pages/SubjectLibrary/screen/LibraryScreen";
+import ChapterDetailsScreen from "./pages/StudentCourses/Physics/screens/ChapterDetailsScreen";
+import TopicLectureScreen from "./pages/StudentCourses/Physics/screens/TopicLectureScreen";
+import SingleLectureDetailsScreen from "./pages/StudentCourses/Physics/screens/SingleLectureDetailsScreen";
 import Home from "./components/home/Home";
 import AuthLoading from "./components/loaders/AuthLoading";
 import StudentCrashCourse from "./pages/StudentCourses/CrashCourse/screens/CrashCourse";
@@ -76,8 +79,27 @@ const privateRoutes = [
   {
     name: "Student PhysicsCourse",
     path: "/myCourses/physics",
-    component: <StudentPhyCourse />,
+    component: <SubjectChapterBrowser />,
   },
+
+  {
+    name: "Chapter Page",
+    path: "/chapter-details",
+    component: <ChapterDetailsScreen />,
+  },
+
+  {
+    name: "Lecture Page",
+    path: "/topic/lecture/details",
+    component: <TopicLectureScreen />,
+  },
+
+  {
+    name: "Single Lecture Description Covered",
+    path: "/:topicname/:roomId",
+    component: <SingleLectureDetailsScreen />,
+  },
+
   {
     name: "Student CrashCourse",
     path: "/myCourses/crash-course",

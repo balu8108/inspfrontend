@@ -22,7 +22,6 @@ import moment from "moment";
 import { BiTrophy } from "react-icons/bi";
 
 const CrashCourseDetails = () => {
-  
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [lecture, setLecture] = useState([]);
@@ -32,9 +31,9 @@ const CrashCourseDetails = () => {
   const getAllCrashCourse = async () => {
     try {
       const response = await getAllCrashCourseLecture();
-      
+
       const { data } = response.data;
-      
+
       setLecture(data);
       setLoading(false);
     } catch (err) {
@@ -46,7 +45,6 @@ const CrashCourseDetails = () => {
     getAllCrashCourse();
   }, []);
 
-  
   const filteredTopics = lecture.filter((item) =>
     item?.LiveClassRoomDetail?.topicName
       ?.toLowerCase()
@@ -107,7 +105,7 @@ const CrashCourseDetails = () => {
                   h={"204px"}
                   borderRadius={"18px"}
                 >
-                  <div className="flex justify-between">
+                  <Flex>
                     <Text
                       fontSize={"16px"}
                       fontWeight={400}
@@ -118,6 +116,7 @@ const CrashCourseDetails = () => {
                     >
                       Lecture {LiveClassRoomDetail?.lectureNo}
                     </Text>
+                    <Spacer />
                     <Text
                       fontSize={"12px"}
                       fontWeight={400}
@@ -129,13 +128,13 @@ const CrashCourseDetails = () => {
                     >
                       {moment(scheduledDate).format("L")}
                     </Text>
-                  </div>
+                  </Flex>
                   <Text
                     fontWeight={400}
                     fontSize={"12px"}
                     lineHeight={"15px"}
                     ml={"13px"}
-                    mt={'3px'}
+                    mt={"3px"}
                     color={"rgba(44, 51, 41, 0.47)"}
                     noOfLines={1}
                   >
@@ -161,22 +160,28 @@ const CrashCourseDetails = () => {
                   >
                     {LiveClassRoomDetail?.description}
                   </Text>
-                  <Link
-                    to={`/myCourses/crash-course/${roomId}`}
-                    style={{ display: "flex", justifyContent: "center" }}
-                  >
-                    <Button
-                      variant={"ghost"}
-                      color={"#3C8DBC"}
-                      size={"14px"}
-                      lineHeight={"16px"}
-                      p={6}
-                      mt={"5"}
-                      _hover={{ bg: "white" }}
+                  <Box mt="auto">
+                    <Link
+                      to={`/myCourses/crash-course/${roomId}`}
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        textDecoration: "none",
+                      }}
                     >
-                      View Details
-                    </Button>
-                  </Link>
+                      <Button
+                        variant={"ghost"}
+                        color={"#3C8DBC"}
+                        fontWeight={"600"}
+                        size={"14px"}
+                        lineHeight={"16px"}
+                        m={"20px"}
+                        _hover={{ bg: "white" }}
+                      >
+                        View Details
+                      </Button>
+                    </Link>
+                  </Box>
                 </Card>
               )
             )}
@@ -186,6 +191,5 @@ const CrashCourseDetails = () => {
     </Box>
   );
 };
- 
 
 export default CrashCourseDetails;

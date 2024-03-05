@@ -14,7 +14,7 @@ import {
 import { fetchAllSubjectsApi } from "../../../../api/inspexternalapis/index";
 import { Link } from "react-router-dom";
 import { capitalize } from "../../../../utils";
-
+import "../../../../constants/scrollbar/style.css";
 const Header = () => {
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -94,18 +94,16 @@ const Header = () => {
           <Spinner mt={"5%"} />
         </Center>
       ) : (
-        <Flex mt={"24px"} overflowY={"auto"}>
+        <Flex mx={"5"} gap={"24px"} overflowX={"auto"}>
           {subjects.map((subject) => (
             <Card
-              minW={`calc(100%/3.5)`}
-              h={"200px"}
+              minW={"31%"}
+              h={"204px"}
               borderRadius={"16px"}
               bg={innerBackground}
-              ml={"20px"}
-              mb={"20px"}
-              mr={"20px"}
               key={subject.id}
               boxShadow={innerBoxShadow}
+              my={5}
             >
               <Text
                 fontSize={"16px"}
@@ -151,23 +149,22 @@ const Header = () => {
               >
                 {dummyDescriptions[4 - subject.id] || "Description not found"}
               </Text>
-              <Link
-                to={`/myCourses/${subject.value}`}
-                style={{ display: "flex", justifyContent: "center" }}
-              >
-                <Button
-                  variant={"ghost"}
-                  color={"#3C8DBC"}
-                  fontWeight={"600"}
-                  size={"12px"}
-                  fontSize={"14px"}
-                  lineHeight={"16px"}
-                  mt={"20px"}
-                  _hover={{ bg: "white" }}
-                >
-                  View Details
-                </Button>
-              </Link>
+
+              <Box mt="auto">
+                <Link to={`/myCourses/${subject.value}`}>
+                  <Button
+                    variant={"ghost"}
+                    color={"#3C8DBC"}
+                    fontWeight={"600"}
+                    fontSize={"14px"}
+                    lineHeight={"16px"}
+                    _hover={{ bg: "white" }}
+                    width="100%"
+                  >
+                    View Details
+                  </Button>
+                </Link>
+              </Box>
             </Card>
           ))}
         </Flex>

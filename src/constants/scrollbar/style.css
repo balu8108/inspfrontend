@@ -1,20 +1,23 @@
 .example {
   overflow: hidden;
-  -ms-overflow-style: none; 
-  scrollbar-width: none;
+}
+
+.example:hover {
+  overflow-y: auto;
 }
 
 .example::-webkit-scrollbar {
-  width: 10px; 
-  background-color: transparent; 
+  width: 1px;
+  height: 10px;
+}
+
+.example::-webkit-scrollbar-track {
+  background-color: transparent;
 }
 
 .example::-webkit-scrollbar-thumb {
-  background-color: #ccc; 
+  background-color: #ccc;
   border-radius: 8px;
 }
 
 
-.example::-webkit-scrollbar {
-  height: 8px;
-}
