@@ -2,10 +2,10 @@ import {
   IconButton,
   Popover,
   PopoverContent,
-  PopoverTrigger,
   Stack,
   useDisclosure,
   Text,
+  PopoverTrigger,
   Input,
   useTheme,
   Box,
@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { BiBarChart } from "react-icons/bi";
 import { MdClose } from "react-icons/md";
+import { useSelector } from "react-redux";
 import { Select } from "chakra-react-select";
 import { roomData } from "../../pages/Room/data/roomData";
 import { MainBtn } from "../button";
@@ -61,6 +62,7 @@ const PostPoll = ({ screenShareStream }) => {
   const [timer, setTimer] = useState("");
   const { onOpen, onClose, isOpen } = useDisclosure();
   const { roomId } = useParams();
+  const { pollData } = useSelector((state) => state.chat);
 
   const { primaryBlue } = useTheme().colors.pallete;
 
@@ -252,8 +254,13 @@ const PostPoll = ({ screenShareStream }) => {
       }}
       onClose={onClose}
     >
+
       <PopoverTrigger>
-        <IconButton isRound={true} icon={<BiBarChart size={20} />} />
+        <IconButton 
+          isDisabled={pollData? true : false} 
+          isRound={true} 
+          icon={<BiBarChart size={20}
+        />} />
       </PopoverTrigger>
 
       <PopoverContent px={4} py={2} w="300px">

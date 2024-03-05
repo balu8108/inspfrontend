@@ -10,8 +10,7 @@ const PollTimer = ({ timer, setTimer }) => {
   const { backgroundLightBlue, primaryBlue, primaryBlueLight } =
     useTheme().colors.pallete;
 
-  const { pollData } = useSelector((state) => state.socket);
-
+  const { pollData } = useSelector((state) => state.chat);
   return (
     <>
       {pollData && (
