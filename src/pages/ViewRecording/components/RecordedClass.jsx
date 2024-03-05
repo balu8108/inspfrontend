@@ -37,7 +37,7 @@ const RecordedClass = ({
     onOpen: onSchedulePopupOpen,
     onClose: onScheduleClosePopupOpen,
   } = useDisclosure();
-  const { primaryBlue, primaryBlueLight } = useTheme().colors.pallete;
+  const { primaryBlue, primaryBlueLight, outerBackground } = useTheme().colors.pallete;
 
   const renderFiles = (data) => {
     let filesData = [];
