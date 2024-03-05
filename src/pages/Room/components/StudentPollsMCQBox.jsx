@@ -26,7 +26,6 @@ const StudentPollsMCQBox = ({ question }) => {
   const [selectedCheckBox, setSelectedCheckbox] = useState([]);
   const { primaryBlue, lightGrey } = useTheme().colors.pallete;
   const { pollTimerIncrease } = useSelector((state) => state.stream);
-
   const dispatch = useDispatch();
 
   const renderAnswerOptions = (question) => {
@@ -98,20 +97,27 @@ const StudentPollsMCQBox = ({ question }) => {
         responseTimeInSeconds: question.time - pollLimit,
       };
       sendAnswerHandler(data);
-      dispatch(setQuestion(null)); // after sending response set question as null
+      setAnswerSubmitted(true);
+      
+      // dispatch(setQuestion(null)); // after sending response set question as null
     }
   };
+  const [showAnswer, setShowAnswer] = useState(false);
+  const [answerSubmitted, setAnswerSubmitted] = useState(false);
   useEffect(() => {
     if (!question) {
       return;
     }
-    setPollLimit(question.time);
+    setPollLimit(question.time + 5);
     const countdownTimer = setInterval(() => {
       setPollLimit((prev) => {
         if (prev === 0) {
           clearInterval(countdownTimer);
           dispatch(setQuestion(null)); // time has elapsed now set question as null to remove it from view
           return 0;
+        }
+        if (prev === 5) {
+          setShowAnswer(true);
         }
         return prev - 1;
       });
@@ -153,28 +159,53 @@ const StudentPollsMCQBox = ({ question }) => {
           borderRadius={"20px"}
         ></Box>
 
-        {question.type ? (
+        {!showAnswer ? (
+          question.type ? (
+            <Flex width={"full"} justifyContent={"space-between"}>
+              <Text fontSize={"0.9rem"} fontWeight={400}>
+                {roomData.QnATitle[question.type]}
+              </Text>
+              <Text fontSize={"0.9rem"}>{pollLimit - 5}s</Text>
+            </Flex>
+          ) : (
+            <Text>No Type</Text>
+          )
+        ) : (
           <Flex width={"full"} justifyContent={"space-between"}>
             <Text fontSize={"0.9rem"} fontWeight={400}>
-              {roomData.QnATitle[question.type]}
+              Correct Answer Is{" "}
             </Text>
             <Text fontSize={"0.9rem"}>{pollLimit}s</Text>
           </Flex>
-        ) : (
-          <Text>No Type</Text>
         )}
       </HStack>
-      <Box mt={4}>{renderAnswerOptions(question)}</Box>
+      {showAnswer && (
+        <Flex mt={"10px"}>
+          {question.correctAnswers.map((answer) => (
+            <Text fontSize={"0.9rem"}>{answer}{" "}</Text>
+          ))}
+        </Flex>
+      )}
+      {answerSubmitted && !showAnswer && (
+        <Text mt={"5px"} fontSize={"0.9rem"}>
+          Answer will display after poll end.
+        </Text>
+      )}
+      {!answerSubmitted && !showAnswer && (
+        <Box mt={4}>{renderAnswerOptions(question)}</Box>
+      )}
 
-      <Box mt={4}>
-        <MainBtn
-          isLoading={false}
-          text={roomData.submit}
-          backColor={primaryBlue}
-          textColor={"white"}
-          onClickHandler={sendAnswer}
-        />
-      </Box>
+      {!answerSubmitted && !showAnswer && (
+        <Box mt={4}>
+          <MainBtn
+            isLoading={false}
+            text={roomData.submit}
+            backColor={primaryBlue}
+            textColor={"white"}
+            onClickHandler={sendAnswer}
+          />
+        </Box>
+      )}
     </Box>
   );
 };
