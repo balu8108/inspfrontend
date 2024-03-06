@@ -334,6 +334,7 @@ const PostPoll = ({ screenShareStream }) => {
                 isDisabled={!qnaData?.type}
                 onChange={handleAnswerChange}
                 useBasicStyles
+                menuPlacement="auto"
               />
               <FormErrorMessage>{errorData.correctAnswers}</FormErrorMessage>
             </FormControl>

@@ -46,7 +46,6 @@ import { shallowEqual, useSelector } from "react-redux";
 import { checkUserType } from "../../../utils";
 import FullScreenModeButton from "./FullScreenBtn";
 
-
 export const TheatreModeBtn = ({ isEnlarged, setIsEnlarged }) => {
   const { primaryBlue } = useTheme().colors.pallete;
   return (
@@ -388,7 +387,6 @@ const ToolBox = ({
     }
   }, [isPreviewAudioOn]);
 
-  
   return (
     <Box
       height={["auto", "auto", "100%", "100%"]}
@@ -409,7 +407,9 @@ const ToolBox = ({
             isEnlarged={isEnlarged}
             setIsEnlarged={setIsEnlarged}
           /> */}
-          <FullScreenModeButton fullScreenRef={fullScreenRef} />
+          {userRoleType !== userType.teacher && (
+            <FullScreenModeButton fullScreenRef={fullScreenRef} />
+          )}
         </Stack>
 
         <Flex direction={["row", "row", "column", "column"]} gap={2}>
