@@ -52,7 +52,6 @@ const socketConnectionHandler = (roomId) => {
   socket.emit(SOCKET_EVENTS.JOIN_ROOM_PREVIEW, { roomId: roomId }, (res) => {
     if (res.success === true) {
       // dispatch to set all peers
-
       store.dispatch(setAllPeers(res.peers));
     }
   });
@@ -431,6 +430,7 @@ export const initializeSocketConnections = (roomId) => {
   if (status) {
     socket = io(BASE_URL, {
       auth: { secret_token: secret_token },
+      transports: ["websocket"]
     });
     // store the socket in redux also as we may need it later
 
