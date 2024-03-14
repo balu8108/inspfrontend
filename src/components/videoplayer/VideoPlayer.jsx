@@ -58,7 +58,6 @@ const VideoPlayer = ({ type, activeRecording }) => {
       const { data } = res;
 
       const drmToken = data?.data?.DRMjwtToken;
-
       const videoOptions = getVideoJsOptions(activeRecording?.url, drmToken);
 
       if (!player) {
