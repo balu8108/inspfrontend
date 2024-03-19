@@ -5,6 +5,7 @@ import "videojs-contrib-quality-levels";
 import "videojs-contrib-eme";
 import "videojs-http-quality-selector";
 import "dashjs";
+import 'videojs-hotkeys';
 
 import { playRecordingApi } from "../../api/recordingapi";
 import WaterMark from "../watermark/WaterMark";
@@ -15,6 +16,7 @@ const getVideoJsOptions = (url, drmToken) => {
     autoplay: false,
     preload: "metadata",
     controls: true,
+    playbackRates: [0.5, 1, 1.5],
     poster: "",
     sources: [
       {
@@ -30,6 +32,14 @@ const getVideoJsOptions = (url, drmToken) => {
         },
       },
     ],
+    plugins: {
+      hotkeys: {
+        enableModifiersForNumbers: false,
+        seekStep: 10,
+        volumeStep: 0.1,
+        enableVolumeScroll: false,
+      },
+    },
     html5: {
       nativeAudioTracks: true,
       nativeVideoTracks: true,
