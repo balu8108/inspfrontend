@@ -6,6 +6,8 @@ import "videojs-contrib-eme";
 import "videojs-http-quality-selector";
 import "dashjs";
 import 'videojs-hotkeys';
+import 'videojs-seek-buttons'
+import 'videojs-seek-buttons/dist/videojs-seek-buttons.css'
 
 import { playRecordingApi } from "../../api/recordingapi";
 import WaterMark from "../watermark/WaterMark";
@@ -38,7 +40,7 @@ const getVideoJsOptions = (url, drmToken) => {
         seekStep: 10,
         volumeStep: 0.1,
         enableVolumeScroll: false,
-      },
+      }
     },
     html5: {
       nativeAudioTracks: true,
@@ -71,7 +73,11 @@ const VideoPlayer = ({ type, activeRecording }) => {
       const videoOptions = getVideoJsOptions(activeRecording?.url, drmToken);
 
       if (!player) {
-        const p = videojs(videoRef.current, videoOptions);
+        const p = videojs(videoRef.current, videoOptions, (p) => {
+          console.log('Player ready');
+          // Add event listeners to the video element for double-click events
+          videoRef.current.addEventListener('dblclick', handleVideoDoubleClick);
+        });
 
         p.eme();
 
@@ -93,6 +99,13 @@ const VideoPlayer = ({ type, activeRecording }) => {
   useEffect(() => {
     if (player) {
       player.httpQualitySelector();
+    }
+
+    if (player && (player?.activePlugins_?.seekButtons === false || player?.activePlugins_?.seekButtons === undefined)) {
+      player.seekButtons({
+        forward: 10,
+        back: 10
+      });
     }
   }, [player]);
 
@@ -134,6 +147,29 @@ const VideoPlayer = ({ type, activeRecording }) => {
       clearInterval(watermarkCheckInterval);
     };
   }, []);
+
+  const handleVideoDoubleClick = (event) => {
+    if (!player) return;
+
+    const video = player.tech().el();
+    const videoRect = video.getBoundingClientRect();
+    const clickX = event.clientX - videoRect.left;
+    const videoWidth = videoRect.width;
+
+    // Calculate the click position as a percentage of the video width
+    const clickPercentage = clickX / videoWidth;
+
+    // If double-clicked on the right side (more than 50% of the width), seek forward
+    if (clickPercentage > 0.5) {
+      const currentTime = player.currentTime();
+      player.currentTime(currentTime + 10); // Skip forward by 10 seconds (adjust as needed)
+    }
+    // If double-clicked on the left side (less than 50% of the width), seek backward
+    else {
+      const currentTime = player.currentTime();
+      player.currentTime(currentTime - 10); // Skip backward by 10 seconds (adjust as needed)
+    }
+  };
 
   return (
     <>
