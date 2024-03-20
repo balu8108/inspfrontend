@@ -16,29 +16,28 @@ import { userType } from "../../constants/staticvariables";
 const getVideoJsOptions = (browser, url, drmToken) => {
   const sources = [];
 
-  if (browser === "Chrome") {
+  if (browser === "Safari") {
+    let modifiedUrl = url.replace(/\.mpd$/, ".m3u8");
     sources.push({
-      src: url,
-      type: "application/dash+xml",
+      src: modifiedUrl,
+      type: "application/x-mpegURL",
       keySystems: {
-        "com.widevine.alpha": {
-          url: "https://drm-widevine-licensing.axprod.net/AcquireLicense",
+        "com.apple.fps.2_0": {
+          url: "https://drm-fairplay-licensing.axprod.net/AcquireLicense",
+          certificateUrl: "https://vtb.axinom.com/FPScert/fairplay.cer",
           licenseHeaders: {
             "X-AxDRM-Message": drmToken,
           },
         },
       },
     });
-  } else if (browser === "Safari") {
-    let modifiedUrl = url.replace(/\.mpd$/, ".m3u8");
-    console.log(modifiedUrl);
+  } else {
     sources.push({
-      src: modifiedUrl,
+      src: url,
       type: "application/dash+xml",
       keySystems: {
-        "com.apple.fps.1_0": {
-          url: "https://drm-fairplay-licensing.axprod.net/AcquireLicense",
-          certificateUrl: "https://vtb.axinom.com/FPScert/fairplay.cer",
+        "com.widevine.alpha": {
+          url: "https://drm-widevine-licensing.axprod.net/AcquireLicense",
           licenseHeaders: {
             "X-AxDRM-Message": drmToken,
           },
