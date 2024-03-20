@@ -7,6 +7,7 @@ const isAuthenticated = () => {
   // If both present then we can assume that user is authenticated else if any of the thing is not present then we can assume that user is not authenticated
 
   // Session storage is checked in case of local as we need to test different user in different tabs to log in into the room
+  // console.log()
   // local storage checks in case of production/dev
 
   const tokenStorage = getStorageType();

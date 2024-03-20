@@ -183,8 +183,6 @@ const ToolBox = ({
       // on the screen share
       await getScreenShareFeed();
     }
-
-    // recording handler trigger
   };
 
   const getVideoStreamFeed = async () => {

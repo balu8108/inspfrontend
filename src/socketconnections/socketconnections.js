@@ -35,7 +35,7 @@ import { checkUserType, getStorageData, isObjectValid } from "../utils";
 import { setFeedbackModalOpen } from "../store/actions/genericActions";
 
 // socket variables
-
+// add comment
 export let socket = null;
 export let producerTransport = null;
 export let consumerTransport = null;

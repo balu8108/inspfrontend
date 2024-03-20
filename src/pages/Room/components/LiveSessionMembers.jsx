@@ -243,13 +243,17 @@ const LiveSessionMembers = ({ primaryBlue, outerBackground }) => {
     setSearch(value.trim());
   };
   const handleSearch = () => {
-    console.log("search");
     const updatedPeers = peers.filter((peer) =>
       peer.name.toLowerCase().includes(search.toLowerCase())
     );
     setFilteredPeers(updatedPeers);
   };
-  const [filteredPeers, setFilteredPeers] = useState(peers);
+  const [filteredPeers, setFilteredPeers] = useState([]);
+
+  useEffect(() => {
+    setFilteredPeers(peers)
+  }, [peers])
+
   return (
     <Flex flexDirection={"column"}>
       {userRoleType === userType.teacher && (
