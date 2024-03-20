@@ -13,27 +13,47 @@ import { playRecordingApi } from "../../api/recordingapi";
 import WaterMark from "../watermark/WaterMark";
 import { checkUserType, getStorageData } from "../../utils";
 import { userType } from "../../constants/staticvariables";
-const getVideoJsOptions = (url, drmToken) => {
+const getVideoJsOptions = (browser, url, drmToken) => {
+  const sources = [];
+
+  if (browser === "Chrome") {
+    sources.push({
+      src: url,
+      type: "application/dash+xml",
+      keySystems: {
+        "com.widevine.alpha": {
+          url: "https://drm-widevine-licensing.axprod.net/AcquireLicense",
+          licenseHeaders: {
+            "X-AxDRM-Message": drmToken,
+          },
+        },
+      },
+    });
+  } else if (browser === "Safari") {
+    let modifiedUrl = url.replace(/\.mpd$/, ".m3u8");
+    console.log(modifiedUrl);
+    sources.push({
+      src: modifiedUrl,
+      type: "application/dash+xml",
+      keySystems: {
+        "com.apple.fps.1_0": {
+          url: "https://drm-fairplay-licensing.axprod.net/AcquireLicense",
+          certificateUrl: "https://vtb.axinom.com/FPScert/fairplay.cer",
+          licenseHeaders: {
+            "X-AxDRM-Message": drmToken,
+          },
+        },
+      },
+    });
+  }
+
   const videoOptions = {
     autoplay: false,
     preload: "metadata",
     controls: true,
     playbackRates: [0.5, 1, 1.5],
     poster: "",
-    sources: [
-      {
-        src: url,
-        type: "application/dash+xml",
-        keySystems: {
-          "com.widevine.alpha": {
-            url: "https://drm-widevine-licensing.axprod.net/AcquireLicense",
-            licenseHeaders: {
-              "X-AxDRM-Message": drmToken,
-            },
-          },
-        },
-      },
-    ],
+    sources: sources,
     plugins: {
       hotkeys: {
         enableModifiersForNumbers: false,
@@ -48,10 +68,11 @@ const getVideoJsOptions = (url, drmToken) => {
       nativeTextTracks: true,
     },
   };
+
   return videoOptions;
 };
 
-const VideoPlayer = ({ type, activeRecording }) => {
+const VideoPlayer = ({ browser, type, activeRecording }) => {
   const videoRef = useRef(null);
   const [player, setPlayer] = useState(undefined);
 
@@ -70,7 +91,11 @@ const VideoPlayer = ({ type, activeRecording }) => {
       const { data } = res;
 
       const drmToken = data?.data?.DRMjwtToken;
-      const videoOptions = getVideoJsOptions(activeRecording?.url, drmToken);
+      const videoOptions = getVideoJsOptions(
+        browser,
+        activeRecording?.url,
+        drmToken
+      );
 
       if (!player) {
         const p = videojs(videoRef.current, videoOptions, (p) => {
