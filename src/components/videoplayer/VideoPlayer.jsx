@@ -5,7 +5,7 @@ import "videojs-contrib-quality-levels";
 import "videojs-contrib-eme";
 import "videojs-http-quality-selector";
 import "dashjs";
-import 'videojs-hotkeys';
+import "videojs-hotkeys";
 
 import { playRecordingApi } from "../../api/recordingapi";
 import WaterMark from "../watermark/WaterMark";
@@ -23,8 +23,9 @@ const getVideoJsOptions = (url, drmToken) => {
         src: url,
         type: "application/dash+xml",
         keySystems: {
-          "com.widevine.alpha": {
-            url: "https://drm-widevine-licensing.axprod.net/AcquireLicense",
+          "com.apple.fps.1_0": {
+            url: "https://drm-fairplay-licensing.axprod.net/AcquireLicense",
+            certificateUrl: "https://vtb.axinom.com/FPScert/fairplay.cer",
             licenseHeaders: {
               "X-AxDRM-Message": drmToken,
             },
@@ -149,6 +150,7 @@ const VideoPlayer = ({ type, activeRecording }) => {
         <video
           ref={videoRef}
           className="vidPlayer video-js vjs-default-skin vjs-big-play-centered"
+          playsinline
           style={{
             borderRadius: "10px",
             width: "100%",
