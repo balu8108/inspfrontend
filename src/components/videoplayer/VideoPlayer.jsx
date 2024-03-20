@@ -25,9 +25,8 @@ const getVideoJsOptions = (url, drmToken) => {
         src: url,
         type: "application/dash+xml",
         keySystems: {
-          "com.apple.fps.1_0": {
-            url: "https://drm-fairplay-licensing.axprod.net/AcquireLicense",
-            certificateUrl: "https://vtb.axinom.com/FPScert/fairplay.cer",
+          "com.widevine.alpha": {
+            url: "https://drm-widevine-licensing.axprod.net/AcquireLicense",
             licenseHeaders: {
               "X-AxDRM-Message": drmToken,
             },
