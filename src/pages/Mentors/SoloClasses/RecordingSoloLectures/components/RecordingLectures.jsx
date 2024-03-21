@@ -284,7 +284,8 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
     if (isRecording) {
       toggleRecording();
     }
-    window.location.href = "/homepage";
+
+    navigate("/homepage", { replace: true });
     window.history.replaceState(null, null, `/homepage`);
   };
 
