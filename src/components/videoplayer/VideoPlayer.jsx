@@ -13,21 +13,24 @@ import { playRecordingApi } from "../../api/recordingapi";
 import WaterMark from "../watermark/WaterMark";
 import { checkUserType, getStorageData } from "../../utils";
 import { userType } from "../../constants/staticvariables";
-const getVideoJsOptions = (browser, url, drmToken) => {
+const getVideoJsOptions = (browser, url, hlsUrl, drmToken, HlsDrmToken) => {
   const sources = [];
 
   if (browser === "Safari") {
-    let modifiedUrl = url.replace(/\.mpd$/, ".m3u8");
     sources.push({
-      src: modifiedUrl,
-      type: "application/vnd.apple.mpegurl",
+      src: hlsUrl,
       keySystems: {
         "com.apple.fps.1_0": {
+          certificateUri: "https://vtb.axinom.com/FPScert/fairplay.cer",
+          getContentId: function (emeOptions, initData) {
+            return new TextDecoder().decode(
+              initData.filter((item) => item !== 0 && item !== 150)
+            );
+          },
           licenseUri:
             "https://drm-fairplay-licensing.axprod.net/AcquireLicense",
-          certificateUri: "https://vtb.axinom.com/FPScert/fairplay.cer",
           licenseHeaders: {
-            "X-AxDRM-Message": drmToken,
+            "X-AxDrm-Message": HlsDrmToken,
           },
         },
       },
@@ -91,10 +94,13 @@ const VideoPlayer = ({ browser, type, activeRecording }) => {
       const { data } = res;
 
       const drmToken = data?.data?.DRMjwtToken;
+      const HlsDrmToken = data?.data?.HlsDRMJwtToken;
       const videoOptions = getVideoJsOptions(
         browser,
         activeRecording?.url,
-        drmToken
+        activeRecording?.hlsDrmUrl,
+        drmToken,
+        HlsDrmToken
       );
 
       if (!player) {
