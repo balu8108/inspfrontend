@@ -20,11 +20,12 @@ const getVideoJsOptions = (browser, url, drmToken) => {
     let modifiedUrl = url.replace(/\.mpd$/, ".m3u8");
     sources.push({
       src: modifiedUrl,
-      type: "application/x-mpegURL",
+      type: "application/vnd.apple.mpegurl",
       keySystems: {
-        "com.apple.fps.2_0": {
-          url: "https://drm-fairplay-licensing.axprod.net/AcquireLicense",
-          certificateUrl: "https://vtb.axinom.com/FPScert/fairplay.cer",
+        "com.apple.fps.1_0": {
+          licenseUri:
+            "https://drm-fairplay-licensing.axprod.net/AcquireLicense",
+          certificateUri: "https://vtb.axinom.com/FPScert/fairplay.cer",
           licenseHeaders: {
             "X-AxDRM-Message": drmToken,
           },
