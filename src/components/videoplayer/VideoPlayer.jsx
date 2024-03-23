@@ -54,7 +54,7 @@ const getVideoJsOptions = (browser, url, hlsUrl, drmToken, HlsDrmToken) => {
     autoplay: false,
     preload: "metadata",
     controls: true,
-    playbackRates: [0.5, 1, 1.5],
+    playbackRates: [0.5, 1, 1.5, 2],
     poster: "",
     sources: sources,
     plugins: {
@@ -104,11 +104,7 @@ const VideoPlayer = ({ browser, type, activeRecording }) => {
       );
 
       if (!player) {
-        const p = videojs(videoRef.current, videoOptions, (p) => {
-          console.log("Player ready");
-          // Add event listeners to the video element for double-click events
-          videoRef.current.addEventListener("dblclick", handleVideoDoubleClick);
-        });
+        const p = videojs(videoRef.current, videoOptions);
 
         p.eme();
 
@@ -182,29 +178,6 @@ const VideoPlayer = ({ browser, type, activeRecording }) => {
       clearInterval(watermarkCheckInterval);
     };
   }, []);
-
-  const handleVideoDoubleClick = (event) => {
-    if (!player) return;
-
-    const video = player.tech().el();
-    const videoRect = video.getBoundingClientRect();
-    const clickX = event.clientX - videoRect.left;
-    const videoWidth = videoRect.width;
-
-    // Calculate the click position as a percentage of the video width
-    const clickPercentage = clickX / videoWidth;
-
-    // If double-clicked on the right side (more than 50% of the width), seek forward
-    if (clickPercentage > 0.5) {
-      const currentTime = player.currentTime();
-      player.currentTime(currentTime + 10); // Skip forward by 10 seconds (adjust as needed)
-    }
-    // If double-clicked on the left side (less than 50% of the width), seek backward
-    else {
-      const currentTime = player.currentTime();
-      player.currentTime(currentTime - 10); // Skip backward by 10 seconds (adjust as needed)
-    }
-  };
 
   return (
     <>
