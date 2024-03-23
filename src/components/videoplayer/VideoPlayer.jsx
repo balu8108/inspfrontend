@@ -13,20 +13,24 @@ import { playRecordingApi } from "../../api/recordingapi";
 import WaterMark from "../watermark/WaterMark";
 import { checkUserType, getStorageData } from "../../utils";
 import { userType } from "../../constants/staticvariables";
-const getVideoJsOptions = (browser, url, drmToken) => {
+const getVideoJsOptions = (browser, url, hlsUrl, drmToken, HlsDrmToken) => {
   const sources = [];
 
   if (browser === "Safari") {
-    let modifiedUrl = url.replace(/\.mpd$/, ".m3u8");
     sources.push({
-      src: modifiedUrl,
-      type: "application/x-mpegURL",
+      src: hlsUrl,
       keySystems: {
-        "com.apple.fps.2_0": {
-          url: "https://drm-fairplay-licensing.axprod.net/AcquireLicense",
-          certificateUrl: "https://vtb.axinom.com/FPScert/fairplay.cer",
+        "com.apple.fps.1_0": {
+          certificateUri: "https://vtb.axinom.com/FPScert/fairplay.cer",
+          getContentId: function (emeOptions, initData) {
+            return new TextDecoder().decode(
+              initData.filter((item) => item !== 0 && item !== 150)
+            );
+          },
+          licenseUri:
+            "https://drm-fairplay-licensing.axprod.net/AcquireLicense",
           licenseHeaders: {
-            "X-AxDRM-Message": drmToken,
+            "X-AxDrm-Message": HlsDrmToken,
           },
         },
       },
@@ -50,7 +54,7 @@ const getVideoJsOptions = (browser, url, drmToken) => {
     autoplay: false,
     preload: "metadata",
     controls: true,
-    playbackRates: [0.5, 1, 1.5],
+    playbackRates: [0.5, 1, 1.5, 2],
     poster: "",
     sources: sources,
     plugins: {
@@ -90,18 +94,17 @@ const VideoPlayer = ({ browser, type, activeRecording }) => {
       const { data } = res;
 
       const drmToken = data?.data?.DRMjwtToken;
+      const HlsDrmToken = data?.data?.HlsDRMJwtToken;
       const videoOptions = getVideoJsOptions(
         browser,
         activeRecording?.url,
-        drmToken
+        activeRecording?.hlsDrmUrl,
+        drmToken,
+        HlsDrmToken
       );
 
       if (!player) {
-        const p = videojs(videoRef.current, videoOptions, (p) => {
-          console.log("Player ready");
-          // Add event listeners to the video element for double-click events
-          videoRef.current.addEventListener("dblclick", handleVideoDoubleClick);
-        });
+        const p = videojs(videoRef.current, videoOptions);
 
         p.eme();
 
@@ -175,29 +178,6 @@ const VideoPlayer = ({ browser, type, activeRecording }) => {
       clearInterval(watermarkCheckInterval);
     };
   }, []);
-
-  const handleVideoDoubleClick = (event) => {
-    if (!player) return;
-
-    const video = player.tech().el();
-    const videoRect = video.getBoundingClientRect();
-    const clickX = event.clientX - videoRect.left;
-    const videoWidth = videoRect.width;
-
-    // Calculate the click position as a percentage of the video width
-    const clickPercentage = clickX / videoWidth;
-
-    // If double-clicked on the right side (more than 50% of the width), seek forward
-    if (clickPercentage > 0.5) {
-      const currentTime = player.currentTime();
-      player.currentTime(currentTime + 10); // Skip forward by 10 seconds (adjust as needed)
-    }
-    // If double-clicked on the left side (less than 50% of the width), seek backward
-    else {
-      const currentTime = player.currentTime();
-      player.currentTime(currentTime - 10); // Skip backward by 10 seconds (adjust as needed)
-    }
-  };
 
   return (
     <>
