@@ -46,6 +46,7 @@ const dataKey = [
   "scheduledDate",
   "topic",
   "classType",
+  "classLevel",
   "agenda",
   "description",
   "scheduledStartTime",
@@ -77,6 +78,7 @@ const ScheduleClassPopup = ({
   const [isTopicsDisabled, setIsTopicsDisabled] = useState(true);
   const [topicsData, setTopicsData] = useState([]);
   const [selectedClassType, setSelectedClassType] = useState(null);
+  const [selectedClassLevel, setSelectedClassLevel] = useState(null);
   const [lectureNo, setLectureNo] = useState(null);
   const [selectedFiles, setSelectedFiles] = useState(null); // for file upload
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
@@ -145,6 +147,8 @@ const ScheduleClassPopup = ({
       setSelectedTopic(object);
     } else if (event.name === "classType") {
       setSelectedClassType(object);
+    } else if (event.name == "classLevel") {
+      setSelectedClassLevel(object);
     }
     setScheduleClassFormData((prev) => ({ ...prev, [event.name]: object }));
     setScheduleClassFormErrorData((prev) => ({ ...prev, [event.name]: "" }));
@@ -207,6 +211,10 @@ const ScheduleClassPopup = ({
     formData.append(
       "classType",
       JSON.stringify(scheduleClassFormData.classType)
+    );
+    formData.append(
+      "classLevel",
+      JSON.stringify(scheduleClassFormData.classLevel)
     );
     formData.append("scheduledDate", scheduleClassFormData.scheduledDate);
     formData.append(
@@ -319,6 +327,7 @@ const ScheduleClassPopup = ({
   useEffect(() => {
     if (
       selectedClassType &&
+      selectedClassLevel &&
       selectedChapter &&
       selectedChapter &&
       selectedTopic
@@ -326,12 +335,19 @@ const ScheduleClassPopup = ({
       const data = {
         subjectName: scheduleClassFormData["subject"].label,
         classType: scheduleClassFormData["classType"].value,
+        classLevel: scheduleClassFormData["classLevel"].value,
         chapterName: scheduleClassFormData["chapter"].label,
         topicName: scheduleClassFormData["topic"].label,
       };
       fetchLectureNo(data);
     }
-  }, [selectedClassType, selectedChapter, selectedChapter, selectedTopic]);
+  }, [
+    selectedClassType,
+    selectedClassLevel,
+    selectedChapter,
+    selectedChapter,
+    selectedTopic,
+  ]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"xl"}>
@@ -446,6 +462,44 @@ const ScheduleClassPopup = ({
                     )}
                   </Box>
                 </Grid>
+              </Box>
+              <Box my={3}>
+                <FormControl
+                  isInvalid={scheduleClassFormErrorData["classLevel"]}
+                >
+                  <Select
+                    placeholder={
+                      scheduleClassData.scheduleClassFormPlaceholder
+                        .selectClassLevel
+                    }
+                    onChange={handleSelectChange}
+                    isLoading={isChaptersLoading}
+                    isDisabled={false}
+                    name="classLevel"
+                    value={selectedClassLevel}
+                    chakraStyles={chakraStyles}
+                    options={[
+                      {
+                        value: "Class_11",
+                        label: "Class_11",
+                      },
+                      {
+                        value: "Class_12",
+                        label: "Class_12",
+                      },
+                      {
+                        value: "Foundation_Course",
+                        label: "Foundation_Course",
+                      },
+                    ]}
+                    useBasicStyles
+                  />
+                  {scheduleClassFormErrorData["classLevel"] && (
+                    <FormErrorMessage>
+                      {scheduleClassFormErrorData["classLevel"]}
+                    </FormErrorMessage>
+                  )}
+                </FormControl>
               </Box>
               <Box my={3}>
                 <FormControl isInvalid={scheduleClassFormErrorData["chapter"]}>

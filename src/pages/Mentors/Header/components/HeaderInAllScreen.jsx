@@ -20,15 +20,26 @@ const Header = () => {
   const [loading, setLoading] = useState(true);
   const { outerBackground, innerBackground, innerBoxShadow } =
     useTheme().colors.pallete;
-
   const dummyDescriptions = [
+    "Prepare for the Olympiad journey with our Foundation Course, meticulously designed to ignite curiosity and foster problem-solving skills. Dive into advanced topics and lay a strong foundation for competitive examinations.",
+    "Explore the advanced topics of Class 12th curriculum, delving deeper into the realms of physics, chemistry, and mathematics. Engage with complex concepts, tackle challenging problems, and prepare yourself for academic excellence.",
+    "Dive into the core concepts of Class 11th curriculum, designed to provide a solid foundation in physics, chemistry, and mathematics. Explore fundamental principles, solve intriguing problems, and embark on a journey of discovery.",
+
     "Embark on a transformative learning journey with our Insp_Champ_Crash Course. Designed for those seeking an accelerated and focused learning experience, this crash course is your gateway to mastering key concepts in a short span of time.",
     " Explore the world of chemical reactions, elements, and compounds in this foundational science subject. Learn about the periodic table, bonding, and the fascinating properties of matter.",
     "  Delve into the world of numbers, equations, and mathematical concepts. From algebra to calculus, discover the fundamental principles that underlie a wide range of scientific and practical applications.",
     " Physics is the study of the fundamental principles that govern the behavior of the physical universe. It encompasses a wide range of topics, including classical mechanics, electromagnetism, thermodynamics, and quantum mechanics.",
   ];
 
-  const subjectStatus = ["In Progress", "Upcoming", "Upcoming", "In Progress"];
+  const subjectStatus = [
+    "In Progress",
+    "In Progress",
+    "In Progress",
+    "In Progress",
+    "Upcoming",
+    "Upcoming",
+    "In Progress",
+  ];
 
   useEffect(() => {
     async function fetchSubjects() {
@@ -53,12 +64,26 @@ const Header = () => {
           });
 
           // adding a crash course in array of data
-
           setSubjects([
             {
               id: "4",
               name: "INSP Champ Crash Course",
               value: "crash-course",
+            },
+            {
+              id: "5",
+              name: "Class 11th",
+              value: "class-11",
+            },
+            {
+              id: "6",
+              name: "Class 12th",
+              value: "class-12",
+            },
+            {
+              id: "7",
+              name: "Foundation Course",
+              value: "foundation-course",
             },
             ...updatedSubjects,
           ]);
@@ -119,14 +144,14 @@ const Header = () => {
                 mt={"3px"}
                 fontSize={"12px"}
                 color={
-                  subjectStatus[4 - subject.id] === "In Progress"
+                  subjectStatus[7 - subject.id] === "In Progress"
                     ? "#3DE302"
                     : "#2C332978"
                 }
                 lineHeight={"18px"}
                 ml={"13px"}
               >
-                {subjectStatus[4 - subject.id] || "Status not found"}
+                {subjectStatus[7 - subject.id] || "Status not found"}
               </Text>
               <Text
                 fontSize={"12px"}
@@ -147,24 +172,23 @@ const Header = () => {
                 color={"rgba(44, 51, 41, 0.47)"}
                 noOfLines={3}
               >
-                {dummyDescriptions[4 - subject.id] || "Description not found"}
+                {dummyDescriptions[7 - subject.id] || "Description not found"}
               </Text>
 
-              <Box mt="auto">
-                <Link to={`/myCourses/${subject.value}`}>
-                  <Button
-                    variant={"ghost"}
-                    color={"#3C8DBC"}
-                    fontWeight={"600"}
-                    fontSize={"14px"}
-                    lineHeight={"16px"}
-                    _hover={{ bg: "white" }}
-                    width="100%"
-                  >
-                    View Details
-                  </Button>
-                </Link>
-              </Box>
+              <Link
+                to={`/myCourses/${subject.value}`}
+                style={{ margin: "auto" }}
+              >
+                <Button
+                  variant={"ghost"}
+                  color={"#3C8DBC"}
+                  fontWeight={"600"}
+                  fontSize={"14px"}
+                  _hover={{ bg: "white" }}
+                >
+                  View Details
+                </Button>
+              </Link>
             </Card>
           ))}
         </Flex>

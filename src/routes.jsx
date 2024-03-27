@@ -14,6 +14,9 @@ import Home from "./components/home/Home";
 import AuthLoading from "./components/loaders/AuthLoading";
 import StudentCrashCourse from "./pages/StudentCourses/CrashCourse/screens/CrashCourse";
 import LectureDetailsById from "./pages/StudentCourses/CrashCourse/screens/lectureDetailsById";
+import Grade11Screen from "./pages/StudentCourses/Class11/screen/Grade11Screen";
+import Grade12Screen from "./pages/StudentCourses/Class12/screen/Grade12Screen";
+import FoundationCourseScreen from "./pages/StudentCourses/FoundationCourse/screen/FoundationCourseScreen";
 //Mentor Routes
 
 import AllRecordingsForAChapter from "./pages/Mentors/MyCourses/Physics/screen/ChapterRecording";
@@ -104,6 +107,21 @@ const privateRoutes = [
     name: "Student CrashCourse",
     path: "/myCourses/crash-course",
     component: <StudentCrashCourse />,
+  },
+  {
+    name: "Student Class 11th Course",
+    path: "/myCourses/class-11",
+    component: <Grade11Screen />,
+  },
+  {
+    name: "Student Class 12th Course",
+    path: "/myCourses/class-12",
+    component: <Grade12Screen />,
+  },
+  {
+    name: "Student Foundation  Course",
+    path: "/myCourses/foundation-course",
+    component: <FoundationCourseScreen />,
   },
   {
     name: "Student CrashCourse",
