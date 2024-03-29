@@ -27,6 +27,10 @@ export const getLiveClassDetailsApi = (roomId) =>
   API.get(`/schedule-live-class/get-details/${roomId}`);
 export const getUpcomingClassApi = (roomId) =>
   API.get(`/schedule-live-class/get-upcoming-class/${roomId}`);
-export const getLectureNo = (data) => API.post("/schedule-live-class/get-lecture-no",data);  
-export const addClassAssignmentApi = (classId, data) =>
-  API.post(`/schedule-live-class/upload-assignment-to-class/${classId}`, data);
+export const getLectureNo = (data) =>
+  API.post("/schedule-live-class/get-lecture-no", data);
+export const addClassAssignmentApi = (type, classId, data) =>
+  API.post(
+    `/schedule-live-class/upload-assignment-to-class/${type}/${classId}`,
+    data
+  );

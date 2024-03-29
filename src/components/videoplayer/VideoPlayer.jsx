@@ -5,41 +5,77 @@ import "videojs-contrib-quality-levels";
 import "videojs-contrib-eme";
 import "videojs-http-quality-selector";
 import "dashjs";
+import "videojs-hotkeys";
+import "videojs-seek-buttons";
+import "videojs-seek-buttons/dist/videojs-seek-buttons.css";
 
 import { playRecordingApi } from "../../api/recordingapi";
 import WaterMark from "../watermark/WaterMark";
 import { checkUserType, getStorageData } from "../../utils";
 import { userType } from "../../constants/staticvariables";
-const getVideoJsOptions = (url, drmToken) => {
+const getVideoJsOptions = (browser, url, hlsUrl, drmToken, HlsDrmToken) => {
+  const sources = [];
+
+  if (browser === "Safari") {
+    sources.push({
+      src: hlsUrl,
+      keySystems: {
+        "com.apple.fps.1_0": {
+          certificateUri: "https://vtb.axinom.com/FPScert/fairplay.cer",
+          getContentId: function (emeOptions, initData) {
+            return new TextDecoder().decode(
+              initData.filter((item) => item !== 0 && item !== 150)
+            );
+          },
+          licenseUri:
+            "https://drm-fairplay-licensing.axprod.net/AcquireLicense",
+          licenseHeaders: {
+            "X-AxDrm-Message": HlsDrmToken,
+          },
+        },
+      },
+    });
+  } else {
+    sources.push({
+      src: url,
+      type: "application/dash+xml",
+      keySystems: {
+        "com.widevine.alpha": {
+          url: "https://drm-widevine-licensing.axprod.net/AcquireLicense",
+          licenseHeaders: {
+            "X-AxDRM-Message": drmToken,
+          },
+        },
+      },
+    });
+  }
+
   const videoOptions = {
     autoplay: false,
     preload: "metadata",
     controls: true,
+    playbackRates: [0.5, 1, 1.5, 2],
     poster: "",
-    sources: [
-      {
-        src: url,
-        type: "application/dash+xml",
-        keySystems: {
-          "com.widevine.alpha": {
-            url: "https://drm-widevine-licensing.axprod.net/AcquireLicense",
-            licenseHeaders: {
-              "X-AxDRM-Message": drmToken,
-            },
-          },
-        },
+    sources: sources,
+    plugins: {
+      hotkeys: {
+        enableModifiersForNumbers: false,
+        seekStep: 10,
+        volumeStep: 0.1,
+        enableVolumeScroll: false,
       },
-    ],
+    },
     html5: {
       nativeAudioTracks: true,
       nativeVideoTracks: true,
       nativeTextTracks: true,
     },
   };
+
   return videoOptions;
 };
 
-const VideoPlayer = ({ type, activeRecording }) => {
+const VideoPlayer = ({ browser, type, activeRecording }) => {
   const videoRef = useRef(null);
   const [player, setPlayer] = useState(undefined);
 
@@ -58,8 +94,14 @@ const VideoPlayer = ({ type, activeRecording }) => {
       const { data } = res;
 
       const drmToken = data?.data?.DRMjwtToken;
-
-      const videoOptions = getVideoJsOptions(activeRecording?.url, drmToken);
+      const HlsDrmToken = data?.data?.HlsDRMJwtToken;
+      const videoOptions = getVideoJsOptions(
+        browser,
+        activeRecording?.url,
+        activeRecording?.hlsDrmUrl,
+        drmToken,
+        HlsDrmToken
+      );
 
       if (!player) {
         const p = videojs(videoRef.current, videoOptions);
@@ -84,6 +126,17 @@ const VideoPlayer = ({ type, activeRecording }) => {
   useEffect(() => {
     if (player) {
       player.httpQualitySelector();
+    }
+
+    if (
+      player &&
+      (player?.activePlugins_?.seekButtons === false ||
+        player?.activePlugins_?.seekButtons === undefined)
+    ) {
+      player.seekButtons({
+        forward: 10,
+        back: 10,
+      });
     }
   }, [player]);
 
@@ -140,6 +193,7 @@ const VideoPlayer = ({ type, activeRecording }) => {
         <video
           ref={videoRef}
           className="vidPlayer video-js vjs-default-skin vjs-big-play-centered"
+          playsinline
           style={{
             borderRadius: "10px",
             width: "100%",

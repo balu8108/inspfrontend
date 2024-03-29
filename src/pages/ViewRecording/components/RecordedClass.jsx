@@ -10,7 +10,7 @@ import {
   Card,
   Link,
   useTheme,
-  useDisclosure
+  useDisclosure,
 } from "@chakra-ui/react";
 import UploadAssignmentToClass from "../../../components/popups/UploadAssignmentToClass";
 import { useLocation } from "react-router-dom";
@@ -26,7 +26,7 @@ const RecordedClass = ({
   recordingDetail,
   activeRecording,
   setActiveRecording,
-  setIsFileAdded
+  setIsFileAdded,
 }) => {
   const isLive = type && type === "live";
   const isSolo = type && type === "solo";
@@ -40,7 +40,8 @@ const RecordedClass = ({
     onOpen: onSchedulePopupOpen,
     onClose: onScheduleClosePopupOpen,
   } = useDisclosure();
-  const { primaryBlue, primaryBlueLight, outerBackground } = useTheme().colors.pallete;
+  const { primaryBlue, primaryBlueLight, outerBackground } =
+    useTheme().colors.pallete;
   const [lectureDetails, setLectureDetails] = useState({});
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -48,9 +49,9 @@ const RecordedClass = ({
   const getDetails = async () => {
     try {
       const response = await getLectureDetails(roomId);
-      
+
       const { data } = response.data;
-      console.log("API Data:", data); 
+      console.log("API Data:", data);
       setLectureDetails(data);
     } catch (err) {
       console.error("Error fetching course lectures:", err);
@@ -59,7 +60,7 @@ const RecordedClass = ({
 
   useEffect(() => {
     getDetails();
-    console.log("details",getDetails)
+    console.log("details", getDetails);
   }, [roomId]);
 
   const renderFiles = (data) => {
@@ -222,173 +223,174 @@ const RecordedClass = ({
           onClose={onScheduleClosePopupOpen}
           classId={recordingDetail?.id}
           setIsFileAdded={setIsFileAdded}
+          type={type}
         />
       )}
-    <Flex
-      direction={"column"}
-      justifyContent={"space-between"}
-      height={"100%"}
-      gap={5}
-    >
-    <Box
-      width={"310px"}
-      height={"full"}
-      borderRadius={"26px"}
-      p={6}
-      bg={outerBackground}
-    >
-      <HStack spacing={"10px"}>
+      <Flex
+        direction={"column"}
+        justifyContent={"space-between"}
+        height={"100%"}
+        gap={5}
+      >
         <Box
-          width={"12px"}
-          height={"25px"}
-          borderRadius={"20px"}
-          bg={"#3C8DBC"}
-        ></Box>
-        <Text fontSize={"20px"} lineHeight={"26px"} fontWeight={"400"}>
-          Recorded Class
-        </Text>
-      </HStack>
-
-      <Box mt={6}>
-        <Box>
-          <Text
-            fontSize={"15px"}
-            lineHeight={"18px"}
-            fontWeight={400}
-            color={"rgba(44, 51, 41, 1)"}
-          >
-            {isLive
-              ? capitalize(recordingDetail?.LiveClassRoomDetail?.topicName)
-              : isLiveSpecific
-              ? capitalize(
-                  recordingDetail?.responseData?.[0]?.LiveClassRoomDetail
-                    .topicName
-                )
-              : isLiveTopic
-              ? capitalize(
-                  recordingDetail?.responseData?.[0]?.LiveClassRoomDetail
-                    .topicName
-                )
-              : isSolo
-              ? capitalize(recordingDetail?.topic)
-              : isSoloSpecific
-              ? capitalize(recordingDetail?.responseData?.[0]?.topic)
-              : isSoloTopic
-              ? capitalize(recordingDetail?.responseData?.[0]?.topic)
-              : capitalize("No Data")}
-          </Text>
-
-          <Text
-            fontSize={"12px"}
-            fontWeight={400}
-            lineHeight={"14px"}
-            color={"rgba(44, 51, 41, 0.47)"}
-            mt={1}
-          >
-            {isLive || isSolo
-              ? recordingDetail?.mentorName
-              : isLiveSpecific || isSoloSpecific || isLiveTopic || isSoloTopic
-              ? recordingDetail?.responseData?.[0]?.mentorName
-              : "No data"}
-          </Text>
-        </Box>
-      </Box>
-
-      <Box mt={6}>
-        <Text fontSize={"15px"} lineHeight={"19px"}>
-          Description
-        </Text>
-
-        <Text mt={1} color={"#2C332978"} fontSize={"12px"} lineHeight={"20px"}>
-          {isLive
-            ? recordingDetail?.LiveClassRoomDetail?.description
-            : isLiveSpecific
-            ? recordingDetail?.responseData?.[0]?.LiveClassRoomDetail
-                .description
-            : isSolo
-            ? recordingDetail?.description
-            : isSoloSpecific
-            ? recordingDetail?.responseData?.[0]?.description
-            : isLiveTopic
-            ? recordingDetail?.responseData?.[0]?.LiveClassRoomDetail
-                .description
-            : isSoloTopic
-            ? recordingDetail?.responseData?.[0]?.description
-            : "No Data"}
-        </Text>
-      </Box>
-      <Box mt={6}>
-        <Flex
-          direction={"row"}
-          gap={8}
-          mb={2}
+          width={"310px"}
+          height={"full"}
+          borderRadius={"26px"}
+          p={6}
+          bg={outerBackground}
         >
-        <Text>Files</Text>
-        {
-          userRoleType === userType.teacher &&
-          <Icon
-            as={PiUploadSimpleBold}
-            mt={1}
-            onClick={(e) => {
-              onSchedulePopupOpen()
-            }}
-            _hover={{ bg: "none", cursor: "pointer" }}
-          />
-        }
-        </Flex>
-        <Box mt={1}>{renderFiles(recordingDetail)}</Box>
-      </Box>
-      <Box mt={6}>
-        <Text fontSize="15px" lineHeight={"19px"}>
-          Agenda
-        </Text>
-        <Box mt={1}>{renderAgenda(recordingDetail)}</Box>
-      </Box>
+          <HStack spacing={"10px"}>
+            <Box
+              width={"12px"}
+              height={"25px"}
+              borderRadius={"20px"}
+              bg={"#3C8DBC"}
+            ></Box>
+            <Text fontSize={"20px"} lineHeight={"26px"} fontWeight={"400"}>
+              Recorded Class
+            </Text>
+          </HStack>
 
-      <Box mt={6}>
-        <Text>Recordings</Text>
-        <Flex
-          direction={"row"}
-          overflowX={"auto"}
-          w={"full"}
-          className="example"
-          gap={"10px"}
-        >
-          {renderRecordings(recordingDetail, activeRecording)}
-        </Flex>
-      </Box>
-      {(isLive || isLiveSpecific || isLiveTopic) && (
-        <Box mt={6}>
-          {/* <Text>Notes</Text>
+          <Box mt={6}>
+            <Box>
+              <Text
+                fontSize={"15px"}
+                lineHeight={"18px"}
+                fontWeight={400}
+                color={"rgba(44, 51, 41, 1)"}
+              >
+                {isLive
+                  ? capitalize(recordingDetail?.LiveClassRoomDetail?.topicName)
+                  : isLiveSpecific
+                  ? capitalize(
+                      recordingDetail?.responseData?.[0]?.LiveClassRoomDetail
+                        .topicName
+                    )
+                  : isLiveTopic
+                  ? capitalize(
+                      recordingDetail?.responseData?.[0]?.LiveClassRoomDetail
+                        .topicName
+                    )
+                  : isSolo
+                  ? capitalize(recordingDetail?.topic)
+                  : isSoloSpecific
+                  ? capitalize(recordingDetail?.responseData?.[0]?.topic)
+                  : isSoloTopic
+                  ? capitalize(recordingDetail?.responseData?.[0]?.topic)
+                  : capitalize("No Data")}
+              </Text>
+
+              <Text
+                fontSize={"12px"}
+                fontWeight={400}
+                lineHeight={"14px"}
+                color={"rgba(44, 51, 41, 0.47)"}
+                mt={1}
+              >
+                {isLive || isSolo
+                  ? recordingDetail?.mentorName
+                  : isLiveSpecific ||
+                    isSoloSpecific ||
+                    isLiveTopic ||
+                    isSoloTopic
+                  ? recordingDetail?.responseData?.[0]?.mentorName
+                  : "No data"}
+              </Text>
+            </Box>
+          </Box>
+
+          <Box mt={6}>
+            <Text fontSize={"15px"} lineHeight={"19px"}>
+              Description
+            </Text>
+
+            <Text
+              mt={1}
+              color={"#2C332978"}
+              fontSize={"12px"}
+              lineHeight={"20px"}
+            >
+              {isLive
+                ? recordingDetail?.LiveClassRoomDetail?.description
+                : isLiveSpecific
+                ? recordingDetail?.responseData?.[0]?.LiveClassRoomDetail
+                    .description
+                : isSolo
+                ? recordingDetail?.description
+                : isSoloSpecific
+                ? recordingDetail?.responseData?.[0]?.description
+                : isLiveTopic
+                ? recordingDetail?.responseData?.[0]?.LiveClassRoomDetail
+                    .description
+                : isSoloTopic
+                ? recordingDetail?.responseData?.[0]?.description
+                : "No Data"}
+            </Text>
+          </Box>
+          <Box mt={6}>
+            <Flex direction={"row"} gap={8} mb={2}>
+              <Text>Files</Text>
+              {userRoleType === userType.teacher && (
+                <Icon
+                  as={PiUploadSimpleBold}
+                  mt={1}
+                  onClick={(e) => {
+                    onSchedulePopupOpen();
+                  }}
+                  _hover={{ bg: "none", cursor: "pointer" }}
+                />
+              )}
+            </Flex>
+            <Box mt={1}>{renderFiles(recordingDetail)}</Box>
+          </Box>
+          <Box mt={6}>
+            <Text fontSize="15px" lineHeight={"19px"}>
+              Agenda
+            </Text>
+            <Box mt={1}>{renderAgenda(recordingDetail)}</Box>
+          </Box>
+
+          <Box mt={6}>
+            <Text>Recordings</Text>
+            <Flex
+              direction={"row"}
+              overflowX={"auto"}
+              w={"full"}
+              className="example"
+              gap={"10px"}
+            >
+              {renderRecordings(recordingDetail, activeRecording)}
+            </Flex>
+          </Box>
+          {(isLive || isLiveSpecific || isLiveTopic) && (
+            <Box mt={6}>
+              {/* <Text>Notes</Text>
           <Box mt={1}>{renderNotes(recordingDetail)}</Box> */}
+            </Box>
+          )}
         </Box>
-      )}
-    </Box>
-    <Text
-        fontSize={"12px"}
-        lineHeight={"13px"}
-        fontWeight={400}
-        mt={4}
-        color={"rgba(44, 51, 41, 1)"}
-      >
-        If you fetching any issue in live classes ? click below
-    </Text>
-      <Link
-        isExternal={true}
-        href={"https://forms.gle/886JxieoWe3vPw7T9"}
-      >
-        <Button
-          w={"full"}
-          bg={primaryBlue}
-          color={"#fff"}
-          fontWeight={"500"}
-          fontSize={"14px"}
-          _hover={{ bg: primaryBlueLight }}
+        <Text
+          fontSize={"12px"}
+          lineHeight={"13px"}
+          fontWeight={400}
+          mt={4}
+          color={"rgba(44, 51, 41, 1)"}
         >
-          Feedback form
-        </Button>
-      </Link>
-    </Flex>
+          If you fetching any issue in live classes ? click below
+        </Text>
+        <Link isExternal={true} href={"https://forms.gle/886JxieoWe3vPw7T9"}>
+          <Button
+            w={"full"}
+            bg={primaryBlue}
+            color={"#fff"}
+            fontWeight={"500"}
+            fontSize={"14px"}
+            _hover={{ bg: primaryBlueLight }}
+          >
+            Feedback form
+          </Button>
+        </Link>
+      </Flex>
     </>
   );
 };

@@ -118,7 +118,7 @@ const LiveSession = ({outerBackground, roomId, isEnlarged, setIsEnlarged, onOpen
     }
   }, [screenShareStream]);
 
-
+  
   // useEffect(() => {
   //   const ssId = setInterval(async () => {
   //     try {

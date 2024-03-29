@@ -29,7 +29,8 @@ const UploadAssignmentToClass = ({
   classId,
   isOpen,
   onClose,
-  setIsFileAdded
+  setIsFileAdded,
+  type,
 }) => {
   const { extraTextLight, primaryBlue, primaryBlueLight } =
     useTheme().colors.pallete;
@@ -62,8 +63,10 @@ const UploadAssignmentToClass = ({
       return;
     }
     try {
-      const { status } = await dispatch(AddClassAssignment(classId, formData));
-      if(status === 200){
+      const { status } = await dispatch(
+        AddClassAssignment(type, classId, formData)
+      );
+      if (status === 200) {
         setIsFileAdded((prev) => !prev);
       }
     } catch (err) {
@@ -72,7 +75,6 @@ const UploadAssignmentToClass = ({
     onClose();
     setIsSubmitLoading(false);
   };
-
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"xl"}>
