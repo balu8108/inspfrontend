@@ -56,6 +56,8 @@ const scheduleClassReducer = (state = initialState, action) => {
       action.payload.data.forEach((obj) => {
         const calendarEventObj = {
           title: capitalize(obj?.LiveClassRoomDetail?.topicName),
+          classType: obj?.classType,
+          classLevel: obj?.classLevel,
           start: `${extractDateInYYYMMDD(obj.scheduledDate)}T${
             obj.scheduledStartTime
           }`,

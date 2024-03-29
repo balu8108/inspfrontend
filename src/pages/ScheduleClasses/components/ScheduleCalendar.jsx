@@ -9,6 +9,7 @@ import moment from "moment";
 import { scheduleClassData } from "../data/scheduleClassData";
 import { checkUserType } from "../../../utils";
 import { userType } from "../../../constants/staticvariables";
+import { className } from "../../../constants/className";
 
 // Styling of full calendar is in app.css
 const ScheduleCalendar = ({
@@ -32,6 +33,23 @@ const ScheduleCalendar = ({
     // open schedule pop up box
     onSchedulePopupOpen();
   };
+
+  const classTypeArray= {
+      "CRASHCOURSE": "Crash Course",
+      "REGULARCLASS": "Regular Classes",
+  }
+
+  // a custom render function
+    function renderEventContent(eventInfo) {
+      return (
+        <div style={{color: "gray", fontSize:"12px"}}>
+          <p style={{whiteSpace: "normal", marginBottom:'2px'}}>{eventInfo?.event?._def?.title}</p>
+          <p style={{whiteSpace: "normal", marginBottom:'2px'}}>{classTypeArray[eventInfo?.event?._def?.extendedProps?.classType]}</p>
+          <p style={{whiteSpace: "normal", marginBottom:'2px'}}>{className[eventInfo?.event?._def?.extendedProps?.classLevel]}</p>
+        </div>
+      )
+    }
+
   return (
     <FullCalendar
       plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -43,7 +61,7 @@ const ScheduleCalendar = ({
       }}
       eventBackgroundColor={eventLightGreen}
       eventBorderColor={eventLightGreen}
-      eventDisplay="block"
+      eventDisplay="inline"
       displayEventTime={true}
       eventTimeFormat={{
         hour: "numeric",
@@ -54,6 +72,7 @@ const ScheduleCalendar = ({
         checkUserType() === userType.teacher ? handleDateClick : () => {}
       }
       events={scheduledClasses}
+      eventContent={renderEventContent}
     />
   );
 };
