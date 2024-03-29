@@ -1,48 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 import {
   Box,
-  Text,
-  HStack,
-  Card,
   Flex,
-  Button,
+  Text,
   Stack,
   Spinner,
-  Center,
-  Spacer,
-  Input,
   useTheme,
+  HStack,
+  Input,
+  Spacer,
+  Center,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import VectorImage from "../../../../assets/images/Line/Vector.svg";
-import { getAllCrashCourseLecture } from "../../../../api/crashCourse";
-import LectureCard from "../../../../components/Card/LectureCard";
+import VectorImage from "../../../assets/images/Line/Vector.svg";
+import LectureCard from "../../../components/Card/LectureCard";
 
-const CrashCourseDetails = () => {
-  const [loading, setLoading] = useState(true);
+const  LectureCardContainer = ({title, loading, lecture}) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [lecture, setLecture] = useState([]);
-  const { outerBackground, innerBackground, innerBoxShadow } =
+  const { outerBackground, innerBackground } =
     useTheme().colors.pallete;
   const navigate = useNavigate();
-
-  const getAllCrashCourse = async () => {
-    try {
-      const response = await getAllCrashCourseLecture();
-
-      const { data } = response.data;
-
-      setLecture(data);
-      setLoading(false);
-    } catch (err) {
-      console.error("Error fetching all crash course lectures:", err);
-      setLoading(false);
-    }
-  };
-  useEffect(() => {
-    getAllCrashCourse();
-  }, []);
 
   const filteredTopics = lecture.filter((item) =>
     item?.LiveClassRoomDetail?.topicName
@@ -65,7 +42,7 @@ const CrashCourseDetails = () => {
             bg={"#3C8DBC"}
           ></Box>
           <Text fontSize={"19px"} lineHeight={"24px"}>
-            My Courses (Crash Course)
+            {title}
           </Text>
         </HStack>
         <Spacer />
@@ -90,7 +67,6 @@ const CrashCourseDetails = () => {
           }}
         />
       </Flex>
-
       {loading ? (
         <Center>
           <Spinner size={"md"} />
@@ -101,6 +77,7 @@ const CrashCourseDetails = () => {
             {filteredTopics?.map(
               ({ roomId, LiveClassRoomDetail, scheduledDate, classLevel }) => (
                 <LectureCard
+                key={roomId}
                 id={roomId}
                 classRoomDetail={LiveClassRoomDetail} 
                 scheduledDate={scheduledDate} 
@@ -115,5 +92,4 @@ const CrashCourseDetails = () => {
     </Box>
   );
 };
-
-export default CrashCourseDetails;
+export default LectureCardContainer;

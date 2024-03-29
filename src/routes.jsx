@@ -12,11 +12,11 @@ import TopicLectureScreen from "./pages/StudentCourses/Physics/screens/TopicLect
 import SingleLectureDetailsScreen from "./pages/StudentCourses/Physics/screens/SingleLectureDetailsScreen";
 import Home from "./components/home/Home";
 import AuthLoading from "./components/loaders/AuthLoading";
-import StudentCrashCourse from "./pages/StudentCourses/CrashCourse/screens/CrashCourse";
-import LectureDetailsById from "./pages/StudentCourses/CrashCourse/screens/lectureDetailsById";
-import Grade11Screen from "./pages/StudentCourses/Class11/screen/Grade11Screen";
-import Grade12Screen from "./pages/StudentCourses/Class12/screen/Grade12Screen";
-import FoundationCourseScreen from "./pages/StudentCourses/FoundationCourse/screen/FoundationCourseScreen";
+import StudentCrashCourse from "./pages/StudentCourses/CrashCourse/CrashCourse";
+import LectureDetailsById from "./pages/StudentCourses/components/LectureDetailById";
+import Grade11Screen from "./pages/StudentCourses/Class11/Grade11Screen";
+import Grade12Screen from "./pages/StudentCourses/Class12/Grade12Screen";
+import FoundationCourseScreen from "./pages/StudentCourses/FoundationCourse/FoundationCourseScreen";
 //Mentor Routes
 
 import AllRecordingsForAChapter from "./pages/Mentors/MyCourses/Physics/screen/ChapterRecording";

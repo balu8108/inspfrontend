@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import Header from "../../../Mentors/Header/components/HeaderInAllScreen";
+import Header from "../../Mentors/Header/components/HeaderInAllScreen";
 import { Flex, Stack, Box, useDisclosure, useTheme } from "@chakra-ui/react";
-import ScheduleClassList from "../../../ScheduleClasses/components/ScheduleClassList";
+import ScheduleClassList from "../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
 import { useDispatch } from "react-redux";
-import { getAllLiveClassesSchedule } from "../../../../store/actions/scheduleClassActions";
-import ScheduleClassPopup from "../../../../components/popups/ScheduleClassPopup";
-import CrashCourseDetails from "../components/CrashCourseDetails";
-import LectureDetailsById from "./lectureDetailsById";
+import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassActions";
+import ScheduleClassPopup from "../../../components/popups/ScheduleClassPopup";
+import LectureCardContainer from "../components/LectureCardContainer";
+import { getAllLecture } from "../../../api/lecture";
+import { classType, classLevel } from "../../../constants/staticvariables";
 
 const CrashCourseScreen = () => {
   const dispatch = useDispatch();
@@ -19,9 +20,27 @@ const CrashCourseScreen = () => {
   const { outerBackground } = useTheme().colors.pallete;
   const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
   const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
+  const [loading, setLoading] = useState(true);
+  const [lecture, setLecture] = useState([]);
+
   useEffect(() => {
     dispatch(getAllLiveClassesSchedule());
   }, [dispatch]);
+
+  const getAllEleventhCourse = async () => {
+    try {
+      const response = await getAllLecture(classType.ALL, classLevel.CLASS_11);
+      const { data } = response.data;
+      setLecture(data);
+      setLoading(false);
+    } catch (err) {
+      console.error("Error fetching all crash course lectures:", err);
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    getAllEleventhCourse();
+  }, []);
 
   return (
     <>
@@ -38,7 +57,7 @@ const CrashCourseScreen = () => {
       <Flex gap={"23px"} m={"52px"}>
         <Stack spacing={6} w={"75%"}>
           <Header />
-          <CrashCourseDetails />
+          <LectureCardContainer title="Crash Course" loading={loading} lecture={lecture} />
         </Stack>
         <Box w={"25%"}>
           <SimpleBar

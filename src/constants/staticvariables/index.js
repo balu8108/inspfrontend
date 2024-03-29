@@ -49,6 +49,19 @@ export const classStatus = {
   NOT_CONDUCTED: "NOT_CONDUCTED",
 };
 
+export const classType = {
+  ALL: "ALL",
+  REGULAR_CLASS: "REGULARCLASS", 
+  CRASH_CLASS: "CRASHCOURSE"
+};
+
+export const classLevel = {
+  ALL: "ALL",
+  CLASS_11: "Class_11",
+  CLASS_12: "Class_12", 
+  FOUNDATION_COURSE: "Foundation_Course"
+};
+
 export const classStatusText = {
   teacher: {
     SCHEDULED: "Start",

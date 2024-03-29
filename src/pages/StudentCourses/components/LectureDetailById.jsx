@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Header from "../../../Mentors/Header/components/HeaderInAllScreen";
 import {
   Flex,
   Stack,
@@ -14,26 +13,26 @@ import {
   Image,
   IconButton,
   Button,
-  Icon,
 } from "@chakra-ui/react";
-import ScheduleClassList from "../../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
 import { useDispatch } from "react-redux";
-import { getAllLiveClassesSchedule } from "../../../../store/actions/scheduleClassActions";
-import ScheduleClassPopup from "../../../../components/popups/ScheduleClassPopup";
-import { useParams } from "react-router-dom";
-import { getAllLectureDetails } from "../../../../api/crashCourse";
-import SingleFileComponent from "../../../../components/filebox/SingleFileComponent";
+import { useParams, useNavigate } from "react-router-dom"
 import { BsPlayFill } from "react-icons/bs";
-import defaultImageUrl from "../../../../assets/images/image1.png";
-import { useNavigate } from "react-router-dom";
-import { getAllAssignmentByTopicApi } from "../../../../api/assignments";
-import leaderBoard from "../../../../assets/images/leaderBoard.svg";
 import { IoAddOutline } from "react-icons/io5";
-import { userType } from "../../../../constants/staticvariables";
-import { checkUserType } from "../../../../utils";
-import UploadAssignmentToClass from "../../../../components/popups/UploadAssignmentToClass";
-import { className } from "../../../../constants/className";
+
+import Header from "../../Mentors/Header/components/HeaderInAllScreen";
+import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassActions";
+import ScheduleClassPopup from "../../../components/popups/ScheduleClassPopup";
+import { getAllLectureDetails } from "../../../api/lecture";
+import SingleFileComponent from "../../../components/filebox/SingleFileComponent";
+import defaultImageUrl from "../../../assets/images/image1.png";
+import { getAllAssignmentByTopicApi } from "../../../api/assignments";
+import leaderBoard from "../../../assets/images/leaderBoard.svg";
+import { userType } from "../../../constants/staticvariables";
+import { checkUserType } from "../../../utils";
+import UploadAssignmentToClass from "../../../components/popups/UploadAssignmentToClass";
+import { className } from "../../../constants/className";
+import ScheduleClassList from "../../ScheduleClasses/components/ScheduleClassList";
 export default function LectureDetailsById() {
   const { outerBackground, innerBackground, innerBoxShadow } =
     useTheme().colors.pallete;

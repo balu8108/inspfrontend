@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SingleLectureDetailsCovered from "../components/Single.Lecture.Details.Covered";
-import { Flex, Stack, Box, useDisclosure, useTheme } from "@chakra-ui/react";
-import ChaptersTopicPage from "../components/ChaptersTopicsPage";
+import { Flex, Box, useDisclosure, useTheme } from "@chakra-ui/react";
 import ScheduleClassList from "../../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
 import { useDispatch } from "react-redux";
@@ -22,10 +21,7 @@ const SingleLectureDetailsScreen = () => {
   }, [dispatch]);
 
   return (
-    <Flex gap={"23px"} m={"52px"}>
-      <Box  w={"75%"}>
-        <SingleLectureDetailsCovered />
-      </Box>
+    <>
       {isSchedulePopupOpen && (
         <ScheduleClassPopup
           isOpen={isSchedulePopupOpen}
@@ -36,6 +32,10 @@ const SingleLectureDetailsScreen = () => {
           setClassTiming={setClassTiming}
         />
       )}
+    <Flex gap={"23px"} m={"52px"}>
+      <Box  w={"75%"}>
+        <SingleLectureDetailsCovered />
+      </Box>
       <Box w={"25%"}>
         <SimpleBar
           style={{
@@ -50,6 +50,7 @@ const SingleLectureDetailsScreen = () => {
         </SimpleBar>
       </Box>
     </Flex>
+    </>
   );
 };
 export default SingleLectureDetailsScreen;

@@ -21,11 +21,7 @@ const ChapterDetailsScreen = () => {
   }, [dispatch]);
   return (
     <>
-      <Flex gap={"23px"} m={"52px"}>
-        <Stack w={"100%"}>
-          <ChaptersTopicPage />
-        </Stack>
-        {isSchedulePopupOpen && (
+      {isSchedulePopupOpen && (
           <ScheduleClassPopup
             isOpen={isSchedulePopupOpen}
             onClose={onScheduleClosePopupOpen}
@@ -34,7 +30,11 @@ const ChapterDetailsScreen = () => {
             setSelectedDate={setSelectedDate}
             setClassTiming={setClassTiming}
           />
-        )}
+      )}
+      <Flex gap={"23px"} m={"52px"}>
+        <Stack w={"100%"}>
+          <ChaptersTopicPage />
+        </Stack>
         <Box w={"33%"}>
           <SimpleBar
             style={{

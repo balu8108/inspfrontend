@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Box, Stack, Flex, useTheme, useDisclosure } from "@chakra-ui/react";
-import EleventhGrade from "../components/EleventhGrade";
-import Header from "../../../Mentors/Header/components/HeaderInAllScreen";
-import ScheduleClassList from "../../../ScheduleClasses/components/ScheduleClassList";
+import Header from "../../Mentors/Header/components/HeaderInAllScreen";
+import ScheduleClassList from "../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
 import { useDispatch } from "react-redux";
-import { getAllLiveClassesSchedule } from "../../../../store/actions/scheduleClassActions";
-import ScheduleClassPopup from "../../../../components/popups/ScheduleClassPopup";
+import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassActions";
+import ScheduleClassPopup from "../../../components/popups/ScheduleClassPopup";
+import LectureCardContainer from "../components/LectureCardContainer";
+import { getAllLecture } from "../../../api/lecture";
+import { classType, classLevel } from "../../../constants/staticvariables";
 
 const Grade11Screen = () => {
   const dispatch = useDispatch();
@@ -18,9 +20,28 @@ const Grade11Screen = () => {
   const { outerBackground } = useTheme().colors.pallete;
   const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
   const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
+  const [loading, setLoading] = useState(true);
+  const [lecture, setLecture] = useState([]);
+
   useEffect(() => {
     dispatch(getAllLiveClassesSchedule());
   }, [dispatch]);
+
+  const getAllEleventhCourse = async () => {
+    try {
+      const response = await getAllLecture(classType.ALL, classLevel.CLASS_11);
+      const { data } = response.data;
+      setLecture(data);
+      setLoading(false);
+    } catch (err) {
+      console.error("Error fetching all crash course lectures:", err);
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    getAllEleventhCourse();
+  }, []);
+
   return (
     <>
       {isSchedulePopupOpen && (
@@ -37,7 +58,7 @@ const Grade11Screen = () => {
       <Flex gap={"24px"} m={"52px"}>
         <Stack spacing={6} w={"75%"}>
           <Header />
-          <EleventhGrade />
+          <LectureCardContainer title="My Courses ( Class 11th )" loading={loading} lecture={lecture} />
         </Stack>
         <Box w={"25%"}>
           <SimpleBar
