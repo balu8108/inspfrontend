@@ -12,9 +12,9 @@ const AuthLoading = ({ message }) => {
 
   const login = async () => {
     try {
-      //const res = await loginApi(secret_token);
+      const res = await loginApi(secret_token);
       // const res = await loginApiWithIP();
-      const res = await loginWithUidApi(unique_id);
+      //const res = await loginWithUidApi(unique_id);
 
       if (res.status === 200) {
         // set session storage if local env as it is required to test multiple peers in live class room with different logins
@@ -32,21 +32,21 @@ const AuthLoading = ({ message }) => {
       navigate("/");
     }
   };
-  // useEffect(() => {
-  //   if (!secret_token) {
-  //     navigate("/");
-  //   } else {
-  //     // Try to login
-  //     login(secret_token);
-  //   }
-  // }, [secret_token]);
   useEffect(() => {
-    if (!unique_id) {
+    if (!secret_token) {
       navigate("/");
     } else {
-      login();
+      // Try to login
+      login(secret_token);
     }
-  }, [unique_id]);
+  }, [secret_token]);
+  // useEffect(() => {
+  //   if (!unique_id) {
+  //     navigate("/");
+  //   } else {
+  //     login();
+  //   }
+  // }, [unique_id]);
   return (
     <Flex
       position={"absolute"}

@@ -14,6 +14,7 @@ import {
   Input,
   useTheme,
 } from "@chakra-ui/react";
+import { className } from "../../../../constants/className";
 import { fetchAllChaptersApi } from "../../../../api/inspexternalapis";
 import { capitalize } from "../../../../utils";
 import VectorImage from "../../../../assets/images/Line/Vector.svg";
@@ -96,7 +97,7 @@ const CrashCourseDetails = () => {
         <Stack>
           <Flex flexWrap="wrap" p={6} gap={"24px"}>
             {filteredTopics?.map(
-              ({ roomId, LiveClassRoomDetail, scheduledDate, id }, index) => (
+              ({ roomId, LiveClassRoomDetail, scheduledDate, id,classLevel }, index) => (
                 <Card
                   bg={innerBackground}
                   boxShadow={innerBoxShadow}
@@ -139,6 +140,18 @@ const CrashCourseDetails = () => {
                     noOfLines={1}
                   >
                     {LiveClassRoomDetail?.topicName}
+                  </Text>
+
+                  <Text
+                    fontWeight={400}
+                    fontSize={"12px"}
+                    lineHeight={"15px"}
+                    ml={"13px"}
+                    mt={"3px"}
+                    color={"rgba(44, 51, 41, 0.47)"}
+                    noOfLines={1}
+                  >
+                   {className[classLevel]}
                   </Text>
                   <Text
                     fontSize={"12px"}
