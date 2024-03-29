@@ -37,7 +37,7 @@ const ScheduleClass = () => {
           setClassTiming={setClassTiming}
         />
       )}
-      <Box px={20} pt={4} pb={4}>
+      <Box px={10} pt={4} pb={4}>
         <Grid templateColumns={"20% 80%"} gap={6} alignItems={"start"}>
           <Scrollbars
             style={{

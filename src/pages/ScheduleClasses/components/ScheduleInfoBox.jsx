@@ -16,7 +16,7 @@ import {
   userType,
   fileTypes,
 } from "../../../constants/staticvariables";
-
+import { className } from "../../../constants/className";
 const ScheduleClassInformation = ({ scheduledClassesData, type }) => {
   const { primaryBlue, secondaryTextColor, innerBackground } =
     useTheme().colors.pallete;
@@ -87,7 +87,7 @@ const ScheduleClassInformation = ({ scheduledClassesData, type }) => {
                 color={secondaryTextColor}
                 mb={1}
               >
-                {info?.mentorName}
+                {capitalize(info?.mentorName)}
               </Text>
               <Text
                 fontSize={"10px"}
@@ -98,6 +98,14 @@ const ScheduleClassInformation = ({ scheduledClassesData, type }) => {
                 {new Date(info.scheduledDate).toLocaleDateString()}
               </Text>
             </Flex>
+            <Text
+              fontWeight={"500"}
+              fontSize={"10px"}
+              color={secondaryTextColor}
+              mb={1}
+            >
+              {className[info.classLevel]}
+            </Text>
             {checkUserType() === userType.teacher && (
               <Box my={4}>
                 {info?.LiveClassRoomFiles.length > 0 ? (
