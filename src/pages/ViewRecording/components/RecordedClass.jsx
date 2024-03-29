@@ -60,7 +60,6 @@ const RecordedClass = ({
 
   useEffect(() => {
     getDetails();
-    console.log("details", getDetails);
   }, [roomId]);
 
   const renderFiles = (data) => {

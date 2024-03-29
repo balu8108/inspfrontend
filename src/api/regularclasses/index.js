@@ -14,9 +14,9 @@ API.interceptors.request.use((req) => {
   } catch (err) {}
 });
 
-export const getAllLectureByTopicName = (topicDetails) =>
+export const getAllLectureByTopicName = (topicName) =>
   API.get(
-    `regular-classes/get-lecture-by-topic-name/${JSON.stringify(topicDetails)}`
+    `regular-classes/get-lecture-by-topic-name/${topicName}`
   );
 
 export const getAllLectureByTopicId = (topicId) =>

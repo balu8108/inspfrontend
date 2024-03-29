@@ -87,13 +87,13 @@ const privateRoutes = [
 
   {
     name: "Chapter Page",
-    path: "/chapter-details",
+    path: "/chapter-details/:chapterName",
     component: <ChapterDetailsScreen />,
   },
 
   {
     name: "Lecture Page",
-    path: "/topic/lecture/details",
+    path: "/topic/lecture/:lectureName/details",
     component: <TopicLectureScreen />,
   },
 

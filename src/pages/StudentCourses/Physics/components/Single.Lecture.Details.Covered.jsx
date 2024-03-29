@@ -17,10 +17,10 @@ import {
   ListItem,
   ListIcon,
 } from "@chakra-ui/react";
+import { useLocation } from "react-router-dom";
 import { getAllLectureByTopicName } from "../../../../api/regularclasses"; //This api is for getting the number of lectures
 import { capitalize } from "../../../../utils";
 import { getAllAssignmentByTopicApi } from "../../../../api/assignments";
-import { getAllLectureDetails } from "../../../../api/crashCourse";
 import SingleFileComponent from "../../../../components/filebox/SingleFileComponent";
 import leaderBoardImage from "../../../../assets/images/leaderBoard.svg";
 import defaultImageUrl from "../../../../assets/images/image1.png";
@@ -28,15 +28,26 @@ import { BsPlayFill } from "react-icons/bs";
 import moment from "moment";
 import { FaCircle } from "react-icons/fa6";
 import { getLectureDetails } from "../../../../api/regularclasses";
+import UploadAssignmentToClass from "../../../../components/popups/UploadAssignmentToClass";
+import { checkUserType } from "../../../../utils";
+import { IoAddOutline } from "react-icons/io5";
+import { userType } from "../../../../constants/staticvariables";
 
 const SingleLectureDetailsCovered = () => {
   const { outerBackground, innerBackground, innerBoxShadow } =
     useTheme().colors.pallete;
   const navigate = useNavigate();
+  const location = useLocation();
+  const userRoleType = checkUserType();
+  const lectures = location.state?.lecture || [];
+  
   const { topicname, roomId } = useParams();
-  const [lecturesData, setLecturesData] = useState([]);
+  const [lecturesData, setLecturesData] = useState(lectures);
   const [lectureDetails, setLectureDetails] = useState({});
   const [assignmentDetails, setAssignmentDetails] = useState(null);
+  const [isFileAdded, setIsFileAdded] = useState(false);
+  const [isAssignmentPopupOpen, setIsAssignmentPopupOpen] = useState(false);
+
   const getAllLecture = async () => {
     try {
       const response = await getAllLectureByTopicName({ name: topicname });
@@ -75,8 +86,6 @@ const SingleLectureDetailsCovered = () => {
   };
 
   const handleViewRecording = (recording, liveClassData) => {
-    console.log("Room id", roomId);
-
     navigate(`/view-recording?type=live&id=${liveClassData?.id}`);
   };
 
@@ -85,12 +94,27 @@ const SingleLectureDetailsCovered = () => {
   }, [roomId]);
 
   useEffect(() => {
-    if (topicname) {
+    if (topicname && lectures.length === 0) {
       getAllLecture();
     }
   }, [topicname]);
 
+  const handleAddFile = () =>{
+    setIsAssignmentPopupOpen(false)
+    getDetails();
+  }
+
   return (
+    <>
+    {isAssignmentPopupOpen && (
+        <UploadAssignmentToClass
+          classId={lectureDetails?.id}
+          type="live"
+          isOpen={isAssignmentPopupOpen}
+          onClose={() =>handleAddFile()}
+          setIsFileAdded={setIsFileAdded}
+        />
+      )}
     <Box>
       <Box borderRadius={"25px"} backgroundColor={outerBackground}>
         <HStack spacing={"10px"} alignItems="center" p={"20px"}>
@@ -214,6 +238,15 @@ const SingleLectureDetailsCovered = () => {
           </Flex>
           <Flex mt={"37px"} gap={"18px"}>
             <Box width={"50%"}>
+                <Text
+                  fontWeight={"400"}
+                  fontSize={"16px"}
+                  textColor={"#2C3329"}
+                  lineHeight={"20px"}
+                  mb={"40px"}
+                >
+                  Lecture {lectureDetails?.LiveClassRoomDetail?.lectureNo}
+                </Text>
               <Flex flexDirection={"column"} gap={"16px"}>
                 <Text
                   fontWeight={"400"}
@@ -370,14 +403,45 @@ const SingleLectureDetailsCovered = () => {
           </Flex>
         </Box>
         <Box mt={8}>
-          <Text
-            fontWeight={"400"}
-            fontSize={"16px"}
-            textColor={"#2C3329"}
-            lineHeight={"20px"}
-          >
-            Files/Notes
-          </Text>
+          <Flex>
+            <Text
+              fontWeight={"400"}
+              fontSize={"16px"}
+              textColor={"#2C3329"}
+              lineHeight={"20px"}
+            >
+              Files/Notes
+            </Text>
+
+            <Spacer />
+            {userRoleType === userType.teacher && (
+              <Flex alignItems={"center"}
+              _hover={{ bg: "none", cursor: "pointer" }}                      
+                onClick={() => {
+                setIsAssignmentPopupOpen(true);
+              }}>
+                <Button           
+                  variant={"ghost"}
+                  bg="none"
+                >
+                  <IoAddOutline
+                    color={"3C8DBC"}
+                    fontSize={"20px"}
+                    bg="red"
+                  />
+                </Button>
+
+                <Text
+                  fontSize={"14px"}
+                  fontWeight={400}
+                  color={"#3C8DBC"}
+                  variant={"ghost"}
+                >
+                  Add Files
+                </Text>
+              </Flex>
+            )}
+          </Flex>
           {lectureDetails?.LiveClassRoomFiles?.length > 0 ? (
             <Flex mt={4} flexWrap="wrap" gap={2}>
               {lectureDetails?.LiveClassRoomFiles?.map((file) => (
@@ -448,6 +512,7 @@ const SingleLectureDetailsCovered = () => {
         </Box>
       </Box>
     </Box>
+    </>
   );
 };
 export default SingleLectureDetailsCovered;

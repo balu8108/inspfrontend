@@ -15,13 +15,13 @@ import { capitalize } from "../../../../utils";
 import VectorImage from "../../../../assets/images/Line/Vector.svg";
 import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
 import { getAllLectureByTopicName } from "../../../../api/regularclasses";
-import moment from "moment";
+import LectureCard from "../../../../components/Card/LectureCard";
 
-const LectureListPage = () => {
+const LectureListPage = ({lectureName}) => {
   const location = useLocation();
   const navigate = useNavigate();
   const topics = location.state?.topics || [];
-  const [selectedTopic, setSelectedTopic] = useState(null);
+  const [selectedTopic, setSelectedTopic] = useState(lectureName);
   const [searchTerm, setSearchTerm] = useState("");
   const [lecturesData, setLecturesData] = useState([]);
   const { outerBackground, innerBackground, innerBoxShadow } =
@@ -38,7 +38,11 @@ const LectureListPage = () => {
 
   const handleView = (roomId) => {
     if (selectedTopic && lectures.length > 0) {
-      navigate(`/${selectedTopic.name}/${roomId}`);
+      navigate(`/${selectedTopic}/${roomId}`, {
+        state: {
+          lecture: lectures
+        },
+      });
     }
   };
   const filterLectures = (lecture) => {
@@ -146,7 +150,7 @@ const LectureListPage = () => {
                 lineHeight={"16px"}
                 m={"20px"}
                 _hover={{ bg: "white" }}
-                onClick={() => handleTopicClick(topic)}
+                onClick={() => handleTopicClick(topic?.name)}
               >
                 View Details
               </Button>
@@ -165,7 +169,7 @@ const LectureListPage = () => {
                 bg={"#3C8DBC"}
               ></Box>
               <Text fontSize={"19px"} lineHeight={"24px"}>
-                Topic({capitalize(selectedTopic.name)})
+                Topic({capitalize(selectedTopic)})
               </Text>
             </HStack>
 
@@ -192,86 +196,15 @@ const LectureListPage = () => {
               }}
             />
           </Flex>
-
           <Flex p={6} gap={"24px"} flexWrap={"wrap"}>
-            {lectures.filter(filterLectures).map((lecture, index) => (
-              <Card
-                key={lecture.id}
-                w={"30%"}
-                h={"204px"}
-                boxShadow={innerBoxShadow}
-                borderRadius={"18px"}
-               
-              >
-                <Flex justifyContent={"space-between"}>
-                  <Box>
-                    <Text
-                      fontSize={"15px"}
-                      ml={"13px"}
-                      lineHeight={"19px"}
-                      noOfLines={1}
-                      mt={"16px"}
-                    >
-                      Lecture {lecture?.LiveClassRoomDetail?.lectureNo}
-                    </Text>
-                    <Text
-                      fontWeight={400}
-                      fontSize={"11px"}
-                      ml={"13px"}
-                      color={"rgba(44, 51, 41, 0.47)"}
-                      noOfLines={1}
-                    >
-                      {capitalize(selectedTopic.name)}
-                    </Text>
-                  </Box>
-
-                  <Text
-                    fontWeight={400}
-                    fontSize={"11px"}
-                    lineHeight={"15px"}
-                    color={"#2C332978"}
-                    mr={"13px"}
-                    mt={"16px"}
-                  >
-                    {moment(lecture.scheduledDate).format("L")}
-                  </Text>
-                </Flex>
-
-                <Text
-                  fontSize={"12px"}
-                  lineHeight={"13px"}
-                  ml={"13px"}
-                  fontWeight={400}
-                  color={"rgba(44, 51, 41, 1)"}
-                  mt={"18px"}
-                >
-                  Description
-                </Text>
-                <Text
-                  fontSize={"11px"}
-                  lineHeight={"21px"}
-                  fontWeight={400}
-                  ml={13}
-                  noOfLines={"3"}
-                  color={"rgba(44, 51, 41, 0.47)"}
-                >
-                  {lecture?.LiveClassRoomDetail?.description}
-                </Text>
-
-                <Button
-                  variant={"ghost"}
-                  color={"#3C8DBC"}
-                  fontWeight={"600"}
-                  size={"14px"}
-                  lineHeight={"16px"}
-                  m={"20px"}
-                  _hover={{ bg: "white" }}
-                  mt={"auto"}
-                  onClick={() => handleView(lecture?.roomId)}
-                >
-                  View Details
-                </Button>
-              </Card>
+            {lectures.filter(filterLectures).map((lecture) => (
+              <LectureCard
+                id={lecture?.roomId}
+                classRoomDetail={lecture?.LiveClassRoomDetail} 
+                scheduledDate={lecture?.scheduledDate} 
+                classLevel={lecture?.classLevel} 
+                route={handleView}
+              />
             ))}
             {lectures.length === 0 && (
               <Box

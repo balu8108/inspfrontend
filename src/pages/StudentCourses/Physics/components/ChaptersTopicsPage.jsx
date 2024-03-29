@@ -1,6 +1,6 @@
 //This component will show all the chapters related to subjects.
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Box,
   Text,
@@ -22,12 +22,9 @@ import VectorImage from "../../../../assets/images/Line/Vector.svg";
 import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
 
 const ChaptersTopicPage = () => {
+  const {chapterName} = useParams();
   const navigate = useNavigate();
   const [chapters, setChapters] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [topics, setTopics] = useState([]);
-  const [loadingChapters, setLoadingChapters] = useState(true);
-  const [loadingTopics, setLoadingTopics] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedChapterId, setSelectedChapterId] = useState(null);
   const [filteredTopics, setFilteredTopics] = useState([]);
@@ -46,14 +43,12 @@ const ChaptersTopicPage = () => {
     async function fetchChapters() {
       try {
         const response = await fetchAllChaptersApi();
-
         if (response.status) {
           setChapters(response.result);
+          setSelectedChapterId(response?.result.find(item => item.name === chapterName)?.id);
         }
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching chapters:", error);
-        setLoading(false);
       }
     }
 
@@ -65,10 +60,6 @@ const ChaptersTopicPage = () => {
       (chapter) => chapter.id === chapterId
     );
     setSelectedChapterId(chapterId);
-    setLoadingTopics(true);
-    console.log(
-      `Chapter clicked with ID: ${chapterId}, Name: ${selectedChapter?.name}`
-    );
   };
 
   useEffect(() => {
@@ -79,28 +70,25 @@ const ChaptersTopicPage = () => {
 
           if (response.status) {
             const allTopics = response.result;
-            setTopics(allTopics);
             filterTopics(allTopics);
-            console.log("Topics fetched successfully:", allTopics);
           }
         } catch (error) {
           console.error("Error fetching topics:", error);
-        } finally {
-          setLoadingTopics(false);
         }
       }
 
       fetchTopics();
     }
   }, [selectedChapterId, searchTerm]);
+
   const filterTopics = (allTopics) => {
     const filtered = allTopics.filter((topic) =>
       topic.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredTopics(filtered);
   };
-  const handleView = () => {
-    navigate("/topic/lecture/details", {
+  const handleView = (chapterName) => {
+    navigate(`/topic/lecture/${chapterName}/details`, {
       state: {
         topics: filteredTopics,
         selectedChapterName: selectedChapterId
@@ -298,7 +286,7 @@ const ChaptersTopicPage = () => {
                   lineHeight={"16px"}
                   m={"20px"}
                   _hover={{ bg: "white" }}
-                  onClick={handleView}
+                  onClick={() => handleView(topic?.name)}
                 >
                   View Details
                 </Button>

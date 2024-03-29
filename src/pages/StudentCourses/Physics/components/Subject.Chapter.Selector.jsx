@@ -57,8 +57,8 @@ const SubjectChapterSelector = () => {
     physScreen.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleViewDetails = () => {
-    navigate("/chapter-details");
+  const handleViewDetails = (className) => {
+    navigate(`/chapter-details/${className}`);
   };
   return (
     <Box width={"full"} h={"100%"} bg={outerBackground} borderRadius={"26px"}>
@@ -108,7 +108,7 @@ const SubjectChapterSelector = () => {
               <Card
                 bg={innerBackground}
                 boxShadow={innerBoxShadow}
-                key={chapter.id}
+                key={chapter?.id}
                 w="30%"
                 h={"204px"}
                 borderRadius={"18px"}
@@ -164,7 +164,7 @@ const SubjectChapterSelector = () => {
                   mt={"auto"}
                   
                   _hover={{ bg: "white" }}
-                  onClick={handleViewDetails}
+                  onClick={() => handleViewDetails(chapter?.name)}
                 >
                   View Details
                 </Button>

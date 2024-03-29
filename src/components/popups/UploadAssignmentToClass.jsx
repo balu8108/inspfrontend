@@ -85,7 +85,7 @@ const UploadAssignmentToClass = ({
           fontSize={"1.2rem"}
           color={extraTextLight}
         >
-          Upload Assignments
+          Upload Files
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>

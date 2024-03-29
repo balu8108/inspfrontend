@@ -33,6 +33,7 @@ import { IoAddOutline } from "react-icons/io5";
 import { userType } from "../../../../constants/staticvariables";
 import { checkUserType } from "../../../../utils";
 import UploadAssignmentToClass from "../../../../components/popups/UploadAssignmentToClass";
+import { className } from "../../../../constants/className";
 export default function LectureDetailsById() {
   const { outerBackground, innerBackground, innerBoxShadow } =
     useTheme().colors.pallete;
@@ -89,6 +90,11 @@ export default function LectureDetailsById() {
     dispatch(getAllLiveClassesSchedule());
   }, [dispatch]);
 
+  const handleAddFile = () =>{
+    setIsAssignmentPopupOpen(false)
+    getLectureDetails();
+  }
+
   return (
     <>
       {isSchedulePopupOpen && (
@@ -104,8 +110,10 @@ export default function LectureDetailsById() {
 
       {isAssignmentPopupOpen && (
         <UploadAssignmentToClass
+          classId={lectureDetails?.id}
+          type="live"
           isOpen={isAssignmentPopupOpen}
-          onClose={() => setIsAssignmentPopupOpen(false)}
+          onClose={() =>handleAddFile()}
           setIsFileAdded={setIsFileAdded}
         />
       )}
@@ -133,6 +141,9 @@ export default function LectureDetailsById() {
                     Details :{" "}
                     <span className="text-base">
                       ({lectureDetails?.LiveClassRoomDetail?.topicName})
+                    </span>:{" "}
+                    <span className="text-base">
+                      ({className[lectureDetails?.classLevel]})
                     </span>
                   </Text>
                 </HStack>
@@ -140,6 +151,16 @@ export default function LectureDetailsById() {
               </Flex>
               <Flex mt={"20px"}>
                 <Box width={"50%"}>
+                <Text
+                  fontWeight={"400"}
+                  fontSize={"16px"}
+                  textColor={"#2C3329"}
+                  lineHeight={"20px"}
+                  mb={"40px"}
+                  mt={"20px"}
+                >
+                  Lecture {lectureDetails?.LiveClassRoomDetail?.lectureNo}
+                </Text>
                   <Box>
                     <Text
                       fontWeight={"400"}
@@ -239,7 +260,7 @@ export default function LectureDetailsById() {
                 >
                   Recordings
                 </Text>
-                <Flex gap={"24px"} overflowX="auto">
+                <Flex gap={"24px"} overflowX="auto" className="example">
                   {lectureDetails?.LiveClassRoomRecordings?.length > 0 ? (
                     <Flex gap={4} mt={4}>
                       {lectureDetails?.LiveClassRoomRecordings.map(
@@ -293,20 +314,20 @@ export default function LectureDetailsById() {
                   </Text>
 
                   <Spacer />
-                  {/* {userRoleType === userType.teacher && (
-                    <Flex alignItems={"center"}>
-                      <Button
-                        _hover={{ bg: "none", cursor: "pointer" }}
+                  {userRoleType === userType.teacher && (
+                    <Flex alignItems={"center"}
+                    _hover={{ bg: "none", cursor: "pointer" }}                      
+                     onClick={() => {
+                      setIsAssignmentPopupOpen(true);
+                    }}>
+                      <Button           
                         variant={"ghost"}
                         bg="none"
-                        onClick={() => {
-                          setIsAssignmentPopupOpen(true);
-                        }}
                       >
                         <IoAddOutline
                           color={"3C8DBC"}
-                          fontSize={"28px"}
-                          bg="none"
+                          fontSize={"20px"}
+                          bg="red"
                         />
                       </Button>
 
@@ -319,7 +340,7 @@ export default function LectureDetailsById() {
                         Add Files
                       </Text>
                     </Flex>
-                  )} */}
+                  )}
                 </Flex>
                 {lectureDetails?.LiveClassRoomFiles?.length > 0 ? (
                   <Flex mt={4} flexWrap="wrap" gap={2}>

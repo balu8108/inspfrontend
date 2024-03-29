@@ -5,9 +5,9 @@ import "videojs-contrib-quality-levels";
 import "videojs-contrib-eme";
 import "videojs-http-quality-selector";
 import "dashjs";
-import "videojs-hotkeys";
-import "videojs-seek-buttons";
-import "videojs-seek-buttons/dist/videojs-seek-buttons.css";
+// import "videojs-hotkeys";
+// import "videojs-seek-buttons";
+// import "videojs-seek-buttons/dist/videojs-seek-buttons.css";
 
 import { playRecordingApi } from "../../api/recordingapi";
 import WaterMark from "../watermark/WaterMark";

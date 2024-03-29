@@ -14,13 +14,10 @@ import {
   Input,
   useTheme,
 } from "@chakra-ui/react";
-import { className } from "../../../../constants/className";
-import { fetchAllChaptersApi } from "../../../../api/inspexternalapis";
-import { capitalize } from "../../../../utils";
+import { useNavigate } from "react-router-dom";
 import VectorImage from "../../../../assets/images/Line/Vector.svg";
 import { getAllCrashCourseLecture } from "../../../../api/crashCourse";
-import moment from "moment";
-import { BiTrophy } from "react-icons/bi";
+import LectureCard from "../../../../components/Card/LectureCard";
 
 const CrashCourseDetails = () => {
   const [loading, setLoading] = useState(true);
@@ -28,6 +25,7 @@ const CrashCourseDetails = () => {
   const [lecture, setLecture] = useState([]);
   const { outerBackground, innerBackground, innerBoxShadow } =
     useTheme().colors.pallete;
+  const navigate = useNavigate();
 
   const getAllCrashCourse = async () => {
     try {
@@ -51,6 +49,10 @@ const CrashCourseDetails = () => {
       ?.toLowerCase()
       .includes(searchTerm.toLowerCase())
   );
+
+  const handleNavigate = (roomId) =>{
+    navigate(`/myCourses/crash-course/${roomId}`)
+  }
 
   return (
     <Box width={"full"} h={"100%"} bg={outerBackground} borderRadius={"26px"}>
@@ -97,105 +99,14 @@ const CrashCourseDetails = () => {
         <Stack>
           <Flex flexWrap="wrap" p={6} gap={"24px"}>
             {filteredTopics?.map(
-              ({ roomId, LiveClassRoomDetail, scheduledDate, id,classLevel }, index) => (
-                <Card
-                  bg={innerBackground}
-                  boxShadow={innerBoxShadow}
-                  key={id}
-                  w="30%"
-                  h={"204px"}
-                  borderRadius={"18px"}
-                >
-                  <Flex>
-                    <Text
-                      fontSize={"16px"}
-                      fontWeight={400}
-                      ml={"13px"}
-                      mt={"16px"}
-                      lineHeight={"19px"}
-                      noOfLines={1}
-                    >
-                      Lecture {LiveClassRoomDetail?.lectureNo}
-                    </Text>
-                    <Spacer />
-                    <Text
-                      fontSize={"12px"}
-                      fontWeight={400}
-                      mr={"13px"}
-                      mt={"16px"}
-                      lineHeight={"19px"}
-                      noOfLines={1}
-                      color={"rgba(44, 51, 41, 0.47)"}
-                    >
-                      {moment(scheduledDate).format("L")}
-                    </Text>
-                  </Flex>
-                  <Text
-                    fontWeight={400}
-                    fontSize={"12px"}
-                    lineHeight={"15px"}
-                    ml={"13px"}
-                    mt={"3px"}
-                    color={"rgba(44, 51, 41, 0.47)"}
-                    noOfLines={1}
-                  >
-                    {LiveClassRoomDetail?.topicName}
-                  </Text>
-
-                  <Text
-                    fontWeight={400}
-                    fontSize={"12px"}
-                    lineHeight={"15px"}
-                    ml={"13px"}
-                    mt={"3px"}
-                    color={"rgba(44, 51, 41, 0.47)"}
-                    noOfLines={1}
-                  >
-                   {className[classLevel]}
-                  </Text>
-                  <Text
-                    fontSize={"12px"}
-                    lineHeight={"13px"}
-                    ml={"13px"}
-                    fontWeight={400}
-                    color={"rgba(44, 51, 41, 1)"}
-                    mt={"18px"}
-                  >
-                    Description
-                  </Text>
-                  <Text
-                    fontSize={"12px"}
-                    lineHeight={"21px"}
-                    fontWeight={400}
-                    ml={13}
-                    color={"rgba(44, 51, 41, 0.47)"}
-                    noOfLines={2}
-                  >
-                    {LiveClassRoomDetail?.description}
-                  </Text>
-                  <Box mt="auto">
-                    <Link
-                      to={`/myCourses/crash-course/${roomId}`}
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        textDecoration: "none",
-                      }}
-                    >
-                      <Button
-                        variant={"ghost"}
-                        color={"#3C8DBC"}
-                        fontWeight={"600"}
-                        size={"14px"}
-                        lineHeight={"16px"}
-                        m={"20px"}
-                        _hover={{ bg: "white" }}
-                      >
-                        View Details
-                      </Button>
-                    </Link>
-                  </Box>
-                </Card>
+              ({ roomId, LiveClassRoomDetail, scheduledDate, classLevel }) => (
+                <LectureCard
+                id={roomId}
+                classRoomDetail={LiveClassRoomDetail} 
+                scheduledDate={scheduledDate} 
+                classLevel={classLevel} 
+                route={handleNavigate}
+                />
               )
             )}
           </Flex>

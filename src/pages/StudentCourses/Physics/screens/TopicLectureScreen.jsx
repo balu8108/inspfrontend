@@ -4,10 +4,12 @@ import { Flex, Stack, Box, useDisclosure, useTheme } from "@chakra-ui/react";
 import ScheduleClassList from "../../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
 import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 import { getAllLiveClassesSchedule } from "../../../../store/actions/scheduleClassActions";
 import ScheduleClassPopup from "../../../../components/popups/ScheduleClassPopup";
 
 const TopicLectureScreen = () => {
+  const {lectureName} = useParams();
   const dispatch = useDispatch();
   const {
     isOpen: isSchedulePopupOpen,
@@ -18,11 +20,10 @@ const TopicLectureScreen = () => {
   const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
   const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
 
-  
-
   useEffect(() => {
     dispatch(getAllLiveClassesSchedule());
   }, [dispatch]);
+
   return (
     <>
       {isSchedulePopupOpen && (
@@ -37,7 +38,7 @@ const TopicLectureScreen = () => {
       )}
       <Flex gap={"23px"} m={"52px"}>
         <Stack spacing={6} w={"75%"}>
-          <LectureListPage />
+          <LectureListPage lectureName={lectureName} />
         </Stack>
         <Box w={"25%"}>
           <SimpleBar
