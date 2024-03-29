@@ -95,10 +95,7 @@ const ScheduleClassInformation = ({ scheduledClassesData, type }) => {
                 mb={1}
                 fontWeight={400}
               >
-                {timeDifference(
-                  info?.scheduledStartTime,
-                  info?.scheduledEndTime
-                )}
+                {new Date(info.scheduledDate).toLocaleDateString()}
               </Text>
             </Flex>
             {checkUserType() === userType.teacher && (
