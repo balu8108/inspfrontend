@@ -293,14 +293,14 @@ export default function LectureDetailsById() {
                   </Text>
 
                   <Spacer />
-                  {userRoleType === userType.teacher && (
+                  {/* {userRoleType === userType.teacher && (
                     <Flex alignItems={"center"}>
                       <Button
                         _hover={{ bg: "none", cursor: "pointer" }}
                         variant={"ghost"}
                         bg="none"
                         onClick={() => {
-                          setIsAssignmentPopupOpen(true); // Open Assignment popup
+                          setIsAssignmentPopupOpen(true);
                         }}
                       >
                         <IoAddOutline
@@ -319,7 +319,7 @@ export default function LectureDetailsById() {
                         Add Files
                       </Text>
                     </Flex>
-                  )}
+                  )} */}
                 </Flex>
                 {lectureDetails?.LiveClassRoomFiles?.length > 0 ? (
                   <Flex mt={4} flexWrap="wrap" gap={2}>
