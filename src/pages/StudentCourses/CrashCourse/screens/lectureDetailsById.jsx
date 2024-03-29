@@ -13,6 +13,8 @@ import {
   Card,
   Image,
   IconButton,
+  Button,
+  Icon,
 } from "@chakra-ui/react";
 import ScheduleClassList from "../../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
@@ -27,10 +29,14 @@ import defaultImageUrl from "../../../../assets/images/image1.png";
 import { useNavigate } from "react-router-dom";
 import { getAllAssignmentByTopicApi } from "../../../../api/assignments";
 import leaderBoard from "../../../../assets/images/leaderBoard.svg";
-
+import { IoAddOutline } from "react-icons/io5";
+import { userType } from "../../../../constants/staticvariables";
+import { checkUserType } from "../../../../utils";
+import UploadAssignmentToClass from "../../../../components/popups/UploadAssignmentToClass";
 export default function LectureDetailsById() {
   const { outerBackground, innerBackground, innerBoxShadow } =
     useTheme().colors.pallete;
+  const userRoleType = checkUserType();
   const dispatch = useDispatch();
   const { roomId } = useParams();
   const {
@@ -43,7 +49,8 @@ export default function LectureDetailsById() {
   const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
   const [lectureDetails, setLectureDetails] = useState(null);
   const [assignmentDetails, setAssignmentDetails] = useState(null);
-
+  const [isFileAdded, setIsFileAdded] = useState(false);
+  const [isAssignmentPopupOpen, setIsAssignmentPopupOpen] = useState(false);
   const navigate = useNavigate();
 
   const getLectureDetails = async () => {
@@ -71,10 +78,7 @@ export default function LectureDetailsById() {
   };
 
   const handleViewRecording = (recording, liveClassData) => {
-    
-    navigate(
-      `/view-recording?type=live&id=${liveClassData?.id}`
-    );
+    navigate(`/view-recording?type=live&id=${liveClassData?.id}`);
   };
 
   useEffect(() => {
@@ -95,6 +99,14 @@ export default function LectureDetailsById() {
           classTiming={classTiming}
           setSelectedDate={setSelectedDate}
           setClassTiming={setClassTiming}
+        />
+      )}
+
+      {isAssignmentPopupOpen && (
+        <UploadAssignmentToClass
+          isOpen={isAssignmentPopupOpen}
+          onClose={() => setIsAssignmentPopupOpen(false)}
+          setIsFileAdded={setIsFileAdded}
         />
       )}
 
@@ -270,14 +282,45 @@ export default function LectureDetailsById() {
               </Box>
 
               <Box mt={8}>
-                <Text
-                  fontWeight={"400"}
-                  fontSize={"16px"}
-                  textColor={"#2C3329"}
-                  lineHeight={"20px"}
-                >
-                  Files/Notes
-                </Text>
+                <Flex>
+                  <Text
+                    fontWeight={"400"}
+                    fontSize={"16px"}
+                    textColor={"#2C3329"}
+                    lineHeight={"20px"}
+                  >
+                    Files/Notes
+                  </Text>
+
+                  <Spacer />
+                  {userRoleType === userType.teacher && (
+                    <Flex alignItems={"center"}>
+                      <Button
+                        _hover={{ bg: "none", cursor: "pointer" }}
+                        variant={"ghost"}
+                        bg="none"
+                        onClick={() => {
+                          setIsAssignmentPopupOpen(true); // Open Assignment popup
+                        }}
+                      >
+                        <IoAddOutline
+                          color={"3C8DBC"}
+                          fontSize={"28px"}
+                          bg="none"
+                        />
+                      </Button>
+
+                      <Text
+                        fontSize={"14px"}
+                        fontWeight={400}
+                        color={"#3C8DBC"}
+                        variant={"ghost"}
+                      >
+                        Add Files
+                      </Text>
+                    </Flex>
+                  )}
+                </Flex>
                 {lectureDetails?.LiveClassRoomFiles?.length > 0 ? (
                   <Flex mt={4} flexWrap="wrap" gap={2}>
                     {lectureDetails?.LiveClassRoomFiles?.map((file) => (
