@@ -18,5 +18,10 @@ API.interceptors.request.use((req) => {
 export const getAllLecture = (classType, classLevel) =>
   API.get(`/lecture/get-all-lecture/${classType}/${classLevel}`);
 
+export const getAllLectureByTopicName = (topicName) =>
+  API.get(
+    `lecture/get-lecture-by-topic-name/${topicName}`
+  );
+
 export const getAllLectureDetails = (roomId) =>
   API.get(`/lecture/get-lecture-by-id/${roomId}`);

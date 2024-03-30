@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import UploadAssignmentToClass from "../../../components/popups/UploadAssignmentToClass";
 import { useLocation } from "react-router-dom";
-import { getLectureDetails } from "../../../api/regularclasses";
+import { getAllLectureDetails } from "../../../api/lecture";
 import defaultImageUrl from "../../../assets/images/image1.png";
 import "../../../constants/scrollbar/style.css";
 import FileBoxComponent from "../../../components/filebox/FileBoxComponent";
@@ -48,7 +48,7 @@ const RecordedClass = ({
   const roomId = queryParams.get("roomId");
   const getDetails = async () => {
     try {
-      const response = await getLectureDetails(roomId);
+      const response = await getAllLectureDetails(roomId);
 
       const { data } = response.data;
       console.log("API Data:", data);

@@ -14,7 +14,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { capitalize } from "../../../../utils";
 import VectorImage from "../../../../assets/images/Line/Vector.svg";
 import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
-import { getAllLectureByTopicName } from "../../../../api/regularclasses";
+import { getAllLectureByTopicName } from "../../../../api/lecture";
 import LectureCard from "../../../../components/Card/LectureCard";
 
 const LectureListPage = ({lectureName}) => {
@@ -38,11 +38,12 @@ const LectureListPage = ({lectureName}) => {
 
   const handleView = (roomId) => {
     if (selectedTopic && lectures.length > 0) {
-      navigate(`/${selectedTopic}/${roomId}`, {
+      navigate(`/my-courses/lecture-detail/${roomId}/Physics`,{
         state: {
-          lecture: lectures
+          lecture: lectures,
+          topicname: selectedTopic
         },
-      });
+      })
     }
   };
   const filterLectures = (lecture) => {

@@ -33,12 +33,13 @@ import { checkUserType } from "../../../utils";
 import UploadAssignmentToClass from "../../../components/popups/UploadAssignmentToClass";
 import { className } from "../../../constants/className";
 import ScheduleClassList from "../../ScheduleClasses/components/ScheduleClassList";
+import SingleLectureDetailsCovered from "../Physics/components/Single.Lecture.Details.Covered";
 export default function LectureDetailsById() {
-  const { outerBackground, innerBackground, innerBoxShadow } =
+  const { outerBackground, innerBackground } =
     useTheme().colors.pallete;
   const userRoleType = checkUserType();
   const dispatch = useDispatch();
-  const { roomId } = useParams();
+  const { roomId, courseType } = useParams();
   const {
     isOpen: isSchedulePopupOpen,
     onOpen: onSchedulePopupOpen,
@@ -119,7 +120,12 @@ export default function LectureDetailsById() {
 
       <Flex gap={"23px"} m={"52px"}>
         <Stack spacing={6} w={"75%"}>
-          <Header />
+          {
+            courseType === "Physics"?
+            <SingleLectureDetailsCovered/>
+            :
+            <Header />
+          }
           {lectureDetails ? (
             <Box
               width={"full"}

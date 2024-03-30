@@ -9,7 +9,6 @@ import StudentAssignment from "./pages/StudentAssignment/screen/StudentAssignmen
 import LibraryScreen from "./pages/SubjectLibrary/screen/LibraryScreen";
 import ChapterDetailsScreen from "./pages/StudentCourses/Physics/screens/ChapterDetailsScreen";
 import TopicLectureScreen from "./pages/StudentCourses/Physics/screens/TopicLectureScreen";
-import SingleLectureDetailsScreen from "./pages/StudentCourses/Physics/screens/SingleLectureDetailsScreen";
 import Home from "./components/home/Home";
 import AuthLoading from "./components/loaders/AuthLoading";
 import StudentCrashCourse from "./pages/StudentCourses/CrashCourse/CrashCourse";
@@ -71,17 +70,17 @@ const privateRoutes = [
 
   {
     name: "Student MathsCourse",
-    path: "/myCourses/mathematics",
+    path: "/my-courses/mathematics",
     component: <StudentMathsCourse />,
   },
   {
     name: "Student ChemistryCourse",
-    path: "/myCourses/chemistry",
+    path: "/my-courses/chemistry",
     component: <StudentChemCourse />,
   },
   {
     name: "Student PhysicsCourse",
-    path: "/myCourses/physics",
+    path: "/my-courses/physics",
     component: <SubjectChapterBrowser />,
   },
 
@@ -96,36 +95,29 @@ const privateRoutes = [
     path: "/topic/lecture/:lectureName/details",
     component: <TopicLectureScreen />,
   },
-
-  {
-    name: "Single Lecture Description Covered",
-    path: "/:topicname/:roomId",
-    component: <SingleLectureDetailsScreen />,
-  },
-
   {
     name: "Student CrashCourse",
-    path: "/myCourses/crash-course",
+    path: "/my-courses/crash-course",
     component: <StudentCrashCourse />,
   },
   {
     name: "Student Class 11th Course",
-    path: "/myCourses/class-11",
+    path: "/my-courses/class-11",
     component: <Grade11Screen />,
   },
   {
     name: "Student Class 12th Course",
-    path: "/myCourses/class-12",
+    path: "/my-courses/class-12",
     component: <Grade12Screen />,
   },
   {
     name: "Student Foundation  Course",
-    path: "/myCourses/foundation-course",
+    path: "/my-courses/foundation-course",
     component: <FoundationCourseScreen />,
   },
   {
     name: "Student CrashCourse",
-    path: "/myCourses/crash-course/:roomId",
+    path: "/my-courses/lecture-detail/:roomId/:courseType",
     component: <LectureDetailsById />,
   },
   {

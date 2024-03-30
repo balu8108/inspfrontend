@@ -58,7 +58,7 @@ const FoundationCourseScreen = () => {
       <Flex gap={"24px"} m={"52px"}>
         <Stack spacing={6} w={"75%"}>
           <Header />
-          <LectureCardContainer title="My Courses ( Foundation Class 9 & 10" loading={loading} lecture={lecture} />
+          <LectureCardContainer title="My Courses ( Foundation Class 9 & 10" loading={loading} lecture={lecture} type="foundation-course" />
         </Stack>
         <Box w={"25%"}>
           <SimpleBar

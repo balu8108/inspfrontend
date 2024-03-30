@@ -58,7 +58,7 @@ const Grade11Screen = () => {
       <Flex gap={"24px"} m={"52px"}>
         <Stack spacing={6} w={"75%"}>
           <Header />
-          <LectureCardContainer title="My Courses ( Class 11th )" loading={loading} lecture={lecture} />
+          <LectureCardContainer title="My Courses ( Class 11th )" loading={loading} lecture={lecture} type="class-11" />
         </Stack>
         <Box w={"25%"}>
           <SimpleBar

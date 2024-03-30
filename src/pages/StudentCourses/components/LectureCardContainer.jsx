@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import VectorImage from "../../../assets/images/Line/Vector.svg";
 import LectureCard from "../../../components/Card/LectureCard";
 
-const  LectureCardContainer = ({title, loading, lecture}) => {
+const  LectureCardContainer = ({title, loading, lecture, type}) => {
   const [searchTerm, setSearchTerm] = useState("");
   const { outerBackground, innerBackground } =
     useTheme().colors.pallete;
@@ -28,7 +28,7 @@ const  LectureCardContainer = ({title, loading, lecture}) => {
   );
 
   const handleNavigate = (roomId) =>{
-    navigate(`/myCourses/crash-course/${roomId}`)
+    navigate(`/my-courses/lecture-detail/${roomId}/${type}`)
   }
 
   return (

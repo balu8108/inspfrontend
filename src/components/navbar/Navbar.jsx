@@ -43,7 +43,7 @@ const links = [
     type: "route",
   },
   {
-    path: "/myCourses/PHYSICS",
+    path: "/my-courses/PHYSICS",
     label: "Courses",
     availableTo: [1],
     type: "route",

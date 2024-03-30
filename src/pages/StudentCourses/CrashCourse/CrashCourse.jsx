@@ -57,7 +57,7 @@ const CrashCourseScreen = () => {
       <Flex gap={"23px"} m={"52px"}>
         <Stack spacing={6} w={"75%"}>
           <Header />
-          <LectureCardContainer title="Crash Course" loading={loading} lecture={lecture} />
+          <LectureCardContainer title="Crash Course" loading={loading} lecture={lecture} type="crash-course"/>
         </Stack>
         <Box w={"25%"}>
           <SimpleBar

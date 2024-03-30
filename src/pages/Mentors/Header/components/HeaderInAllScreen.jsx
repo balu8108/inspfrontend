@@ -119,7 +119,7 @@ const Header = () => {
           <Spinner mt={"5%"} />
         </Center>
       ) : (
-        <Flex mx={"5"} gap={"24px"} overflowX={"auto"}>
+        <Flex mx={"5"} gap={"24px"} overflowX={"auto"} className="example">
           {subjects.map((subject) => (
             <Card
               minW={"31%"}
@@ -176,7 +176,7 @@ const Header = () => {
               </Text>
 
               <Link
-                to={`/myCourses/${subject.value}`}
+                to={`/my-courses/${subject.value}`}
                 style={{ margin: "auto" }}
               >
                 <Button
