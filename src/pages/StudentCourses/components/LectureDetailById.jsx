@@ -227,29 +227,47 @@ export default function LectureDetailsById() {
                     Leader Board
                   </Text>
                   <Flex>
-                    <img
-                      className="h-[250px] ml-10"
-                      src={leaderBoard}
-                      alt="Leader Board"
-                    />
-                    <Box ml={"15px"}>
+                  <img
+                    // className="h-[250px] ml-10"
+                    src={leaderBoard}
+                    alt="Leader Board"
+                  />
+                    <Box width={"100%"}>
                       {lectureDetails?.LeaderBoards?.map(
                         (leaderBoard, index) => (
-                          <Box
+                          <Flex
                             key={leaderBoard?.id}
                             justifyContent={"space-between"}
                             alignItems={"center"}
                             mt={"3px"}
-                            noOfLines={1}
                           >
+                            <Box                               
+                              width={"50%"}
+                            >
+                            <Text
+                             noOfLines={1}
+                              fontSize={"14px"}
+                              fontWeight={"400"}
+                              textColor={"#2C332978"}
+                            >
+                              {index + 1}. Harshit Pawan Pandey
+                            </Text>
+                            </Box>
                             <Text
                               fontSize={"14px"}
                               fontWeight={"400"}
                               textColor={"#2C332978"}
                             >
-                              {index + 1}. {leaderBoard?.peerName}
+                              {leaderBoard?.correctAnswers} / {lectureDetails?.LiveClassTestQuestionLogs[0]?.questionLogCount}
                             </Text>
-                          </Box>
+                            <Text
+                              fontSize={"14px"}
+                              fontWeight={"400"}
+                              textColor={"#2C332978"}
+                            >
+                              {leaderBoard?.combinedResponseTime} sec
+                            </Text>
+                          </Flex>
                         )
                       )}
                     </Box>
