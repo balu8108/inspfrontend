@@ -250,7 +250,7 @@ export default function LectureDetailsById() {
                               fontWeight={"400"}
                               textColor={"#2C332978"}
                             >
-                              {index + 1}. Harshit Pawan Pandey
+                              {index + 1}. {leaderBoard?.peerName}
                             </Text>
                             </Box>
                             <Text
