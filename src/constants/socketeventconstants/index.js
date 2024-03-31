@@ -37,8 +37,8 @@ const SOCKET_EVENTS = {
   PRODUCER_PAUSED: "producer_paused", // if producer pause is trigger then in frontend we need to pause the video
   PRODUCER_RESUMED: "producer_resumed", // if producer resume is trigger then in frontend we need to resume the video
   PRODUCER_CLOSED: "producer-closed",
-  REPLACE_TRACK: 'replace_track',
-  REPLACED_TRACK: 'replaced_track',
+  REPLACE_TRACK: "replace_track",
+  REPLACED_TRACK: "replaced_track",
   LEAVE_ROOM: "leave_room",
   END_MEET_TO_SERVER: "END_MEET_TO_SERVER",
   END_MEET_FROM_SERVER: "END_MEET_FROM_SERVER",
@@ -46,6 +46,8 @@ const SOCKET_EVENTS = {
   MIRO_BOARD_DATA_FROM_SERVER: "miro_board_data_from_server",
   CONNECT_ERROR: "connect_error",
   LEADERBOARD_FROM_SERVER: "leaderboard_from_server",
+  LEADERBOARD_AVERAGE_ANSWER_FROM_SERVER:
+    "leaderboard_average_answer_from_server",
   BLOCK_OR_UNBLOCK_MIC_TO_SERVER: "block_or_unblock_mic_to_server",
   BLOCK_OR_UNBLOCK_MIC_FROM_SERVER: "block_or_unblock_mic_FROM_server",
   PEER_MIC_BLOCKED_OR_UNBLOCKED_FROM_SERVER:

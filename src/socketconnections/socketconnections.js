@@ -11,6 +11,7 @@ import {
   setIsMeetEnd,
   setKickedOutFromClass,
   setLeaderBoard,
+  setLeaderBoardAnswerPercentage,
   setMentorScreenShareConsumer,
   setMentorScreenSharePauseOrResume,
   setMentorVideoShareConsumer,
@@ -366,6 +367,10 @@ const leaderBoardResponseHandler = (res) => {
   store.dispatch(setLeaderBoard(res?.leaderBoard));
 };
 
+const leaderBoardAnswerResponseHandler = (res) => {
+  store.dispatch(setLeaderBoardAnswerPercentage(res?.averagePeersOption));
+};
+
 const endMeetReponseHandler = async () => {
   await leaveRoomHandler();
   store.dispatch(setIsMeetEnd(true));
@@ -430,7 +435,7 @@ export const initializeSocketConnections = (roomId) => {
   if (status) {
     socket = io(BASE_URL, {
       auth: { secret_token: secret_token },
-      transports: ["websocket"]
+      transports: ["websocket"],
     });
     // store the socket in redux also as we may need it later
 
@@ -473,6 +478,10 @@ export const initializeSocketConnections = (roomId) => {
     socket.on(
       SOCKET_EVENTS.LEADERBOARD_FROM_SERVER,
       leaderBoardResponseHandler
+    );
+    socket.on(
+      SOCKET_EVENTS.LEADERBOARD_AVERAGE_ANSWER_FROM_SERVER,
+      leaderBoardAnswerResponseHandler
     );
     socket.on(
       SOCKET_EVENTS.IS_AUDIO_STREAM_ENABLED_FROM_SERVER,

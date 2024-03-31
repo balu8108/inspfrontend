@@ -24,6 +24,7 @@ import {
   SET_MENTOR_SCREEN_SHARE_PAUSE_OR_RESUME,
   SET_MIRO_BOARD_DATA,
   SET_LEADERBOARD,
+  SET_LEADERBOARD_ANSWER_PERCENTAGE,
   SET_IS_MEET_ENDED,
   SET_AUDIO_CONSUMER_PAUSE_OR_RESUME,
   SET_AUDIO_STREAM_ENABLED_OR_DISABLED,
@@ -164,6 +165,11 @@ export const getUpcomingClassDetails = (roomId) => async (dispatch) => {
 export const setLeaderBoard = (leaderBoard) => async (dispatch) => {
   dispatch({ type: SET_LEADERBOARD, payload: leaderBoard });
 };
+
+export const setLeaderBoardAnswerPercentage =
+  (leaderBoard) => async (dispatch) => {
+    dispatch({ type: SET_LEADERBOARD_ANSWER_PERCENTAGE, payload: leaderBoard });
+  };
 
 export const setIsMeetEnd = (value) => async (dispatch) => {
   dispatch({ type: SET_IS_MEET_ENDED, payload: value });

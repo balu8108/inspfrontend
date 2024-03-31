@@ -1,15 +1,17 @@
 import {
   SET_CHAT_MESSAGE,
   SET_LEADERBOARD,
+  SET_LEADERBOARD_ANSWER_PERCENTAGE,
   SET_QUESTION_MSG,
   SET_SEND_POLL_RESPONSE,
   RESET_CHAT_MESSAGES,
   RESET_QUESTION_MESSAGES,
 } from "../constants";
 const initialState = {
-  chatMessages: [], 
-  leaderBoard: [], 
-  questionMessages: [], 
+  chatMessages: [],
+  leaderBoard: [],
+  leaderBoardAnswerPercentage: [],
+  questionMessages: [],
   pollData: null,
 };
 
@@ -32,6 +34,11 @@ const chatReducer = (state = initialState, action) => {
       return {
         ...state,
         leaderBoard: action.payload,
+      };
+    case SET_LEADERBOARD_ANSWER_PERCENTAGE:
+      return {
+        ...state,
+        leaderBoardAnswerPercentage: action.payload,
       };
     case SET_SEND_POLL_RESPONSE:
       return {
