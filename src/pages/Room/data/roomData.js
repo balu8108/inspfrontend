@@ -112,6 +112,7 @@ export const roomData = {
   selectCorrectAnswer: "Select correct answer",
   noData: "No Data",
   leaderBoardText: "Leader Board",
+  pollResultText: "Poll Result",
   refreshText: "Refresh",
   leaderBoardData: [
     {

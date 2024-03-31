@@ -4,10 +4,8 @@ import { roomData } from "../data/roomData";
 import leaderboardRankingIcons from "../data/leaderboardRankingIcons";
 import { shallowEqual, useSelector } from "react-redux";
 import { formatSeconds } from "../../../utils";
-
-import PollTimer from "./PollTimer";
 import { Scrollbars } from "rc-scrollbars";
-const Leaderboard = ({ isLeaderBoardOpen, timer, setTimer }) => {
+const Leaderboard = ({ isLeaderBoardOpen }) => {
   const { leaderBoard } = useSelector((state) => state.chat, shallowEqual);
 
   const { primaryBlue } = useTheme().colors.pallete;
@@ -15,7 +13,6 @@ const Leaderboard = ({ isLeaderBoardOpen, timer, setTimer }) => {
     <>
       {isLeaderBoardOpen && (
         <Box position={"relative"} height={"100%"}>
-          <PollTimer timer={timer} setTimer={setTimer} />
           <Scrollbars style={{ height: "100%" }} autoHide={true}>
             <Flex justifyContent={"space-between"} gap={6}>
               <HStack>

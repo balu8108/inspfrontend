@@ -176,10 +176,7 @@ const LiveSessionStream = (props) => {
           onOpenLeaveOrEndClass={onOpenLeaveOrEndClass}
         />
         {/*below is mentor video Share */}
-        <ChatToolBox
-          isScreenShare={isScreenShare}
-          mentorVideoRef={mentorVideoRef}
-        />
+        <ChatToolBox mentorVideoRef={mentorVideoRef} />
       </Box>
     </>
   );

@@ -17,11 +17,8 @@ import { PiPaperPlaneTiltBold } from "react-icons/pi";
 import { useSelector, useDispatch } from "react-redux";
 import data from "@emoji-mart/data";
 import { init, SearchIndex } from "emoji-mart";
-import { v4 as uuidv4 } from 'uuid';
-import {
-  setChatMessage,
-  setSendPollResponse,
-} from "../../../store/actions/socketActions";
+import { v4 as uuidv4 } from "uuid";
+import { setChatMessage } from "../../../store/actions/socketActions";
 import {
   sendChatMessage,
   sendQuestionMsg,
@@ -30,10 +27,12 @@ import { Scrollbars } from "rc-scrollbars";
 import { checkUserType, containsEmoji } from "../../../utils";
 import Leaderboard from "./Leaderboard";
 import { userType } from "../../../constants/staticvariables";
-
+import PollResult from "./PollResult";
+import PollTimer from "./PollTimer";
 const activeContentOptions = {
   Leaderboard: "Leaderboard",
   QnA: "Qna",
+  PollResult: "PollResult",
   Chat: "Chat",
 };
 
@@ -41,9 +40,7 @@ const QuestionContainer = () => {
   const [autoScroll, setAutoScroll] = useState(true);
   const theme = useTheme();
   const { primaryBlue } = theme.colors.pallete;
-  const { questionMessages } = useSelector(
-    (state) => state.chat
-  );
+  const { questionMessages } = useSelector((state) => state.chat);
 
   // Function to scroll to the latest message
   const scrollToLatestMessage = () => {
@@ -109,7 +106,6 @@ const QuestionContainer = () => {
 
 const EmojiContainer = ({ isEmojiOpen, setIsEmojiOpen }) => {
   const { lightGrey } = useTheme().colors.pallete;
-  const [searchEmoticonValue, setSearchEmoticonValue] = useState("");
   const [emojis, setEmojis] = useState([]);
   const dispatch = useDispatch();
 
@@ -135,8 +131,8 @@ const EmojiContainer = ({ isEmojiOpen, setIsEmojiOpen }) => {
     setIsEmojiOpen(false);
   };
   useEffect(() => {
-    searchEmoticons(searchEmoticonValue);
-  }, [searchEmoticonValue]);
+    searchEmoticons("");
+  }, []);
   return (
     <>
       {isEmojiOpen && (
@@ -167,8 +163,6 @@ const EmojiContainer = ({ isEmojiOpen, setIsEmojiOpen }) => {
 };
 
 const ChatContainer = () => {
-  const [autoScroll, setAutoScroll] = useState(true);
-
   const theme = useTheme();
   const { primaryBlue } = theme.colors.pallete;
   const { chatMessages } = useSelector((state) => state.chat);
@@ -179,19 +173,6 @@ const ChatContainer = () => {
 
     chatScroll.scrollToBottom();
   };
-
-  const handleScroll = () => {
-    const scrollElement = chatContainerRef.current;
-    const scrollTop = Math.ceil(scrollElement.getScrollTop());
-    const clientHeight = scrollElement.getClientHeight();
-    const scrollHeight = scrollElement.getScrollHeight();
-
-    if (scrollTop + clientHeight < scrollHeight) {
-      setAutoScroll(false);
-    } else {
-      setAutoScroll(true);
-    }
-  };
   useEffect(() => {
     scrollToLatestMessage();
   }, [chatMessages]);
@@ -200,10 +181,9 @@ const ChatContainer = () => {
     <Scrollbars
       ref={chatContainerRef}
       style={{ height: "100%" }}
-      //onScroll={handleScroll}
       autoHide={true}
     >
-    {chatMessages.length === 0 ? (
+      {chatMessages.length === 0 ? (
         <Text textAlign={"center"} fontSize={"14px"}>
           No Chats
         </Text>
@@ -236,8 +216,8 @@ const ChatContainer = () => {
   );
 };
 
-const ChatBox = ({ chatMsg, setChatMsg }) => {
-  const inputRef = useRef('');
+const ChatBox = () => {
+  const inputRef = useRef("");
   const [isChatSentLoading, setIsChatSentLoading] = useState(false);
   const [isEmojiOpen, setIsEmojiOpen] = useState(false);
   const dispatch = useDispatch();
@@ -256,7 +236,6 @@ const ChatBox = ({ chatMsg, setChatMsg }) => {
       );
       // send the chat msg to the server
       sendChatMessage(userMessage);
-      setChatMsg("");
       setIsChatSentLoading(false);
       inputRef.current.value = "";
     }
@@ -315,34 +294,24 @@ const ChatBox = ({ chatMsg, setChatMsg }) => {
 };
 
 const QuestionBox = () => {
-  const [questionMsg, setQuestionMsg] = useState("");
+  const questionInputRef = useRef("");
   const [isSentBtnDisabled, setIsSentBtnDisabled] = useState(true);
   const [isQuestionSentLoading, setIsQuestionSentLoading] = useState(false);
 
   const userRoleType = checkUserType();
 
-  const handleQuestionInputChange = (e) => {
-    const value = e.target.value;
-    if (value.trim().length > 0) {
-      setQuestionMsg(value);
-      setIsSentBtnDisabled(false);
-    } else {
-      setQuestionMsg("");
-      setIsSentBtnDisabled(true);
-    }
-  };
   const sendQuestionMsgHandler = (e) => {
     e.preventDefault();
     e.stopPropagation();
-
-    if (questionMsg) {
+    const questionMsg = questionInputRef.current?.value?.trim();
+    if (questionMsg.length > 0) {
       setIsQuestionSentLoading(true);
 
       // send the chat msg to the server
       sendQuestionMsg(questionMsg); // this will emit the message to backend and from backend it sends a callback to thhis user and the question is also sent to mentor as well
       setIsSentBtnDisabled(true);
-      setQuestionMsg("");
       setIsQuestionSentLoading(false);
+      questionInputRef.current.value = "";
     }
   };
   return (
@@ -359,13 +328,12 @@ const QuestionBox = () => {
           />
 
           <Input
+            ref={questionInputRef}
             type="text"
             placeholder={"Ask something..."}
             borderRadius="full"
             border={"none"}
             fontSize={"12px"}
-            value={questionMsg}
-            onChange={(e) => handleQuestionInputChange(e)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 sendQuestionMsgHandler(e);
@@ -397,40 +365,19 @@ const QuestionBox = () => {
 };
 
 const ActiveContent = ({ activeContent }) => {
-  const [chatMsg, setChatMsg] = useState("");
-  const [timer, setTimer] = useState(0);
-  const { pollData } = useSelector((state) => state.chat);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (!pollData) {
-      return;
-    }
-    setTimer(pollData?.time);
-    const timerInterval = setInterval(() => {
-      setTimer((prev) => {
-        if (prev === 0) {
-          clearInterval(timerInterval);
-          dispatch(setSendPollResponse(null)); // time has elapsed now set poll timer box to null
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-  }, [pollData]);
-
   return (
     <Flex direction={"column"} height={"100%"} position={"relative"}>
+      <PollTimer
+        isVisible={activeContent === activeContentOptions.Leaderboard}
+      />
       {activeContent === activeContentOptions.Chat ? (
-        <ChatBox chatMsg={chatMsg} setChatMsg={setChatMsg} />
+        <ChatBox />
       ) : activeContent === activeContentOptions.QnA ? (
         <QuestionBox />
+      ) : activeContent === activeContentOptions.PollResult ? (
+        <PollResult />
       ) : (
-        <Leaderboard
-          timer={timer}
-          setTimer={setTimer}
-          isLeaderBoardOpen={true}
-        />
+        <Leaderboard isLeaderBoardOpen={true} />
       )}
     </Flex>
   );
@@ -467,6 +414,25 @@ const LiveSessionInteraction = () => {
           size="sm"
           onClick={() =>
             handleActiveBtnChange(activeContentOptions?.Leaderboard)
+          }
+          icon={<BiBarChart size={14} />}
+        />
+
+        <IconButton
+          borderRadius={"full"}
+          bg={
+            activeContent === activeContentOptions.PollResult
+              ? primaryBlue
+              : "white"
+          }
+          color={
+            activeContent === activeContentOptions.PollResult
+              ? "white"
+              : "black"
+          }
+          size="sm"
+          onClick={() =>
+            handleActiveBtnChange(activeContentOptions?.PollResult)
           }
           icon={<BiBarChart size={14} />}
         />
