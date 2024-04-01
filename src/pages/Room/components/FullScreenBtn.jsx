@@ -2,9 +2,8 @@ import { useTheme } from "@emotion/react";
 import React, { useState } from "react";
 import { roomData } from "../data/roomData";
 import { RiFullscreenExitLine, RiFullscreenFill } from "react-icons/ri";
-import { IconButton,Tooltip, } from "@chakra-ui/react";
+import { IconButton, Tooltip } from "@chakra-ui/react";
 const FullScreenModeButton = ({ fullScreenRef }) => {
-
   const { primaryBlue } = useTheme().colors.pallete;
   const [fullScreen, setFullScreen] = useState(false);
 
@@ -36,7 +35,6 @@ const FullScreenModeButton = ({ fullScreenRef }) => {
   };
 
   const handleFullscreen = () => {
-    // console.log("handleFullscreen");
     if (!document.fullscreenElement) {
       enterFullscreen();
     } else {

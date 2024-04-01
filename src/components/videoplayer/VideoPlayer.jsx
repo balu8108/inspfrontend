@@ -5,9 +5,9 @@ import "videojs-contrib-quality-levels";
 import "videojs-contrib-eme";
 import "videojs-http-quality-selector";
 import "dashjs";
-// import "videojs-hotkeys";
-// import "videojs-seek-buttons";
-// import "videojs-seek-buttons/dist/videojs-seek-buttons.css";
+import "videojs-hotkeys";
+import "videojs-seek-buttons";
+import "videojs-seek-buttons/dist/videojs-seek-buttons.css";
 
 import { playRecordingApi } from "../../api/recordingapi";
 import WaterMark from "../watermark/WaterMark";
@@ -15,38 +15,44 @@ import { checkUserType, getStorageData } from "../../utils";
 import { userType } from "../../constants/staticvariables";
 const getVideoJsOptions = (browser, url, hlsUrl, drmToken, HlsDrmToken) => {
   const sources = [];
-
-  if (browser === "Safari") {
-    sources.push({
-      src: hlsUrl,
-      keySystems: {
-        "com.apple.fps.1_0": {
-          certificateUri: "https://vtb.axinom.com/FPScert/fairplay.cer",
-          getContentId: function (emeOptions, initData) {
-            return new TextDecoder().decode(
-              initData.filter((item) => item !== 0 && item !== 150)
-            );
-          },
-          licenseUri:
-            "https://drm-fairplay-licensing.axprod.net/AcquireLicense",
-          licenseHeaders: {
-            "X-AxDrm-Message": HlsDrmToken,
+  if (process.env.REACT_APP_ENVIRON === "production") {
+    if (browser === "Safari") {
+      sources.push({
+        src: hlsUrl,
+        keySystems: {
+          "com.apple.fps.1_0": {
+            certificateUri: "https://vtb.axinom.com/FPScert/fairplay.cer",
+            getContentId: function (emeOptions, initData) {
+              return new TextDecoder().decode(
+                initData.filter((item) => item !== 0 && item !== 150)
+              );
+            },
+            licenseUri:
+              "https://drm-fairplay-licensing.axprod.net/AcquireLicense",
+            licenseHeaders: {
+              "X-AxDrm-Message": HlsDrmToken,
+            },
           },
         },
-      },
-    });
+      });
+    } else {
+      sources.push({
+        src: url,
+        type: "application/dash+xml",
+        keySystems: {
+          "com.widevine.alpha": {
+            url: "https://drm-widevine-licensing.axprod.net/AcquireLicense",
+            licenseHeaders: {
+              "X-AxDRM-Message": drmToken,
+            },
+          },
+        },
+      });
+    }
   } else {
     sources.push({
       src: url,
-      type: "application/dash+xml",
-      keySystems: {
-        "com.widevine.alpha": {
-          url: "https://drm-widevine-licensing.axprod.net/AcquireLicense",
-          licenseHeaders: {
-            "X-AxDRM-Message": drmToken,
-          },
-        },
-      },
+      type: "video/webm",
     });
   }
 
@@ -105,8 +111,9 @@ const VideoPlayer = ({ browser, type, activeRecording }) => {
 
       if (!player) {
         const p = videojs(videoRef.current, videoOptions);
-
-        p.eme();
+        if (process.env.REACT_APP_ENVIRON === "production") {
+          p.eme();
+        }
 
         setPlayer(p);
       } else {

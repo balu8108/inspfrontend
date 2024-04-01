@@ -51,7 +51,6 @@ const RecordedClass = ({
       const response = await getAllLectureDetails(roomId);
 
       const { data } = response.data;
-      console.log("API Data:", data);
       setLectureDetails(data);
     } catch (err) {
       console.error("Error fetching course lectures:", err);

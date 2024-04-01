@@ -9,14 +9,22 @@ import {
   Navigate,
   useNavigate,
 } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { publicRoutes, privateRoutes } from "./routes";
-import { clearStorageData, getStorageData, isAuthenticated } from "./utils";
-import { useSelector } from "react-redux";
+import {
+  clearStorageData,
+  getStorageData,
+  isAuthenticated,
+  checkUserType,
+} from "./utils";
 import DocumentViewer from "./components/popups/DocumentViewer";
 import FeedBackAndRating from "./components/popups/FeedBackAndRating";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import { useEffect } from "react";
 import StudentFeedBackPopup from "./components/popups/studentFeedbackPopup";
+import { fetchAllSubjectsApi } from "./api/inspexternalapis";
+import { getAllSubjects } from "./store/actions/genericActions";
+import { userType } from "./constants/staticvariables";
 
 const ProtectedRoutes = () => {
   const isAuth = isAuthenticated();
@@ -31,20 +39,18 @@ function App() {
   const { onClose: onDocModalClose } = useDisclosure();
   const { onClose: onFeedBackClose } = useDisclosure();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userRoleType = checkUserType();
 
   const { isDocModalOpen, isFeedbackModalOpen } = useSelector(
     (state) => state.generic
   );
-  const { isStudentFeedbackModalOpen } = useSelector((state) => state.studentFeedback);
+  const { isStudentFeedbackModalOpen } = useSelector(
+    (state) => state.studentFeedback
+  );
 
   const isNavbarDisabled =
     location.pathname === "/" || location.pathname.startsWith("/auth");
-
-  useEffect(() => {
-    // On loading the app remove the below key values if existed somehow in local storage, May be later on we can remove this Line of codes
-    localStorage.removeItem("secret_token");
-    localStorage.removeItem("insp_user_profile");
-  }, []);
 
   useEffect(() => {
     // Check if the environment is production
@@ -92,10 +98,70 @@ function App() {
       // Custom logic to handle the refresh
       // Display a confirmation message or perform necessary actions
     };
-    window.addEventListener("beforeunload", handleBeforeUnload);
+    if (userRoleType === userType.student) {
+      window.addEventListener("beforeunload", handleBeforeUnload);
+    }
     return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
+      if (userRoleType === userType.student) {
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+      }
     };
+  }, []);
+
+  useEffect(() => {
+    async function fetchSubjects() {
+      try {
+        const response = await fetchAllSubjectsApi();
+
+        if (response.status) {
+          const subjectsFromAPI = response.result;
+
+          const sortedSubjects = subjectsFromAPI.sort((a, b) => {
+            return a.name.localeCompare(b.name);
+          });
+
+          const reversedSubjects = sortedSubjects.reverse();
+
+          const updatedSubjects = reversedSubjects.map((item) => {
+            return {
+              id: item.id,
+              name: item.name,
+              value: item.name,
+            };
+          });
+
+          dispatch(
+            getAllSubjects([
+              {
+                id: "4",
+                name: "INSP Champ Crash Course",
+                value: "crash-course",
+              },
+              {
+                id: "5",
+                name: "Class 11th",
+                value: "class-11",
+              },
+              {
+                id: "6",
+                name: "Class 12th",
+                value: "class-12",
+              },
+              {
+                id: "7",
+                name: "Foundation Course",
+                value: "foundation-course",
+              },
+              ...updatedSubjects,
+            ])
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching subjects:", error);
+      }
+    }
+
+    fetchSubjects();
   }, []);
 
   return (

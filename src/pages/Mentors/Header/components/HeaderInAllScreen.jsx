@@ -1,5 +1,5 @@
 //This is the header used in most of screen it will display subjects-PHYSICS,CHEMISTRY,MATHEMATICS.
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Button,
   Box,
@@ -11,13 +11,12 @@ import {
   Center,
   useTheme,
 } from "@chakra-ui/react";
-import { fetchAllSubjectsApi } from "../../../../api/inspexternalapis/index";
 import { Link } from "react-router-dom";
 import { capitalize } from "../../../../utils";
 import "../../../../constants/scrollbar/style.css";
+import { useSelector } from "react-redux";
 const Header = () => {
-  const [subjects, setSubjects] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { subjects } = useSelector((state) => state.generic);
   const { outerBackground, innerBackground, innerBoxShadow } =
     useTheme().colors.pallete;
   const dummyDescriptions = [
@@ -41,63 +40,6 @@ const Header = () => {
     "In Progress",
   ];
 
-  useEffect(() => {
-    async function fetchSubjects() {
-      try {
-        const response = await fetchAllSubjectsApi();
-
-        if (response.status) {
-          const subjectsFromAPI = response.result;
-
-          const sortedSubjects = subjectsFromAPI.sort((a, b) => {
-            return a.name.localeCompare(b.name);
-          });
-
-          const reversedSubjects = sortedSubjects.reverse();
-
-          const updatedSubjects = reversedSubjects.map((item) => {
-            return {
-              id: item.id,
-              name: item.name,
-              value: item.name,
-            };
-          });
-
-          // adding a crash course in array of data
-          setSubjects([
-            {
-              id: "4",
-              name: "INSP Champ Crash Course",
-              value: "crash-course",
-            },
-            {
-              id: "5",
-              name: "Class 11th",
-              value: "class-11",
-            },
-            {
-              id: "6",
-              name: "Class 12th",
-              value: "class-12",
-            },
-            {
-              id: "7",
-              name: "Foundation Course",
-              value: "foundation-course",
-            },
-            ...updatedSubjects,
-          ]);
-        }
-      } catch (error) {
-        console.error("Error fetching subjects:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchSubjects();
-  }, []);
-
   return (
     <Box borderRadius={"25px"} w={"100%"} bg={outerBackground}>
       <HStack spacing={"10px"}>
@@ -114,7 +56,7 @@ const Header = () => {
         </Text>
       </HStack>
 
-      {loading ? (
+      {subjects.length === 0 ? (
         <Center>
           <Spinner mt={"5%"} />
         </Center>

@@ -93,12 +93,14 @@ const StudentPollsMCQBox = ({ question }) => {
       // send answer along with question id
       const data = {
         answers: answers,
+        noOfOptions: question?.noOfOptions,
+        type: question?.type,
         questionId: question?.questionId,
         responseTimeInSeconds: question.time - pollLimit,
       };
       sendAnswerHandler(data);
       setAnswerSubmitted(true);
-      
+
       // dispatch(setQuestion(null)); // after sending response set question as null
     }
   };
@@ -182,7 +184,7 @@ const StudentPollsMCQBox = ({ question }) => {
       {showAnswer && (
         <Flex mt={"10px"}>
           {question.correctAnswers.map((answer) => (
-            <Text fontSize={"0.9rem"}>{answer}{" "}</Text>
+            <Text fontSize={"0.9rem"}>{answer} </Text>
           ))}
         </Flex>
       )}

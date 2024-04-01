@@ -1,4 +1,5 @@
 import {
+  GET_ALL_SUBJECTS,
   SET_IS_DOC_MODAL_OPEN,
   SET_DOC_KEY,
   SET_FEEDBACK_TOPIC_ID,
@@ -6,7 +7,9 @@ import {
   SET_DOC,
 } from "../constants";
 
-export const getAllSubjects = () => async (dispatch) => {};
+export const getAllSubjects = (value) => async (dispatch) => {
+  dispatch({ type: GET_ALL_SUBJECTS, payload: value });
+};
 export const setIsDocModalOpen =
   (doc_id, doc_key, type, value) => async (dispatch) => {
     dispatch({ type: SET_DOC, payload: { docId: doc_id, docType: type } });
