@@ -30,8 +30,8 @@ const Grade12Screen = () => {
   const getAllEleventhCourse = async () => {
     try {
       const response = await getAllLecture(
-        classType.ALL,
-        JSON.stringify([classLevel.CLASS_12])
+        classType.REGULAR_CLASS,
+        classLevel.CLASS_12
       );
       const { data } = response.data;
       setLecture(data);

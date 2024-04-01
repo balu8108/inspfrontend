@@ -30,8 +30,8 @@ const FoundationCourseScreen = () => {
   const getAllEleventhCourse = async () => {
     try {
       const response = await getAllLecture(
-        classType.ALL,
-        JSON.stringify([classLevel.FOUNDATION_COURSE])
+        classType.REGULAR_CLASS,
+        classLevel.FOUNDATION_COURSE
       );
       const { data } = response.data;
       setLecture(data);
