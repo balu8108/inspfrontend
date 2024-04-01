@@ -29,7 +29,10 @@ const CrashCourseScreen = () => {
 
   const getAllEleventhCourse = async () => {
     try {
-      const response = await getAllLecture(classType.ALL, classLevel.CLASS_11);
+      const response = await getAllLecture(
+        classType.ALL,
+        JSON.stringify([classLevel.CLASS_11, classLevel.CLASS_12])
+      );
       const { data } = response.data;
       setLecture(data);
       setLoading(false);
@@ -57,7 +60,12 @@ const CrashCourseScreen = () => {
       <Flex gap={"23px"} m={"52px"}>
         <Stack spacing={6} w={"75%"}>
           <Header />
-          <LectureCardContainer title="Crash Course" loading={loading} lecture={lecture} type="crash-course"/>
+          <LectureCardContainer
+            title="Crash Course"
+            loading={loading}
+            lecture={lecture}
+            type="crash-course"
+          />
         </Stack>
         <Box w={"25%"}>
           <SimpleBar

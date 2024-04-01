@@ -29,7 +29,10 @@ const FoundationCourseScreen = () => {
 
   const getAllEleventhCourse = async () => {
     try {
-      const response = await getAllLecture(classType.ALL, classLevel.FOUNDATION_COURSE);
+      const response = await getAllLecture(
+        classType.ALL,
+        JSON.stringify([classLevel.FOUNDATION_COURSE])
+      );
       const { data } = response.data;
       setLecture(data);
       setLoading(false);
@@ -58,7 +61,12 @@ const FoundationCourseScreen = () => {
       <Flex gap={"24px"} m={"52px"}>
         <Stack spacing={6} w={"75%"}>
           <Header />
-          <LectureCardContainer title="My Courses ( Foundation Class 9 & 10" loading={loading} lecture={lecture} type="foundation-course" />
+          <LectureCardContainer
+            title="My Courses ( Foundation Class 9 & 10 )"
+            loading={loading}
+            lecture={lecture}
+            type="foundation-course"
+          />
         </Stack>
         <Box w={"25%"}>
           <SimpleBar

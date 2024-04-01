@@ -112,7 +112,7 @@ const privateRoutes = [
   },
   {
     name: "Student Foundation  Course",
-    path: "/my-courses/foundation-course",
+    path: "/my-courses/foundation-olympiad",
     component: <FoundationCourseScreen />,
   },
   {

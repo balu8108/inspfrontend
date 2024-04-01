@@ -138,6 +138,11 @@ function App() {
                 value: "crash-course",
               },
               {
+                id: "7",
+                name: "INSP Foundation Olympiad",
+                value: "foundation-olympiad",
+              },
+              {
                 id: "5",
                 name: "Class 11th",
                 value: "class-11",
@@ -146,11 +151,6 @@ function App() {
                 id: "6",
                 name: "Class 12th",
                 value: "class-12",
-              },
-              {
-                id: "7",
-                name: "Foundation Course",
-                value: "foundation-course",
               },
               ...updatedSubjects,
             ])
