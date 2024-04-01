@@ -30,8 +30,8 @@ const CrashCourseScreen = () => {
   const getAllEleventhCourse = async () => {
     try {
       const response = await getAllLecture(
-        classType.ALL,
-        JSON.stringify([classLevel.CLASS_11, classLevel.CLASS_12])
+        classType.CRASH_CLASS,
+        classLevel.ALL
       );
       const { data } = response.data;
       setLecture(data);
