@@ -51,15 +51,15 @@ export const classStatus = {
 
 export const classType = {
   ALL: "ALL",
-  REGULAR_CLASS: "REGULARCLASS", 
-  CRASH_CLASS: "CRASHCOURSE"
+  REGULAR_CLASS: "REGULARCLASS",
+  CRASH_CLASS: "CRASHCOURSE",
 };
 
 export const classLevel = {
   ALL: "ALL",
   CLASS_11: "Class_11",
-  CLASS_12: "Class_12", 
-  FOUNDATION_COURSE: "Foundation_Course"
+  CLASS_12: "Class_12",
+  FOUNDATION_COURSE: "Foundation_Olympiad",
 };
 
 export const classStatusText = {

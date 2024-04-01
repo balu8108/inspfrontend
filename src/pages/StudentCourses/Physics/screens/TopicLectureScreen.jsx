@@ -6,12 +6,11 @@ import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getAllLiveClassesSchedule } from "../../../../store/actions/scheduleClassActions";
 import ScheduleClassPopup from "../../../../components/popups/ScheduleClassPopup";
-import LectureCardContainer from "../../components/LectureCardContainer";
 import { getAllLecture } from "../../../../api/lecture";
 import { classType, classLevel } from "../../../../constants/staticvariables";
 import LectureListPage from "../components/LectureListPage";
 const TopicLectureScreen = () => {
-  const {lectureName} = useParams();
+  const { lectureName } = useParams();
   const dispatch = useDispatch();
   const {
     isOpen: isSchedulePopupOpen,
@@ -30,7 +29,10 @@ const TopicLectureScreen = () => {
 
   const getAllEleventhCourse = async () => {
     try {
-      const response = await getAllLecture(classType.ALL, classLevel.CLASS_11);
+      const response = await getAllLecture(
+        classType.ALL,
+        JSON.stringify([classLevel.CLASS_11])
+      );
       const { data } = response.data;
       setLecture(data);
       setLoading(false);
@@ -57,7 +59,7 @@ const TopicLectureScreen = () => {
       )}
       <Flex gap={"23px"} m={"52px"}>
         <Stack spacing={6} w={"75%"}>
-          <LectureListPage lectureName={lectureName}/>
+          <LectureListPage lectureName={lectureName} />
           {/* <LectureCardContainer title={`Topic ( ${lectureName} )`} loading={loading} lecture={lecture} /> */}
         </Stack>
         <Box w={"25%"}>

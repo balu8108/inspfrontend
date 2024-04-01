@@ -29,7 +29,10 @@ const Grade11Screen = () => {
 
   const getAllEleventhCourse = async () => {
     try {
-      const response = await getAllLecture(classType.ALL, classLevel.CLASS_11);
+      const response = await getAllLecture(
+        classType.ALL,
+        JSON.stringify([classLevel.CLASS_11])
+      );
       const { data } = response.data;
       setLecture(data);
       setLoading(false);
@@ -58,7 +61,12 @@ const Grade11Screen = () => {
       <Flex gap={"24px"} m={"52px"}>
         <Stack spacing={6} w={"75%"}>
           <Header />
-          <LectureCardContainer title="My Courses ( Class 11th )" loading={loading} lecture={lecture} type="class-11" />
+          <LectureCardContainer
+            title="My Courses ( Class 11th )"
+            loading={loading}
+            lecture={lecture}
+            type="class-11"
+          />
         </Stack>
         <Box w={"25%"}>
           <SimpleBar
