@@ -61,7 +61,7 @@ const StudentFeedBackPopup = ({ isOpen, onClose }) => {
     try {
       const res = await createStudentFeedback(body);
       if (res.status === 200) {
-        addNotification("Feedback recorded successfully", "success", 3000);
+        addNotification("Suggestion recorded successfully", "success", 3000);
       }
       setFeedback("");
     } catch (err) {
@@ -93,7 +93,7 @@ const StudentFeedBackPopup = ({ isOpen, onClose }) => {
             <Box mb={4}>
               <Flex justifyContent={"space-between"} alignItems={"center"}>
                 <Text fontSize={"18px"} fontWeight={500}>
-                  Feedback
+                  Suggestion
                 </Text>
                 <Button type="button" variant={"ghost"} onClick={handleClose}>
                   <RxCross2 />
@@ -107,7 +107,7 @@ const StudentFeedBackPopup = ({ isOpen, onClose }) => {
                     setFeedback(e.target.value);
                     setErrorData((prev) => ({ ...prev, feedback: "" }));
                   }}
-                  placeholder="Feedback"
+                  placeholder="Suggestion"
                   size="sm"
                   resize="none"
                   minH={"6rem"}

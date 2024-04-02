@@ -69,13 +69,13 @@ const links = [
   },
   {
     path: "/feedback-student", // student to give feedback
-    label: "Feedback",
+    label: "Suggestion",
     availableTo: [0],
     type: "button",
   },
   {
     path: "/feedback-mentor", // mentor to see feedback
-    label: "Feedback",
+    label: "Suggestion",
     availableTo: [1],
     type: "route",
   },

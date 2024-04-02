@@ -75,7 +75,7 @@ const ScheduleClassInformation = ({ scheduledClassesData, type }) => {
                   color="rgba(44, 51, 41, 1)"
                   mb={1}
                   noOfLines={1}
-                  w="55%"
+                  w="50%"
                   _hover={{ textDecoration: "underline", cursor: "pointer" }}
                 >
                   {capitalize(info?.LiveClassRoomDetail?.topicName)}
