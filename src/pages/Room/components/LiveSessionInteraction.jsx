@@ -9,6 +9,7 @@ import {
   Text,
   HStack,
   Avatar,
+  Tooltip,
 } from "@chakra-ui/react";
 import { BiBarChart } from "react-icons/bi";
 import { BsEmojiSmile } from "react-icons/bs";
@@ -399,68 +400,77 @@ const LiveSessionInteraction = () => {
     >
       <ActiveContent activeContent={activeContent} />
       <Flex justifyContent={"space-between"} gap={2} mt={2}>
-        <IconButton
-          borderRadius={"full"}
-          bg={
-            activeContent === activeContentOptions.Leaderboard
-              ? primaryBlue
-              : "white"
-          }
-          color={
-            activeContent === activeContentOptions.Leaderboard
-              ? "white"
-              : "black"
-          }
-          size="sm"
-          onClick={() =>
-            handleActiveBtnChange(activeContentOptions?.Leaderboard)
-          }
-          icon={<BiBarChart size={14} />}
-        />
-
-        <IconButton
-          borderRadius={"full"}
-          bg={
-            activeContent === activeContentOptions.PollResult
-              ? primaryBlue
-              : "white"
-          }
-          color={
-            activeContent === activeContentOptions.PollResult
-              ? "white"
-              : "black"
-          }
-          size="sm"
-          onClick={() =>
-            handleActiveBtnChange(activeContentOptions?.PollResult)
-          }
-          icon={<BiBarChart size={14} />}
-        />
-
-        <IconButton
-          borderRadius={"full"}
-          bg={
-            activeContent === activeContentOptions.QnA ? primaryBlue : "white"
-          }
-          color={activeContent === activeContentOptions.QnA ? "white" : "black"}
-          size="sm"
-          onClick={() => handleActiveBtnChange(activeContentOptions?.QnA)}
-          icon={<TfiMenuAlt size={14} />}
-        />
-
-        <IconButton
-          bg={
-            activeContent === activeContentOptions.Chat ? primaryBlue : "white"
-          }
-          color={
-            activeContent === activeContentOptions.Chat ? "white" : "black"
-          }
-          transition={"all 0.3 ease"}
-          size="sm"
-          borderRadius={"full"}
-          onClick={() => handleActiveBtnChange(activeContentOptions?.Chat)}
-          icon={<PiPaperPlaneTiltBold size={14} />}
-        />
+        <Tooltip hasArrow label={"Polls"}>
+          <IconButton
+            borderRadius={"full"}
+            bg={
+              activeContent === activeContentOptions.Leaderboard
+                ? primaryBlue
+                : "white"
+            }
+            color={
+              activeContent === activeContentOptions.Leaderboard
+                ? "white"
+                : "black"
+            }
+            size="sm"
+            onClick={() =>
+              handleActiveBtnChange(activeContentOptions?.Leaderboard)
+            }
+            icon={<BiBarChart size={14} />}
+          />
+        </Tooltip>
+        <Tooltip hasArrow label={"Poll Results"} placement="bottom">
+          <IconButton
+            borderRadius={"full"}
+            bg={
+              activeContent === activeContentOptions.PollResult
+                ? primaryBlue
+                : "white"
+            }
+            color={
+              activeContent === activeContentOptions.PollResult
+                ? "white"
+                : "black"
+            }
+            size="sm"
+            onClick={() =>
+              handleActiveBtnChange(activeContentOptions?.PollResult)
+            }
+            icon={<BiBarChart size={14} />}
+          />
+        </Tooltip>
+        <Tooltip placement="right" label="Ask a question">
+          <IconButton
+            borderRadius={"full"}
+            bg={
+              activeContent === activeContentOptions.QnA ? primaryBlue : "white"
+            }
+            color={
+              activeContent === activeContentOptions.QnA ? "white" : "black"
+            }
+            size="sm"
+            onClick={() => handleActiveBtnChange(activeContentOptions?.QnA)}
+            icon={<TfiMenuAlt size={14} />}
+          />
+        </Tooltip>
+        <Tooltip hasArrow label="Chat" placement="right">
+          <IconButton
+            bg={
+              activeContent === activeContentOptions.Chat
+                ? primaryBlue
+                : "white"
+            }
+            color={
+              activeContent === activeContentOptions.Chat ? "white" : "black"
+            }
+            transition={"all 0.3 ease"}
+            size="sm"
+            borderRadius={"full"}
+            onClick={() => handleActiveBtnChange(activeContentOptions?.Chat)}
+            icon={<PiPaperPlaneTiltBold size={14} />}
+          />
+        </Tooltip>
       </Flex>
     </Flex>
   );

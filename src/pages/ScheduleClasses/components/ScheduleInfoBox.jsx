@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { Box, Text, useTheme, Flex, Spinner, Center } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  useTheme,
+  Flex,
+  Spinner,
+  Center,
+  Tooltip,
+} from "@chakra-ui/react";
 import { scheduleClassData } from "../data/scheduleClassData";
 import FileBoxComponent from "../../../components/filebox/FileBoxComponent";
 import { ScheduleClassBtn } from "../../../components/button";
@@ -57,14 +65,22 @@ const ScheduleClassInformation = ({ scheduledClassesData, type }) => {
             borderRadius={"md"}
           >
             <Flex justifyContent={"space-between"} alignItems={"center"}>
-              <Text
-                fontWeight={"500"}
-                fontSize={"14px"}
-                color={"rgba(44, 51, 41, 1)"}
-                mb={1}
+              <Tooltip
+                label={capitalize(info?.LiveClassRoomDetail?.topicName)}
+                placement="top"
               >
-                {capitalize(info?.LiveClassRoomDetail?.topicName)}
-              </Text>
+                <Text
+                  fontWeight="500"
+                  fontSize="14px"
+                  color="rgba(44, 51, 41, 1)"
+                  mb={1}
+                  noOfLines={1}
+                  w="55%"
+                  _hover={{ textDecoration: "underline", cursor: "pointer" }}
+                >
+                  {capitalize(info?.LiveClassRoomDetail?.topicName)}
+                </Text>
+              </Tooltip>
               <Text
                 fontSize={"10px"}
                 color={secondaryTextColor}
