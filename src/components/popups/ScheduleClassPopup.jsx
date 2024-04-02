@@ -488,8 +488,8 @@ const ScheduleClassPopup = ({
                         label: "Class_12",
                       },
                       {
-                        value: "Foundation_Course",
-                        label: "Foundation_Course",
+                        value: "Foundation_Olympiad",
+                        label: "Foundation_Olympiad",
                       },
                     ]}
                     useBasicStyles
