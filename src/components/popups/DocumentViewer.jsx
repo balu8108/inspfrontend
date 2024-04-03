@@ -86,6 +86,13 @@ const PSDDocumentViewer = ({ doc }) => {
           // Use the public directory URL as a base URL. PSPDFKit will download its library assets from here.
           baseUrl: `${window.location.protocol}//${window.location.host}/${process.env.PUBLIC_URL}`,
         });
+        const items = instance.toolbarItems;
+        // Hide the toolbar item with the type "export-pdf" by removing it from the array of items.
+        instance.setToolbarItems(
+          items.filter(
+            (item) => item.type !== "export-pdf" && item.type !== "print"
+          )
+        );
         PSDFdocument(instance);
       })();
       return () => PSPDFKit && PSPDFKit.unload(container);
