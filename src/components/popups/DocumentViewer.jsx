@@ -79,9 +79,7 @@ const PSDDocumentViewer = ({ doc }) => {
         PSPDFKit.unload(container); // Ensure that there's only one PSPDFKit instance.
         instance = await PSPDFKit.load({
           disableWebAssemblyStreaming: true,
-          licenseKey:
-            "G2-jvq3c5Lf-6lYb_cY-g7DgK9RlvJ7x-0_KSg331RtVmL9klSC_EWVxBduh_RvoOTrG3p_YSfiky1Dx44K7ADVKRrL-maEAch0dIlx5ufPq9vsr0b1ItJzB173O2eATb7oVefIUwnxFdY51cDRAo6j5295zs2w7amRYitRcZlgDnDA5Pc_usWKcAeSbW1MeftKnurnOpGqN7T8",
-
+          licenseKey: process.env.REACT_APP_PSPSPDFKIT_LICENSE_KEY,
           container,
           document: doc,
           renderPageCallback: addWatermark,
