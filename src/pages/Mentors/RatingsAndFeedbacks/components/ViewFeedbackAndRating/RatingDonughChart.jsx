@@ -16,6 +16,8 @@ import { FaCircle } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { capitalize } from "../../../../../utils";
 import { getRatingDetailsByTopicIdApi } from "../../../../../api/genericapis";
+import Scrollbars from "rc-scrollbars";
+
 Chart.register(ArcElement);
 
 const RatingAndFeedBackChart = () => {
@@ -191,19 +193,22 @@ const RatingAndFeedBackChart = () => {
             </Stack>
           </Box>
         </Stack>
-        <Stack spacing={"19px"} p={"20px"} ml={"85px"}>
-          {feedbackData.map((feedback) => (
-            <Box key={feedback?.id} alignItems="center" mb={2}>
-              <HStack>
-                <Avatar bg={"#3C8DBC"} boxSize="1.6em" mr={2} />
-                <Text fontSize={"15px"}>{feedback.raterName}</Text>
-              </HStack>
-              <Text fontSize={"12px"} color={"#2C332978"} p={"10px"}>
-                {feedback.feedback}
-              </Text>
-            </Box>
-          ))}
-        </Stack>
+
+        <Scrollbars style={{ width: "100%", height: "100vh" }} autoHide={true}>
+          <Stack spacing={"19px"} p={"20px"} ml={"85px"}>
+            {feedbackData.map((feedback) => (
+              <Box key={feedback?.id} alignItems="center" mb={2}>
+                <HStack>
+                  <Avatar bg={"#3C8DBC"} boxSize="1.6em" mr={2} />
+                  <Text fontSize={"15px"}>{feedback.raterName}</Text>
+                </HStack>
+                <Text fontSize={"12px"} color={"#2C332978"} p={"10px"}>
+                  {feedback.feedback}
+                </Text>
+              </Box>
+            ))}
+          </Stack>
+        </Scrollbars>
       </Flex>
     </Box>
   );
