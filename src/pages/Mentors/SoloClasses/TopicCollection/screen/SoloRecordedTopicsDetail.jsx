@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Box, Stack, Flex, useDisclosure, useTheme } from "@chakra-ui/react";
 import TopicsBased from "../components/TopicBased";
 import DetailsCoveredFiles from "../components/DetailsCoveredFiles";
 import ScheduleClassList from "../../../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
-import { useDispatch } from "react-redux";
-import { getAllLiveClassesSchedule } from "../../../../../store/actions/scheduleClassActions";
 import ScheduleClassPopup from "../../../../../components/popups/ScheduleClassPopup";
 const SoloRecordedTopicsDetails = () => {
-  const dispatch = useDispatch();
   const {
     isOpen: isSchedulePopupOpen,
     onOpen: onSchedulePopupOpen,
@@ -16,23 +13,12 @@ const SoloRecordedTopicsDetails = () => {
   } = useDisclosure();
 
   const { outerBackground } = useTheme().colors.pallete;
-  const [selectedDate, setSelectedDate] = useState("");
-
-  const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
-
-  useEffect(() => {
-    dispatch(getAllLiveClassesSchedule());
-  }, [dispatch]);
   return (
     <Box m={"52px"}>
       {isSchedulePopupOpen && (
         <ScheduleClassPopup
           isOpen={isSchedulePopupOpen}
           onClose={onScheduleClosePopupOpen}
-          selectedDate={selectedDate}
-          classTiming={classTiming}
-          setSelectedDate={setSelectedDate}
-          setClassTiming={setClassTiming}
         />
       )}
       <Flex gap={"24px"}>

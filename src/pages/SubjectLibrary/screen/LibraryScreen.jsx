@@ -1,18 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Box, Flex, Stack, useDisclosure, useTheme } from "@chakra-ui/react";
 import Library from "../../StudentHomePage/components/Library";
 import SubjectLibrary from "../components/Library";
 import ScheduleClassList from "../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
-import { useDispatch } from "react-redux";
-import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassActions";
 const LibraryScreen = () => {
-  const dispatch = useDispatch();
   const { onOpen: onSchedulePopupOpen } = useDisclosure();
   const { outerBackground } = useTheme().colors.pallete;
-  useEffect(() => {
-    dispatch(getAllLiveClassesSchedule());
-  }, [dispatch]);
   return (
     <>
       <Flex m={"52px"} gap={"24px"}>

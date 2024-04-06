@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import { Box, Flex, HStack, useDisclosure, useTheme } from "@chakra-ui/react";
 
@@ -8,18 +8,11 @@ import Assignment from "../components/Assignment";
 import Library from "../components/Library";
 import ScheduleClassList from "../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
-import { useDispatch } from "react-redux";
-import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassActions";
 
 const StudentHomePage = () => {
-  const dispatch = useDispatch();
   const { outerBackground } = useTheme().colors.pallete;
 
   const { onOpen: onSchedulePopupOpen } = useDisclosure();
-  useEffect(() => {
-    dispatch(getAllLiveClassesSchedule());
-  }, [dispatch]);
-
   return (
     <Flex m={"52px"} justifyContent={"space-between"} gap={6}>
       <Box w="75%">

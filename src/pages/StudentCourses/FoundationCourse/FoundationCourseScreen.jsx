@@ -3,29 +3,20 @@ import { Box, Stack, Flex, useTheme, useDisclosure } from "@chakra-ui/react";
 import Header from "../../Mentors/Header/components/HeaderInAllScreen";
 import ScheduleClassList from "../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
-import { useDispatch } from "react-redux";
-import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassActions";
 import ScheduleClassPopup from "../../../components/popups/ScheduleClassPopup";
 import LectureCardContainer from "../components/LectureCardContainer";
 import { getAllLecture } from "../../../api/lecture";
 import { classType, classLevel } from "../../../constants/staticvariables";
 
 const FoundationCourseScreen = () => {
-  const dispatch = useDispatch();
   const {
     isOpen: isSchedulePopupOpen,
     onOpen: onSchedulePopupOpen,
     onClose: onScheduleClosePopupOpen,
   } = useDisclosure();
   const { outerBackground } = useTheme().colors.pallete;
-  const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
-  const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
   const [loading, setLoading] = useState(true);
   const [lecture, setLecture] = useState([]);
-
-  useEffect(() => {
-    dispatch(getAllLiveClassesSchedule());
-  }, [dispatch]);
 
   const getAllEleventhCourse = async () => {
     try {
@@ -51,10 +42,7 @@ const FoundationCourseScreen = () => {
         <ScheduleClassPopup
           isOpen={isSchedulePopupOpen}
           onClose={onScheduleClosePopupOpen}
-          selectedDate={selectedDate}
-          classTiming={classTiming}
-          setSelectedDate={setSelectedDate}
-          setClassTiming={setClassTiming}
+          isCalenderScreen={false}
         />
       )}
 

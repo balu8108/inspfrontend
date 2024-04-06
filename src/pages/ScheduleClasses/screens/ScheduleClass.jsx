@@ -2,10 +2,6 @@ import { Grid, GridItem, Box, useDisclosure, useTheme } from "@chakra-ui/react";
 
 import ScheduleCalendar from "../components/ScheduleCalendar";
 import ScheduleClassPopup from "../../../components/popups/ScheduleClassPopup";
-import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassActions";
-
 import ScheduleClassList from "../components/ScheduleClassList";
 import { Scrollbars } from "rc-scrollbars";
 
@@ -15,15 +11,7 @@ const ScheduleClass = () => {
     onOpen: onSchedulePopupOpen,
     onClose: onScheduleClosePopupOpen,
   } = useDisclosure();
-
-  const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
-  const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
-  const dispatch = useDispatch();
   const { outerBackground } = useTheme().colors.pallete;
-
-  useEffect(() => {
-    dispatch(getAllLiveClassesSchedule());
-  }, [dispatch]);
 
   return (
     <>
@@ -31,10 +19,7 @@ const ScheduleClass = () => {
         <ScheduleClassPopup
           isOpen={isSchedulePopupOpen}
           onClose={onScheduleClosePopupOpen}
-          selectedDate={selectedDate}
-          classTiming={classTiming}
-          setSelectedDate={setSelectedDate}
-          setClassTiming={setClassTiming}
+          isCalenderScreen={true}
         />
       )}
       <Box px={10} pt={4} pb={4}>
@@ -53,11 +38,7 @@ const ScheduleClass = () => {
             </GridItem>
           </Scrollbars>
           <GridItem borderRadius={"md"}>
-            <ScheduleCalendar
-              onSchedulePopupOpen={onSchedulePopupOpen}
-              setSelectedDate={setSelectedDate}
-              setClassTiming={setClassTiming}
-            />
+            <ScheduleCalendar onSchedulePopupOpen={onSchedulePopupOpen} />
           </GridItem>
         </Grid>
       </Box>

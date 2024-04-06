@@ -5,6 +5,9 @@ import {
   SET_FEEDBACK_TOPIC_ID,
   SET_IS_FEEDBACK_MODAL_OPEN,
   SET_DOC,
+  SET_CALENDER_DATE,
+  SET_CALENDER_TIME,
+  SET_CLASS_CHANGES,
 } from "../constants";
 
 export const getAllSubjects = (value) => async (dispatch) => {
@@ -25,3 +28,13 @@ export const setFeedbackModalOpen =
       payload: isFeedbackModalOpen,
     });
   };
+
+export const setCalenderDate = (value) => async (dispatch) => {
+  dispatch({ type: SET_CALENDER_DATE, payload: value });
+};
+export const setCalenderTime = (value) => async (dispatch) => {
+  dispatch({ type: SET_CALENDER_TIME, payload: value });
+};
+export const setClassChanges = () => async (dispatch) => {
+  dispatch({ type: SET_CLASS_CHANGES });
+};
