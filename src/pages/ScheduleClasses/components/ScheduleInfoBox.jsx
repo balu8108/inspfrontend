@@ -6,30 +6,40 @@ import {
   Flex,
   Spinner,
   Center,
+  Icon,
   Tooltip,
+  useDisclosure,
 } from "@chakra-ui/react";
+import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { scheduleClassData } from "../data/scheduleClassData";
 import FileBoxComponent from "../../../components/filebox/FileBoxComponent";
 import { ScheduleClassBtn } from "../../../components/button";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import {
-  checkUserType,
-  formatTime,
-  timeDifference,
-  capitalize,
-} from "../../../utils";
+import { checkUserType, formatTime, capitalize } from "../../../utils";
 import {
   classStatus,
   userType,
   fileTypes,
 } from "../../../constants/staticvariables";
 import { className } from "../../../constants/className";
-const ScheduleClassInformation = ({ scheduledClassesData, type }) => {
+import ScheduleClassChanges from "../../../components/popups/ScheduleClassChanges";
+const ScheduleClassInformation = ({ scheduledClassesData, type, label }) => {
   const { primaryBlue, secondaryTextColor, innerBackground } =
     useTheme().colors.pallete;
   const [isLoading, setIsLoading] = useState(false);
+  const [scheduleData, setScheduleData] = useState({
+    classId: "",
+    date: "",
+    startTime: "",
+    endTime: "",
+  });
   const navigate = useNavigate();
+  const {
+    isOpen: isSchedulePopupOpen,
+    onOpen: onSchedulePopupOpen,
+    onClose: onScheduleClosePopupOpen,
+  } = useDisclosure();
 
   const startContinueClickHandler = (info) => {
     setIsLoading(true);
@@ -54,9 +64,17 @@ const ScheduleClassInformation = ({ scheduledClassesData, type }) => {
   };
   return (
     <>
+      {isSchedulePopupOpen && (
+        <ScheduleClassChanges
+          isOpen={isSchedulePopupOpen}
+          onClose={onScheduleClosePopupOpen}
+          scheduleData={scheduleData}
+        />
+      )}
       {scheduledClassesData[type].map((info) => {
         return (
           <Box
+            position={"relative"}
             key={info?.id}
             bg={innerBackground}
             my={2}
@@ -158,6 +176,26 @@ const ScheduleClassInformation = ({ scheduledClassesData, type }) => {
                 onClickHandler={() => startContinueClickHandler(info)}
               />
             )}
+            {checkUserType() === userType.teacher &&
+              label !== 1 &&
+              label !== 4 && (
+                <Icon
+                  position={"absolute"}
+                  top={1}
+                  right={1}
+                  as={HiOutlinePencilSquare}
+                  onClick={() => {
+                    setScheduleData({
+                      classId: info.id,
+                      date: info.scheduledDate.split("T")[0],
+                      startTime: info.scheduledStartTime,
+                      endTime: info.scheduledEndTime,
+                    });
+                    onSchedulePopupOpen();
+                  }}
+                  _hover={{ bg: "none", cursor: "pointer" }}
+                />
+              )}
           </Box>
         );
       })}
@@ -165,7 +203,7 @@ const ScheduleClassInformation = ({ scheduledClassesData, type }) => {
   );
 };
 
-const ScheduleInfoBox = ({ type }) => {
+const ScheduleInfoBox = ({ type, label }) => {
   const { secondaryTextColor } = useTheme().colors.pallete;
   const { scheduledClassesData, scheduleClassLoading } = useSelector(
     (state) => state.scheduleClass
@@ -194,6 +232,7 @@ const ScheduleInfoBox = ({ type }) => {
         <ScheduleClassInformation
           scheduledClassesData={scheduledClassesData}
           type={type}
+          label={label}
         />
       );
     }

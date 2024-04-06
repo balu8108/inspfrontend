@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Box, Flex, useDisclosure, Stack, useTheme } from "@chakra-ui/react";
 import Header from "../../Header/components/HeaderInAllScreen";
 import MentorsUploads from "../components/Uploads";
@@ -6,33 +6,21 @@ import FeedBack from "../components/RateNFeedback";
 import SoloClasses from "../components/SoloClasses";
 import ScheduleClassList from "../../../ScheduleClasses/components/ScheduleClassList";
 import SimpleBar from "simplebar-react";
-import { useDispatch } from "react-redux";
-import { getAllLiveClassesSchedule } from "../../../../store/actions/scheduleClassActions";
 import ScheduleClassPopup from "../../../../components/popups/ScheduleClassPopup";
 const MentorHomePage = () => {
-  const dispatch = useDispatch();
   const {
     isOpen: isSchedulePopupOpen,
     onOpen: onSchedulePopupOpen,
     onClose: onScheduleClosePopupOpen,
   } = useDisclosure();
   const { outerBackground } = useTheme().colors.pallete;
-
-  const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
-  const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
-  useEffect(() => {
-    dispatch(getAllLiveClassesSchedule());
-  }, [dispatch]);
   return (
     <>
       {isSchedulePopupOpen && (
         <ScheduleClassPopup
           isOpen={isSchedulePopupOpen}
           onClose={onScheduleClosePopupOpen}
-          selectedDate={selectedDate}
-          classTiming={classTiming}
-          setSelectedDate={setSelectedDate}
-          setClassTiming={setClassTiming}
+          isCalenderScreen={false}
         />
       )}
 
