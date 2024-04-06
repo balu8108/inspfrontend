@@ -1,9 +1,6 @@
 import RoomPreview from "./pages/RoomPreview/screens/RoomPreview";
 import Room from "./pages/Room/screens/Room";
 import ScheduleClass from "./pages/ScheduleClasses/screens/ScheduleClass";
-import StudentMathsCourse from "./pages/StudentCourses/Mathematics/screens/MathsCourse";
-import StudentChemCourse from "./pages/StudentCourses/Chemistry/screens/ChemCourse";
-import SubjectChapterBrowser from "./pages/StudentCourses/Physics/screens/Subject.Chapter.Browser.Screen";
 import Viewrecording from "./pages/ViewRecording/screen/Recordings";
 import StudentAssignment from "./pages/StudentAssignment/screen/StudentAssignment";
 import LibraryScreen from "./pages/SubjectLibrary/screen/LibraryScreen";
@@ -11,11 +8,7 @@ import ChapterDetailsScreen from "./pages/StudentCourses/Physics/screens/Chapter
 import TopicLectureScreen from "./pages/StudentCourses/Physics/screens/TopicLectureScreen";
 import Home from "./components/home/Home";
 import AuthLoading from "./components/loaders/AuthLoading";
-import StudentCrashCourse from "./pages/StudentCourses/CrashCourse/CrashCourse";
 import LectureDetailsById from "./pages/StudentCourses/components/LectureDetailById";
-import Grade11Screen from "./pages/StudentCourses/Class11/Grade11Screen";
-import Grade12Screen from "./pages/StudentCourses/Class12/Grade12Screen";
-import FoundationCourseScreen from "./pages/StudentCourses/FoundationCourse/FoundationCourseScreen";
 //Mentor Routes
 
 import AllRecordingsForAChapter from "./pages/Mentors/MyCourses/Physics/screen/ChapterRecording";
@@ -27,6 +20,7 @@ import RecordedScreen from "./pages/Mentors/SoloClasses/RecordingSoloLectures/sc
 import HomePage from "./pages/homepage/screens/HomePage";
 import StudentFeedBack from "./components/popups/studentFeedbackPopup";
 import StudentFeedbackDetails from "./pages/Mentors/StudentFeedback/screen/studentFeedback";
+import MyCourses from "./pages/StudentCourses/components/MyCourses";
 
 const publicRoutes = [
   {
@@ -70,23 +64,6 @@ const privateRoutes = [
     path: "/schedule-class",
     component: <ScheduleClass />,
   },
-
-  {
-    name: "Student MathsCourse",
-    path: "/my-courses/mathematics",
-    component: <StudentMathsCourse />,
-  },
-  {
-    name: "Student ChemistryCourse",
-    path: "/my-courses/chemistry",
-    component: <StudentChemCourse />,
-  },
-  {
-    name: "Student PhysicsCourse",
-    path: "/my-courses/physics",
-    component: <SubjectChapterBrowser />,
-  },
-
   {
     name: "Chapter Page",
     path: "/chapter-details/:chapterName",
@@ -100,23 +77,8 @@ const privateRoutes = [
   },
   {
     name: "Student CrashCourse",
-    path: "/my-courses/crash-course",
-    component: <StudentCrashCourse />,
-  },
-  {
-    name: "Student Class 11th Course",
-    path: "/my-courses/class-11",
-    component: <Grade11Screen />,
-  },
-  {
-    name: "Student Class 12th Course",
-    path: "/my-courses/class-12",
-    component: <Grade12Screen />,
-  },
-  {
-    name: "Student Foundation  Course",
-    path: "/my-courses/foundation-olympiad",
-    component: <FoundationCourseScreen />,
+    path: "/my-courses/:coursetype",
+    component: <MyCourses />,
   },
   {
     name: "Student CrashCourse",
