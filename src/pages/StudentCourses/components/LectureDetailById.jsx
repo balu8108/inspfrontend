@@ -14,7 +14,6 @@ import {
   IconButton,
   Button,
 } from "@chakra-ui/react";
-import SimpleBar from "simplebar-react";
 import { useParams, useNavigate } from "react-router-dom";
 import { BsPlayFill } from "react-icons/bs";
 import { IoAddOutline } from "react-icons/io5";
@@ -105,7 +104,7 @@ export default function LectureDetailsById() {
         />
       )}
 
-      <Flex gap={"23px"} m={"52px"}>
+      <Flex m={"52px"}>
         <Stack spacing={6} w={"75%"}>
           {courseType === "Physics" ? (
             <SingleLectureDetailsCovered />
@@ -441,19 +440,7 @@ export default function LectureDetailsById() {
             </Flex>
           )}
         </Stack>
-        <Box w={"25%"}>
-          <SimpleBar
-            style={{
-              maxHeight: "85vh",
-              borderRadius: "26px",
-              background: outerBackground,
-            }}
-          >
-            <Box p={4}>
-              <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
-            </Box>
-          </SimpleBar>
-        </Box>
+        <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
       </Flex>
     </>
   );

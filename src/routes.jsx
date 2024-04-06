@@ -36,7 +36,10 @@ const publicRoutes = [
   },
   {
     name: "Auth Loading",
-    path: "/auth/:unique_id",
+    path:
+      process.env.REACT_APP_ENVIRON === "production"
+        ? "/auth/:unique_id"
+        : "/auth/:secret_token",
     component: <AuthLoading message={"Trying to Logging you in..."} />,
   },
   {

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Box, Stack, Flex, useTheme, useDisclosure } from "@chakra-ui/react";
+import { Stack, Flex, useDisclosure } from "@chakra-ui/react";
 import Header from "../../Mentors/Header/components/HeaderInAllScreen";
 import ScheduleClassList from "../../ScheduleClasses/components/ScheduleClassList";
-import SimpleBar from "simplebar-react";
 import ScheduleClassPopup from "../../../components/popups/ScheduleClassPopup";
 import LectureCardContainer from "../components/LectureCardContainer";
 import { getAllLecture } from "../../../api/lecture";
@@ -14,7 +13,6 @@ const FoundationCourseScreen = () => {
     onOpen: onSchedulePopupOpen,
     onClose: onScheduleClosePopupOpen,
   } = useDisclosure();
-  const { outerBackground } = useTheme().colors.pallete;
   const [loading, setLoading] = useState(true);
   const [lecture, setLecture] = useState([]);
 
@@ -46,7 +44,7 @@ const FoundationCourseScreen = () => {
         />
       )}
 
-      <Flex gap={"24px"} m={"52px"}>
+      <Flex m={"52px"}>
         <Stack spacing={6} w={"75%"}>
           <Header />
           <LectureCardContainer
@@ -56,19 +54,7 @@ const FoundationCourseScreen = () => {
             type="foundation-course"
           />
         </Stack>
-        <Box w={"25%"}>
-          <SimpleBar
-            style={{
-              maxHeight: "85vh",
-              borderRadius: "26px",
-              background: outerBackground,
-            }}
-          >
-            <Box p={4}>
-              <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
-            </Box>
-          </SimpleBar>
-        </Box>
+        <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
       </Flex>
     </>
   );

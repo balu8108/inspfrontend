@@ -1,34 +1,18 @@
 import React from "react";
 import AssignmentHeader from "../components/AssignmentHeader";
 import AssignmentDetails from "../components/Assignment";
-import { Flex, Stack, Box, useDisclosure, useTheme } from "@chakra-ui/react";
+import { Flex, Stack, useDisclosure } from "@chakra-ui/react";
 import ScheduleClassList from "../../ScheduleClasses/components/ScheduleClassList";
-import SimpleBar from "simplebar-react";
 const AssignmentScreen = () => {
   const { onOpen: onSchedulePopupOpen } = useDisclosure();
-  const { outerBackground } = useTheme().colors.pallete;
   return (
-    <Box ml={"52px"} mr={"52px"} mt={"52px"} mb={10}>
-      <Flex gap={"24px"}>
-        <Stack spacing={6} w={"full"}>
-          <AssignmentHeader />
-          <AssignmentDetails />
-        </Stack>
-        <Box w={"32%"}>
-          <SimpleBar
-            style={{
-              maxHeight: "85vh",
-              borderRadius: "10px",
-              background: outerBackground,
-            }}
-          >
-            <Box p={4}>
-              <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
-            </Box>
-          </SimpleBar>
-        </Box>
-      </Flex>
-    </Box>
+    <Flex m={"52px"}>
+      <Stack w={"75%"} spacing={"24px"}>
+        <AssignmentHeader />
+        <AssignmentDetails />
+      </Stack>
+      <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
+    </Flex>
   );
 };
 export default AssignmentScreen;
