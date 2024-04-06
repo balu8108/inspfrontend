@@ -88,7 +88,17 @@ const MyCourses = () => {
             <MathsDetails />
           ) : (
             <LectureCardContainer
-              title="Crash Course"
+              title={
+                coursetype === "crash-course"
+                  ? "Crash Course"
+                  : coursetype === "foundation-olympiad"
+                  ? "My Courses ( Foundation Class 9 & 10 )"
+                  : coursetype === "class-11"
+                  ? "My Courses ( Class 11th )"
+                  : coursetype === "class-12"
+                  ? "My Courses ( Class 12th )"
+                  : ""
+              }
               loading={loading}
               lecture={lecture}
               type={coursetype}
