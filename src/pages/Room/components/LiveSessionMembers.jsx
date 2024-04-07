@@ -209,8 +209,7 @@ const LiveSessionMembers = ({ primaryBlue, outerBackground }) => {
   };
 
   const renderCompactPeers = () => {
-    const peersToDisplay =
-      viewType === liveSessionMemberViewType.compact ? peers : peers;
+    const peersToDisplay = peers;
     return (
       <>
         {peersToDisplay.map((peer) => (
@@ -251,8 +250,8 @@ const LiveSessionMembers = ({ primaryBlue, outerBackground }) => {
   const [filteredPeers, setFilteredPeers] = useState([]);
 
   useEffect(() => {
-    setFilteredPeers(peers)
-  }, [peers])
+    setFilteredPeers(peers);
+  }, [peers]);
 
   return (
     <Flex flexDirection={"column"}>
