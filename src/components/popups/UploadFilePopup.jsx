@@ -13,9 +13,10 @@ import {
 } from "@chakra-ui/react";
 import { BiPlus } from "react-icons/bi";
 import { MdClose } from "react-icons/md";
+import { v4 as uuidv4 } from "uuid";
 import { roomData } from "../../pages/Room/data/roomData";
 import { MainBtn } from "../button";
-import { generateUniqueKey, openFileDialog } from "../../utils";
+import { openFileDialog } from "../../utils";
 import { useState } from "react";
 import { sendFileHandler } from "../../socketconnections/socketconnections";
 
@@ -106,7 +107,7 @@ const UploadFilePopup = ({ type, roomId }) => {
         >
           {files ? (
             Object.keys(files).map((file) => (
-              <Text key={generateUniqueKey()} fontSize="10px">
+              <Text key={uuidv4()} fontSize="10px">
                 {files[file].name}
               </Text>
             ))
