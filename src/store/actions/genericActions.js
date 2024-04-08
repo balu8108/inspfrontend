@@ -9,6 +9,7 @@ import {
   SET_CALENDER_TIME,
   SET_CLASS_CHANGES,
 } from "../constants";
+import { addTimeTableApi, getTimeTableApi } from "../../api/genericapis";
 
 export const getAllSubjects = (value) => async (dispatch) => {
   dispatch({ type: GET_ALL_SUBJECTS, payload: value });
@@ -37,4 +38,24 @@ export const setCalenderTime = (value) => async (dispatch) => {
 };
 export const setClassChanges = () => async (dispatch) => {
   dispatch({ type: SET_CLASS_CHANGES });
+};
+
+export const AddTimeTable = (formData) => async () => {
+  try {
+    const { data, status } = await addTimeTableApi(formData);
+    return { data, status };
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+export const getTimeTable = () => async () => {
+  try {
+    const { data, status } = await getTimeTableApi();
+    return { data, status };
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
 };
