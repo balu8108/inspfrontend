@@ -61,6 +61,10 @@ const ScheduleClass = () => {
                 py={4}
                 px={15}
                 onClick={onTimeTablePopupOpen}
+                _hover={{
+                  opacity: 0.8,
+                  bg: primaryBlue,
+                }}
               >
                 Upload Time Table
               </Button>
@@ -74,6 +78,10 @@ const ScheduleClass = () => {
               py={4}
               px={15}
               onClick={onTimeTableViewerOpen}
+              _hover={{
+                opacity: 0.8,
+                bg: primaryBlue,
+              }}
             >
               View Time Table
             </Button>
