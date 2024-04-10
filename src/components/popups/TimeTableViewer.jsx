@@ -8,10 +8,8 @@ import {
   Box,
   ModalCloseButton,
 } from "@chakra-ui/react";
-
-import { useDispatch, useSelector } from "react-redux";
-import { setIsDocModalOpen } from "../../store/actions/genericActions";
-import { getPresignedUrlDocApi } from "../../api/genericapis";
+import { useDispatch } from "react-redux";
+import { getTimeTable } from "../../store/actions/genericActions";
 import { getStorageData } from "../../utils";
 
 const PSDDocumentViewer = ({ doc }) => {
@@ -81,7 +79,7 @@ const PSDDocumentViewer = ({ doc }) => {
           disableWebAssemblyStreaming: true,
           licenseKey: process.env.REACT_APP_PSPSPDFKIT_LICENSE_KEY,
           container,
-          document: doc,
+          document: doc?.url,
           renderPageCallback: addWatermark,
           // Use the public directory URL as a base URL. PSPDFKit will download its library assets from here.
           baseUrl: `${window.location.protocol}//${window.location.host}/${process.env.PUBLIC_URL}`,
@@ -101,41 +99,39 @@ const PSDDocumentViewer = ({ doc }) => {
   return <div ref={docRef} style={{ width: "100%", height: "70vh" }} />;
 };
 
-const DocumentViewer = ({ isOpen, onClose }) => {
-  const [doc, setDoc] = useState(null);
-  const { docId, docType } = useSelector((state) => state.generic);
+const TimeTableViewer = ({ isOpen, onClose }) => {
+  const [doc, setDoc] = useState([]);
   const dispatch = useDispatch();
 
-  const fetchAndSetDoc = async (docId) => {
+  const fetchAndSetDoc = async () => {
     try {
-      const { status, data } = await getPresignedUrlDocApi(docId, docType);
+      const { status, data } = await dispatch(getTimeTable());
       if (status) {
-        setDoc(data?.data?.getUrl);
+        setDoc(data?.data);
       }
     } catch (err) {}
   };
 
   useEffect(() => {
-    if (docId) {
-      fetchAndSetDoc(docId);
-    }
-    return () => {
-      dispatch(setIsDocModalOpen(null, null, null, false));
-    };
-  }, [docId, dispatch]);
+    fetchAndSetDoc();
+  }, [dispatch]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"5xl"}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Insp document</ModalHeader>
-        <ModalCloseButton
-          onClick={() => dispatch(setIsDocModalOpen(null, null, null, false))}
-        />
+        <ModalHeader>Insp Time Table</ModalHeader>
+        <ModalCloseButton onClick={() => {}} />
 
         <ModalBody>
           <Box>
-            <PSDDocumentViewer doc={doc} />
+            {doc.length > 0 ? (
+              doc.map((item) => <PSDDocumentViewer key={item?.id} doc={item} />)
+            ) : (
+              <Box>
+                <p>There is no time table uploaded </p>
+              </Box>
+            )}
           </Box>
         </ModalBody>
       </ModalContent>
@@ -143,4 +139,4 @@ const DocumentViewer = ({ isOpen, onClose }) => {
   );
 };
 
-export default DocumentViewer;
+export default TimeTableViewer;

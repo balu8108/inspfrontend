@@ -48,6 +48,8 @@ export const scheduleClassData = {
   upload: "Upload",
   filesToUpload: "Files to upload",
   scheduleClassTitle: "Schedule Class",
+  changeSchedule: "Change Schedule",
+  changeClassSchedule: "Change Schedule Date and Time",
   start: "START",
   ongoing: "ONGOING",
   muteAll: "Mute all the participants",

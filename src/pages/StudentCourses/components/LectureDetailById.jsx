@@ -14,14 +14,11 @@ import {
   IconButton,
   Button,
 } from "@chakra-ui/react";
-import SimpleBar from "simplebar-react";
-import { useDispatch } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom";
 import { BsPlayFill } from "react-icons/bs";
 import { IoAddOutline } from "react-icons/io5";
 
 import Header from "../../Mentors/Header/components/HeaderInAllScreen";
-import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassActions";
 import ScheduleClassPopup from "../../../components/popups/ScheduleClassPopup";
 import { getAllLectureDetails } from "../../../api/lecture";
 import SingleFileComponent from "../../../components/filebox/SingleFileComponent";
@@ -35,10 +32,8 @@ import { className } from "../../../constants/className";
 import ScheduleClassList from "../../ScheduleClasses/components/ScheduleClassList";
 import SingleLectureDetailsCovered from "../Physics/components/Single.Lecture.Details.Covered";
 export default function LectureDetailsById() {
-  const { outerBackground, innerBackground } =
-    useTheme().colors.pallete;
+  const { outerBackground, innerBackground } = useTheme().colors.pallete;
   const userRoleType = checkUserType();
-  const dispatch = useDispatch();
   const { roomId, courseType } = useParams();
   const {
     isOpen: isSchedulePopupOpen,
@@ -46,8 +41,6 @@ export default function LectureDetailsById() {
     onClose: onScheduleClosePopupOpen,
   } = useDisclosure();
 
-  const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
-  const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
   const [lectureDetails, setLectureDetails] = useState(null);
   const [assignmentDetails, setAssignmentDetails] = useState(null);
   const [isFileAdded, setIsFileAdded] = useState(false);
@@ -86,14 +79,10 @@ export default function LectureDetailsById() {
     getLectureDetails();
   }, [roomId]);
 
-  useEffect(() => {
-    dispatch(getAllLiveClassesSchedule());
-  }, [dispatch]);
-
-  const handleAddFile = () =>{
-    setIsAssignmentPopupOpen(false)
+  const handleAddFile = () => {
+    setIsAssignmentPopupOpen(false);
     getLectureDetails();
-  }
+  };
 
   return (
     <>
@@ -101,10 +90,7 @@ export default function LectureDetailsById() {
         <ScheduleClassPopup
           isOpen={isSchedulePopupOpen}
           onClose={onScheduleClosePopupOpen}
-          selectedDate={selectedDate}
-          classTiming={classTiming}
-          setSelectedDate={setSelectedDate}
-          setClassTiming={setClassTiming}
+          isCalenderScreen={false}
         />
       )}
 
@@ -113,19 +99,18 @@ export default function LectureDetailsById() {
           classId={lectureDetails?.id}
           type="live"
           isOpen={isAssignmentPopupOpen}
-          onClose={() =>handleAddFile()}
+          onClose={() => handleAddFile()}
           setIsFileAdded={setIsFileAdded}
         />
       )}
 
-      <Flex gap={"23px"} m={"52px"}>
+      <Flex m={"52px"}>
         <Stack spacing={6} w={"75%"}>
-          {
-            courseType === "Physics"?
-            <SingleLectureDetailsCovered/>
-            :
+          {courseType === "Physics" ? (
+            <SingleLectureDetailsCovered />
+          ) : (
             <Header />
-          }
+          )}
           {lectureDetails ? (
             <Box
               width={"full"}
@@ -146,7 +131,8 @@ export default function LectureDetailsById() {
                     Details :{" "}
                     <span className="text-base">
                       ({lectureDetails?.LiveClassRoomDetail?.topicName})
-                    </span>:{" "}
+                    </span>
+                    :{" "}
                     <span className="text-base">
                       ({className[lectureDetails?.classLevel]})
                     </span>
@@ -156,16 +142,16 @@ export default function LectureDetailsById() {
               </Flex>
               <Flex mt={"20px"}>
                 <Box width={"50%"}>
-                <Text
-                  fontWeight={"400"}
-                  fontSize={"16px"}
-                  textColor={"#2C3329"}
-                  lineHeight={"20px"}
-                  mb={"40px"}
-                  mt={"20px"}
-                >
-                  Lecture {lectureDetails?.LiveClassRoomDetail?.lectureNo}
-                </Text>
+                  <Text
+                    fontWeight={"400"}
+                    fontSize={"16px"}
+                    textColor={"#2C3329"}
+                    lineHeight={"20px"}
+                    mb={"40px"}
+                    mt={"20px"}
+                  >
+                    Lecture {lectureDetails?.LiveClassRoomDetail?.lectureNo}
+                  </Text>
                   <Box>
                     <Text
                       fontWeight={"400"}
@@ -227,11 +213,11 @@ export default function LectureDetailsById() {
                     Leader Board
                   </Text>
                   <Flex>
-                  <img
-                    // className="h-[250px] ml-10"
-                    src={leaderBoard}
-                    alt="Leader Board"
-                  />
+                    <img
+                      // className="h-[250px] ml-10"
+                      src={leaderBoard}
+                      alt="Leader Board"
+                    />
                     <Box width={"100%"}>
                       {lectureDetails?.LeaderBoards?.map(
                         (leaderBoard, index) => (
@@ -241,24 +227,26 @@ export default function LectureDetailsById() {
                             alignItems={"center"}
                             mt={"3px"}
                           >
-                            <Box                               
-                              width={"50%"}
-                            >
-                            <Text
-                             noOfLines={1}
-                              fontSize={"14px"}
-                              fontWeight={"400"}
-                              textColor={"#2C332978"}
-                            >
-                              {index + 1}. {leaderBoard?.peerName}
-                            </Text>
+                            <Box width={"50%"}>
+                              <Text
+                                noOfLines={1}
+                                fontSize={"14px"}
+                                fontWeight={"400"}
+                                textColor={"#2C332978"}
+                              >
+                                {index + 1}. {leaderBoard?.peerName}
+                              </Text>
                             </Box>
                             <Text
                               fontSize={"14px"}
                               fontWeight={"400"}
                               textColor={"#2C332978"}
                             >
-                              {leaderBoard?.correctAnswers} / {lectureDetails?.LiveClassTestQuestionLogs[0]?.questionLogCount}
+                              {leaderBoard?.correctAnswers} /{" "}
+                              {
+                                lectureDetails?.LiveClassTestQuestionLogs[0]
+                                  ?.questionLogCount
+                              }
                             </Text>
                             <Text
                               fontSize={"14px"}
@@ -338,15 +326,14 @@ export default function LectureDetailsById() {
 
                   <Spacer />
                   {userRoleType === userType.teacher && (
-                    <Flex alignItems={"center"}
-                    _hover={{ bg: "none", cursor: "pointer" }}                      
-                     onClick={() => {
-                      setIsAssignmentPopupOpen(true);
-                    }}>
-                      <Button           
-                        variant={"ghost"}
-                        bg="none"
-                      >
+                    <Flex
+                      alignItems={"center"}
+                      _hover={{ bg: "none", cursor: "pointer" }}
+                      onClick={() => {
+                        setIsAssignmentPopupOpen(true);
+                      }}
+                    >
+                      <Button variant={"ghost"} bg="none">
                         <IoAddOutline
                           color={"3C8DBC"}
                           fontSize={"20px"}
@@ -453,19 +440,7 @@ export default function LectureDetailsById() {
             </Flex>
           )}
         </Stack>
-        <Box w={"25%"}>
-          <SimpleBar
-            style={{
-              maxHeight: "85vh",
-              borderRadius: "26px",
-              background: outerBackground,
-            }}
-          >
-            <Box p={4}>
-              <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
-            </Box>
-          </SimpleBar>
-        </Box>
+        <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
       </Flex>
     </>
   );

@@ -1,66 +1,94 @@
-import { Grid, GridItem, Box, useDisclosure, useTheme } from "@chakra-ui/react";
-
+import { Flex, useTheme, Button, Stack, useDisclosure } from "@chakra-ui/react";
 import ScheduleCalendar from "../components/ScheduleCalendar";
 import ScheduleClassPopup from "../../../components/popups/ScheduleClassPopup";
-import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassActions";
-
 import ScheduleClassList from "../components/ScheduleClassList";
-import { Scrollbars } from "rc-scrollbars";
+import UploadTimeTable from "../../../components/popups/UploadTimeTable";
+import TimeTableViewer from "../../../components/popups/TimeTableViewer";
+import { userType } from "../../../constants/staticvariables";
+import { checkUserType } from "../../../utils";
 
 const ScheduleClass = () => {
+  const { primaryBlue } = useTheme().colors.pallete;
+  const userRoleType = checkUserType();
   const {
     isOpen: isSchedulePopupOpen,
     onOpen: onSchedulePopupOpen,
     onClose: onScheduleClosePopupOpen,
   } = useDisclosure();
-
-  const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
-  const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
-  const dispatch = useDispatch();
-  const { outerBackground } = useTheme().colors.pallete;
-
-  useEffect(() => {
-    dispatch(getAllLiveClassesSchedule());
-  }, [dispatch]);
+  const {
+    isOpen: isTimeTablePopupOpen,
+    onOpen: onTimeTablePopupOpen,
+    onClose: onTimeTableClosePopupOpen,
+  } = useDisclosure();
+  const {
+    isOpen: isTimeTableViewerOpen,
+    onOpen: onTimeTableViewerOpen,
+    onClose: onTimeTableCloseViewerOpen,
+  } = useDisclosure();
 
   return (
     <>
+      {isTimeTablePopupOpen && (
+        <UploadTimeTable
+          isOpen={isTimeTablePopupOpen}
+          onClose={onTimeTableClosePopupOpen}
+        />
+      )}
       {isSchedulePopupOpen && (
         <ScheduleClassPopup
           isOpen={isSchedulePopupOpen}
           onClose={onScheduleClosePopupOpen}
-          selectedDate={selectedDate}
-          classTiming={classTiming}
-          setSelectedDate={setSelectedDate}
-          setClassTiming={setClassTiming}
+          isCalenderScreen={true}
         />
       )}
-      <Box px={10} pt={4} pb={4}>
-        <Grid templateColumns={"20% 80%"} gap={6} alignItems={"start"}>
-          <Scrollbars
-            style={{
-              height: "100%",
-
-              borderRadius: "10px",
-              background: outerBackground,
-            }}
-            autoHide={true}
-          >
-            <GridItem p={4} height={"100%"}>
-              <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
-            </GridItem>
-          </Scrollbars>
-          <GridItem borderRadius={"md"}>
-            <ScheduleCalendar
-              onSchedulePopupOpen={onSchedulePopupOpen}
-              setSelectedDate={setSelectedDate}
-              setClassTiming={setClassTiming}
-            />
-          </GridItem>
-        </Grid>
-      </Box>
+      {isTimeTableViewerOpen && (
+        <TimeTableViewer
+          isOpen={isTimeTableViewerOpen}
+          onClose={onTimeTableCloseViewerOpen}
+        />
+      )}
+      <Flex mx={"42px"} my={"10px"} gap={4}>
+        <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
+        <Stack w={"80%"}>
+          <Flex gap={4}>
+            {userRoleType === userType.teacher && (
+              <Button
+                w={"20%"}
+                bg={primaryBlue}
+                color="white"
+                fontSize={"14px"}
+                fontWeight={500}
+                py={4}
+                px={15}
+                onClick={onTimeTablePopupOpen}
+                _hover={{
+                  opacity: 0.8,
+                  bg: primaryBlue,
+                }}
+              >
+                Upload Time Table
+              </Button>
+            )}
+            <Button
+              w={"20%"}
+              bg={primaryBlue}
+              color="white"
+              fontSize={"14px"}
+              fontWeight={500}
+              py={4}
+              px={15}
+              onClick={onTimeTableViewerOpen}
+              _hover={{
+                opacity: 0.8,
+                bg: primaryBlue,
+              }}
+            >
+              View Time Table
+            </Button>
+          </Flex>
+          <ScheduleCalendar onSchedulePopupOpen={onSchedulePopupOpen} />
+        </Stack>
+      </Flex>
     </>
   );
 };

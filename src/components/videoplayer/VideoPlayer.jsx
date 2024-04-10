@@ -21,14 +21,13 @@ const getVideoJsOptions = (browser, url, hlsUrl, drmToken, HlsDrmToken) => {
         src: hlsUrl,
         keySystems: {
           "com.apple.fps.1_0": {
-            certificateUri: "https://vtb.axinom.com/FPScert/fairplay.cer",
+            certificateUri: process.env.REACT_APP_FAIRPLAY_CERTIFICATE_URL,
             getContentId: function (emeOptions, initData) {
               return new TextDecoder().decode(
                 initData.filter((item) => item !== 0 && item !== 150)
               );
             },
-            licenseUri:
-              "https://drm-fairplay-licensing.axprod.net/AcquireLicense",
+            licenseUri: process.env.REACT_APP_FAIRPLAY_LICENSE_URL,
             licenseHeaders: {
               "X-AxDrm-Message": HlsDrmToken,
             },
@@ -41,7 +40,7 @@ const getVideoJsOptions = (browser, url, hlsUrl, drmToken, HlsDrmToken) => {
         type: "application/dash+xml",
         keySystems: {
           "com.widevine.alpha": {
-            url: "https://drm-widevine-licensing.axprod.net/AcquireLicense",
+            url: process.env.REACT_APP_WIDEVINE_LICENSE_URL,
             licenseHeaders: {
               "X-AxDRM-Message": drmToken,
             },

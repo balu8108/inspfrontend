@@ -28,11 +28,10 @@ import { scheduleClassData } from "../../pages/ScheduleClasses/data/scheduleClas
 import { InlineBtn } from "../button";
 import { isValidTimeFormat, openFileDialog } from "../../utils";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setAddClassSchedule } from "../../store/actions/scheduleClassActions";
 import {
   fetchAllChaptersApi,
-  fetchAllSubjectsApi,
   fetchAllTopicsApi,
 } from "../../api/inspexternalapis";
 import { getLectureNo } from "../../api/scheduleliveclass";
@@ -52,33 +51,36 @@ const dataKey = [
   "scheduledStartTime",
   "scheduledEndTime",
 ];
-const ScheduleClassPopup = ({
-  isOpen,
-  onClose,
-  selectedDate,
-  classTiming,
-  setSelectedDate,
-  setClassTiming,
-}) => {
+const ScheduleClassPopup = ({ isOpen, onClose, isCalenderScreen }) => {
+  const { calenderPickedDate, calenderPickedTime } = useSelector(
+    (state) => state.generic
+  );
   const { extraTextLight, primaryBlue, primaryBlueLight } =
     useTheme().colors.pallete;
+  const [selectedDate, setSelectedDate] = useState(""); // if clicked from calendar
+  const [classTiming, setClassTiming] = useState(["--:--", "--:--"]);
   const [scheduleClassFormData, setScheduleClassFormData] = useState({});
   const [scheduleClassFormErrorData, setScheduleClassFormErrorData] = useState(
     {}
   ); // for error handling
-  const [date, setDate] = useState(selectedDate);
-  const [isSubjectLoading, setIsSubjectLoading] = useState(false);
-  const [isChaptersLoading, setIsChaptersLoading] = useState(false);
-  const [isChaptersDisabled, setIsChaptersDisabled] = useState(true);
-  const [subjectsData, setSubjectsData] = useState([]);
+
   const [selectedChapter, setSelectedChapter] = useState(null);
+  const [isChapterStatus, setIsChapterStatus] = useState({
+    loading: false,
+    disabled: true,
+  });
+
   const [selectedTopic, setSelectedTopic] = useState(null);
-  const [chaptersData, setChaptersData] = useState([]);
-  const [isTopicsLoading, setIsTopicsLoading] = useState(false);
-  const [isTopicsDisabled, setIsTopicsDisabled] = useState(true);
-  const [topicsData, setTopicsData] = useState([]);
-  const [selectedClassType, setSelectedClassType] = useState(null);
-  const [selectedClassLevel, setSelectedClassLevel] = useState(null);
+  const [isTopicStatus, setIsTopicStatus] = useState({
+    loading: false,
+    disabled: true,
+  });
+
+  const [chaptersData, setChaptersData] = useState([]); // chapter
+  const [topicsData, setTopicsData] = useState([]); // topic
+  const [selectedClassType, setSelectedClassType] = useState(null); // class type
+  const [selectedClassLevel, setSelectedClassLevel] = useState(null); // class level
+
   const [lectureNo, setLectureNo] = useState(null);
   const [selectedFiles, setSelectedFiles] = useState(null); // for file upload
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
@@ -107,13 +109,17 @@ const ScheduleClassPopup = ({
 
   const fetchAllTopics = async (chapter_id) => {
     try {
-      setIsTopicsDisabled(true);
-      setIsTopicsLoading(true);
+      setIsTopicStatus({
+        loading: true,
+        disabled: true,
+      });
       const response = await fetchAllTopicsApi(chapter_id);
       if (response.status) {
         setTopicsData(response.result);
-        setIsTopicsLoading(false);
-        setIsTopicsDisabled(false);
+        setIsTopicStatus({
+          loading: false,
+          disabled: false,
+        });
       }
     } catch (err) {}
   };
@@ -135,8 +141,14 @@ const ScheduleClassPopup = ({
         setSelectedTopic(null);
         setChaptersData([]);
         setTopicsData([]);
-        setIsChaptersDisabled(true);
-        setIsTopicsDisabled(true);
+        setIsChapterStatus({
+          loading: false,
+          disabled: true,
+        });
+        setIsTopicStatus({
+          loading: false,
+          disabled: true,
+        });
       }
     } else if (event.name === "chapter") {
       // means chapter changed
@@ -155,7 +167,7 @@ const ScheduleClassPopup = ({
   };
 
   const handleDateChange = (e) => {
-    setDate(e.target.value);
+    setSelectedDate(e.target.value);
     setScheduleClassFormData((prev) => ({
       ...prev,
       scheduledDate: e.target.value,
@@ -264,21 +276,11 @@ const ScheduleClassPopup = ({
     setIsSubmitLoading(false);
   };
 
-  const getSubjectsByFetch = async () => {
-    setIsSubjectLoading(true);
-    try {
-      const response = await fetchAllSubjectsApi();
-      if (response.status) {
-        setSubjectsData(response.result);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-    setIsSubjectLoading(false);
-  };
-
   const getChaptersByFetch = async () => {
-    setIsChaptersLoading(true);
+    setIsChapterStatus({
+      loading: true,
+      disabled: true,
+    });
     try {
       const response = await fetchAllChaptersApi();
       if (response.status) {
@@ -287,13 +289,29 @@ const ScheduleClassPopup = ({
     } catch (err) {
       console.log(err);
     }
-    setIsChaptersLoading(false);
-    setIsChaptersDisabled(false);
+    setIsChapterStatus({
+      loading: false,
+      disabled: false,
+    });
   };
 
   useEffect(() => {
+    if (isCalenderScreen) {
+      if (calenderPickedDate) {
+        setSelectedDate(calenderPickedDate);
+      }
+      if (calenderPickedTime) {
+        setClassTiming(calenderPickedTime);
+      }
+    }
+  }, [calenderPickedDate, calenderPickedTime]);
+
+  useEffect(() => {
     if (selectedDate) {
-      setScheduleClassFormData((prev) => ({ ...prev, scheduledDate: date }));
+      setScheduleClassFormData((prev) => ({
+        ...prev,
+        scheduledDate: selectedDate,
+      }));
     }
     if (classTiming && classTiming[0]) {
       setScheduleClassFormData((prev) => ({
@@ -303,17 +321,6 @@ const ScheduleClassPopup = ({
     }
   }, [selectedDate, classTiming]);
 
-  useEffect(() => {
-    return () => {
-      // Cleanup function: Clear scheduled date and class timing if there is already
-      setClassTiming(["--:--", "--:--"]);
-      setSelectedDate("");
-    };
-  }, []);
-
-  useEffect(() => {
-    getSubjectsByFetch();
-  }, []);
   const fetchLectureNo = async (data) => {
     try {
       const response = await getLectureNo(data);
@@ -374,18 +381,23 @@ const ScheduleClassPopup = ({
                         scheduleClassData.scheduleClassFormPlaceholder
                           .selectSubject
                       }
-                      isLoading={isSubjectLoading}
-                      isDisabled={isSubjectLoading}
                       name={"subject"}
                       onChange={handleSelectChange}
                       chakraStyles={chakraStyles}
-                      options={subjectsData.map((subject) => {
-                        let obj = {
-                          value: subject.id,
-                          label: subject.name,
-                        };
-                        return obj;
-                      })}
+                      options={[
+                        {
+                          value: "3",
+                          label: "CHEMISTRY",
+                        },
+                        {
+                          value: "2",
+                          label: "MATHEMATICS",
+                        },
+                        {
+                          value: "1",
+                          label: "PHYSICS",
+                        },
+                      ]}
                       useBasicStyles
                     />
                     {scheduleClassFormErrorData["subject"] && (
@@ -406,7 +418,7 @@ const ScheduleClassPopup = ({
                   >
                     <Input
                       type="date"
-                      value={date}
+                      value={selectedDate}
                       py={6}
                       onChange={handleDateChange}
                     />
@@ -473,7 +485,6 @@ const ScheduleClassPopup = ({
                         .selectClassLevel
                     }
                     onChange={handleSelectChange}
-                    isLoading={isChaptersLoading}
                     isDisabled={false}
                     name="classLevel"
                     value={selectedClassLevel}
@@ -508,8 +519,8 @@ const ScheduleClassPopup = ({
                       scheduleClassData.scheduleClassFormPlaceholder
                         .selectChapter
                     }
-                    isLoading={isChaptersLoading}
-                    isDisabled={isChaptersDisabled}
+                    isLoading={isChapterStatus.loading}
+                    isDisabled={isChapterStatus.disabled}
                     onChange={handleSelectChange}
                     name="chapter"
                     value={selectedChapter}
@@ -537,8 +548,8 @@ const ScheduleClassPopup = ({
                       scheduleClassData.scheduleClassFormPlaceholder.selectTopic
                     }
                     onChange={handleSelectChange}
-                    isDisabled={isTopicsDisabled}
-                    isLoading={isTopicsLoading}
+                    isDisabled={isTopicStatus.disabled}
+                    isLoading={isTopicStatus.loading}
                     value={selectedTopic}
                     name="topic"
                     chakraStyles={chakraStyles}
@@ -569,7 +580,7 @@ const ScheduleClassPopup = ({
                     }
                     onChange={handleSelectChange}
                     isDisabled={false}
-                    isLoading={isTopicsLoading}
+                    isLoading={isTopicStatus.loading}
                     value={selectedClassType}
                     name="classType"
                     chakraStyles={chakraStyles}

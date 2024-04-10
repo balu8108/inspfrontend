@@ -32,3 +32,8 @@ export const getLatestCompletedLiveClassApi = () =>
 
 export const getRatingDetailsByTopicIdApi = (topic_id) =>
   API.get(`/generic/topic-feedback-rating-details/${topic_id}`);
+
+export const addTimeTableApi = (data) =>
+  API.post("/generic/upload-timetable", data);
+
+export const getTimeTableApi = () => API.get("/generic/get-all-timetable");

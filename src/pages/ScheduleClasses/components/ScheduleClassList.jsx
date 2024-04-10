@@ -1,53 +1,74 @@
 import { Flex, Box, useTheme, HStack, Text } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { MainBtn } from "../../../components/button";
 import { scheduleClassData } from "../data/scheduleClassData";
 import { scheduleClassCategory } from "../data/scheduleClassCategory";
 import ScheduleInfoBox from "../components/ScheduleInfoBox";
 import { checkUserType } from "../../../utils";
 import { userType } from "../../../constants/staticvariables";
+import SimpleBar from "simplebar-react";
+import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassActions";
 
 const ScheduleClassList = ({ onSchedulePopupOpen }) => {
-  const { primaryBlue, primaryBlueLight } = useTheme().colors.pallete;
+  const dispatch = useDispatch();
+  const { primaryBlue, primaryBlueLight, outerBackground } =
+    useTheme().colors.pallete;
+  const { isClassScheduleChange } = useSelector((state) => state.generic);
 
   const scheduleClassClickHandler = () => {
     onSchedulePopupOpen();
   };
+
+  useEffect(() => {
+    dispatch(getAllLiveClassesSchedule());
+  }, [dispatch, isClassScheduleChange]);
+
   return (
-    <>
-      {checkUserType() === userType.teacher && (
-        <MainBtn
-          isLoading={false}
-          text={scheduleClassData.scheduleClass}
-          backColor={primaryBlue}
-          textColor={"white"}
-          onClickHandler={scheduleClassClickHandler}
-          hoverColor={primaryBlueLight}
-        />
-      )}
-      <Flex
-        direction={"column"}
-        justifyContent={"space-between"}
-        height={"100%"}
+    <Box w="25%" ml={5}>
+      <SimpleBar
+        style={{
+          maxHeight: "85vh",
+          borderRadius: "26px",
+          background: outerBackground,
+        }}
       >
-        {scheduleClassCategory.classCategories.map((category) => (
-          <Box key={category.id} my={4}>
-            <HStack>
-              <Box
-                bg={primaryBlue}
-                width="10px"
-                height="24px"
-                borderRadius={"20px"}
-              ></Box>
-              <Text fontWeight={"400"} fontSize={"15px"}>
-                {category.label}
-              </Text>
-            </HStack>
-            <ScheduleInfoBox type={category.category} />
-          </Box>
-        ))}
-      </Flex>
-    </>
+        <Box p={4}>
+          {checkUserType() === userType.teacher && (
+            <MainBtn
+              isLoading={false}
+              text={scheduleClassData.scheduleClass}
+              backColor={primaryBlue}
+              textColor={"white"}
+              onClickHandler={scheduleClassClickHandler}
+              hoverColor={primaryBlueLight}
+            />
+          )}
+          <Flex
+            direction={"column"}
+            justifyContent={"space-between"}
+            height={"100%"}
+          >
+            {scheduleClassCategory.classCategories.map((category) => (
+              <Box key={category.id} my={4}>
+                <HStack>
+                  <Box
+                    bg={primaryBlue}
+                    width="10px"
+                    height="24px"
+                    borderRadius={"20px"}
+                  ></Box>
+                  <Text fontWeight={"400"} fontSize={"15px"}>
+                    {category.label}
+                  </Text>
+                </HStack>
+                <ScheduleInfoBox type={category.category} label={category.id} />
+              </Box>
+            ))}
+          </Flex>
+        </Box>
+      </SimpleBar>
+    </Box>
   );
 };
 

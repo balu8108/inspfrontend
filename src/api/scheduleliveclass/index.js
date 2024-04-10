@@ -29,6 +29,8 @@ export const getUpcomingClassApi = (roomId) =>
   API.get(`/schedule-live-class/get-upcoming-class/${roomId}`);
 export const getLectureNo = (data) =>
   API.post("/schedule-live-class/get-lecture-no", data);
+export const setLiveClassScheduledApi = (data) =>
+  API.post("/schedule-live-class/update-schedule-data", data);
 export const addClassAssignmentApi = (type, classId, data) =>
   API.post(
     `/schedule-live-class/upload-assignment-to-class/${type}/${classId}`,

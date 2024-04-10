@@ -6,6 +6,9 @@ import {
   SET_FEEDBACK_TOPIC_ID,
   SET_IS_DOC_MODAL_OPEN,
   SET_IS_FEEDBACK_MODAL_OPEN,
+  SET_CALENDER_DATE,
+  SET_CALENDER_TIME,
+  SET_CLASS_CHANGES,
 } from "../constants";
 
 const initialState = {
@@ -16,6 +19,9 @@ const initialState = {
   docKey: null,
   isFeedbackModalOpen: false,
   feedbackTopicId: null,
+  calenderPickedDate: "",
+  calenderPickedTime: "",
+  isClassScheduleChange: false,
 };
 
 const genericReducer = (state = initialState, action) => {
@@ -56,6 +62,21 @@ const genericReducer = (state = initialState, action) => {
       return {
         ...state,
         isFeedbackModalOpen: action.payload,
+      };
+    case SET_CALENDER_DATE:
+      return {
+        ...state,
+        calenderPickedDate: action.payload,
+      };
+    case SET_CALENDER_TIME:
+      return {
+        ...state,
+        calenderPickedTime: action.payload,
+      };
+    case SET_CLASS_CHANGES:
+      return {
+        ...state,
+        isClassScheduleChange: !state.isClassScheduleChange,
       };
     default:
       return state;

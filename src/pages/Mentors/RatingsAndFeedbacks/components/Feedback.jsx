@@ -63,13 +63,7 @@ const AllUploadedLecture = () => {
   }, []);
 
   return (
-    <Box
-      w={"full"}
-      h={"full"}
-      mt={"24px"}
-      borderRadius={"26px"}
-      bg={outerBackground}
-    >
+    <Box borderRadius={"26px"} bg={outerBackground}>
       <Flex>
         <HStack spacing={"10px"} ml="27px">
           <Box
