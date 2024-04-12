@@ -7,7 +7,6 @@ import { scheduleClassCategory } from "../data/scheduleClassCategory";
 import ScheduleInfoBox from "../components/ScheduleInfoBox";
 import { checkUserType } from "../../../utils";
 import { userType } from "../../../constants/staticvariables";
-import SimpleBar from "simplebar-react";
 import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassActions";
 
 const ScheduleClassList = ({ onSchedulePopupOpen }) => {
@@ -26,11 +25,13 @@ const ScheduleClassList = ({ onSchedulePopupOpen }) => {
 
   return (
     <Box w="25%" ml={5}>
-      <SimpleBar
+      <Box
+        className="scroll-container"
         style={{
           maxHeight: "85vh",
           borderRadius: "26px",
           background: outerBackground,
+          overflowY: "auto",
         }}
       >
         <Box p={4}>
@@ -67,7 +68,7 @@ const ScheduleClassList = ({ onSchedulePopupOpen }) => {
             ))}
           </Flex>
         </Box>
-      </SimpleBar>
+      </Box>
     </Box>
   );
 };

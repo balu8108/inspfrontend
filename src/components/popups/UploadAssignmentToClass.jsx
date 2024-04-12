@@ -14,8 +14,6 @@ import {
   Text,
   FormControl,
 } from "@chakra-ui/react";
-import "@wojtekmaj/react-timerange-picker/dist/TimeRangePicker.css";
-import "react-clock/dist/Clock.css";
 import { scheduleClassData } from "../../pages/ScheduleClasses/data/scheduleClassData";
 import { InlineBtn } from "../button";
 import { openFileDialog } from "../../utils";

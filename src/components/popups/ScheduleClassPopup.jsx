@@ -22,8 +22,6 @@ import {
 } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
 import TimePicker from "react-time-picker-input";
-import "@wojtekmaj/react-timerange-picker/dist/TimeRangePicker.css";
-import "react-clock/dist/Clock.css";
 import { scheduleClassData } from "../../pages/ScheduleClasses/data/scheduleClassData";
 import { InlineBtn } from "../button";
 import { isValidTimeFormat, openFileDialog } from "../../utils";

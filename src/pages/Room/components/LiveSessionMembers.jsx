@@ -12,7 +12,6 @@ import {
   MenuList,
   MenuItem,
   useMediaQuery,
-  InputLeftElement,
   InputRightElement,
   InputGroup,
   Input,

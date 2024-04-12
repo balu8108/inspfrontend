@@ -8,6 +8,10 @@
   --toolbar-text-color: rgba(58, 53, 65, 0.87);
 }
 
+* {
+  font-family: "Inter", sans-serif;
+}
+
 /*Main background color*/
 .fc.fc-media-screen {
   background-color: white;
@@ -166,19 +170,15 @@
   display: none;
 }
 
-/* .scrollbar-parent .scrollbar-primary::-moz-scrollbar {
-  width: 5px;
+.scroll-container::-webkit-scrollbar-track {
+  background: #d3d3d3;
 }
 
-.scrollbar-parent .scrollbar-primary::-moz-scrollbar-track {
-  background-color: hsl(0, 0%, 98%);
+.scroll-container::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  border: 3px solid #d3d3d3;
 }
 
-.scrollbar-parent .scrollbar-primary::-moz-scrollbar-thumb {
-  background-color: hsl(0, 0%, 98%);
-  border-radius: 100px;
+.scroll-container::-webkit-scrollbar-thumb:hover {
+  background-color: #d3d3d3;
 }
-
-.scrollbar-parent .scrollbar-primary::-moz-scrollbar-thumb:hover {
-  background-color: hsl(0, 0%, 70%);
-} */

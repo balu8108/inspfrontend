@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { Box, useMediaQuery } from "@chakra-ui/react";
 
 import { useSelector } from "react-redux";
-import ToolBox, { TheatreModeBtn } from "./ToolBox";
+import ToolBox from "./ToolBox";
 import ChatToolBox from "./ChatToolBox";
 import StudentPollsMCQBox from "./StudentPollsMCQBox";
 import RaiseHand from "./RaiseHand";
@@ -40,11 +40,27 @@ const LiveSessionStream = (props) => {
   const userRoleType = checkUserType();
   const { data: inspUserProfile } = getStorageData("insp_user_profile");
 
-  const renderMentorScreenShare = () => {
+  const renderMentorScreenShare = async () => {
     const getMentorScreenShare = mentorScreenShareConsumer;
     const { track, appData } = getMentorScreenShare;
-    const stream = new MediaStream([track]);
-    screenShareRef.current.srcObject = stream;
+    let constraints = {
+      video: {
+        width: { ideal: 640 },
+        height: { ideal: 360 },
+      },
+    };
+
+    const stream = await navigator.mediaDevices.getUserMedia(constraints);
+
+    const mediaStream = new MediaStream();
+    mediaStream.addTrack(track);
+
+    // Add video track from screen sharing
+    if (stream.getVideoTracks().length > 0) {
+      mediaStream.addTrack(stream.getVideoTracks()[0]);
+    }
+
+    screenShareRef.current.srcObject = mediaStream;
   };
 
   const removeMentorScreenShare = () => {

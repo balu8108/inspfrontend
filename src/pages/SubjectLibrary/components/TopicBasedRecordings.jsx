@@ -17,7 +17,7 @@ import {
   useTheme,
 } from "@chakra-ui/react";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../api/inspexternalapis";
-import { SearchIcon } from "@chakra-ui/icons";
+import { AiOutlineSearch } from "react-icons/ai";
 import topicDescriptionConstants from "../../../constants/topicDescriptionConstants";
 import { boxShadowStyles, capitalize } from "../../../utils";
 import { useParams, useNavigate } from "react-router-dom";
@@ -106,7 +106,7 @@ const TopicBasedRecordings = () => {
             bg={innerBackground}
           />
           <InputLeftElement pointerEvents="none">
-            <SearchIcon />
+            <AiOutlineSearch />
           </InputLeftElement>
         </InputGroup>
       </HStack>

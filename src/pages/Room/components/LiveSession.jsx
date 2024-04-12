@@ -1,7 +1,4 @@
 import { useEffect, useState } from "react";
-import {
-  GridItem
-} from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import LiveSessionStream from "./LiveSessionStream";
@@ -13,10 +10,14 @@ import {
   socket,
 } from "../../../socketconnections/socketconnections";
 import { useToastContext } from "../../../components/toastNotificationProvider/ToastNotificationProvider";
-import { checkUserType, screenshotHandler } from "../../../utils";
-import { createLiveClassNotes } from "../../../api/genericapis";
+import { checkUserType } from "../../../utils";
 
-const LiveSession = ({outerBackground, roomId, isEnlarged, setIsEnlarged, onOpenLeaveOrEndClass}) => {
+const LiveSession = ({
+  roomId,
+  isEnlarged,
+  setIsEnlarged,
+  onOpenLeaveOrEndClass,
+}) => {
   const [isScreenShare, setIsScreenShare] = useState(false);
   const [mentorVideoStream, setMentorVideoStream] = useState(null);
   const [screenShareStream, setScreenShareStream] = useState(null);
@@ -65,20 +66,28 @@ const LiveSession = ({outerBackground, roomId, isEnlarged, setIsEnlarged, onOpen
       addNotification("Class leaved", "info", 3000);
       navigate(`/room-preview/${roomId}`);
     }
-  
+
     if (isMeetEnd) {
       addNotification("Class Ended", "success", 3000);
       navigate("/homepage");
     }
-  
+
     return async () => {
       if (socket) {
         addNotification("Class leaved", "info", 3000);
         await leaveRoomHandler();
       }
     };
-  }, [socket, roomId, isMeetEnd, userRoleType, addNotification, navigate, leaveRoomHandler]);
-  
+  }, [
+    socket,
+    roomId,
+    isMeetEnd,
+    userRoleType,
+    addNotification,
+    navigate,
+    leaveRoomHandler,
+  ]);
+
   useEffect(() => {
     const leavingRoom = async () => {
       if (isKickedOut) {
@@ -118,61 +127,20 @@ const LiveSession = ({outerBackground, roomId, isEnlarged, setIsEnlarged, onOpen
     }
   }, [screenShareStream]);
 
-  
-  // useEffect(() => {
-  //   const ssId = setInterval(async () => {
-  //     try {
-  //       if (screenShareStream) {
-  //         const videoTracks = screenShareStream.getVideoTracks();
-  //         if (videoTracks.length > 0) {
-  //           const track = videoTracks[0];
-  //           if (track.enabled) {
-  //             const screenshot = await screenshotHandler(screenShareStream);
-  //             const formData = new FormData();
-  //             formData.append("screenshot", screenshot);
-  //             formData.append("roomId", roomId);
-
-  //             if (screenshot) {
-  //               await createLiveClassNotes(formData); // send screenshot to backend
-  //             }
-  //           }
-  //         }
-  //       }
-  //     } catch (err) {
-  //       console.log("error in screenshot", err);
-  //     }
-  //   }, 10000);
-
-  //   if (screenShareStream) {
-  //     const screenShareTrack = screenShareStream.getVideoTracks()[0];
-  //     screenShareTrack.addEventListener("ended", stopScreenShare);
-
-  //     return () => {
-  //       clearInterval(ssId);
-  //       screenShareTrack.removeEventListener("ended", stopScreenShare);
-  //       stopMediaStream(screenShareStream);
-  //     };
-  //   }
-
-  //   return () => {
-  //     clearInterval(ssId);
-  //   };
-  // }, [screenShareStream]);
-
   return (
-      <LiveSessionStream
-          isScreenShare={isScreenShare}
-          setIsScreenShare={setIsScreenShare}
-          screenShareStream={screenShareStream}
-          setScreenShareStream={setScreenShareStream}
-          isEnlarged={isEnlarged}
-          setIsEnlarged={setIsEnlarged}
-          mentorVideoStream={mentorVideoStream}
-          setMentorVideoStream={setMentorVideoStream}
-          micStream={micStream}
-          setMicStream={setMicStream}
-          onOpenLeaveOrEndClass={onOpenLeaveOrEndClass}
-      />
+    <LiveSessionStream
+      isScreenShare={isScreenShare}
+      setIsScreenShare={setIsScreenShare}
+      screenShareStream={screenShareStream}
+      setScreenShareStream={setScreenShareStream}
+      isEnlarged={isEnlarged}
+      setIsEnlarged={setIsEnlarged}
+      mentorVideoStream={mentorVideoStream}
+      setMentorVideoStream={setMentorVideoStream}
+      micStream={micStream}
+      setMicStream={setMicStream}
+      onOpenLeaveOrEndClass={onOpenLeaveOrEndClass}
+    />
   );
 };
 

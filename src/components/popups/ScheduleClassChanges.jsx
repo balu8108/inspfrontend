@@ -18,8 +18,6 @@ import {
 } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
 import TimePicker from "react-time-picker-input";
-import "@wojtekmaj/react-timerange-picker/dist/TimeRangePicker.css";
-import "react-clock/dist/Clock.css";
 import { scheduleClassData } from "../../pages/ScheduleClasses/data/scheduleClassData";
 import { InlineBtn } from "../button";
 import { setLiveClassScheduledApi } from "../../api/scheduleliveclass";

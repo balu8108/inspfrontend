@@ -10,13 +10,13 @@ import {
   Flex,
   Spacer,
   Spinner,
+  useTheme,
 } from "@chakra-ui/react";
 import { fetchAllTopicsApi } from "../../../../../../api/inspexternalapis/index";
 import { useParams } from "react-router-dom";
 import "../../../../../../constants/scrollbar/style.css";
 import topicDescriptionConstants from "../../../../../../constants/topicDescriptionConstants";
 import { capitalize } from "../../../../../../utils";
-import { useTheme } from "@emotion/react";
 const ViewAllRecordingsRelatedToOneChapter = ({
   setViewTopic,
   setTopicName,
