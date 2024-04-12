@@ -54,31 +54,40 @@ function App() {
 
   useEffect(() => {
     // Check if the environment is production
-    if (process.env.NODE_ENV === "production") {
-      function ctrlShiftKey(e, keyCode) {
-        return e.ctrlKey && e.shiftKey && e.keyCode === keyCode.charCodeAt(0);
-      }
-      const disableContext = (e) => {
-        e.preventDefault();
-      };
-      const disableDevToolsShortcut = (e) => {
-        if (
-          e.keyCode === 123 ||
-          ctrlShiftKey(e, "I") ||
-          ctrlShiftKey(e, "J") ||
-          ctrlShiftKey(e, "C") ||
-          (e.ctrlKey && e.keyCode === "U".charCodeAt(0))
-        )
-          e.preventDefault();
-      };
-      window.addEventListener("contextmenu", disableContext);
-      window.addEventListener("keydown", disableDevToolsShortcut);
-      // Remove the event listeners when the component unmounts
-      return () => {
-        window.removeEventListener("contextmenu", disableContext);
-        window.removeEventListener("keydown", disableDevToolsShortcut);
-      };
+    // if (process.env.NODE_ENV === "production") {
+    function ctrlShiftKey(e, keyCode) {
+      return e.ctrlKey && e.shiftKey && e.keyCode === keyCode.charCodeAt(0);
     }
+    const disableContext = (e) => {
+      e.preventDefault();
+    };
+    const disableDevToolsShortcut = (e) => {
+      if (
+        // Windows shortcuts
+        e.keyCode === 123 || // F12
+        ctrlShiftKey(e, "I") || // Ctrl+Shift+I
+        ctrlShiftKey(e, "J") || // Ctrl+Shift+J
+        ctrlShiftKey(e, "C") || // Ctrl+Shift+C
+        (e.ctrlKey && e.keyCode === "U".charCodeAt(0)) || // Ctrl+U
+        // macOS shortcuts
+        e.keyCode === 123 ||
+        e.keyCode === 105 || // F12 or Command+Option+I
+        (e.metaKey && e.altKey && e.keyCode === "I".charCodeAt(0)) || // Command+Option+I
+        (e.metaKey && e.altKey && e.keyCode === "J".charCodeAt(0)) || // Command+Option+J
+        (e.metaKey && e.altKey && e.keyCode === "C".charCodeAt(0)) || // Command+Option+C
+        (e.metaKey && e.altKey && e.keyCode === "U".charCodeAt(0)) // Command+Option+U
+      ) {
+        e.preventDefault();
+      }
+    };
+    window.addEventListener("contextmenu", disableContext);
+    window.addEventListener("keydown", disableDevToolsShortcut);
+    // Remove the event listeners when the component unmounts
+    return () => {
+      window.removeEventListener("contextmenu", disableContext);
+      window.removeEventListener("keydown", disableDevToolsShortcut);
+    };
+    // }
   }, []);
 
   useEffect(() => {
