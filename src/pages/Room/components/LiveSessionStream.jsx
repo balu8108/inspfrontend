@@ -30,37 +30,18 @@ const LiveSessionStream = (props) => {
   const micRef = useRef();
   const screenShareRef = useRef();
   const mentorVideoRef = useRef();
-  const [isLargerThan480, isLargerThan768] = useMediaQuery([
-    "(min-width: 480px)",
-    "(min-width: 768px)",
-  ]);
+  const [isLargerThan768] = useMediaQuery(["(min-width: 768px)"]);
 
   const { mentorScreenShareConsumer, audioConsumers, raiseHands, question } =
     useSelector((state) => state.stream);
   const userRoleType = checkUserType();
   const { data: inspUserProfile } = getStorageData("insp_user_profile");
 
-  const renderMentorScreenShare = async () => {
+  const renderMentorScreenShare = () => {
     const getMentorScreenShare = mentorScreenShareConsumer;
-    const { track, appData } = getMentorScreenShare;
-    let constraints = {
-      video: {
-        width: { ideal: 640 },
-        height: { ideal: 360 },
-      },
-    };
-
-    const stream = await navigator.mediaDevices.getUserMedia(constraints);
-
-    const mediaStream = new MediaStream();
-    mediaStream.addTrack(track);
-
-    // Add video track from screen sharing
-    if (stream.getVideoTracks().length > 0) {
-      mediaStream.addTrack(stream.getVideoTracks()[0]);
-    }
-
-    screenShareRef.current.srcObject = mediaStream;
+    const { track } = getMentorScreenShare;
+    const stream = new MediaStream([track]);
+    screenShareRef.current.srcObject = stream;
   };
 
   const removeMentorScreenShare = () => {

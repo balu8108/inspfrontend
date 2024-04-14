@@ -1,6 +1,7 @@
 //This component is for the displaying attendance on student homepage
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import improvementMarks from "../data/improvement";
 import {
   Box,
@@ -13,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import "../Styling/progress.css";
-
+ChartJS.register(ArcElement, Tooltip, Legend);
 const Improvement = () => {
   const { outerBackground } = useTheme().colors.pallete;
   const data = improvementMarks.map((subject) => subject.percentage);

@@ -43,7 +43,6 @@ export default function LectureDetailsById() {
 
   const [lectureDetails, setLectureDetails] = useState(null);
   const [assignmentDetails, setAssignmentDetails] = useState(null);
-  const [isFileAdded, setIsFileAdded] = useState(false);
   const [isAssignmentPopupOpen, setIsAssignmentPopupOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -100,7 +99,6 @@ export default function LectureDetailsById() {
           type="live"
           isOpen={isAssignmentPopupOpen}
           onClose={() => handleAddFile()}
-          setIsFileAdded={setIsFileAdded}
         />
       )}
 

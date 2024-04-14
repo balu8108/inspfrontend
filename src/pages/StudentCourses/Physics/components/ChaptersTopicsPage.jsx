@@ -22,7 +22,7 @@ import VectorImage from "../../../../assets/images/Line/Vector.svg";
 import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
 
 const ChaptersTopicPage = () => {
-  const {chapterName} = useParams();
+  const { chapterName } = useParams();
   const navigate = useNavigate();
   const [chapters, setChapters] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -45,7 +45,9 @@ const ChaptersTopicPage = () => {
         const response = await fetchAllChaptersApi();
         if (response.status) {
           setChapters(response.result);
-          setSelectedChapterId(response?.result.find(item => item.name === chapterName)?.id);
+          setSelectedChapterId(
+            response?.result.find((item) => item.name === chapterName)?.id
+          );
         }
       } catch (error) {
         console.error("Error fetching chapters:", error);
@@ -56,9 +58,9 @@ const ChaptersTopicPage = () => {
   }, []);
 
   const handleChapterClick = (chapterId) => {
-    const selectedChapter = chapters.find(
-      (chapter) => chapter.id === chapterId
-    );
+    // const selectedChapter = chapters.find(
+    //   (chapter) => chapter.id === chapterId
+    // );
     setSelectedChapterId(chapterId);
   };
 

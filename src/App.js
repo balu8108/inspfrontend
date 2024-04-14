@@ -94,18 +94,13 @@ function App() {
     const handleBeforeUnload = async (event) => {
       try {
         const data = getStorageData("secret_token");
-
         if (data && data.status) {
           await clearStorageData();
           navigate("/");
         } else {
           console.log("Videoportal loaded");
         }
-
-        // Handle errors if needed
       } catch (err) {}
-      // Custom logic to handle the refresh
-      // Display a confirmation message or perform necessary actions
     };
     if (userRoleType === userType.student) {
       window.addEventListener("beforeunload", handleBeforeUnload);
@@ -115,22 +110,19 @@ function App() {
         window.removeEventListener("beforeunload", handleBeforeUnload);
       }
     };
-  }, []);
+  }, [userRoleType]);
 
   useEffect(() => {
     async function fetchSubjects() {
       try {
         const response = await fetchAllSubjectsApi();
-
         if (response.status) {
           const subjectsFromAPI = response.result;
 
           const sortedSubjects = subjectsFromAPI.sort((a, b) => {
             return a.name.localeCompare(b.name);
           });
-
           const reversedSubjects = sortedSubjects.reverse();
-
           const updatedSubjects = reversedSubjects.map((item) => {
             return {
               id: item.id,
@@ -138,7 +130,6 @@ function App() {
               value: item.name,
             };
           });
-
           dispatch(
             getAllSubjects([
               {
@@ -171,7 +162,7 @@ function App() {
     }
 
     fetchSubjects();
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

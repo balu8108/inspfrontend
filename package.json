@@ -13,6 +13,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.5.0",
     "chakra-react-select": "^4.7.3",
+    "chart.js": "^4.4.2",
     "crypto-js": "^4.1.1",
     "dashjs": "^4.7.2",
     "emoji-mart": "^5.5.2",

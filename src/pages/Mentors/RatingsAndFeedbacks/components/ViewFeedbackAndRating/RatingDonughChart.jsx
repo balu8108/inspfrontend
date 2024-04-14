@@ -11,11 +11,14 @@ import {
   useTheme,
 } from "@chakra-ui/react";
 import { Doughnut } from "react-chartjs-2";
+import { Chart, ArcElement } from "chart.js";
 import { FaCircle } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { capitalize } from "../../../../../utils";
 import { getRatingDetailsByTopicIdApi } from "../../../../../api/genericapis";
 import Scrollbars from "rc-scrollbars";
+
+Chart.register(ArcElement);
 
 const RatingAndFeedBackChart = () => {
   let averageRating = 0;

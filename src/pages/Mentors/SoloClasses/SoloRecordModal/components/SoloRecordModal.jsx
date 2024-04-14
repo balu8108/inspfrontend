@@ -83,18 +83,6 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
 
       if (response.status === 201) {
         setSuccessMessage("SoloCLassRoom");
-        const formValues = {
-          subjectId: selectedSubject,
-          topic: selectedTopic,
-          topicId: selectedTopicId,
-          agenda: agenda,
-          description: description,
-          files: files.map((file) => file.name).join(", "),
-        };
-
-        // const formDataToSave = JSON.stringify(formValues);
-        //localStorage.setItem("formData", formDataToSave);
-
         navigate(`/mentor/solo-lectures/${response?.data?.soloClassRoomId}`);
       } else {
         console.error("Error creating soloclassroom:", response.data.error);

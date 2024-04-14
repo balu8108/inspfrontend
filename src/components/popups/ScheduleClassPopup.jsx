@@ -157,7 +157,7 @@ const ScheduleClassPopup = ({ isOpen, onClose, isCalenderScreen }) => {
       setSelectedTopic(object);
     } else if (event.name === "classType") {
       setSelectedClassType(object);
-    } else if (event.name == "classLevel") {
+    } else if (event.name === "classLevel") {
       setSelectedClassLevel(object);
     }
     setScheduleClassFormData((prev) => ({ ...prev, [event.name]: object }));

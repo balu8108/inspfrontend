@@ -78,10 +78,7 @@ const ToolBox = ({
   onOpenLeaveOrEndClass,
   fullScreenRef,
 }) => {
-  const [isLargerThan480, isLargerThan768] = useMediaQuery([
-    "(min-width: 480px)",
-    "(min-width: 768px)",
-  ]);
+  const [isLargerThan768] = useMediaQuery(["(min-width: 768px)"]);
   const [isMicOn, setIsMicOn] = useState(false);
   const [isMentorVideoOn, setIsMentorVideoOn] = useState(false);
   const [isRecordOn, setIsRecordOn] = useState(false);

@@ -93,39 +93,14 @@ const LiveSessionMembers = ({ primaryBlue, outerBackground }) => {
   const { peers } = useSelector((state) => state.member);
   const { selfDetails } = useSelector((state) => state.stream);
   const [search, setSearch] = useState("");
-  const [maxBoxesPerRow, setMaxBoxesPerRow] = useState(4);
   const userRoleType = checkUserType();
-  const [isLargerThan480, isLargerThan768] = useMediaQuery([
-    "(min-width: 480px)",
-    "(min-width: 768px)",
-  ]);
+  const [isLargerThan768] = useMediaQuery(["(min-width: 768px)"]);
 
   const {
     isOpen: isOpenKickFromClass,
     onOpen: onOpenKickFromClass,
     onClose: onCloseKickFromClass,
   } = useDisclosure();
-
-  useEffect(() => {
-    const calculateMaxBoxesPerRow = () => {
-      const screenHeight = window.innerHeight;
-      const rowHeight =
-        viewType === liveSessionMemberViewType.compact ? 80 : 120; // Adjust row height as needed
-
-      const calculatedMaxBoxes = Math.floor(screenHeight / rowHeight) - 2;
-      setMaxBoxesPerRow(calculatedMaxBoxes > 0 ? calculatedMaxBoxes : 1); // Ensure at least one box per row
-    };
-
-    calculateMaxBoxesPerRow(); // Initial calculation
-
-    // Add a listener for window resize events
-    window.addEventListener("resize", calculateMaxBoxesPerRow);
-
-    // Cleanup the event listener when the component unmounts
-    return () => {
-      window.removeEventListener("resize", calculateMaxBoxesPerRow);
-    };
-  }, [viewType]);
 
   const renderExpandedPeers = () => {
     const audioEnabledHandler = (e, peer) => {
@@ -237,7 +212,7 @@ const LiveSessionMembers = ({ primaryBlue, outerBackground }) => {
     setFilteredPeers(peers);
   };
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { value } = e.target;
     setSearch(value.trim());
   };
   const handleSearch = () => {
