@@ -15,7 +15,7 @@ import {
   VStack,
   useTheme,
 } from "@chakra-ui/react";
-import { SearchIcon } from "@chakra-ui/icons";
+import { AiOutlineSearch } from "react-icons/ai";
 import { capitalize } from "../../../utils";
 import { useParams } from "react-router";
 import ChemistryImage from "../../../assets/images/undraw_science_re_mnnr 1.svg";
@@ -75,7 +75,7 @@ const AssignmentDetails = () => {
             bg={innerBackground}
           />
           <InputLeftElement pointerEvents="none">
-            <SearchIcon />
+            <AiOutlineSearch />
           </InputLeftElement>
         </InputGroup>
       </HStack>

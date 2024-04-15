@@ -18,7 +18,7 @@ import {
   useTheme,
 } from "@chakra-ui/react";
 import { useParams, useNavigate } from "react-router-dom";
-import { SearchIcon } from "@chakra-ui/icons";
+import { AiOutlineSearch } from "react-icons/ai";
 import { fetchAllTopicsForSubjectApi } from "../../../api/inspexternalapis";
 import topicDescriptionConstants from "../../../constants/topicDescriptionConstants";
 import { capitalize } from "../../../utils";
@@ -104,7 +104,7 @@ const SubjectLibrary = () => {
             bg={innerBackground}
           />
           <InputLeftElement pointerEvents="none">
-            <SearchIcon />
+            <AiOutlineSearch />
           </InputLeftElement>
         </InputGroup>
       </HStack>

@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   IconButton,
@@ -8,7 +8,6 @@ import {
   HStack,
   useTheme,
   useMediaQuery,
-  Button,
 } from "@chakra-ui/react";
 
 import {
@@ -22,13 +21,12 @@ import {
 
 import { LuSettings, LuMonitorOff, LuCircleOff } from "react-icons/lu";
 import { SiMiro } from "react-icons/si";
-import { RiFullscreenFill, RiFullscreenExitLine } from "react-icons/ri";
+import { RiFullscreenFill } from "react-icons/ri";
 import {
   socket,
   producerPauseHandler,
   producerResumeHandler,
   producerTransport,
-  raiseHandHandler,
   setIsAudioStreamEnabled,
   startRecordingHandler,
   stopRecordingHandler,
@@ -65,34 +63,12 @@ export const TheatreModeBtn = ({ isEnlarged, setIsEnlarged }) => {
   );
 };
 
-//   const { primaryBlue } = useTheme().colors.pallete;
-//   return (
-//     <Tooltip label={roomData.fullScreenMode} placement={"right"}>
-//       <IconButton
-//         isRound={true}
-//         bg={fullScreen ? primaryBlue : "gray.200"}
-//         _hover={{ bg: fullScreen ? primaryBlue : "gray.200" }}
-//         icon={
-//           fullScreen ? (
-//             <RiFullscreenExitLine size={20} color={"white"} />
-//           ) : (
-//             <RiFullscreenFill size={20} color={"black"} />
-//           )
-//         }
-//         onClick={handleFullscreen}
-//       />
-//     </Tooltip>
-//   );
-// };
-
 const ToolBox = ({
   isScreenShare,
   setIsScreenShare,
   screenShareRef,
   setScreenShareStream,
   screenShareStream,
-  isEnlarged,
-  setIsEnlarged,
   mentorVideoStream,
   setMentorVideoStream,
   mentorVideoRef,
@@ -102,10 +78,7 @@ const ToolBox = ({
   onOpenLeaveOrEndClass,
   fullScreenRef,
 }) => {
-  const [isLargerThan480, isLargerThan768] = useMediaQuery([
-    "(min-width: 480px)",
-    "(min-width: 768px)",
-  ]);
+  const [isLargerThan768] = useMediaQuery(["(min-width: 768px)"]);
   const [isMicOn, setIsMicOn] = useState(false);
   const [isMentorVideoOn, setIsMentorVideoOn] = useState(false);
   const [isRecordOn, setIsRecordOn] = useState(false);
@@ -401,10 +374,6 @@ const ToolBox = ({
         alignItems={"flex-start"}
       >
         <Stack visibility={isLargerThan768 ? "visible" : "hidden"}>
-          {/* <TheatreModeBtn
-            isEnlarged={isEnlarged}
-            setIsEnlarged={setIsEnlarged}
-          /> */}
           {userRoleType !== userType.teacher && (
             <FullScreenModeButton fullScreenRef={fullScreenRef} />
           )}

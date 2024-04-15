@@ -12,7 +12,7 @@ import {
   Spacer,
   useTheme,
 } from "@chakra-ui/react";
-import { SearchIcon } from "@chakra-ui/icons";
+import { AiOutlineSearch } from "react-icons/ai";
 import { capitalize } from "../../../../utils";
 import { getAssignmentWithFilesApi } from "../../../../api/assignments";
 import SingleFileComponent from "../../../../components/filebox/SingleFileComponent";
@@ -70,7 +70,7 @@ const AllUploadedLecture = () => {
             bg={innerBackground}
           />
           <InputLeftElement pointerEvents="none">
-            <SearchIcon />
+            <AiOutlineSearch />
           </InputLeftElement>
         </InputGroup>
       </HStack>

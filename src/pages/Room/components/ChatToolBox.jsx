@@ -1,5 +1,4 @@
 import { Box, Flex } from "@chakra-ui/react";
-import "simplebar-react/dist/simplebar.min.css";
 import VideoSection from "./VideoSection";
 
 const ChatToolBox = ({ mentorVideoRef, isScreenShare }) => {

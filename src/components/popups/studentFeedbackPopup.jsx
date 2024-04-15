@@ -9,14 +9,13 @@ import {
   Text,
   Textarea,
   useTheme,
-  Center,
   Flex,
   FormControl,
   FormErrorMessage,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useToastContext } from "../toastNotificationProvider/ToastNotificationProvider";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { createStudentFeedback } from "../../api/studentfeedback";
 import { RxCross2 } from "react-icons/rx";
 import { setStudentFeedbackClose } from "../../store/actions/studentFeedbackActions";

@@ -62,14 +62,43 @@ function App() {
         e.preventDefault();
       };
       const disableDevToolsShortcut = (e) => {
-        if (
-          e.keyCode === 123 ||
-          ctrlShiftKey(e, "I") ||
-          ctrlShiftKey(e, "J") ||
-          ctrlShiftKey(e, "C") ||
-          (e.ctrlKey && e.keyCode === "U".charCodeAt(0))
-        )
+        // Windows shortcuts
+        if (e.keyCode === 123) {
           e.preventDefault();
+        }
+        if (ctrlShiftKey(e, "I")) {
+          e.preventDefault();
+        }
+        if (ctrlShiftKey(e, "J")) {
+          e.preventDefault();
+        }
+        if (ctrlShiftKey(e, "C")) {
+          e.preventDefault();
+        }
+        if (e.ctrlKey && e.keyCode === "U".charCodeAt(0)) {
+          // Ctrl+U
+          e.preventDefault();
+        }
+        // macOS shortcuts
+        if (e.keyCode === 105) {
+          // F12 or Command+Option+I
+          e.preventDefault();
+        }
+        if (e.metaKey && e.altKey && e.keyCode === "I".charCodeAt(0)) {
+          e.preventDefault();
+        }
+        if (e.metaKey && e.altKey && e.keyCode === "J".charCodeAt(0)) {
+          // Command+Option+J
+          e.preventDefault();
+        }
+        if (e.metaKey && e.altKey && e.keyCode === "C".charCodeAt(0)) {
+          // Command+Option+C
+          e.preventDefault();
+        }
+        if (e.metaKey && e.altKey && e.keyCode === "U".charCodeAt(0)) {
+          // Command+Option+U
+          e.preventDefault();
+        }
       };
       window.addEventListener("contextmenu", disableContext);
       window.addEventListener("keydown", disableDevToolsShortcut);
@@ -85,18 +114,13 @@ function App() {
     const handleBeforeUnload = async (event) => {
       try {
         const data = getStorageData("secret_token");
-
         if (data && data.status) {
           await clearStorageData();
           navigate("/");
         } else {
           console.log("Videoportal loaded");
         }
-
-        // Handle errors if needed
       } catch (err) {}
-      // Custom logic to handle the refresh
-      // Display a confirmation message or perform necessary actions
     };
     if (userRoleType === userType.student) {
       window.addEventListener("beforeunload", handleBeforeUnload);
@@ -106,22 +130,19 @@ function App() {
         window.removeEventListener("beforeunload", handleBeforeUnload);
       }
     };
-  }, []);
+  }, [userRoleType]);
 
   useEffect(() => {
     async function fetchSubjects() {
       try {
         const response = await fetchAllSubjectsApi();
-
         if (response.status) {
           const subjectsFromAPI = response.result;
 
           const sortedSubjects = subjectsFromAPI.sort((a, b) => {
             return a.name.localeCompare(b.name);
           });
-
           const reversedSubjects = sortedSubjects.reverse();
-
           const updatedSubjects = reversedSubjects.map((item) => {
             return {
               id: item.id,
@@ -129,7 +150,6 @@ function App() {
               value: item.name,
             };
           });
-
           dispatch(
             getAllSubjects([
               {
@@ -162,7 +182,7 @@ function App() {
     }
 
     fetchSubjects();
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

@@ -9,7 +9,6 @@ import {
   InputRightElement,
   InputGroup,
   Text,
-  Spinner,
 } from "@chakra-ui/react";
 import {
   Table,
@@ -78,7 +77,7 @@ export default function StudentFeedbackDetails() {
 
   const handleDelete = async (id) => {
     try {
-      const response = await deleteStudentFeedbackById(id);
+      await deleteStudentFeedbackById(id);
       addNotification("Student feedback deleted successfully", "success", 3000);
       getFeedbackData({ limit, page: currentPage, search: "" });
     } catch (err) {

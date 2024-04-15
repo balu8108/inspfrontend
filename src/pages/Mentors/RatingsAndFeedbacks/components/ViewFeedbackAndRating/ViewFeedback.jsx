@@ -19,7 +19,7 @@ import {
 
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../../api/inspexternalapis/index";
 import { Link } from "react-router-dom";
-import { SearchIcon } from "@chakra-ui/icons";
+import { AiOutlineSearch } from "react-icons/ai";
 import topicDescriptionConstants from "../../../../../constants/topicDescriptionConstants";
 import { capitalize } from "../../../../../utils";
 const ViewMentorsRatingAndFeedback = () => {
@@ -87,7 +87,7 @@ const ViewMentorsRatingAndFeedback = () => {
             borderRadius={"14px"}
           />
           <InputLeftElement pointerEvents="none">
-            <SearchIcon />
+            <AiOutlineSearch />
           </InputLeftElement>
         </InputGroup>
       </Flex>

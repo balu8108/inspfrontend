@@ -28,7 +28,7 @@ import { clearStorageData, getStorageData } from "../../utils";
 import { useNavigate, NavLink, useLocation } from "react-router-dom";
 import { FaBars } from "react-icons/fa6";
 import { setStudentFeedbackOpen } from "../../store/actions/studentFeedbackActions";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 // In below links the available To is the user type
 // if the same link is available to both type of user then we add 0,1
 // or if for specific then it will be 0 or 1

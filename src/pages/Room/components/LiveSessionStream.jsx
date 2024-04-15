@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { Box, useMediaQuery } from "@chakra-ui/react";
 
 import { useSelector } from "react-redux";
-import ToolBox, { TheatreModeBtn } from "./ToolBox";
+import ToolBox from "./ToolBox";
 import ChatToolBox from "./ChatToolBox";
 import StudentPollsMCQBox from "./StudentPollsMCQBox";
 import RaiseHand from "./RaiseHand";
@@ -30,10 +30,7 @@ const LiveSessionStream = (props) => {
   const micRef = useRef();
   const screenShareRef = useRef();
   const mentorVideoRef = useRef();
-  const [isLargerThan480, isLargerThan768] = useMediaQuery([
-    "(min-width: 480px)",
-    "(min-width: 768px)",
-  ]);
+  const [isLargerThan768] = useMediaQuery(["(min-width: 768px)"]);
 
   const { mentorScreenShareConsumer, audioConsumers, raiseHands, question } =
     useSelector((state) => state.stream);
@@ -42,7 +39,7 @@ const LiveSessionStream = (props) => {
 
   const renderMentorScreenShare = () => {
     const getMentorScreenShare = mentorScreenShareConsumer;
-    const { track, appData } = getMentorScreenShare;
+    const { track } = getMentorScreenShare;
     const stream = new MediaStream([track]);
     screenShareRef.current.srcObject = stream;
   };
