@@ -25,7 +25,7 @@ import StudentFeedBackPopup from "./components/popups/studentFeedbackPopup";
 import { fetchAllSubjectsApi } from "./api/inspexternalapis";
 import { getAllSubjects } from "./store/actions/genericActions";
 import { userType } from "./constants/staticvariables";
-
+import detectDevTools  from "./utils/detectDevtools";
 const ProtectedRoutes = () => {
   const isAuth = isAuthenticated();
   if (!isAuth) {
@@ -33,7 +33,6 @@ const ProtectedRoutes = () => {
   }
   return <Outlet />;
 };
-
 function App() {
   const location = useLocation();
   const { onClose: onDocModalClose } = useDisclosure();
@@ -41,18 +40,17 @@ function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userRoleType = checkUserType();
-
   const { isDocModalOpen, isFeedbackModalOpen } = useSelector(
     (state) => state.generic
   );
   const { isStudentFeedbackModalOpen } = useSelector(
     (state) => state.studentFeedback
   );
-
   const isNavbarDisabled =
     location.pathname === "/" || location.pathname.startsWith("/auth");
-
   useEffect(() => {
+    // Call detectDevTools function when the component mounts
+    detectDevTools();
     // Check if the environment is production
     if (process.env.NODE_ENV === "production") {
       function ctrlShiftKey(e, keyCode) {
@@ -109,7 +107,6 @@ function App() {
       };
     }
   }, []);
-
   useEffect(() => {
     const handleBeforeUnload = async (event) => {
       try {
@@ -131,14 +128,12 @@ function App() {
       }
     };
   }, [userRoleType]);
-
   useEffect(() => {
     async function fetchSubjects() {
       try {
         const response = await fetchAllSubjectsApi();
         if (response.status) {
           const subjectsFromAPI = response.result;
-
           const sortedSubjects = subjectsFromAPI.sort((a, b) => {
             return a.name.localeCompare(b.name);
           });
@@ -180,14 +175,11 @@ function App() {
         console.error("Error fetching subjects:", error);
       }
     }
-
     fetchSubjects();
   }, [dispatch]);
-
   return (
     <>
       {!isNavbarDisabled && <Navbar />}
-
       {isDocModalOpen && (
         <DocumentViewer isOpen={isDocModalOpen} onClose={onDocModalClose} />
       )}
@@ -212,7 +204,6 @@ function App() {
             );
           })}
         </Route>
-
         {publicRoutes.map((route) => {
           return (
             <Route
@@ -226,5 +217,30 @@ function App() {
     </>
   );
 }
-
 export default App;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
