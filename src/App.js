@@ -20,7 +20,7 @@ import StudentFeedBackPopup from "./components/popups/studentFeedbackPopup";
 import { fetchAllSubjectsApi } from "./api/inspexternalapis";
 import { getAllSubjects } from "./store/actions/genericActions";
 import { userType } from "./constants/staticvariables";
-// import detectDevTools from "./utils/detectDevtools";
+import detectDevTools from "./utils/detectDevtools";
 const ProtectedRoutes = () => {
   const { userProfile, secretToken } = useSelector((state) => state.auth);
   if ((userProfile, secretToken)) {
@@ -44,65 +44,65 @@ function App() {
   );
   const isNavbarDisabled =
     location.pathname === "/" || location.pathname.startsWith("/auth");
-  // useEffect(() => {
-  //   // Call detectDevTools function when the component mounts
-  //   detectDevTools();
-  //   // Check if the environment is production
-  //   if (process.env.NODE_ENV === "production") {
-  //     function ctrlShiftKey(e, keyCode) {
-  //       return e.ctrlKey && e.shiftKey && e.keyCode === keyCode.charCodeAt(0);
-  //     }
-  //     const disableContext = (e) => {
-  //       e.preventDefault();
-  //     };
-  //     const disableDevToolsShortcut = (e) => {
-  //       // Windows shortcuts
-  //       if (e.keyCode === 123) {
-  //         e.preventDefault();
-  //       }
-  //       if (ctrlShiftKey(e, "I")) {
-  //         e.preventDefault();
-  //       }
-  //       if (ctrlShiftKey(e, "J")) {
-  //         e.preventDefault();
-  //       }
-  //       if (ctrlShiftKey(e, "C")) {
-  //         e.preventDefault();
-  //       }
-  //       if (e.ctrlKey && e.keyCode === "U".charCodeAt(0)) {
-  //         // Ctrl+U
-  //         e.preventDefault();
-  //       }
-  //       // macOS shortcuts
-  //       if (e.keyCode === 105) {
-  //         // F12 or Command+Option+I
-  //         e.preventDefault();
-  //       }
-  //       if (e.metaKey && e.altKey && e.keyCode === "I".charCodeAt(0)) {
-  //         e.preventDefault();
-  //       }
-  //       if (e.metaKey && e.altKey && e.keyCode === "J".charCodeAt(0)) {
-  //         // Command+Option+J
-  //         e.preventDefault();
-  //       }
-  //       if (e.metaKey && e.altKey && e.keyCode === "C".charCodeAt(0)) {
-  //         // Command+Option+C
-  //         e.preventDefault();
-  //       }
-  //       if (e.metaKey && e.altKey && e.keyCode === "U".charCodeAt(0)) {
-  //         // Command+Option+U
-  //         e.preventDefault();
-  //       }
-  //     };
-  //     window.addEventListener("contextmenu", disableContext);
-  //     window.addEventListener("keydown", disableDevToolsShortcut);
-  //     // Remove the event listeners when the component unmounts
-  //     return () => {
-  //       window.removeEventListener("contextmenu", disableContext);
-  //       window.removeEventListener("keydown", disableDevToolsShortcut);
-  //     };
-  //   }
-  // }, []);
+  useEffect(() => {
+    // Check if the environment is production
+    if (process.env.NODE_ENV === "production") {
+      // Call detectDevTools function when the component mounts
+      detectDevTools();
+      function ctrlShiftKey(e, keyCode) {
+        return e.ctrlKey && e.shiftKey && e.keyCode === keyCode.charCodeAt(0);
+      }
+      const disableContext = (e) => {
+        e.preventDefault();
+      };
+      const disableDevToolsShortcut = (e) => {
+        // Windows shortcuts
+        if (e.keyCode === 123) {
+          e.preventDefault();
+        }
+        if (ctrlShiftKey(e, "I")) {
+          e.preventDefault();
+        }
+        if (ctrlShiftKey(e, "J")) {
+          e.preventDefault();
+        }
+        if (ctrlShiftKey(e, "C")) {
+          e.preventDefault();
+        }
+        if (e.ctrlKey && e.keyCode === "U".charCodeAt(0)) {
+          // Ctrl+U
+          e.preventDefault();
+        }
+        // macOS shortcuts
+        if (e.keyCode === 105) {
+          // F12 or Command+Option+I
+          e.preventDefault();
+        }
+        if (e.metaKey && e.altKey && e.keyCode === "I".charCodeAt(0)) {
+          e.preventDefault();
+        }
+        if (e.metaKey && e.altKey && e.keyCode === "J".charCodeAt(0)) {
+          // Command+Option+J
+          e.preventDefault();
+        }
+        if (e.metaKey && e.altKey && e.keyCode === "C".charCodeAt(0)) {
+          // Command+Option+C
+          e.preventDefault();
+        }
+        if (e.metaKey && e.altKey && e.keyCode === "U".charCodeAt(0)) {
+          // Command+Option+U
+          e.preventDefault();
+        }
+      };
+      window.addEventListener("contextmenu", disableContext);
+      window.addEventListener("keydown", disableDevToolsShortcut);
+      // Remove the event listeners when the component unmounts
+      return () => {
+        window.removeEventListener("contextmenu", disableContext);
+        window.removeEventListener("keydown", disableDevToolsShortcut);
+      };
+    }
+  }, []);
   const { secretToken } = useSelector((state) => state.auth);
 
   useEffect(() => {
