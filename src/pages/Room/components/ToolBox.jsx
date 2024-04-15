@@ -358,9 +358,6 @@ const ToolBox = ({
     }
   }, [isPreviewAudioOn]);
 
-  console.log(screenShareRef?.current);
-  console.log(screenShareRef?.current?.srcObject);
-
   return (
     <Box
       height={["auto", "auto", "100%", "100%"]}
@@ -464,10 +461,7 @@ const ToolBox = ({
           >
             <IconButton
               isRound={true}
-              // isDisabled={
-              //   screenShareRef?.current?.srcObject !== undefined &&
-              //   screenShareRef?.current?.srcObject !== null
-              // }
+              isDisabled={userRoleType === userType.student}
               icon={
                 isScreenShare ? (
                   <FiMonitor size={20} color="black" />
