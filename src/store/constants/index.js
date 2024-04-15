@@ -1,9 +1,6 @@
-export const IS_LOADING = "IS_LOADING";
-export const IS_ERROR = "IS_ERROR";
-
 // AUTH RELATED CONSTANTS
-export const SIGN_IN = "SIGN_IN";
-export const SET_USER = "SET_USER";
+export const SET_SECRET_TOKEN = "SET_SECRET_TOKEN";
+export const SET_USER_PROFILE = "SET_USER_PROFILE";
 
 // SOCKET RELATED CONSTANTS
 

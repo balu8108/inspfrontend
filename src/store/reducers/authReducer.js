@@ -1,28 +1,21 @@
-import { SET_USER, IS_LOADING, IS_ERROR } from "../constants";
+import { SET_USER_PROFILE, SET_SECRET_TOKEN } from "../constants";
 
 const initialState = {
-  user: null,
-  token: null,
-  isLoading: false,
-  isError: null,
+  userProfile: null,
+  secretToken: null,
 };
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case IS_LOADING:
+    case SET_USER_PROFILE:
       return {
         ...state,
-        isLoading: action.payload,
+        userProfile: action.payload,
       };
-    case IS_ERROR:
+    case SET_SECRET_TOKEN:
       return {
         ...state,
-        isError: action.payload,
-      };
-    case SET_USER:
-      return {
-        ...state,
-        user: action.payload,
+        secretToken: action.payload,
       };
     default:
       return state;

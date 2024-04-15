@@ -17,6 +17,7 @@ import {
 import { useParams, useNavigate } from "react-router-dom";
 import { BsPlayFill } from "react-icons/bs";
 import { IoAddOutline } from "react-icons/io5";
+import { useSelector } from "react-redux";
 
 import Header from "../../Mentors/Header/components/HeaderInAllScreen";
 import ScheduleClassPopup from "../../../components/popups/ScheduleClassPopup";
@@ -33,7 +34,8 @@ import ScheduleClassList from "../../ScheduleClasses/components/ScheduleClassLis
 import SingleLectureDetailsCovered from "../Physics/components/Single.Lecture.Details.Covered";
 export default function LectureDetailsById() {
   const { outerBackground, innerBackground } = useTheme().colors.pallete;
-  const userRoleType = checkUserType();
+  const { userProfile } = useSelector((state) => state.auth);
+  const userRoleType = checkUserType(userProfile);
   const { roomId, courseType } = useParams();
   const {
     isOpen: isSchedulePopupOpen,

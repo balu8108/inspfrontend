@@ -25,11 +25,11 @@ const RoomPreviewVideo = () => {
   const [isMicOn, setIsMicOn] = useState(false);
   const [videoStream, setVideoStream] = useState(null);
   const { roomPreviewData } = useSelector((state) => state.socket);
-
+  const { userProfile } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const videoRef = useRef();
 
-  const userRoleType = checkUserType();
+  const userRoleType = checkUserType(userProfile);
   const { outerBackground } = useTheme().colors.pallete;
 
   const getWebCamFeed = async () => {
@@ -46,8 +46,6 @@ const RoomPreviewVideo = () => {
       console.log("webcam feed error = ", err);
     }
   };
-
-  
 
   const toggleVideo = (e) => {
     e.preventDefault();

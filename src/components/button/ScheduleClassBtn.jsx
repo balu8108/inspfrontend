@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, useTheme } from "@chakra-ui/react";
 import { classStatus, classStatusText } from "../../constants/staticvariables";
-import { getStorageData } from "../../utils";
+import { useSelector } from "react-redux";
 const ScheduleClassBtn = ({ isLoading, status, onClickHandler }) => {
   const {
     notStartedBtnColor,
@@ -11,7 +11,7 @@ const ScheduleClassBtn = ({ isLoading, status, onClickHandler }) => {
     notConductedBtnColor,
     btnTextColor,
   } = useTheme().colors.pallete;
-  const { data: inspUserProfile } = getStorageData("insp_user_profile");
+  const { userProfile: inspUserProfile } = useSelector((state) => state.auth);
   let backColor = scheduledBtnColor;
   let textColor = "white";
   let text = "Start";

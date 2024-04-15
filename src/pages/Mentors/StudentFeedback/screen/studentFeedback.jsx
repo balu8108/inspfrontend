@@ -31,6 +31,7 @@ import {
   getAllStudentFeedback,
 } from "../../../../api/studentfeedback";
 import moment from "moment";
+import { useSelector } from "react-redux";
 import { useToastContext } from "../../../../components/toastNotificationProvider/ToastNotificationProvider";
 import { checkUserType } from "../../../../utils";
 import { useNavigate } from "react-router-dom";
@@ -48,6 +49,7 @@ export default function StudentFeedbackDetails() {
   const [limit, setLimit] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const { userProfile } = useSelector((state) => state.auth);
 
   const [feedbackData, setFeedbackData] = useState([]);
   const navigate = useNavigate();
@@ -114,7 +116,7 @@ export default function StudentFeedbackDetails() {
   }, [currentPage]);
 
   useEffect(() => {
-    const userRoleType = checkUserType();
+    const userRoleType = checkUserType(userProfile);
     // {userRoleType: 'STUDENT'}
     if (userRoleType === "STUDENT") {
       navigate("/");

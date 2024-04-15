@@ -20,6 +20,7 @@ const ScheduleCalendar = ({ onSchedulePopupOpen }) => {
   const dispatch = useDispatch();
   const { eventLightGreen } = useTheme().colors.pallete;
   const { scheduledClasses } = useSelector((state) => state.scheduleClass);
+  const { userProfile } = useSelector((state) => state.auth);
 
   const handleDateClick = (args) => {
     const { view, date } = args;
@@ -76,7 +77,9 @@ const ScheduleCalendar = ({ onSchedulePopupOpen }) => {
         meridiem: true,
       }}
       dateClick={
-        checkUserType() === userType.teacher ? handleDateClick : () => {}
+        checkUserType(userProfile) === userType.teacher
+          ? handleDateClick
+          : () => {}
       }
       events={scheduledClasses}
       eventContent={renderEventContent}

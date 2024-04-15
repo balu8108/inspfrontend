@@ -1,9 +1,6 @@
 import { userType } from "../constants/staticvariables";
-import getStorageData from "./getStorageData";
-const checkUserType = () => {
+const checkUserType = (userProfile) => {
   try {
-    const { data: userProfile } = getStorageData("insp_user_profile");
-
     if (userProfile) {
       if (userProfile.user_type === 1) {
         return userType.teacher;

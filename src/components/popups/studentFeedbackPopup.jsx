@@ -15,11 +15,10 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useToastContext } from "../toastNotificationProvider/ToastNotificationProvider";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createStudentFeedback } from "../../api/studentfeedback";
 import { RxCross2 } from "react-icons/rx";
 import { setStudentFeedbackClose } from "../../store/actions/studentFeedbackActions";
-import { getStorageData } from "../../utils";
 
 const StudentFeedBackPopup = ({ isOpen, onClose }) => {
   const [feedback, setFeedback] = useState("");
@@ -27,6 +26,7 @@ const StudentFeedBackPopup = ({ isOpen, onClose }) => {
   const [errorData, setErrorData] = useState({});
   const { primaryBlue } = useTheme().colors.pallete;
   const { addNotification } = useToastContext();
+  const { userProfile: inspUserProfile } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
@@ -44,8 +44,6 @@ const StudentFeedBackPopup = ({ isOpen, onClose }) => {
   };
 
   const handleFeedbackSubmit = async () => {
-    const { data } = getStorageData("insp_user_profile");
-
     setIsLoading(true);
     const isError = checkErrors();
     if (isError) {
@@ -53,8 +51,8 @@ const StudentFeedBackPopup = ({ isOpen, onClose }) => {
       return;
     }
     const body = {
-      studentName: data.name,
-      studentEmail: data.email,
+      studentName: inspUserProfile.name,
+      studentEmail: inspUserProfile.email,
       feedback: feedback,
     };
     try {

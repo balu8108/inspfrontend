@@ -11,6 +11,7 @@ import {
   useTheme,
   useDisclosure,
 } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
 import UploadAssignmentToClass from "../../../components/popups/UploadAssignmentToClass";
 import defaultImageUrl from "../../../assets/images/image1.png";
 import "../../../constants/scrollbar/style.css";
@@ -25,9 +26,10 @@ const RecordedClass = ({
   setActiveRecording,
   setIsFileAdded,
 }) => {
+  const { userProfile } = useSelector((state) => state.auth);
   const isLive = type && type === "live";
   const isSolo = type && type === "solo";
-  const userRoleType = checkUserType();
+  const userRoleType = checkUserType(userProfile);
   const {
     isOpen: isSchedulePopupOpen,
     onOpen: onSchedulePopupOpen,

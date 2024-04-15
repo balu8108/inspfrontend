@@ -3,16 +3,16 @@ import { BiLinkExternal } from "react-icons/bi";
 import insplogo from "../../assets/images/insplogo.png";
 import { useToastContext } from "../toastNotificationProvider/ToastNotificationProvider";
 import { useEffect } from "react";
-import { isAuthenticated } from "../../utils";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Home = () => {
   const { addNotification } = useToastContext();
   const navigate = useNavigate();
+  const { userProfile, secretToken } = useSelector((state) => state.auth);
 
   const tryAutoLogin = async () => {
-    const isAuth = isAuthenticated();
-    if (isAuth) {
+    if ((userProfile, secretToken)) {
       navigate("/homepage");
     } else {
       addNotification("Please login to continue", "info", 5000);

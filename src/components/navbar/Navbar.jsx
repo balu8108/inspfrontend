@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useRef, useCallback } from "react";
 import {
   Box,
   Flex,
@@ -23,12 +23,10 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import insplogo from "../../assets/images/insplogo.png";
-
-import { clearStorageData, getStorageData } from "../../utils";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, NavLink, useLocation } from "react-router-dom";
 import { FaBars } from "react-icons/fa6";
 import { setStudentFeedbackOpen } from "../../store/actions/studentFeedbackActions";
-import { useDispatch } from "react-redux";
 // In below links the available To is the user type
 // if the same link is available to both type of user then we add 0,1
 // or if for specific then it will be 0 or 1
@@ -184,29 +182,19 @@ const DrawerComponent = ({
 export default function Navbar() {
   const theme = useTheme();
   const { outerBackground } = theme.colors.pallete;
-  const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
-
-  const getUserDetails = async () => {
-    try {
-      const res = getStorageData("insp_user_profile");
-      setUserData(res.data);
-    } catch (err) {}
-  };
+  const { userProfile: inspUserProfile } = useSelector((state) => state.auth);
 
   const handleLogout = useCallback(async () => {
     try {
-      await clearStorageData();
       navigate("/");
     } catch (err) {
       // Handle errors if needed
     }
   }, [navigate]);
-  useEffect(() => {
-    getUserDetails();
-  }, []);
+
   return (
     <>
       <Box bg={outerBackground} py={1} px={[6, 8, 10, 20]}>
@@ -235,7 +223,7 @@ export default function Navbar() {
             display={["none", "none", "none", "flex"]}
           >
             <Flex mr={6} gap={6} fontSize={"0.98rem"} fontWeight={300}>
-              <NavLinks userData={userData} type="normal" />
+              <NavLinks userData={inspUserProfile} type="normal" />
             </Flex>
             <Stack direction={"row"} spacing={7}>
               <Menu>
@@ -250,7 +238,7 @@ export default function Navbar() {
                     size={"sm"}
                     width={42}
                     height={42}
-                    name={userData?.name}
+                    name={inspUserProfile?.name}
                     objectFit={"cover"}
                   />
                 </MenuButton>
@@ -259,13 +247,13 @@ export default function Navbar() {
                   <Center>
                     <Avatar
                       size={"2xl"}
-                      name={userData?.name}
+                      name={inspUserProfile?.name}
                       objectFit={"cover"}
                     />
                   </Center>
                   <br />
                   <Center>
-                    <p>{userData?.name}</p>
+                    <p>{inspUserProfile?.name}</p>
                   </Center>
                   <br />
                   <MenuDivider />
@@ -282,7 +270,7 @@ export default function Navbar() {
         onOpen={onOpen}
         btnRef={btnRef}
         onClose={onClose}
-        userData={userData}
+        userData={inspUserProfile}
         handleLogout={handleLogout}
       />
     </>

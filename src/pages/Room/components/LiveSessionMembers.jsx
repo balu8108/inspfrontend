@@ -92,8 +92,9 @@ const LiveSessionMembers = ({ primaryBlue, outerBackground }) => {
   const [kickedPersonDetails, setKickedPersonDetails] = useState(null);
   const { peers } = useSelector((state) => state.member);
   const { selfDetails } = useSelector((state) => state.stream);
+  const { userProfile } = useSelector((state) => state.auth);
   const [search, setSearch] = useState("");
-  const userRoleType = checkUserType();
+  const userRoleType = checkUserType(userProfile);
   const [isLargerThan768] = useMediaQuery(["(min-width: 768px)"]);
 
   const {

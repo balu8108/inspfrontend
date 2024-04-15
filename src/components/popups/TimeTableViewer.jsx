@@ -8,14 +8,12 @@ import {
   Box,
   ModalCloseButton,
 } from "@chakra-ui/react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getTimeTable } from "../../store/actions/genericActions";
-import { getStorageData } from "../../utils";
 
 const PSDDocumentViewer = ({ doc }) => {
   const docRef = useRef(null);
-
-  const { data: insp_user_profile } = getStorageData("insp_user_profile");
+  const { userProfile: inspUserProfile } = useSelector((state) => state.auth);
 
   const PSDFdocument = (instance) => {
     if (instance) {
@@ -63,7 +61,7 @@ const PSDDocumentViewer = ({ doc }) => {
     ctx.font = "1rem Arial";
     ctx.fillStyle = "rgba(76, 130, 212,.6)";
     ctx.fillText(
-      `${insp_user_profile.name} - ${insp_user_profile.email} - ${insp_user_profile.mobile}`,
+      `${inspUserProfile.name} - ${inspUserProfile.email} - ${inspUserProfile.mobile}`,
       0,
       0
     );

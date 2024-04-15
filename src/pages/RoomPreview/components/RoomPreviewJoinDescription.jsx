@@ -85,12 +85,9 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
     outerBackground,
   } = theme.colors.pallete;
 
-  const { roomPreviewData } = useSelector(
-    (state) => state.socket
-  );
-  const { isPeerLoading, peers } = useSelector(
-    (state) => state.member
-  );
+  const { roomPreviewData } = useSelector((state) => state.socket);
+  const { isPeerLoading, peers } = useSelector((state) => state.member);
+  const { userProfile: userProfile } = useSelector((state) => state.auth);
 
   const { addNotification } = useToastContext();
   const dispatch = useDispatch();
@@ -109,7 +106,7 @@ const RoomPreviewJoinDescription = ({ roomId }) => {
 
     // join room
     try {
-      const res = await joinRoomHandler(roomId);
+      const res = await joinRoomHandler(roomId, userProfile);
       if (res.success) {
         dispatch(setSelfDetails(res.selfDetails));
         dispatch(setRtpCapabilities(res.rtpCapabilities));

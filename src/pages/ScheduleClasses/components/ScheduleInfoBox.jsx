@@ -28,6 +28,7 @@ const ScheduleClassInformation = ({ scheduledClassesData, type, label }) => {
   const { primaryBlue, secondaryTextColor, innerBackground } =
     useTheme().colors.pallete;
   const [isLoading, setIsLoading] = useState(false);
+  const { userProfile } = useSelector((state) => state.auth);
   const [scheduleData, setScheduleData] = useState({
     classId: "",
     date: "",
@@ -140,7 +141,7 @@ const ScheduleClassInformation = ({ scheduledClassesData, type, label }) => {
             >
               {className[info.classLevel]}
             </Text>
-            {checkUserType() === userType.teacher && (
+            {checkUserType(userProfile) === userType.teacher && (
               <Box my={4}>
                 {info?.LiveClassRoomFiles.length > 0 ? (
                   <FileBoxComponent
@@ -152,7 +153,7 @@ const ScheduleClassInformation = ({ scheduledClassesData, type, label }) => {
                 )}
               </Box>
             )}
-            {checkUserType() === userType.student && (
+            {checkUserType(userProfile) === userType.student && (
               <Box
                 mt={2}
                 mb={(type === "Ongoing" || type === "Completed") && 4}
@@ -167,7 +168,7 @@ const ScheduleClassInformation = ({ scheduledClassesData, type, label }) => {
             )}
             {(type === "Ongoing" ||
               type === "Completed" ||
-              checkUserType() === userType.teacher) && (
+              checkUserType(userProfile) === userType.teacher) && (
               <ScheduleClassBtn
                 isLoading={isLoading}
                 status={info.classStatus}
@@ -176,7 +177,7 @@ const ScheduleClassInformation = ({ scheduledClassesData, type, label }) => {
                 onClickHandler={() => startContinueClickHandler(info)}
               />
             )}
-            {checkUserType() === userType.teacher &&
+            {checkUserType(userProfile) === userType.teacher &&
               label !== 1 &&
               label !== 4 && (
                 <Icon

@@ -1,17 +1,18 @@
 import axios from "axios";
 import { BASE_URL } from "../../constants/staticurls";
-import { getStorageType } from "../../utils";
-
+import { store } from "../../store";
 const API = axios.create({ baseURL: BASE_URL });
+
 API.interceptors.request.use((req) => {
   try {
-    const tokenStorage = getStorageType();
-    if (tokenStorage.getItem("secret_token")) {
-      const secretToken = tokenStorage.getItem("secret_token");
+    const { secretToken } = store.getState().auth;
+    if (secretToken) {
       req.headers.Authorization = `Token ${secretToken}`;
     }
     return req;
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 export const getAllLecture = (classType, classLevel) =>

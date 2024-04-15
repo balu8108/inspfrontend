@@ -32,7 +32,7 @@ import SOCKET_EVENTS from "../constants/socketeventconstants";
 import { Device } from "mediasoup-client";
 import { staticVariables, userType } from "../constants/staticvariables";
 import { SET_RAISE_HAND } from "../store/constants";
-import { checkUserType, getStorageData, isObjectValid } from "../utils";
+import { checkUserType, isObjectValid } from "../utils";
 import { setFeedbackModalOpen } from "../store/actions/genericActions";
 
 // socket variables
@@ -378,7 +378,8 @@ const endMeetReponseHandler = async () => {
 
 const leaveRoomResponseHandler = (res) => {
   const { feedBackStatus } = res;
-  const userRoleType = checkUserType(); // Need to open feedback form only for students
+  const { userProfile } = store.getState().auth;
+  const userRoleType = checkUserType(userProfile); // Need to open feedback form only for students
   if (userRoleType === userType.student && feedBackStatus) {
     if (feedBackStatus?.success && !feedBackStatus.isFeedback) {
       // Open feedback form
@@ -430,11 +431,11 @@ const peerMicBlockedOrUnblockedResponseHandler = (res) => {
 
 // SOCKET EVENT LISTENERS AND EVENT EMITTERS:-
 export const initializeSocketConnections = (roomId) => {
-  const { status, data: secret_token } = getStorageData("secret_token");
+  const { secretToken } = store.getState().auth;
 
-  if (status) {
+  if (secretToken) {
     socket = io(BASE_URL, {
-      auth: { secret_token: secret_token },
+      auth: { secret_token: secretToken },
       transports: ["websocket"],
     });
     // store the socket in redux also as we may need it later
@@ -506,12 +507,11 @@ export const initializeSocketConnections = (roomId) => {
 
 /* EVENT EMIT FUNCTIONS STARTS HERE */
 
-export const joinRoomHandler = (roomId) => {
+export const joinRoomHandler = (roomId, userProfile) => {
   return new Promise((resolve, reject) => {
-    const { data } = getStorageData("insp_user_profile");
     socket.emit(
       SOCKET_EVENTS.JOIN_ROOM,
-      { roomId: roomId, peerDetails: data },
+      { roomId: roomId, peerDetails: userProfile },
       (res) => joinRoomResponseHandler(res, resolve, reject)
     );
   });

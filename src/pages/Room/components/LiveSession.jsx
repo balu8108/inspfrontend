@@ -34,7 +34,8 @@ const LiveSession = ({
   );
 
   const { addNotification } = useToastContext();
-  const userRoleType = checkUserType();
+  const { userProfile } = useSelector((state) => state.auth);
+  const userRoleType = checkUserType(userProfile);
   const navigate = useNavigate();
 
   const stopScreenShare = () => {

@@ -32,8 +32,9 @@ const RoomContent = ({
   const { roomPreviewData, upcomingClassData } = useSelector(
     (state) => state.socket
   );
+  const { userProfile } = useSelector((state) => state.auth);
   const [isLargerThan768] = useMediaQuery(["(min-width: 768px)"]);
-  const userRoleType = checkUserType();
+  const userRoleType = checkUserType(userProfile);
 
   const leaveRoomOrEndMeetHandler = async () => {
     setIsLeaveLoading(true);

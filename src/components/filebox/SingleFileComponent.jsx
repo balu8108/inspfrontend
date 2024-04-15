@@ -6,12 +6,13 @@ import {
   checkUserType,
   downloadFile,
 } from "../../utils";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userType } from "../../constants/staticvariables";
 import { setIsDocModalOpen } from "../../store/actions/genericActions";
 const SingleFileComponent = ({ file, type }) => {
   const { innerBackground } = useTheme().colors.pallete;
-  const userRoleType = checkUserType();
+  const { userProfile } = useSelector((state) => state.auth);
+  const userRoleType = checkUserType(userProfile);
   const dispatch = useDispatch();
 
   return (

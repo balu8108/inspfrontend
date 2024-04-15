@@ -11,12 +11,7 @@ import {
 } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { publicRoutes, privateRoutes } from "./routes";
-import {
-  clearStorageData,
-  getStorageData,
-  isAuthenticated,
-  checkUserType,
-} from "./utils";
+import { checkUserType } from "./utils";
 import DocumentViewer from "./components/popups/DocumentViewer";
 import FeedBackAndRating from "./components/popups/FeedBackAndRating";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
@@ -27,11 +22,11 @@ import { getAllSubjects } from "./store/actions/genericActions";
 import { userType } from "./constants/staticvariables";
 // import detectDevTools from "./utils/detectDevtools";
 const ProtectedRoutes = () => {
-  const isAuth = isAuthenticated();
-  if (!isAuth) {
-    return <Navigate to="/" />;
+  const { userProfile, secretToken } = useSelector((state) => state.auth);
+  if ((userProfile, secretToken)) {
+    return <Outlet />;
   }
-  return <Outlet />;
+  return <Navigate to="/" />;
 };
 function App() {
   const location = useLocation();
@@ -39,7 +34,8 @@ function App() {
   const { onClose: onFeedBackClose } = useDisclosure();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userRoleType = checkUserType();
+  const { userProfile } = useSelector((state) => state.auth);
+  const userRoleType = checkUserType(userProfile);
   const { isDocModalOpen, isFeedbackModalOpen } = useSelector(
     (state) => state.generic
   );
@@ -107,12 +103,12 @@ function App() {
   //     };
   //   }
   // }, []);
+  const { secretToken } = useSelector((state) => state.auth);
+
   useEffect(() => {
     const handleBeforeUnload = async (event) => {
       try {
-        const data = getStorageData("secret_token");
-        if (data && data.status) {
-          await clearStorageData();
+        if (secretToken) {
           navigate("/");
         } else {
           console.log("Videoportal loaded");

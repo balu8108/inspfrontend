@@ -91,8 +91,9 @@ const ToolBox = ({
   const { isPreviewVideoOn, isPreviewAudioOn } = useSelector(
     (state) => state.streamControls
   );
+  const { userProfile } = useSelector((state) => state.auth);
   const { redBtnColor } = useTheme().colors.pallete;
-  const userRoleType = checkUserType();
+  const userRoleType = checkUserType(userProfile);
 
   const { selfDetails } = useSelector((state) => state.stream, shallowEqual);
 

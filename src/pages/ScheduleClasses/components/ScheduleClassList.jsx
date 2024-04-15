@@ -14,6 +14,7 @@ const ScheduleClassList = ({ onSchedulePopupOpen }) => {
   const { primaryBlue, primaryBlueLight, outerBackground } =
     useTheme().colors.pallete;
   const { isClassScheduleChange } = useSelector((state) => state.generic);
+  const { userProfile } = useSelector((state) => state.auth);
 
   const scheduleClassClickHandler = () => {
     onSchedulePopupOpen();
@@ -35,7 +36,7 @@ const ScheduleClassList = ({ onSchedulePopupOpen }) => {
         }}
       >
         <Box p={4}>
-          {checkUserType() === userType.teacher && (
+          {checkUserType(userProfile) === userType.teacher && (
             <MainBtn
               isLoading={false}
               text={scheduleClassData.scheduleClass}

@@ -8,11 +8,11 @@ import "dashjs";
 import "videojs-hotkeys";
 import "videojs-seek-buttons";
 import "videojs-seek-buttons/dist/videojs-seek-buttons.css";
-
 import { playRecordingApi } from "../../api/recordingapi";
 import WaterMark from "../watermark/WaterMark";
-import { checkUserType, getStorageData } from "../../utils";
+import { checkUserType } from "../../utils";
 import { userType } from "../../constants/staticvariables";
+import { useSelector } from "react-redux";
 const getVideoJsOptions = (browser, url, hlsUrl, drmToken, HlsDrmToken) => {
   const sources = [];
   if (process.env.REACT_APP_ENVIRON === "production") {
@@ -83,10 +83,8 @@ const getVideoJsOptions = (browser, url, hlsUrl, drmToken, HlsDrmToken) => {
 const VideoPlayer = ({ browser, type, activeRecording }) => {
   const videoRef = useRef(null);
   const [player, setPlayer] = useState(undefined);
-
-  const userRoleType = checkUserType();
-  const { data: inspUserProfile } = getStorageData("insp_user_profile");
-
+  const { userProfile: inspUserProfile } = useSelector((state) => state.auth);
+  const userRoleType = checkUserType(inspUserProfile);
   const setPlayerConfiguration = async (activeRecording) => {
     try {
       // Update the player's source when the src prop changes

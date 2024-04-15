@@ -8,7 +8,7 @@ import StudentPollsMCQBox from "./StudentPollsMCQBox";
 import RaiseHand from "./RaiseHand";
 import WebAudioPlayer from "../../../components/webaudioplayer/WebAudioPlayer";
 import MiroBoard from "./MiroBoard";
-import { checkUserType, getStorageData } from "../../../utils";
+import { checkUserType } from "../../../utils";
 import { userType } from "../../../constants/staticvariables";
 import WaterMark from "../../../components/watermark/WaterMark";
 import FullScreenModeButton from "./FullScreenBtn";
@@ -34,9 +34,9 @@ const LiveSessionStream = (props) => {
 
   const { mentorScreenShareConsumer, audioConsumers, raiseHands, question } =
     useSelector((state) => state.stream);
-  const userRoleType = checkUserType();
-  const { data: inspUserProfile } = getStorageData("insp_user_profile");
 
+  const { userProfile: inspUserProfile } = useSelector((state) => state.auth);
+  const userRoleType = checkUserType(inspUserProfile);
   const renderMentorScreenShare = () => {
     const getMentorScreenShare = mentorScreenShareConsumer;
     const { track } = getMentorScreenShare;

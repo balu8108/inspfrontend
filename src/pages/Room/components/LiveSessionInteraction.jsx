@@ -298,8 +298,8 @@ const QuestionBox = () => {
   const questionInputRef = useRef("");
   const [isSentBtnDisabled, setIsSentBtnDisabled] = useState(true);
   const [isQuestionSentLoading, setIsQuestionSentLoading] = useState(false);
-
-  const userRoleType = checkUserType();
+  const { userProfile } = useSelector((state) => state.auth);
+  const userRoleType = checkUserType(userProfile);
 
   const sendQuestionMsgHandler = (e) => {
     e.preventDefault();

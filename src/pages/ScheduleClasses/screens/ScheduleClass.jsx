@@ -6,10 +6,12 @@ import UploadTimeTable from "../../../components/popups/UploadTimeTable";
 import TimeTableViewer from "../../../components/popups/TimeTableViewer";
 import { userType } from "../../../constants/staticvariables";
 import { checkUserType } from "../../../utils";
+import { useSelector } from "react-redux";
 
 const ScheduleClass = () => {
   const { primaryBlue } = useTheme().colors.pallete;
-  const userRoleType = checkUserType();
+  const { userProfile } = useSelector((state) => state.auth);
+  const userRoleType = checkUserType(userProfile);
   const {
     isOpen: isSchedulePopupOpen,
     onOpen: onSchedulePopupOpen,

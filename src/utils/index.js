@@ -10,13 +10,9 @@ import categoriseClass from "./categoriseClass";
 import boxShadowStyles from "./boxShadowStyles";
 import screenshotHandler from "./screenshotHandler";
 import renderLeftMembersCount from "./renderLeftMembersCount";
-import getStorageData from "./getStorageData";
-import isAuthenticated from "./isAuthenticated";
-import getStorageType from "./getStorageType";
 import checkUserType from "./checkUserType";
 import { decryptData } from "./crypticFunctions";
 import fileConverter from "./fileConverter";
-import clearStorageData from "./clearStorageData";
 import isValidTimeFormat from "./isValidTimeFormat";
 import capitalize from "./capitalize";
 export {
@@ -33,14 +29,10 @@ export {
   boxShadowStyles,
   screenshotHandler,
   renderLeftMembersCount,
-  getStorageData,
-  isAuthenticated,
-  getStorageType,
   checkUserType,
   decryptData,
   formatSeconds,
   fileConverter,
-  clearStorageData,
   isValidTimeFormat,
   capitalize,
 };

@@ -14,13 +14,15 @@ import {
   endMeetHandler,
   leaveRoomHandler,
 } from "../../socketconnections/socketconnections";
+import { useSelector } from "react-redux";
 import { checkUserType } from "../../utils";
 import { userType } from "../../constants/staticvariables";
 import { useNavigate, useParams } from "react-router-dom";
 const LeaveOrEndClassPopup = ({ isOpen, onClose }) => {
   const cancelRef = useRef();
   const { primaryBlue, primaryBlueLight } = useTheme().colors.pallete;
-  const userRoleType = checkUserType();
+  const { userProfile } = useSelector((state) => state.auth);
+  const userRoleType = checkUserType(userProfile);
   const { roomId } = useParams();
   const navigate = useNavigate();
 
