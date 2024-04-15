@@ -27,10 +27,6 @@ const RecordedClass = ({
 }) => {
   const isLive = type && type === "live";
   const isSolo = type && type === "solo";
-  const isLiveSpecific = type && type === "live_specific";
-  const isSoloSpecific = type && type === "solo_specific";
-  const isLiveTopic = type && type === "live_topic";
-  const isSoloTopic = type && type === "solo_topic";
   const userRoleType = checkUserType();
   const {
     isOpen: isSchedulePopupOpen,
@@ -44,20 +40,8 @@ const RecordedClass = ({
     let filesData = [];
     if (isLive) {
       filesData = data?.LiveClassRoomFiles;
-    } else if (isLiveSpecific) {
-      filesData =
-        data?.responseData?.flatMap((obj) => obj?.LiveClassRoomFiles) ?? [];
     } else if (isSolo) {
       filesData = data?.SoloClassRoomFiles;
-    } else if (isSoloSpecific) {
-      filesData =
-        data?.responseData?.flatMap((obj) => obj?.SoloClassRoomFiles) ?? [];
-    } else if (isLiveTopic) {
-      filesData =
-        data?.responseData?.flatMap((obj) => obj?.LiveClassRoomFiles) ?? [];
-    } else if (isSoloTopic) {
-      filesData =
-        data?.responseData?.flatMap((obj) => obj?.SoloClassRoomFiles) ?? [];
     } else {
       filesData = [];
     }
@@ -67,7 +51,7 @@ const RecordedClass = ({
         {filesData && filesData.length > 0 ? (
           <FileBoxComponent
             data={filesData}
-            type={isLive || isLiveTopic ? fileTypes.live : fileTypes.solo}
+            type={isLive ? fileTypes.live : fileTypes.solo}
           />
         ) : (
           <Text fontSize={"0.8rem"} color={"#2C332978"}>
@@ -82,16 +66,8 @@ const RecordedClass = ({
     let agenda = "";
     if (isLive) {
       agenda = data?.LiveClassRoomDetail.agenda;
-    } else if (isLiveSpecific) {
-      agenda = data?.responseData?.[0]?.LiveClassRoomDetail.agenda;
     } else if (isSolo) {
       agenda = data?.agenda;
-    } else if (isSoloSpecific) {
-      agenda = data?.responseData?.[0]?.agenda;
-    } else if (isLiveTopic) {
-      agenda = data?.responseData?.[0]?.LiveClassRoomDetail.agenda;
-    } else if (isSoloTopic) {
-      agenda = data?.responseData?.[0]?.agenda;
     } else {
       agenda = "";
     }
@@ -134,24 +110,8 @@ const RecordedClass = ({
     let recordings = [];
     if (isLive) {
       recordings = data?.LiveClassRoomRecordings;
-    } else if (isLiveSpecific) {
-      recordings =
-        data?.responseData?.flatMap((obj) => obj?.LiveClassRoomRecordings) ??
-        [];
     } else if (isSolo) {
       recordings = data?.SoloClassRoomRecordings;
-    } else if (isSoloSpecific) {
-      recordings =
-        data?.responseData?.flatMap((obj) => obj?.SoloClassRoomRecordings) ??
-        [];
-    } else if (isLiveTopic) {
-      recordings =
-        data?.responseData?.flatMap((obj) => obj?.LiveClassRoomRecordings) ??
-        [];
-    } else if (isSoloTopic) {
-      recordings =
-        data?.responseData?.flatMap((obj) => obj?.SoloClassRoomRecordings) ??
-        [];
     } else {
       recordings = [];
     }
@@ -238,22 +198,8 @@ const RecordedClass = ({
               >
                 {isLive
                   ? capitalize(recordingDetail?.LiveClassRoomDetail?.topicName)
-                  : isLiveSpecific
-                  ? capitalize(
-                      recordingDetail?.responseData?.[0]?.LiveClassRoomDetail
-                        .topicName
-                    )
-                  : isLiveTopic
-                  ? capitalize(
-                      recordingDetail?.responseData?.[0]?.LiveClassRoomDetail
-                        .topicName
-                    )
                   : isSolo
                   ? capitalize(recordingDetail?.topic)
-                  : isSoloSpecific
-                  ? capitalize(recordingDetail?.responseData?.[0]?.topic)
-                  : isSoloTopic
-                  ? capitalize(recordingDetail?.responseData?.[0]?.topic)
                   : capitalize("No Data")}
               </Text>
 
@@ -264,14 +210,7 @@ const RecordedClass = ({
                 color={"rgba(44, 51, 41, 0.47)"}
                 mt={1}
               >
-                {isLive || isSolo
-                  ? recordingDetail?.mentorName
-                  : isLiveSpecific ||
-                    isSoloSpecific ||
-                    isLiveTopic ||
-                    isSoloTopic
-                  ? recordingDetail?.responseData?.[0]?.mentorName
-                  : "No data"}
+                {isLive || isSolo ? recordingDetail?.mentorName : "No data"}
               </Text>
             </Box>
           </Box>
@@ -289,18 +228,8 @@ const RecordedClass = ({
             >
               {isLive
                 ? recordingDetail?.LiveClassRoomDetail?.description
-                : isLiveSpecific
-                ? recordingDetail?.responseData?.[0]?.LiveClassRoomDetail
-                    .description
                 : isSolo
                 ? recordingDetail?.description
-                : isSoloSpecific
-                ? recordingDetail?.responseData?.[0]?.description
-                : isLiveTopic
-                ? recordingDetail?.responseData?.[0]?.LiveClassRoomDetail
-                    .description
-                : isSoloTopic
-                ? recordingDetail?.responseData?.[0]?.description
                 : "No Data"}
             </Text>
           </Box>
@@ -339,7 +268,7 @@ const RecordedClass = ({
               {renderRecordings(recordingDetail, activeRecording)}
             </Flex>
           </Box>
-          {(isLive || isLiveSpecific || isLiveTopic) && (
+          {isLive && (
             <Box mt={6}>
               {/* <Text>Notes</Text>
           <Box mt={1}>{renderNotes(recordingDetail)}</Box> */}

@@ -89,8 +89,8 @@ const ChaptersTopicPage = () => {
     );
     setFilteredTopics(filtered);
   };
-  const handleView = (chapterName) => {
-    navigate(`/topic/lecture/${chapterName}/details`, {
+  const handleView = (chapterId) => {
+    navigate(`/topic/lecture/${chapterId}/details`, {
       state: {
         topics: filteredTopics,
         selectedChapterName: selectedChapterId
@@ -288,7 +288,7 @@ const ChaptersTopicPage = () => {
                   lineHeight={"16px"}
                   m={"20px"}
                   _hover={{ bg: "white" }}
-                  onClick={() => handleView(topic?.name)}
+                  onClick={() => handleView(topic?.id)}
                 >
                   View Details
                 </Button>

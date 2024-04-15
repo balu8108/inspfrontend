@@ -15,15 +15,14 @@ const Recording = () => {
 
   const id = queryParams.get("id");
   const type = queryParams.get("type");
-  const topicId = queryParams.get("topicId");
 
   const getViewRecordingData = async () => {
     try {
-      const res = await viewRecordingApi(type, id, topicId);
+      const res = await viewRecordingApi(type, id);
       if (res.status === 200) {
         const { data } = res;
 
-        setActiveRecording(data?.data?.activeRecordingToPlay);
+        setActiveRecording(data?.data?.LiveClassRoomRecordings[0]);
         setRecordingDetail(data?.data);
       }
     } catch (err) {
@@ -32,7 +31,7 @@ const Recording = () => {
   };
   useEffect(() => {
     getViewRecordingData();
-  }, [id, type, topicId, isFileAdded]);
+  }, [id, type, isFileAdded]);
 
   const [browser, setBrowser] = useState("");
 

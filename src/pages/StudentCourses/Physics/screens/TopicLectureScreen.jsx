@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import ScheduleClassPopup from "../../../../components/popups/ScheduleClassPopup";
 import LectureListPage from "../components/LectureListPage";
 const TopicLectureScreen = () => {
-  const { lectureName } = useParams();
+  const { lectureId } = useParams();
   const {
     isOpen: isSchedulePopupOpen,
     onOpen: onSchedulePopupOpen,
@@ -23,7 +23,7 @@ const TopicLectureScreen = () => {
       )}
       <Flex m={"52px"}>
         <Stack spacing={6} w={"75%"}>
-          <LectureListPage lectureName={lectureName} />
+          <LectureListPage lectureId={lectureId} />
         </Stack>
         <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
       </Flex>

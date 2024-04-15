@@ -70,7 +70,7 @@ export default function LectureDetailsById() {
     }
   };
 
-  const handleViewRecording = (recording, liveClassData) => {
+  const handleViewRecording = (liveClassData) => {
     navigate(`/view-recording?type=live&id=${liveClassData?.id}`);
   };
 
@@ -273,14 +273,12 @@ export default function LectureDetailsById() {
                   {lectureDetails?.LiveClassRoomRecordings?.length > 0 ? (
                     <Flex gap={4} mt={4}>
                       {lectureDetails?.LiveClassRoomRecordings.map(
-                        (recording, index) => (
+                        (recording) => (
                           <Flex
                             alignItems="center"
                             w={"160px"}
                             key={recording?.id}
-                            onClick={() =>
-                              handleViewRecording(recording, lectureDetails)
-                            }
+                            onClick={() => handleViewRecording(lectureDetails)}
                             position={"relative"}
                             cursor={"pointer"}
                           >

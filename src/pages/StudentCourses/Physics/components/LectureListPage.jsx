@@ -14,14 +14,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { capitalize } from "../../../../utils";
 import VectorImage from "../../../../assets/images/Line/Vector.svg";
 import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
-import { getAllLectureByTopicName } from "../../../../api/lecture";
+import { getAllLectureByTopicId } from "../../../../api/lecture";
 import LectureCard from "../../../../components/Card/LectureCard";
 
-const LectureListPage = ({lectureName}) => {
+const LectureListPage = ({ lectureId }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const topics = location.state?.topics || [];
-  const [selectedTopic, setSelectedTopic] = useState(lectureName);
+  const [selectedTopic, setSelectedTopic] = useState(lectureId);
   const [searchTerm, setSearchTerm] = useState("");
   const [lecturesData, setLecturesData] = useState([]);
   const { outerBackground, innerBackground, innerBoxShadow } =
@@ -38,12 +38,12 @@ const LectureListPage = ({lectureName}) => {
 
   const handleView = (roomId) => {
     if (selectedTopic && lectures.length > 0) {
-      navigate(`/my-courses/lecture-detail/${roomId}/Physics`,{
+      navigate(`/my-courses/lecture-detail/${roomId}/Physics`, {
         state: {
           lecture: lectures,
-          topicname: selectedTopic
+          topicname: selectedTopic,
         },
-      })
+      });
     }
   };
   const filterLectures = (lecture) => {
@@ -57,7 +57,7 @@ const LectureListPage = ({lectureName}) => {
 
   const getAllLecture = async () => {
     try {
-      const response = await getAllLectureByTopicName(selectedTopic);
+      const response = await getAllLectureByTopicId(selectedTopic, "regular");
       const { data } = response.data;
       setLecturesData(data);
     } catch (err) {
@@ -151,7 +151,7 @@ const LectureListPage = ({lectureName}) => {
                 lineHeight={"16px"}
                 m={"20px"}
                 _hover={{ bg: "white" }}
-                onClick={() => handleTopicClick(topic?.name)}
+                onClick={() => handleTopicClick(topic?.id)}
               >
                 View Details
               </Button>
@@ -201,9 +201,9 @@ const LectureListPage = ({lectureName}) => {
             {lectures.filter(filterLectures).map((lecture) => (
               <LectureCard
                 id={lecture?.roomId}
-                classRoomDetail={lecture?.LiveClassRoomDetail} 
-                scheduledDate={lecture?.scheduledDate} 
-                classLevel={lecture?.classLevel} 
+                classRoomDetail={lecture?.LiveClassRoomDetail}
+                scheduledDate={lecture?.scheduledDate}
+                classLevel={lecture?.classLevel}
                 route={handleView}
               />
             ))}

@@ -11,7 +11,6 @@ import AuthLoading from "./components/loaders/AuthLoading";
 import LectureDetailsById from "./pages/StudentCourses/components/LectureDetailById";
 //Mentor Routes
 
-import AllRecordingsForAChapter from "./pages/Mentors/MyCourses/Physics/screen/ChapterRecording";
 import MentorAllUploadedLectures from "./pages/Mentors/MyUploads/screen/UploadScreen";
 import RateNFeedback from "./pages/Mentors/RatingsAndFeedbacks/screen/RateNFeedback";
 import ViewRatingAndFeedback from "./pages/Mentors/RatingsAndFeedbacks/screen/ViewFeedbackAndRating";
@@ -21,6 +20,7 @@ import HomePage from "./pages/homepage/screens/HomePage";
 import StudentFeedBack from "./components/popups/studentFeedbackPopup";
 import StudentFeedbackDetails from "./pages/Mentors/StudentFeedback/screen/studentFeedback";
 import MyCourses from "./pages/StudentCourses/components/MyCourses";
+import TopicBasedLectures from "./pages/SubjectLibrary/components/TopicBasedLectures";
 
 const publicRoutes = [
   {
@@ -72,7 +72,7 @@ const privateRoutes = [
 
   {
     name: "Lecture Page",
-    path: "/topic/lecture/:lectureName/details",
+    path: "/topic/lecture/:lectureId/details",
     component: <TopicLectureScreen />,
   },
   {
@@ -96,19 +96,16 @@ const privateRoutes = [
     path: "/student/assignments/:subjectName",
     component: <StudentAssignment />,
   },
-
   {
     name: "Student Library",
     path: "/library/:subjectName/:subject_id",
     component: <LibraryScreen />,
   },
-
   {
-    name: "Mentor All Recording Related To A Particular Chapter",
-    path: "/details/:chapter_id/topics/:chapter_name",
-    component: <AllRecordingsForAChapter />,
+    name: "topic based lecture",
+    path: "/library/topic/:topicId/:topicName",
+    component: <TopicBasedLectures />,
   },
-
   {
     name: "Mentor All Uploads",
     path: "/mentor/alluploads",

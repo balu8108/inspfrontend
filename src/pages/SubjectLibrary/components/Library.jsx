@@ -24,7 +24,6 @@ import topicDescriptionConstants from "../../../constants/topicDescriptionConsta
 import { capitalize } from "../../../utils";
 import MathematicsImage from "../../../assets/images/undraw_mathematics_-4-otb 1.svg";
 import ChemistryImage from "../../../assets/images/undraw_science_re_mnnr 1.svg";
-import TopicBasedRecordings from "./TopicBasedRecordings";
 
 const SubjectLibrary = () => {
   const { subject_id, subjectName } = useParams();
@@ -37,13 +36,14 @@ const SubjectLibrary = () => {
   const navigate = useNavigate();
 
   const handleViewRecording = (data) => {
-    navigate(`/view-recording?type=live_topic&id=${data?.id}`);
+    navigate(`/library/topic/${data?.id}/${data?.name}`);
   };
 
   useEffect(() => {
     const handleFetchTopics = async () => {
+      const subjectId = subject_id === "4" || subject_id === "1" ? "1" : "2";
       try {
-        const response = await fetchAllTopicsForSubjectApi(subject_id);
+        const response = await fetchAllTopicsForSubjectApi(subjectId);
         if (response) {
           if (response.result) {
             setAllTopicList(response.result);
@@ -73,17 +73,9 @@ const SubjectLibrary = () => {
     setFilteredTopicList(filteredLibrary);
   };
 
-  if (subject_id === "4") {
-    return <TopicBasedRecordings />;
-  }
-
-  if (subject_id === "4") {
-    return <TopicBasedRecordings />;
-  }
-
   return (
     <Box width={"100%"} bg={outerBackground} borderRadius={"26px"}>
-      <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"27px"}>
+      <HStack spacing={"10px"} alignItems="center" ml={"33px"} mt={"10px"}>
         <Box
           width={"12px"}
           height={"25px"}
@@ -108,7 +100,6 @@ const SubjectLibrary = () => {
           </InputLeftElement>
         </InputGroup>
       </HStack>
-
       <Stack>
         <Flex flexWrap="wrap" p={5} gap={"24px"} ml={5}>
           {filteredTopicList?.length === 0
