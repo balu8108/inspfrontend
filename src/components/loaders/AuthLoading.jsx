@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Flex, Spinner, Box, Text } from "@chakra-ui/react";
 import { useParams, useNavigate } from "react-router-dom";
-import { decryptData } from "../../utils/crypticFunctions";
 import { loginApi, loginWithUidApi } from "../../api/authapis";
 import { useToastContext } from "../toastNotificationProvider/ToastNotificationProvider";
 import { setSecretToken, setUserProfile } from "../../store/actions/authAction";
@@ -22,9 +21,8 @@ const AuthLoading = ({ message }) => {
       }
 
       if (res.status === 200) {
-        const decrptUserDetail = await decryptData(res?.data?.data?.authData);
         dispatch(setSecretToken(res?.data?.data?.secret_token));
-        dispatch(setUserProfile(decrptUserDetail));
+        dispatch(setUserProfile(res?.data?.data?.authData));
         navigate("/homepage");
       }
     } catch (err) {
