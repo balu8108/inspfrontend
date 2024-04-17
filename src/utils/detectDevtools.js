@@ -11,29 +11,7 @@ const detectDevTools = () => {
   };
 
   const isDebuggerActive = () => {
-    if (window.chrome && window.chrome.devtools) {
-      return true;
-    }
-    // Check for Edge devtools
-    if (
-      window.navigator &&
-      window.navigator.userAgent.includes("Edge") &&
-      window.navigator.userAgent.includes("Edge DevTools")
-    ) {
-      return true;
-    }
-    // Check for other devtools (e.g., Firefox)
-    if (
-      window.Firebug ||
-      window.FirebugLite ||
-      (window.console &&
-        (window.console.firebug ||
-          (window.console.exception && window.console.table)))
-    ) {
-      return true;
-    }
-    // Add more specific checks for other browsers if needed
-    return false;
+    return !!(window.chrome && window.chrome.devtools);
   };
 
   const isDebuggerOpen = () => {
