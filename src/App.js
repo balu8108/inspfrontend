@@ -20,7 +20,7 @@ import StudentFeedBackPopup from "./components/popups/studentFeedbackPopup";
 import { fetchAllSubjectsApi } from "./api/inspexternalapis";
 import { getAllSubjects } from "./store/actions/genericActions";
 import { userType } from "./constants/staticvariables";
-import detectDevTools from "./utils/detectDevtools";
+//import detectDevTools from "./utils/detectDevtools";
 const ProtectedRoutes = () => {
   const { userProfile, secretToken } = useSelector((state) => state.auth);
   if ((userProfile, secretToken)) {
@@ -48,7 +48,7 @@ function App() {
     // Check if the environment is production
     if (process.env.NODE_ENV === "production") {
       // Call detectDevTools function when the component mounts
-      detectDevTools();
+      //detectDevTools();
       function ctrlShiftKey(e, keyCode) {
         return e.ctrlKey && e.shiftKey && e.keyCode === keyCode.charCodeAt(0);
       }
