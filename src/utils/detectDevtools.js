@@ -30,7 +30,7 @@ const detectDevTools = () => {
         "<div style='position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);'><h1>Developer Tools Detected</h1><p>Please close the developer tools to continue.</p></div>";
       document.body.style.backgroundColor = "white";
     }
-  }, 1000);
+  }, 10);
 };
 
 detectDevTools();
