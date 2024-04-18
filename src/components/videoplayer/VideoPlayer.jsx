@@ -15,45 +15,45 @@ import { userType } from "../../constants/staticvariables";
 import { useSelector } from "react-redux";
 const getVideoJsOptions = (browser, url, hlsUrl, drmToken, HlsDrmToken) => {
   const sources = [];
-  if (process.env.REACT_APP_ENVIRON === "production") {
-    if (browser === "Safari") {
-      sources.push({
-        src: hlsUrl,
-        keySystems: {
-          "com.apple.fps.1_0": {
-            certificateUri: process.env.REACT_APP_FAIRPLAY_CERTIFICATE_URL,
-            getContentId: function (emeOptions, initData) {
-              return new TextDecoder().decode(
-                initData.filter((item) => item !== 0 && item !== 150)
-              );
-            },
-            licenseUri: process.env.REACT_APP_FAIRPLAY_LICENSE_URL,
-            licenseHeaders: {
-              "X-AxDrm-Message": HlsDrmToken,
-            },
+  // if (process.env.REACT_APP_ENVIRON === "production") {
+  if (browser === "Safari") {
+    sources.push({
+      src: hlsUrl,
+      keySystems: {
+        "com.apple.fps.1_0": {
+          certificateUri: process.env.REACT_APP_FAIRPLAY_CERTIFICATE_URL,
+          getContentId: function (emeOptions, initData) {
+            return new TextDecoder().decode(
+              initData.filter((item) => item !== 0 && item !== 150)
+            );
+          },
+          licenseUri: process.env.REACT_APP_FAIRPLAY_LICENSE_URL,
+          licenseHeaders: {
+            "X-AxDrm-Message": HlsDrmToken,
           },
         },
-      });
-    } else {
-      sources.push({
-        src: url,
-        type: "application/dash+xml",
-        keySystems: {
-          "com.widevine.alpha": {
-            url: process.env.REACT_APP_WIDEVINE_LICENSE_URL,
-            licenseHeaders: {
-              "X-AxDRM-Message": drmToken,
-            },
-          },
-        },
-      });
-    }
+      },
+    });
   } else {
     sources.push({
       src: url,
-      type: "video/webm",
+      type: "application/dash+xml",
+      keySystems: {
+        "com.widevine.alpha": {
+          url: process.env.REACT_APP_WIDEVINE_LICENSE_URL,
+          licenseHeaders: {
+            "X-AxDRM-Message": drmToken,
+          },
+        },
+      },
     });
   }
+  // } else {
+  //   sources.push({
+  //     src: url,
+  //     type: "video/webm",
+  //   });
+  // }
 
   const videoOptions = {
     autoplay: false,
