@@ -213,6 +213,10 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
           </FormControl>
 
           <FormControl mt={4}>
+            <Input placeholder="Lecture No" resize={"none"}></Input>
+          </FormControl>
+
+          <FormControl mt={4}>
             <Textarea
               placeholder="Agenda"
               value={agenda}
