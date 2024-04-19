@@ -1,7 +1,7 @@
 // Function to detect if the developer tools are open
 const detectDevTools = () => {
-  const widthThreshold = 160;
-  const heightThreshold = 160;
+  const widthThreshold = 160; 
+  const heightThreshold = 160; 
 
   const isWindowTooLarge = () => {
     return (
@@ -19,6 +19,7 @@ const detectDevTools = () => {
   };
 
   if (isDebuggerOpen()) {
+   
     document.body.innerHTML =
       "<div style='position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);'><h1>Developer Tools Detected</h1><p>Please close the developer tools to continue.</p></div>";
     document.body.style.backgroundColor = "white";
@@ -30,7 +31,7 @@ const detectDevTools = () => {
         "<div style='position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);'><h1>Developer Tools Detected</h1><p>Please close the developer tools to continue.</p></div>";
       document.body.style.backgroundColor = "white";
     }
-  }, 10);
+  }, 1000); 
 };
 
 detectDevTools();

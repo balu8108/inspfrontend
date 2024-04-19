@@ -20,6 +20,7 @@ const Header = () => {
   const { outerBackground, innerBackground, innerBoxShadow } =
     useTheme().colors.pallete;
   const dummyDescriptions = [
+    "Unlock your Olympiad potential with our curated solo video series, tailored for INPHO and other prestigious competitions. Dive deep into physics concepts, problem-solving, and exam strategies to propel your journey towards excellence. Embark on a path of mastery and prepare to shine on the international stage.",
     "Prepare for the Olympiad journey with our Foundation Course, meticulously designed to ignite curiosity and foster problem-solving skills. Dive into advanced topics and lay a strong foundation for competitive examinations.",
     "Explore the advanced topics of Class 12th curriculum, delving deeper into the realms of physics, chemistry, and mathematics. Engage with complex concepts, tackle challenging problems, and prepare yourself for academic excellence.",
     "Dive into the core concepts of Class 11th curriculum, designed to provide a solid foundation in physics, chemistry, and mathematics. Explore fundamental principles, solve intriguing problems, and embark on a journey of discovery.",
@@ -31,6 +32,7 @@ const Header = () => {
   ];
 
   const subjectStatus = [
+    "In Progress",
     "In Progress",
     "In Progress",
     "In Progress",
@@ -86,14 +88,14 @@ const Header = () => {
                 mt={"3px"}
                 fontSize={"12px"}
                 color={
-                  subjectStatus[7 - subject.id] === "In Progress"
+                  subjectStatus[8 - subject.id] === "In Progress"
                     ? "#3DE302"
                     : "#2C332978"
                 }
                 lineHeight={"18px"}
                 ml={"13px"}
               >
-                {subjectStatus[7 - subject.id] || "Status not found"}
+                {subjectStatus[8 - subject.id] || "Status not found"}
               </Text>
               <Text
                 fontSize={"12px"}
@@ -114,7 +116,7 @@ const Header = () => {
                 color={"rgba(44, 51, 41, 0.47)"}
                 noOfLines={3}
               >
-                {dummyDescriptions[7 - subject.id] || "Description not found"}
+                {dummyDescriptions[8 - subject.id] || "Description not found"}
               </Text>
 
               <Link

@@ -86,7 +86,9 @@ const MyCourses = () => {
             <ChemDetails />
           ) : coursetype === "MATHEMATICS" ? (
             <MathsDetails />
-          ) : (
+          ) :  coursetype === "inpho-olympiads" ? (
+            <MathsDetails />
+          ): (
             <LectureCardContainer
               title={
                 coursetype === "crash-course"
