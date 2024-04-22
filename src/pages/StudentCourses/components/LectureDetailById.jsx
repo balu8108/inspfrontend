@@ -3,50 +3,36 @@ import {
   Flex,
   Stack,
   Box,
-  useDisclosure,
   useTheme,
   Text,
   HStack,
-  Spacer,
-  SimpleGrid,
-  Card,
-  Image,
-  IconButton,
   Button,
 } from "@chakra-ui/react";
-import { useParams, useNavigate } from "react-router-dom";
-import { BsPlayFill } from "react-icons/bs";
+import { useParams } from "react-router-dom";
 import { IoAddOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 
 import Header from "../../Mentors/Header/components/HeaderInAllScreen";
-import ScheduleClassPopup from "../../../components/popups/ScheduleClassPopup";
 import { getAllLectureDetails } from "../../../api/lecture";
-import SingleFileComponent from "../../../components/filebox/SingleFileComponent";
-import defaultImageUrl from "../../../assets/images/image1.png";
 import { getAllAssignmentByTopicApi } from "../../../api/assignments";
-import leaderBoard from "../../../assets/images/leaderBoard.svg";
 import { userType } from "../../../constants/staticvariables";
 import { checkUserType } from "../../../utils";
 import UploadAssignmentToClass from "../../../components/popups/UploadAssignmentToClass";
 import { className } from "../../../constants/className";
-import ScheduleClassList from "../../ScheduleClasses/components/ScheduleClassList";
 import SingleLectureDetailsCovered from "../Physics/components/Single.Lecture.Details.Covered";
+import LectureRecordingCard from "./LectureRecordingCard";
+import LectureFileCard from "./LectureFileCard";
+import LectureLeaderBoard from "./LectureLeaderBoard";
+import LectureAssignmentCard from "./LectureAssignmentCard";
 export default function LectureDetailsById() {
-  const { outerBackground, innerBackground } = useTheme().colors.pallete;
+  const { outerBackground } = useTheme().colors.pallete;
   const { userProfile } = useSelector((state) => state.auth);
   const userRoleType = checkUserType(userProfile);
   const { roomId, courseType } = useParams();
-  const {
-    isOpen: isSchedulePopupOpen,
-    onOpen: onSchedulePopupOpen,
-    onClose: onScheduleClosePopupOpen,
-  } = useDisclosure();
 
   const [lectureDetails, setLectureDetails] = useState(null);
   const [assignmentDetails, setAssignmentDetails] = useState(null);
   const [isAssignmentPopupOpen, setIsAssignmentPopupOpen] = useState(false);
-  const navigate = useNavigate();
 
   const getLectureDetails = async () => {
     try {
@@ -72,10 +58,6 @@ export default function LectureDetailsById() {
     }
   };
 
-  const handleViewRecording = (liveClassData) => {
-    navigate(`/view-recording?type=live&id=${liveClassData?.id}`);
-  };
-
   useEffect(() => {
     getLectureDetails();
   }, [roomId]);
@@ -87,14 +69,6 @@ export default function LectureDetailsById() {
 
   return (
     <>
-      {isSchedulePopupOpen && (
-        <ScheduleClassPopup
-          isOpen={isSchedulePopupOpen}
-          onClose={onScheduleClosePopupOpen}
-          isCalenderScreen={false}
-        />
-      )}
-
       {isAssignmentPopupOpen && (
         <UploadAssignmentToClass
           classId={lectureDetails?.id}
@@ -103,343 +77,175 @@ export default function LectureDetailsById() {
           onClose={() => handleAddFile()}
         />
       )}
-
-      <Flex m={"52px"}>
-        <Stack spacing={6} w={"75%"}>
-          {courseType === "Physics" ? (
-            <SingleLectureDetailsCovered />
-          ) : (
-            <Header />
-          )}
-          {lectureDetails ? (
-            <Box
-              width={"full"}
-              h={"100%"}
-              bg={outerBackground}
-              borderRadius={"26px"}
-              p={"20px"}
-            >
-              <Flex mt={"17px"}>
-                <HStack spacing={"10px"} alignItems="center">
-                  <Box
-                    width={"12px"}
-                    height={"25px"}
-                    borderRadius={"20px"}
-                    bg={"#3C8DBC"}
-                  ></Box>
-                  <Text fontSize={"19px"} lineHeight={"24px"}>
-                    Details :{" "}
-                    <span className="text-base">
-                      ({lectureDetails?.LiveClassRoomDetail?.topicName})
-                    </span>
-                    :{" "}
-                    <span className="text-base">
-                      ({className[lectureDetails?.classLevel]})
-                    </span>
-                  </Text>
-                </HStack>
-                <Spacer />
-              </Flex>
-              <Flex mt={"20px"}>
-                <Box width={"50%"}>
-                  <Text
-                    fontWeight={"400"}
-                    fontSize={"16px"}
-                    textColor={"#2C3329"}
-                    lineHeight={"20px"}
-                    mb={"40px"}
-                    mt={"20px"}
-                  >
-                    Lecture {lectureDetails?.LiveClassRoomDetail?.lectureNo}
-                  </Text>
-                  <Box>
-                    <Text
-                      fontWeight={"400"}
-                      fontSize={"16px"}
-                      textColor={"#2C3329"}
-                      lineHeight={"20px"}
-                    >
-                      Description
-                    </Text>
-                    <Text
-                      textColor={"#2C332978"}
-                      fontSize={"12px"}
-                      mt={"4px"}
-                      lineHeight={"21px"}
-                    >
-                      {lectureDetails?.LiveClassRoomDetail?.description}
-                    </Text>
-                  </Box>
-                  <Box pt={6}>
-                    <Text fontSize={"16px"} textColor={"#2C3329"} mb={2}>
-                      Agenda
-                    </Text>
-                    {lectureDetails?.LiveClassRoomDetail?.agenda ? (
-                      lectureDetails.LiveClassRoomDetail.agenda
-                        .split("\r\n")
-                        .slice(0, 4) // Take only the first 4 items
-                        .map((agenda, index) => (
-                          <HStack key={index} pt={1}>
-                            <Box
-                              minWidth={"7px"}
-                              height={"7px"}
-                              bg={"gray.400"}
-                              borderRadius={"100%"}
-                            />
-                            <Text
-                              textColor={"#2C332978"}
-                              fontSize={"12px"}
-                              mt={"4px"}
-                              lineHeight={"21px"}
-                            >
-                              {agenda}
-                            </Text>
-                          </HStack>
-                        ))
-                    ) : (
-                      <Text color={"#2C332978"} fontSize={"12px"} noOfLines={2}>
-                        No Data
-                      </Text>
-                    )}
-                  </Box>
-                </Box>
-                <Box width={"50%"} pl={"20px"}>
-                  <Text
-                    fontWeight={"400"}
-                    fontSize={"16px"}
-                    textColor={"#2C3329"}
-                    mb={"5px"}
-                  >
-                    Leader Board
-                  </Text>
-                  <Flex>
-                    <img
-                      // className="h-[250px] ml-10"
-                      src={leaderBoard}
-                      alt="Leader Board"
-                    />
-                    <Box width={"100%"}>
-                      {lectureDetails?.LeaderBoards?.map(
-                        (leaderBoard, index) => (
-                          <Flex
-                            key={leaderBoard?.id}
-                            justifyContent={"space-between"}
-                            alignItems={"center"}
-                            mt={"3px"}
-                          >
-                            <Box width={"50%"}>
-                              <Text
-                                noOfLines={1}
-                                fontSize={"14px"}
-                                fontWeight={"400"}
-                                textColor={"#2C332978"}
-                              >
-                                {index + 1}. {leaderBoard?.peerName}
-                              </Text>
-                            </Box>
-                            <Text
-                              fontSize={"14px"}
-                              fontWeight={"400"}
-                              textColor={"#2C332978"}
-                            >
-                              {leaderBoard?.correctAnswers} /{" "}
-                              {
-                                lectureDetails?.LiveClassTestQuestionLogs[0]
-                                  ?.questionLogCount
-                              }
-                            </Text>
-                            <Text
-                              fontSize={"14px"}
-                              fontWeight={"400"}
-                              textColor={"#2C332978"}
-                            >
-                              {leaderBoard?.combinedResponseTime} sec
-                            </Text>
-                          </Flex>
-                        )
-                      )}
-                    </Box>
-                  </Flex>
-                </Box>
-              </Flex>
-              <Box overflowX={"auto"} mt={8}>
+      <Stack spacing={6}>
+        {courseType === "Physics" ? (
+          <SingleLectureDetailsCovered />
+        ) : (
+          <Header />
+        )}
+        <Box
+          width={"full"}
+          h={"100%"}
+          bg={outerBackground}
+          borderRadius={"26px"}
+          p={"20px"}
+        >
+          <Flex mt={"17px"}>
+            <HStack spacing={"10px"} alignItems="center">
+              <Box
+                width={"12px"}
+                height={"25px"}
+                borderRadius={"20px"}
+                bg={"#3C8DBC"}
+              ></Box>
+              <Text fontSize={"19px"} lineHeight={"24px"}>
+                Details :{" "}
+                <span className="text-base">
+                  ({lectureDetails?.LiveClassRoomDetail?.topicName})
+                </span>
+                :{" "}
+                <span className="text-base">
+                  ({className[lectureDetails?.classLevel]})
+                </span>
+              </Text>
+            </HStack>
+          </Flex>
+          <Flex mt={"20px"}>
+            <Box width={"50%"}>
+              <Text
+                fontWeight={"400"}
+                fontSize={"16px"}
+                textColor={"#2C3329"}
+                lineHeight={"20px"}
+                mb={"40px"}
+                mt={"20px"}
+              >
+                Lecture {lectureDetails?.LiveClassRoomDetail?.lectureNo}
+              </Text>
+              <Box>
                 <Text
                   fontWeight={"400"}
                   fontSize={"16px"}
                   textColor={"#2C3329"}
                   lineHeight={"20px"}
                 >
-                  Recordings
+                  Description
                 </Text>
-                <Flex gap={"24px"} overflowX="auto" className="example">
-                  {lectureDetails?.LiveClassRoomRecordings?.length > 0 ? (
-                    <Flex gap={4} mt={4}>
-                      {lectureDetails?.LiveClassRoomRecordings.map(
-                        (recording) => (
-                          <Flex
-                            alignItems="center"
-                            w={"160px"}
-                            key={recording?.id}
-                            onClick={() => handleViewRecording(lectureDetails)}
-                            position={"relative"}
-                            cursor={"pointer"}
-                          >
-                            <Image
-                              src={defaultImageUrl}
-                              alt="Video Thumbnail"
-                              width={"100%"}
-                              height={"100%"}
-                            />
-                            <IconButton
-                              icon={<BsPlayFill />}
-                              fontSize="24px"
-                              position="absolute"
-                              top="50%"
-                              left="50%"
-                              borderRadius={"100%"}
-                              transform="translate(-50%, -50%)"
-                            />
-                          </Flex>
-                        )
-                      )}
-                    </Flex>
-                  ) : (
-                    <Text fontSize={"12px"} mt={4}>
-                      No recording are available for this topic.
-                    </Text>
-                  )}
-                </Flex>
+                <Text
+                  textColor={"#2C332978"}
+                  fontSize={"12px"}
+                  mt={"4px"}
+                  lineHeight={"21px"}
+                >
+                  {lectureDetails?.LiveClassRoomDetail?.description}
+                </Text>
               </Box>
-
-              <Box mt={8}>
-                <Flex>
-                  <Text
-                    fontWeight={"400"}
-                    fontSize={"16px"}
-                    textColor={"#2C3329"}
-                    lineHeight={"20px"}
-                  >
-                    Files/Notes
-                  </Text>
-
-                  <Spacer />
-                  {userRoleType === userType.teacher && (
-                    <Flex
-                      alignItems={"center"}
-                      _hover={{ bg: "none", cursor: "pointer" }}
-                      onClick={() => {
-                        setIsAssignmentPopupOpen(true);
-                      }}
-                    >
-                      <Button variant={"ghost"} bg="none">
-                        <IoAddOutline
-                          color={"3C8DBC"}
-                          fontSize={"20px"}
-                          bg="red"
+              <Box pt={6}>
+                <Text fontSize={"16px"} textColor={"#2C3329"} mb={2}>
+                  Agenda
+                </Text>
+                {lectureDetails?.LiveClassRoomDetail?.agenda ? (
+                  lectureDetails.LiveClassRoomDetail.agenda
+                    .split("\r\n")
+                    .slice(0, 4) // Take only the first 4 items
+                    .map((agenda, index) => (
+                      <HStack key={index} pt={1}>
+                        <Box
+                          minWidth={"7px"}
+                          height={"7px"}
+                          bg={"gray.400"}
+                          borderRadius={"100%"}
                         />
-                      </Button>
-
-                      <Text
-                        fontSize={"14px"}
-                        fontWeight={400}
-                        color={"#3C8DBC"}
-                        variant={"ghost"}
-                      >
-                        Add Files
-                      </Text>
-                    </Flex>
-                  )}
-                </Flex>
-                {lectureDetails?.LiveClassRoomFiles?.length > 0 ? (
-                  <Flex mt={4} flexWrap="wrap" gap={2}>
-                    {lectureDetails?.LiveClassRoomFiles?.map((file) => (
-                      <SingleFileComponent
-                        key={file?.id}
-                        file={file}
-                        type={"live"}
-                      />
-                    ))}
-
-                    {lectureDetails?.LiveClassRoomNote !== null && (
-                      <SingleFileComponent
-                        key={lectureDetails?.LiveClassRoomNote?.id}
-                        file={lectureDetails?.LiveClassRoomNote}
-                        type="note"
-                      />
-                    )}
-                  </Flex>
-                ) : (
-                  <Text fontSize="12px" mt={4}>
-                    No Data for this topic
-                  </Text>
-                )}
-              </Box>
-
-              <Box mt={8}>
-                <Text
-                  fontWeight={"400"}
-                  fontSize={"16px"}
-                  textColor={"#2C3329"}
-                  lineHeight={"20px"}
-                >
-                  Assignments
-                </Text>
-                {assignmentDetails && assignmentDetails.length > 0 ? (
-                  <SimpleGrid style={{ marginTop: "16px" }} spacing={6}>
-                    {assignmentDetails.map((assignment, index) => (
-                      <Card
-                        key={assignment?.id}
-                        h={"100%"}
-                        flex={1}
-                        borderRadius={"18px"}
-                        bg={innerBackground}
-                        p={4}
-                      >
-                        <Text fontSize={"xs"}>Description</Text>
                         <Text
-                          fontSize={"xs"}
-                          color={"#2C332978"}
-                          noOfLines={2}
-                          mt={2}
+                          textColor={"#2C332978"}
+                          fontSize={"12px"}
+                          mt={"4px"}
+                          lineHeight={"21px"}
                         >
-                          {assignment.description}
+                          {agenda}
                         </Text>
-                        <HStack mt={4}>
-                          {assignment.AssignmentFiles.map((file, fileIndex) => (
-                            <SingleFileComponent
-                              key={file?.id}
-                              file={file}
-                              type="assignment"
-                            />
-                          ))}
-                        </HStack>
-                      </Card>
-                    ))}
-                  </SimpleGrid>
+                      </HStack>
+                    ))
                 ) : (
-                  <Text fontSize={"12px"} mt={4}>
-                    No assignments for this topic.
+                  <Text color={"#2C332978"} fontSize={"12px"} noOfLines={2}>
+                    No Data
                   </Text>
                 )}
               </Box>
             </Box>
-          ) : (
-            <Flex
-              width={"full"}
-              h={"300px"}
-              bg={outerBackground}
-              borderRadius={"26px"}
-              p={"20px"}
-              display={"flex"}
-              justifyContent={"center"}
-              alignContent={"center"}
+            <Box width={"50%"} pl={"20px"}>
+              <Text
+                fontWeight={"400"}
+                fontSize={"16px"}
+                textColor={"#2C3329"}
+                mb={"5px"}
+              >
+                Leader Board
+              </Text>
+              <LectureLeaderBoard lectureDetails={lectureDetails} />
+            </Box>
+          </Flex>
+          <Box overflowX={"auto"} mt={8}>
+            <Text
+              fontWeight={"400"}
+              fontSize={"16px"}
+              textColor={"#2C3329"}
+              lineHeight={"20px"}
             >
-              <Text>No Data Found</Text>
+              Recordings
+            </Text>
+            <LectureRecordingCard lectureDetails={lectureDetails} />
+          </Box>
+
+          <Box mt={8}>
+            <Flex justifyContent={"space-between"}>
+              <Text
+                fontWeight={"400"}
+                fontSize={"16px"}
+                textColor={"#2C3329"}
+                lineHeight={"20px"}
+              >
+                Files/Notes
+              </Text>
+              {userRoleType === userType.teacher && (
+                <Flex
+                  alignItems={"center"}
+                  _hover={{ bg: "none", cursor: "pointer" }}
+                  onClick={() => {
+                    setIsAssignmentPopupOpen(true);
+                  }}
+                >
+                  <Button variant={"ghost"} bg="none">
+                    <IoAddOutline color={"3C8DBC"} fontSize={"20px"} bg="red" />
+                  </Button>
+
+                  <Text
+                    fontSize={"14px"}
+                    fontWeight={400}
+                    color={"#3C8DBC"}
+                    variant={"ghost"}
+                  >
+                    Add Files
+                  </Text>
+                </Flex>
+              )}
             </Flex>
-          )}
-        </Stack>
-        <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
-      </Flex>
+            <LectureFileCard lectureDetails={lectureDetails} />
+          </Box>
+
+          <Box mt={8}>
+            <Text
+              fontWeight={"400"}
+              fontSize={"16px"}
+              textColor={"#2C3329"}
+              lineHeight={"20px"}
+            >
+              Assignments
+            </Text>
+            <LectureAssignmentCard assignmentDetails={assignmentDetails} />
+          </Box>
+        </Box>
+      </Stack>
     </>
   );
 }

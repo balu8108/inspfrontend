@@ -15,10 +15,9 @@ import { useNavigate } from "react-router-dom";
 import VectorImage from "../../../assets/images/Line/Vector.svg";
 import LectureCard from "../../../components/Card/LectureCard";
 
-const  LectureCardContainer = ({title, loading, lecture, type}) => {
+const LectureCardContainer = ({ title, loading, lecture, type }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const { outerBackground, innerBackground } =
-    useTheme().colors.pallete;
+  const { outerBackground, innerBackground } = useTheme().colors.pallete;
   const navigate = useNavigate();
 
   const filteredTopics = lecture.filter((item) =>
@@ -27,9 +26,9 @@ const  LectureCardContainer = ({title, loading, lecture, type}) => {
       .includes(searchTerm.toLowerCase())
   );
 
-  const handleNavigate = (roomId) =>{
-    navigate(`/my-courses/lecture-detail/${roomId}/${type}`)
-  }
+  const handleNavigate = (roomId) => {
+    navigate(`/my-courses/lecture-detail/${roomId}/${type}`);
+  };
 
   return (
     <Box width={"full"} h={"100%"} bg={outerBackground} borderRadius={"26px"}>
@@ -77,12 +76,12 @@ const  LectureCardContainer = ({title, loading, lecture, type}) => {
             {filteredTopics?.map(
               ({ roomId, LiveClassRoomDetail, scheduledDate, classLevel }) => (
                 <LectureCard
-                key={roomId}
-                id={roomId}
-                classRoomDetail={LiveClassRoomDetail} 
-                scheduledDate={scheduledDate} 
-                classLevel={classLevel} 
-                route={handleNavigate}
+                  key={roomId}
+                  id={roomId}
+                  classRoomDetail={LiveClassRoomDetail}
+                  scheduledDate={scheduledDate}
+                  classLevel={classLevel}
+                  route={handleNavigate}
                 />
               )
             )}

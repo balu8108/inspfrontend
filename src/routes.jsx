@@ -72,7 +72,7 @@ const privateRoutes = [
 
   {
     name: "Lecture Page",
-    path: "/topic/lecture/:lectureId/details",
+    path: "/topic/lecture/:lectureId/:lectureName/details",
     component: <TopicLectureScreen />,
   },
   {

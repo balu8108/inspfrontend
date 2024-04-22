@@ -17,11 +17,12 @@ import topicDescriptionConstants from "../../../../constants/topicDescriptionCon
 import { getAllLectureByTopicId } from "../../../../api/lecture";
 import LectureCard from "../../../../components/Card/LectureCard";
 
-const LectureListPage = ({ lectureId }) => {
+const LectureListPage = ({ lectureId, lectureName }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const topics = location.state?.topics || [];
   const [selectedTopic, setSelectedTopic] = useState(lectureId);
+  const [selectedTopicName, setSelectedTopicName] = useState(lectureName);
   const [searchTerm, setSearchTerm] = useState("");
   const [lecturesData, setLecturesData] = useState([]);
   const { outerBackground, innerBackground, innerBoxShadow } =
@@ -33,7 +34,8 @@ const LectureListPage = ({ lectureId }) => {
   const lectures = selectedTopic ? lecturesData : [];
 
   const handleTopicClick = (topic) => {
-    setSelectedTopic(topic);
+    setSelectedTopic(topic?.id);
+    setSelectedTopicName(topic?.name);
   };
 
   const handleView = (roomId) => {
@@ -41,7 +43,7 @@ const LectureListPage = ({ lectureId }) => {
       navigate(`/my-courses/lecture-detail/${roomId}/Physics`, {
         state: {
           lecture: lectures,
-          topicname: selectedTopic,
+          topicname: selectedTopicName,
         },
       });
     }
@@ -151,7 +153,7 @@ const LectureListPage = ({ lectureId }) => {
                 lineHeight={"16px"}
                 m={"20px"}
                 _hover={{ bg: "white" }}
-                onClick={() => handleTopicClick(topic?.id)}
+                onClick={() => handleTopicClick(topic)}
               >
                 View Details
               </Button>
@@ -170,7 +172,7 @@ const LectureListPage = ({ lectureId }) => {
                 bg={"#3C8DBC"}
               ></Box>
               <Text fontSize={"19px"} lineHeight={"24px"}>
-                Topic({capitalize(selectedTopic)})
+                Topic({capitalize(selectedTopicName)})
               </Text>
             </HStack>
 
