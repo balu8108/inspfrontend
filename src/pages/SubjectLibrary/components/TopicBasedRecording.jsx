@@ -6,8 +6,8 @@ import {
   Flex,
   HStack,
   Input,
-  Spacer,
   Spinner,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -60,9 +60,9 @@ const TopicBasedRecording = () => {
 
   return (
     <Box width={"100%"}>
-      <Box bg={outerBackground} borderRadius={"26px"}>
-        <Flex>
-          <HStack spacing={"10px"} ml="27px">
+      <Box bg={outerBackground} borderRadius={"26px"} p={"30px"}>
+        <Flex justifyContent={"space-between"} mb={"20px"}>
+          <HStack spacing={"10px"}>
             <Box
               width={"12px"}
               height={"25px"}
@@ -73,9 +73,6 @@ const TopicBasedRecording = () => {
               Topic({capitalize(topicName)})
             </Text>
           </HStack>
-
-          <Spacer />
-
           <Input
             type="text"
             value={searchTerm}
@@ -87,8 +84,6 @@ const TopicBasedRecording = () => {
             px="3"
             bg={innerBackground}
             py="2"
-            mx={12}
-            my={"17"}
             style={{
               backgroundImage: `url(${VectorImage})`,
               backgroundRepeat: "no-repeat",
@@ -102,9 +97,10 @@ const TopicBasedRecording = () => {
             <Spinner />
           </Center>
         )}
-        <Flex p={6} gap={"24px"} flexWrap={"wrap"}>
+        <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={"6"}>
           {lecturesData.filter(filterLectures).map((lecture) => (
             <LectureCard
+              width={"100%"}
               id={lecture?.roomId}
               classRoomDetail={lecture?.LiveClassRoomDetail}
               scheduledDate={lecture?.scheduledDate}
@@ -123,7 +119,7 @@ const TopicBasedRecording = () => {
               No Lecture for this topic
             </Box>
           )}
-        </Flex>
+        </SimpleGrid>
       </Box>
     </Box>
   );

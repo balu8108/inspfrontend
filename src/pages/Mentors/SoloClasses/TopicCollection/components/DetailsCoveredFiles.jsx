@@ -129,59 +129,6 @@ const DetailsCoveredFiles = () => {
             </Text>
           )}
         </Flex>
-        {/* <Box bg="red">
-          {topicDetails && topicDetails.length > 0 ? (
-            <Flex gap={"24px"} flexWrap={"wrap"}>
-              {topicDetails.map((topicInfo, index) => (
-                <Flex key={index} mt={4}>
-                  {topicInfo?.SoloClassRoomRecordings.map(
-                    (recording, recordingIndex) => (
-                      <Card
-                        key={recording.id}
-                        w={"160px"}
-                        mt={"16px"}
-                        onClick={() =>
-                          handleViewRecording(recording, topicInfo)
-                        }
-                        mr={2}
-                      >
-                        <Flex alignItems="center">
-                          <Image
-                            src={defaultImageUrl}
-                            alt="Video Thumbnail"
-                            width={"100%"}
-                            height={"100%"}
-                          />
-                          <Icon
-                            as={BsPlayFill}
-                            color="#2C332978"
-                            fontSize="24px"
-                            position="absolute"
-                            top="50%"
-                            left="50%"
-                            transform="translate(-50%, -50%)"
-                            opacity={hoveredCardIndex === index ? 1 : 0}
-                          />
-                        </Flex>
-                      </Card>
-                    )
-                  )}
-                  {topicDetails?.every(
-                    (data) => data.SoloClassRoomRecordings.length === 0
-                  ) && (
-                    <Text fontSize="12px">
-                      No recordings available for the topic.
-                    </Text>
-                  )}
-                </Flex>
-              ))}
-            </Flex>
-          ) : (
-            <Text fontSize={"12px"}>
-              No recording are available for this topic.
-            </Text>
-          )}
-        </Box> */}
       </Box>
 
       <Box mt={8}>

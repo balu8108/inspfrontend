@@ -2,28 +2,25 @@
 import React, { useState, useEffect } from "react";
 import {
   Box,
-  Card,
   Text,
   HStack,
-  Spacer,
   Button,
   Flex,
   Spinner,
   useTheme,
 } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 import SoloRecordModal from "../../SoloRecordModal/components/SoloRecordModal";
 import { fetchAllTopicsWithoutChapterIdApi } from "../../../../../api/inspexternalapis";
-import topicDescriptionConstants from "../../../../../constants/topicDescriptionConstants";
 import "../../../../../constants/scrollbar/style.css";
-import { Link } from "react-router-dom";
-import { capitalize } from "../../../../../utils";
+import TopicCard from "../../../../../components/Card/TopicCard";
 
 const TopicsBased = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoadingTopics, setIsLoadingTopics] = useState(true);
   const [topics, setTopics] = useState([]);
-  const { primaryBlueLight, outerBackground, innerBackground, innerBoxShadow } =
-    useTheme().colors.pallete;
+  const navigate = useNavigate();
+  const { primaryBlueLight, outerBackground } = useTheme().colors.pallete;
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -51,9 +48,13 @@ const TopicsBased = () => {
     fetchAllTopicsWithoutChapterId();
   }, []);
 
+  const handleTopicNavigation = (topic) => {
+    navigate(`/mentor/solo-recordings/topic/${topic.id}/${topic.name}`);
+  };
+
   return (
-    <Box borderRadius={"26px"} w={"100%"} h={"full"} bg={outerBackground}>
-      <Flex p={5}>
+    <Box borderRadius={"26px"} p={"30px"} bg={outerBackground}>
+      <Flex mb={"20px"} justifyContent={"space-between"}>
         <HStack spacing={"10px"}>
           <Box
             width={"12px"}
@@ -65,7 +66,6 @@ const TopicsBased = () => {
             Solo Recording
           </Text>
         </HStack>
-        <Spacer />
         <Box>
           <Button
             fontWeight={400}
@@ -80,88 +80,21 @@ const TopicsBased = () => {
           </Button>
         </Box>
       </Flex>
-
       {isLoadingTopics ? (
         <Flex justifyContent="center" alignItems="center" height="200px">
           <Spinner size="lg" color="blue.500" />
         </Flex>
       ) : (
-        <Flex overflowX={"auto"} className="example" gap={"24px"} mx={5}>
+        <Flex overflowX={"auto"} className="example" gap={"24px"}>
           {topics.map((topic) => (
-            <Card
-              key={topic.id}
-              h={"204px"}
-              minW={"30%"}
-              bg={innerBackground}
-              boxShadow={innerBoxShadow}
-              mb={"16px"}
-              borderRadius={"26px"}
-            >
-              <Text
-                fontSize={"15px"}
-                ml={"13px"}
-                mt={"16px"}
-                lineHeight={"19px"}
-                noOfLines={1}
-              >
-                {capitalize(topic?.name)}
-              </Text>
-              <Text
-                fontWeight={400}
-                fontSize={"11px"}
-                lineHeight={"15px"}
-                ml={"13px"}
-                color={"rgba(44, 51, 41, 0.47)"}
-              >
-                Nitin Sachan
-              </Text>
-              <Text
-                fontSize={"12px"}
-                lineHeight={"13px"}
-                ml={"13px"}
-                fontWeight={400}
-                color={"rgba(44, 51, 41, 1)"}
-                mt={"18px"}
-              >
-                Description
-              </Text>
-              <Text
-                fontSize={"11px"}
-                lineHeight={"21px"}
-                fontWeight={400}
-                ml={13}
-                noOfLines={"3"}
-                color={"rgba(44, 51, 41, 0.47)"}
-              >
-                {topicDescriptionConstants[topic.id]}
-              </Text>
-
-              <Link
-                to={`/mentor/solo-recordings/topic/${topic.id}/${topic.name}`}
-                style={{
-                  position: "absolute",
-                  bottom: 0,
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                }}
-              >
-                <Button
-                  variant={"ghost"}
-                  color={"#3C8DBC"}
-                  fontWeight={"600"}
-                  size={"14px"}
-                  lineHeight={"16px"}
-                  p={6}
-                  _hover={{ bg: "white" }}
-                >
-                  View Details
-                </Button>
-              </Link>
-            </Card>
+            <TopicCard
+              width={"30%"}
+              topic={topic}
+              handleView={handleTopicNavigation}
+            />
           ))}
         </Flex>
       )}
-
       {isModalOpen && (
         <SoloRecordModal isOpen={isModalOpen} onClose={closeModal} />
       )}

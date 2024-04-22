@@ -6,7 +6,6 @@ import {
   Card,
   Flex,
   HStack,
-  Spacer,
   Text,
   useTheme,
 } from "@chakra-ui/react";
@@ -42,7 +41,7 @@ const FeedBack = () => {
       h={"30%"}
       bg={outerBackground}
     >
-      <Flex>
+      <Flex justifyContent={"space-between"}>
         <HStack spacing={"10px"}>
           <Box
             width={"12px"}
@@ -56,7 +55,6 @@ const FeedBack = () => {
             Rating & Feedback
           </Text>
         </HStack>
-        <Spacer />
         <Link to={`/mentor/rating&feedback`}>
           <Button
             variant={"ghost"}

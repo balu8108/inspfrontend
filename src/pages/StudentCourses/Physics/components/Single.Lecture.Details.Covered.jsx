@@ -8,7 +8,6 @@ import {
   useTheme,
   Button,
   Card,
-  Spacer,
 } from "@chakra-ui/react";
 import { useLocation } from "react-router-dom";
 import { getAllLectureByTopicId } from "../../../../api/lecture";
@@ -76,7 +75,7 @@ const SingleLectureDetailsCovered = () => {
             boxShadow={innerBoxShadow}
             mb={5}
           >
-            <Flex>
+            <Flex justifyContent={"space-between"}>
               <Box>
                 <Text
                   fontSize={"15px"}
@@ -97,8 +96,6 @@ const SingleLectureDetailsCovered = () => {
                   {capitalize(topicname)}
                 </Text>
               </Box>
-              <Spacer />
-
               <Text
                 fontWeight={400}
                 fontSize={"11px"}

@@ -4,7 +4,7 @@ import ScheduleClass from "./pages/ScheduleClasses/screens/ScheduleClass";
 import Viewrecording from "./pages/ViewRecording/screen/Recordings";
 import StudentAssignment from "./pages/StudentAssignment/screen/StudentAssignment";
 import LibraryScreen from "./pages/SubjectLibrary/screen/LibraryScreen";
-import ChapterDetailsScreen from "./pages/StudentCourses/Physics/screens/ChapterDetailsScreen";
+import ChaptersTopicPage from "./pages/StudentCourses/Physics/components/ChaptersTopicsPage";
 import TopicLectureScreen from "./pages/StudentCourses/Physics/screens/TopicLectureScreen";
 import Home from "./components/home/Home";
 import AuthLoading from "./components/loaders/AuthLoading";
@@ -67,7 +67,7 @@ const privateRoutes = [
   {
     name: "Chapter Page",
     path: "/chapter-details/:chapterName",
-    component: <ChapterDetailsScreen />,
+    component: <ChaptersTopicPage />,
   },
 
   {

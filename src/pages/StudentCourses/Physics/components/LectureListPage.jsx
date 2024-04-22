@@ -1,21 +1,19 @@
 import {
   Box,
   Text,
-  Card,
   useTheme,
-  Button,
   Flex,
   HStack,
   Input,
-  Spacer,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { capitalize } from "../../../../utils";
 import VectorImage from "../../../../assets/images/Line/Vector.svg";
-import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
 import { getAllLectureByTopicId } from "../../../../api/lecture";
 import LectureCard from "../../../../components/Card/LectureCard";
+import TopicCard from "../../../../components/Card/TopicCard";
 
 const LectureListPage = ({ lectureId, lectureName }) => {
   const location = useLocation();
@@ -25,8 +23,7 @@ const LectureListPage = ({ lectureId, lectureName }) => {
   const [selectedTopicName, setSelectedTopicName] = useState(lectureName);
   const [searchTerm, setSearchTerm] = useState("");
   const [lecturesData, setLecturesData] = useState([]);
-  const { outerBackground, innerBackground, innerBoxShadow } =
-    useTheme().colors.pallete;
+  const { outerBackground, innerBackground } = useTheme().colors.pallete;
 
   const selectedChapterName =
     location.state?.selectedChapterName || "Select a Chapter";
@@ -75,96 +72,42 @@ const LectureListPage = ({ lectureId, lectureName }) => {
 
   return (
     <Box width={"100%"}>
-      <Box bg={outerBackground} borderRadius={"26px"} className="example">
-        <Box pt={5} marginLeft={"33px"}>
-          <HStack spacing={"10px"} alignItems="center">
-            <Box
-              width={"12px"}
-              height={"25px"}
-              borderRadius={"20px"}
-              bg={"#3C8DBC"}
-            ></Box>
-            <Text fontSize={"19px"} lineHeight={"24px"}>
-              Physics({selectedChapterName})
-            </Text>
-          </HStack>
-        </Box>
+      <Box
+        bg={outerBackground}
+        borderRadius={"26px"}
+        p={"30px"}
+        className="example"
+      >
+        <HStack spacing={"10px"} mb={"20px"} alignItems="center">
+          <Box
+            width={"12px"}
+            height={"25px"}
+            borderRadius={"20px"}
+            bg={"#3C8DBC"}
+          ></Box>
+          <Text fontSize={"19px"} lineHeight={"24px"}>
+            Physics ({selectedChapterName})
+          </Text>
+        </HStack>
         <Flex
           flexDirection={"row"}
           gap={23}
           overflowX={"auto"}
           className="example"
-          m={"24px"}
         >
           {topics.map((topic) => (
-            <Card
-              key={topic.id}
-              w={"30%"}
-              boxShadow={innerBoxShadow}
-              borderRadius={"18px"}
-              flexShrink={"0"}
-              display="flex"
-              flexDirection="column"
-            >
-              <Text
-                fontSize={"15px"}
-                ml={"13px"}
-                mt={"16px"}
-                lineHeight={"19px"}
-                noOfLines={1}
-              >
-                {capitalize(topic.name)}
-              </Text>
-              <Text
-                fontWeight={400}
-                fontSize={"11px"}
-                lineHeight={"15px"}
-                ml={"13px"}
-                color={"rgba(44, 51, 41, 0.47)"}
-              >
-                Nitin Sachan
-              </Text>
-              <Text
-                fontSize={"12px"}
-                lineHeight={"13px"}
-                ml={"13px"}
-                fontWeight={400}
-                color={"rgba(44, 51, 41, 1)"}
-                mt={"18px"}
-              >
-                Description
-              </Text>
-              <Text
-                fontSize={"11px"}
-                lineHeight={"21px"}
-                fontWeight={400}
-                ml={13}
-                noOfLines={"3"}
-                color={"rgba(44, 51, 41, 0.47)"}
-              >
-                {topicDescriptionConstants[topic.id]}
-              </Text>
-
-              <Button
-                variant={"ghost"}
-                color={"#3C8DBC"}
-                fontWeight={"600"}
-                size={"14px"}
-                lineHeight={"16px"}
-                m={"20px"}
-                _hover={{ bg: "white" }}
-                onClick={() => handleTopicClick(topic)}
-              >
-                View Details
-              </Button>
-            </Card>
+            <TopicCard
+              width={"30%"}
+              topic={topic}
+              handleView={handleTopicClick}
+            />
           ))}
         </Flex>
       </Box>
       {selectedTopic ? (
-        <Box bg={outerBackground} borderRadius={"26px"} mt={"24px"}>
-          <Flex>
-            <HStack spacing={"10px"} ml="27px">
+        <Box bg={outerBackground} borderRadius={"26px"} mt={"24px"} p={"30px"}>
+          <Flex justifyContent={"space-between"} mb={"20px"}>
+            <HStack spacing={"10px"}>
               <Box
                 width={"12px"}
                 height={"25px"}
@@ -172,12 +115,9 @@ const LectureListPage = ({ lectureId, lectureName }) => {
                 bg={"#3C8DBC"}
               ></Box>
               <Text fontSize={"19px"} lineHeight={"24px"}>
-                Topic({capitalize(selectedTopicName)})
+                Topic ({capitalize(selectedTopicName)})
               </Text>
             </HStack>
-
-            <Spacer />
-
             <Input
               type="text"
               value={searchTerm}
@@ -189,8 +129,6 @@ const LectureListPage = ({ lectureId, lectureName }) => {
               px="3"
               bg={innerBackground}
               py="2"
-              mx={12}
-              my={"17"}
               style={{
                 backgroundImage: `url(${VectorImage})`,
                 backgroundRepeat: "no-repeat",
@@ -199,9 +137,10 @@ const LectureListPage = ({ lectureId, lectureName }) => {
               }}
             />
           </Flex>
-          <Flex p={6} gap={"24px"} flexWrap={"wrap"}>
+          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={"6"}>
             {lectures.filter(filterLectures).map((lecture) => (
               <LectureCard
+                width={"100%"}
                 id={lecture?.roomId}
                 classRoomDetail={lecture?.LiveClassRoomDetail}
                 scheduledDate={lecture?.scheduledDate}
@@ -209,18 +148,18 @@ const LectureListPage = ({ lectureId, lectureName }) => {
                 route={handleView}
               />
             ))}
-            {lectures.length === 0 && (
-              <Box
-                h={"204px"}
-                width={"100%"}
-                justifyContent={"center"}
-                alignItems={"center"}
-                display={"flex"}
-              >
-                No Lecture for this topic
-              </Box>
-            )}
-          </Flex>
+          </SimpleGrid>
+          {lectures.length === 0 && (
+            <Box
+              h={"204px"}
+              width={"100%"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              display={"flex"}
+            >
+              No Lecture for this topic
+            </Box>
+          )}
         </Box>
       ) : (
         <Box

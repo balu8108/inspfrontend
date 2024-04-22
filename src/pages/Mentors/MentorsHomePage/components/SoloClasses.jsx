@@ -6,7 +6,6 @@ import {
   Card,
   Flex,
   HStack,
-  Spacer,
   Text,
   useTheme,
 } from "@chakra-ui/react";
@@ -46,7 +45,7 @@ const SoloClasses = () => {
       w={"95%"}
       h={"full"}
     >
-      <Flex>
+      <Flex justifyContent={"space-between"}>
         <HStack spacing={"10px"}>
           <Box
             width={"12px"}
@@ -60,8 +59,6 @@ const SoloClasses = () => {
             Solo Classes
           </Text>
         </HStack>
-        <Spacer />
-
         <Button
           variant={"ghost"}
           fontSize={"sm"}

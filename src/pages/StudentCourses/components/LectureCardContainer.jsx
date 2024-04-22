@@ -3,13 +3,12 @@ import {
   Box,
   Flex,
   Text,
-  Stack,
   Spinner,
   useTheme,
   HStack,
   Input,
-  Spacer,
   Center,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import VectorImage from "../../../assets/images/Line/Vector.svg";
@@ -31,9 +30,9 @@ const LectureCardContainer = ({ title, loading, lecture, type }) => {
   };
 
   return (
-    <Box width={"full"} h={"100%"} bg={outerBackground} borderRadius={"26px"}>
-      <Flex mt={"17px"}>
-        <HStack spacing={"10px"} alignItems="center" ml={"33px"}>
+    <Box bg={outerBackground} p={"30px"} borderRadius={"26px"}>
+      <Flex justifyContent={"space-between"} mb={"20px"}>
+        <HStack spacing={"10px"} alignItems="center">
           <Box
             width={"12px"}
             height={"25px"}
@@ -44,7 +43,6 @@ const LectureCardContainer = ({ title, loading, lecture, type }) => {
             {title}
           </Text>
         </HStack>
-        <Spacer />
         <Input
           type="text"
           value={searchTerm}
@@ -57,7 +55,6 @@ const LectureCardContainer = ({ title, loading, lecture, type }) => {
           px="3"
           fontWeight={400}
           py="2"
-          mx={"10"}
           style={{
             backgroundImage: `url(${VectorImage})`,
             backgroundRepeat: "no-repeat",
@@ -71,22 +68,21 @@ const LectureCardContainer = ({ title, loading, lecture, type }) => {
           <Spinner size={"md"} />
         </Center>
       ) : (
-        <Stack>
-          <Flex flexWrap="wrap" p={6} gap={"24px"}>
-            {filteredTopics?.map(
-              ({ roomId, LiveClassRoomDetail, scheduledDate, classLevel }) => (
-                <LectureCard
-                  key={roomId}
-                  id={roomId}
-                  classRoomDetail={LiveClassRoomDetail}
-                  scheduledDate={scheduledDate}
-                  classLevel={classLevel}
-                  route={handleNavigate}
-                />
-              )
-            )}
-          </Flex>
-        </Stack>
+        <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={"6"}>
+          {filteredTopics?.map(
+            ({ roomId, LiveClassRoomDetail, scheduledDate, classLevel }) => (
+              <LectureCard
+                key={roomId}
+                id={roomId}
+                width={"100%"}
+                classRoomDetail={LiveClassRoomDetail}
+                scheduledDate={scheduledDate}
+                classLevel={classLevel}
+                route={handleNavigate}
+              />
+            )
+          )}
+        </SimpleGrid>
       )}
     </Box>
   );
