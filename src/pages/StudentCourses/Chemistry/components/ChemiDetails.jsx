@@ -7,7 +7,6 @@ import {
   VStack,
   Center,
   Image,
-  Spacer,
   Flex,
   useTheme,
 } from "@chakra-ui/react";
@@ -33,7 +32,6 @@ const ChemDetails = () => {
             My Courses (Chemistry)
           </Text>
         </HStack>
-        <Spacer />
       </Flex>
       <VStack gap={"24px"}>
         <Center>

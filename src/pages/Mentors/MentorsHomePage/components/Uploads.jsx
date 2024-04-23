@@ -6,7 +6,6 @@ import {
   Card,
   Flex,
   HStack,
-  Spacer,
   Text,
   Icon,
   useTheme,
@@ -49,7 +48,7 @@ const MentorsUploads = () => {
 
   return (
     <Box w={"95%"} borderRadius={"26px"} bg={outerBackground}>
-      <Flex>
+      <Flex justifyContent={"space-between"}>
         <HStack spacing={"10px"}>
           <Box
             width={"12px"}
@@ -64,8 +63,6 @@ const MentorsUploads = () => {
             My Uploads
           </Text>
         </HStack>
-        <Spacer />
-
         <Button
           variant={"ghost"}
           fontSize={"sm"}

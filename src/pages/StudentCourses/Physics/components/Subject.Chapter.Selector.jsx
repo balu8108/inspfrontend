@@ -1,39 +1,28 @@
 //This component will show all the chapters related to subjects.
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   Box,
   Text,
   HStack,
-  Card,
   Flex,
-  Button,
   Stack,
   Spinner,
   Center,
-  Spacer,
   Input,
   useTheme,
+  SimpleGrid,
 } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 import { fetchAllChaptersApi } from "../../../../api/inspexternalapis";
-import { capitalize } from "../../../../utils";
 import VectorImage from "../../../../assets/images/Line/Vector.svg";
+import SubjectCard from "../../../../components/Card/SubjectCard";
 
 const SubjectChapterSelector = () => {
-  const navigate = useNavigate();
   const [chapters, setChapters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const { outerBackground, innerBackground, innerBoxShadow } =
-    useTheme().colors.pallete;
-
-  const dummyDescriptions = [
-    "This chapter covers the basics of electromagnetism, including its principles and applications. Gain insights into the behavior of electric and magnetic fields.",
-    "Learn about geometrical and wave optics in this chapter. Explore the fascinating world of light propagation and wave phenomena.",
-    "Explore the fundamental principles of heat transfer and thermodynamics. Dive into the study of energy transfer and the laws governing thermal processes.",
-    "Get a deep understanding of mechanics in this chapter. Study the motion, forces, and interactions of objects in the physical world.",
-    "Discover modern physics in this comprehensive chapter. Uncover the latest advancements and theories shaping our understanding of the physical universe.",
-  ];
+  const { outerBackground, innerBackground } = useTheme().colors.pallete;
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchChapters() {
@@ -57,13 +46,20 @@ const SubjectChapterSelector = () => {
     physScreen.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleViewDetails = (className) => {
-    navigate(`/chapter-details/${className}`);
+  const handleViewDetails = (chapter) => {
+    navigate(`/chapter-details/${chapter?.name}`);
   };
+
   return (
-    <Box width={"full"} h={"100%"} bg={outerBackground} borderRadius={"26px"}>
-      <Flex mt={"17px"}>
-        <HStack spacing={"10px"} alignItems="center" ml={"33px"}>
+    <Box
+      width={"full"}
+      h={"100%"}
+      bg={outerBackground}
+      borderRadius={"26px"}
+      p={"30px"}
+    >
+      <Flex mb={"20px"} justifyContent={"space-between"}>
+        <HStack spacing={"10px"} alignItems="center">
           <Box
             width={"12px"}
             height={"25px"}
@@ -74,7 +70,6 @@ const SubjectChapterSelector = () => {
             My Courses (Physics)
           </Text>
         </HStack>
-        <Spacer />
         <Input
           type="text"
           value={searchTerm}
@@ -87,7 +82,6 @@ const SubjectChapterSelector = () => {
           px="3"
           fontWeight={400}
           py="2"
-          mx={"10"}
           style={{
             backgroundImage: `url(${VectorImage})`,
             backgroundRepeat: "no-repeat",
@@ -96,81 +90,22 @@ const SubjectChapterSelector = () => {
           }}
         />
       </Flex>
-
       {loading ? (
         <Center>
           <Spinner size={"md"} />
         </Center>
       ) : (
         <Stack>
-          <Flex flexWrap="wrap" p={6} gap={"24px"}>
+          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={"6"}>
             {filteredTopics.map((chapter, index) => (
-              <Card
-                bg={innerBackground}
-                boxShadow={innerBoxShadow}
-                key={chapter?.id}
-                w="30%"
-                h={"204px"}
-                borderRadius={"18px"}
-                flexDirection={"column"}
-              >
-                <Text
-                  fontSize={"16px"}
-                  fontWeight={400}
-                  ml={"13px"}
-                  mt={"16px"}
-                  lineHeight={"19px"}
-                  noOfLines={1}
-                >
-                  {capitalize(chapter?.name)}
-                </Text>
-                <Text
-                  fontWeight={400}
-                  fontSize={"12px"}
-                  lineHeight={"15px"}
-                  ml={"13px"}
-                  color={"rgba(44, 51, 41, 0.47)"}
-                >
-                  Nitin Sachan
-                </Text>
-                <Text
-                  fontSize={"12px"}
-                  lineHeight={"13px"}
-                  ml={"13px"}
-                  fontWeight={400}
-                  color={"rgba(44, 51, 41, 1)"}
-                  mt={"18px"}
-                >
-                  Description
-                </Text>
-                <Text
-                  fontSize={"12px"}
-                  lineHeight={"21px"}
-                  fontWeight={400}
-                  ml={13}
-                  color={"rgba(44, 51, 41, 0.47)"}
-                  noOfLines={3}
-                  mt={"6px"}
-                >
-                  {dummyDescriptions[index]}
-                </Text>
-
-                <Button
-                  fontWeight={600}
-                  variant={"ghost"}
-                  color={"#3C8DBC"}
-                  fontSize={"14px"}
-                  lineHeight={"16px"}
-                  mt={"auto"}
-                  
-                  _hover={{ bg: "white" }}
-                  onClick={() => handleViewDetails(chapter?.name)}
-                >
-                  View Details
-                </Button>
-              </Card>
+              <SubjectCard
+                width={"100%"}
+                chapter={chapter}
+                index={index}
+                handleViewDetails={handleViewDetails}
+              />
             ))}
-          </Flex>
+          </SimpleGrid>
         </Stack>
       )}
     </Box>

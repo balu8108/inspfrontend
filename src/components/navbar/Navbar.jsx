@@ -27,6 +27,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, NavLink, useLocation } from "react-router-dom";
 import { FaBars } from "react-icons/fa6";
 import { setStudentFeedbackOpen } from "../../store/actions/studentFeedbackActions";
+import { setUserProfile, setSecretToken } from "../../store/actions/authAction";
 // In below links the available To is the user type
 // if the same link is available to both type of user then we add 0,1
 // or if for specific then it will be 0 or 1
@@ -142,7 +143,6 @@ const NavLinks = ({ userData, type }) => {
 
 const DrawerComponent = ({
   isOpen,
-  onOpen,
   onClose,
   btnRef,
   userData,
@@ -183,16 +183,17 @@ export default function Navbar() {
   const theme = useTheme();
   const { outerBackground } = theme.colors.pallete;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
   const { userProfile: inspUserProfile } = useSelector((state) => state.auth);
 
   const handleLogout = useCallback(async () => {
     try {
+      dispatch(setSecretToken(null));
+      dispatch(setUserProfile(null));
       navigate("/");
-    } catch (err) {
-      // Handle errors if needed
-    }
+    } catch (err) {}
   }, [navigate]);
 
   return (
@@ -267,7 +268,6 @@ export default function Navbar() {
 
       <DrawerComponent
         isOpen={isOpen}
-        onOpen={onOpen}
         btnRef={btnRef}
         onClose={onClose}
         userData={inspUserProfile}

@@ -1,10 +1,11 @@
 import React from "react";
-import { Text, Card, Flex, Button, Spacer, useTheme } from "@chakra-ui/react";
+import { Text, Card, Flex, Button, useTheme } from "@chakra-ui/react";
 import { className } from "../../constants/className";
 import moment from "moment";
 
 const LectureCard = ({
   id,
+  width,
   classRoomDetail,
   scheduledDate,
   classLevel,
@@ -16,11 +17,11 @@ const LectureCard = ({
       bg={innerBackground}
       boxShadow={innerBoxShadow}
       key={id}
-      w="30%"
+      w={width}
       h={"204px"}
       borderRadius={"18px"}
     >
-      <Flex>
+      <Flex justifyContent={"space-between"}>
         <Text
           fontSize={"16px"}
           fontWeight={400}
@@ -31,7 +32,6 @@ const LectureCard = ({
         >
           Lecture {classRoomDetail?.lectureNo}
         </Text>
-        <Spacer />
         <Text
           fontSize={"12px"}
           fontWeight={400}
