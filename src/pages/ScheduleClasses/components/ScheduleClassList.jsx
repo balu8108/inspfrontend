@@ -20,8 +20,18 @@ const ScheduleClassList = ({ onSchedulePopupOpen }) => {
     onSchedulePopupOpen();
   };
 
-  useEffect(() => {
+  const POLLING_INTERVAL = 10000; // 5 seconds (adjust as needed)
+
+  const fetchDataWithLongPolling = (dispatch) => {
     dispatch(getAllLiveClassesSchedule());
+    setTimeout(() => {
+      fetchDataWithLongPolling(dispatch);
+    }, POLLING_INTERVAL);
+  };
+
+  useEffect(() => {
+    fetchDataWithLongPolling(dispatch);
+    return () => clearTimeout(fetchDataWithLongPolling);
   }, [dispatch, isClassScheduleChange]);
 
   return (
