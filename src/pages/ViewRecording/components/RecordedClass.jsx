@@ -154,6 +154,7 @@ const RecordedClass = ({
       </>
     );
   };
+
   return (
     <>
       {isSchedulePopupOpen && (
