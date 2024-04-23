@@ -22,6 +22,14 @@ import { fetchAllSubjectsApi } from "./api/inspexternalapis";
 import { getAllSubjects } from "./store/actions/genericActions";
 import { userType } from "./constants/staticvariables";
 import ScheduleClassList from "./pages/ScheduleClasses/components/ScheduleClassList";
+import detectDevTools from "./utils/detectDevtools";
+
+const allowedRoutes = [
+  "/schedule-class",
+  "/view-recording",
+  "/room-preview/:roomId",
+  "/room/:roomId",
+];
 
 const ProtectedRoutes = () => {
   const { userProfile, secretToken } = useSelector((state) => state.auth);
@@ -52,6 +60,7 @@ function App() {
 
   useEffect(() => {
     if (process.env.NODE_ENV === "production") {
+      detectDevTools();
       const disableContext = (e) => e.preventDefault();
       const disableDevToolsShortcut = (e) => {
         const ctrlShiftKey = (e, keyCode) =>
@@ -167,7 +176,7 @@ function App() {
               path={route.path}
               element={
                 <>
-                  {route.path === "/schedule-class" ? (
+                  {allowedRoutes.includes(route.path) ? (
                     route.component
                   ) : (
                     <Flex m={"52px"}>

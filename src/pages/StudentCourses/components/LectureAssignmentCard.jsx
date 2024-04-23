@@ -1,7 +1,7 @@
 import React from "react";
 import { useTheme, Text, HStack, SimpleGrid, Card } from "@chakra-ui/react";
 import SingleFileComponent from "../../../components/filebox/SingleFileComponent";
-export default function LectureAssignmentCard(assignmentDetails) {
+export default function LectureAssignmentCard({ assignmentDetails }) {
   const { innerBackground } = useTheme().colors.pallete;
   return (
     <>

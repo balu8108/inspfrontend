@@ -69,7 +69,6 @@ const privateRoutes = [
     path: "/chapter-details/:chapterName",
     component: <ChaptersTopicPage />,
   },
-
   {
     name: "Lecture Page",
     path: "/topic/lecture/:lectureId/:lectureName/details",
@@ -90,7 +89,6 @@ const privateRoutes = [
     path: "/view-recording",
     component: <Viewrecording />,
   },
-
   {
     name: "Student Assignments",
     path: "/student/assignments/:subjectName",

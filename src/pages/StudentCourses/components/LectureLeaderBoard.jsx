@@ -1,7 +1,7 @@
 import React from "react";
 import { Flex, Box, Text } from "@chakra-ui/react";
 import leaderBoard from "../../../assets/images/leaderBoard.svg";
-export default function LectureLeaderBoard(lectureDetails) {
+export default function LectureLeaderBoard({ lectureDetails }) {
   return (
     <Flex>
       <img src={leaderBoard} alt="Leader Board" />

@@ -1,7 +1,7 @@
 import React from "react";
 import { Flex, Text } from "@chakra-ui/react";
 import SingleFileComponent from "../../../components/filebox/SingleFileComponent";
-export default function LectureFileCard(lectureDetails) {
+export default function LectureFileCard({ lectureDetails }) {
   return (
     <>
       {lectureDetails?.LiveClassRoomFiles?.length > 0 ? (
