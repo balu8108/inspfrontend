@@ -16,7 +16,6 @@ const SoloClass = () => {
   const [lectureNumber, setLectureNumber] = useState([]);
   const { outerBackground, innerBackground, innerBoxShadow } =
     useTheme().colors.pallete;
-  console.log("lectureNumber", lectureNumber);
   useEffect(() => {
     async function fetchLecturesForSoloClassRoom() {
       try {

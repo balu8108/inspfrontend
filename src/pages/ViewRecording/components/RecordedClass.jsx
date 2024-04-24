@@ -26,7 +26,6 @@ const RecordedClass = ({
   setActiveRecording,
   setIsFileAdded,
 }) => {
-console.log("Recording detail", recordingDetail)
   const { userProfile } = useSelector((state) => state.auth);
   const isLive = type && type === "live";
   const isSolo = type && type === "solo";

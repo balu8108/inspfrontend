@@ -21,7 +21,7 @@ const Recording = () => {
       const res = await viewRecordingApi(type, id);
       if (res.status === 200) {
         const { data } = res;
-        console.log("data is ", data);
+
         if (type === "solo") {
           setActiveRecording(data?.data?.SoloClassRoomRecordings[0]);
           setRecordingDetail(data?.data);

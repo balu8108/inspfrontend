@@ -22,7 +22,7 @@ import { fetchAllSubjectsApi } from "./api/inspexternalapis";
 import { getAllSubjects } from "./store/actions/genericActions";
 import { userType } from "./constants/staticvariables";
 import ScheduleClassList from "./pages/ScheduleClasses/components/ScheduleClassList";
-import detectDevTools from "./utils/detectDevtools";
+// import detectDevTools from "./utils/detectDevtools";
 
 const allowedRoutes = [
   "/schedule-class",
@@ -60,7 +60,7 @@ function App() {
 
   useEffect(() => {
     if (process.env.NODE_ENV === "production") {
-      detectDevTools();
+      // detectDevTools();
       const disableContext = (e) => e.preventDefault();
       const disableDevToolsShortcut = (e) => {
         const ctrlShiftKey = (e, keyCode) =>
