@@ -21,9 +21,14 @@ const Recording = () => {
       const res = await viewRecordingApi(type, id);
       if (res.status === 200) {
         const { data } = res;
-
-        setActiveRecording(data?.data?.LiveClassRoomRecordings[0]);
-        setRecordingDetail(data?.data);
+        console.log("data is ", data);
+        if (type === "solo") {
+          setActiveRecording(data?.data?.SoloClassRoomRecordings[0]);
+          setRecordingDetail(data?.data);
+        } else {
+          setActiveRecording(data?.data?.LiveClassRoomRecordings[0]);
+          setRecordingDetail(data?.data);
+        }
       }
     } catch (err) {
       console.log("error", err);

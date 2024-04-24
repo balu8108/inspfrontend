@@ -32,7 +32,7 @@ import {
   fetchAllChaptersApi,
   fetchAllTopicsApi,
 } from "../../api/inspexternalapis";
-import { getLectureNo } from "../../api/scheduleliveclass";
+import { getLectureNo } from "../../api/lecture";
 import "./timepickerdefaultstyles.css";
 
 // At the moment we will add some dummy data for chapter, topic
@@ -343,6 +343,7 @@ const ScheduleClassPopup = ({ isOpen, onClose, isCalenderScreen }) => {
         classLevel: scheduleClassFormData["classLevel"].value,
         chapterName: scheduleClassFormData["chapter"].label,
         topicName: scheduleClassFormData["topic"].label,
+        isSoloClass:false
       };
       fetchLectureNo(data);
     }

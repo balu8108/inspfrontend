@@ -23,3 +23,7 @@ export const getAllLectureByTopicId = (topicId, topicType) =>
 
 export const getAllLectureDetails = (roomId) =>
   API.get(`/lecture/get-lecture-by-id/${roomId}`);
+
+
+  export const getLectureNo = (data) =>
+  API.post("/lecture/get-lecture-no", data);

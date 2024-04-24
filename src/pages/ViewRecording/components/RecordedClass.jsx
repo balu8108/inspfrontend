@@ -26,6 +26,7 @@ const RecordedClass = ({
   setActiveRecording,
   setIsFileAdded,
 }) => {
+console.log("Recording detail", recordingDetail)
   const { userProfile } = useSelector((state) => state.auth);
   const isLive = type && type === "live";
   const isSolo = type && type === "solo";
@@ -234,6 +235,7 @@ const RecordedClass = ({
                 ? recordingDetail?.description
                 : "No Data"}
             </Text>
+
           </Box>
           <Box mt={6}>
             <Flex direction={"row"} gap={8} mb={2}>

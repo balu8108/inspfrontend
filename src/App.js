@@ -48,7 +48,7 @@ function App() {
     // Check if the environment is production
     if (process.env.NODE_ENV === "production") {
       // Call detectDevTools function when the component mounts
-      detectDevTools();
+      // detectDevTools();
       function ctrlShiftKey(e, keyCode) {
         return e.ctrlKey && e.shiftKey && e.keyCode === keyCode.charCodeAt(0);
       }
