@@ -5,21 +5,19 @@ import {
   Box,
   Text,
   HStack,
-  Card,
   Flex,
-  Button,
-  Spacer,
   useTheme,
   Stack,
   Input,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import {
   fetchAllChaptersApi,
   fetchAllTopicsApi,
 } from "../../../../api/inspexternalapis";
-import { capitalize } from "../../../../utils";
 import VectorImage from "../../../../assets/images/Line/Vector.svg";
-import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
+import SubjectCard from "../../../../components/Card/SubjectCard";
+import TopicCard from "../../../../components/Card/TopicCard";
 
 const ChaptersTopicPage = () => {
   const { chapterName } = useParams();
@@ -28,16 +26,7 @@ const ChaptersTopicPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedChapterId, setSelectedChapterId] = useState(null);
   const [filteredTopics, setFilteredTopics] = useState([]);
-  const { outerBackground, innerBackground, innerBoxShadow } =
-    useTheme().colors.pallete;
-
-  const dummyDescriptions = [
-    "This chapter covers the basics of electromagnetism, including its principles and applications. Gain insights into the behavior of electric and magnetic fields.",
-    "Learn about geometrical and wave optics in this chapter. Explore the fascinating world of light propagation and wave phenomena.",
-    "Explore the fundamental principles of heat transfer and thermodynamics. Dive into the study of energy transfer and the laws governing thermal processes.",
-    "Get a deep understanding of mechanics in this chapter. Study the motion, forces, and interactions of objects in the physical world.",
-    "Discover modern physics in this comprehensive chapter. Uncover the latest advancements and theories shaping our understanding of the physical universe.",
-  ];
+  const { outerBackground, innerBackground } = useTheme().colors.pallete;
 
   useEffect(() => {
     async function fetchChapters() {
@@ -57,11 +46,8 @@ const ChaptersTopicPage = () => {
     fetchChapters();
   }, []);
 
-  const handleChapterClick = (chapterId) => {
-    // const selectedChapter = chapters.find(
-    //   (chapter) => chapter.id === chapterId
-    // );
-    setSelectedChapterId(chapterId);
+  const handleChapterClick = (chapter) => {
+    setSelectedChapterId(chapter?.id);
   };
 
   useEffect(() => {
@@ -89,8 +75,9 @@ const ChaptersTopicPage = () => {
     );
     setFilteredTopics(filtered);
   };
-  const handleView = (chapterId) => {
-    navigate(`/topic/lecture/${chapterId}/details`, {
+
+  const handleView = (topic) => {
+    navigate(`/topic/lecture/${topic?.id}/${topic?.name}/details`, {
       state: {
         topics: filteredTopics,
         selectedChapterName: selectedChapterId
@@ -119,80 +106,20 @@ const ChaptersTopicPage = () => {
 
         <Flex m={"24px"} gap={10} overflowX="auto" className="example">
           {chapters.map((chapter, index) => (
-            <Card
-              key={chapter.id}
-              w={"31%"}
-              h={"204px"}
-              bg={innerBackground}
-              boxShadow={innerBoxShadow}
-              borderRadius={"18px"}
-              flexShrink={"0"}
-              mb={"20px"}
-              display="flex"
-              flexDirection="column"
-            >
-              <Text
-                fontSize={"16px"}
-                fontWeight={400}
-                ml={"13px"}
-                mt={"16px"}
-                lineHeight={"19px"}
-                noOfLines={1}
-              >
-                {capitalize(chapter?.name)}
-              </Text>
-              <Text
-                fontWeight={400}
-                fontSize={"12px"}
-                lineHeight={"15px"}
-                ml={"13px"}
-                color={"rgba(44, 51, 41, 0.47)"}
-              >
-                Nitin Sachan
-              </Text>
-              <Text
-                fontSize={"12px"}
-                lineHeight={"13px"}
-                ml={"13px"}
-                fontWeight={400}
-                color={"rgba(44, 51, 41, 1)"}
-                mt={"18px"}
-              >
-                Description
-              </Text>
-              <Text
-                fontSize={"12px"}
-                lineHeight={"21px"}
-                fontWeight={400}
-                ml={13}
-                color={"rgba(44, 51, 41, 0.47)"}
-                noOfLines={3}
-              >
-                {dummyDescriptions[index]}
-              </Text>
-              <Spacer />
-
-              <Button
-                variant={"ghost"}
-                color={"#3C8DBC"}
-                fontSize={"14px"}
-                lineHeight={"16px"}
-                fontWeight={600}
-                _hover={{ bg: "white" }}
-                onClick={() => handleChapterClick(chapter.id)}
-                mt={"auto"}
-              >
-                View Details
-              </Button>
-            </Card>
+            <SubjectCard
+              width={"30%"}
+              chapter={chapter}
+              index={index}
+              handleViewDetails={handleChapterClick}
+            />
           ))}
         </Flex>
       </Box>
 
       {selectedChapterId ? (
-        <Stack bg={outerBackground} borderRadius={"26px"} mt={"24px"}>
-          <Flex mt={"17px"}>
-            <HStack spacing={"10px"} alignItems="center" ml={"33px"}>
+        <Stack bg={outerBackground} borderRadius={"26px"} p={"30px"}>
+          <Flex mb={"20px"} justifyContent={"space-between"}>
+            <HStack spacing={"10px"} alignItems="center">
               <Box
                 width={"12px"}
                 height={"25px"}
@@ -206,7 +133,6 @@ const ChaptersTopicPage = () => {
                   : "Select a Chapter"}
               </Text>
             </HStack>
-            <Spacer />
             <Input
               type="text"
               value={searchTerm}
@@ -219,7 +145,6 @@ const ChaptersTopicPage = () => {
               px="3"
               fontWeight={400}
               py="2"
-              mx={"10"}
               style={{
                 backgroundImage: `url(${VectorImage})`,
                 backgroundRepeat: "no-repeat",
@@ -228,73 +153,11 @@ const ChaptersTopicPage = () => {
               }}
             />
           </Flex>
-          <Flex m={"24px"} gap={"24px"} flexWrap={"wrap"}>
+          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={"6"}>
             {filteredTopics.map((topic) => (
-              <Card
-                key={topic.id}
-                w={"30%"}
-                bg={innerBackground}
-                boxShadow={innerBoxShadow}
-                borderRadius={"18px"}
-                flexShrink={"0"}
-                display="flex"
-                flexDirection="column"
-                justifyContent="space-between"
-              >
-                <Text
-                  fontSize={"15px"}
-                  ml={"13px"}
-                  mt={"16px"}
-                  lineHeight={"19px"}
-                  noOfLines={1}
-                >
-                  {capitalize(topic?.name)}
-                </Text>
-                <Text
-                  fontWeight={400}
-                  fontSize={"11px"}
-                  lineHeight={"15px"}
-                  ml={"13px"}
-                  color={"rgba(44, 51, 41, 0.47)"}
-                >
-                  Nitin Sachan
-                </Text>
-                <Text
-                  fontSize={"12px"}
-                  lineHeight={"13px"}
-                  ml={"13px"}
-                  fontWeight={400}
-                  color={"rgba(44, 51, 41, 1)"}
-                  mt={"18px"}
-                >
-                  Description
-                </Text>
-                <Text
-                  fontSize={"11px"}
-                  lineHeight={"21px"}
-                  fontWeight={400}
-                  ml={13}
-                  noOfLines={"3"}
-                  color={"rgba(44, 51, 41, 0.47)"}
-                >
-                  {topicDescriptionConstants[topic.id]}
-                </Text>
-
-                <Button
-                  variant={"ghost"}
-                  color={"#3C8DBC"}
-                  fontWeight={"600"}
-                  size={"14px"}
-                  lineHeight={"16px"}
-                  m={"20px"}
-                  _hover={{ bg: "white" }}
-                  onClick={() => handleView(topic?.id)}
-                >
-                  View Details
-                </Button>
-              </Card>
+              <TopicCard width={"100%"} topic={topic} handleView={handleView} />
             ))}
-          </Flex>
+          </SimpleGrid>
         </Stack>
       ) : (
         <Box width={"100%"} bg={outerBackground} borderRadius={"26px"}>

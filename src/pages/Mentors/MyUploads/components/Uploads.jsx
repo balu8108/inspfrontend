@@ -9,7 +9,6 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  Spacer,
   useTheme,
 } from "@chakra-ui/react";
 import { AiOutlineSearch } from "react-icons/ai";
@@ -59,7 +58,6 @@ const AllUploadedLecture = () => {
           My Uploads
         </Text>
 
-        <Spacer />
         <InputGroup w="30%">
           <Input
             type="text"

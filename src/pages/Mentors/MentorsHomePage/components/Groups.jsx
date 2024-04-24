@@ -7,7 +7,6 @@ import {
   Text,
   Button,
   HStack,
-  Spacer,
 } from "@chakra-ui/react";
 import group from "../data/group";
 import Scrollbars from "rc-scrollbars";
@@ -20,7 +19,7 @@ const MentorGroups = () => {
       h={"120%"}
       ml={"24px"}
     >
-      <Flex>
+      <Flex justifyContent={"space-between"}>
         <HStack spacing={"10px"}>
           <Box
             width={"12px"}
@@ -34,7 +33,6 @@ const MentorGroups = () => {
             Groups
           </Text>
         </HStack>
-        <Spacer />
         <Button
           variant={"ghost"}
           fontWeight={400}
@@ -65,7 +63,6 @@ const MentorGroups = () => {
                     {groupItem.groupdescription}
                   </Text>
                 </Box>
-                <Spacer />
                 <Button
                   variant={"ghost"}
                   fontWeight={600}

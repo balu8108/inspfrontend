@@ -155,6 +155,7 @@ console.log("Recording detail", recordingDetail)
       </>
     );
   };
+
   return (
     <>
       {isSchedulePopupOpen && (

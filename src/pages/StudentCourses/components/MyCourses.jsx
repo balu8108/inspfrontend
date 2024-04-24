@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Flex, Stack, useDisclosure } from "@chakra-ui/react";
+import { Stack } from "@chakra-ui/react";
 import Header from "../../Mentors/Header/components/HeaderInAllScreen";
 import SubjectChapterSelector from "../Physics/components/Subject.Chapter.Selector";
-import ScheduleClassList from "../../ScheduleClasses/components/ScheduleClassList";
-import ScheduleClassPopup from "../../../components/popups/ScheduleClassPopup";
 import LectureCardContainer from "../components/LectureCardContainer";
 import { getAllLecture } from "../../../api/lecture";
 import { classType, classLevel } from "../../../constants/staticvariables";
@@ -15,11 +13,6 @@ const subjectArray = ["PHYSICS", "CHEMISTRY", "MATHEMATICS"];
 
 const MyCourses = () => {
   const { coursetype } = useParams();
-  const {
-    isOpen: isSchedulePopupOpen,
-    onOpen: onSchedulePopupOpen,
-    onClose: onScheduleClosePopupOpen,
-  } = useDisclosure();
   const [loading, setLoading] = useState(true);
   const [lecture, setLecture] = useState([]);
 
@@ -69,47 +62,35 @@ const MyCourses = () => {
   }, [coursetype]);
 
   return (
-    <>
-      {isSchedulePopupOpen && (
-        <ScheduleClassPopup
-          isOpen={isSchedulePopupOpen}
-          onClose={onScheduleClosePopupOpen}
-          isCalenderScreen={false}
+    <Stack spacing={6}>
+      <Header />
+      {coursetype === "PHYSICS" ? (
+        <SubjectChapterSelector />
+      ) : coursetype === "CHEMISTRY" ? (
+        <ChemDetails />
+      ) : coursetype === "MATHEMATICS" ? (
+        <MathsDetails />
+      ) : coursetype === "inpho-olympiads" ? (
+        <SoloClass />
+      ) : (
+        <LectureCardContainer
+          title={
+            coursetype === "crash-course"
+              ? "Crash Course"
+              : coursetype === "foundation-olympiad"
+              ? "My Courses ( Foundation Class 9 & 10 )"
+              : coursetype === "class-11"
+              ? "My Courses ( Class 11th )"
+              : coursetype === "class-12"
+              ? "My Courses ( Class 12th )"
+              : ""
+          }
+          loading={loading}
+          lecture={lecture}
+          type={coursetype}
         />
       )}
-      <Flex m={"52px"}>
-        <Stack spacing={6} w={"75%"}>
-          <Header />
-          {coursetype === "PHYSICS" ? (
-            <SubjectChapterSelector />
-          ) : coursetype === "CHEMISTRY" ? (
-            <ChemDetails />
-          ) : coursetype === "MATHEMATICS" ? (
-            <MathsDetails />
-          ) :  coursetype === "inpho-olympiads" ? (
-            <SoloClass />
-          ): (
-            <LectureCardContainer
-              title={
-                coursetype === "crash-course"
-                  ? "Crash Course"
-                  : coursetype === "foundation-olympiad"
-                  ? "My Courses ( Foundation Class 9 & 10 )"
-                  : coursetype === "class-11"
-                  ? "My Courses ( Class 11th )"
-                  : coursetype === "class-12"
-                  ? "My Courses ( Class 12th )"
-                  : ""
-              }
-              loading={loading}
-              lecture={lecture}
-              type={coursetype}
-            />
-          )}
-        </Stack>
-        <ScheduleClassList onSchedulePopupOpen={onSchedulePopupOpen} />
-      </Flex>
-    </>
+    </Stack>
   );
 };
 

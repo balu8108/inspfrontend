@@ -9,7 +9,7 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  Spacer,
+  Flex,
   Center,
   Image,
   VStack,
@@ -53,19 +53,19 @@ const AssignmentDetails = () => {
 
   return (
     <Box width={"full"} bg={outerBackground} borderRadius={"26px"} p={6}>
-      <HStack spacing={"10px"} alignItems="center">
-        <Box
-          width={"12px"}
-          height={"25px"}
-          borderRadius={"20px"}
-          bg={"#3C8DBC"}
-        ></Box>
-        <Text fontSize={"20px"} lineHeight={"24px"}>
-          Assignments ({capitalize(subjectName)})
-        </Text>
-
-        <Spacer />
-        <InputGroup w="30%" mx={12} my={17}>
+      <Flex justifyContent={"space-between"}>
+        <HStack spacing={"10px"} alignItems="center">
+          <Box
+            width={"12px"}
+            height={"25px"}
+            borderRadius={"20px"}
+            bg={"#3C8DBC"}
+          ></Box>
+          <Text fontSize={"20px"} lineHeight={"24px"}>
+            Assignments ({capitalize(subjectName)})
+          </Text>
+        </HStack>
+        <InputGroup w="30%">
           <Input
             type="text"
             value={searchQuery}
@@ -78,7 +78,7 @@ const AssignmentDetails = () => {
             <AiOutlineSearch />
           </InputLeftElement>
         </InputGroup>
-      </HStack>
+      </Flex>
       {filteredData.length > 0 ? (
         <Box pt={10}>
           <SimpleGrid columns={{ base: 1, md: 1, lg: 1 }} spacing={4}>

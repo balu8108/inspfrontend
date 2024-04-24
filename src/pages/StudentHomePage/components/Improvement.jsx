@@ -3,15 +3,7 @@ import React from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import improvementMarks from "../data/improvement";
-import {
-  Box,
-  Text,
-  HStack,
-  Spacer,
-  Flex,
-  Icon,
-  useTheme,
-} from "@chakra-ui/react";
+import { Box, Text, HStack, Flex, Icon, useTheme } from "@chakra-ui/react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import "../Styling/progress.css";
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -55,21 +47,22 @@ const Improvement = () => {
       borderRadius={"26px"}
       bg={outerBackground}
     >
-      <HStack spacing={"10px"}>
-        <Box
-          width={"12px"}
-          height={"25px"}
-          borderRadius={"20px"}
-          bg={"#3C8DBC"}
-          mt={"27px"}
-          ml={"33px"}
-        ></Box>
-        <Text fontSize={"20px"} lineHeight={"26.6px"} mt={"26px"}>
-          Attendance
-        </Text>
-        <Spacer />
+      <Flex justifyContent={"space-between"}>
+        <HStack spacing={"10px"}>
+          <Box
+            width={"12px"}
+            height={"25px"}
+            borderRadius={"20px"}
+            bg={"#3C8DBC"}
+            mt={"27px"}
+            ml={"33px"}
+          ></Box>
+          <Text fontSize={"20px"} lineHeight={"26.6px"} mt={"26px"}>
+            Attendance
+          </Text>
+        </HStack>
         <Icon mt={5} mr={5} color={"gray"} as={BsThreeDotsVertical} />
-      </HStack>
+      </Flex>
 
       <Flex justify="space-between" p={8}>
         <Box w={"204px"} h={"204px"}>

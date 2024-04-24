@@ -8,7 +8,6 @@ import {
   Center,
   VStack,
   Flex,
-  Spacer,
   useTheme,
 } from "@chakra-ui/react";
 import MathematicsImage from "../../../../assets/images/undraw_mathematics_-4-otb 1.svg";
@@ -34,7 +33,6 @@ const MathsDetails = () => {
             My Courses (Mathematics)
           </Text>
         </HStack>
-        <Spacer />
       </Flex>
       <VStack gap={"24px"}>
         <Center>

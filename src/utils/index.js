@@ -11,7 +11,6 @@ import boxShadowStyles from "./boxShadowStyles";
 import screenshotHandler from "./screenshotHandler";
 import renderLeftMembersCount from "./renderLeftMembersCount";
 import checkUserType from "./checkUserType";
-import { decryptData } from "./crypticFunctions";
 import fileConverter from "./fileConverter";
 import isValidTimeFormat from "./isValidTimeFormat";
 import capitalize from "./capitalize";
@@ -30,7 +29,6 @@ export {
   screenshotHandler,
   renderLeftMembersCount,
   checkUserType,
-  decryptData,
   formatSeconds,
   fileConverter,
   isValidTimeFormat,
