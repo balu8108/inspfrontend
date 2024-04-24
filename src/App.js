@@ -29,6 +29,9 @@ const allowedRoutes = [
   "/view-recording",
   "/room-preview/:roomId",
   "/room/:roomId",
+  "/mentor/solo-lectures/:soloClassRoomId",
+  "/feedback-mentor",
+  "/feedback",
 ];
 
 const ProtectedRoutes = () => {
