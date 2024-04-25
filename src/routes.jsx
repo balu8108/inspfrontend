@@ -21,6 +21,7 @@ import StudentFeedBack from "./components/popups/studentFeedbackPopup";
 import StudentFeedbackDetails from "./pages/Mentors/StudentFeedback/screen/studentFeedback";
 import MyCourses from "./pages/StudentCourses/components/MyCourses";
 import TopicBasedLectures from "./pages/SubjectLibrary/components/TopicBasedLectures";
+import SoloLectureDetailsScreen from "./pages/StudentCourses/SoloClasses/screens/SoloLectureDetailsScreen";
 
 const publicRoutes = [
   {
@@ -129,6 +130,11 @@ const privateRoutes = [
     name: "Solo Recording Screen ",
     path: "/mentor/solo-lectures/:soloClassRoomId",
     component: <RecordedScreen />,
+  },
+  {
+    name: "SoloClassRoom Lecture-Wise Detail Screen ",
+    path: "my-courses/lecture-details/:topic/:soloClassRoomId",
+    component: <SoloLectureDetailsScreen />,
   },
   {
     name: "Feedback ",

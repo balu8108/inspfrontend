@@ -25,7 +25,7 @@ import {
   fetchAllTopicsForSubjectApi,
 } from "../../../../../api/inspexternalapis";
 import { createSoloLectureRoomApi } from "../../../../../api/soloclassrooms";
-
+import { getLectureNo } from "../../../../../api/lecture";
 const SoloRecordModal = ({ isOpen, onClose }) => {
   const [isLoadingSubjects, setIsLoadingSubjects] = useState(true);
   const [isLoadingTopics, setIsLoadingTopics] = useState(true);
@@ -37,6 +37,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
   const [agenda, setAgenda] = useState("");
   const [files, setFiles] = useState([]);
   const [selectedTopicId, setSelectedTopicId] = useState("");
+  const [lectureNo, setLectureNo] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const { primaryBlueLight } = useTheme().colors.pallete;
@@ -74,6 +75,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
       formData.append("topicId", selectedTopicId);
       formData.append("agenda", agenda);
       formData.append("description", description);
+      formData.append("lectureNo",lectureNo);
 
       files.forEach((file) => {
         formData.append("files", file);
@@ -113,6 +115,22 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
     }
 
     fetchSubjects();
+  }, []);
+
+  useEffect(() => {
+    async function fetchLectureNo() {
+      try {
+        const response = await getLectureNo({ isSoloClass: true });
+        if (response.status) {
+          const { data: lectureNo } = response.data;
+
+          setLectureNo(+lectureNo + 1);
+        }
+      } catch (error) {
+        console.log("Error fetching lecture no", error);
+      }
+    }
+    fetchLectureNo();
   }, []);
 
   useEffect(() => {
@@ -210,6 +228,16 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
               )}
             </Select>
             <FormErrorMessage>Select topic is required.</FormErrorMessage>
+          </FormControl>
+
+          <FormControl mt={4}>
+            <Input
+              placeholder="Lecture No"
+              resize={"none"}
+              isDisabled={true}
+              value={lectureNo != null && selectedSubject && selectedTopic ?  `Lecture ${lectureNo}` : ""}
+              type="text"
+            ></Input>
           </FormControl>
 
           <FormControl mt={4}>
