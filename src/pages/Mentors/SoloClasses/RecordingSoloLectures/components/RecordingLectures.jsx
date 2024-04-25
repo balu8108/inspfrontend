@@ -282,11 +282,12 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
 
   const endClass = () => {
     if (isRecording) {
-      toggleRecording();
+      stopRecording()
+      .then(() => {
+        navigate("/homepage", { replace: true });
+        window.history.replaceState(null, null, `/homepage`);
+      });
     }
-
-    navigate("/homepage", { replace: true });
-    window.history.replaceState(null, null, `/homepage`);
   };
 
   const stopScreenShare = () => {
