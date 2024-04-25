@@ -1,5 +1,6 @@
 import { Flex, Box, useTheme, HStack, Text } from "@chakra-ui/react";
 import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { MainBtn } from "../../../components/button";
 import { scheduleClassData } from "../data/scheduleClassData";
@@ -11,6 +12,7 @@ import { getAllLiveClassesSchedule } from "../../../store/actions/scheduleClassA
 
 const ScheduleClassList = ({ onSchedulePopupOpen }) => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const { primaryBlue, primaryBlueLight, outerBackground } =
     useTheme().colors.pallete;
   const { isClassScheduleChange } = useSelector((state) => state.generic);
@@ -20,19 +22,9 @@ const ScheduleClassList = ({ onSchedulePopupOpen }) => {
     onSchedulePopupOpen();
   };
 
-  const POLLING_INTERVAL = 10000; // 5 seconds (adjust as needed)
-
-  const fetchDataWithLongPolling = (dispatch) => {
-    dispatch(getAllLiveClassesSchedule());
-    setTimeout(() => {
-      fetchDataWithLongPolling(dispatch);
-    }, POLLING_INTERVAL);
-  };
-
   useEffect(() => {
-    fetchDataWithLongPolling(dispatch);
-    return () => clearTimeout(fetchDataWithLongPolling);
-  }, [dispatch, isClassScheduleChange]);
+    dispatch(getAllLiveClassesSchedule());
+  }, [dispatch, isClassScheduleChange, location.pathname]);
 
   return (
     <Box w="25%" ml={5}>
