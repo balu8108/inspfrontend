@@ -45,8 +45,8 @@ const DetailsCoveredFiles = () => {
     fetchTopicDetails(topicId);
   }, [topicId]);
 
-  const handleViewRecording = (recording, topicInfo) => {
-    navigate(`/view-recording?type=solo&id=${recording.id}`);
+  const handleViewRecording = (recording) => {
+    navigate(`/view-recording?type=solo&id=${recording.soloClassRoomId}`);
   };
 
   return (

@@ -8,7 +8,7 @@ import { getAllLecture } from "../../../api/lecture";
 import { classType, classLevel } from "../../../constants/staticvariables";
 import ChemDetails from "../Chemistry/components/ChemiDetails";
 import MathsDetails from "../Mathematics/components/Detailing";
-
+import SoloClass from "../SoloClasses/components/SoloClass";
 const subjectArray = ["PHYSICS", "CHEMISTRY", "MATHEMATICS"];
 
 const MyCourses = () => {
@@ -70,6 +70,8 @@ const MyCourses = () => {
         <ChemDetails />
       ) : coursetype === "MATHEMATICS" ? (
         <MathsDetails />
+      ) : coursetype === "inpho-olympiads" ? (
+        <SoloClass />
       ) : (
         <LectureCardContainer
           title={

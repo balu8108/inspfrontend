@@ -138,6 +138,11 @@ function App() {
                 name: "INSP Foundation Olympiad",
                 value: "foundation-olympiad",
               },
+              {
+                id: "8",
+                name: "INPHO / Olympiads",
+                value: "inpho-olympiads",
+              },
               { id: "5", name: "Class 11th", value: "class-11" },
               { id: "6", name: "Class 12th", value: "class-12" },
               ...updatedSubjects,

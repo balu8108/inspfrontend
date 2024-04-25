@@ -29,6 +29,9 @@ export const getSoloClassDetailsApi = (soloClassRoomId) =>
 
 export const getLatestSoloClassApi = () => API.get(`/solo-lecture/latest-room`);
 
+export const getAllSoloClassRoom = () => API.get(`/solo-lecture/get-all-soloclassrooms`);
+
+
 export const getTopicDetailsForSoloClassApi = (topicId) =>
   API.get(`/solo-lecture/get-topic-details/${topicId}`);
 
