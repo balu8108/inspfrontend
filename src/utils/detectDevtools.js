@@ -1,4 +1,3 @@
-// Function to detect if the developer tools are open
 const detectDevTools = () => {
   const widthThreshold = 160; 
   const heightThreshold = 160; 
@@ -18,15 +17,18 @@ const detectDevTools = () => {
     return isDebuggerActive() || isWindowTooLarge();
   };
 
-  if (isDebuggerOpen()) {
-   
+  const isTabSharingMode = () => {
+    return navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia;
+  };
+
+  if (!isTabSharingMode() && isDebuggerOpen()) {
     document.body.innerHTML =
       "<div style='position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);'><h1>Developer Tools Detected</h1><p>Please close the developer tools to continue.</p></div>";
     document.body.style.backgroundColor = "white";
   }
 
   setInterval(() => {
-    if (isDebuggerOpen()) {
+    if (!isTabSharingMode() && isDebuggerOpen()) {
       document.body.innerHTML =
         "<div style='position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);'><h1>Developer Tools Detected</h1><p>Please close the developer tools to continue.</p></div>";
       document.body.style.backgroundColor = "white";
