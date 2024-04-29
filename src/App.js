@@ -24,11 +24,16 @@ import { userType } from "./constants/staticvariables";
 import ScheduleClassList from "./pages/ScheduleClasses/components/ScheduleClassList";
 import detectDevTools from "./utils/detectDevtools";
 
+// get changes
+
 const allowedRoutes = [
   "/schedule-class",
   "/view-recording",
   "/room-preview/:roomId",
   "/room/:roomId",
+  "/mentor/solo-lectures/:soloClassRoomId",
+  "/feedback-mentor",
+  "/feedback",
 ];
 
 const ProtectedRoutes = () => {

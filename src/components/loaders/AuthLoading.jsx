@@ -19,6 +19,7 @@ const AuthLoading = ({ message }) => {
       } else {
         res = await loginApi(secret_token);
       }
+
       if (res.status === 200) {
         dispatch(setSecretToken(res?.data?.data?.secret_token));
         dispatch(setUserProfile(res?.data?.data?.authData));

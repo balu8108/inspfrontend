@@ -235,7 +235,6 @@ const RecordedClass = ({
                 ? recordingDetail?.description
                 : "No Data"}
             </Text>
-
           </Box>
           <Box mt={6}>
             <Flex direction={"row"} gap={8} mb={2}>
