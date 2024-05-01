@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import videojs from "video.js";
+import Cookies from "js-cookie";
 import "video.js/dist/video-js.css";
 import "videojs-contrib-quality-levels";
 import "videojs-contrib-eme";
@@ -14,6 +15,10 @@ import { checkUserType } from "../../utils";
 import { userType } from "../../constants/staticvariables";
 import { useSelector } from "react-redux";
 const getVideoJsOptions = (browser, url, hlsUrl, drmToken, HlsDrmToken) => {
+  const CloudFrontPolicy = Cookies.get("CloudFront-Policy");
+  const CloudFrontSignature = Cookies.get("CloudFront-Signature");
+  const CloudFrontKeyPairId = Cookies.get("CloudFront-Key-Pair-Id");
+
   const sources = [];
   if (process.env.REACT_APP_ENVIRON === "production") {
     if (browser === "Safari") {
@@ -30,6 +35,13 @@ const getVideoJsOptions = (browser, url, hlsUrl, drmToken, HlsDrmToken) => {
             licenseUri: process.env.REACT_APP_FAIRPLAY_LICENSE_URL,
             licenseHeaders: {
               "X-AxDrm-Message": HlsDrmToken,
+              Cookie: `CloudFront-Policy=${encodeURIComponent(
+                CloudFrontPolicy
+              )}; CloudFront-Signature=${encodeURIComponent(
+                CloudFrontSignature
+              )}; CloudFront-Key-Pair-Id=${encodeURIComponent(
+                CloudFrontKeyPairId
+              )}`,
             },
           },
         },
@@ -43,6 +55,13 @@ const getVideoJsOptions = (browser, url, hlsUrl, drmToken, HlsDrmToken) => {
             url: process.env.REACT_APP_WIDEVINE_LICENSE_URL,
             licenseHeaders: {
               "X-AxDRM-Message": drmToken,
+              Cookie: `CloudFront-Policy=${encodeURIComponent(
+                CloudFrontPolicy
+              )}; CloudFront-Signature=${encodeURIComponent(
+                CloudFrontSignature
+              )}; CloudFront-Key-Pair-Id=${encodeURIComponent(
+                CloudFrontKeyPairId
+              )}`,
             },
           },
         },
