@@ -77,6 +77,19 @@ const getVideoJsOptions = (browser, url, hlsUrl, drmToken, HlsDrmToken) => {
         volumeStep: 0.1,
         enableVolumeScroll: false,
       },
+      httpSourceSelector: {},
+      hls: {
+        beforeRequest: function (options) {
+          options.withCredentials = true;
+          return options;
+        },
+      },
+      dash: {
+        xhrSetup: function (xhr, url) {
+          // Include credentials for all requests
+          xhr.withCredentials = true;
+        },
+      },
     },
     html5: {
       nativeAudioTracks: true,
