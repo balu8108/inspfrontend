@@ -104,8 +104,6 @@ const VideoPlayer = ({ browser, type, activeRecording }) => {
 
       const { data } = res;
 
-      co;
-
       const drmToken = data?.data?.DRMjwtToken;
       const HlsDrmToken = data?.data?.HlsDRMJwtToken;
       const videoOptions = getVideoJsOptions(
