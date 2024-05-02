@@ -27,6 +27,7 @@ import {
   FiCircle,
   FiMonitor,
 } from "react-icons/fi";
+import { IoStopOutline } from "react-icons/io5";
 import { LuMonitorOff, LuCircleOff } from "react-icons/lu";
 import { CiPause1 } from "react-icons/ci";
 import { useParams, useNavigate } from "react-router-dom";
@@ -282,11 +283,13 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
 
   const endClass = () => {
     if (isRecording) {
-      toggleRecording();
+      stopRecording().then(() => {
+        navigate("/homepage", { replace: true });
+        window.history.replaceState(null, null, `/homepage`);
+      });
+    } else {
+      navigate("/homepage");
     }
-
-    navigate("/homepage", { replace: true });
-    window.history.replaceState(null, null, `/homepage`);
   };
 
   const stopScreenShare = () => {
@@ -485,7 +488,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
                 colorScheme={isPaused ? "gray" : "red"}
                 aria-label="Done"
                 fontSize="20px"
-                icon={<CiPause1 />}
+                icon={isPaused ? <IoStopOutline /> : <CiPause1 />}
                 onClick={isPaused ? resumeRecording : pauseRecording}
               />
             </Tooltip>

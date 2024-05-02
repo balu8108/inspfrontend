@@ -10,7 +10,7 @@ import {
   IconButton,
   Image,
 } from "@chakra-ui/react";
-import { useParams,useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { capitalize } from "../../../../utils";
 import { BsPlayFill } from "react-icons/bs";
 import defaultImageUrl from "../../../../assets/images/image1.png";
@@ -23,8 +23,7 @@ const SoloClassLectureDetails = () => {
   const topicDescription = topicDescriptionConstants[topic];
   const { outerBackground } = useTheme().colors.pallete;
   const [detailSoloClassroom, setDetailSoloClassroom] = useState("");
-  const navigate=useNavigate();
-  
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSoloClassroomDetails = async (soloClassRoomId) => {
@@ -46,9 +45,6 @@ const SoloClassLectureDetails = () => {
     navigate(`/view-recording?type=solo&id=${recording.soloClassRoomId}`);
   };
 
-
-
-
   return (
     <Box p={8} bg={outerBackground} borderRadius={"26px"} h={"full"}>
       <Box>
@@ -68,7 +64,8 @@ const SoloClassLectureDetails = () => {
       <Flex gap={4} mt={10}>
         <Box flex={1} w={"50%"}>
           <Text>Description</Text>
-          {detailSoloClassroom && (
+          {detailSoloClassroom &&
+          detailSoloClassroom.soloClassroomDetails.description ? (
             <Text
               mt={4}
               fontSize="12px"
@@ -77,17 +74,27 @@ const SoloClassLectureDetails = () => {
             >
               {detailSoloClassroom.soloClassroomDetails.description}
             </Text>
+          ) : (
+            <Text mt={4} fontSize="12px">
+              No description provided for this solo classroom
+            </Text>
           )}
         </Box>
+
         <Box flex={1}>
           <Text fontSize="md">Agenda</Text>
-          <UnorderedList fontSize={"12px"} color={"#2C332978"} pt={2}>
-          {detailSoloClassroom && (
+          {detailSoloClassroom &&
+          detailSoloClassroom.soloClassroomDetails.agenda ? (
+            <UnorderedList fontSize={"12px"} color={"#2C332978"} pt={2}>
               <ListItem my={2}>
-              {detailSoloClassroom.soloClassroomDetails.agenda}
+                {detailSoloClassroom.soloClassroomDetails.agenda}
               </ListItem>
+            </UnorderedList>
+          ) : (
+            <Text fontSize="12px" mt={4}>
+              No agenda provided for this solo classroom
+            </Text>
           )}
-          </UnorderedList>
         </Box>
       </Flex>
 
@@ -129,7 +136,7 @@ const SoloClassLectureDetails = () => {
             </Flex>
           ) : (
             <Text fontSize={"12px"} mt={4}>
-              No recordings available for this topic.
+              No recordings are available for this solo classroom.
             </Text>
           )}
         </Flex>
@@ -147,7 +154,7 @@ const SoloClassLectureDetails = () => {
           </Flex>
         ) : (
           <Text fontSize="12px" mt={4}>
-            No Data for this topic
+            No files/notes are provided for this solo classroom
           </Text>
         )}
       </Box>
