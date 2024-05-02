@@ -52,7 +52,6 @@ const getVideoJsOptions = (browser, url, hlsUrl, drmToken, HlsDrmToken) => {
       sources.push({
         src: url, // MP4 file
         type: "video/mp4",
-        withCredentials: true, // Include credentials for MP4 files
       });
     }
   } else {
@@ -76,19 +75,6 @@ const getVideoJsOptions = (browser, url, hlsUrl, drmToken, HlsDrmToken) => {
         seekStep: 10,
         volumeStep: 0.1,
         enableVolumeScroll: false,
-      },
-      httpSourceSelector: {},
-      hls: {
-        beforeRequest: function (options) {
-          options.withCredentials = true;
-          return options;
-        },
-      },
-      dash: {
-        xhrSetup: function (xhr, url) {
-          // Include credentials for all requests
-          xhr.withCredentials = true;
-        },
       },
     },
     html5: {
