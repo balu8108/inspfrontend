@@ -24,6 +24,7 @@ const getVideoJsOptions = (browser, url, hlsUrl, drmToken, HlsDrmToken) => {
     if (browser === "Safari") {
       sources.push({
         src: hlsUrl,
+        withCredentials: true,
         keySystems: {
           "com.apple.fps.1_0": {
             certificateUri: process.env.REACT_APP_FAIRPLAY_CERTIFICATE_URL,
@@ -49,6 +50,7 @@ const getVideoJsOptions = (browser, url, hlsUrl, drmToken, HlsDrmToken) => {
     } else {
       sources.push({
         src: url,
+        withCredentials: true,
         type: "application/dash+xml",
         keySystems: {
           "com.widevine.alpha": {
