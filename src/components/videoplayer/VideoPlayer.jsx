@@ -49,15 +49,10 @@ const getVideoJsOptions = (browser, url, hlsUrl, drmToken, HlsDrmToken) => {
           },
         },
       });
-      sources.push({
-        src: url, // MP4 file
-        type: "video/mp4",
-      });
     }
   } else {
     sources.push({
       src: url,
-      withCredentials: true,
       type: "video/webm",
     });
   }
@@ -81,6 +76,12 @@ const getVideoJsOptions = (browser, url, hlsUrl, drmToken, HlsDrmToken) => {
       nativeAudioTracks: true,
       nativeVideoTracks: true,
       nativeTextTracks: true,
+      hls: {
+        withCredentials: true,
+      },
+      dash: {
+        withCredentials: true,
+      },
     },
   };
 
