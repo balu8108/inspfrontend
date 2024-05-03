@@ -17,6 +17,7 @@
     "crypto-js": "^4.1.1",
     "dashjs": "^4.7.2",
     "emoji-mart": "^5.5.2",
+    "js-cookie": "^3.0.5",
     "mediasoup-client": "^3.6.98",
     "moment": "^2.29.4",
     "pspdfkit": "^2024.2.0",
