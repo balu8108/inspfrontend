@@ -1,11 +1,15 @@
 const detectSharedScreenStream = () => {
   return new Promise((resolve, reject) => {
-    navigator.mediaDevices.enumerateDevices()
-      .then(devices => {
-        const screenDevices = devices.filter(device => device.kind === 'videoinput' && device.label.includes('screen'));
+    navigator.mediaDevices
+      .enumerateDevices()
+      .then((devices) => {
+        const screenDevices = devices.filter(
+          (device) =>
+            device.kind === "videoinput" && device.label.includes("screen")
+        );
         resolve(screenDevices.length > 0);
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error);
       });
   });
@@ -32,18 +36,12 @@ const detectDevTools = async () => {
 
   const isScreenStreamActive = await detectSharedScreenStream();
 
-  console.log("Debugger active:", isDebuggerActive());
-  console.log("Screen stream active:", isScreenStreamActive);
-
   if (isDebuggerOpen() && !isScreenStreamActive) {
     showDebuggerMessage();
   }
 
   setInterval(async () => {
     const isScreenStreamActive = await detectSharedScreenStream();
-
-    console.log("Debugger active:", isDebuggerActive());
-    console.log("Screen stream active:", isScreenStreamActive);
 
     if (isDebuggerOpen() && !isScreenStreamActive) {
       showDebuggerMessage();
@@ -58,4 +56,3 @@ const detectDevTools = async () => {
 };
 
 detectDevTools();
-
