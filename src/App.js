@@ -22,7 +22,7 @@ import { fetchAllSubjectsApi } from "./api/inspexternalapis";
 import { getAllSubjects } from "./store/actions/genericActions";
 import { userType } from "./constants/staticvariables";
 import ScheduleClassList from "./pages/ScheduleClasses/components/ScheduleClassList";
-import detectDevTools from "./utils/detectDevtools";
+import { detectDevTools, CheckWindowHeight } from "./utils/detectDevtools";
 const allowedRoutes = [
   "/schedule-class",
   "/view-recording",
@@ -33,8 +33,9 @@ const allowedRoutes = [
   "/feedback",
 ];
 
-const ProtectedRoutes = () => {
+const ProtectedRoutes = ({ userRoleType }) => {
   const { userProfile, secretToken } = useSelector((state) => state.auth);
+  CheckWindowHeight(userRoleType);
   return userProfile && secretToken ? <Outlet /> : <Navigate to="/" />;
 };
 
@@ -59,11 +60,9 @@ function App() {
   } = useDisclosure();
   const isNavbarDisabled =
     location.pathname === "/" || location.pathname.startsWith("/auth");
-console.log("user role type", userRoleType)
+
   useEffect(() => {
-    console.log("testing",);
-    // if (process.env.NODE_ENV === "production") {
-      console.log("testing11",);
+    if (process.env.NODE_ENV === "production") {
       detectDevTools(userRoleType);
       const disableContext = (e) => e.preventDefault();
       const disableDevToolsShortcut = (e) => {
@@ -90,8 +89,7 @@ console.log("user role type", userRoleType)
         window.removeEventListener("contextmenu", disableContext);
         window.removeEventListener("keydown", disableDevToolsShortcut);
       };
-    // }
-    console.log("testing11",);
+    }
   }, [userRoleType]);
 
   useEffect(() => {
@@ -179,7 +177,7 @@ console.log("user role type", userRoleType)
       />
       <ScrollToTop />
       <Routes>
-        <Route element={<ProtectedRoutes />}>
+        <Route element={<ProtectedRoutes userRoleType={userRoleType} />}>
           {privateRoutes.map((route) => (
             <Route
               key={route.path}
