@@ -1,24 +1,45 @@
-const detectSharedScreenStream = () => {
-  return new Promise((resolve, reject) => {
-    navigator.mediaDevices
-      .enumerateDevices()
-      .then((devices) => {
-        const screenDevices = devices.filter(
-          (device) =>
-            device.kind === "videoinput" && device.label.includes("screen")
-        );
-        resolve(screenDevices.length > 0);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-};
+// const detectDevTools = async () => {
+//   const widthThreshold = 160;
+//   const heightThreshold = 160;
 
-const detectDevTools = async () => {
+//   const isWindowTooLarge = () => {
+//     return (
+//       window.outerWidth - window.innerWidth > widthThreshold ||
+//       window.outerHeight - window.innerHeight > heightThreshold
+//     );
+//   };
+
+//   const isDebuggerActive = () => {
+//     return !!(window.chrome && window.chrome.devtools);
+//   };
+
+//   const isDebuggerOpen = () => {
+//     return isDebuggerActive() || isWindowTooLarge();
+//   };
+
+//   if (isDebuggerOpen()) {
+//     showDebuggerMessage();
+//   }
+
+//   setInterval(() => {
+//     if (isDebuggerOpen()) {
+//       showDebuggerMessage();
+//     }
+//   }, 100);
+
+//   function showDebuggerMessage() {
+//     document.body.innerHTML =
+//       "<div style='position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);'><h1>Developer Tools Detected</h1><p>Please close the developer tools to continue.</p></div>";
+//     document.body.style.backgroundColor = "white";
+//   }
+// };
+
+// detectDevTools();
+
+export default function detectDevTools(checkUserType) {
   const widthThreshold = 160;
   const heightThreshold = 160;
-
+  console.log("user type for dev tools", checkUserType);
   const isWindowTooLarge = () => {
     return (
       window.outerWidth - window.innerWidth > widthThreshold ||
@@ -34,25 +55,44 @@ const detectDevTools = async () => {
     return isDebuggerActive() || isWindowTooLarge();
   };
 
-  const isScreenStreamActive = await detectSharedScreenStream();
+  const isFullscreenMode = () => {
+    return (
+      document.fullscreenElement ||
+      document.webkitFullscreenElement ||
+      document.mozFullScreenElement ||
+      document.msFullscreenElement
+    );
+  };
 
-  if (isDebuggerOpen() && !isScreenStreamActive) {
-    showDebuggerMessage();
-  }
+  const shouldShowDebuggerMessage = () => {
+    const currentUrl = window.location.href;
+    const excludedRoutePattern = /\/room\/\w+/; // Pattern for excluded route
 
-  setInterval(async () => {
-    const isScreenStreamActive = await detectSharedScreenStream();
+    return (
+      checkUserType === "TEACHER" &&
+      !isFullscreenMode() &&
+      isDebuggerOpen() &&
+      !excludedRoutePattern.test(currentUrl)
+    );
+  };
 
-    if (isDebuggerOpen() && !isScreenStreamActive) {
+  if (checkUserType) {
+    // showDebuggerMessage();
+    if (shouldShowDebuggerMessage()) {
       showDebuggerMessage();
     }
-  }, 100);
+  }
+  console.log("shouldShowDebugger", shouldShowDebuggerMessage());
+
+  // setInterval(() => {
+  //   if (shouldShowDebuggerMessage()) {
+  //     showDebuggerMessage();
+  //   }
+  // }, 100);
 
   function showDebuggerMessage() {
     document.body.innerHTML =
       "<div style='position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);'><h1>Developer Tools Detected</h1><p>Please close the developer tools to continue.</p></div>";
     document.body.style.backgroundColor = "white";
   }
-};
-
-detectDevTools();
+}
