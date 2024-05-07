@@ -22,8 +22,7 @@ import { fetchAllSubjectsApi } from "./api/inspexternalapis";
 import { getAllSubjects } from "./store/actions/genericActions";
 import { userType } from "./constants/staticvariables";
 import ScheduleClassList from "./pages/ScheduleClasses/components/ScheduleClassList";
-import detectDevTools from "./utils/detectDevtools";
-
+import { detectDevTools, CheckWindowHeight } from "./utils/detectDevtools";
 const allowedRoutes = [
   "/schedule-class",
   "/view-recording",
@@ -34,8 +33,9 @@ const allowedRoutes = [
   "/feedback",
 ];
 
-const ProtectedRoutes = () => {
+const ProtectedRoutes = ({ userRoleType }) => {
   const { userProfile, secretToken } = useSelector((state) => state.auth);
+  CheckWindowHeight(userRoleType);
   return userProfile && secretToken ? <Outlet /> : <Navigate to="/" />;
 };
 
@@ -63,7 +63,7 @@ function App() {
 
   useEffect(() => {
     if (process.env.NODE_ENV === "production") {
-      detectDevTools();
+      detectDevTools(userRoleType);
       const disableContext = (e) => e.preventDefault();
       const disableDevToolsShortcut = (e) => {
         const ctrlShiftKey = (e, keyCode) =>
@@ -90,7 +90,7 @@ function App() {
         window.removeEventListener("keydown", disableDevToolsShortcut);
       };
     }
-  }, []);
+  }, [userRoleType]);
 
   useEffect(() => {
     const handleBeforeUnload = () => {
@@ -177,7 +177,7 @@ function App() {
       />
       <ScrollToTop />
       <Routes>
-        <Route element={<ProtectedRoutes />}>
+        <Route element={<ProtectedRoutes userRoleType={userRoleType} />}>
           {privateRoutes.map((route) => (
             <Route
               key={route.path}
