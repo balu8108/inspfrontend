@@ -484,9 +484,7 @@ const ToolBox = ({
             />
           )}
 
-          {userRoleType === userType.teacher && (
-            <PostPoll screenShareStream={screenShareStream} />
-          )}
+          {userRoleType === userType.teacher && <PostPoll />}
         </Flex>
 
         <HStack>

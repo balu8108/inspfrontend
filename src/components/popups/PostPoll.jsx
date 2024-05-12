@@ -22,9 +22,6 @@ import { MainBtn } from "../button";
 
 import { sendQuestionHandler } from "../../socketconnections/socketconnections";
 import { useState, useEffect } from "react";
-import { screenshotHandler } from "../../utils";
-import { imageToDocApi } from "../../api/genericapis";
-import { useParams } from "react-router-dom";
 
 const questionTypeOptions = [
   { value: "poll", label: "Poll" },
@@ -50,7 +47,7 @@ const initialQnaData = {
   correctAnswers: [],
 };
 
-const PostPoll = ({ screenShareStream }) => {
+const PostPoll = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [questionType, setQuestionType] = useState(null);
   const [QNo, setQNo] = useState("");
@@ -61,25 +58,9 @@ const PostPoll = ({ screenShareStream }) => {
   const [errorData, setErrorData] = useState({});
   const [timer, setTimer] = useState("");
   const { onOpen, onClose, isOpen } = useDisclosure();
-  const { roomId } = useParams();
   const { pollData } = useSelector((state) => state.chat);
 
   const { primaryBlue } = useTheme().colors.pallete;
-
-  const handleScreenshot = async () => {
-    try {
-      const screenshot = await screenshotHandler(screenShareStream);
-      const formData = new FormData();
-
-      formData.append("screenshot", screenshot);
-      formData.append("data", JSON.stringify(qnaData));
-      formData.append("roomId", roomId);
-
-      if (screenshot) {
-        await imageToDocApi(formData); // send screenshot to backend
-      }
-    } catch (err) {}
-  };
 
   const resetForm = () => {
     setQuestionType(null);
@@ -118,7 +99,6 @@ const PostPoll = ({ screenShareStream }) => {
     }
 
     sendQuestionHandler(qnaData);
-    await handleScreenshot();
     resetForm();
     setIsLoading(false);
     onClose();
@@ -254,13 +234,12 @@ const PostPoll = ({ screenShareStream }) => {
       }}
       onClose={onClose}
     >
-
       <PopoverTrigger>
-        <IconButton 
-          isDisabled={pollData? true : false} 
-          isRound={true} 
-          icon={<BiBarChart size={20}
-        />} />
+        <IconButton
+          isDisabled={pollData ? true : false}
+          isRound={true}
+          icon={<BiBarChart size={20} />}
+        />
       </PopoverTrigger>
 
       <PopoverContent px={4} py={2} w="300px">
