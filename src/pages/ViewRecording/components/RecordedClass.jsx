@@ -3,11 +3,9 @@ import {
   HStack,
   Text,
   Flex,
-  Button,
   Image,
   Icon,
   Card,
-  Link,
   useTheme,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -271,34 +269,7 @@ const RecordedClass = ({
               {renderRecordings(recordingDetail, activeRecording)}
             </Flex>
           </Box>
-          {isLive && (
-            <Box mt={6}>
-              {/* <Text>Notes</Text>
-          <Box mt={1}>{renderNotes(recordingDetail)}</Box> */}
-            </Box>
-          )}
         </Box>
-        <Text
-          fontSize={"12px"}
-          lineHeight={"13px"}
-          fontWeight={400}
-          mt={4}
-          color={"rgba(44, 51, 41, 1)"}
-        >
-          If you fetching any issue in live classes ? click below
-        </Text>
-        <Link isExternal={true} href={"https://forms.gle/886JxieoWe3vPw7T9"}>
-          <Button
-            w={"full"}
-            bg={primaryBlue}
-            color={"#fff"}
-            fontWeight={"500"}
-            fontSize={"14px"}
-            _hover={{ bg: primaryBlueLight }}
-          >
-            Feedback form
-          </Button>
-        </Link>
       </Flex>
     </>
   );
