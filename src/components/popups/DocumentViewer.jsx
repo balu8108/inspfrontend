@@ -143,15 +143,6 @@
 
 // export default DocumentViewer;
 
-
-
-
-
-
-
-
-
-
 import React, { useEffect, useState } from "react";
 import {
   Modal,
@@ -165,8 +156,9 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { setIsDocModalOpen } from "../../store/actions/genericActions";
 import { getPresignedUrlDocApi } from "../../api/genericapis";
-import { Document, Page, pdfjs } from 'react-pdf';
-import PropTypes from 'prop-types';
+import { Document, Page, pdfjs } from "react-pdf";
+import PropTypes from "prop-types";
+import "./PdfViewer.css";
 
 // Configure the worker to use pdf.js
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -175,45 +167,47 @@ const PDFDocumentViewer = ({ docUrl, userProfile }) => {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
 
-  // Function to handle loading of PDF
-  function onDocumentLoadSuccess({ numPages }) {
+  const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
-  }
+  };
 
-  // Function to navigate to the next page
-  function goToNextPage() {
-    setPageNumber(prevPageNumber => Math.min(prevPageNumber + 1, numPages));
-  }
+  const nextPage = () => {
+    if (pageNumber < numPages) {
+      setPageNumber(pageNumber + 1);
+    }
+  };
 
-  // Function to navigate to the previous page
-  function goToPrevPage() {
-    setPageNumber(prevPageNumber => Math.max(prevPageNumber - 1, 1));
-  }
+  const prevPage = () => {
+    if (pageNumber > 1) {
+      setPageNumber(pageNumber - 1);
+    }
+  };
+
+  
 
   return (
     <div>
-      {/* Render the PDF document */}
-      <Document
-        file={docUrl} // Pass the URL of the PDF document
-        onLoadSuccess={onDocumentLoadSuccess}
-      >
-        <Page pageNumber={pageNumber} />
-      </Document>
-      <div>
-        {/* Display current page number and total number of pages */}
-        <p>Page {pageNumber} of {numPages}</p>
-        {/* Buttons to navigate between pages */}
-        <button onClick={goToPrevPage} disabled={pageNumber <= 1}>Previous Page</button>
-        <button onClick={goToNextPage} disabled={pageNumber >= numPages}>Next Page</button>
+      <div className="controls">
+        <button onClick={prevPage} disabled={pageNumber === 1}>
+          Prev
+        </button>
+        <button onClick={nextPage} disabled={pageNumber === numPages}>
+          Next
+        </button>
       </div>
+    
+      <Document
+        file={docUrl}
+        onLoadSuccess={onDocumentLoadSuccess}
+        onContextMenu={(e) => e.preventDefault()}
+        className="pdf-container"
+      >
+        <Page pageNumber={pageNumber} renderTextLayer={false} />
+      </Document>
     </div>
   );
-}
-
-PDFDocumentViewer.propTypes = {
-  docUrl: PropTypes.string.isRequired, // URL of the PDF document is required
-  userProfile: PropTypes.object.isRequired // User profile information required for watermark
 };
+
 
 const DocumentViewer = ({ isOpen, onClose }) => {
   const [docUrl, setDocUrl] = useState(null);
@@ -269,11 +263,3 @@ const DocumentViewer = ({ isOpen, onClose }) => {
 };
 
 export default DocumentViewer;
-
-
-
-
-
-
-
-
