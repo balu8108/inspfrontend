@@ -15,6 +15,7 @@
     "chakra-react-select": "^4.7.3",
     "chart.js": "^4.4.2",
     "crypto-js": "^4.1.1",
+    "dashjs": "^4.7.2",
     "emoji-mart": "^5.5.2",
     "js-cookie": "^3.0.5",
     "mediasoup-client": "^3.6.98",
@@ -35,6 +36,12 @@
     "redux-thunk": "^2.4.2",
     "socket.io-client": "^4.7.2",
     "uuid": "^9.0.1",
+    "video.js": "^7.21.5",
+    "videojs-contrib-eme": "^3.11.1",
+    "videojs-contrib-quality-levels": "^3.0.0",
+    "videojs-hotkeys": "^0.2.28",
+    "videojs-http-quality-selector": "^1.2.1",
+    "videojs-seek-buttons": "^3.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
