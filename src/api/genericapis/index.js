@@ -16,7 +16,6 @@ API.interceptors.request.use((req) => {
 });
 
 export const getAllSubjectsApi = () => API.get("/generic/get-all-subjects");
-export const imageToDocApi = (body) => API.post("/generic/image-to-doc", body);
 export const getPresignedUrlDocApi = (docId, docType) =>
   API.get(`/generic/open-file/?docId=${docId}&docType=${docType}`);
 

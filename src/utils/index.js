@@ -8,7 +8,6 @@ import { formatTime, timeDifference, formatSeconds } from "./formatTime";
 import { extractFileNameFromS3URL } from "./extractFileName";
 import categoriseClass from "./categoriseClass";
 import boxShadowStyles from "./boxShadowStyles";
-import screenshotHandler from "./screenshotHandler";
 import renderLeftMembersCount from "./renderLeftMembersCount";
 import checkUserType from "./checkUserType";
 import fileConverter from "./fileConverter";
@@ -26,7 +25,6 @@ export {
   extractFileNameFromS3URL,
   categoriseClass,
   boxShadowStyles,
-  screenshotHandler,
   renderLeftMembersCount,
   checkUserType,
   formatSeconds,

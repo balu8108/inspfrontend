@@ -268,7 +268,7 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
         setIsRecording(false);
 
         const blob = new Blob(recordedChunksRef.current, {
-          type: "video/webm",
+          type: "video/mp4",
         });
         if (blob.size > 0) {
           if (soloClassRoomId) {
@@ -308,10 +308,10 @@ const RecordingLectures = ({ toggleDataVisibility, isTheatreMode }) => {
   }, [screenSharingStream]);
 
   const uploadVideoToAWS = async (recordedVideo, soloClassRoomId) => {
-    const fileName = `sololecture_${soloClassRoomId}.webm`;
+    const fileName = `sololecture_${soloClassRoomId}.mp4`;
 
     const file = new File([recordedVideo], fileName, {
-      type: "video/webm",
+      type: "video/mp4",
     });
     const formData = new FormData();
 

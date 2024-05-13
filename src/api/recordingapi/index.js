@@ -17,6 +17,3 @@ API.interceptors.request.use((req) => {
 
 export const viewRecordingApi = (type, id) =>
   API.get(`/recording/view-recording?type=${type}&id=${id}`);
-
-export const playRecordingApi = (body) =>
-  API.post(`/recording/play-recording`, body);
