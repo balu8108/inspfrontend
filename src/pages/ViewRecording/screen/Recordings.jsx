@@ -63,11 +63,7 @@ const Recording = () => {
 
   return (
     <Flex m={"52px"} h={"full"} gap={6}>
-      <ViewRecording
-        browser={browser}
-        type={type}
-        activeRecording={activeRecording}
-      />
+      <ViewRecording browser={browser} activeRecording={activeRecording} />
       <RecordedClass
         type={type}
         recordingDetail={recordingDetail}

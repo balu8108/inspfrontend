@@ -8,7 +8,6 @@ import "dashjs";
 import "videojs-hotkeys";
 import "videojs-seek-buttons";
 import "videojs-seek-buttons/dist/videojs-seek-buttons.css";
-import { playRecordingApi } from "../../api/recordingapi";
 import WaterMark from "../watermark/WaterMark";
 import { checkUserType } from "../../utils";
 import { userType } from "../../constants/staticvariables";
@@ -88,24 +87,15 @@ const getVideoJsOptions = (browser, url, hlsUrl, drmToken, HlsDrmToken) => {
   return videoOptions;
 };
 
-const VideoPlayer = ({ browser, type, activeRecording }) => {
+const VideoPlayer = ({ browser, activeRecording }) => {
   const videoRef = useRef(null);
   const [player, setPlayer] = useState(undefined);
   const { userProfile: inspUserProfile } = useSelector((state) => state.auth);
   const userRoleType = checkUserType(inspUserProfile);
   const setPlayerConfiguration = async (activeRecording) => {
     try {
-      // Update the player's source when the src prop changes
-
-      const res = await playRecordingApi({
-        type: type,
-        recordId: activeRecording?.id,
-      });
-
-      const { data } = res;
-
-      const drmToken = data?.data?.DRMjwtToken;
-      const HlsDrmToken = data?.data?.HlsDRMJwtToken;
+      const drmToken = activeRecording?.drmKeyId;
+      const HlsDrmToken = activeRecording?.hlsDrmUrl;
       const videoOptions = getVideoJsOptions(
         browser,
         activeRecording?.key,
