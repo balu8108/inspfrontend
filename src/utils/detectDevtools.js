@@ -1,7 +1,9 @@
 import { userType } from "../constants/staticvariables";
 
 export function CheckWindowHeight(checkUserType) {
-  const excludedRoutePattern = /\/room\/\w+/; // Pattern for excluded route
+  // const excludedRoutePattern = /\/room\/\w+/; // Pattern for excluded route
+
+  const excludedRoutePattern = /\/(room|reg-mentor\/solo-lectures)\/\w+/;
   const currentUrl = window.location.href;
   if (
     window.outerHeight - window.innerHeight > 170 ||
