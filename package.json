@@ -20,7 +20,6 @@
     "js-cookie": "^3.0.5",
     "mediasoup-client": "^3.6.98",
     "moment": "^2.29.4",
-    "pspdfkit": "^2024.2.0",
     "rc-scrollbars": "^1.1.6",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
