@@ -93,7 +93,7 @@ const DetailsCoveredFiles = () => {
                     alignItems="center"
                     w={"160px"}
                     key={recording?.id}
-                    // onClick={() => handleViewRecording(recording, topic)}
+                    onClick={() => handleViewRecording(recording, topicId)}
                     position={"relative"}
                     cursor={"pointer"}
                   >
