@@ -102,7 +102,7 @@ const privateRoutes = [
   },
   {
     name: "topic based lecture",
-    path: "/library/topic/:topicId/:topicName",
+    path: "/library/topic/:topicId/:topicName/:subject_id",
     component: <TopicBasedLectures />,
   },
   {

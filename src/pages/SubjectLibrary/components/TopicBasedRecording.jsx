@@ -15,13 +15,17 @@ import { capitalize } from "../../../utils";
 import VectorImage from "../../../assets/images/Line/Vector.svg";
 import { getAllLectureByTopicId } from "../../../api/lecture";
 import LectureCard from "../../../components/Card/LectureCard";
-
+import { getSoloClassForTopicBasedRecording } from "../../../api/soloclassrooms";
+import SoloCard from "../../../components/Card/SoloCard";
 const TopicBasedRecording = () => {
-  const { topicId, topicName } = useParams();
+  const { topicId, topicName, subject_id } = useParams();
+  console.log("subject id is", subject_id);
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [lecturesDataLoading, setLecturesDataLoading] = useState(true);
   const [lecturesData, setLecturesData] = useState([]);
+  const [soloLecturesData, setsoloLecturesData] = useState([]);
+
   const { outerBackground, innerBackground } = useTheme().colors.pallete;
 
   const handleNavigate = (roomId) => {
@@ -42,6 +46,19 @@ const TopicBasedRecording = () => {
     return lectureNumber.includes(lowerCaseSearchTerm);
   };
 
+  const getAllSoloLecture = async () => {
+    try {
+      const response = await getSoloClassForTopicBasedRecording(topicId);
+      const { data } = response.data;
+      setsoloLecturesData(data);
+      console.log("data is",data);
+      setLecturesDataLoading(false);
+    } catch (err) {
+      setLecturesDataLoading(false);
+      console.error("Error fetching all  solo claasroom lectures:", err);
+    }
+  };
+
   const getAllLecture = async () => {
     try {
       const response = await getAllLectureByTopicId(topicId, "both");
@@ -55,7 +72,11 @@ const TopicBasedRecording = () => {
   };
 
   useEffect(() => {
-    getAllLecture();
+    if (subject_id === 4) {
+      getAllSoloLecture();
+    } else {
+      getAllLecture();
+    }
   }, []);
 
   return (
@@ -98,16 +119,27 @@ const TopicBasedRecording = () => {
           </Center>
         )}
         <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={"6"}>
-          {lecturesData.filter(filterLectures).map((lecture) => (
-            <LectureCard
-              width={"100%"}
-              id={lecture?.roomId}
-              classRoomDetail={lecture?.LiveClassRoomDetail}
-              scheduledDate={lecture?.scheduledDate}
-              classLevel={lecture?.classLevel}
-              route={handleNavigate}
-            />
-          ))}
+          {subject_id === 4
+            ? soloLecturesData
+                .filter(filterLectures)
+                .map((lecture) => (
+                  <SoloCard
+                    lecture={lecture}
+                    // handleViewDetails={handleViewDetails}
+                  />
+                ))
+            : lecturesData
+                .filter(filterLectures)
+                .map((lecture) => (
+                  <LectureCard
+                    width={"100%"}
+                    id={lecture?.roomId}
+                    classRoomDetail={lecture?.LiveClassRoomDetail}
+                    scheduledDate={lecture?.scheduledDate}
+                    classLevel={lecture?.classLevel}
+                    route={handleNavigate}
+                  />
+                ))}
           {lecturesData.length === 0 && (
             <Box
               h={"204px"}

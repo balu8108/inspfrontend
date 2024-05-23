@@ -31,7 +31,7 @@ const SubjectLibrary = () => {
   const navigate = useNavigate();
 
   const handleViewRecording = (data) => {
-    navigate(`/library/topic/${data?.id}/${data?.name}`);
+    navigate(`/library/topic/${data?.id}/${data?.name}/${subject_id}`);
   };
 
   useEffect(() => {
