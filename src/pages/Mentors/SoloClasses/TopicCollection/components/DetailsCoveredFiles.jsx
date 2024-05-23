@@ -85,15 +85,15 @@ const DetailsCoveredFiles = () => {
       <Box mt={8}>
         <Text>Recording</Text>
         <Flex gap={"24px"} overflowX="auto">
-          {topicDetails && topicDetails.length > 0 ? (
+          {topicDetails ? (
             <Flex gap={4} mt={4}>
-              {topicDetails.map((topic) =>
-                topic?.SoloClassRoomRecordings.map((recording, index) => (
+              {topicDetails?.transformedData?.SoloClassRoomRecordings.map(
+                (recording, index) => (
                   <Flex
                     alignItems="center"
                     w={"160px"}
                     key={recording?.id}
-                    onClick={() => handleViewRecording(recording, topic)}
+                    onClick={() => handleViewRecording(recording, topicId)}
                     position={"relative"}
                     cursor={"pointer"}
                   >
@@ -113,19 +113,19 @@ const DetailsCoveredFiles = () => {
                       transform="translate(-50%, -50%)"
                     />
                   </Flex>
-                ))
+                )
               )}
-              {topicDetails?.every(
-                (data) => data.SoloClassRoomRecordings.length === 0
-              ) && (
+
+              {topicDetails?.transformedData?.SoloClassRoomRecordings.length ===
+                0 && (
                 <Text fontSize="12px">
-                  No recordings available for the topic.
+                  No recordings are available for this topic.
                 </Text>
               )}
             </Flex>
           ) : (
             <Text fontSize={"12px"} mt={4}>
-              No recording are available for this topic.
+              No data available for this topic.
             </Text>
           )}
         </Flex>
@@ -133,15 +133,13 @@ const DetailsCoveredFiles = () => {
 
       <Box mt={8}>
         <Text>Files/Notes</Text>
-        {topicDetails?.length > 0 ? (
+        {topicDetails ? (
           <Flex mt={4} flexWrap="wrap" gap={2}>
-            {topicDetails?.map((ld) =>
-              ld?.SoloClassRoomFiles?.map((file) => (
-                <SingleFileComponent key={file?.id} file={file} type={"solo"} />
-              ))
-            )}
+            {topicDetails?.transformedData?.SoloClassRoomFiles.map((file) => (
+              <SingleFileComponent key={file?.id} file={file} type={"solo"} />
+            ))}
 
-            {topicDetails?.every((ld) => !ld?.SoloClassRoomFiles?.length) && (
+            {topicDetails?.transformedData?.SoloClassRoomFiles.length === 0 && (
               <Text fontSize="12px">No Files for this topic</Text>
             )}
           </Flex>
