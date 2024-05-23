@@ -22,6 +22,7 @@ import StudentFeedbackDetails from "./pages/Mentors/StudentFeedback/screen/stude
 import MyCourses from "./pages/StudentCourses/components/MyCourses";
 import TopicBasedLectures from "./pages/SubjectLibrary/components/TopicBasedLectures";
 import SoloLectureDetailsScreen from "./pages/StudentCourses/SoloClasses/screens/SoloLectureDetailsScreen";
+import LibrarySoloLectureDetailsScreen from "./pages/StudentCourses/SoloClasses/screens/LibrarySoloLectureDetailScreen";
 
 const publicRoutes = [
   {
@@ -102,7 +103,7 @@ const privateRoutes = [
   },
   {
     name: "topic based lecture",
-    path: "/library/topic/:topicId/:topicName",
+    path: "/library/topic/:topicId/:topicName/:subject_id",
     component: <TopicBasedLectures />,
   },
   {
@@ -135,6 +136,11 @@ const privateRoutes = [
     name: "SoloClassRoom Lecture-Wise Detail Screen ",
     path: "my-courses/lecture-details/:topic/:soloClassRoomId",
     component: <SoloLectureDetailsScreen />,
+  },
+  {
+    name: "Library SoloClassRoom Lecture-Wise Detail Screen ",
+    path: "library/lecture-details/:topic/:soloClassRoomId",
+    component: <LibrarySoloLectureDetailsScreen />,
   },
   {
     name: "Feedback ",

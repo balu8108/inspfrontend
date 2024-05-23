@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import {
   Box,
-  Button,
-  Card,
   Flex,
   HStack,
   Spacer,
   Text,
   useTheme,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import { getAllSoloClassRoom } from "../../../../api/soloclassrooms";
 import { useNavigate } from "react-router-dom";
+import SoloCard from "../../../../components/Card/SoloCard";
 const SoloClass = () => {
   const navigate = useNavigate();
   const [lectureNumber, setLectureNumber] = useState([]);
@@ -56,75 +56,17 @@ const SoloClass = () => {
         </HStack>
         <Spacer />
       </Flex>
-      <Flex flexWrap={"wrap"} p={6} gap={"24px"}>
-        {lectureNumber &&
-          lectureNumber.map((lecture) => (
-            <Card
-              key={lecture.id}
-              w={"31%"}
-              h={"204px"}
-              bg={innerBackground}
-              boxShadow={innerBoxShadow}
-              borderRadius={"18px"}
-            >
-              <Text
-                fontSize={"16px"}
-                fontWeight={400}
-                ml={"13px"}
-                mt={"16px"}
-                lineHeight={"19px"}
-                noOfLines={1}
-              >
-                Lecture {lecture.lectureNo}
-              </Text>
-              <Text
-                fontSize={"12px"}
-                fontWeight={400}
-                ml={"13px"}
-                color="#2C332978"
-                lineHeight={"14px"}
-                noOfLines={1}
-              >
-                {lecture.topic}
-              </Text>
-
-              <Text
-                fontSize={"12px"}
-                lineHeight={"13px"}
-                ml={"13px"}
-                fontWeight={400}
-                color={"rgba(44, 51, 41, 1)"}
-                mt={"18px"}
-              >
-                Description
-              </Text>
-              <Text
-                fontSize={"12px"}
-                lineHeight={"21px"}
-                ml={"13px"}
-                fontWeight={400}
-                color="#2C332978"
-                noOfLines={3}
-              >
-                {lecture.description}
-              </Text>
-
-              <Button
-                variant={"ghost"}
-                color={"#3C8DBC"}
-                fontSize={"14px"}
-                fontWeight={600}
-                _hover={{ bg: "white" }}
-                mt={"auto"}
-                onClick={() => {
-                  handleViewDetails(lecture.id, lecture.topic);
-                }}
-              >
-                View Details
-              </Button>
-            </Card>
-          ))}
-      </Flex>
+      <Box m={"33px"}>
+        <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={"6"}>
+          {lectureNumber &&
+            lectureNumber.map((lecture) => (
+              <SoloCard
+                lecture={lecture}
+                handleViewDetails={handleViewDetails}
+              />
+            ))}
+        </SimpleGrid>
+      </Box>
     </Box>
   );
 };
