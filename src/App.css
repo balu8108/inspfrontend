@@ -141,10 +141,6 @@
 
 /** PDF doc viewer style **/
 
-/* .PSPDFKit-Container .PSPDFKit-Toolbar-Button-Print {
-  display: none;
-} */
-
 /*STYLING SIMPLEBAR THUMB BACKGROUND COLOR */
 .simplebar-scrollbar::before {
   width: 6px !important;

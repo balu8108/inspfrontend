@@ -1,106 +1,214 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import videojs from "video.js";
+import "video.js/dist/video-js.css";
+import "videojs-contrib-quality-levels";
+import "videojs-contrib-eme";
+import "videojs-http-quality-selector";
+import "dashjs";
+import "videojs-hotkeys";
+import "videojs-seek-buttons";
+import "videojs-seek-buttons/dist/videojs-seek-buttons.css";
+import WaterMark from "../watermark/WaterMark";
+import { checkUserType } from "../../utils";
+import { userType } from "../../constants/staticvariables";
 import { useSelector } from "react-redux";
-import { getActiveRecordingUrl } from "../../api/tpstream";
+const getVideoJsOptions = (browser, url, hlsUrl, drmToken, HlsDrmToken) => {
+  const sources = [];
+  if (process.env.REACT_APP_ENVIRON === "production") {
+    if (browser === "Safari") {
+      sources.push({
+        src: hlsUrl,
+        withCredentials: true,
+        keySystems: {
+          "com.apple.fps.1_0": {
+            certificateUri: process.env.REACT_APP_FAIRPLAY_CERTIFICATE_URL,
+            getContentId: function (emeOptions, initData) {
+              return new TextDecoder().decode(
+                initData.filter((item) => item !== 0 && item !== 150)
+              );
+            },
+            licenseUri: process.env.REACT_APP_FAIRPLAY_LICENSE_URL,
+            licenseHeaders: {
+              "X-AxDrm-Message": HlsDrmToken,
+            },
+          },
+        },
+      });
+    } else {
+      sources.push({
+        src: url,
+        withCredentials: true,
+        type: "application/dash+xml",
+        keySystems: {
+          "com.widevine.alpha": {
+            url: process.env.REACT_APP_WIDEVINE_LICENSE_URL,
+            licenseHeaders: {
+              "X-AxDRM-Message": drmToken,
+            },
+          },
+        },
+      });
+    }
+  } else {
+    sources.push({
+      src: url,
+      type: "video/webm",
+    });
+  }
 
-const VideoPlayer = ({ activeRecording }) => {
-  const [player, setPlayer] = useState(null);
+  const videoOptions = {
+    autoplay: false,
+    preload: "metadata",
+    controls: true,
+    playbackRates: [0.5, 1, 1.5, 2],
+    poster: "",
+    sources: sources,
+    plugins: {
+      hotkeys: {
+        enableModifiersForNumbers: false,
+        seekStep: 10,
+        volumeStep: 0.1,
+        enableVolumeScroll: false,
+      },
+    },
+    html5: {
+      nativeAudioTracks: true,
+      nativeVideoTracks: true,
+      nativeTextTracks: true,
+      hls: {
+        withCredentials: true,
+      },
+      dash: {
+        withCredentials: true,
+      },
+    },
+  };
+
+  return videoOptions;
+};
+
+const VideoPlayer = ({ browser, activeRecording }) => {
+  const videoRef = useRef(null);
+  const [player, setPlayer] = useState(undefined);
   const { userProfile: inspUserProfile } = useSelector((state) => state.auth);
-
-  const getViewRecordingData = async () => {
-    const watermark = {
-      expires_after_first_usage: true,
-      annotations: [
-        {
-          type: "static",
-          text: inspUserProfile.email,
-          x: 40,
-          y: 40,
-          opacity: "0.8",
-          color: "#FFF",
-          size: 4,
-        },
-        {
-          type: "dynamic",
-          text: inspUserProfile.name,
-          opacity: "0.8",
-          color: "#FFF",
-          size: 4,
-          interval: 5000,
-          skip: 2000,
-        },
-      ],
-    };
+  const userRoleType = checkUserType(inspUserProfile);
+  const setPlayerConfiguration = async (activeRecording) => {
     try {
-      const res = await getActiveRecordingUrl(
-        activeRecording?.tpStreamId,
-        watermark
+      const drmToken = activeRecording?.drmKeyId;
+      const HlsDrmToken = activeRecording?.hlsDrmUrl;
+      const videoOptions = getVideoJsOptions(
+        browser,
+        activeRecording?.key,
+        activeRecording?.hlsDrmUrl,
+        drmToken,
+        HlsDrmToken
       );
-      if (res.status === 201) {
-        const { data } = res;
-        setPlayer(data?.playback_url);
-        console.log(data);
+
+      if (!player) {
+        const p = videojs(videoRef.current, videoOptions);
+        if (process.env.REACT_APP_ENVIRON === "production") {
+          p.eme();
+        }
+
+        setPlayer(p);
+      } else {
+        player.src(videoOptions.sources);
       }
     } catch (err) {
-      console.log("error", err);
+      console.log("error in setting player", err);
     }
   };
+
   useEffect(() => {
-    if (activeRecording && activeRecording?.tpStreamId) {
-      getViewRecordingData();
+    if (activeRecording) {
+      setPlayerConfiguration(activeRecording);
     }
   }, [activeRecording]);
 
+  useEffect(() => {
+    if (player) {
+      player.httpQualitySelector();
+    }
+
+    if (
+      player &&
+      (player?.activePlugins_?.seekButtons === false ||
+        player?.activePlugins_?.seekButtons === undefined)
+    ) {
+      player.seekButtons({
+        forward: 10,
+        back: 10,
+      });
+    }
+  }, [player]);
+
+  useEffect(() => {
+    const checkWaterMark = () => {
+      if (userRoleType === userType.student) {
+        const watermarkUserName = document.getElementById(
+          "watermark-user-name"
+        );
+        const watermarkUserEmail = document.getElementById(
+          "watermark-user-email"
+        );
+
+        let isWaterMark = true;
+        if (!watermarkUserName || !watermarkUserEmail) {
+          isWaterMark = false;
+        } else if (
+          (watermarkUserName &&
+            (watermarkUserName.style.display === "none" ||
+              watermarkUserName.style.visibility === "hidden")) ||
+          (watermarkUserEmail &&
+            (watermarkUserEmail.style.display === "none" ||
+              watermarkUserEmail.style.visibility === "hidden"))
+        ) {
+          isWaterMark = false;
+        } else if (
+          watermarkUserName.textContent !== inspUserProfile.name ||
+          watermarkUserEmail.textContent !== inspUserProfile.email
+        ) {
+          isWaterMark = false;
+        }
+        if (!isWaterMark) {
+          videoRef.current.srcObject = null;
+        }
+      }
+    };
+    const watermarkCheckInterval = setInterval(checkWaterMark, 2000);
+    return () => {
+      clearInterval(watermarkCheckInterval);
+    };
+  }, []);
+
   return (
-    <div
-      style={{
-        position: "relative",
-        height: "73vh",
-        width: "100%",
-      }}
-    >
-      {activeRecording &&
-      (activeRecording?.status === "Uploaded" ||
-        activeRecording?.status === "Progress") ? (
-        <div
+    <>
+      <div
+        style={{
+          position: "relative",
+          background: "green",
+          height: "73vh",
+          width: "100%",
+        }}
+        data-vjs-player
+      >
+        <video
+          ref={videoRef}
+          className="vidPlayer video-js vjs-default-skin vjs-big-play-centered"
+          playsinline
           style={{
-            background: "black",
-            height: "100%",
+            borderRadius: "10px",
             width: "100%",
-            color: "#fff",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <p>Video is currently being processed</p>
-        </div>
-      ) : player ? (
-        <iframe
-          src={player}
-          style={{
-            border: 0,
-            maxWidth: "100%",
-            position: "absolute",
-            top: 0,
-            left: 0,
             height: "100%",
-            width: "100%",
+            objectFit: "contain",
           }}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          title="video-player" // Add title for accessibility
-        ></iframe>
-      ) : (
-        <div
-          style={{
-            background: "black",
-            height: "100%",
-            width: "100%",
-            color: "#fff",
-          }}
-        ></div>
-      )}
-    </div>
+        ></video>
+
+        {userRoleType === userType.student && (
+          <WaterMark inspUserProfile={inspUserProfile} />
+        )}
+      </div>
+    </>
   );
 };
 

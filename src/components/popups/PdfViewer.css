@@ -1,17 +1,38 @@
 .pdf-container {
-    display: flex;
-    justify-content: center;
-    user-select: none;
+  display: flex;
+  justify-content: center;
+  user-select: none;
+  position: relative;
+  z-index: 0;
+}
+
+.watermark-container {
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.watermarked {
+  font-size: 20px; /* Adjust size as needed */
+  color: rgb(30, 84, 200); /* Adjust color and opacity as needed */
+  transform: rotate(-45deg);
+}
+
+.react-pdf__Page__annotations {
+  display: none;
+}
+
+.controls {
+  margin: 20px;
+}
+
+@media print {
+  .pdf-container {
+    display: none;
   }
-  
-  .controls {
-    margin: 20px;
-  }
-  
-  @media print {
-    .pdf-container {
-      display: none;
-    }
-  }
-  
-  
+}

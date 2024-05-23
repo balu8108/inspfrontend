@@ -1,105 +1,80 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
   ModalBody,
-  Box,
   ModalCloseButton,
+  Button,
+  Box,
+  Flex,
+  Text,
 } from "@chakra-ui/react";
+import { Document, Page, pdfjs } from "react-pdf";
+import { IoChevronForward, IoChevronBackOutline } from "react-icons/io5";
+import "./PdfViewer.css";
+import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { getTimeTable } from "../../store/actions/genericActions";
 
-const PSDDocumentViewer = ({ doc }) => {
-  const docRef = useRef(null);
-  const { userProfile: inspUserProfile } = useSelector((state) => state.auth);
-
-  const PSDFdocument = (instance) => {
-    if (instance) {
-      const iframeDoc = instance.contentWindow.document;
-      const printButton = iframeDoc.querySelector(
-        ".PSPDFKit-Toolbar-Button-Print"
-      );
-
-      const exportButton = iframeDoc.querySelector(
-        ".PSPDFKit-Toolbar-Button-Export-PDF"
-      );
-      const annotationButton = iframeDoc.querySelector(
-        ".PSPDFKit-Toolbar-Button-Annotate"
-      );
-      const docEditorButton = iframeDoc.querySelector(
-        ".PSPDFKit-Toolbar-Button-Document-Editor"
-      );
-      const searchButton = iframeDoc.querySelector(
-        ".PSPDFKit-Toolbar-Button-Search"
-      );
-      if (printButton) {
-        printButton.style.display = "none";
-      }
-      if (exportButton) {
-        exportButton.style.display = "none";
-      }
-      if (annotationButton) {
-        annotationButton.style.display = "none";
-      }
-      if (docEditorButton) {
-        docEditorButton.style.display = "none";
-      }
-      if (searchButton) {
-        searchButton.style.display = "none";
-      }
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+const PDFDocumentViewer = ({ docUrl, userProfile }) => {
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
+  const onDocumentLoadSuccess = ({ numPages }) => {
+    setNumPages(numPages);
+  };
+  const nextPage = () => {
+    if (pageNumber < numPages) {
+      setPageNumber(pageNumber + 1);
     }
   };
-
-  function addWatermark(ctx, pageIndex, pageSize) {
-    // Add a Confidential watermark on the page.
-
-    ctx.translate(100, 450);
-    ctx.rotate(-0.4);
-
-    ctx.font = "1rem Arial";
-    ctx.fillStyle = "rgba(76, 130, 212,.6)";
-    ctx.fillText(
-      `${inspUserProfile.name} - ${inspUserProfile.email} - ${inspUserProfile.mobile}`,
-      0,
-      0
-    );
-  }
-  useEffect(() => {
-    if (doc) {
-      const container = docRef.current; // This `useRef` instance will render the PDF.
-      let PSPDFKit, instance;
-      (async function () {
-        PSPDFKit = await import("pspdfkit");
-        PSPDFKit.unload(container); // Ensure that there's only one PSPDFKit instance.
-        instance = await PSPDFKit.load({
-          disableWebAssemblyStreaming: true,
-          licenseKey: process.env.REACT_APP_PSPSPDFKIT_LICENSE_KEY,
-          container,
-          document: doc?.url,
-          renderPageCallback: addWatermark,
-          // Use the public directory URL as a base URL. PSPDFKit will download its library assets from here.
-          baseUrl: `${window.location.protocol}//${window.location.host}/${process.env.PUBLIC_URL}`,
-        });
-        const items = instance.toolbarItems;
-        // Hide the toolbar item with the type "export-pdf" by removing it from the array of items.
-        instance.setToolbarItems(
-          items.filter(
-            (item) => item.type !== "export-pdf" && item.type !== "print"
-          )
-        );
-        PSDFdocument(instance);
-      })();
-      return () => PSPDFKit && PSPDFKit.unload(container);
+  const prevPage = () => {
+    if (pageNumber > 1) {
+      setPageNumber(pageNumber - 1);
     }
-  }, [doc]);
-  return <div ref={docRef} style={{ width: "100%", height: "70vh" }} />;
+  };
+  return (
+    <>
+      <Flex
+        justifyContent="left"
+        gap={6}
+        className="controls"
+        alignItems="center"
+      >
+        <Button onClick={prevPage} disabled={pageNumber === 1}>
+          <IoChevronBackOutline size={15} />
+        </Button>
+        <Text>
+          Page {pageNumber} of {numPages}
+        </Text>
+        <Button onClick={nextPage} disabled={pageNumber === numPages}>
+          <IoChevronForward size={15} />
+        </Button>
+      </Flex>
+
+      <Document
+        file={docUrl}
+        onLoadSuccess={onDocumentLoadSuccess}
+        onContextMenu={(e) => e.preventDefault()}
+        className="pdf-container"
+      >
+        <div className="watermark-container">
+          <Text className="watermarked">
+            {userProfile?.name} - {userProfile?.email}
+          </Text>
+        </div>
+        <Page pageNumber={pageNumber} renderTextLayer={false} />
+      </Document>
+    </>
+  );
 };
 
 const TimeTableViewer = ({ isOpen, onClose }) => {
   const [doc, setDoc] = useState([]);
   const dispatch = useDispatch();
+  const { userProfile } = useSelector((state) => state.auth);
 
   const fetchAndSetDoc = async () => {
     try {
@@ -115,7 +90,7 @@ const TimeTableViewer = ({ isOpen, onClose }) => {
   }, [dispatch]);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size={"5xl"}>
+    <Modal isOpen={isOpen} onClose={onClose} size={"2xl"}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Insp Time Table</ModalHeader>
@@ -123,12 +98,16 @@ const TimeTableViewer = ({ isOpen, onClose }) => {
 
         <ModalBody>
           <Box>
-            {doc.length > 0 ? (
-              doc.map((item) => <PSDDocumentViewer key={item?.id} doc={item} />)
+            {doc ? (
+              doc.map((item) => (
+                <PDFDocumentViewer
+                  key={item?.id}
+                  docUrl={item?.url}
+                  userProfile={userProfile}
+                />
+              ))
             ) : (
-              <Box>
-                <p>There is no time table uploaded </p>
-              </Box>
+              <div>Error: Invalid URL or document not found</div>
             )}
           </Box>
         </ModalBody>
@@ -136,5 +115,8 @@ const TimeTableViewer = ({ isOpen, onClose }) => {
     </Modal>
   );
 };
-
+PDFDocumentViewer.propTypes = {
+  docUrl: PropTypes.string.isRequired,
+  userProfile: PropTypes.object.isRequired,
+};
 export default TimeTableViewer;
