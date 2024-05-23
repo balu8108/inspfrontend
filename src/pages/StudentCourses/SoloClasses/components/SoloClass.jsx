@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import {
   Box,
-  Button,
-  Card,
   Flex,
   HStack,
   Spacer,
   Text,
   useTheme,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import { getAllSoloClassRoom } from "../../../../api/soloclassrooms";
 import { useNavigate } from "react-router-dom";
@@ -57,12 +56,17 @@ const SoloClass = () => {
         </HStack>
         <Spacer />
       </Flex>
-      <Flex flexWrap={"wrap"} p={6} gap={"24px"}>
-        {lectureNumber &&
-          lectureNumber.map((lecture) => (
-            <SoloCard lecture={lecture} handleViewDetails={handleViewDetails} />
-          ))}
-      </Flex>
+      <Box m={"33px"}>
+        <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={"6"}>
+          {lectureNumber &&
+            lectureNumber.map((lecture) => (
+              <SoloCard
+                lecture={lecture}
+                handleViewDetails={handleViewDetails}
+              />
+            ))}
+        </SimpleGrid>
+      </Box>
     </Box>
   );
 };

@@ -1,12 +1,12 @@
 import React from "react";
 import { Text, Card, Button, useTheme } from "@chakra-ui/react";
 
-const SoloCard = ({ lecture,handleViewDetails}) => {
+const SoloCard = ({ lecture, handleViewDetails }) => {
   const { innerBackground, innerBoxShadow } = useTheme().colors.pallete;
   return (
     <Card
+      minW={"30%"}
       key={lecture.id}
-      
       h={"204px"}
       bg={innerBackground}
       boxShadow={innerBoxShadow}

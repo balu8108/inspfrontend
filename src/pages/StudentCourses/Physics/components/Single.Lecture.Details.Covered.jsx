@@ -61,7 +61,7 @@ const SingleLectureDetailsCovered = () => {
           bg={"#3C8DBC"}
         ></Box>
         <Text fontSize={"19px"} lineHeight={"24px"}>
-          Physic({topicname})
+          Physics ({topicname})
         </Text>
       </HStack>
       <Flex gap={"24px"} overflowX="auto" className="example" mx={5}>

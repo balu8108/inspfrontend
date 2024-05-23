@@ -16,11 +16,8 @@ import { BsPlayFill } from "react-icons/bs";
 import defaultImageUrl from "../../../../assets/images/image1.png";
 import SingleFileComponent from "../../../../components/filebox/SingleFileComponent";
 import { getSoloClassDetailsApi } from "../../../../api/soloclassrooms";
-import detailsCoveredData from "../../../Mentors/SoloClasses/TopicCollection/data/detailsCoveredData";
-import topicDescriptionConstants from "../../../../constants/topicDescriptionConstants";
 const SoloClassLectureDetails = () => {
   const { topic, soloClassRoomId } = useParams();
-  const topicDescription = topicDescriptionConstants[topic];
   const { outerBackground } = useTheme().colors.pallete;
   const [detailSoloClassroom, setDetailSoloClassroom] = useState("");
   const navigate = useNavigate();
@@ -64,46 +61,29 @@ const SoloClassLectureDetails = () => {
       <Flex gap={4} mt={10}>
         <Box flex={1} w={"50%"}>
           <Text>Description</Text>
-          {detailSoloClassroom &&
-          detailSoloClassroom.soloClassroomDetails.description ? (
-            <Text
-              mt={4}
-              fontSize="12px"
-              lineHeight={"21px"}
-              color={"#2C332978"}
-            >
-              {detailSoloClassroom.soloClassroomDetails.description}
-            </Text>
-          ) : (
-            <Text mt={4} fontSize="12px">
-              No description provided for this solo classroom
-            </Text>
-          )}
+          <Text mt={4} fontSize="12px" lineHeight={"21px"} color={"#2C332978"}>
+            {detailSoloClassroom?.soloClassroomDetails?.description
+              ? detailSoloClassroom?.soloClassroomDetails?.description
+              : "No description provided for this solo classroom"}
+          </Text>
         </Box>
 
         <Box flex={1}>
           <Text fontSize="md">Agenda</Text>
-          {detailSoloClassroom &&
-          detailSoloClassroom.soloClassroomDetails.agenda ? (
-            <UnorderedList fontSize={"12px"} color={"#2C332978"} pt={2}>
-              <ListItem my={2}>
-                {detailSoloClassroom.soloClassroomDetails.agenda}
-              </ListItem>
-            </UnorderedList>
-          ) : (
-            <Text fontSize="12px" mt={4}>
-              No agenda provided for this solo classroom
-            </Text>
-          )}
+          <UnorderedList fontSize={"12px"} color={"#2C332978"} pt={2}>
+            <ListItem my={2}>
+              {detailSoloClassroom?.soloClassroomDetails?.agenda
+                ? detailSoloClassroom?.soloClassroomDetails?.agenda
+                : "No agenda provided for this solo classroom"}
+            </ListItem>
+          </UnorderedList>
         </Box>
       </Flex>
 
       <Box mt={8}>
         <Text>Recording</Text>
         <Flex gap={"24px"} overflowX="auto">
-          {detailSoloClassroom &&
-          detailSoloClassroom.soloClassRoomRecordings &&
-          detailSoloClassroom.soloClassRoomRecordings.length > 0 ? (
+          {detailSoloClassroom?.soloClassRoomRecordings?.length > 0 ? (
             <Flex gap={4} mt={4}>
               {detailSoloClassroom.soloClassRoomRecordings.map(
                 (recording, index) => (
@@ -144,9 +124,7 @@ const SoloClassLectureDetails = () => {
 
       <Box mt={8}>
         <Text>Files/Notes</Text>
-        {detailSoloClassroom &&
-        detailSoloClassroom.soloClassRoomFile &&
-        detailSoloClassroom.soloClassRoomFile.length > 0 ? (
+        {detailSoloClassroom?.soloClassRoomFile?.length > 0 ? (
           <Flex mt={4} flexWrap="wrap" gap={2}>
             {detailSoloClassroom.soloClassRoomFile.map((file) => (
               <SingleFileComponent key={file.id} file={file} type={"solo"} />

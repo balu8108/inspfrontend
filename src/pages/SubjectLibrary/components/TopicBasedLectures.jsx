@@ -38,10 +38,14 @@ const TopicBasedLectures = () => {
 
   const filterLectures = (lecture) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    const lectureNumber = lecture?.LiveClassRoomDetail?.lectureNo
-      ?.toString()
-      .toLowerCase();
-
+    let lectureNumber = "";
+    if (subject_id === "4") {
+      lectureNumber = lecture?.lectureNo?.toString().toLowerCase();
+    } else {
+      lectureNumber = lecture?.LiveClassRoomDetail?.lectureNo
+        ?.toString()
+        .toLowerCase();
+    }
     return lectureNumber.includes(lowerCaseSearchTerm);
   };
 
@@ -77,6 +81,14 @@ const TopicBasedLectures = () => {
     }
   }, []);
 
+  const handleViewDetails = (soloClassRoomId, topic) => {
+    navigate(`/library/lecture-details/${topic}/${soloClassRoomId}`, {
+      state: {
+        soloLecturesData: soloLecturesData,
+      },
+    });
+  };
+
   return (
     <Box width={"100%"}>
       <Box bg={outerBackground} borderRadius={"26px"} p={"30px"}>
@@ -89,7 +101,7 @@ const TopicBasedLectures = () => {
               bg={"#3C8DBC"}
             ></Box>
             <Text fontSize={"19px"} lineHeight={"24px"}>
-              Topic({capitalize(topicName)})
+              Topic ({capitalize(topicName)})
             </Text>
           </HStack>
           <Input
@@ -116,29 +128,18 @@ const TopicBasedLectures = () => {
             <Spinner />
           </Center>
         )}
-        {/* <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={"6"}>
-          {lecturesData.filter(filterLectures).map((lecture) => (
-            <LectureCard
-              width={"100%"}
-              id={lecture?.roomId}
-              classRoomDetail={lecture?.LiveClassRoomDetail}
-              scheduledDate={lecture?.scheduledDate}
-              classLevel={lecture?.classLevel}
-              route={handleNavigate}
-            />
-          ))}
-        </SimpleGrid> */}
-
         <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={"6"}>
           {subject_id === "4"
-            ? soloLecturesData.map((lecture) => (
-                <SoloCard
-                  id={lecture?.id}
-                  lecture={lecture}
-                  width={"100%"}
-                  // handleViewDetails={handleViewDetails}
-                />
-              ))
+            ? soloLecturesData
+                .filter(filterLectures)
+                .map((lecture) => (
+                  <SoloCard
+                    id={lecture?.id}
+                    lecture={lecture}
+                    width={"100%"}
+                    handleViewDetails={handleViewDetails}
+                  />
+                ))
             : lecturesData
                 .filter(filterLectures)
                 .map((lecture) => (
