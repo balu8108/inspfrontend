@@ -31,6 +31,7 @@ export default function LectureDetailsById() {
   const { roomId, courseType } = useParams();
 
   const [lectureDetails, setLectureDetails] = useState(null);
+  const [questionLog, setQuestionLog] = useState(0);
   const [assignmentDetails, setAssignmentDetails] = useState(null);
   const [isAssignmentPopupOpen, setIsAssignmentPopupOpen] = useState(false);
 
@@ -40,7 +41,8 @@ export default function LectureDetailsById() {
       const { data } = response.data;
 
       fetchAssignmentDetails(data?.LiveClassRoomDetail?.topicId);
-      setLectureDetails(data);
+      setLectureDetails(data?.liveClassRoom);
+      setQuestionLog(data?.questionLogCount);
     } catch (err) {
       setLectureDetails(null);
       console.error("Error fetching all crash course lectures:", err);
@@ -182,7 +184,10 @@ export default function LectureDetailsById() {
               >
                 Leader Board
               </Text>
-              <LectureLeaderBoard lectureDetails={lectureDetails} />
+              <LectureLeaderBoard
+                lectureDetails={lectureDetails}
+                questionLog={questionLog}
+              />
             </Box>
           </Flex>
           <Box overflowX={"auto"} mt={8}>
