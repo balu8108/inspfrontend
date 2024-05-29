@@ -29,7 +29,7 @@ export default function LectureDetailsById() {
   const { userProfile } = useSelector((state) => state.auth);
   const userRoleType = checkUserType(userProfile);
   const { roomId, courseType } = useParams();
-
+  const [isFileAdded, setIsFileAdded] = useState(false);
   const [lectureDetails, setLectureDetails] = useState(null);
   const [questionLog, setQuestionLog] = useState(0);
   const [assignmentDetails, setAssignmentDetails] = useState(null);
@@ -77,6 +77,7 @@ export default function LectureDetailsById() {
           type="live"
           isOpen={isAssignmentPopupOpen}
           onClose={() => handleAddFile()}
+          setIsFileAdded={setIsFileAdded}
         />
       )}
       <Stack spacing={6}>
