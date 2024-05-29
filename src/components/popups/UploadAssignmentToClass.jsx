@@ -23,7 +23,7 @@ import { AddClassAssignment } from "../../store/actions/scheduleClassActions";
 import "./timepickerdefaultstyles.css";
 
 // At the moment we will add some dummy data for chapter, topic
-const UploadAssignmentToClass = ({ classId, isOpen, onClose, type }) => {
+const UploadAssignmentToClass = ({ classId, isOpen, onClose, type,setIsFileAdded }) => {
   const { extraTextLight, primaryBlue, primaryBlueLight } =
     useTheme().colors.pallete;
   const [selectedFiles, setSelectedFiles] = useState(null); // for file upload
@@ -56,6 +56,7 @@ const UploadAssignmentToClass = ({ classId, isOpen, onClose, type }) => {
     }
     try {
       await dispatch(AddClassAssignment(type, classId, formData));
+      setIsFileAdded(prevValue => !prevValue);
     } catch (err) {
       console.log("err", err);
     }
