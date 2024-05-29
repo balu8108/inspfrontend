@@ -12,7 +12,7 @@ export default function LectureRecordingCard({ lectureDetails }) {
     <Flex gap={"24px"} overflowX="auto" className="example">
       {lectureDetails?.LiveClassRoomRecordings?.length > 0 ? (
         <Flex gap={4} mt={4}>
-          {lectureDetails?.LiveClassRoomRecordings.map((recording) => (
+          {lectureDetails?.LiveClassRoomRecordings.map((recording, index) => (
             <Flex
               alignItems="center"
               w={"160px"}
@@ -21,12 +21,45 @@ export default function LectureRecordingCard({ lectureDetails }) {
               position={"relative"}
               cursor={"pointer"}
             >
+              <Text
+                fontWeight={"500"}
+                fontSize={"12px"}
+                color={"white"}
+                position="absolute"
+                bottom="8px"
+                left="8px"
+                padding="4px 8px"
+                zIndex={3}
+              >
+                Recording-{index + 1}
+              </Text>
               <Image
                 src={defaultImageUrl}
                 alt="Video Thumbnail"
                 width={"100%"}
                 height={"100%"}
+                style={{
+                  position: "relative",
+                  zIndex: 1,
+                  overflow: "hidden",
+                  borderRadius: "8px",
+                }}
               />
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  background:
+                    "linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 130%)",
+                  zIndex: 2,
+                  pointerEvents: "none", 
+                  borderRadius: "8px",
+                }}
+              />
+
               <IconButton
                 icon={<BsPlayFill />}
                 fontSize="24px"
@@ -35,6 +68,7 @@ export default function LectureRecordingCard({ lectureDetails }) {
                 left="50%"
                 borderRadius={"100%"}
                 transform="translate(-50%, -50%)"
+                zIndex={3}
               />
             </Flex>
           ))}
