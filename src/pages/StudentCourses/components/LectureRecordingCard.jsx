@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, Text, Image, IconButton } from "@chakra-ui/react";
+import { Box,Flex, Text, Image, IconButton } from "@chakra-ui/react";
 import { BsPlayFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import defaultImageUrl from "../../../assets/images/image1.png";
@@ -45,19 +45,16 @@ export default function LectureRecordingCard({ lectureDetails }) {
                   borderRadius: "8px",
                 }}
               />
-              <div
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                  background:
-                    "linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 130%)",
-                  zIndex: 2,
-                  pointerEvents: "none", 
-                  borderRadius: "8px",
-                }}
+              <Box
+                position="absolute"
+                top={0}
+                left={0}
+                width="100%"
+                height="100%"
+                background="linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 110%)"
+                zIndex={2}
+                pointerEvents="none"
+                borderRadius="8px"
               />
 
               <IconButton
