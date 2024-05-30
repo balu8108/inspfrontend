@@ -97,12 +97,12 @@ const DetailsCoveredFiles = () => {
                     position={"relative"}
                     cursor={"pointer"}
                   >
-                    <Image
+                    {/* <Image
                       src={defaultImageUrl}
                       alt="Video Thumbnail"
                       width={"100%"}
                       height={"100%"}
-                    />
+                    /> */}
 
                     {/* <Text
                       fontWeight={"500"}
