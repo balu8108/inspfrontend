@@ -121,10 +121,10 @@ const FeedBack = () => {
                 color={"rgba(44, 51, 41, 0.47)"}
                 noOfLines={2}
               >
-                {rateNfeedebackOfAChapter.LiveClassRoomDetail.description}
+                {rateNfeedebackOfAChapter?.LiveClassRoomDetail?.description}
               </Text>
               <Link
-                to={`/mentor/view/rating&feedback/${rateNfeedebackOfAChapter.LiveClassRoomDetail.topicId}/${rateNfeedebackOfAChapter.LiveClassRoomDetail.topicName}`}
+                to={`/mentor/view/rating&feedback/${rateNfeedebackOfAChapter?.LiveClassRoomDetail?.topicId}/${rateNfeedebackOfAChapter?.LiveClassRoomDetail?.topicName}`}
                 style={{ display: "flex", justifyContent: "center" }}
               >
                 <Button

@@ -134,6 +134,7 @@ const RecordedClass = ({
                     onClick={() => setActiveRecording(lr)}
                   >
                     <Image src={defaultImageUrl} alt="Default Image" />
+                    {/* <Text> {lr.part}</Text> */}
                   </Card>
                 </Flex>
               </Flex>
