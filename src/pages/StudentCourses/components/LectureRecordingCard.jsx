@@ -12,7 +12,7 @@ export default function LectureRecordingCard({ lectureDetails }) {
     <Flex gap={"24px"} overflowX="auto" className="example">
       {lectureDetails?.LiveClassRoomRecordings?.length > 0 ? (
         <Flex gap={4} mt={4}>
-          {lectureDetails?.LiveClassRoomRecordings.map((recording, index) => (
+          {lectureDetails?.LiveClassRoomRecordings.map((recording) => (
             <Flex
               alignItems="center"
               w={"160px"}
@@ -21,7 +21,7 @@ export default function LectureRecordingCard({ lectureDetails }) {
               position={"relative"}
               cursor={"pointer"}
             >
-              <Text
+              {/* <Text
                 fontWeight={"500"}
                 fontSize={"12px"}
                 color={"white"}
@@ -32,20 +32,14 @@ export default function LectureRecordingCard({ lectureDetails }) {
                 zIndex={3}
               >
                 Recording-{index + 1}
-              </Text>
+              </Text> */}
               <Image
                 src={defaultImageUrl}
                 alt="Video Thumbnail"
                 width={"100%"}
                 height={"100%"}
-                style={{
-                  position: "relative",
-                  zIndex: 1,
-                  overflow: "hidden",
-                  borderRadius: "8px",
-                }}
               />
-              <Box
+              {/* <Box
                 position="absolute"
                 top={0}
                 left={0}
@@ -55,7 +49,7 @@ export default function LectureRecordingCard({ lectureDetails }) {
                 zIndex={2}
                 pointerEvents="none"
                 borderRadius="8px"
-              />
+              /> */}
 
               <IconButton
                 icon={<BsPlayFill />}
@@ -65,7 +59,7 @@ export default function LectureRecordingCard({ lectureDetails }) {
                 left="50%"
                 borderRadius={"100%"}
                 transform="translate(-50%, -50%)"
-                zIndex={3}
+                // zIndex={3}
               />
             </Flex>
           ))}

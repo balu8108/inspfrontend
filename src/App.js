@@ -22,7 +22,7 @@ import { fetchAllSubjectsApi } from "./api/inspexternalapis";
 import { getAllSubjects } from "./store/actions/genericActions";
 import { userType } from "./constants/staticvariables";
 import ScheduleClassList from "./pages/ScheduleClasses/components/ScheduleClassList";
-// import { detectDevTools, CheckWindowHeight } from "./utils/detectDevtools";
+import { detectDevTools, CheckWindowHeight } from "./utils/detectDevtools";
 const allowedRoutes = [
   "/schedule-class",
   "/view-recording",
@@ -35,7 +35,7 @@ const allowedRoutes = [
 
 const ProtectedRoutes = ({ userRoleType }) => {
   const { userProfile, secretToken } = useSelector((state) => state.auth);
-  // CheckWindowHeight(userRoleType);
+  CheckWindowHeight(userRoleType);
   return userProfile && secretToken ? <Outlet /> : <Navigate to="/" />;
 };
 
@@ -63,7 +63,7 @@ function App() {
 
   useEffect(() => {
     if (process.env.NODE_ENV === "production") {
-      // detectDevTools(userRoleType);
+      detectDevTools(userRoleType);
       const disableContext = (e) => e.preventDefault();
       const disableDevToolsShortcut = (e) => {
         const ctrlShiftKey = (e, keyCode) =>
