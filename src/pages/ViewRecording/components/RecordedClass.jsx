@@ -42,7 +42,6 @@ const RecordedClass = ({
       filesData = data?.LiveClassRoomFiles;
     } else if (isSolo) {
       filesData = data?.SoloClassRoomFiles;
-      console.log("FIles added for solo", filesData);
     } else {
       filesData = [];
     }
