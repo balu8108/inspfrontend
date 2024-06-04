@@ -15,6 +15,7 @@ const Recording = () => {
 
   const id = queryParams.get("id");
   const type = queryParams.get("type");
+  const recordingId = queryParams.get("recordingId");
 
   const getViewRecordingData = async () => {
     try {
@@ -23,10 +24,27 @@ const Recording = () => {
         const { data } = res;
 
         if (type === "solo") {
-          setActiveRecording(data?.data?.SoloClassRoomRecordings[0]);
+          if (recordingId) {
+            setActiveRecording(
+              data?.data?.SoloClassRoomRecordings.find(
+                (a) => a.id === Number(recordingId)
+              )
+            );
+          } else {
+            setActiveRecording(data?.data?.SoloClassRoomRecordings[0]);
+          }
+
           setRecordingDetail(data?.data);
         } else {
-          setActiveRecording(data?.data?.LiveClassRoomRecordings[0]);
+          if (recordingId) {
+            setActiveRecording(
+              data?.data?.LiveClassRoomRecordings.find(
+                (a) => a.id === Number(recordingId)
+              )
+            );
+          } else {
+            setActiveRecording(data?.data?.LiveClassRoomRecordings[0]);
+          }
           setRecordingDetail(data?.data);
         }
       }

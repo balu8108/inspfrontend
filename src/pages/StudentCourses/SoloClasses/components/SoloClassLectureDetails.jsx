@@ -39,7 +39,7 @@ const SoloClassLectureDetails = () => {
   }, [soloClassRoomId]);
 
   const handleViewRecording = (recording) => {
-    navigate(`/view-recording?type=solo&id=${recording.soloClassRoomId}`);
+    navigate(`/view-recording?type=solo&id=${recording.soloClassRoomId}&recordingId=${recording?.id}`);
   };
 
   return (

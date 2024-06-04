@@ -1,12 +1,14 @@
 import React from "react";
-import { Box,Flex, Text, Image, IconButton } from "@chakra-ui/react";
+import { Box, Flex, Text, Image, IconButton } from "@chakra-ui/react";
 import { BsPlayFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import defaultImageUrl from "../../../assets/images/image1.png";
 export default function LectureRecordingCard({ lectureDetails }) {
   const navigate = useNavigate();
-  const handleViewRecording = (liveClassData) => {
-    navigate(`/view-recording?type=live&id=${liveClassData?.id}`);
+  const handleViewRecording = (liveClassData, recording) => {
+    navigate(
+      `/view-recording?type=live&id=${liveClassData?.id}&recordingId=${recording?.id}`
+    );
   };
   return (
     <Flex gap={"24px"} overflowX="auto" className="example">
@@ -17,7 +19,7 @@ export default function LectureRecordingCard({ lectureDetails }) {
               alignItems="center"
               w={"160px"}
               key={recording?.id}
-              onClick={() => handleViewRecording(lectureDetails)}
+              onClick={() => handleViewRecording(lectureDetails, recording)}
               position={"relative"}
               cursor={"pointer"}
             >
