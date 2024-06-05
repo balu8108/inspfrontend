@@ -14,7 +14,7 @@ export default function LectureRecordingCard({ lectureDetails }) {
     <Flex gap={"24px"} overflowX="auto" className="example">
       {lectureDetails?.LiveClassRoomRecordings?.length > 0 ? (
         <Flex gap={4} mt={4}>
-          {lectureDetails?.LiveClassRoomRecordings.map((recording) => (
+          {lectureDetails?.LiveClassRoomRecordings.map((recording, index) => (
             <Flex
               alignItems="center"
               w={"160px"}
