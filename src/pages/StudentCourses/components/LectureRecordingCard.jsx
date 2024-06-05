@@ -23,7 +23,7 @@ export default function LectureRecordingCard({ lectureDetails }) {
               position={"relative"}
               cursor={"pointer"}
             >
-              {/* <Text
+              <Text
                 fontWeight={"500"}
                 fontSize={"12px"}
                 color={"white"}
@@ -34,14 +34,14 @@ export default function LectureRecordingCard({ lectureDetails }) {
                 zIndex={3}
               >
                 Recording-{index + 1}
-              </Text> */}
+              </Text>
               <Image
                 src={defaultImageUrl}
                 alt="Video Thumbnail"
                 width={"100%"}
                 height={"100%"}
               />
-              {/* <Box
+              <Box
                 position="absolute"
                 top={0}
                 left={0}
@@ -51,7 +51,7 @@ export default function LectureRecordingCard({ lectureDetails }) {
                 zIndex={2}
                 pointerEvents="none"
                 borderRadius="8px"
-              /> */}
+              />
 
               <IconButton
                 icon={<BsPlayFill />}

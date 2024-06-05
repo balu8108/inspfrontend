@@ -46,7 +46,9 @@ const DetailsCoveredFiles = () => {
   }, [topicId]);
 
   const handleViewRecording = (recording) => {
-    navigate(`/view-recording?type=solo&id=${recording.soloClassRoomId}&recordingId=${recording?.id}`);
+    navigate(
+      `/view-recording?type=solo&id=${recording.soloClassRoomId}&recordingId=${recording?.id}`
+    );
   };
 
   return (
@@ -97,14 +99,7 @@ const DetailsCoveredFiles = () => {
                     position={"relative"}
                     cursor={"pointer"}
                   >
-                    {/* <Image
-                      src={defaultImageUrl}
-                      alt="Video Thumbnail"
-                      width={"100%"}
-                      height={"100%"}
-                    /> */}
-
-                    {/* <Text
+                    <Text
                       fontWeight={"500"}
                       fontSize={"12px"}
                       color={"white"}
@@ -115,20 +110,20 @@ const DetailsCoveredFiles = () => {
                       zIndex={3}
                     >
                       Solo Recording-{index + 1}
-                    </Text> */}
+                    </Text>
                     <Image
                       src={defaultImageUrl}
                       alt="Video Thumbnail"
                       width={"100%"}
                       height={"100%"}
-                      // style={{
-                      //   position: "relative",
-                      //   zIndex: 1,
-                      //   overflow: "hidden",
-                      //   borderRadius: "8px",
-                      // }}
+                      style={{
+                        position: "relative",
+                        zIndex: 1,
+                        overflow: "hidden",
+                        borderRadius: "8px",
+                      }}
                     />
-                    {/* <Box
+                    <Box
                       position="absolute"
                       top={0}
                       left={0}
@@ -138,7 +133,7 @@ const DetailsCoveredFiles = () => {
                       zIndex={2}
                       pointerEvents="none"
                       borderRadius="8px"
-                    /> */}
+                    />
 
                     <IconButton
                       icon={<BsPlayFill />}
@@ -148,6 +143,7 @@ const DetailsCoveredFiles = () => {
                       left="50%"
                       borderRadius={"100%"}
                       transform="translate(-50%, -50%)"
+                      zIndex={3}
                     />
                   </Flex>
                 )
