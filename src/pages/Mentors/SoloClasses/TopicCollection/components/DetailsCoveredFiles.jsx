@@ -46,7 +46,7 @@ const DetailsCoveredFiles = () => {
   }, [topicId]);
 
   const handleViewRecording = (recording) => {
-    navigate(`/view-recording?type=solo&id=${recording.soloClassRoomId}`);
+    navigate(`/view-recording?type=solo&id=${recording.soloClassRoomId}&recordingId=${recording?.id}`);
   };
 
   return (
@@ -103,6 +103,43 @@ const DetailsCoveredFiles = () => {
                       width={"100%"}
                       height={"100%"}
                     />
+
+                    <Text
+                      fontWeight={"500"}
+                      fontSize={"12px"}
+                      color={"white"}
+                      position="absolute"
+                      bottom="8px"
+                      left="8px"
+                      padding="4px 8px"
+                      zIndex={3}
+                    >
+                      Solo Recording-{index + 1}
+                    </Text>
+                    <Image
+                      src={defaultImageUrl}
+                      alt="Video Thumbnail"
+                      width={"100%"}
+                      height={"100%"}
+                      style={{
+                        position: "relative",
+                        zIndex: 1,
+                        overflow: "hidden",
+                        borderRadius: "8px",
+                      }}
+                    />
+                    <Box
+                      position="absolute"
+                      top={0}
+                      left={0}
+                      width="100%"
+                      height="100%"
+                      background="linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 110%)"
+                      zIndex={2}
+                      pointerEvents="none"
+                      borderRadius="8px"
+                    />
+
                     <IconButton
                       icon={<BsPlayFill />}
                       fontSize="24px"

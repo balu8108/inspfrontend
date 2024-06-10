@@ -17,18 +17,25 @@ import {
 import { scheduleClassData } from "../../pages/ScheduleClasses/data/scheduleClassData";
 import { InlineBtn } from "../button";
 import { openFileDialog } from "../../utils";
-
+import { useToastContext } from "../toastNotificationProvider/ToastNotificationProvider";
 import { useDispatch } from "react-redux";
 import { AddClassAssignment } from "../../store/actions/scheduleClassActions";
 import "./timepickerdefaultstyles.css";
 
 // At the moment we will add some dummy data for chapter, topic
-const UploadAssignmentToClass = ({ classId, isOpen, onClose, type }) => {
+const UploadAssignmentToClass = ({
+  classId,
+  isOpen,
+  onClose,
+  type,
+  setIsFileAdded,
+}) => {
   const { extraTextLight, primaryBlue, primaryBlueLight } =
     useTheme().colors.pallete;
   const [selectedFiles, setSelectedFiles] = useState(null); // for file upload
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const dispatch = useDispatch();
+  const { addNotification } = useToastContext();
 
   const handleFileUpload = async () => {
     const files = await openFileDialog();
@@ -56,8 +63,11 @@ const UploadAssignmentToClass = ({ classId, isOpen, onClose, type }) => {
     }
     try {
       await dispatch(AddClassAssignment(type, classId, formData));
+      setIsFileAdded((prevValue) => !prevValue);
+      addNotification("Files uploaded successfully!", "success", 1500);
     } catch (err) {
       console.log("err", err);
+      addNotification("Failed to upload file!", "error", 1500);
     }
     onClose();
     setIsSubmitLoading(false);

@@ -8,6 +8,7 @@ import {
   Card,
   useTheme,
   useDisclosure,
+  IconButton,
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import UploadAssignmentToClass from "../../../components/popups/UploadAssignmentToClass";
@@ -17,6 +18,8 @@ import FileBoxComponent from "../../../components/filebox/FileBoxComponent";
 import { fileTypes, userType } from "../../../constants/staticvariables";
 import { capitalize, checkUserType } from "../../../utils";
 import { PiUploadSimpleBold } from "react-icons/pi";
+import { BsPlayFill } from "react-icons/bs";
+
 const RecordedClass = ({
   type,
   recordingDetail,
@@ -132,7 +135,53 @@ const RecordedClass = ({
                     _hover={{ cursor: "pointer" }}
                     onClick={() => setActiveRecording(lr)}
                   >
-                    <Image src={defaultImageUrl} alt="Default Image" />
+                   
+                    <Text
+                      fontWeight={"500"}
+                      fontSize={"12px"}
+                      color={"white"}
+                      position="absolute"
+                      bottom="8px"
+                      left="8px"
+                      padding="4px 8px"
+                      zIndex={3}
+                    >
+                      {lr.part.replace("Part", "Recording- ")}
+                    </Text>
+
+                    <Image
+                      src={defaultImageUrl}
+                      alt="Video Thumbnail"
+                      width={"100%"}
+                      height={"100%"}
+                      style={{
+                        position: "relative",
+                        zIndex: 1,
+                        overflow: "hidden",
+                        borderRadius: "8px",
+                      }}
+                    />
+                    <Box
+                      position="absolute"
+                      top={0}
+                      left={0}
+                      width="100%"
+                      height="100%"
+                      background="linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 110%)"
+                      zIndex={2}
+                      pointerEvents="none"
+                      borderRadius="8px"
+                    />
+                    <IconButton
+                      icon={<BsPlayFill />}
+                      fontSize="24px"
+                      position="absolute"
+                      top="50%"
+                      left="50%"
+                      borderRadius={"100%"}
+                      transform="translate(-50%, -50%)"
+                      zIndex={3}
+                    />
                   </Card>
                 </Flex>
               </Flex>
