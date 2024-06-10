@@ -11,18 +11,16 @@ import {
   SET_IS_KICKED_OUT,
   SET_SELF_DETAILS,
   SET_POLL_TIMER_INCREASE,
-  SET_MIRO_BOARD_DATA
 } from "../constants";
 const initialState = {
-  isMeetEnd: false, 
-  isKickedOut: false, 
+  isMeetEnd: false,
+  isKickedOut: false,
   selfDetails: null,
-  rtpCapabilities: null, 
-  mentorScreenShareConsumer: null, 
-  miroBoard: { boardId: null, mode: "view" },
-  audioConsumers: [], 
-  raiseHands: [], 
-  question: null, 
+  rtpCapabilities: null,
+  mentorScreenShareConsumer: null,
+  audioConsumers: [],
+  raiseHands: [],
+  question: null,
   pollTimerIncrease: null,
 };
 
@@ -49,10 +47,10 @@ const streamReducer = (state = initialState, action) => {
         audioConsumers: [...state.audioConsumers, action.payload],
       };
     case SET_POLL_TIMER_INCREASE:
-        return {
-          ...state,
-          pollTimerIncrease: action.payload,
-        };
+      return {
+        ...state,
+        pollTimerIncrease: action.payload,
+      };
     case SET_RAISE_HAND:
       const { isHandRaised, peerDetails } = action.payload;
       if (isHandRaised) {
@@ -68,15 +66,6 @@ const streamReducer = (state = initialState, action) => {
           ),
         };
       }
-    case SET_MIRO_BOARD_DATA:
-        return {
-            ...state,
-            miroBoard: {
-            ...state.miroBoard,
-            boardId: action.payload.boardId,
-            mode: action.payload.mode,
-            },
-        };
     case SET_QUESTION:
       return {
         ...state,
@@ -136,7 +125,7 @@ const streamReducer = (state = initialState, action) => {
         ...state,
         isKickedOut: action.payload,
       };
-    
+
     default:
       return state;
   }

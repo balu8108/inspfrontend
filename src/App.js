@@ -22,7 +22,6 @@ import { fetchAllSubjectsApi } from "./api/inspexternalapis";
 import { getAllSubjects } from "./store/actions/genericActions";
 import { userType } from "./constants/staticvariables";
 import ScheduleClassList from "./pages/ScheduleClasses/components/ScheduleClassList";
-import { detectDevTools, CheckWindowHeight } from "./utils/detectDevtools";
 const allowedRoutes = [
   "/schedule-class",
   "/view-recording",
@@ -33,9 +32,8 @@ const allowedRoutes = [
   "/feedback",
 ];
 
-const ProtectedRoutes = ({ userRoleType }) => {
+const ProtectedRoutes = () => {
   const { userProfile, secretToken } = useSelector((state) => state.auth);
-  //CheckWindowHeight(userRoleType);
   return userProfile && secretToken ? <Outlet /> : <Navigate to="/" />;
 };
 
@@ -61,36 +59,35 @@ function App() {
   const isNavbarDisabled =
     location.pathname === "/" || location.pathname.startsWith("/auth");
 
-  // useEffect(() => {
-  //   if (process.env.NODE_ENV === "production") {
-  //     //detectDevTools(userRoleType);
-  //     const disableContext = (e) => e.preventDefault();
-  //     const disableDevToolsShortcut = (e) => {
-  //       const ctrlShiftKey = (e, keyCode) =>
-  //         e.ctrlKey && e.shiftKey && e.keyCode === keyCode.charCodeAt(0);
-  //       if (
-  //         e.keyCode === 123 ||
-  //         ctrlShiftKey(e, "I") ||
-  //         ctrlShiftKey(e, "J") ||
-  //         ctrlShiftKey(e, "C") ||
-  //         (e.ctrlKey && e.keyCode === "U".charCodeAt(0)) ||
-  //         e.keyCode === 105 ||
-  //         (e.metaKey && e.altKey && e.keyCode === "I".charCodeAt(0)) ||
-  //         (e.metaKey && e.altKey && e.keyCode === "J".charCodeAt(0)) ||
-  //         (e.metaKey && e.altKey && e.keyCode === "C".charCodeAt(0)) ||
-  //         (e.metaKey && e.altKey && e.keyCode === "U".charCodeAt(0))
-  //       ) {
-  //         e.preventDefault();
-  //       }
-  //     };
-  //     window.addEventListener("contextmenu", disableContext);
-  //     window.addEventListener("keydown", disableDevToolsShortcut);
-  //     return () => {
-  //       window.removeEventListener("contextmenu", disableContext);
-  //       window.removeEventListener("keydown", disableDevToolsShortcut);
-  //     };
-  //   }
-  // }, [userRoleType]);
+  useEffect(() => {
+    if (process.env.NODE_ENV === "production") {
+      const disableContext = (e) => e.preventDefault();
+      const disableDevToolsShortcut = (e) => {
+        const ctrlShiftKey = (e, keyCode) =>
+          e.ctrlKey && e.shiftKey && e.keyCode === keyCode.charCodeAt(0);
+        if (
+          e.keyCode === 123 ||
+          ctrlShiftKey(e, "I") ||
+          ctrlShiftKey(e, "J") ||
+          ctrlShiftKey(e, "C") ||
+          (e.ctrlKey && e.keyCode === "U".charCodeAt(0)) ||
+          e.keyCode === 105 ||
+          (e.metaKey && e.altKey && e.keyCode === "I".charCodeAt(0)) ||
+          (e.metaKey && e.altKey && e.keyCode === "J".charCodeAt(0)) ||
+          (e.metaKey && e.altKey && e.keyCode === "C".charCodeAt(0)) ||
+          (e.metaKey && e.altKey && e.keyCode === "U".charCodeAt(0))
+        ) {
+          e.preventDefault();
+        }
+      };
+      window.addEventListener("contextmenu", disableContext);
+      window.addEventListener("keydown", disableDevToolsShortcut);
+      return () => {
+        window.removeEventListener("contextmenu", disableContext);
+        window.removeEventListener("keydown", disableDevToolsShortcut);
+      };
+    }
+  }, [userRoleType]);
 
   useEffect(() => {
     const handleBeforeUnload = () => {
@@ -177,7 +174,7 @@ function App() {
       />
       <ScrollToTop />
       <Routes>
-        <Route element={<ProtectedRoutes userRoleType={userRoleType} />}>
+        <Route element={<ProtectedRoutes />}>
           {privateRoutes.map((route) => (
             <Route
               key={route.path}

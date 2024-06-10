@@ -23,6 +23,7 @@ import MyCourses from "./pages/StudentCourses/components/MyCourses";
 import TopicBasedLectures from "./pages/SubjectLibrary/components/TopicBasedLectures";
 import SoloLectureDetailsScreen from "./pages/StudentCourses/SoloClasses/screens/SoloLectureDetailsScreen";
 import LibrarySoloLectureDetailsScreen from "./pages/StudentCourses/SoloClasses/screens/LibrarySoloLectureDetailScreen";
+import AssignmentTopicBased from "./pages/StudentAssignment/screen/AssignmentTopicBased";
 
 const publicRoutes = [
   {
@@ -105,6 +106,11 @@ const privateRoutes = [
     name: "topic based lecture",
     path: "/library/topic/:topicId/:topicName/:subject_id",
     component: <TopicBasedLectures />,
+  },
+  {
+    name: "topic based assignment",
+    path: "/assignment/topic/:topicId/:topicName",
+    component: <AssignmentTopicBased />,
   },
   {
     name: "Mentor All Uploads",

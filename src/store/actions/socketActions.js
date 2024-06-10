@@ -22,7 +22,6 @@ import {
   SET_FILE_UPLOAD_IN_ROOM,
   SET_MENTOR_VIDEO_SHARE_PAUSE_OR_RESUME,
   SET_MENTOR_SCREEN_SHARE_PAUSE_OR_RESUME,
-  SET_MIRO_BOARD_DATA,
   SET_LEADERBOARD,
   SET_LEADERBOARD_ANSWER_PERCENTAGE,
   SET_IS_MEET_ENDED,
@@ -111,10 +110,6 @@ export const setUploadFilesInRoom = (data) => async (dispatch) => {
 
 export const setQuestion = (question) => async (dispatch) => {
   dispatch({ type: SET_QUESTION, payload: question });
-};
-
-export const setMiroBoardData = (data) => async (dispatch) => {
-  dispatch({ type: SET_MIRO_BOARD_DATA, payload: data });
 };
 
 export const setMentorVideoSharePauseOrResume = (value) => async (dispatch) => {

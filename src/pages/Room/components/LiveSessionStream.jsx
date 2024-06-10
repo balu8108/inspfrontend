@@ -7,7 +7,6 @@ import ChatToolBox from "./ChatToolBox";
 import StudentPollsMCQBox from "./StudentPollsMCQBox";
 import RaiseHand from "./RaiseHand";
 import WebAudioPlayer from "../../../components/webaudioplayer/WebAudioPlayer";
-import MiroBoard from "./MiroBoard";
 import { checkUserType } from "../../../utils";
 import { userType } from "../../../constants/staticvariables";
 import WaterMark from "../../../components/watermark/WaterMark";
@@ -125,8 +124,6 @@ const LiveSessionStream = (props) => {
         {raiseHands.map((peer) => (
           <RaiseHand key={peer.id} peer={peer} />
         ))}
-
-        <MiroBoard />
 
         <video
           ref={screenShareRef}

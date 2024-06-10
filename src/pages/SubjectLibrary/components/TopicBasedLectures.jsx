@@ -19,7 +19,6 @@ import { getSoloClassForTopicBasedRecording } from "../../../api/soloclassrooms"
 import SoloCard from "../../../components/Card/SoloCard";
 const TopicBasedLectures = () => {
   const { topicId, topicName, subject_id } = useParams();
-  console.log("subject id is", typeof subject_id);
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [lecturesDataLoading, setLecturesDataLoading] = useState(true);

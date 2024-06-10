@@ -42,8 +42,6 @@ const SOCKET_EVENTS = {
   LEAVE_ROOM: "leave_room",
   END_MEET_TO_SERVER: "END_MEET_TO_SERVER",
   END_MEET_FROM_SERVER: "END_MEET_FROM_SERVER",
-  MIRO_BOARD_DATA_TO_SERVER: "miro_board_data_to_server",
-  MIRO_BOARD_DATA_FROM_SERVER: "miro_board_data_from_server",
   CONNECT_ERROR: "connect_error",
   LEADERBOARD_FROM_SERVER: "leaderboard_from_server",
   LEADERBOARD_AVERAGE_ANSWER_FROM_SERVER:
