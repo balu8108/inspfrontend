@@ -33,9 +33,8 @@ const allowedRoutes = [
   "/feedback",
 ];
 
-const ProtectedRoutes = ({ userRoleType }) => {
+const ProtectedRoutes = () => {
   const { userProfile, secretToken } = useSelector((state) => state.auth);
-  // CheckWindowHeight(userRoleType);
   return userProfile && secretToken ? <Outlet /> : <Navigate to="/" />;
 };
 
@@ -63,7 +62,6 @@ function App() {
 
   useEffect(() => {
     if (process.env.NODE_ENV === "production") {
-      // detectDevTools(userRoleType);
       const disableContext = (e) => e.preventDefault();
       const disableDevToolsShortcut = (e) => {
         const ctrlShiftKey = (e, keyCode) =>
@@ -177,7 +175,7 @@ function App() {
       />
       <ScrollToTop />
       <Routes>
-        <Route element={<ProtectedRoutes userRoleType={userRoleType} />}>
+        <Route element={<ProtectedRoutes />}>
           {privateRoutes.map((route) => (
             <Route
               key={route.path}

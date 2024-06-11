@@ -16,7 +16,6 @@ import {
   setMentorScreenSharePauseOrResume,
   setMentorVideoShareConsumer,
   setMentorVideoSharePauseOrResume,
-  setMiroBoardData,
   setNewPeerJoined,
   setPeerLeaved,
   setQuestion,
@@ -359,10 +358,6 @@ const fileUploadResponseHandler = (res) => {
   }
 };
 
-const miroBoardIdResponseHandler = (res) => {
-  store.dispatch(setMiroBoardData(res));
-};
-
 const leaderBoardResponseHandler = (res) => {
   store.dispatch(setLeaderBoard(res?.leaderBoard));
 };
@@ -472,10 +467,6 @@ export const initializeSocketConnections = (roomId) => {
       someProducerClosedResponseHandler
     ); // this is explicitly triggered by backend
     socket.on(SOCKET_EVENTS.PRODUCER_CLOSED, someProducerClosedResponseHandler); // automatically triggered when any producer closes due to any reason
-    socket.on(
-      SOCKET_EVENTS.MIRO_BOARD_DATA_FROM_SERVER,
-      miroBoardIdResponseHandler
-    );
     socket.on(
       SOCKET_EVENTS.LEADERBOARD_FROM_SERVER,
       leaderBoardResponseHandler
@@ -619,10 +610,6 @@ export const endMeetHandler = async () => {
 
 export const sendAnswerHandler = (data) => {
   socket.emit(SOCKET_EVENTS.ANSWER_SENT_TO_SERVER, data);
-};
-
-export const sendMiroBoardData = (data) => {
-  socket.emit(SOCKET_EVENTS.MIRO_BOARD_DATA_TO_SERVER, data);
 };
 
 export const setIsAudioStreamEnabled = (value, producerId) => {

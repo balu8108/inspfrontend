@@ -36,5 +36,5 @@ export const getRecentAssignmentApi = () =>
 export const getAssignmentWithFilesApi = () =>
   API.get(`/assignment/all-assignment-with-files`);
 
-export const getAssignmentBySubjectNameApi = (subjectName) =>
-  API.get(`/assignment/get-assignment-by-subject-name/${subjectName}`);
+export const getAssignmentByTopicIdApi = (topicId) =>
+  API.get(`/assignment/get-assignment-by-topic-id/${topicId}`);

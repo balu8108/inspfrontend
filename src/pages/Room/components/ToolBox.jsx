@@ -20,7 +20,6 @@ import {
 } from "react-icons/fi";
 
 import { LuSettings, LuMonitorOff, LuCircleOff } from "react-icons/lu";
-import { SiMiro } from "react-icons/si";
 import { RiFullscreenFill } from "react-icons/ri";
 import {
   socket,
@@ -96,16 +95,6 @@ const ToolBox = ({
   const userRoleType = checkUserType(userProfile);
 
   const { selfDetails } = useSelector((state) => state.stream, shallowEqual);
-
-  const openMiroBoardAuth = () => {
-    window.miroBoardsPicker.open({
-      clientId: process.env.REACT_APP_MIRO_CLIENT_ID, // Replace it with your app ClientId
-      action: "select",
-      success: (data) => {
-        window.open(data?.viewLink, "_blank");
-      },
-    });
-  };
   const getScreenShareFeed = async () => {
     try {
       const stream = await navigator.mediaDevices.getDisplayMedia({
@@ -475,14 +464,6 @@ const ToolBox = ({
               onClick={(e) => handleScreenShare(e)}
             />
           </Tooltip>
-
-          {userRoleType === userType.teacher && (
-            <IconButton
-              isRound={true}
-              icon={<SiMiro size={20} />}
-              onClick={openMiroBoardAuth}
-            />
-          )}
 
           {userRoleType === userType.teacher && <PostPoll />}
         </Flex>
