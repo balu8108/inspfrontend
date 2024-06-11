@@ -40,12 +40,6 @@ export default function LectureRecordingCard({ lectureDetails }) {
                 alt="Video Thumbnail"
                 width={"100%"}
                 height={"100%"}
-                style={{
-                  position: "relative",
-                  zIndex: 1,
-                  overflow: "hidden",
-                  borderRadius: "8px",
-                }}
               />
               <Box
                 position="absolute"
@@ -67,7 +61,7 @@ export default function LectureRecordingCard({ lectureDetails }) {
                 left="50%"
                 borderRadius={"100%"}
                 transform="translate(-50%, -50%)"
-                zIndex={3}
+                // zIndex={3}
               />
             </Flex>
           ))}

@@ -46,7 +46,9 @@ const DetailsCoveredFiles = () => {
   }, [topicId]);
 
   const handleViewRecording = (recording) => {
-    navigate(`/view-recording?type=solo&id=${recording.soloClassRoomId}&recordingId=${recording?.id}`);
+    navigate(
+      `/view-recording?type=solo&id=${recording.soloClassRoomId}&recordingId=${recording?.id}`
+    );
   };
 
   return (
@@ -97,13 +99,6 @@ const DetailsCoveredFiles = () => {
                     position={"relative"}
                     cursor={"pointer"}
                   >
-                    <Image
-                      src={defaultImageUrl}
-                      alt="Video Thumbnail"
-                      width={"100%"}
-                      height={"100%"}
-                    />
-
                     <Text
                       fontWeight={"500"}
                       fontSize={"12px"}
@@ -148,6 +143,7 @@ const DetailsCoveredFiles = () => {
                       left="50%"
                       borderRadius={"100%"}
                       transform="translate(-50%, -50%)"
+                      zIndex={3}
                     />
                   </Flex>
                 )
