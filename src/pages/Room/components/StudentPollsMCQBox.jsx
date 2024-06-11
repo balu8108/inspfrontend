@@ -96,7 +96,7 @@ const StudentPollsMCQBox = ({ question }) => {
         noOfOptions: question?.noOfOptions,
         type: question?.type,
         questionId: question?.questionId,
-        responseTimeInSeconds: question.time - pollLimit,
+        responseTimeInSeconds: question.time - (pollLimit - 5),
       };
       sendAnswerHandler(data);
       setAnswerSubmitted(true);
