@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -14,6 +14,7 @@ import {
   setCalenderDate,
   setCalenderTime,
 } from "../../../store/actions/genericActions";
+import { getAllLiveCalanderClasses } from "../../../store/actions/scheduleClassActions";
 
 // Styling of full calendar is in app.css
 const ScheduleCalendar = ({ onSchedulePopupOpen }) => {
@@ -40,6 +41,10 @@ const ScheduleCalendar = ({ onSchedulePopupOpen }) => {
     CRASHCOURSE: "Crash Course",
     REGULARCLASS: "Regular Classes",
   };
+
+  useEffect(() => {
+    dispatch(getAllLiveCalanderClasses());
+  }, [dispatch]);
 
   // a custom render function
   function renderEventContent(eventInfo) {

@@ -22,6 +22,8 @@ const config = {
 };
 export const getAllLiveClassesApi = () =>
   API.get("/schedule-live-class/get-all");
+export const getAllLiveCalenderClassesApi = () =>
+  API.get("/schedule-live-class/get-all-calender-data");
 export const createLiveClassApi = (data) =>
   API.post("/schedule-live-class/create", data, config);
 export const getLiveClassDetailsApi = (roomId) =>
