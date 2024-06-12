@@ -4,8 +4,6 @@ import {
   Text,
   useTheme,
   Flex,
-  Spinner,
-  Center,
   Icon,
   Tooltip,
   useDisclosure,
@@ -63,6 +61,7 @@ const ScheduleClassInformation = ({ scheduledClassesData, type, label }) => {
       return "";
     }
   };
+
   return (
     <>
       {isSchedulePopupOpen && (
@@ -84,10 +83,7 @@ const ScheduleClassInformation = ({ scheduledClassesData, type, label }) => {
             borderRadius={"md"}
           >
             <Flex justifyContent={"space-between"} alignItems={"center"}>
-              <Tooltip
-                label={capitalize(info?.LiveClassRoomDetail?.topicName)}
-                placement="top"
-              >
+              <Tooltip label={capitalize(info?.topicName)} placement="top">
                 <Text
                   fontWeight="500"
                   fontSize="14px"
@@ -97,7 +93,7 @@ const ScheduleClassInformation = ({ scheduledClassesData, type, label }) => {
                   w="50%"
                   _hover={{ textDecoration: "underline", cursor: "pointer" }}
                 >
-                  {capitalize(info?.LiveClassRoomDetail?.topicName)}
+                  {capitalize(info?.topicName)}
                 </Text>
               </Tooltip>
               <Text
@@ -162,7 +158,7 @@ const ScheduleClassInformation = ({ scheduledClassesData, type, label }) => {
                   {scheduleClassData.description}
                 </Text>
                 <Text fontSize={"12px"} color={secondaryTextColor}>
-                  {renderSlicedString(info?.LiveClassRoomDetail?.description)}
+                  {renderSlicedString(info?.description)}
                 </Text>
               </Box>
             )}
@@ -206,19 +202,11 @@ const ScheduleClassInformation = ({ scheduledClassesData, type, label }) => {
 
 const ScheduleInfoBox = ({ type, label }) => {
   const { secondaryTextColor } = useTheme().colors.pallete;
-  const { scheduledClassesData, scheduleClassLoading } = useSelector(
-    (state) => state.scheduleClass
-  );
+  const { scheduledClassesData } = useSelector((state) => state.scheduleClass);
 
-  const renderContent = () => {
-    if (scheduleClassLoading) {
-      return (
-        <Center my={2}>
-          <Spinner />
-        </Center>
-      );
-    } else if (scheduledClassesData[type].length === 0) {
-      return (
+  return (
+    <>
+      {scheduledClassesData[type].length === 0 ? (
         <Text
           fontSize={"1rem"}
           textAlign={"center"}
@@ -227,19 +215,15 @@ const ScheduleInfoBox = ({ type, label }) => {
         >
           No class
         </Text>
-      );
-    } else {
-      return (
+      ) : (
         <ScheduleClassInformation
           scheduledClassesData={scheduledClassesData}
           type={type}
           label={label}
         />
-      );
-    }
-  };
-
-  return <>{renderContent()}</>;
+      )}
+    </>
+  );
 };
 
 export default ScheduleInfoBox;
