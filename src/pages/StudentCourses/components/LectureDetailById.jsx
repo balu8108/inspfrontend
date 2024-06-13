@@ -40,7 +40,7 @@ export default function LectureDetailsById() {
       const response = await getAllLectureDetails(roomId);
       const { data } = response.data;
 
-      fetchAssignmentDetails(data?.LiveClassRoomDetail?.topicId);
+      fetchAssignmentDetails(data?.liveClassRoom?.LiveClassRoomDetail?.topicId);
       setLectureDetails(data?.liveClassRoom);
       setQuestionLog(data?.questionLogCount);
     } catch (err) {
