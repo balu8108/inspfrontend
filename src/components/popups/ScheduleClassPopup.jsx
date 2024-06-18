@@ -24,7 +24,7 @@ import { Select } from "chakra-react-select";
 import TimePicker from "react-time-picker-input";
 import { scheduleClassData } from "../../pages/ScheduleClasses/data/scheduleClassData";
 import { InlineBtn } from "../button";
-import { isValidTimeFormat, openFileDialog } from "../../utils";
+import { openFileDialog } from "../../utils";
 
 import { useDispatch, useSelector } from "react-redux";
 import { setAddClassSchedule } from "../../store/actions/scheduleClassActions";
@@ -56,7 +56,7 @@ const ScheduleClassPopup = ({ isOpen, onClose, isCalenderScreen }) => {
   const { extraTextLight, primaryBlue, primaryBlueLight } =
     useTheme().colors.pallete;
 
-  const [formData, setFormData] = useState({
+  const [formDataValue, setFormDataValue] = useState({
     subject: null,
     chapter: null,
     scheduledDate: "",
@@ -77,7 +77,8 @@ const ScheduleClassPopup = ({ isOpen, onClose, isCalenderScreen }) => {
   const [chaptersData, setChaptersData] = useState([]); // chapter
   const [topicsData, setTopicsData] = useState([]); // topic
 
-  const [lectureNo, setLectureNo] = useState(null);
+  const [chapter, setChapter] = useState(null); // topic
+
   const [selectedFiles, setSelectedFiles] = useState(null); // for file upload
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const dispatch = useDispatch();
@@ -92,26 +93,20 @@ const ScheduleClassPopup = ({ isOpen, onClose, isCalenderScreen }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name === "description") {
-      setFormData({
-        ...formData,
+      setFormDataValue({
+        ...formDataValue,
         description: value,
       });
     }
-    if (name === "lectureNo") {
-      setFormData({
-        ...formData,
-        lectureNo: value,
-      });
-    }
     if (name === "agenda") {
-      setFormData({
-        ...formData,
+      setFormDataValue({
+        ...formDataValue,
         agenda: value,
       });
     }
     setScheduleClassFormErrorData((prev) => ({ ...prev, [name]: "" }));
   };
-  console.log(formData);
+  console.log(formDataValue);
 
   const handleFileUpload = async () => {
     const files = await openFileDialog();
@@ -130,13 +125,13 @@ const ScheduleClassPopup = ({ isOpen, onClose, isCalenderScreen }) => {
     if (event.name === "subject") {
       if (object?.label === "PHYSICS") {
         // On selecting physics get all chpters
-        setFormData({
-          ...formData,
+        setFormDataValue({
+          ...formDataValue,
           subject: object,
         });
       } else {
-        setFormData({
-          ...formData,
+        setFormDataValue({
+          ...formDataValue,
           chapter: null,
           topic: null,
           classLevel: null,
@@ -144,24 +139,25 @@ const ScheduleClassPopup = ({ isOpen, onClose, isCalenderScreen }) => {
         });
       }
     } else if (event.name === "chapter") {
-      setFormData({
-        ...formData,
+      setChapter(object);
+      setFormDataValue({
+        ...formDataValue,
         chapter: object,
       });
       fetchAllTopics(object.value);
     } else if (event.name === "topic") {
-      setFormData({
-        ...formData,
+      setFormDataValue({
+        ...formDataValue,
         topic: object,
       });
     } else if (event.name === "classType") {
-      setFormData({
-        ...formData,
+      setFormDataValue({
+        ...formDataValue,
         classType: object,
       });
     } else if (event.name === "classLevel") {
-      setFormData({
-        ...formData,
+      setFormDataValue({
+        ...formDataValue,
         classLevel: object,
       });
     }
@@ -169,16 +165,16 @@ const ScheduleClassPopup = ({ isOpen, onClose, isCalenderScreen }) => {
   };
 
   const handleDateChange = (e) => {
-    setFormData({
-      ...formData,
+    setFormDataValue({
+      ...formDataValue,
       scheduledDate: e.target.value,
     });
     setScheduleClassFormErrorData((prev) => ({ ...prev, scheduledDate: "" }));
   };
 
   const handleStartTimeChange = (value) => {
-    setFormData({
-      ...formData,
+    setFormDataValue({
+      ...formDataValue,
       scheduledStartTime: value,
     });
     setScheduleClassFormErrorData((prev) => ({
@@ -187,8 +183,8 @@ const ScheduleClassPopup = ({ isOpen, onClose, isCalenderScreen }) => {
     }));
   };
   const handleEndTimeChange = (value) => {
-    setFormData({
-      ...formData,
+    setFormDataValue({
+      ...formDataValue,
       scheduledEndTime: value,
     });
     setScheduleClassFormErrorData((prev) => ({
@@ -197,11 +193,12 @@ const ScheduleClassPopup = ({ isOpen, onClose, isCalenderScreen }) => {
     }));
   };
   const handleCheckBoxChange = (e) => {
-    setFormData({
-      ...formData,
-      blockStudentsCamera: e.target.checked,
+    setFormDataValue({
+      ...formDataValue,
+      muteAllStudents: e.target.checked,
     });
   };
+  console.log(typeof formDataValue?.subject);
   const handleSubmit = async () => {
     setIsSubmitLoading(true);
     // check if all fields are filled
@@ -216,21 +213,23 @@ const ScheduleClassPopup = ({ isOpen, onClose, isCalenderScreen }) => {
         formData.append("files", selectedFiles[key]);
       }
     }
-    formData.append("subject", JSON.stringify(formData?.subject));
-    formData.append("chapter", JSON.stringify(formData?.chapter));
-    formData.append("topic", JSON.stringify(formData?.topic));
-    formData.append("classType", JSON.stringify(formData?.classType));
-    formData.append("classLevel", JSON.stringify(formData?.classLevel));
-    formData.append("scheduledDate", formData?.scheduledDate);
-    formData.append("scheduledStartTime", formData?.scheduledStartTime);
-    formData.append("scheduledEndTime", formData?.scheduledEndTime);
-    formData.append("agenda", formData?.agenda);
-    formData.append("lectureNo", formData?.lectureNo);
-    formData.append("description", formData?.description);
-    formData.append("muteAllStudents", formData?.muteAllStudents || false);
+
+    console.log(JSON.stringify(formDataValue?.subject));
+    formData.append("subject", formDataValue?.subject);
+    formData.append("chapter", JSON.stringify(chapter));
+    formData.append("topic", formDataValue?.topic);
+    formData.append("classType", formDataValue?.classType);
+    formData.append("classLevel", formDataValue?.classLevel);
+    formData.append("scheduledDate", formDataValue?.scheduledDate);
+    formData.append("scheduledStartTime", formDataValue?.scheduledStartTime);
+    formData.append("scheduledEndTime", formDataValue?.scheduledEndTime);
+    formData.append("agenda", formDataValue?.agenda);
+    formData.append("lectureNo", formDataValue?.lectureNo);
+    formData.append("description", formDataValue?.description);
+    formData.append("muteAllStudents", formDataValue?.muteAllStudents || false);
     formData.append(
       "blockStudentsCamera",
-      formData?.blockStudentsCamera || false
+      formDataValue?.blockStudentsCamera || false
     );
 
     // dataKey.forEach((key) => {
@@ -253,7 +252,8 @@ const ScheduleClassPopup = ({ isOpen, onClose, isCalenderScreen }) => {
       return;
     }
     try {
-      await dispatch(setAddClassSchedule(formData));
+      console.log("FF", formData);
+      await dispatch(setAddClassSchedule(formDataValue));
     } catch (err) {
       console.log("err", err);
     }
@@ -279,14 +279,14 @@ const ScheduleClassPopup = ({ isOpen, onClose, isCalenderScreen }) => {
   useEffect(() => {
     if (isCalenderScreen) {
       if (calenderPickedDate) {
-        setFormData({
-          ...formData,
+        setFormDataValue({
+          ...formDataValue,
           scheduledDate: calenderPickedDate,
         });
       }
       if (calenderPickedTime) {
-        setFormData({
-          ...formData,
+        setFormDataValue({
+          ...formDataValue,
           scheduledStartTime: calenderPickedTime,
         });
       }
@@ -297,31 +297,39 @@ const ScheduleClassPopup = ({ isOpen, onClose, isCalenderScreen }) => {
     try {
       const response = await getLectureNo(data);
       const { data: lectureNo } = response.data;
-
-      setLectureNo(+lectureNo + 1);
+      setFormDataValue({
+        ...formDataValue,
+        lectureNo: lectureNo + 1,
+      });
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
     if (
-      formData?.subject !== null &&
-      formData?.classType !== null &&
-      formData?.classLevel !== null &&
-      formData?.chapter !== null &&
-      formData?.topic !== null
+      formDataValue?.subject !== null &&
+      formDataValue?.classType !== null &&
+      formDataValue?.classLevel !== null &&
+      formDataValue?.chapter !== null &&
+      formDataValue?.topic !== null
     ) {
       const data = {
-        subjectName: formData?.subject?.label,
-        classType: formData?.classType?.value,
-        classLevel: formData?.classLevel?.value,
-        chapterName: formData?.chapter?.label,
-        topicName: formData?.topic?.label,
+        subjectName: formDataValue?.subject?.label,
+        classType: formDataValue?.classType?.value,
+        classLevel: formDataValue?.classLevel?.value,
+        chapterName: formDataValue?.chapter?.label,
+        topicName: formDataValue?.topic?.label,
         isSoloClass: false,
       };
       fetchLectureNo(data);
     }
-  }, [formData]);
+  }, [
+    formDataValue?.subject,
+    formDataValue?.classType,
+    formDataValue?.classLevel,
+    formDataValue?.chapter,
+    formDataValue?.topic,
+  ]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"xl"}>
@@ -385,7 +393,7 @@ const ScheduleClassPopup = ({ isOpen, onClose, isCalenderScreen }) => {
                   >
                     <Input
                       type="date"
-                      value={formData?.scheduledDate}
+                      value={formDataValue?.scheduledDate}
                       py={6}
                       onChange={handleDateChange}
                     />
@@ -405,7 +413,7 @@ const ScheduleClassPopup = ({ isOpen, onClose, isCalenderScreen }) => {
                       >
                         <TimePicker
                           onChange={handleStartTimeChange}
-                          value={formData?.scheduledStartTime}
+                          value={formDataValue?.scheduledStartTime}
                           eachInputDropdown={true}
                           manuallyDisplayDropdown
                           hour12Format={true}
@@ -421,7 +429,7 @@ const ScheduleClassPopup = ({ isOpen, onClose, isCalenderScreen }) => {
                       >
                         <TimePicker
                           onChange={handleEndTimeChange}
-                          value={formData?.scheduledEndTime}
+                          value={formDataValue?.scheduledEndTime}
                           eachInputDropdown={true}
                           manuallyDisplayDropdown
                           hour12Format={true}
@@ -454,7 +462,7 @@ const ScheduleClassPopup = ({ isOpen, onClose, isCalenderScreen }) => {
                     onChange={handleSelectChange}
                     isDisabled={false}
                     name="classLevel"
-                    value={formData?.classLevel}
+                    value={formDataValue?.classLevel}
                     chakraStyles={chakraStyles}
                     options={[
                       {
@@ -486,10 +494,10 @@ const ScheduleClassPopup = ({ isOpen, onClose, isCalenderScreen }) => {
                       scheduleClassData.scheduleClassFormPlaceholder
                         .selectChapter
                     }
-                    isDisabled={formData?.subject === null}
+                    isDisabled={formDataValue?.subject === null}
                     onChange={handleSelectChange}
                     name="chapter"
-                    value={formData?.chapter}
+                    value={formDataValue?.chapter}
                     chakraStyles={chakraStyles}
                     options={chaptersData.map((chapter) => {
                       let obj = {
@@ -514,8 +522,8 @@ const ScheduleClassPopup = ({ isOpen, onClose, isCalenderScreen }) => {
                       scheduleClassData.scheduleClassFormPlaceholder.selectTopic
                     }
                     onChange={handleSelectChange}
-                    isDisabled={formData?.chapter === null}
-                    value={formData?.topic}
+                    isDisabled={formDataValue?.chapter === null}
+                    value={formDataValue?.topic}
                     name="topic"
                     chakraStyles={chakraStyles}
                     options={topicsData.map((topic) => {
@@ -544,8 +552,8 @@ const ScheduleClassPopup = ({ isOpen, onClose, isCalenderScreen }) => {
                         .selectClassType
                     }
                     onChange={handleSelectChange}
-                    isDisabled={formData?.subject === null}
-                    value={formData?.classType}
+                    isDisabled={formDataValue?.subject === null}
+                    value={formDataValue?.classType}
                     name="classType"
                     chakraStyles={chakraStyles}
                     options={[
@@ -573,8 +581,11 @@ const ScheduleClassPopup = ({ isOpen, onClose, isCalenderScreen }) => {
                 >
                   <Input
                     name={"lectureNo"}
-                    onChange={handleInputChange}
-                    value={lectureNo != null ? `Lecture ${lectureNo}` : ""}
+                    value={
+                      formDataValue?.lectureNo != null
+                        ? `Lecture ${formDataValue?.lectureNo}`
+                        : ""
+                    }
                     disabled={true}
                     type="text"
                     placeholder={
