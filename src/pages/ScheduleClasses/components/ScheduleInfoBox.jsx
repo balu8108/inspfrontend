@@ -21,18 +21,13 @@ import {
   fileTypes,
 } from "../../../constants/staticvariables";
 import { className } from "../../../constants/className";
-import ScheduleClassChanges from "../../../components/popups/ScheduleClassChanges";
+import ScheduleClassPopup from "../../../components/popups/ScheduleClassPopup";
 const ScheduleClassInformation = ({ scheduledClassesData, type, label }) => {
   const { primaryBlue, secondaryTextColor, innerBackground } =
     useTheme().colors.pallete;
   const [isLoading, setIsLoading] = useState(false);
   const { userProfile } = useSelector((state) => state.auth);
-  const [scheduleData, setScheduleData] = useState({
-    classId: "",
-    date: "",
-    startTime: "",
-    endTime: "",
-  });
+  const [scheduleData, setScheduleData] = useState({});
   const navigate = useNavigate();
   const {
     isOpen: isSchedulePopupOpen,
@@ -65,9 +60,11 @@ const ScheduleClassInformation = ({ scheduledClassesData, type, label }) => {
   return (
     <>
       {isSchedulePopupOpen && (
-        <ScheduleClassChanges
+        <ScheduleClassPopup
           isOpen={isSchedulePopupOpen}
           onClose={onScheduleClosePopupOpen}
+          isCalenderScreen={false}
+          isEditScreen={true}
           scheduleData={scheduleData}
         />
       )}
@@ -83,7 +80,10 @@ const ScheduleClassInformation = ({ scheduledClassesData, type, label }) => {
             borderRadius={"md"}
           >
             <Flex justifyContent={"space-between"} alignItems={"center"}>
-              <Tooltip label={capitalize(info?.topicName)} placement="top">
+              <Tooltip
+                label={capitalize(info?.LiveClassRoomDetail?.topicName)}
+                placement="top"
+              >
                 <Text
                   fontWeight="500"
                   fontSize="14px"
@@ -93,7 +93,7 @@ const ScheduleClassInformation = ({ scheduledClassesData, type, label }) => {
                   w="50%"
                   _hover={{ textDecoration: "underline", cursor: "pointer" }}
                 >
-                  {capitalize(info?.topicName)}
+                  {capitalize(info?.LiveClassRoomDetail?.topicName)}
                 </Text>
               </Tooltip>
               <Text
@@ -182,12 +182,7 @@ const ScheduleClassInformation = ({ scheduledClassesData, type, label }) => {
                   right={1}
                   as={HiOutlinePencilSquare}
                   onClick={() => {
-                    setScheduleData({
-                      classId: info.id,
-                      date: info.scheduledDate.split("T")[0],
-                      startTime: info.scheduledStartTime,
-                      endTime: info.scheduledEndTime,
-                    });
+                    setScheduleData(info);
                     onSchedulePopupOpen();
                   }}
                   _hover={{ bg: "none", cursor: "pointer" }}
