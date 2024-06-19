@@ -17,32 +17,47 @@ import { getPresignedUrlDocApi } from "../../api/genericapis";
 import { Document, Page, pdfjs } from "react-pdf";
 import PropTypes from "prop-types";
 import "./PdfViewer.css";
-import { IoChevronForward, IoChevronBackOutline } from "react-icons/io5";
+import {
+  IoChevronForward,
+  IoChevronBackOutline,
+  IoAdd,
+  IoRemove,
+} from "react-icons/io5";
+
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
 const PDFDocumentViewer = ({ docUrl, userProfile }) => {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
+  const [scale, setScale] = useState(1);
+
   const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
   };
+
   const nextPage = () => {
     if (pageNumber < numPages) {
       setPageNumber(pageNumber + 1);
     }
   };
+
   const prevPage = () => {
     if (pageNumber > 1) {
       setPageNumber(pageNumber - 1);
     }
   };
+
+  const zoomIn = () => {
+    setScale(scale + 0.2);
+  };
+
+  const zoomOut = () => {
+    setScale(scale > 0.4 ? scale - 0.2 : scale);
+  };
+
   return (
     <>
-      <Flex
-        justifyContent="left"
-        gap={6}
-        className="controls"
-        alignItems="center"
-      >
+      <Flex justifyContent="left" gap={6} className="controls" alignItems="center">
         <Button onClick={prevPage} disabled={pageNumber === 1}>
           <IoChevronBackOutline size={15} />
         </Button>
@@ -52,24 +67,33 @@ const PDFDocumentViewer = ({ docUrl, userProfile }) => {
         <Button onClick={nextPage} disabled={pageNumber === numPages}>
           <IoChevronForward size={15} />
         </Button>
+        <Button onClick={zoomIn}>
+          <IoAdd size={15} />
+        </Button>
+        <Button onClick={zoomOut} disabled={scale <= 0.4}>
+          <IoRemove size={15} />
+        </Button>
       </Flex>
 
-      <Document
-        file={docUrl}
-        onLoadSuccess={onDocumentLoadSuccess}
-        onContextMenu={(e) => e.preventDefault()}
-        className="pdf-container"
-      >
-        <div className="watermark-container">
-          <Text className="watermarked">
-            {userProfile?.name} - {userProfile?.email}
-          </Text>
-        </div>
-        <Page pageNumber={pageNumber} renderTextLayer={false} />
-      </Document>
+      <div className="pdf-viewer-container">
+        <Document
+          file={docUrl}
+          onLoadSuccess={onDocumentLoadSuccess}
+          onContextMenu={(e) => e.preventDefault()}
+          className="pdf-container"
+        >
+          <div className="watermark-container">
+            <Text className="watermarked">
+              {userProfile?.name} - {userProfile?.email}
+            </Text>
+          </div>
+          <Page pageNumber={pageNumber} scale={scale} renderTextLayer={false} />
+        </Document>
+      </div>
     </>
   );
 };
+
 const DocumentViewer = ({ isOpen, onClose }) => {
   const [docUrl, setDocUrl] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -77,6 +101,7 @@ const DocumentViewer = ({ isOpen, onClose }) => {
   const { docId, docType } = useSelector((state) => state.generic);
   const { userProfile } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
   useEffect(() => {
     const fetchAndSetDoc = async (docId) => {
       try {
@@ -96,21 +121,22 @@ const DocumentViewer = ({ isOpen, onClose }) => {
         setLoading(false);
       }
     };
+
     if (docId) {
       fetchAndSetDoc(docId);
     }
+
     return () => {
       dispatch(setIsDocModalOpen(null, null, null, false));
     };
   }, [docId, docType, dispatch]);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"2xl"}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Insp document</ModalHeader>
-        <ModalCloseButton
-          onClick={() => dispatch(setIsDocModalOpen(null, null, null, false))}
-        />
+        <ModalCloseButton onClick={() => dispatch(setIsDocModalOpen(null, null, null, false))} />
         <ModalBody>
           <>
             {loading ? (
@@ -129,12 +155,15 @@ const DocumentViewer = ({ isOpen, onClose }) => {
     </Modal>
   );
 };
+
 PDFDocumentViewer.propTypes = {
   docUrl: PropTypes.string.isRequired,
   userProfile: PropTypes.object.isRequired,
 };
+
 DocumentViewer.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 };
+
 export default DocumentViewer;
