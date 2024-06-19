@@ -1,3 +1,7 @@
+.pdf-viewer-container {
+  overflow: auto;
+}
+
 .pdf-container {
   display: flex;
   justify-content: center;
