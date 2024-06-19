@@ -53,6 +53,8 @@ export const setUpdateClassSchedule =
       const { data, status } = await setLiveClassScheduledApi(
         scheduleClassFormData
       );
+      dispatch(getAllLiveClassesSchedule());
+
       return { data, status };
     } catch (err) {
       return err;
