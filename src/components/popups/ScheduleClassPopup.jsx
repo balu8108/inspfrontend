@@ -171,6 +171,25 @@ const ScheduleClassPopup = ({
 
     setScheduleClassFormErrorData((prev) => ({ ...prev, [event.name]: "" }));
   };
+
+  function isASmallerThanB(a, b) {
+    // Parse the time strings
+    const [aHour, aMinute] = a.split(":").map(Number);
+    const [bHour, bMinute] = b.split(":").map(Number);
+
+    // Compare hours first
+    if (aHour < bHour) {
+      return true;
+    } else if (aHour === bHour) {
+      // If hours are equal, compare minutes
+      if (aMinute < bMinute) {
+        return true;
+      }
+    }
+    // If neither condition is met, a is not smaller than b
+    return false;
+  }
+
   const handleSubmit = async () => {
     setIsSubmitLoading(true);
     // check if all fields are filled
@@ -187,6 +206,16 @@ const ScheduleClassPopup = ({
         errors[key] = `Please select a ${key}`;
       }
     });
+
+    if (
+      !isASmallerThanB(
+        formDataValue?.scheduledStartTime,
+        formDataValue?.scheduledEndTime
+      )
+    ) {
+      console.log("POPO");
+      errors["scheduledStartTime"] = `Please select correct time period`;
+    }
 
     if (Object.keys(errors).length > 0) {
       setScheduleClassFormErrorData(errors);
@@ -348,6 +377,7 @@ const ScheduleClassPopup = ({
         ...formDataValue,
         lectureNo: lectureNo + 1,
       });
+      setScheduleClassFormErrorData((prev) => ({ ...prev, ["lectureNo"]: "" }));
     } catch (error) {
       console.log(error);
     }
@@ -490,7 +520,7 @@ const ScheduleClassPopup = ({
                         mt={1}
                         color="#E53E3E"
                       >
-                        Please select time
+                        {scheduleClassFormErrorData["scheduledStartTime"]}
                       </Text>
                     )}
                   </Box>
@@ -507,7 +537,7 @@ const ScheduleClassPopup = ({
                           .selectClassLevel
                       }
                       onChange={handleSelectChange}
-                      isDisabled={false}
+                      isDisabled={formDataValue?.subject?.label !== "PHYSICS"}
                       name="classLevel"
                       value={formDataValue?.classLevel}
                       chakraStyles={chakraStyles}
@@ -532,7 +562,10 @@ const ScheduleClassPopup = ({
                         scheduleClassData.scheduleClassFormPlaceholder
                           .selectChapter
                       }
-                      isDisabled={formDataValue?.subject === null}
+                      isDisabled={
+                        formDataValue?.subject === null ||
+                        formDataValue?.subject?.label !== "PHYSICS"
+                      }
                       onChange={handleSelectChange}
                       name="chapter"
                       value={formDataValue?.chapter}
@@ -595,7 +628,7 @@ const ScheduleClassPopup = ({
                           .selectClassType
                       }
                       onChange={handleSelectChange}
-                      isDisabled={formDataValue?.subject === null}
+                      isDisabled={formDataValue?.subject?.label !== "PHYSICS"}
                       value={formDataValue?.classType}
                       name="classType"
                       chakraStyles={chakraStyles}
