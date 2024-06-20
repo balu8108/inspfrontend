@@ -162,6 +162,7 @@ function App() {
         <ScheduleClassPopup
           isOpen={isSchedulePopupOpen}
           onClose={onScheduleClosePopupOpen}
+          isEditScreen={false}
           isCalenderScreen={false}
         />
       )}

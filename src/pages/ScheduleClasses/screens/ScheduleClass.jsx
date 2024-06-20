@@ -41,6 +41,7 @@ const ScheduleClass = () => {
           isOpen={isSchedulePopupOpen}
           onClose={onScheduleClosePopupOpen}
           isCalenderScreen={true}
+          isEditScreen={false}
         />
       )}
       {isTimeTableViewerOpen && (

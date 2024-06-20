@@ -97,7 +97,6 @@ const ScheduleClassPopup = ({
   ); // for error handling
   const [chaptersData, setChaptersData] = useState([]); // chapter
   const [topicsData, setTopicsData] = useState([]); // topic
-  const [isFirstRender, setIsFirstRender] = useState(true);
 
   const [selectedFiles, setSelectedFiles] = useState(null); // for file upload
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
@@ -135,7 +134,13 @@ const ScheduleClassPopup = ({
       agenda: () => updateFormDataValue({ agenda: object }),
       subject: () => {
         if (object?.label === "PHYSICS") {
-          // On selecting physics get all chapters
+          fetchNumber(
+            object?.label,
+            formDataValue?.classType?.value,
+            formDataValue?.classLevel?.value,
+            "subject",
+            object
+          );
           updateFormDataValue({ subject: object });
         } else {
           updateFormDataValue({
@@ -148,14 +153,28 @@ const ScheduleClassPopup = ({
         }
       },
       chapter: () => {
-        updateFormDataValue({ chapter: object });
+        updateFormDataValue({ chapter: object, topic: null });
         fetchAllTopics(object.value);
       },
       topic: () => updateFormDataValue({ topic: object }),
       classType: () => {
+        fetchNumber(
+          formDataValue?.subject?.label,
+          object?.value,
+          formDataValue?.classLevel?.value,
+          "classType",
+          object
+        );
         updateFormDataValue({ classType: object });
       },
       classLevel: () => {
+        fetchNumber(
+          formDataValue?.subject?.label,
+          formDataValue?.classType?.value,
+          object?.value,
+          "classLevel",
+          object
+        );
         updateFormDataValue({ classLevel: object });
       },
       scheduledStartTime: () =>
@@ -171,6 +190,25 @@ const ScheduleClassPopup = ({
 
     setScheduleClassFormErrorData((prev) => ({ ...prev, [event.name]: "" }));
   };
+
+  function isASmallerThanB(a, b) {
+    // Parse the time strings
+    const [aHour, aMinute] = a.split(":").map(Number);
+    const [bHour, bMinute] = b.split(":").map(Number);
+
+    // Compare hours first
+    if (aHour < bHour) {
+      return true;
+    } else if (aHour === bHour) {
+      // If hours are equal, compare minutes
+      if (aMinute < bMinute) {
+        return true;
+      }
+    }
+    // If neither condition is met, a is not smaller than b
+    return false;
+  }
+
   const handleSubmit = async () => {
     setIsSubmitLoading(true);
     // check if all fields are filled
@@ -187,6 +225,15 @@ const ScheduleClassPopup = ({
         errors[key] = `Please select a ${key}`;
       }
     });
+
+    if (
+      !isASmallerThanB(
+        formDataValue?.scheduledStartTime,
+        formDataValue?.scheduledEndTime
+      )
+    ) {
+      errors["scheduledStartTime"] = `Please select correct time period`;
+    }
 
     if (Object.keys(errors).length > 0) {
       setScheduleClassFormErrorData(errors);
@@ -317,37 +364,41 @@ const ScheduleClassPopup = ({
     }
   }, [calenderPickedDate, calenderPickedTime]);
 
-  useEffect(() => {
+  const fetchNumber = (
+    isubjectname,
+    iclasType,
+    iclassLevel,
+    dynamicField,
+    dynamicvalue
+  ) => {
     if (
-      formDataValue?.subject !== null &&
-      formDataValue?.classType !== null &&
-      formDataValue?.classLevel !== null
+      isubjectname !== null &&
+      isubjectname !== undefined &&
+      iclasType !== null &&
+      iclasType !== undefined &&
+      iclassLevel !== null &&
+      iclassLevel !== undefined
     ) {
-      if (!isFirstRender) {
-        const data = {
-          subjectName: formDataValue?.subject?.label,
-          classType: formDataValue?.classType?.value,
-          classLevel: formDataValue?.classLevel?.value,
-          isSoloClass: false,
-        };
-        fetchLectureNo(data);
-      }
-      setIsFirstRender(false);
+      const data = {
+        subjectName: isubjectname,
+        classType: iclasType,
+        classLevel: iclassLevel,
+        isSoloClass: false,
+      };
+      fetchLectureNo(data, dynamicField, dynamicvalue);
     }
-  }, [
-    formDataValue?.subject,
-    formDataValue?.classType,
-    formDataValue?.classLevel,
-  ]);
+  };
 
-  const fetchLectureNo = async (data) => {
+  const fetchLectureNo = async (data, dynamicField, dynamicvalue) => {
     try {
       const response = await getLectureNo(data);
       const { data: lectureNo } = response.data;
       setFormDataValue({
         ...formDataValue,
+        [dynamicField]: dynamicvalue,
         lectureNo: lectureNo + 1,
       });
+      setScheduleClassFormErrorData((prev) => ({ ...prev, ["lectureNo"]: "" }));
     } catch (error) {
       console.log(error);
     }
@@ -490,7 +541,7 @@ const ScheduleClassPopup = ({
                         mt={1}
                         color="#E53E3E"
                       >
-                        Please select time
+                        {scheduleClassFormErrorData["scheduledStartTime"]}
                       </Text>
                     )}
                   </Box>
@@ -507,7 +558,7 @@ const ScheduleClassPopup = ({
                           .selectClassLevel
                       }
                       onChange={handleSelectChange}
-                      isDisabled={false}
+                      isDisabled={formDataValue?.subject?.label !== "PHYSICS"}
                       name="classLevel"
                       value={formDataValue?.classLevel}
                       chakraStyles={chakraStyles}
@@ -532,7 +583,10 @@ const ScheduleClassPopup = ({
                         scheduleClassData.scheduleClassFormPlaceholder
                           .selectChapter
                       }
-                      isDisabled={formDataValue?.subject === null}
+                      isDisabled={
+                        formDataValue?.subject === null ||
+                        formDataValue?.subject?.label !== "PHYSICS"
+                      }
                       onChange={handleSelectChange}
                       name="chapter"
                       value={formDataValue?.chapter}
@@ -595,7 +649,7 @@ const ScheduleClassPopup = ({
                           .selectClassType
                       }
                       onChange={handleSelectChange}
-                      isDisabled={formDataValue?.subject === null}
+                      isDisabled={formDataValue?.subject?.label !== "PHYSICS"}
                       value={formDataValue?.classType}
                       name="classType"
                       chakraStyles={chakraStyles}
