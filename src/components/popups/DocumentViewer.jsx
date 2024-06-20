@@ -71,16 +71,15 @@ const PDFDocumentViewer = ({ docUrl, userProfile }) => {
         <Text>
           Page {pageNumber} of {numPages}
         </Text>
-
         <Button onClick={nextPage} disabled={pageNumber === numPages}>
           <IoChevronForward size={15} />
         </Button>
-        <Tooltip label={"Zoom In"}>
+        <Tooltip label="Zoom In" aria-label="Zoom In">
           <Button onClick={zoomIn}>
             <IoAdd size={15} />
           </Button>
         </Tooltip>
-        <Tooltip label={"Zoom Out"} placement="Left">
+        <Tooltip label="Zoom Out" aria-label="Zoom Out">
           <Button onClick={zoomOut} disabled={scale <= 0.4}>
             <IoRemove size={15} />
           </Button>
