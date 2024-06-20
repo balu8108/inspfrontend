@@ -11,6 +11,7 @@ import {
   Text,
   Spinner,
   Box,
+  Tooltip,
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsDocModalOpen } from "../../store/actions/genericActions";
@@ -70,15 +71,20 @@ const PDFDocumentViewer = ({ docUrl, userProfile }) => {
         <Text>
           Page {pageNumber} of {numPages}
         </Text>
+
         <Button onClick={nextPage} disabled={pageNumber === numPages}>
           <IoChevronForward size={15} />
         </Button>
-        <Button onClick={zoomIn}>
-          <IoAdd size={15} />
-        </Button>
-        <Button onClick={zoomOut} disabled={scale <= 0.4}>
-          <IoRemove size={15} />
-        </Button>
+        <Tooltip label={"Zoom In"}>
+          <Button onClick={zoomIn}>
+            <IoAdd size={15} />
+          </Button>
+        </Tooltip>
+        <Tooltip label={"Zoom Out"} placement="Left">
+          <Button onClick={zoomOut} disabled={scale <= 0.4}>
+            <IoRemove size={15} />
+          </Button>
+        </Tooltip>
       </Flex>
 
       <div className="pdf-viewer-container">
