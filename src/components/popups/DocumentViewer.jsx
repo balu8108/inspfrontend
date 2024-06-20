@@ -10,19 +10,20 @@ import {
   Flex,
   Text,
   Spinner,
+  Box,
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsDocModalOpen } from "../../store/actions/genericActions";
 import { getPresignedUrlDocApi } from "../../api/genericapis";
 import { Document, Page, pdfjs } from "react-pdf";
 import PropTypes from "prop-types";
-import "./PdfViewer.css";
 import {
   IoChevronForward,
   IoChevronBackOutline,
   IoAdd,
   IoRemove,
 } from "react-icons/io5";
+import "./PdfViewer.css";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -48,7 +49,7 @@ const PDFDocumentViewer = ({ docUrl, userProfile }) => {
   };
 
   const zoomIn = () => {
-    setScale(scale + 0.2);
+    setScale(scale + 0.1);
   };
 
   const zoomOut = () => {
@@ -57,7 +58,12 @@ const PDFDocumentViewer = ({ docUrl, userProfile }) => {
 
   return (
     <>
-      <Flex justifyContent="left" gap={6} className="controls" alignItems="center">
+      <Flex
+        justifyContent="left"
+        gap={6}
+        className="controls"
+        alignItems="center"
+      >
         <Button onClick={prevPage} disabled={pageNumber === 1}>
           <IoChevronBackOutline size={15} />
         </Button>
@@ -76,19 +82,27 @@ const PDFDocumentViewer = ({ docUrl, userProfile }) => {
       </Flex>
 
       <div className="pdf-viewer-container">
-        <Document
-          file={docUrl}
-          onLoadSuccess={onDocumentLoadSuccess}
-          onContextMenu={(e) => e.preventDefault()}
-          className="pdf-container"
-        >
-          <div className="watermark-container">
-            <Text className="watermarked">
-              {userProfile?.name} - {userProfile?.email}
-            </Text>
-          </div>
-          <Page pageNumber={pageNumber} scale={scale} renderTextLayer={false} />
-        </Document>
+        <div className="pdf-container">
+          <Document
+            file={docUrl}
+            onLoadSuccess={onDocumentLoadSuccess}
+            onContextMenu={(e) => e.preventDefault()}
+          >
+            <div className="watermark-container">
+              <Text className="watermarked">
+                {userProfile?.name} - {userProfile?.email}
+              </Text>
+            </div>
+            <Box
+              style={{
+                transform: `scale(${scale})`,
+                transformOrigin: "top left",
+              }}
+            >
+              <Page pageNumber={pageNumber} renderTextLayer={false} />
+            </Box>
+          </Document>
+        </div>
       </div>
     </>
   );
@@ -135,8 +149,10 @@ const DocumentViewer = ({ isOpen, onClose }) => {
     <Modal isOpen={isOpen} onClose={onClose} size={"2xl"}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Insp document</ModalHeader>
-        <ModalCloseButton onClick={() => dispatch(setIsDocModalOpen(null, null, null, false))} />
+        <ModalHeader>Document Viewer</ModalHeader>
+        <ModalCloseButton
+          onClick={() => dispatch(setIsDocModalOpen(null, null, null, false))}
+        />
         <ModalBody>
           <>
             {loading ? (
