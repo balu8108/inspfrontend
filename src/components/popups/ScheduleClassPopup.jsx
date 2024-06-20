@@ -352,13 +352,37 @@ const ScheduleClassPopup = ({
       if (calenderPickedDate) {
         setFormDataValue({
           ...formDataValue,
+          subject: null,
+          chapter: null,
+          topic: null,
+          classType: null,
+          classLevel: null,
+          agenda: "",
+          description: "",
+          lectureNo: "",
+          scheduledStartTime: "--:--",
+          scheduledEndTime: "--:--",
+          muteAllStudents: false,
+          blockStudentsCamera: false,
           scheduledDate: calenderPickedDate,
         });
       }
-      if (calenderPickedTime) {
+      if (calenderPickedTime && calenderPickedDate) {
         setFormDataValue({
           ...formDataValue,
-          scheduledStartTime: calenderPickedTime,
+          subject: null,
+          chapter: null,
+          topic: null,
+          classType: null,
+          classLevel: null,
+          agenda: "",
+          description: "",
+          lectureNo: "",
+          scheduledEndTime: "--:--",
+          muteAllStudents: false,
+          blockStudentsCamera: false,
+          scheduledDate: calenderPickedDate,
+          scheduledStartTime: calenderPickedTime[0],
         });
       }
     }
