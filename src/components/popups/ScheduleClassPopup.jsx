@@ -22,10 +22,14 @@ import {
 } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
 import TimePicker from "react-time-picker-input";
+import { FiX } from "react-icons/fi";
 import { scheduleClassData } from "../../pages/ScheduleClasses/data/scheduleClassData";
 import { InlineBtn } from "../button";
-import { isValidTimeFormat, openFileDialog } from "../../utils";
-
+import {
+  isValidTimeFormat,
+  openFileDialog,
+  extractFileNameFromS3URL,
+} from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setAddClassSchedule,
@@ -99,6 +103,8 @@ const ScheduleClassPopup = ({
   const [topicsData, setTopicsData] = useState([]); // topic
 
   const [selectedFiles, setSelectedFiles] = useState(null); // for file upload
+  const [previousFile, setPreviousFiles] = useState([]); // for file upload
+  const [deletedFileIds, setDeletedFileIds] = useState([]); // for file upload
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const dispatch = useDispatch();
 
@@ -264,6 +270,9 @@ const ScheduleClassPopup = ({
     formData.append("lectureNo", formDataValue?.lectureNo);
     formData.append("description", formDataValue?.description);
     formData.append("muteAllStudents", formDataValue?.muteAllStudents || false);
+    if (deletedFileIds && deletedFileIds.length > 0) {
+      formData.append("deletedFileIds", JSON.stringify(deletedFileIds));
+    }
     formData.append(
       "blockStudentsCamera",
       formDataValue?.blockStudentsCamera || false
@@ -328,6 +337,7 @@ const ScheduleClassPopup = ({
         muteAllStudents: scheduleData?.muteAllStudents,
         blockStudentsCamera: scheduleData?.blockStudentsCamera,
       });
+      setPreviousFiles(scheduleData?.LiveClassRoomFiles);
     } else {
       setFormDataValue({
         subject: null,
@@ -427,6 +437,28 @@ const ScheduleClassPopup = ({
       console.log(error);
     }
   };
+
+  const removeFilefromList = (keyToRemove) => {
+    // Convert FileList to array
+    let fileArray = Array.from(selectedFiles);
+    fileArray.splice(keyToRemove, 1);
+    // If you need to convert the array back to a FileList
+    let dataTransfer = new DataTransfer();
+    fileArray.forEach((file) => dataTransfer.items.add(file));
+    let newFileList = dataTransfer.files;
+    setSelectedFiles(newFileList);
+  };
+
+  const removeFilefromPreviousList = (keyToRemove) => {
+    // Convert FileList to array
+    let fileArray = previousFile;
+    let removeFileId = deletedFileIds;
+    removeFileId.push(keyToRemove);
+    let fileList = fileArray.filter((item) => item.id !== keyToRemove);
+    setPreviousFiles(fileList);
+    setDeletedFileIds(removeFileId);
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"xl"}>
       <ModalOverlay />
@@ -785,18 +817,7 @@ const ScheduleClassPopup = ({
                   overflowX="auto"
                   scrollBehavior="smooth"
                 >
-                  {!selectedFiles ? (
-                    <Text color="#718096">
-                      {scheduleClassData.filesToUpload}
-                    </Text>
-                  ) : (
-                    Object.keys(selectedFiles).map((key, index) => (
-                      <Text fontSize={"0.7rem"} key={key} color="#718096">
-                        {selectedFiles[key].name}
-                        {index !== selectedFiles.length - 1 && ", "}
-                      </Text>
-                    ))
-                  )}
+                  <Text color="#718096">{scheduleClassData.filesToUpload}</Text>
                 </Flex>
                 <Button
                   w={"20%"}
@@ -809,10 +830,36 @@ const ScheduleClassPopup = ({
                   px={20}
                   onClick={handleFileUpload}
                 >
-                  {scheduleClassData.upload}
+                  Select Files
                 </Button>
               </Flex>
-
+              <div>
+                {previousFile &&
+                  previousFile.length > 0 &&
+                  previousFile.map((item) => (
+                    <div key={item?.id} className="selectedfilebox">
+                      <div className="selectedfileinnerbox">
+                        <p>{extractFileNameFromS3URL(item?.key)}</p>
+                        <FiX
+                          onClick={() => removeFilefromPreviousList(item?.id)}
+                          style={{ marginLeft: "10px", cursor: "pointer" }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                {selectedFiles &&
+                  Object.keys(selectedFiles).map((key) => (
+                    <div key={key} className="selectedfilebox">
+                      <div className="selectedfileinnerbox">
+                        <p>{selectedFiles[key].name}</p>
+                        <FiX
+                          onClick={() => removeFilefromList(key)}
+                          style={{ marginLeft: "10px", cursor: "pointer" }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+              </div>
               <Flex pt={6}>
                 <HStack mr={6}>
                   <Checkbox

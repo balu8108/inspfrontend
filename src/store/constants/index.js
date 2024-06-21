@@ -58,6 +58,7 @@ export const ADD_CALENDER_CLASS_DATA = "ADD_CALENDER_CLASS_DATA";
 // Generic constants
 
 export const GET_ALL_SUBJECTS = "GET_ALL_SUBJECTS";
+export const GET_ALL_TOPICS = "GET_ALL_TOPICS";
 export const SET_IS_DOC_MODAL_OPEN = "SET_IS_DOC_MODAL_OPEN";
 export const SET_DOC = "SET_DOC";
 export const SET_DOC_ID = "SET_DOC_ID";

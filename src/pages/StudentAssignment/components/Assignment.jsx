@@ -16,10 +16,10 @@ import {
 } from "@chakra-ui/react";
 import { useParams, useNavigate } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
+import { useSelector } from "react-redux";
 import { capitalize } from "../../../utils";
 import ChemistryImage from "../../../assets/images/undraw_science_re_mnnr 1.svg";
 import MathematicsImage from "../../../assets/images/undraw_mathematics_-4-otb 1.svg";
-import { fetchAllTopicsForSubjectApi } from "../../../api/inspexternalapis";
 import TopicCard from "../../../components/Card/TopicCard";
 
 const AssignmentDetails = () => {
@@ -28,6 +28,7 @@ const AssignmentDetails = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const { subjectName } = useParams();
   const { outerBackground, innerBackground } = useTheme().colors.pallete;
+  const { topics } = useSelector((state) => state.generic);
 
   const navigate = useNavigate();
 
@@ -36,23 +37,8 @@ const AssignmentDetails = () => {
   };
 
   useEffect(() => {
-    async function fetchAllTopicsForSubject() {
-      try {
-        const response = await fetchAllTopicsForSubjectApi("1");
-        console.log(response);
-        if (response.status) {
-          setAllTopicList(response.result);
-          setFilteredTopicList(response.result);
-        } else {
-          setAllTopicList([]);
-          setFilteredTopicList([]);
-        }
-      } catch (error) {
-        console.error("Error fetching topics data:", error);
-      }
-    }
-
-    fetchAllTopicsForSubject();
+    setAllTopicList(topics);
+    setFilteredTopicList(topics);
   }, []);
 
   const handleSearchInputChange = (event) => {

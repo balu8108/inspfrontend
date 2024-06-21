@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
-import { fetchAllTopicsForSubjectApi } from "../../../../api/inspexternalapis";
+import { useSelector } from "react-redux";
 import TopicCard from "../../../../components/Card/TopicCard";
 
 const MentorAllUploadedLectures = () => {
@@ -21,6 +21,7 @@ const MentorAllUploadedLectures = () => {
   const [filteredTopicList, setFilteredTopicList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const { outerBackground, innerBackground } = useTheme().colors.pallete;
+  const { topics } = useSelector((state) => state.generic);
 
   const navigate = useNavigate();
 
@@ -29,23 +30,8 @@ const MentorAllUploadedLectures = () => {
   };
 
   useEffect(() => {
-    async function fetchAllTopicsForSubject() {
-      try {
-        const response = await fetchAllTopicsForSubjectApi("1");
-        console.log(response);
-        if (response.status) {
-          setAllTopicList(response.result);
-          setFilteredTopicList(response.result);
-        } else {
-          setAllTopicList([]);
-          setFilteredTopicList([]);
-        }
-      } catch (error) {
-        console.error("Error fetching topics data:", error);
-      }
-    }
-
-    fetchAllTopicsForSubject();
+    setAllTopicList(topics);
+    setFilteredTopicList(topics);
   }, []);
 
   const handleSearchInputChange = (event) => {
