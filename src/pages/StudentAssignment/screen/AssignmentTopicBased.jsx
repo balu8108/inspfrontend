@@ -77,6 +77,7 @@ const AssignmentTopicBased = () => {
         <SimpleGrid columns={{ base: 1, md: 1, lg: 1 }} spacing={4}>
           {filteredData.map((assignment) => (
             <AssignmentTopicBasedCard
+              key={assignment?.id}
               assignment={assignment}
               setIsAssignmentDeleted={setIsAssignmentDeleted}
             />

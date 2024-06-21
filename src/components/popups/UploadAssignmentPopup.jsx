@@ -126,7 +126,13 @@ const UploadAssignmentPopup = ({
 
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
-    setFiles((prevFiles) => [...prevFiles, ...selectedFiles]);
+    const mergedArray = [...files, ...selectedFiles];
+    // Create a new array without duplicates
+    const result = mergedArray.filter(
+      (item, index, self) =>
+        index === self.findIndex((t) => t.name === item.name)
+    );
+    setFiles(result);
   };
 
   const handleSubmit = async () => {
@@ -340,8 +346,8 @@ const UploadAssignmentPopup = ({
                 ))}
               {files &&
                 files.length > 0 &&
-                files.map((key) => (
-                  <div key={key} className="selectedfilebox">
+                files.map((key, index) => (
+                  <div key={index} className="selectedfilebox">
                     <div className="selectedfileinnerbox">
                       <p>{key?.name}</p>
                       <FiX

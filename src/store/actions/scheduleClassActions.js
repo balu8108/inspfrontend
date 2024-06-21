@@ -61,16 +61,6 @@ export const setUpdateClassSchedule =
     }
   };
 
-export const setClassSchedule = (scheduleClassFormData) => async (dispatch) => {
-  try {
-    const { data, status } = await createLiveClassApi(scheduleClassFormData);
-    return { data, status };
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-};
-
 export const AddClassAssignment =
   (type, classId, classFormData) => async (dispatch) => {
     try {

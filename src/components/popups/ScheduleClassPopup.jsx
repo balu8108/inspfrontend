@@ -20,6 +20,7 @@ import {
   FormControl,
   FormErrorMessage,
 } from "@chakra-ui/react";
+import { useToastContext } from "../toastNotificationProvider/ToastNotificationProvider";
 import { Select } from "chakra-react-select";
 import TimePicker from "react-time-picker-input";
 import { FiX } from "react-icons/fi";
@@ -89,6 +90,7 @@ const ScheduleClassPopup = ({
   isEditScreen,
   scheduleData,
 }) => {
+  const { addNotification } = useToastContext();
   const { calenderPickedDate, calenderPickedTime } = useSelector(
     (state) => state.generic
   );
@@ -102,7 +104,7 @@ const ScheduleClassPopup = ({
   const [chaptersData, setChaptersData] = useState([]); // chapter
   const [topicsData, setTopicsData] = useState([]); // topic
 
-  const [selectedFiles, setSelectedFiles] = useState(null); // for file upload
+  const [selectedFiles, setSelectedFiles] = useState([]); // for file upload
   const [previousFile, setPreviousFiles] = useState([]); // for file upload
   const [deletedFileIds, setDeletedFileIds] = useState([]); // for file upload
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
@@ -116,7 +118,13 @@ const ScheduleClassPopup = ({
   };
   const handleFileUpload = async () => {
     const files = await openFileDialog();
-    setSelectedFiles(files);
+    const mergedArray = [...selectedFiles, ...files];
+    // Create a new array without duplicates
+    const result = mergedArray.filter(
+      (item, index, self) =>
+        index === self.findIndex((t) => t.name === item.name)
+    );
+    setSelectedFiles(result);
   };
 
   const fetchAllTopics = async (chapter_id) => {
@@ -281,8 +289,10 @@ const ScheduleClassPopup = ({
     try {
       if (isEditScreen) {
         await dispatch(setUpdateClassSchedule(formData));
+        addNotification("Class updated successfully!", "success", 1500);
       } else {
         await dispatch(setAddClassSchedule(formData));
+        addNotification("Class created successfully!", "success", 1500);
       }
     } catch (err) {
       console.log("err", err);
