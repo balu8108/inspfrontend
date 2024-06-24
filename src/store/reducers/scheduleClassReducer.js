@@ -20,9 +20,22 @@ const scheduleClassReducer = (state = initialState, action) => {
     case ADD_CLASS_SCHEDULE:
       const obj = action.payload?.data;
       let tempscheduledClassesData = state.scheduledClassesData;
+      let tempCalenderClasses = state.scheduledClasses;
       tempscheduledClassesData[obj?.category].push(obj);
+      const calenderData = {
+        id: obj?.id,
+        title: obj?.LiveClassRoomDetail?.chapterName,
+        classType: obj?.classType,
+        classLevel: obj?.classLevel,
+        start: `${obj?.scheduledDate.split("T")[0]}T${
+          obj?.scheduledStartTime
+        }:00`,
+        end: `${obj?.scheduledDate.split("T")[0]}T${obj?.scheduledEndTime}:00`,
+      };
+      tempCalenderClasses.push(calenderData);
       return {
         ...state,
+        scheduledClasses: tempCalenderClasses,
         scheduledClassesData: tempscheduledClassesData,
       };
 
