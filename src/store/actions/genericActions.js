@@ -1,5 +1,6 @@
 import {
   GET_ALL_SUBJECTS,
+  GET_ALL_TOPICS,
   SET_IS_DOC_MODAL_OPEN,
   SET_DOC_KEY,
   SET_FEEDBACK_TOPIC_ID,
@@ -13,6 +14,9 @@ import { addTimeTableApi, getTimeTableApi } from "../../api/genericapis";
 
 export const getAllSubjects = (value) => async (dispatch) => {
   dispatch({ type: GET_ALL_SUBJECTS, payload: value });
+};
+export const getAllTopics = (value) => async (dispatch) => {
+  dispatch({ type: GET_ALL_TOPICS, payload: value });
 };
 export const setIsDocModalOpen =
   (doc_id, doc_key, type, value) => async (dispatch) => {

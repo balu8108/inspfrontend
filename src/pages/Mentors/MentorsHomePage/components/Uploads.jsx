@@ -155,6 +155,7 @@ const MentorsUploads = () => {
         setAssignment={setAssignment}
         isOpen={isUploadAssignmentModalOpen}
         onClose={closeUploadAssignmentModal}
+        isEditScreen={false}
       />
     </Box>
   );

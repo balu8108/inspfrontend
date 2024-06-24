@@ -3,6 +3,7 @@ import {
   getAllLiveClassesApi,
   getAllLiveCalenderClassesApi,
   addClassAssignmentApi,
+  setLiveClassScheduledApi,
 } from "../../api/scheduleliveclass";
 import {
   ADD_CLASS_SCHEDULE,
@@ -46,15 +47,19 @@ export const setAddClassSchedule =
     }
   };
 
-export const setClassSchedule = (scheduleClassFormData) => async (dispatch) => {
-  try {
-    const { data, status } = await createLiveClassApi(scheduleClassFormData);
-    return { data, status };
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-};
+export const setUpdateClassSchedule =
+  (scheduleClassFormData) => async (dispatch) => {
+    try {
+      const { data, status } = await setLiveClassScheduledApi(
+        scheduleClassFormData
+      );
+      dispatch(getAllLiveClassesSchedule());
+
+      return { data, status };
+    } catch (err) {
+      return err;
+    }
+  };
 
 export const AddClassAssignment =
   (type, classId, classFormData) => async (dispatch) => {

@@ -20,15 +20,12 @@ import {
   useTheme,
   FormErrorMessage,
 } from "@chakra-ui/react";
-import {
-  fetchAllSubjectsApi,
-  fetchAllTopicsForSubjectApi,
-} from "../../../../../api/inspexternalapis";
+import { fetchAllSubjectsApi } from "../../../../../api/inspexternalapis";
 import { createSoloLectureRoomApi } from "../../../../../api/soloclassrooms";
 import { getLectureNo } from "../../../../../api/lecture";
+import { useSelector } from "react-redux";
 const SoloRecordModal = ({ isOpen, onClose }) => {
   const [isLoadingSubjects, setIsLoadingSubjects] = useState(true);
-  const [isLoadingTopics, setIsLoadingTopics] = useState(true);
   const [subjects, setSubjects] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState("");
   const [allTopicList, setAllTopicList] = useState([]);
@@ -42,6 +39,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
   const [successMessage, setSuccessMessage] = useState("");
   const { primaryBlueLight } = useTheme().colors.pallete;
   const navigate = useNavigate();
+  const { topics } = useSelector((state) => state.generic);
 
   const fileInputRef = useRef(null);
   const [subjectError, setSubjectError] = useState(false);
@@ -75,7 +73,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
       formData.append("topicId", selectedTopicId);
       formData.append("agenda", agenda);
       formData.append("description", description);
-      formData.append("lectureNo",lectureNo);
+      formData.append("lectureNo", lectureNo);
 
       files.forEach((file) => {
         formData.append("files", file);
@@ -134,29 +132,8 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
   }, []);
 
   useEffect(() => {
-    async function fetchAllTopicsForSubject() {
-      setIsLoadingTopics(true);
-      try {
-        const response = await fetchAllTopicsForSubjectApi(selectedSubject);
-
-        if (response.status) {
-          setAllTopicList(response.result);
-        }
-      } catch (error) {
-        console.error("Error fetching topics data:", error);
-      } finally {
-        setIsLoadingTopics(false);
-      }
-    }
-
-    setAllTopicList([]);
-
-    if (selectedSubject) {
-      fetchAllTopicsForSubject();
-    } else {
-      setAllTopicList([]);
-    }
-  }, [selectedSubject]);
+    setAllTopicList(topics);
+  }, []);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"xl"}>
@@ -199,9 +176,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
 
           <FormControl mt={4} isInvalid={topicError}>
             <Select
-              placeholder={
-                isLoadingTopics ? <Spinner size="sm" /> : "Select Topic"
-              }
+              placeholder="Select Topic"
               value={selectedTopic}
               onChange={(e) => {
                 const selectedTopicValue = e.target.value;
@@ -214,7 +189,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
                 }
                 setTopicError(false);
               }}
-              isDisabled={isLoadingTopics || allTopicList.length === 0}
+              isDisabled={allTopicList.length === 0}
             >
               {allTopicList.map((topic) => (
                 <option key={topic.id} value={topic.name}>
@@ -235,7 +210,11 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
               placeholder="Lecture No"
               resize={"none"}
               isDisabled={true}
-              value={lectureNo != null && selectedSubject && selectedTopic ?  `Lecture ${lectureNo}` : ""}
+              value={
+                lectureNo != null && selectedSubject && selectedTopic
+                  ? `Lecture ${lectureNo}`
+                  : ""
+              }
               type="text"
             ></Input>
           </FormControl>

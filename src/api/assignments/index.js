@@ -24,6 +24,9 @@ const config = {
 export const uploadAssignmentsApi = (formData) =>
   API.post(`/assignment/upload-assignments`, formData, config);
 
+export const updateAssignmentsApi = (formData) =>
+  API.post(`/assignment/update-assignments`, formData, config);
+
 export const getAllAssignmentByTopicApi = (topicId) =>
   API.get(`/assignment/get-all-assignments-topic-id?topicId=${topicId}`);
 
@@ -35,6 +38,9 @@ export const getRecentAssignmentApi = () =>
 
 export const getAssignmentWithFilesApi = () =>
   API.get(`/assignment/all-assignment-with-files`);
+
+export const deleteAssignmentById = (assignmentId) =>
+  API.delete(`/assignment/delete-assignment/${assignmentId}`);
 
 export const getAssignmentByTopicIdApi = (topicId) =>
   API.get(`/assignment/get-assignment-by-topic-id/${topicId}`);

@@ -4,7 +4,6 @@ import {
   Box,
   Text,
   HStack,
-  Card,
   SimpleGrid,
   Input,
   InputGroup,
@@ -13,17 +12,17 @@ import {
   useTheme,
 } from "@chakra-ui/react";
 import { AiOutlineSearch } from "react-icons/ai";
-import { capitalize } from "../../../utils";
 import { useParams } from "react-router";
+import { capitalize } from "../../../utils";
 import { getAssignmentByTopicIdApi } from "../../../api/assignments";
-import SingleFileComponent from "../../../components/filebox/SingleFileComponent";
+import AssignmentTopicBasedCard from "../../../components/Card/AssignmentTopicBasedCard";
 
 const AssignmentTopicBased = () => {
   const [assignmentData, setAssignmentData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isAssignmentDeleted, setIsAssignmentDeleted] = useState(false);
   const { topicId, topicName } = useParams();
-  const { outerBackground, innerBackground, innerBoxShadow } =
-    useTheme().colors.pallete;
+  const { outerBackground, innerBackground } = useTheme().colors.pallete;
 
   const filteredData = Array.isArray(assignmentData)
     ? assignmentData.filter((assignment) => {
@@ -44,7 +43,7 @@ const AssignmentTopicBased = () => {
     };
 
     fetchAssignmentByTopicId(topicId);
-  }, [topicId]);
+  }, [topicId, isAssignmentDeleted]);
 
   return (
     <Box width={"full"} bg={outerBackground} borderRadius={"26px"} p={6}>
@@ -77,53 +76,11 @@ const AssignmentTopicBased = () => {
       <Box pt={10}>
         <SimpleGrid columns={{ base: 1, md: 1, lg: 1 }} spacing={4}>
           {filteredData.map((assignment) => (
-            <Card
-              w="100%"
-              bg={innerBackground}
-              boxShadow={innerBoxShadow}
-              borderRadius={"18px"}
-              p={6}
-              key={assignment.id}
-            >
-              <Text fontSize={"15px"} lineHeight={"18px"}>
-                {capitalize(assignment?.topicName)}
-              </Text>
-              <Text
-                fontWeight={400}
-                fontSize={"12px"}
-                lineHeight={"14px"}
-                color={"#2C332978"}
-              >
-                {assignment.instructorName}
-              </Text>
-              <Text
-                fontSize={"12px"}
-                lineHeight={"13px"}
-                fontWeight={400}
-                color={"rgba(44, 51, 41, 1)"}
-                mt={4}
-              >
-                Description
-              </Text>
-              <Text
-                fontSize={"12px"}
-                lineHeight={"21px"}
-                fontWeight={400}
-                color={"#2C332978"}
-                noOfLines={2}
-              >
-                {assignment.description}
-              </Text>
-              <Box flex={1} display="flex" flexWrap={"wrap"} gap={4} mt={4}>
-                {assignment?.AssignmentFiles.map((file) => (
-                  <SingleFileComponent
-                    key={file?.id}
-                    file={file}
-                    type="assignment"
-                  />
-                ))}
-              </Box>
-            </Card>
+            <AssignmentTopicBasedCard
+              key={assignment?.id}
+              assignment={assignment}
+              setIsAssignmentDeleted={setIsAssignmentDeleted}
+            />
           ))}
         </SimpleGrid>
         {filteredData.length === 0 && (

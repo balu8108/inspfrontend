@@ -9,7 +9,6 @@ import {
   ModalCloseButton,
   Button,
   FormControl,
-  Select,
   Input,
   Flex,
   Spinner,
@@ -17,114 +16,177 @@ import {
   useTheme,
   FormErrorMessage,
 } from "@chakra-ui/react";
-import {
-  fetchAllTopicsForSubjectApi,
-  fetchAllSubjectsApi,
-} from "../../api/inspexternalapis";
+import { Select } from "chakra-react-select";
+import { FiX } from "react-icons/fi";
 import { useToastContext } from "../toastNotificationProvider/ToastNotificationProvider";
-import { uploadAssignmentsApi } from "../../api/assignments";
-const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
-  const [isLoadingSubjects, setIsLoadingSubjects] = useState(true);
-  const [isLoadingTopics, setIsLoadingTopics] = useState(false);
+import {
+  uploadAssignmentsApi,
+  updateAssignmentsApi,
+} from "../../api/assignments";
+import { extractFileNameFromS3URL } from "../../utils";
+import { useSelector } from "react-redux";
+
+const checkIsValid = (obj) => {
+  const result =
+    obj === null ||
+    typeof obj === "object" ||
+    typeof obj === "string" ||
+    typeof obj === "number"
+      ? true
+      : false;
+  return result;
+};
+
+const dataKey = ["subject", "topic", "description"];
+
+const UploadAssignmentPopup = ({
+  isOpen,
+  onClose,
+  setAssignment,
+  isEditScreen,
+  scheduleData,
+  setIsAssignmentDeleted,
+}) => {
+  const { topics } = useSelector((state) => state.generic);
   const [isSending, setIsSending] = useState(false);
-  const [subjects, setSubjects] = useState([]);
-  const [selectedSubject, setSelectedSubject] = useState("");
-  const [subjectError, setSubjectError] = useState("");
-  const [selectedChapters, setSelectedChapters] = useState("");
-  const [topics, setTopics] = useState([]);
-  const [selectedTopic, setSelectedTopic] = useState("");
-  const [topicError, setTopicError] = useState("");
-  const [description, setDescription] = useState("");
-  const [descriptionError, setDescriptionError] = useState("");
-  const [fileError, setFileError] = useState("");
+  const [formDataValue, setFormDataValue] = useState({});
+  const [assignmentError, setAssignmentError] = useState({});
+  const [deletedFileIds, setDeletedFileIds] = useState([]);
+
   const [files, setFiles] = useState([]);
+
+  // files state
+  const [previousFile, setPreviousFiles] = useState([]); // for file upload
+
+  const chakraStyles = {
+    control: (provided) => ({
+      ...provided,
+      paddingBlock: "8px",
+    }),
+  };
+
+  useEffect(() => {
+    if (isEditScreen) {
+      setFormDataValue({
+        subject: {
+          value: scheduleData?.subjectId,
+          label: scheduleData?.subjectName,
+        },
+        topic: {
+          value: scheduleData?.topicId,
+          label: scheduleData?.topicName,
+        },
+        description: scheduleData?.description,
+      });
+      setPreviousFiles(scheduleData?.AssignmentFiles);
+    } else {
+      setFormDataValue({
+        subject: null,
+        topic: null,
+        description: "",
+      });
+    }
+  }, []);
+
   const { primaryBlueLight } = useTheme().colors.pallete;
   const fileInputRef = useRef(null);
   const { addNotification } = useToastContext();
   const resetFormFields = () => {
-    setSelectedSubject("");
-    setSelectedChapters("");
-    setSelectedTopic("");
-    setDescription("");
+    setFormDataValue({
+      subject: null,
+      topic: null,
+      description: "",
+    });
     setFiles([]);
-    setSubjectError("");
-    setTopicError("");
-    setDescriptionError("");
-    setFileError("");
   };
 
-  const handleSubjectChange = (e) => {
-    setSelectedSubject(e.target.value);
-    setSubjectError("");
+  const handleSubjectChange = (object) => {
+    setFormDataValue({
+      ...formDataValue,
+      subject: object,
+    });
+    setAssignmentError((prev) => ({ ...prev, ["subject"]: "" }));
   };
 
-  const handleTopicChange = (e) => {
-    setSelectedTopic(e.target.value);
-    setTopicError("");
+  const handleTopicChange = (object) => {
+    setFormDataValue({
+      ...formDataValue,
+      topic: object,
+    });
+    setAssignmentError((prev) => ({ ...prev, ["topic"]: "" }));
   };
 
   const handleDescriptionChange = (e) => {
-    setDescription(e.target.value);
-    setDescriptionError("");
+    setFormDataValue({
+      ...formDataValue,
+      description: e.target.value,
+    });
+    setAssignmentError((prev) => ({ ...prev, ["description"]: "" }));
   };
 
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
-    setFiles((prevFiles) => [...prevFiles, ...selectedFiles]);
-    setFileError("");
+    const mergedArray = [...files, ...selectedFiles];
+    // Create a new array without duplicates
+    const result = mergedArray.filter(
+      (item, index, self) =>
+        index === self.findIndex((t) => t.name === item.name)
+    );
+    setFiles(result);
   };
 
   const handleSubmit = async () => {
     try {
-      if (!selectedSubject) {
-        setSubjectError("Please select a subject");
-        return;
-      }
+      // check if all fields are filled
+      let errors = {};
 
-      if (!selectedTopic) {
-        setTopicError("Please select a topic");
-        return;
-      }
+      dataKey.forEach((key) => {
+        const isMissingKey = !(key in formDataValue);
+        const isEmptyValue =
+          formDataValue[key] === "" || formDataValue[key] === null;
+        if (isMissingKey || isEmptyValue) {
+          errors[key] = `Please select a ${key}`;
+        }
+      });
 
-      if (!description.trim()) {
-        setDescriptionError("Please enter a description");
-        return;
-      }
-
-      if (files.length === 0) {
-        setFileError("Please select at least one file to upload");
+      if (Object.keys(errors).length > 0) {
+        setAssignmentError(errors);
         return;
       }
 
       setIsSending(true);
 
       const formData = new FormData();
-      formData.append("subjectId", selectedSubject);
 
-      const selectedSubjectName =
-        subjects.find((subject) => subject.id === selectedSubject)?.name || "";
+      formData.append("subject", JSON.stringify(formDataValue?.subject));
+      formData.append("topic", JSON.stringify(formDataValue?.topic));
+      formData.append("description", formDataValue?.description);
 
-      formData.append("subjectName", selectedSubjectName);
-
-      formData.append("chapter", selectedChapters);
-
-      const selectedTopicName =
-        topics.find((topic) => topic.id === selectedTopic)?.name || "";
-
-      formData.append("topicName", selectedTopicName);
-      formData.append("topicId", selectedTopic);
-      formData.append("description", description);
+      if (deletedFileIds && deletedFileIds.length > 0) {
+        formData.append("deletedFileIds", JSON.stringify(deletedFileIds));
+      }
 
       files.forEach((file) => {
         formData.append("files", file);
       });
-      const response = await uploadAssignmentsApi(formData);
 
-      if (response.status === 201) {
-        setAssignment((prev) => [response?.data?.assignment, ...prev]);
-        addNotification("Assignment uploaded successfully!", "success", 1500);
+      if (isEditScreen) {
+        formData.append("assignmentId", scheduleData?.id);
+        const response = await updateAssignmentsApi(formData);
+        if (response.status === 200) {
+          addNotification("Assignment updated successfully!", "success", 1500);
+          setIsAssignmentDeleted((prev) => !prev);
+        } else {
+          console.error("Error submitting assignment:", response.data.error);
+        }
       } else {
-        console.error("Error submitting assignment:", response.data.error);
+        const response = await uploadAssignmentsApi(formData);
+        if (response.status === 201) {
+          setAssignment((prev) => [response?.data?.assignment, ...prev]);
+          addNotification("Assignment uploaded successfully!", "success", 1500);
+        } else {
+          console.error("Error submitting assignment:", response.data.error);
+        }
       }
 
       onClose();
@@ -136,54 +198,25 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
   };
 
   useEffect(() => {
-    async function fetchSubjects() {
-      setIsLoadingSubjects(true);
-      try {
-        const response = await fetchAllSubjectsApi();
-
-        if (response.status) {
-          setSubjects(response.result);
-        }
-      } catch (error) {
-        console.error("Error fetching subjects:", error);
-      } finally {
-        setIsLoadingSubjects(false);
-      }
-    }
-
-    fetchSubjects();
-  }, []);
-
-  useEffect(() => {
-    async function fetchAllTopicsForSubject() {
-      setIsLoadingTopics(true);
-      try {
-        const response = await fetchAllTopicsForSubjectApi(selectedSubject);
-        if (response.status) {
-          setTopics(response.result);
-          setSelectedTopic("");
-        }
-      } catch (error) {
-        console.error("Error fetching topics data:", error);
-      } finally {
-        setIsLoadingTopics(false);
-      }
-    }
-
-    setTopics([]);
-    if (selectedSubject) {
-      fetchAllTopicsForSubject();
-    } else {
-      setTopics([]);
-      setSelectedTopic("");
-    }
-  }, [selectedSubject]);
-
-  useEffect(() => {
     if (!isOpen) {
       resetFormFields();
     }
   }, [isOpen]);
+
+  const removeFilefromPreviousList = (keyToRemove) => {
+    let fileArray = previousFile;
+    const deleted = deletedFileIds;
+    deleted.push(keyToRemove);
+    let fileList = fileArray.filter((item) => item.id !== keyToRemove);
+    setPreviousFiles(fileList);
+    setDeletedFileIds(deleted);
+  };
+
+  const removeFilefromNewList = (keyToRemove) => {
+    let fileArray = files;
+    let fileList = fileArray.filter((item) => item.name !== keyToRemove);
+    setFiles(fileList);
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"xl"}>
@@ -194,61 +227,83 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
           fontWeight={500}
           letterSpacing={"0.15px"}
         >
-          Assignment
+          {isEditScreen ? "Update Assignment" : "Assignment"}
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <FormControl mt={4} isInvalid={subjectError !== ""}>
-            <Select
-              placeholder={
-                isLoadingSubjects ? <Spinner size="sm" /> : "Select Subject"
-              }
-              value={selectedSubject}
-              onChange={handleSubjectChange}
-              isDisabled={isLoadingSubjects}
-            >
-              {isLoadingSubjects
-                ? null
-                : subjects.map((subject) => (
-                    <option key={subject.id} value={subject.id}>
-                      {subject.name}
-                    </option>
-                  ))}
-            </Select>
-            <FormErrorMessage>{subjectError}</FormErrorMessage>
-          </FormControl>
+          {checkIsValid(formDataValue?.subject) && (
+            <FormControl isInvalid={assignmentError["subject"]}>
+              <Select
+                placeholder="Select subject"
+                name={"subject"}
+                onChange={handleSubjectChange}
+                value={formDataValue?.subject}
+                chakraStyles={chakraStyles}
+                options={[
+                  {
+                    value: "3",
+                    label: "CHEMISTRY",
+                  },
+                  {
+                    value: "2",
+                    label: "MATHEMATICS",
+                  },
+                  {
+                    value: "1",
+                    label: "PHYSICS",
+                  },
+                ]}
+                useBasicStyles
+              />
+              {assignmentError["subject"] && (
+                <FormErrorMessage>
+                  {assignmentError["subject"]}
+                </FormErrorMessage>
+              )}
+            </FormControl>
+          )}
 
-          <FormControl mt={4} isInvalid={topicError !== ""}>
-            <Select
-              placeholder={
-                isLoadingTopics ? <Spinner size="sm" /> : "Select Topic"
-              }
-              value={selectedTopic}
-              onChange={handleTopicChange}
-              isDisabled={isLoadingTopics || topics.length === 0}
-            >
-              {isLoadingTopics
-                ? null
-                : topics.map((topic) => (
-                    <option key={topic.id} value={topic.id}>
-                      {topic.name}
-                    </option>
-                  ))}
-            </Select>
-
-            <FormErrorMessage>{topicError}</FormErrorMessage>
-          </FormControl>
-          <FormControl mt={4} isInvalid={descriptionError !== ""}>
+          {checkIsValid(formDataValue?.topic) && (
+            <FormControl isInvalid={assignmentError["topic"]} mt={4}>
+              <Select
+                placeholder="Select Topic"
+                onChange={handleTopicChange}
+                isDisabled={
+                  formDataValue?.subject === null ||
+                  formDataValue?.subject?.label !== "PHYSICS"
+                }
+                value={formDataValue?.topic}
+                name="topic"
+                chakraStyles={chakraStyles}
+                options={topics.map((topic) => {
+                  let obj = {
+                    value: topic.id,
+                    label: topic.name,
+                  };
+                  return obj;
+                })}
+                useBasicStyles
+              />
+              {assignmentError["topic"] && (
+                <FormErrorMessage>{assignmentError["topic"]}</FormErrorMessage>
+              )}
+            </FormControl>
+          )}
+          <FormControl mt={4} isInvalid={assignmentError["description"]}>
             <Textarea
               placeholder=" Description"
-              value={description}
+              value={formDataValue?.description}
               onChange={handleDescriptionChange}
               resize={"none"}
             />
-            <FormErrorMessage>{descriptionError}</FormErrorMessage>
+            {assignmentError["description"] && (
+              <FormErrorMessage>
+                {assignmentError["description"]}
+              </FormErrorMessage>
+            )}
           </FormControl>
 
-          <FormControl mt={4} isInvalid={fileError !== ""}>
+          <FormControl mt={4}>
             <Input
               type="file"
               accept=".pdf,.doc,.docx"
@@ -258,15 +313,7 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
               multiple
             />
             <Flex gap={"16px"}>
-              <Input
-                placeholder="Files To Upload"
-                readOnly
-                value={
-                  files.length > 0
-                    ? files.map((file) => file.name).join(", ")
-                    : ""
-                }
-              />
+              <Input placeholder="Files To Upload" readOnly />
               <Button
                 w={"40%"}
                 bg={"#3C8DBC"}
@@ -277,15 +324,57 @@ const UploadAssignmentPopup = ({ isOpen, onClose, setAssignment }) => {
                   fileInputRef.current.click();
                 }}
               >
-                Upload
+                Select Files
               </Button>
             </Flex>
-            <FormErrorMessage>{fileError}</FormErrorMessage>
+            {assignmentError["file"] && (
+              <FormErrorMessage>{assignmentError["file"]}</FormErrorMessage>
+            )}
+            <div>
+              {previousFile &&
+                previousFile.length > 0 &&
+                previousFile.map((item) => (
+                  <div key={item?.id} className="selectedfilebox">
+                    <div className="selectedfileinnerbox">
+                      <p>{extractFileNameFromS3URL(item?.key)}</p>
+                      <FiX
+                        onClick={() => removeFilefromPreviousList(item?.id)}
+                        style={{ marginLeft: "10px", cursor: "pointer" }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              {files &&
+                files.length > 0 &&
+                files.map((key, index) => (
+                  <div key={index} className="selectedfilebox">
+                    <div className="selectedfileinnerbox">
+                      <p>{key?.name}</p>
+                      <FiX
+                        onClick={() => removeFilefromNewList(key?.name)}
+                        style={{ marginLeft: "10px", cursor: "pointer" }}
+                      />
+                    </div>
+                  </div>
+                ))}
+            </div>
           </FormControl>
         </ModalBody>
         <ModalFooter>
           <Flex w={"full"} justifyContent={"center"}>
-            {isSending ? (
+            {isEditScreen ? (
+              <Button
+                type="submit"
+                w={"30%"}
+                bg={"#3C8DBC"}
+                color={"#FFFFFF"}
+                fontWeight={500}
+                onClick={handleSubmit}
+                _hover={{ bg: primaryBlueLight }}
+              >
+                Update
+              </Button>
+            ) : isSending ? (
               <Button
                 type="submit"
                 w={"30%"}

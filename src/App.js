@@ -19,9 +19,10 @@ import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import StudentFeedBackPopup from "./components/popups/studentFeedbackPopup";
 import ScheduleClassPopup from "./components/popups/ScheduleClassPopup";
 import { fetchAllSubjectsApi } from "./api/inspexternalapis";
-import { getAllSubjects } from "./store/actions/genericActions";
+import { getAllSubjects, getAllTopics } from "./store/actions/genericActions";
 import { userType } from "./constants/staticvariables";
 import ScheduleClassList from "./pages/ScheduleClasses/components/ScheduleClassList";
+import { fetchAllTopicsForSubjectApi } from "./api/inspexternalapis";
 // import { detectDevTools, CheckWindowHeight } from "./utils/detectDevtools";
 const allowedRoutes = [
   "/schedule-class",
@@ -152,6 +153,21 @@ function App() {
     fetchSubjects();
   }, [dispatch]);
 
+  useEffect(() => {
+    async function fetchAllTopicsForSubject() {
+      try {
+        const response = await fetchAllTopicsForSubjectApi("1");
+        if (response.status) {
+          dispatch(getAllTopics(response.result));
+        }
+      } catch (error) {
+        console.error("Error fetching topics data:", error);
+      }
+    }
+
+    fetchAllTopicsForSubject();
+  }, []);
+
   return (
     <>
       {!isNavbarDisabled && <Navbar />}
@@ -162,6 +178,7 @@ function App() {
         <ScheduleClassPopup
           isOpen={isSchedulePopupOpen}
           onClose={onScheduleClosePopupOpen}
+          isEditScreen={false}
           isCalenderScreen={false}
         />
       )}
