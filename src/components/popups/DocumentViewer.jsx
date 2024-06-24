@@ -93,18 +93,19 @@ const PDFDocumentViewer = ({ docUrl, userProfile }) => {
             onLoadSuccess={onDocumentLoadSuccess}
             onContextMenu={(e) => e.preventDefault()}
           >
-            <div className="watermark-container">
-              <Text className="watermarked">
-                {userProfile?.name} - {userProfile?.email}
-              </Text>
-            </div>
             <Box
+              className="pdf-content"
               style={{
                 transform: `scale(${scale})`,
                 transformOrigin: "top left",
               }}
             >
               <Page pageNumber={pageNumber} renderTextLayer={false} />
+              <div className="watermark-container">
+                <Text className="watermarked">
+                  {userProfile?.name} - {userProfile?.email}
+                </Text>
+              </div>
             </Box>
           </Document>
         </div>
