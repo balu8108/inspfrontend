@@ -93,20 +93,31 @@ const PDFDocumentViewer = ({ docUrl, userProfile }) => {
             onLoadSuccess={onDocumentLoadSuccess}
             onContextMenu={(e) => e.preventDefault()}
           >
-            <Box
-              className="pdf-content"
+            <div
+              className="pdf-scroll-container"
               style={{
-                transform: `scale(${scale})`,
-                transformOrigin: "top left",
+                overflow: "auto",
+                width: "100%",
+                height: "100%",
               }}
             >
-              <Page pageNumber={pageNumber} renderTextLayer={false} />
-              <div className="watermark-container">
-                <Text className="watermarked">
-                  {userProfile?.name} - {userProfile?.email}
-                </Text>
-              </div>
-            </Box>
+              <Box
+                className="pdf-content"
+                style={{
+                  transform: `scale(${scale})`,
+                  transformOrigin: "top left",
+                  width: `${100 / scale}%`,
+                  height: `${100 / scale}%`,
+                }}
+              >
+                <Page pageNumber={pageNumber} renderTextLayer={false} />
+                <div className="watermark-container">
+                  <Text className="watermarked">
+                    {userProfile?.name} - {userProfile?.email}
+                  </Text>
+                </div>
+              </Box>
+            </div>
           </Document>
         </div>
       </div>
