@@ -140,8 +140,27 @@ function App() {
                 name: "INPHO / Olympiads",
                 value: "inpho-olympiads",
               },
-              { id: "5", name: "Class 11th", value: "class-11" },
-              { id: "6", name: "Class 12th", value: "class-12" },
+              {
+                id: "5",
+                name: "Class 11th",
+                value: "class-11",
+              },
+              {
+                id: "6",
+                name: "Class 12th",
+                value: "class-12",
+              },
+              {
+                id: "9",
+                name: "JEE Advanced Mastery: Top 500",
+                value: "JEE_Advanced_Mastery_Top_500",
+              },
+              {
+                id: "10",
+                name: "General discussion ",
+                value: "General_discussion",
+              },
+
               ...updatedSubjects,
             ])
           );

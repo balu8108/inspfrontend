@@ -70,6 +70,14 @@ const classLevel = [
     value: "Foundation_Olympiad",
     label: "Foundation_Olympiad",
   },
+  {
+    value: "General_Discussion",
+    label: "General_Discussion",
+  },
+  {
+    value: "JEE_Advanced_Mastery_Top_500",
+    label: "JEE_Advanced_Mastery_Top_500",
+  },
 ];
 
 const checkIsValid = (obj) => {
@@ -367,6 +375,9 @@ const ScheduleClassPopup = ({
     }
   }, []);
 
+  // for general selection statement-
+  const hideOtherFields = ["PHYSICS", "GENERAL"];
+
   useEffect(() => {
     if (isCalenderScreen) {
       if (calenderPickedDate) {
@@ -416,20 +427,32 @@ const ScheduleClassPopup = ({
     dynamicvalue
   ) => {
     if (
-      isubjectname !== null &&
-      isubjectname !== undefined &&
-      iclasType !== null &&
-      iclasType !== undefined &&
-      iclassLevel !== null &&
-      iclassLevel !== undefined
+      iclassLevel === "General_Discussion" ||
+      iclassLevel === "JEE_Advanced_Mastery_Top_500"
     ) {
       const data = {
         subjectName: isubjectname,
-        classType: iclasType,
         classLevel: iclassLevel,
         isSoloClass: false,
       };
       fetchLectureNo(data, dynamicField, dynamicvalue);
+    } else {
+      if (
+        isubjectname !== null &&
+        isubjectname !== undefined &&
+        iclasType !== null &&
+        iclasType !== undefined &&
+        iclassLevel !== null &&
+        iclassLevel !== undefined
+      ) {
+        const data = {
+          subjectName: isubjectname,
+          classType: iclasType,
+          classLevel: iclassLevel,
+          isSoloClass: false,
+        };
+        fetchLectureNo(data, dynamicField, dynamicvalue);
+      }
     }
   };
 
@@ -513,6 +536,11 @@ const ScheduleClassPopup = ({
                           {
                             value: "1",
                             label: "PHYSICS",
+                          },
+
+                          {
+                            value: "4",
+                            label: "GENERAL",
                           },
                         ]}
                         useBasicStyles
@@ -624,7 +652,9 @@ const ScheduleClassPopup = ({
                           .selectClassLevel
                       }
                       onChange={handleSelectChange}
-                      isDisabled={formDataValue?.subject?.label !== "PHYSICS"}
+                      isDisabled={
+                        !hideOtherFields.includes(formDataValue?.subject?.label)
+                      }
                       name="classLevel"
                       value={formDataValue?.classLevel}
                       chakraStyles={chakraStyles}

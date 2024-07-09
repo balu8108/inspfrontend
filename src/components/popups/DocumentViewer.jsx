@@ -54,7 +54,7 @@ const PDFDocumentViewer = ({ docUrl, userProfile }) => {
   };
 
   const zoomOut = () => {
-    setScale(scale > 0.4 ? scale - 0.2 : scale);
+    setScale(scale > 0.4 ? scale - 0.1 : scale);
   };
 
   return (
@@ -106,8 +106,6 @@ const PDFDocumentViewer = ({ docUrl, userProfile }) => {
                 style={{
                   transform: `scale(${scale})`,
                   transformOrigin: "top left",
-                  width: `${100 / scale}%`,
-                  height: `${100 / scale}%`,
                 }}
               >
                 <Page pageNumber={pageNumber} renderTextLayer={false} />

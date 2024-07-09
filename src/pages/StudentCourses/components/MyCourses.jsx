@@ -83,6 +83,10 @@ const MyCourses = () => {
               ? "My Courses ( Class 11th )"
               : coursetype === "class-12"
               ? "My Courses ( Class 12th )"
+              : coursetype === "General_discussion"
+              ? " My Courses (General Discussion)"
+              : coursetype === "JEE_Advanced_Mastery_Top_500"
+              ? " My Courses (JEE Advanced Mastery: Top 500)"
               : ""
           }
           loading={loading}
