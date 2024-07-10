@@ -104,9 +104,9 @@ export default function LectureDetailsById() {
               <Text fontSize={"19px"} lineHeight={"24px"}>
                 Details :{" "}
                 <span className="text-base">
-                  ({lectureDetails?.LiveClassRoomDetail?.topicName})
+                  {lectureDetails?.LiveClassRoomDetail?.topicName &&
+                    `(${lectureDetails?.LiveClassRoomDetail?.topicName}) :`}
                 </span>
-                :{" "}
                 <span className="text-base">
                   ({className[lectureDetails?.classLevel]})
                 </span>

@@ -70,6 +70,14 @@ const classLevel = [
     value: "Foundation_Olympiad",
     label: "Foundation_Olympiad",
   },
+  {
+    value: "General_Discussion",
+    label: "General_Discussion",
+  },
+  {
+    value: "JEE_Advanced_Mastery_Top_500",
+    label: "JEE_Advanced_Mastery_Top_500",
+  },
 ];
 
 const classLevelGeneral = [
@@ -252,9 +260,7 @@ const ScheduleClassPopup = ({
         formDataValue?.classLevel?.value === "General_Discussion" ||
         formDataValue?.classLevel?.value === "JEE_Advanced_Mastery_Top_500"
       ) {
-        console.log("1", key);
         if (key !== "topic" && key !== "chapter" && key !== "classType") {
-          console.log("2", key);
           const isEmptyValue =
             formDataValue[key] === "" || formDataValue[key] === null;
           const isInvalidTimeFormat =
@@ -352,6 +358,9 @@ const ScheduleClassPopup = ({
       console.log(err);
     }
   };
+
+  console.log(scheduleData?.classLevel);
+  console.log(classLevel);
 
   useEffect(() => {
     getChaptersByFetch();
