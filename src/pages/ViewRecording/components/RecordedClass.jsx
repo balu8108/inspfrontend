@@ -36,8 +36,7 @@ const RecordedClass = ({
     onOpen: onSchedulePopupOpen,
     onClose: onScheduleClosePopupOpen,
   } = useDisclosure();
-  const { primaryBlue, primaryBlueLight, outerBackground } =
-    useTheme().colors.pallete;
+  const { outerBackground } = useTheme().colors.pallete;
 
   const renderFiles = (data) => {
     let filesData = [];
@@ -135,7 +134,6 @@ const RecordedClass = ({
                     _hover={{ cursor: "pointer" }}
                     onClick={() => setActiveRecording(lr)}
                   >
-                   
                     <Text
                       fontWeight={"500"}
                       fontSize={"12px"}

@@ -93,7 +93,9 @@ const ScheduleClassInformation = ({ scheduledClassesData, type, label }) => {
                   w="50%"
                   _hover={{ textDecoration: "underline", cursor: "pointer" }}
                 >
-                  {capitalize(info?.LiveClassRoomDetail?.topicName)}
+                  {info?.subjectName === "GENERAL"
+                    ? capitalize("GENERAL")
+                    : capitalize(info?.LiveClassRoomDetail?.topicName)}
                 </Text>
               </Tooltip>
               <Text

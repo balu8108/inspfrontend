@@ -1,6 +1,5 @@
 //This component will show all the chapters related to subjects.
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { Text, Card, Button, useTheme } from "@chakra-ui/react";
 import { capitalize } from "../../utils";
 

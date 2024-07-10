@@ -39,6 +39,16 @@ const MyCourses = () => {
           classType: classType.REGULAR_CLASS,
           classLevel: classLevel.CLASS_12,
         };
+      } else if (coursetype === "JEE_Advanced_Mastery_Top_500") {
+        passingParams = {
+          classType: classType.REGULAR_CLASS,
+          classLevel: classLevel.JEE_Advanced_Mastery_Top_500,
+        };
+      } else if (coursetype === "General_discussion") {
+        passingParams = {
+          classType: classType.REGULAR_CLASS,
+          classLevel: classLevel.General_discussion,
+        };
       }
 
       if (passingParams?.classType && passingParams?.classLevel) {
@@ -83,6 +93,10 @@ const MyCourses = () => {
               ? "My Courses ( Class 11th )"
               : coursetype === "class-12"
               ? "My Courses ( Class 12th )"
+              : coursetype === "General_discussion"
+              ? " My Courses (General Discussion)"
+              : coursetype === "JEE_Advanced_Mastery_Top_500"
+              ? " My Courses (JEE Advanced Mastery: Top 500)"
               : ""
           }
           loading={loading}
