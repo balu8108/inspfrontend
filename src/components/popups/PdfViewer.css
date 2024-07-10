@@ -14,26 +14,16 @@
   box-sizing: border-box;
 }
 
-.pdf-content {
-  position: relative;
-}
-
 .watermark-container {
   position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) rotate(-45deg);
   pointer-events: none;
+  z-index: 1;
 }
 
 .watermarked {
   font-size: 20px;
   color: rgba(30, 84, 200, 0.5);
-  transform: rotate(-45deg) skew(20deg);
 }
 
 .react-pdf__Page__annotations {

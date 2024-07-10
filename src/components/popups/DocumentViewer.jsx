@@ -54,7 +54,7 @@ const PDFDocumentViewer = ({ docUrl, userProfile }) => {
   };
 
   const zoomOut = () => {
-    setScale(scale > 0.4 ? scale - 0.1 : scale);
+    setScale(scale > 0.4 ? scale - 0.2 : scale);
   };
 
   return (
@@ -106,10 +106,18 @@ const PDFDocumentViewer = ({ docUrl, userProfile }) => {
                 style={{
                   transform: `scale(${scale})`,
                   transformOrigin: "top left",
+                  width: `${100 / scale}%`,
+                  height: `${100 / scale}%`,
                 }}
               >
                 <Page pageNumber={pageNumber} renderTextLayer={false} />
-                <div className="watermark-container">
+                <div
+                  className="watermark-container"
+                  style={{
+                    top: "50%",
+                    left: `${scale * 50}%`,
+                  }}
+                >
                   <Text className="watermarked">
                     {userProfile?.name} - {userProfile?.email}
                   </Text>
@@ -138,7 +146,9 @@ const DocumentViewer = ({ isOpen, onClose }) => {
         setError(null);
         const { status, data } = await getPresignedUrlDocApi(docId, docType);
         if (status) {
-          setDocUrl(data?.data?.getUrl);
+          setDocUrl(
+            "https://insp-test-local-bucket.s3.ap-south-1.amazonaws.com/pdf1.pdf"
+          );
         } else {
           setError("Error fetching document");
           console.error("Error fetching document:", data);
