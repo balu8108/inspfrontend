@@ -60,6 +60,8 @@ export const classLevel = {
   CLASS_11: "Class_11",
   CLASS_12: "Class_12",
   FOUNDATION_COURSE: "Foundation_Olympiad",
+  JEE_Advanced_Mastery_Top_500: "JEE_Advanced_Mastery_Top_500",
+  General_discussion: "General_Discussion",
 };
 
 export const classStatusText = {

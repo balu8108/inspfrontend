@@ -19,11 +19,14 @@ const LectureCardContainer = ({ title, loading, lecture, type }) => {
   const { outerBackground, innerBackground } = useTheme().colors.pallete;
   const navigate = useNavigate();
 
-  const filteredTopics = lecture.filter((item) =>
+  const filteredTopics = lecture.filter((item) => {
+    if (!item?.LiveClassRoomDetail || !item?.LiveClassRoomDetail?.topicName) {
+      return true; // Pass the item directly if LiveClassRoomDetail or topicName is null
+    }
     item?.LiveClassRoomDetail?.topicName
       ?.toLowerCase()
-      .includes(searchTerm.toLowerCase())
-  );
+      .includes(searchTerm.toLowerCase());
+  });
 
   const handleNavigate = (roomId) => {
     navigate(`/my-courses/lecture-detail/${roomId}/${type}`);

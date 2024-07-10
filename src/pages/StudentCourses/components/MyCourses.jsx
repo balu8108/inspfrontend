@@ -39,6 +39,16 @@ const MyCourses = () => {
           classType: classType.REGULAR_CLASS,
           classLevel: classLevel.CLASS_12,
         };
+      } else if (coursetype === "JEE_Advanced_Mastery_Top_500") {
+        passingParams = {
+          classType: classType.REGULAR_CLASS,
+          classLevel: classLevel.JEE_Advanced_Mastery_Top_500,
+        };
+      } else if (coursetype === "General_discussion") {
+        passingParams = {
+          classType: classType.REGULAR_CLASS,
+          classLevel: classLevel.General_discussion,
+        };
       }
 
       if (passingParams?.classType && passingParams?.classLevel) {

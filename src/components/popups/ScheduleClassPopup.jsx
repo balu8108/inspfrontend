@@ -70,6 +70,9 @@ const classLevel = [
     value: "Foundation_Olympiad",
     label: "Foundation_Olympiad",
   },
+];
+
+const classLevelGeneral = [
   {
     value: "General_Discussion",
     label: "General_Discussion",
@@ -78,6 +81,13 @@ const classLevel = [
     value: "JEE_Advanced_Mastery_Top_500",
     label: "JEE_Advanced_Mastery_Top_500",
   },
+];
+
+// for general selection statement-
+const hideOtherFields = ["PHYSICS", "GENERAL"];
+const generalClassLevel = [
+  "General_Discussion",
+  "JEE_Advanced_Mastery_Top_500",
 ];
 
 const checkIsValid = (obj) => {
@@ -238,13 +248,31 @@ const ScheduleClassPopup = ({
 
     dataKey.forEach((key) => {
       const isMissingKey = !(key in formDataValue);
-      const isEmptyValue =
-        formDataValue[key] === "" || formDataValue[key] === null;
-      const isInvalidTimeFormat =
-        (key === "scheduledStartTime" || key === "scheduledEndTime") &&
-        !isValidTimeFormat(formDataValue[key]);
-      if (isMissingKey || isEmptyValue || isInvalidTimeFormat) {
-        errors[key] = `Please select a ${key}`;
+      if (
+        formDataValue?.classLevel?.value === "General_Discussion" ||
+        formDataValue?.classLevel?.value === "JEE_Advanced_Mastery_Top_500"
+      ) {
+        console.log("1", key);
+        if (key !== "topic" && key !== "chapter" && key !== "classType") {
+          console.log("2", key);
+          const isEmptyValue =
+            formDataValue[key] === "" || formDataValue[key] === null;
+          const isInvalidTimeFormat =
+            (key === "scheduledStartTime" || key === "scheduledEndTime") &&
+            !isValidTimeFormat(formDataValue[key]);
+          if (isMissingKey || isEmptyValue || isInvalidTimeFormat) {
+            errors[key] = `Please select a ${key}`;
+          }
+        }
+      } else {
+        const isEmptyValue =
+          formDataValue[key] === "" || formDataValue[key] === null;
+        const isInvalidTimeFormat =
+          (key === "scheduledStartTime" || key === "scheduledEndTime") &&
+          !isValidTimeFormat(formDataValue[key]);
+        if (isMissingKey || isEmptyValue || isInvalidTimeFormat) {
+          errors[key] = `Please select a ${key}`;
+        }
       }
     });
 
@@ -273,11 +301,16 @@ const ScheduleClassPopup = ({
       }
     }
 
-    formData.append("classId", scheduleData?.id);
-    formData.append("subject", JSON.stringify(formDataValue?.subject));
+    if (!generalClassLevel.includes(formDataValue?.classLevel?.value)) {
+      formData.append("classType", formDataValue?.classType?.value);
+    } else {
+      formData.append("classType", "REGULARCLASS");
+    }
+
     formData.append("topic", JSON.stringify(formDataValue?.topic));
     formData.append("chapter", JSON.stringify(formDataValue?.chapter));
-    formData.append("classType", formDataValue?.classType?.value);
+    formData.append("classId", scheduleData?.id);
+    formData.append("subject", JSON.stringify(formDataValue?.subject));
     formData.append("classLevel", formDataValue?.classLevel?.value);
     formData.append("scheduledDate", formDataValue?.scheduledDate);
     formData.append("scheduledStartTime", formDataValue?.scheduledStartTime);
@@ -374,9 +407,6 @@ const ScheduleClassPopup = ({
       });
     }
   }, []);
-
-  // for general selection statement-
-  const hideOtherFields = ["PHYSICS", "GENERAL"];
 
   useEffect(() => {
     if (isCalenderScreen) {
@@ -537,7 +567,6 @@ const ScheduleClassPopup = ({
                             value: "1",
                             label: "PHYSICS",
                           },
-
                           {
                             value: "4",
                             label: "GENERAL",
@@ -641,134 +670,177 @@ const ScheduleClassPopup = ({
                   </Box>
                 </Grid>
               </Box>
-              <Box my={3}>
-                {checkIsValid(formDataValue?.classLevel) && (
-                  <FormControl
-                    isInvalid={scheduleClassFormErrorData["classLevel"]}
-                  >
-                    <Select
-                      placeholder={
-                        scheduleClassData.scheduleClassFormPlaceholder
-                          .selectClassLevel
-                      }
-                      onChange={handleSelectChange}
-                      isDisabled={
-                        !hideOtherFields.includes(formDataValue?.subject?.label)
-                      }
-                      name="classLevel"
-                      value={formDataValue?.classLevel}
-                      chakraStyles={chakraStyles}
-                      options={classLevel}
-                      useBasicStyles
-                    />
-                    {scheduleClassFormErrorData["classLevel"] && (
-                      <FormErrorMessage>
-                        {scheduleClassFormErrorData["classLevel"]}
-                      </FormErrorMessage>
+              {formDataValue?.subject?.label === "GENERAL" ? (
+                <Box my={3}>
+                  {checkIsValid(formDataValue?.classLevel) && (
+                    <FormControl
+                      isInvalid={scheduleClassFormErrorData["classLevel"]}
+                    >
+                      <Select
+                        placeholder={
+                          scheduleClassData.scheduleClassFormPlaceholder
+                            .selectClassLevel
+                        }
+                        onChange={handleSelectChange}
+                        isDisabled={
+                          !hideOtherFields.includes(
+                            formDataValue?.subject?.label
+                          )
+                        }
+                        name="classLevel"
+                        value={formDataValue?.classLevel}
+                        chakraStyles={chakraStyles}
+                        options={classLevelGeneral}
+                        useBasicStyles
+                      />
+                      {scheduleClassFormErrorData["classLevel"] && (
+                        <FormErrorMessage>
+                          {scheduleClassFormErrorData["classLevel"]}
+                        </FormErrorMessage>
+                      )}
+                    </FormControl>
+                  )}
+                </Box>
+              ) : (
+                <Box my={3}>
+                  {checkIsValid(formDataValue?.classLevel) && (
+                    <FormControl
+                      isInvalid={scheduleClassFormErrorData["classLevel"]}
+                    >
+                      <Select
+                        placeholder={
+                          scheduleClassData.scheduleClassFormPlaceholder
+                            .selectClassLevel
+                        }
+                        onChange={handleSelectChange}
+                        isDisabled={
+                          !hideOtherFields.includes(
+                            formDataValue?.subject?.label
+                          )
+                        }
+                        name="classLevel"
+                        value={formDataValue?.classLevel}
+                        chakraStyles={chakraStyles}
+                        options={classLevel}
+                        useBasicStyles
+                      />
+                      {scheduleClassFormErrorData["classLevel"] && (
+                        <FormErrorMessage>
+                          {scheduleClassFormErrorData["classLevel"]}
+                        </FormErrorMessage>
+                      )}
+                    </FormControl>
+                  )}
+                </Box>
+              )}
+              {formDataValue?.subject?.label !== "GENERAL" && (
+                <>
+                  <Box my={3}>
+                    {checkIsValid(formDataValue?.chapter) && (
+                      <FormControl
+                        isInvalid={scheduleClassFormErrorData["chapter"]}
+                      >
+                        <Select
+                          placeholder={
+                            scheduleClassData.scheduleClassFormPlaceholder
+                              .selectChapter
+                          }
+                          isDisabled={
+                            formDataValue?.subject === null ||
+                            formDataValue?.subject?.label !== "PHYSICS"
+                          }
+                          onChange={handleSelectChange}
+                          name="chapter"
+                          value={formDataValue?.chapter}
+                          chakraStyles={chakraStyles}
+                          options={chaptersData.map((chapter) => {
+                            let obj = {
+                              value: chapter.id,
+                              label: chapter.name,
+                            };
+                            return obj;
+                          })}
+                          useBasicStyles
+                        />
+                        {scheduleClassFormErrorData["chapter"] && (
+                          <FormErrorMessage>
+                            {scheduleClassFormErrorData["chapter"]}
+                          </FormErrorMessage>
+                        )}
+                      </FormControl>
                     )}
-                  </FormControl>
-                )}
-              </Box>
-              <Box my={3}>
-                {checkIsValid(formDataValue?.chapter) && (
-                  <FormControl
-                    isInvalid={scheduleClassFormErrorData["chapter"]}
-                  >
-                    <Select
-                      placeholder={
-                        scheduleClassData.scheduleClassFormPlaceholder
-                          .selectChapter
-                      }
-                      isDisabled={
-                        formDataValue?.subject === null ||
-                        formDataValue?.subject?.label !== "PHYSICS"
-                      }
-                      onChange={handleSelectChange}
-                      name="chapter"
-                      value={formDataValue?.chapter}
-                      chakraStyles={chakraStyles}
-                      options={chaptersData.map((chapter) => {
-                        let obj = {
-                          value: chapter.id,
-                          label: chapter.name,
-                        };
-                        return obj;
-                      })}
-                      useBasicStyles
-                    />
-                    {scheduleClassFormErrorData["chapter"] && (
-                      <FormErrorMessage>
-                        {scheduleClassFormErrorData["chapter"]}
-                      </FormErrorMessage>
+                  </Box>
+                  <Box my={3}>
+                    {checkIsValid(formDataValue?.topic) && (
+                      <FormControl
+                        isInvalid={scheduleClassFormErrorData["topic"]}
+                      >
+                        <Select
+                          placeholder={
+                            scheduleClassData.scheduleClassFormPlaceholder
+                              .selectTopic
+                          }
+                          onChange={handleSelectChange}
+                          isDisabled={formDataValue?.chapter === null}
+                          value={formDataValue?.topic}
+                          name="topic"
+                          chakraStyles={chakraStyles}
+                          options={topicsData.map((topic) => {
+                            let obj = {
+                              value: topic.id,
+                              label: topic.name,
+                            };
+                            return obj;
+                          })}
+                          useBasicStyles
+                        />
+                        {scheduleClassFormErrorData["topic"] && (
+                          <FormErrorMessage>
+                            {scheduleClassFormErrorData["topic"]}
+                          </FormErrorMessage>
+                        )}
+                      </FormControl>
                     )}
-                  </FormControl>
-                )}
-              </Box>
-              <Box my={3}>
-                {checkIsValid(formDataValue?.topic) && (
-                  <FormControl isInvalid={scheduleClassFormErrorData["topic"]}>
-                    <Select
-                      placeholder={
-                        scheduleClassData.scheduleClassFormPlaceholder
-                          .selectTopic
-                      }
-                      onChange={handleSelectChange}
-                      isDisabled={formDataValue?.chapter === null}
-                      value={formDataValue?.topic}
-                      name="topic"
-                      chakraStyles={chakraStyles}
-                      options={topicsData.map((topic) => {
-                        let obj = {
-                          value: topic.id,
-                          label: topic.name,
-                        };
-                        return obj;
-                      })}
-                      useBasicStyles
-                    />
-                    {scheduleClassFormErrorData["topic"] && (
-                      <FormErrorMessage>
-                        {scheduleClassFormErrorData["topic"]}
-                      </FormErrorMessage>
+                  </Box>
+                  <Box my={3}>
+                    {checkIsValid(formDataValue?.classType) && (
+                      <FormControl
+                        isInvalid={scheduleClassFormErrorData["classType"]}
+                      >
+                        <Select
+                          placeholder={
+                            scheduleClassData.scheduleClassFormPlaceholder
+                              .selectClassType
+                          }
+                          onChange={handleSelectChange}
+                          isDisabled={
+                            formDataValue?.subject?.label !== "PHYSICS"
+                          }
+                          value={formDataValue?.classType}
+                          name="classType"
+                          chakraStyles={chakraStyles}
+                          options={[
+                            {
+                              value: "CRASHCOURSE",
+                              label: "Crash Course",
+                            },
+                            {
+                              value: "REGULARCLASS",
+                              label: "Regular Classes",
+                            },
+                          ]}
+                          useBasicStyles
+                        />
+                        {scheduleClassFormErrorData["classType"] && (
+                          <FormErrorMessage>
+                            {scheduleClassFormErrorData["classType"]}
+                          </FormErrorMessage>
+                        )}
+                      </FormControl>
                     )}
-                  </FormControl>
-                )}
-              </Box>
-              <Box my={3}>
-                {checkIsValid(formDataValue?.classType) && (
-                  <FormControl
-                    isInvalid={scheduleClassFormErrorData["classType"]}
-                  >
-                    <Select
-                      placeholder={
-                        scheduleClassData.scheduleClassFormPlaceholder
-                          .selectClassType
-                      }
-                      onChange={handleSelectChange}
-                      isDisabled={formDataValue?.subject?.label !== "PHYSICS"}
-                      value={formDataValue?.classType}
-                      name="classType"
-                      chakraStyles={chakraStyles}
-                      options={[
-                        {
-                          value: "CRASHCOURSE",
-                          label: "Crash Course",
-                        },
-                        {
-                          value: "REGULARCLASS",
-                          label: "Regular Classes",
-                        },
-                      ]}
-                      useBasicStyles
-                    />
-                    {scheduleClassFormErrorData["classType"] && (
-                      <FormErrorMessage>
-                        {scheduleClassFormErrorData["classType"]}
-                      </FormErrorMessage>
-                    )}
-                  </FormControl>
-                )}
-              </Box>
+                  </Box>
+                </>
+              )}
               <Box my={3}>
                 {checkIsValid(formDataValue?.lectureNo) && (
                   <FormControl
