@@ -146,9 +146,7 @@ const DocumentViewer = ({ isOpen, onClose }) => {
         setError(null);
         const { status, data } = await getPresignedUrlDocApi(docId, docType);
         if (status) {
-          setDocUrl(
-            "https://insp-test-local-bucket.s3.ap-south-1.amazonaws.com/pdf1.pdf"
-          );
+          setDocUrl(data?.data?.getUrl);
         } else {
           setError("Error fetching document");
           console.error("Error fetching document:", data);
