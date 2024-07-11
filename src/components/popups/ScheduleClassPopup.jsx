@@ -57,7 +57,7 @@ const dataKey = [
   "description",
 ];
 
-const classLevel = [
+const commonLevel = [
   {
     value: "Class_11",
     label: "Class_11",
@@ -77,6 +77,21 @@ const classLevel = [
   {
     value: "JEE_Advanced_Mastery_Top_500",
     label: "JEE_Advanced_Mastery_Top_500",
+  },
+];
+
+const classLevel = [
+  {
+    value: "Class_11",
+    label: "Class_11",
+  },
+  {
+    value: "Class_12",
+    label: "Class_12",
+  },
+  {
+    value: "Foundation_Olympiad",
+    label: "Foundation_Olympiad",
   },
 ];
 
@@ -257,8 +272,9 @@ const ScheduleClassPopup = ({
     dataKey.forEach((key) => {
       const isMissingKey = !(key in formDataValue);
       if (
-        formDataValue?.classLevel?.value === "General_Discussion" ||
-        formDataValue?.classLevel?.value === "JEE_Advanced_Mastery_Top_500"
+        formDataValue?.subject?.label === "GENERAL" &&
+        (formDataValue?.classLevel?.value === "General_Discussion" ||
+          formDataValue?.classLevel?.value === "JEE_Advanced_Mastery_Top_500")
       ) {
         if (key !== "topic" && key !== "chapter" && key !== "classType") {
           const isEmptyValue =
@@ -309,12 +325,14 @@ const ScheduleClassPopup = ({
 
     if (!generalClassLevel.includes(formDataValue?.classLevel?.value)) {
       formData.append("classType", formDataValue?.classType?.value);
+      formData.append("topic", JSON.stringify(formDataValue?.topic));
+      formData.append("chapter", JSON.stringify(formDataValue?.chapter));
     } else {
       formData.append("classType", "REGULARCLASS");
+      formData.append("topic", null);
+      formData.append("chapter", null);
     }
 
-    formData.append("topic", JSON.stringify(formDataValue?.topic));
-    formData.append("chapter", JSON.stringify(formDataValue?.chapter));
     formData.append("classId", scheduleData?.id);
     formData.append("subject", JSON.stringify(formDataValue?.subject));
     formData.append("classLevel", formDataValue?.classLevel?.value);
@@ -359,9 +377,6 @@ const ScheduleClassPopup = ({
     }
   };
 
-  console.log(scheduleData?.classLevel);
-  console.log(classLevel);
-
   useEffect(() => {
     getChaptersByFetch();
     if (isEditScreen) {
@@ -370,21 +385,28 @@ const ScheduleClassPopup = ({
           value: scheduleData?.subjectId,
           label: scheduleData?.subjectName,
         },
-        chapter: {
-          value: scheduleData?.LiveClassRoomDetail?.chapterId,
-          label: scheduleData?.LiveClassRoomDetail?.chapterName,
-        },
+
+        chapter:
+          scheduleData?.LiveClassRoomDetail?.chapterId === null
+            ? null
+            : {
+                value: scheduleData?.LiveClassRoomDetail?.chapterId,
+                label: scheduleData?.LiveClassRoomDetail?.chapterName,
+              },
         scheduledDate: scheduleData?.scheduledDate.split("T")[0],
-        topic: {
-          value: scheduleData?.LiveClassRoomDetail?.topicId,
-          label: scheduleData?.LiveClassRoomDetail?.topicName,
-        },
+        topic:
+          scheduleData?.LiveClassRoomDetail?.topicId === null
+            ? null
+            : {
+                value: scheduleData?.LiveClassRoomDetail?.topicId,
+                label: scheduleData?.LiveClassRoomDetail?.topicName,
+              },
         classType: {
           label: scheduleData?.classType,
           value: scheduleData?.classType,
         },
         classLevel: {
-          label: classLevel.find(
+          label: commonLevel.find(
             (value) => value.value === scheduleData?.classLevel
           )?.label,
           value: scheduleData?.classLevel,
