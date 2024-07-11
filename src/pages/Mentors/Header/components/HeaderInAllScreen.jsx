@@ -20,13 +20,13 @@ const Header = () => {
   const { outerBackground, innerBackground, innerBoxShadow } =
     useTheme().colors.pallete;
   const dummyDescriptions = [
-    "Master the toughest 500 problems to ace your JEE Advanced preparation with this elite problem set. Enhance your problem-solving skills and boost your confidence with these curated challenges.",
-    "Join in on a variety of topics related to JEE Advanced, from strategies and tips to subject-specific queries.Engage with peers and experts to clarify doubts and share insights.",
+    "Join in on a variety of topics related to JEE Advanced, from strategies and tips to subject-specific queries. Additionally, participate in our Parents-Teacher meetings to discuss student progress, address concerns, and collaborate for success.",
+    "Master the concept strengthening problems to ace your JEE Advanced preparation with this elite problem set. Enhance your problem-solving skills and boost your confidence with these curated challenges.",
     "Unlock your Olympiad potential with our curated solo video series, tailored for INPHO and other prestigious competitions. Dive deep into physics concepts, problem-solving, and exam strategies to propel your journey towards excellence. Embark on a path of mastery and prepare to shine on the international stage.",
     "Prepare for the Olympiad journey with our Foundation Course, meticulously designed to ignite curiosity and foster problem-solving skills. Dive into advanced topics and lay a strong foundation for competitive examinations.",
     "Explore the advanced topics of Class 12th curriculum, delving deeper into the realms of physics, chemistry, and mathematics. Engage with complex concepts, tackle challenging problems, and prepare yourself for academic excellence.",
     "Dive into the core concepts of Class 11th curriculum, designed to provide a solid foundation in physics, chemistry, and mathematics. Explore fundamental principles, solve intriguing problems, and embark on a journey of discovery.",
-    "Embark on a transformative learning journey with our Insp_Champ_Crash Course. Designed for those seeking an accelerated and focused learning experience, this crash course is your gateway to mastering key concepts in a short span of time.",
+    "Embark on a transformative learning journey with our Insp Champ Crash Course. Designed for those seeking an accelerated and focused learning experience, this crash course is your gateway to mastering key concepts in a short span of time.",
     " Explore the world of chemical reactions, elements, and compounds in this foundational science subject. Learn about the periodic table, bonding, and the fascinating properties of matter.",
     "  Delve into the world of numbers, equations, and mathematical concepts. From algebra to calculus, discover the fundamental principles that underlie a wide range of scientific and practical applications.",
     " Physics is the study of the fundamental principles that govern the behavior of the physical universe. It encompasses a wide range of topics, including classical mechanics, electromagnetism, thermodynamics, and quantum mechanics.",
@@ -35,7 +35,7 @@ const Header = () => {
   const subjectStatus = [
     "In Progress",
     "In Progress",
-    "In Progress", 
+    "In Progress",
     "In Progress",
     "In Progress",
     "In Progress",
@@ -43,7 +43,6 @@ const Header = () => {
     "Upcoming",
     "Upcoming",
     "In Progress",
-      
   ];
 
   return (
