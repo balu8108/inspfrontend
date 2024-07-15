@@ -93,6 +93,10 @@ const classLevel = [
     value: "Foundation_Olympiad",
     label: "Foundation_Olympiad",
   },
+  {
+    value: "JEE_Advanced_Mastery_Top_500",
+    label: "JEE_Advanced_Mastery_Top_500",
+  },
 ];
 
 const classLevelGeneral = [
@@ -101,8 +105,8 @@ const classLevelGeneral = [
     label: "General_Discussion",
   },
   {
-    value: "JEE_Advanced_Mastery_Top_500",
-    label: "JEE_Advanced_Mastery_Top_500",
+    value: "PTM_Discussion",
+    label: "PTM_Discussion",
   },
 ];
 
@@ -110,7 +114,7 @@ const classLevelGeneral = [
 const hideOtherFields = ["PHYSICS", "GENERAL"];
 const generalClassLevel = [
   "General_Discussion",
-  "JEE_Advanced_Mastery_Top_500",
+  "PTM_Discussion",
 ];
 
 const checkIsValid = (obj) => {
@@ -274,7 +278,7 @@ const ScheduleClassPopup = ({
       if (
         formDataValue?.subject?.label === "GENERAL" &&
         (formDataValue?.classLevel?.value === "General_Discussion" ||
-          formDataValue?.classLevel?.value === "JEE_Advanced_Mastery_Top_500")
+          formDataValue?.classLevel?.value === "PTM_Discussion")
       ) {
         if (key !== "topic" && key !== "chapter" && key !== "classType") {
           const isEmptyValue =
@@ -489,7 +493,7 @@ const ScheduleClassPopup = ({
   ) => {
     if (
       iclassLevel === "General_Discussion" ||
-      iclassLevel === "JEE_Advanced_Mastery_Top_500"
+      iclassLevel === "PTM_Discussion"
     ) {
       const data = {
         subjectName: isubjectname,
