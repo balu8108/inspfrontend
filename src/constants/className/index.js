@@ -3,5 +3,6 @@ export const className = {
   Class_12: "Class 12",
   Foundation_Olympiad: "Foundation Olympiad(9-10)",
   General_Discussion: "General Discussion",
+  PTM_Discussion:"PTM Discussion",
   JEE_Advanced_Mastery_Top_500: "JEE Advanced Mastery Top: 500",
 };

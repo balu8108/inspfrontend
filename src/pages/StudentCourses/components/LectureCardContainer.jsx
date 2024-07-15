@@ -20,10 +20,13 @@ const LectureCardContainer = ({ title, loading, lecture, type }) => {
   const navigate = useNavigate();
 
   const filteredTopics = lecture.filter((item) => {
-    const topicName = item?.LiveClassRoomDetail?.topicName;
-    return topicName
-      ? topicName.toLowerCase().includes(searchTerm.toLowerCase())
-      : item;
+    const topicName = item?.LiveClassRoomDetail?.topicName || "";
+    const lectureNo = String(item?.LiveClassRoomDetail?.lectureNo || "");
+
+    return (
+      topicName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      lectureNo.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   });
 
   const handleNavigate = (roomId) => {
