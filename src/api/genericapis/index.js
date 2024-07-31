@@ -32,3 +32,6 @@ export const addTimeTableApi = (data) =>
   API.post("/generic/upload-timetable", data);
 
 export const getTimeTableApi = () => API.get("/generic/get-all-timetable");
+
+export const createMauReport = (data) =>
+  API.post("/generic/create-mau-report", data);
