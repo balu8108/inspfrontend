@@ -533,7 +533,11 @@ export const createSendTransportHandler = async () => {
 
 export const getProducersHandler = () => {
   // This function will get all the producer from server and then create a consumer for the user so that the user can consume the media of the producers
-  socket.emit(SOCKET_EVENTS.GET_PRODUCERS, getProducersResponseHandler);
+  socket.emit(
+    SOCKET_EVENTS.GET_PRODUCERS,
+    { consumer: false },
+    getProducersResponseHandler
+  );
 };
 
 export const stopProducing = (producerId, producerAppData) => {
