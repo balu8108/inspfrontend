@@ -158,7 +158,6 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
                 setSelectedSubject(e.target.value);
                 setSubjectError(false);
                 setSelectedTopic("");
-                setAllTopicList([]);
               }}
               isDisabled={isLoadingSubjects}
             >
@@ -189,7 +188,7 @@ const SoloRecordModal = ({ isOpen, onClose }) => {
                 }
                 setTopicError(false);
               }}
-              isDisabled={allTopicList.length === 0}
+              isDisabled={allTopicList.length === 0 || selectedSubject != 1}
             >
               {allTopicList.map((topic) => (
                 <option key={topic.id} value={topic.name}>
